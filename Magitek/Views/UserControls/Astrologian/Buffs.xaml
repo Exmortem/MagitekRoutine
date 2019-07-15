@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Astrologian.Buffs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="AstrologianSect" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:AstrologianSect" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="AstrologianSectWithOpposite" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:AstrologianSectWithOpposite" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           Style="{DynamicResource TextBlockDefault}"
+                           Text="Sect When Only Healer:" />
+                <ComboBox Grid.Row="0"
+                          Grid.Column="1"
+                          Width="170"
+                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
+                          SelectedValue="{Binding AstrologianSettings.SectWithNoPairing, Mode=TwoWay}"
+                          Style="{DynamicResource ComboBox}" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           Style="{DynamicResource TextBlockDefault}"
+                           Text="Sect When Paired With White Mage:" />
+                <ComboBox Grid.Row="1"
+                          Grid.Column="1"
+                          Width="170"
+                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
+                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithWhm, Mode=TwoWay}"
+                          Style="{DynamicResource ComboBox}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           Style="{DynamicResource TextBlockDefault}"
+                           Text="Sect When Paired With Scholar:" />
+                <ComboBox Grid.Row="2"
+                          Grid.Column="1"
+                          Width="170"
+                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
+                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithSch, Mode=TwoWay}"
+                          Style="{DynamicResource ComboBox}" />
+
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           Style="{DynamicResource TextBlockDefault}"
+                           Text="Sect When Paired With Astrologian:" />
+                <ComboBox Grid.Row="3"
+                          Grid.Column="1"
+                          Width="170"
+                          ItemsSource="{Binding Source={StaticResource AstrologianSectWithOpposite}}"
+                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithAst, Mode=TwoWay}"
+                          Style="{DynamicResource ComboBox}" />
+
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Margin="0,0,7,0" Content="Lightspeed" IsChecked="{Binding AstrologianSettings.Lightspeed, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Margin="0,4" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LightspeedHealthPercent, Mode=TwoWay}" />
+                <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                <CheckBox Margin="0,0,7,0" Content="Tank Only" IsChecked="{Binding AstrologianSettings.LightspeedTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="0,0,7,0" Content="Lucid Dreaming When Under" IsChecked="{Binding AstrologianSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LucidDreamingManaPercent, Mode=TwoWay}" />
+                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Mana Percent" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <!--<controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Presence Of Mind " IsChecked="{Binding AstrologianSettings.PresenceOfMind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PresenceOfMindHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                    <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.PresenceOfMindNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+                </Grid>
+                <CheckBox Margin="0,3,0,0" Content="Use Presence Of Mind For Tank Only" IsChecked="{Binding AstrologianSettings.PresenceOfMindTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>-->
+
+        <!--<controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Do Not Use Divine Seal And Presence Of Mind At The Same Time" IsChecked="{Binding AstrologianSettings.DontBuffIfYouHaveOneAlready, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>-->
+
+    </StackPanel>
+
+</UserControl>

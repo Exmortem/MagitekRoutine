@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Summoner.Pets"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="Pets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:SummonerPets" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Pet:" />
+                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource Pets}}" SelectedValue="{Binding SummonerSettings.SelectedPet, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+                <CheckBox Grid.Row="1"
+                          Grid.Column="0"
+                          Margin="0,5,5,0"
+                          Content="Let Magitek Control Your Pet"
+                          IsChecked="{Binding SummonerSettings.SummonerControlPet, Mode=TwoWay}"
+                          Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1"
+                          Grid.Column="1"
+                          Margin="0,5,0,0"
+                          Content="Do Not Resummon Pet In Combat"
+                          IsChecked="{Binding SummonerSettings.PetDontResummonInCombat, Mode=TwoWay}"
+                          Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2"
+                          Grid.Column="0"
+                          Margin="0,5,0,0"
+                          Content="Pet Should Always Attack Your Target"
+                          IsChecked="{Binding SummonerSettings.PetAttackSameTarget, Mode=TwoWay}"
+                          Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+
+
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Summon Bahamut   " IsChecked="{Binding SummonerSettings.SummonBahamut, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only For Bosses   " IsChecked="{Binding SummonerSettings.SummonBahamutOnlyForBoss, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="AkhMorn" IsChecked="{Binding SummonerSettings.AkhMorn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

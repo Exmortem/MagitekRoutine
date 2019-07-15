@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Bugs.SpellCastHistory"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:Debug.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+
+        <CheckBox Content="Enable Player Spell Cast History" IsChecked="{Binding Settings.DebugSpellCastHistory, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Margin="2,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Text="Spell Name" />
+            <TextBlock Grid.Column="1"
+                       Margin="5,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Text="Target" />
+            <TextBlock Grid.Column="2"
+                       Margin="5,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Text="Time Cast" />
+        </Grid>
+
+        <ListBox Height="405" Margin="0,3,0,0" ItemsSource="{Binding SpellCastHistory}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListboxNoBorderSearch}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Margin="2,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding Spell.Name}" />
+                        <TextBlock Grid.Column="1"
+                                   Margin="5,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding SpellTarget.Name}" />
+                        <TextBlock Grid.Column="2"
+                                   Margin="5,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding TimeCast}" />
+                    </Grid>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+
+</UserControl>

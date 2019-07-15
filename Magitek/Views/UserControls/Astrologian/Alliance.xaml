@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Astrologian.Alliance"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="Pets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:ScholarPets" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <CheckBox Margin="5" Content="Ignore Alliance Members" IsChecked="{Binding AstrologianSettings.IgnoreAlliance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <CheckBox Margin="5" Content="Only Heal Alliance Members With Benefic" IsChecked="{Binding AstrologianSettings.HealAllianceOnlyBenefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Content="Heal Alliance Healers" IsChecked="{Binding AstrologianSettings.HealAllianceHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Margin="0,3" Content="Heal Alliance Tanks" IsChecked="{Binding AstrologianSettings.HealAllianceTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Content="Heal Alliance DPS" IsChecked="{Binding AstrologianSettings.HealAllianceDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Content="Resurrect Alliance Healers" IsChecked="{Binding AstrologianSettings.ResAllianceHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Margin="0,3" Content="Resurrect Alliance Tanks" IsChecked="{Binding AstrologianSettings.ResAllianceTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Content="Resurrect Alliance DPS" IsChecked="{Binding AstrologianSettings.ResAllianceDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Content="Heal Pets That Are In Your Party" IsChecked="{Binding AstrologianSettings.HealPartyMembersPets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Margin="0,3" Content="Only Heal Titan" IsChecked="{Binding AstrologianSettings.HealPartyMembersPetsTitanOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

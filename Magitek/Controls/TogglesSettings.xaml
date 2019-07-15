@@ -1,0 +1,282 @@
+﻿<UserControl x:Class="Magitek.Controls.TogglesSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Magitek.Controls"
+             xmlns:viewmodels="clr-namespace:Magitek.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewmodels:TogglesViewModel.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="TOGGLES:" Foreground="{DynamicResource Info}" VerticalAlignment="Center" Margin="10,1,0,0" FontWeight="Bold" />
+                <Button Grid.Column="1" Style="{DynamicResource ButtonAdd}" Height="25" Command="{Binding AddToggleCommand}" />
+                <Button Margin="3,0,3,0" Grid.Column="2" Style="{DynamicResource ButtonApply}" Command="{Binding RegisterTogglesCommand}"  Height="25" />
+                <Button Margin="0,0,5,0" Grid.Column="3" Style="{DynamicResource ButtonSave}" Height="25" Command="{Binding SaveTogglesCommand}" />
+            </Grid>
+
+            <ListBox Grid.Column="0" Grid.Row="1" Width="150" SelectedIndex="0" SelectedItem="{Binding SelectedToggle, Mode=OneWayToSource}" ItemsSource="{Binding SettingsToggles}" Style="{DynamicResource ListboxNoBorderSearch}" SelectionMode="Single">
+                <ListBox.Resources>
+                    <ContextMenu x:Key="ActionsListContextMenu">
+                        <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.RemoveToggleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Remove Toggle" />
+                    </ContextMenu>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource ListBoxItemSearch}" TargetType="ListBoxItem">
+                        <Setter Property="ContextMenu" Value="{StaticResource ActionsListContextMenu}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="3">
+                            <TextBlock Text="{Binding ToggleText}" Foreground="{DynamicResource GrayLighter}" />
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="2" HorizontalAlignment="Left">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
+                        <GradientStop Offset="1" Color="Black" />
+                        <GradientStop Color="#FF303030" />
+                        <GradientStop Offset="0.496" Color="Black" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Grid Grid.Column="1" DataContext="{Binding SelectedToggle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{DynamicResource ClassSelectorBackground}">
+                <StackPanel>
+
+                    <!-- Main Settings -->
+                    <TextBox CaretBrush="White"
+                             FontSize="10"
+                             Foreground="{DynamicResource Light}"
+                             Tag="TOGGLE TEXT:"
+                             Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                             Text="{Binding ToggleText, Mode=TwoWay}" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                        <TextBlock Text=" TOGGLE SHOW ON OVERLAY:  " FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource GrayDark}" HorizontalAlignment="Right"  />
+                        <CheckBox Style="{DynamicResource CheckBoxToggleSettings}" IsChecked="{Binding ToggleShowOnOverlay, Mode=TwoWay}" Margin="0,1,0,0" />
+                    </StackPanel>
+
+                    <local:HotkeyToggles Margin="0,3,0,0" ToggleModKeySetting="{Binding ToggleModifierKey, Mode=TwoWay}" ToggleKeySetting="{Binding ToggleKey, Mode=TwoWay}" />
+
+                    <ScrollViewer Margin="0,10,0,0" Height="400" MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}, Path=Height}" VerticalScrollBarVisibility="Visible" Template="{DynamicResource ScrollViewerSearch}">
+                        <ItemsControl ItemsSource="{Binding Settings}" Margin="0,0,10,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <!-- Boolean -->
+                                        <StackPanel Margin="0,4">
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Boolean">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding UiText}" Foreground="{DynamicResource Light}" FontWeight="Bold" FontSize="11" TextOptions.TextFormattingMode="Display" />
+                                                <Button Margin="0,2,0,0" Grid.Column="1" Style="{DynamicResource DeleteButton}" Height="8" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Path=DataContext.RemoveToggleSettingCommand}" CommandParameter="{Binding}" />
+                                            </Grid>
+                                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+
+                                                <TextBlock Text=" TOGGLE ON:  " FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource GrayDark}" HorizontalAlignment="Right"  />
+                                                <CheckBox Style="{DynamicResource CheckBoxToggleSettings}" IsChecked="{Binding BoolCheckedValue, Mode=TwoWay}" Margin="0,0,0,0" />
+
+                                                <TextBlock Text=" TOGGLE OFF:  " FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource GrayDark}" HorizontalAlignment="Right"  />
+                                                <CheckBox Style="{DynamicResource CheckBoxToggleSettings}" IsChecked="{Binding BoolUncheckedValue, Mode=TwoWay}" Margin="0,0,0,0" />
+
+                                            </StackPanel>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayDark}" Padding="2" Opacity="0.10" Margin="20,0" />
+                                        </StackPanel>
+
+                                        <!-- Integer -->
+                                        <StackPanel Margin="0,4">
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Integer">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding UiText}" Foreground="{DynamicResource Light}" FontWeight="Bold" FontSize="11" TextOptions.TextFormattingMode="Display" />
+                                                <Button Margin="0,2,0,0" Grid.Column="1" Style="{DynamicResource DeleteButton}" Height="8" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Path=DataContext.RemoveToggleSettingCommand}" CommandParameter="{Binding}" />
+                                            </Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBox CaretBrush="White"
+                                                         FontSize="10"
+                                                         Width="90"
+                                                         Foreground="{DynamicResource Light}"
+                                                         Tag="TOGGLE ON:"
+                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                         Text="{Binding IntCheckedValue, Mode=TwoWay}" />
+
+                                                <TextBox CaretBrush="White"
+                                                         Grid.Column="1"
+                                                         FontSize="10"
+                                                         Foreground="{DynamicResource Light}"
+                                                         Tag="TOGGLE OFF:"
+                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                         Text="{Binding IntUncheckedValue, Mode=TwoWay}" />
+
+                                            </Grid>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayDark}" Padding="2" Opacity="0.10" Margin="20,0" />
+                                        </StackPanel>
+
+                                        <!-- Float -->
+                                        <StackPanel Margin="0,4">
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Float">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding UiText}" Foreground="{DynamicResource Light}" FontWeight="Bold" FontSize="11" TextOptions.TextFormattingMode="Display" />
+                                                <Button Margin="0,2,0,0" Grid.Column="1" Style="{DynamicResource DeleteButton}" Height="8" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Path=DataContext.RemoveToggleSettingCommand}" CommandParameter="{Binding}" />
+                                            </Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBox CaretBrush="White"
+                                                         FontSize="10"
+                                                         Width="90"
+                                                         Foreground="{DynamicResource Light}"
+                                                         Tag="TOGGLE ON:"
+                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                         Text="{Binding FloatCheckedValue, Mode=TwoWay}" />
+
+                                                <TextBox CaretBrush="White"
+                                                         Grid.Column="1"
+                                                         FontSize="10"
+                                                         Foreground="{DynamicResource Light}"
+                                                         Tag="TOGGLE OFF:"
+                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                         Text="{Binding FloatUncheckedValue, Mode=TwoWay}" />
+
+                                            </Grid>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayDark}" Padding="2" Opacity="0.10" Margin="20,0" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Width="2" HorizontalAlignment="Left">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
+                            <GradientStop Offset="1" Color="Black" />
+                            <GradientStop Color="#FF303030" />
+                            <GradientStop Offset="0.496" Color="Black" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <ListBox Grid.Column="1" SelectionMode="Single" Style="{DynamicResource ListboxNoBorderSearch}" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=3}, Path=DataContext.JobSettingsList}" Background="{DynamicResource Background}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" Foreground="White" BorderThickness="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ListBoxItemSearch}" TargetType="ListBoxItem">
+                            <!--<Setter Property="ContextMenu" Value="{StaticResource ActionsListContextMenu}" />-->
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=2}, Path=DataContext.AddToggleSettingCommand}" CommandParameter="{Binding}" />
+                                </StackPanel.InputBindings>
+                                <TextBlock Text="{Binding Name}" FontSize="11" Foreground="{DynamicResource GrayLighter}" />
+                                <TextBlock Text=" : " FontSize="11" Foreground="{DynamicResource GrayLighter}" />
+                                <TextBlock Text="{Binding Type}" FontSize="11" Foreground="{DynamicResource GrayDark}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

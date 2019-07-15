@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Gunbreaker.Combat"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Pull With Lightning Shot" IsChecked="{Binding GunbreakerSettings.PullWithLightningShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Lightning Shot To Regain Aggro" IsChecked="{Binding GunbreakerSettings.LightningShotToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Rough Divide" IsChecked="{Binding GunbreakerSettings.UseRoughDivide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Save Danger Zone When No Mercy Under" IsChecked="{Binding GunbreakerSettings.SaveDangerZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveDangerZoneMseconds, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Ms" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Save Blasting Zone When No Mercy Under" IsChecked="{Binding GunbreakerSettings.SaveBlastingZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveBlastingZoneMseconds, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Ms" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Stun With Low Blow" IsChecked="{Binding GunbreakerSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject" IsChecked="{Binding GunbreakerSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>

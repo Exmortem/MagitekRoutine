@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Paladin.Defensives" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:controls="clr-namespace:Magitek.Controls" 
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <CheckBox Content="Use Tank Busters  " IsChecked="{Binding PaladinSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content="Use Defensives  " IsChecked="{Binding PaladinSettings.UseDefensives, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only On Tank Busters" IsChecked="{Binding PaladinSettings.UseDefensivesOnlyOnTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,10">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Only Use " />
+                        <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.MaxDefensivesAtOnce, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Defensive Buffs At The Same Time" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Unless You Are Lower Than " />
+                        <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.MoreDefensivesHp, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="At Which Point, Use A Maximum Of  " />
+                        <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.MaxDefensivesUnderHp, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Defensive Buffs At The Same Time" />
+                    </StackPanel>
+
+                </StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Hallowed Ground  " IsChecked="{Binding PaladinSettings.HallowGround, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.HallowGroundHp, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Sentinel" IsChecked="{Binding PaladinSettings.Sentinel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="3"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding PaladinSettings.SentinelHp, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="5" Grid.Column="0" Content="Rampart" IsChecked="{Binding PaladinSettings.UseRampart, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="5"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding PaladinSettings.RampartHpPercentage, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    
+                </Grid>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

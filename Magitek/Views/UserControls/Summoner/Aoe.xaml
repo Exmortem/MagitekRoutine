@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Summoner.Aoe" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Deathflare" IsChecked="{Binding SummonerSettings.Deathflare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="10,0,0,0" Content="Use Lucid Dreaming With Deathflare" IsChecked="{Binding SummonerSettings.LucidDreamingWithDeathFlare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content="Bane When There Are " IsChecked="{Binding SummonerSettings.Bane, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.BaneSecondsOnDots, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left On DOTs And " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.BaneEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies " />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox Margin="0,3" Content="Bane Building Aethertrail " IsChecked="{Binding SummonerSettings.BaneBuildingAthertrail, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Bane During Dreadwyrm Stance" IsChecked="{Binding SummonerSettings.BaneDreadwyrmTrance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Painflare When There Are " IsChecked="{Binding SummonerSettings.Painflare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.PainflareEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range " />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content="Shadowflare When There Are " IsChecked="{Binding SummonerSettings.ShadowFlare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.ShadowFlareEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range " />
+                </StackPanel>
+
+                <StackPanel Margin="0,3,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="That Have At Least " />
+                        <controls:Numeric Margin="0,3" MaxValue="99999999" MinValue="1" Value="{Binding SummonerSettings.ShadowFlareMinimumHealth, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" And At Least " />
+                        <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.ShadowFlareMinimumHealthPercent, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Area Of Effect Spells With Long Damage Over Time" IsChecked="{Binding SummonerSettings.UseTimeTillDeathForAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="Only Use Area Of Effect If There Is At Least  " />
+                <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.DontAoeIfEnemyDyingWithin, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left In Combat" />
+            </Grid>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

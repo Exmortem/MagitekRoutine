@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Paladin.Aggro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Provoke" IsChecked="{Binding PaladinSettings.UseProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Shield Lob When Out Of Melee Range" IsChecked="{Binding PaladinSettings.UseShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3" Content="Use Shield Lob To Pull" IsChecked="{Binding PaladinSettings.ShieldLobToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Shield Lob To Pull Extra Nearby Enemies (When Already In Combat)" IsChecked="{Binding PaladinSettings.ShieldLobToPullExtraEnemies, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Use Shield Lob To Regain Aggro" IsChecked="{Binding PaladinSettings.ShieldLobLostAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+
+            </StackPanel>
+        </controls:SettingsBlock>
+    </StackPanel>
+</UserControl>

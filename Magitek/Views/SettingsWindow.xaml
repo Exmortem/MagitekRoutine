@@ -1,0 +1,943 @@
+﻿<Window x:Class="Magitek.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:astrologian="clr-namespace:Magitek.Views.UserControls.Astrologian"
+        xmlns:bard="clr-namespace:Magitek.Views.UserControls.Bard"
+        xmlns:dancer="clr-namespace:Magitek.Views.UserControls.Dancer"
+        xmlns:blackMage="clr-namespace:Magitek.Views.UserControls.BlackMage"
+        xmlns:bugs="clr-namespace:Magitek.Views.UserControls.Bugs"
+        xmlns:customControls="clr-namespace:Magitek.Controls"
+        xmlns:darkknight="clr-namespace:Magitek.Views.UserControls.DarkKnight"
+        xmlns:dragoon="clr-namespace:Magitek.Views.UserControls.Dragoon"
+        xmlns:lists="clr-namespace:Magitek.Views.UserControls.Lists"
+        xmlns:machinist="clr-namespace:Magitek.Views.UserControls.Machinist"
+        xmlns:monk="clr-namespace:Magitek.Views.UserControls.Monk"
+        xmlns:ninja="clr-namespace:Magitek.Views.UserControls.Ninja"
+        xmlns:paladin="clr-namespace:Magitek.Views.UserControls.Paladin"
+        xmlns:redMage="clr-namespace:Magitek.Views.UserControls.RedMage"
+        xmlns:samurai="clr-namespace:Magitek.Views.UserControls.Samurai"
+        xmlns:scholar="clr-namespace:Magitek.Views.UserControls.Scholar"
+        xmlns:summoner="clr-namespace:Magitek.Views.UserControls.Summoner"
+        xmlns:userControls="clr-namespace:Magitek.Views.UserControls"
+        xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+        xmlns:warrior="clr-namespace:Magitek.Views.UserControls.Warrior"
+        xmlns:whitemage="clr-namespace:Magitek.Views.UserControls.WhiteMage"
+        xmlns:gunbreaker="clr-namespace:Magitek.Views.UserControls.Gunbreaker"
+        Width="900"
+        Height="520"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Left="{Binding GeneralSettings.SettingsWindowPosX, Mode=TwoWay}"
+        ResizeMode="NoResize"
+        Top="{Binding GeneralSettings.SettingsWindowPosY, Mode=TwoWay}"
+        Topmost="{Binding GeneralSettings.SettingsWindowTopMost}"
+        WindowStyle="None">
+
+    <Window.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <Border Background="{DynamicResource Background}" BorderBrush="{DynamicResource BlackBorder}" BorderThickness="1" CornerRadius="5,0,0,5" MouseLeftButtonDown="Drag">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Opacity=".20" RenderingBias="Performance" ShadowDepth="0" />
+            </Border.Effect>
+
+            <TabControl FontSize="{Binding GeneralSettings.FontSize, Mode=TwoWay}" SelectionChanged="JobTabControlSelectionChanged">
+                <TabControl.Style>
+                    <Style TargetType="{x:Type TabControl}">
+                        <Setter Property="TabStripPlacement" Value="Left" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabControl}">
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Background="{DynamicResource ClassSelectorBackground}" />
+
+                                        <Border Grid.Row="0" Grid.Column="0">
+                                            <Border.Background>
+                                                <DrawingBrush Opacity="0." Stretch="None" TileMode="Tile" Viewport="0,0,4,4" ViewportUnits="Absolute">
+                                                    <DrawingBrush.Drawing>
+                                                        <DrawingGroup>
+                                                            <GeometryDrawing Brush="{DynamicResource LightSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,0,1,1" />
+                                                                        <RectangleGeometry Rect="2,2,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Brush="{DynamicResource DarkSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,1,1,1" />
+                                                                        <RectangleGeometry Rect="2,3,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+                                                    </DrawingBrush.Drawing>
+                                                </DrawingBrush>
+                                            </Border.Background>
+                                        </Border>
+
+                                        <!--  Top Bar  -->
+                                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="30" CornerRadius="3,3,0,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="37" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Rectangle Grid.Column="0" Width="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                                <Rectangle Grid.Column="1"
+                                                           Grid.ColumnSpan="4"
+                                                           Height="2"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Bottom"
+                                                           Fill="{DynamicResource TabDividerTop}" />
+
+                                                <Image Grid.Column="1"
+                                                       Height="22"
+                                                       Margin="30,0,0,0"
+                                                       HorizontalAlignment="Left"
+                                                       Source="https://cdn.shopify.com/s/files/1/1786/8211/files/MagitekLogo.png?8023689778259610034"
+                                                       Stretch="Uniform" />
+
+                                                <CheckBox Grid.Column="3" Width="12" Height="12" IsChecked="{Binding GeneralSettings.SettingsWindowTopMost, Mode=TwoWay}" Style="{DynamicResource TopMostLock}" />
+                                                <Button Grid.Column="4" Margin="5,0" VerticalAlignment="Center" Click="Close" Style="{DynamicResource CloseButton}" />
+
+                                            </Grid>
+                                        </Border>
+
+                                        <!--  Job Selector  -->
+                                        <Border Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+                                            <Border.Background>
+                                                <DrawingBrush Opacity="0." Stretch="None" TileMode="Tile" Viewport="0,0,4,4" ViewportUnits="Absolute">
+                                                    <DrawingBrush.Drawing>
+                                                        <DrawingGroup>
+                                                            <GeometryDrawing Brush="{DynamicResource LightSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,0,1,1" />
+                                                                        <RectangleGeometry Rect="2,2,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Brush="{DynamicResource DarkSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,1,1,1" />
+                                                                        <RectangleGeometry Rect="2,3,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+                                                    </DrawingBrush.Drawing>
+                                                </DrawingBrush>
+                                            </Border.Background>
+
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TabPanel Grid.Row="0" IsItemsHost="true" />
+
+                                                <Rectangle Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="2" Fill="{DynamicResource TabDividerVerticalLeft}" />
+
+                                            </Grid>
+                                        </Border>
+
+                                        <!--  Content  -->
+                                        <Border Grid.Row="1" Grid.Column="2" Background="{DynamicResource ClassSelectorBackground}" />
+
+                                        <ContentPresenter Grid.Row="1" Grid.Column="2" ContentSource="SelectedContent" />
+
+                                        <!--  Bottom Bar  -->
+                                        <Border Grid.Row="2" Grid.Column="0">
+                                            <Border.Background>
+                                                <DrawingBrush Opacity="0." Stretch="None" TileMode="Tile" Viewport="0,0,4,4" ViewportUnits="Absolute">
+                                                    <DrawingBrush.Drawing>
+                                                        <DrawingGroup>
+                                                            <GeometryDrawing Brush="{DynamicResource LightSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,0,1,1" />
+                                                                        <RectangleGeometry Rect="2,2,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Brush="{DynamicResource DarkSquareColor}">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <GeometryGroup>
+                                                                        <RectangleGeometry Rect="0,1,1,1" />
+                                                                        <RectangleGeometry Rect="2,3,1,1" />
+                                                                    </GeometryGroup>
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+                                                    </DrawingBrush.Drawing>
+                                                </DrawingBrush>
+                                            </Border.Background>
+                                        </Border>
+
+                                        <Rectangle Grid.Row="2" Grid.Column="0" Width="2" HorizontalAlignment="Right" Fill="{DynamicResource TabDividerVerticalRight}" />
+
+                                        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="{DynamicResource ClassSelectorBackground}" />
+
+                                        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="30">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button Grid.Column="0" Click="DebuggingClick" Style="{DynamicResource TabButtonDebugging}" />
+                                                <Rectangle Grid.Column="1" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                                <Button Grid.Column="2" Command="{Binding ShowSettingsModal}" Style="{DynamicResource TabButtonSettings}" />
+                                                <Rectangle Grid.Column="3" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                                <Button Grid.Column="4" Click="OpenersClick" Style="{DynamicResource TabButtonOpeners}" />
+                                                <Rectangle Grid.Column="5" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                                <Button Grid.Column="6" Click="GambitsClick" Style="{DynamicResource TabButtonGambits}" />
+                                                <Rectangle Grid.Column="7" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                            </Grid>
+
+                                            <Border Grid.Column="1" Grid.ColumnSpan="3" Margin="2,0,0,0" Background="{DynamicResource ClassSelectorBackground}" />
+                                            <Rectangle Grid.Column="0"
+                                                       Grid.ColumnSpan="4"
+                                                       Height="2"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Top"
+                                                       Fill="{DynamicResource TabDivider}" />
+
+                                            <TextBlock Grid.Column="3"
+                                                       Margin="0,0,7,0"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource Info}"
+                                                       Text="{Binding VersionRunning}" />
+
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Style>
+
+                <TabItem Name="GambitsTab" Style="{x:Null}" Visibility="Collapsed">
+                    <customControls:GambitsControl />
+                </TabItem>
+
+                <TabItem Name="OpenersTab" Style="{x:Null}" Visibility="Collapsed">
+                    <customControls:OpenersControl />
+                </TabItem>
+
+                <TabItem Name="DebuggingTab" Style="{x:Null}" Visibility="Collapsed">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+
+                        <TabItem Header="Debugging" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:Debug />
+                        </TabItem>
+
+                        <TabItem Header="Enemy Spell Casts" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:EnemySpellCasts />
+                        </TabItem>
+
+                        <TabItem Header="Enemy Aura History" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:EnemyAuras />
+                        </TabItem>
+
+                        <TabItem Header="Enemy Target History" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:EnemyTargets />
+                        </TabItem>
+
+                        <TabItem Header="Party Member Aura History" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:PartyMemberAuras />
+                        </TabItem>
+
+                        <TabItem Header="Enmity" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:Enmity />
+                        </TabItem>
+
+                        <TabItem Header="Healing Lists" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:HealingLists />
+                        </TabItem>
+
+                        <TabItem Header="Player Spell Cast History" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:SpellCastHistory />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="GeneralSettingsTab" Style="{x:Null}" Visibility="Collapsed">
+                    <userControls:GeneralSettings />
+                </TabItem>
+
+                <TabItem Name="Paladin" Style="{DynamicResource TabItemPaladin}">
+
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersTanks />
+                        </TabItem>
+                        <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
+                            <paladin:Combat />
+                        </TabItem>
+                        <TabItem Header="Aggro" Style="{DynamicResource MainTabAggro}">
+                            <paladin:Aggro />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <gunbreaker:Healing />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <paladin:Buffs />
+                        </TabItem>
+                        <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
+                            <paladin:Defensives />
+                        </TabItem>
+                        <TabItem Header="Tank Swap" Style="{DynamicResource MainTabTankSwap}">
+                            <paladin:TankSwap />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Paladin" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Paladin" />
+                        </TabItem>
+                    </TabControl>
+
+                </TabItem>
+
+                <TabItem Name="Warrior" Style="{DynamicResource TabItemWarrior}">
+
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersTanks />
+                        </TabItem>
+                        <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
+                            <warrior:Combat />
+                        </TabItem>
+                        <TabItem Header="Aggro" Style="{DynamicResource MainTabAggro}">
+                            <warrior:Aggro />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <warrior:Buff />
+                        </TabItem>
+                        <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
+                            <warrior:Defensives />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Warrior" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Warrior" />
+                        </TabItem>
+                    </TabControl>
+
+                </TabItem>
+
+                <TabItem Name="DarkKnight" Style="{DynamicResource TabItemDarkknight}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersTanks />
+                        </TabItem>
+                        <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
+                            <darkknight:Combat />
+                        </TabItem>
+                        <TabItem Header="Aggro" Style="{DynamicResource MainTabAggro}">
+                            <darkknight:Aggro />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <darkknight:Buffs />
+                        </TabItem>
+                        <TabItem Header="Dark Arts" Style="{DynamicResource MainTabBuffs}">
+                            <darkknight:DarkArts />
+                        </TabItem>
+                        <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
+                            <darkknight:Defensives />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="DarkKnight" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="DarkKnight" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Gunbreaker" Style="{DynamicResource TabItemGunbreaker}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersTanks />
+                        </TabItem>
+                        <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
+                            <gunbreaker:Combat />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <gunbreaker:Healing />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <gunbreaker:Buffs />
+                        </TabItem>
+                        <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
+                            <gunbreaker:Defensives />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Gunbreaker" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Gunbreaker" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Scholar" Style="{DynamicResource TabItemScholar}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="High Priority Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <scholar:DispelOptions />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersHealers />
+                        </TabItem>
+                        <TabItem Header="General Combat " Style="{DynamicResource MainTabCombat}">
+                            <scholar:Combat />
+                        </TabItem>
+                        <TabItem Header="Damage Over Time" Style="{DynamicResource MainTabDots}">
+                            <scholar:DOTs />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <scholar:Healing />
+                        </TabItem>
+                        <TabItem Header="Aetherpact" Style="{DynamicResource MainTabHealing}">
+                            <scholar:Aetherpact />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <scholar:Buffs />
+                        </TabItem>
+                        <TabItem Header="Pets" Style="{DynamicResource MainTabPets}">
+                            <scholar:Pets />
+                        </TabItem>
+                        <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
+                            <scholar:Alliance />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Scholar" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Scholar" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="WhiteMage" Style="{DynamicResource TabItemWhiteMage}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="High Priority Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <whitemage:DispelOptions />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersHealers />
+                        </TabItem>
+                        <TabItem Header="General Combat " Style="{DynamicResource MainTabCombat}">
+                            <whitemage:Combat />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <whitemage:Healing />
+                        </TabItem>
+                        <TabItem Header="Regen" Style="{DynamicResource MainTabHealing}">
+                            <whitemage:Regen />
+                        </TabItem>
+                        <TabItem Header="Assize" Style="{DynamicResource MainTabHealing}">
+                            <whitemage:Assize />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <whitemage:Buffs />
+                        </TabItem>
+                        <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
+                            <whitemage:Alliance />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <whitemage:Pvp />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="WhiteMage" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="WhiteMage" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Astrologian" Style="{DynamicResource TabItemAstrologian}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="High Priority Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <astrologian:DispelOptions />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersHealers />
+                        </TabItem>
+                        <TabItem Header="Combat " Style="{DynamicResource MainTabCombat}">
+                            <astrologian:Combat />
+                        </TabItem>
+                        <TabItem Header="General Healing" Style="{DynamicResource MainTabHealing}">
+                            <astrologian:Healing />
+                        </TabItem>
+                        <TabItem Header="Diurnal Healing" Style="{DynamicResource MainTabHealing}">
+                            <astrologian:DiurnalHealing />
+                        </TabItem>
+                        <TabItem Header="Nocturnal Healing" Style="{DynamicResource MainTabHealing}">
+                            <astrologian:NocturnalHealing />
+                        </TabItem>
+                        <TabItem Header="Cards" Style="{DynamicResource MainTabCards}">
+                            <astrologian:Cards />
+                        </TabItem>
+                        <TabItem Header="Card Rules" Style="{DynamicResource MainTabCards}">
+                            <astrologian:CardRules />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <astrologian:Buffs />
+                        </TabItem>
+                        <TabItem Header="Buff Extenders" Style="{DynamicResource MainTabBuffExtenders}">
+                            <astrologian:BuffExtenders />
+                        </TabItem>
+                        <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
+                            <astrologian:Alliance />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <astrologian:Pvp />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Astrologian" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Astrologian" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="BlackMage" Style="{DynamicResource TabItemBlackMage}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <blackMage:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <blackMage:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <blackMage:Buffs />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="BlackMage" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="BlackMage" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Summoner" Style="{DynamicResource TabItemSummoner}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <summoner:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <summoner:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <summoner:Buffs />
+                        </TabItem>
+                        <TabItem Header="Pets" Style="{DynamicResource MainTabPets}">
+                            <summoner:Pets />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <summoner:Healing />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Summoner" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Summoner" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="RedMage" Style="{DynamicResource TabItemRedMage}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <redMage:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <redMage:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <redMage:Buffs />
+                        </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <redMage:Heal />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="RedMage" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="RedMage" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Machinist" Style="{DynamicResource TabItemMachinist}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersHealers />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <machinist:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <machinist:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <machinist:Buffs />
+                        </TabItem>
+                        <TabItem Header="Turrets " Style="{DynamicResource MainTabCombat}">
+                            <machinist:Turrets />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Machinist" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Machinist" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Bard" Style="{DynamicResource TabItemBard}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
+                            <lists:TankBustersHealers />
+                        </TabItem>
+                        <TabItem Header="Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <bard:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <bard:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <bard:Buffs />
+                        </TabItem>
+                        <TabItem Header="Songs" Style="{DynamicResource MainTabBuffs}">
+                            <bard:Songs />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Bard" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Bard" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Dancer" Style="{DynamicResource TabItemDancer}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <dancer:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect " Style="{DynamicResource MainTabAoe}">
+                            <dancer:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <dancer:Buffs />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Dancer" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Dancer" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Dragoon" Style="{DynamicResource TabItemDragoon}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <dragoon:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <dragoon:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <dragoon:Buffs />
+                        </TabItem>
+                        <TabItem Header="Jumps" Style="{DynamicResource MainTabCombat}">
+                            <dragoon:Jumps />
+                        </TabItem>
+                        <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
+                            <dragoon:Defensives />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Dragoon" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Dragoon" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Monk" Style="{DynamicResource TabItemMonk}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <monk:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <monk:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <monk:Buffs />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Monk" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Monk" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Ninja" Style="{DynamicResource TabItemNinja}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <ninja:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <ninja:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <ninja:Buffs />
+                        </TabItem>
+                        <TabItem Header="Ninjutsu" Style="{DynamicResource MainTabBuffs}">
+                            <ninja:Ninjutsu />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Ninja" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Ninja" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Samurai" Style="{DynamicResource TabItemSamurai}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <samurai:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <samurai:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <samurai:Buffs />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Samurai" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Samurai" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+            </TabControl>
+        </Border>
+    </Grid>
+</Window>

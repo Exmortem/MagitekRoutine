@@ -1,0 +1,269 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.WhiteMage.Healing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Interrupt Healing If Target HP Gets Over" IsChecked="{Binding WhiteMageSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Column="1" Margin="3,0" Value="{Binding WhiteMageSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="11" Foreground="White" Text="Percent" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Raise" IsChecked="{Binding WhiteMageSettings.Raise, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="1" Margin="5,0" Content="Raise With Swiftcast In Combat" IsChecked="{Binding WhiteMageSettings.RaiseSwiftcast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <!--  Physick  -->
+                <Grid Grid.Row="0" Margin="5,5,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="112" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Cure" IsChecked="{Binding WhiteMageSettings.Cure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.CureHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,1" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                </Grid>
+
+                <Border Grid.Row="1" Padding="5,2" Background="{DynamicResource AlternatingSettingRow}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="Cure 2" IsChecked="{Binding WhiteMageSettings.Cure2, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Cure2HealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="2" Margin="5,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="112" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Benediction" IsChecked="{Binding WhiteMageSettings.Benediction, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.BenedictionHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                    <CheckBox Grid.Column="3" Margin="10,0" Content="On Tank Only" IsChecked="{Binding WhiteMageSettings.BenedictionTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
+
+                <Border Grid.Row="3" Padding="5,2" Background="{DynamicResource AlternatingSettingRow}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="Medica" IsChecked="{Binding WhiteMageSettings.Medica, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.MedicaHealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding WhiteMageSettings.MedicaAllies, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="4" Padding="5,2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="Medica 2" IsChecked="{Binding WhiteMageSettings.Medica2, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Medica2HealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding WhiteMageSettings.Medica2Allies, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="5" Padding="5,2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="Afflatus Rapture" IsChecked="{Binding WhiteMageSettings.AfflatusRapture, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AfflatusRaptureHealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding WhiteMageSettings.AfflatusRaptureAllies, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="6" Padding="5,2,0,5" Background="{DynamicResource AlternatingSettingRow}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="Asylum" IsChecked="{Binding WhiteMageSettings.Asylum, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AsylumHealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding WhiteMageSettings.AsylumAllies, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="7" Margin="5,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="112" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Tetragrammaton" IsChecked="{Binding WhiteMageSettings.Tetragrammaton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.TetragrammatonHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                    <CheckBox Grid.Column="3" Margin="10,0" Content="On Tank Only" IsChecked="{Binding WhiteMageSettings.TetragrammatonTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
+
+                <Grid Grid.Row="8" Margin="5,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="112" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Afflatus Solace" IsChecked="{Binding WhiteMageSettings.AfflatusSolace, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AfflatusSolaceHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                    <CheckBox Grid.Column="3" Margin="10,0" Content="On Tank Only" IsChecked="{Binding WhiteMageSettings.AfflatusSolaceTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Grid.Column="0" Content="Cure 3   " IsChecked="{Binding WhiteMageSettings.Cure3, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Cure3HealthPercent, Mode=TwoWay}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                <controls:Numeric Grid.Row="0" Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding WhiteMageSettings.Cure3Allies, Mode=TwoWay}" />
+                <TextBlock Grid.Row="0" Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
+
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <CheckBox Content="Plenary Indulgence" IsChecked="{Binding WhiteMageSettings.PlenaryIndulgence, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.PlenaryIndulgenceAllies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Party Members Are Below " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.PlenaryIndulgenceHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Use Tank Busters" IsChecked="{Binding WhiteMageSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,0" Content="Prioritize Tank Busters" IsChecked="{Binding WhiteMageSettings.PrioritizeTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Only Use Tank Busters When Over " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.TankBusterMinimumMpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Scholar.Pets"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="Pets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:ScholarPets" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Pet:" />
+                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource Pets}}" SelectedValue="{Binding ScholarSettings.SelectedPet, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Whispering Dawn" IsChecked="{Binding ScholarSettings.WhisperingDawn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Whispering Dawn When " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.WhisperingDawnNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.WhisperingDawnHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.WhisperingDawnOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Fey Blessing" IsChecked="{Binding ScholarSettings.FeyBlessing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Fey Blessing When " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyBlessingNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyBlessingHpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.FeyBlessingOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Fey Illumination" IsChecked="{Binding ScholarSettings.FeyIllumination, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Fey Illumination When " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyIlluminationNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyIlluminationHpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.FeyIlluminationOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>

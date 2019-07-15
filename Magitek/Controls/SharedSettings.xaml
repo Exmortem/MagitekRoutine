@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="Magitek.Controls.SharedSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Magitek.Controls" xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:MagitekApi.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <StackPanel Margin="0,0,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
+            <controls:SwirlSpinner Margin="0,1,25,0" Visibility="{Binding Path=SpinnerVisible, Converter={StaticResource BoolToVis}}" />
+            <Button Command="{Binding RefreshSettingsList}" CommandParameter="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonRefresh}" />
+        </StackPanel>
+
+        <ListBox Height="380" MaxHeight="380" Background="Transparent" BorderThickness="0" ItemContainerStyle="{DynamicResource ListBoxItemBugList}">
+            <ListBox.Style>
+                <Style>
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="WhiteMage">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding WhiteMageSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Scholar">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding ScholarSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Astrologian">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding AstrologianSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Paladin">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding PaladinSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Warrior">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding WarriorSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="DarkKnight">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding DarkKnightSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="BlackMage">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding BlackMageSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="RedMage">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding RedMageSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Summoner">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding SummonerSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Bard">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding BardSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Machinist">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding MachinistSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Dragoon">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding DragoonSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Monk">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding MonkSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Ninja">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding NinjaSettingsList}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="Samurai">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding SamuraiSettingsList}" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+            </ListBox.Style>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+
+                    <Expander Margin="0,2">
+                        <Expander.Style>
+                            <Style TargetType="{x:Type Expander}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Expander}">
+
+                                            <Border BorderThickness="0.5" CornerRadius="2">
+                                                <Border.BorderBrush>
+                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                        <GradientStop Offset="0" Color="Black" />
+                                                        <GradientStop Offset="1" Color="#FF0A0A0A" />
+                                                    </LinearGradientBrush>
+                                                </Border.BorderBrush>
+
+                                                <Border Padding="5,0,0,0" Background="{DynamicResource ClassSelectorBackground}" BorderThickness="0.5" CornerRadius="2">
+                                                    <Border.BorderBrush>
+                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                            <GradientStop Offset="0" Color="#FF040404" />
+                                                            <GradientStop Offset="1" Color="#FF1D1D1D" />
+                                                        </LinearGradientBrush>
+                                                    </Border.BorderBrush>
+
+                                                    <Grid Margin="2">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <!--  Top Row  -->
+                                                        <Grid Grid.Row="0" Height="25">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="{DynamicResource Info}" Text="{Binding Name}" />
+                                                            <TextBlock Grid.Column="1" Margin="3,0" VerticalAlignment="Center" Foreground="{DynamicResource Info}" Text="By" />
+                                                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Foreground="OrangeRed" Text="{Binding Author}" />
+                                                            <TextBlock Grid.Column="4"
+                                                                       Margin="3,0"
+                                                                       HorizontalAlignment="Right"
+                                                                       VerticalAlignment="Center"
+                                                                       Foreground="{DynamicResource Light}"
+                                                                       Text="Created On: " />
+                                                            <TextBlock Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource Light}" Text="{Binding Created}" />
+
+                                                            <CheckBox Grid.Column="6"
+                                                                      Margin="5,0,5,0"
+                                                                      HorizontalAlignment="Right"
+                                                                      ClickMode="Press"
+                                                                      Focusable="False"
+                                                                      IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      OverridesDefaultStyle="True"
+                                                                      Style="{DynamicResource ExpanderToggle}" />
+                                                        </Grid>
+
+                                                        <Grid Name="BorderRow" Grid.Row="1" Height="0" MaxHeight="200" VerticalAlignment="Center">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+
+                                                            <TextBlock Name="BorderTextBlock"
+                                                                       Grid.Row="0"
+                                                                       Width="399"
+                                                                       Margin="2"
+                                                                       Foreground="{DynamicResource Light}"
+                                                                       Text="{Binding Description}"
+                                                                       TextWrapping="Wrap" />
+
+                                                            <StackPanel Grid.Row="1" Margin="0,3,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
+
+                                                                <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.LoadSettings}" CommandParameter="{Binding}" Foreground="{DynamicResource ClassSelectorBackground}" Style="{DynamicResource ButtonLoad}" ToolTip="Load" />
+
+                                                                <Button Margin="3,0,0,0"
+                                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.SaveSettings}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Foreground="{DynamicResource ClassSelectorBackground}"
+                                                                        Style="{DynamicResource ButtonSave}"
+                                                                        ToolTip="Save" />
+
+                                                            </StackPanel>
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsExpanded" Value="True">
+                                                    <Setter TargetName="BorderRow" Property="Height" Value="{Binding ElementName=BorderTextBlock, Path=Height}" />
+                                                    <Setter TargetName="BorderRow" Property="Margin" Value="0,0,0,10" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Expander.Style>
+
+                    </Expander>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+
+</UserControl>
+

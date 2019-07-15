@@ -1,0 +1,119 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type Button}" x:Key="OverlaySettingsButton">
+        <Setter Property="Foreground" Value="{DynamicResource MainForeground}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    
+                    <Border Name="Border" IsHitTestVisible="True" Background="Transparent">
+                        <Path Name="Path" 
+                              Fill="White"
+                              Data="M16.099976,9.3999939C12.299988,9.3999939 9.2000122,12.299988 9.2000122,16 9.2000122,19.699982 12.200012,22.600006 16,22.699982 19.799988,22.699982 22.899963,19.799988 22.899963,16.100006 23,12.399994 19.899963,9.3999939 16.099976,9.3999939z M16.200012,0C17.599976,0,19,0.19998169,20.299988,0.6000061L20.799988,4.1000061C22.099976,4.6000061,23.399963,5.2999878,24.5,6.1999817L27.899963,4.8999939C29.799988,6.7999878,31.299988,9.1999817,32,11.899994L29.200012,14C29.299988,14.699982 29.399963,15.299988 29.399963,16 29.399963,16.699982 29.299988,17.399994 29.200012,18L32,20.199982C31.200012,22.799988,29.799988,25.199982,27.799988,27.100006L24.399963,26C23.299988,26.899994,22.099976,27.5,20.700012,28L20.099976,31.5C18.799988,31.799988 17.399963,32 15.899963,32 14.5,32 13.099976,31.799988 11.700012,31.399994L11.200012,27.899994C9.8999634,27.399994,8.5999756,26.699982,7.5,25.799988L4.0999756,27.100006C2.2000122,25.199982,0.70001221,22.799988,0,20.100006L3,18C2.8999634,17.299988 2.7999878,16.699982 2.7999878,16 2.7999878,15.299988 2.8999634,14.600006 3,14L0.20001221,11.799988C1,9.1000061,2.3999634,6.7999878,4.3999634,4.8999939L7.7999878,6C8.8999634,5.1000061,10.099976,4.5,11.5,4L12.099976,0.5C13.399963,0.19998169,14.799988,0,16.200012,0z" 
+                              Stretch="Uniform" />
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource Info}"/>
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}" x:Key="OverlayHideTogglesCheckbox">
+        <Setter Property="Foreground" Value="{DynamicResource MainForeground}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+
+                    <Border Name="Border" IsHitTestVisible="True" Background="Transparent">
+                        <Path Name="Path" 
+                              Fill="White"
+                              Data="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z" 
+                              Stretch="Uniform" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource Info}"/>
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="OverlayCloseButton">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border Width="11" Height="11" IsHitTestVisible="True" Background="Transparent">
+                        <Path Fill="White"
+                              Name="Check" 
+                              Stretch="Uniform" 
+                              UseLayoutRounding="False"
+                              Data="M7.1999998,0L16,8.7999997 24.799999,0 32,7.1999998 23.2,16 32,24.799999 24.799999,32 16,23.2 7.1999998,32 0,24.799999 8.7999997,16 0,7.1999998z" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Check" Property="Fill" Value="White" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}" x:Key="CheckBoxOverlayCustomToggle">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="LightGray" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+
+                    <Border Name="Background" Margin="2" Width="85" Height="25" CornerRadius="3" Background="#FF282546">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="3" Name="DisplayText" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" SnapsToDevicePixels="True" FontSize="9" TextOptions.TextFormattingMode="Display" Foreground="{DynamicResource ClassSelectorBackground}" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Background" Property="Background" Value="LightSeaGreen" />
+                            </Trigger.Setters>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Trigger.Setters>
+                                <Setter TargetName="Background" Property="Background" Value="IndianRed" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

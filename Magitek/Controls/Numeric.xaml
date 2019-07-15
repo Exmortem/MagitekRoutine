@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Magitek.Controls.Numeric"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Magitek.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Border Width="50" Background="{DynamicResource ButtonBackgroundColor}" CornerRadius="3">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="TextBox"
+                     Grid.Column="0"
+                     Width="30"
+                     Height="20"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center"
+                     Style="{DynamicResource NumericTextBoxStyle}"
+                     Template="{DynamicResource NumericTextBoxTemplate}"
+                     Text="{Binding Value, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:Numeric}}, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Rectangle Grid.Column="1"
+                       Width="1"
+                       Height="15"
+                       VerticalAlignment="Center"
+                       Fill="{DynamicResource Black}"
+                       Opacity="0.10" />
+
+            <StackPanel Grid.Column="2" Width="20" VerticalAlignment="Center">
+                <Button x:Name="ButtonIncrement" Margin="0,1" Style="{DynamicResource ButtonIncrement}" />
+
+                <Button x:Name="ButtonDecrement" Margin="0,1" Style="{DynamicResource ButtonDecrement}" />
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

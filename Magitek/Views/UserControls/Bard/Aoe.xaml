@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Bard.Aoe"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Area Of Effect Abilities" IsChecked="{Binding BardSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Use Area Of Effect Abilities Before Damage Over Time Abilities" IsChecked="{Binding BardSettings.UseAoeBeforeDots, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Quick Nock" IsChecked="{Binding BardSettings.QuickNock, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
+                <controls:Numeric Grid.Row="1"
+                                  Grid.Column="2"
+                                  Margin="0,3,0,0"
+                                  MaxValue="100"
+                                  MinValue="1"
+                                  Value="{Binding BardSettings.QuickNockEnemiesInCone, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In A Cone" />
+        
+                <CheckBox Grid.Row="2" Grid.Column="0" Content="Rain Of Death " IsChecked="{Binding BardSettings.RainOfDeath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
+                <controls:Numeric Grid.Row="2"
+                                  Grid.Column="2"
+                                  Margin="0,3,0,0"
+                                  MaxValue="100"
+                                  MinValue="1"
+                                  Value="{Binding BardSettings.RainOfDeathEnemies, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
+
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.ApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When We Have At Least " />
+                <controls:Numeric Margin="0,3,0,0"
+                                  MaxValue="100"
+                                  MinValue="1"
+                                  Value="{Binding BardSettings.ApexArrowMinimumSoulVoice, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>
+

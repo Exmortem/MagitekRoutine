@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.RedMage.Heal" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:controls="clr-namespace:Magitek.Controls" 
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Verraise " IsChecked="{Binding RedMageSettings.Verraise, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                    <CheckBox Content="On Tanks   " IsChecked="{Binding RedMageSettings.VerraiseTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Healers   " IsChecked="{Binding RedMageSettings.VerraiseHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="DPS " IsChecked="{Binding RedMageSettings.VerraiseDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Vercure When A Group Member Is Below " IsChecked="{Binding RedMageSettings.Vercure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.VercureHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <StackPanel Margin="0,4" Orientation="Horizontal">
+                    <CheckBox Content="On Tanks   " IsChecked="{Binding RedMageSettings.VercureTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Healers   " IsChecked="{Binding RedMageSettings.VercureHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="DPS  " IsChecked="{Binding RedMageSettings.VercureDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Self " IsChecked="{Binding RedMageSettings.VercureSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <CheckBox Content="Only Use With Dual Cast" IsChecked="{Binding RedMageSettings.VercureOnlyDualCast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

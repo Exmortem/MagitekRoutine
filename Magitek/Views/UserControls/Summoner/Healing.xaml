@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Summoner.Healing" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:controls="clr-namespace:Magitek.Controls" 
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Raise " IsChecked="{Binding SummonerSettings.Resurrection, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="10,0" Content="Swiftcast Raise " IsChecked="{Binding SummonerSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Raise Out Of Combat" IsChecked="{Binding SummonerSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Physick Solo When Below " IsChecked="{Binding SummonerSettings.Physick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.PhysickHpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="0,3,0,0" Content="Physick Party When Below " IsChecked="{Binding SummonerSettings.PhysickInGroup, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.PhysickPartyHpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent, " />
+                    <CheckBox Margin="0,3,0,0" Content="When There's No Healer Present or Alive." IsChecked="{Binding SummonerSettings.PhysickInGroupIfNoPresentHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Ignore Alliance" IsChecked="{Binding SummonerSettings.IgnoreAlliance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <CheckBox Margin="0,7,0,0" Content="Heal Alliance Tanks" IsChecked="{Binding SummonerSettings.HealAllianceTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3" Content="Heal Alliance Healers" IsChecked="{Binding SummonerSettings.HealAllianceHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Heal Alliance DPS" IsChecked="{Binding SummonerSettings.HealAllianceDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <CheckBox Margin="0,7,0,0" Content="Raise Alliance Tanks" IsChecked="{Binding SummonerSettings.ResAllianceTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3" Content="Raise Alliance Healers" IsChecked="{Binding SummonerSettings.ResAllianceHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Raise Alliance DPS" IsChecked="{Binding SummonerSettings.ResAllianceDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Heal Party Member Pets" IsChecked="{Binding SummonerSettings.IgnoreAlliance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="10,0,0,0" Content="Only Titan" IsChecked="{Binding SummonerSettings.IgnoreAlliance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+
+    </StackPanel>
+
+</UserControl>

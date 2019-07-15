@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Dragoon.Jumps"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Jumps" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.UseJumps, Mode=TwoWay}" />
+                <CheckBox Margin="0,3" Content="Safe Jumping Logic" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.SafeJumpLogic, Mode=TwoWay}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Jump" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.Jump, Mode=TwoWay}" />
+                <CheckBox Margin="0,3" Content="Spineshatter Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.SpineshatterDive, Mode=TwoWay}" />
+                <CheckBox Content="Dragonfire Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.DragonfireDive, Mode=TwoWay}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Stardiver" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.Stardiver, Mode=TwoWay}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>

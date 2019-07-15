@@ -1,0 +1,71 @@
+﻿using System.Threading.Tasks;
+using ff14bot;
+using ff14bot.Managers;
+using Magitek.Extensions;
+using Magitek.Models.BlackMage;
+using Magitek.Utilities;
+
+namespace Magitek.Logic.BlackMage
+{
+    internal static class Buff
+    {
+        public static async Task<bool> Triplecast()
+        {
+            if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
+                return await Spells.Triplecast.Cast(Core.Me);
+
+            return false;
+        }
+
+        public static async Task<bool> Enochian()
+        {
+            if (Core.Me.HasEnochian())
+                return false;
+
+            return await Spells.Enochian.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Sharpcast()
+        {
+            if (!BlackMageSettings.Instance.Sharpcast)
+                return false;
+
+            // If we're on GCD for more than 700 milliseconds
+            if (Spells.Fire.Cooldown.TotalMilliseconds > 700)
+                return await Spells.Sharpcast.Cast(Core.Me);
+            
+            return false;
+        }
+
+        public static async Task<bool> LeyLines()
+        {
+            if (!BlackMageSettings.Instance.LeyLines)
+                return false;
+
+            if (BlackMageSettings.Instance.LeyLinesBossOnly && !Core.Me.CurrentTarget.IsBoss())
+                return false;
+
+            // Do not Ley Lines if we don't have 3 astral stacks
+            if (ActionResourceManager.BlackMage.AstralStacks != 3)
+                return false;
+
+            // Do not Ley Lines if we don't have 3 umbral hearts
+            if (ActionResourceManager.BlackMage.UmbralHearts != 3)
+                return false;
+
+            return await Spells.LeyLines.Cast(Core.Me);
+        }
+
+        public static async Task<bool> UmbralSoul()
+        {
+            if (!Core.Me.HasEnochian())
+                return false;
+
+            // Do not Umbral Soul unless we have 1 umbral stack
+            if (ActionResourceManager.BlackMage.UmbralStacks != 1)
+                return false;
+
+            return await Spells.UmbralSoul.Cast(Core.Me);
+        }
+    }
+}

@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="Magitek.Controls.CurrentNews" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Magitek.Controls" xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:MagitekApi.Instance}" />
+    </UserControl.DataContext>
+
+    <Canvas>
+
+        <Grid Height="400" Panel.ZIndex="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border />
+
+            <!--<Rectangle Grid.Column="1" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" VerticalAlignment="Stretch" />-->
+        </Grid>
+
+        <ItemsControl Height="400" Panel.ZIndex="99" ItemsSource="{Binding Instance.NewsList}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2" />
+                                <RowDefinition />
+                                <RowDefinition Height="2" />
+                            </Grid.RowDefinitions>
+
+                            <!--<Rectangle Grid.Row="0" Height="2" Fill="{DynamicResource TabDividerTop}" HorizontalAlignment="Stretch" />-->
+
+                            <StackPanel Grid.Row="1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Georgia"
+                                           FontSize="30"
+                                           Opacity="0.70"
+                                           Text="{Binding DayPosted}" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Georgia"
+                                           FontSize="16"
+                                           Opacity="0.70"
+                                           Text="{Binding MonthPosted}" />
+                            </StackPanel>
+
+                            <!--<Rectangle Grid.Row="2" Height="2" Fill="{DynamicResource TabDividerTop}" HorizontalAlignment="Stretch"  />-->
+                        </Grid>
+
+                        <Border Grid.Row="1" Grid.Column="1" Margin="3,0,0,0" Padding="5">
+                            <Grid Width="510">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock FontFamily="Georgia" FontSize="16" Foreground="{DynamicResource Info}" Text="{Binding Title}" />
+                                <TextBlock Grid.Row="1"
+                                           Margin="0,3,0,0"
+                                           FontFamily="Verdana"
+                                           FontSize="11"
+                                           Text="{Binding Message}"
+                                           TextAlignment="Justify"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+    </Canvas>
+</UserControl>

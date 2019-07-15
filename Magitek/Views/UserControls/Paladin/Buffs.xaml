@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Paladin.Buffs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Iron Will" IsChecked="{Binding PaladinSettings.ShieldOath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Fight Or Flight" IsChecked="{Binding PaladinSettings.UseFightOrFlight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Divine Veil " IsChecked="{Binding PaladinSettings.DivineVeil, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Row="1"
+                                  Grid.Column="1"
+                                  Margin="0,3"
+                                  MaxValue="100"
+                                  MinValue="1"
+                                  Value="{Binding PaladinSettings.DivineVeilHp, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                <CheckBox Grid.Row="3" Grid.Column="0" Content="Sheltron" IsChecked="{Binding PaladinSettings.Sheltron, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Row="3"
+                                  Grid.Column="1"
+                                  Margin="0,3"
+                                  MaxValue="100"
+                                  MinValue="1"
+                                  Value="{Binding PaladinSettings.SheltronHp, Mode=TwoWay}" />
+                <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Cover" IsChecked="{Binding PaladinSettings.UseCover, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="On Healers At " IsChecked="{Binding PaladinSettings.UseCoverHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding PaladinSettings.UseCoverHealerHp, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="On DPS At " IsChecked="{Binding PaladinSettings.UseCoverDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding PaladinSettings.UseCoverDpsHp, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Intervention When A Party Member Is Below " IsChecked="{Binding PaladinSettings.InterventionOnNearbyPartyMember, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding PaladinSettings.InterventionOnNearbyPartyMemberHealth, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <CheckBox Content="Only Use Intervention With Sentinel Or Rampart" IsChecked="{Binding PaladinSettings.InterventionOnNearbyPartyMember, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Always Use Intervention With Sentinel Or Rampart" IsChecked="{Binding PaladinSettings.InterventionOnNearbyPartyMember, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+
+</UserControl>

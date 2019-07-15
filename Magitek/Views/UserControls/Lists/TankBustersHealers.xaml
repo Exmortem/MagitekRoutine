@@ -1,0 +1,263 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Lists.TankBustersHealers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:enumerations="clr-namespace:Magitek.Enumerations"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:TankBusters.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <ObjectDataProvider x:Key="ScholarTbStrategies" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enumerations:ScholarTbStrategies" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="WhiteMageTbStrategies" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enumerations:WhiteMageTbStrategies" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="AstrologianTbStrategies" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enumerations:AstrologianTbStrategies" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--  left column  -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListBox Name="SelectedAction"
+                     Grid.Row="1"
+                     VerticalAlignment="Stretch"
+                     ItemsSource="{Binding Instance.ActionListHealers}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                     SelectedIndex="0"
+                     Style="{DynamicResource ListboxNoBorderLighterBackground}">
+                <ListBox.Resources>
+                    <ContextMenu x:Key="ActionsListContextMenu">
+                        <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.RemoveHealers}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Remove" />
+                    </ContextMenu>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource ListBoxItemTankBuster}" TargetType="ListBoxItem">
+                        <Setter Property="ContextMenu" Value="{StaticResource ActionsListContextMenu}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="17" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--<Border Grid.Column="0" Background="{DynamicResource Black20}" CornerRadius="2">
+                                <Image Height="17" VerticalAlignment="Center" Source="{Binding IconUrl}" Stretch="Uniform" />
+                            </Border>-->
+
+                            <TextBlock Grid.Column="1"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="10"
+                                       Foreground="White"
+                                       Text="{Binding Id}" />
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="10" Foreground="White" Text="{Binding Name}" />
+                            <TextBox Grid.Column="3"
+                                     FontSize="10"
+                                     Foreground="White"
+                                     Style="{DynamicResource NumericTextBoxStyle}"
+                                     Template="{DynamicResource NumericTextBoxTemplate}"
+                                     Text="{Binding TankBusterTimeIntoCast, Mode=TwoWay}" />
+                        </Grid>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!--  Middle Column  -->
+
+            <StackPanel Grid.Row="1" Grid.Column="1" Background="{DynamicResource ClassSelectorBackground}" DataContext="{Binding ElementName=SelectedAction, Path=SelectedItem}">
+
+                <Grid>
+                    <!--<Image Width="120" Height="70" Source="{Binding IconUrl}" Stretch="UniformToFill">
+                        <Image.Effect>
+                            <BlurEffect Radius="123" />
+                        </Image.Effect>
+                    </Image>-->
+
+                    <Grid VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!--<Border Grid.Row="0" Width="41" BorderBrush="{DynamicResource ClassSelectorBackground}" BorderThickness="1" CornerRadius="2">
+
+                            <Image Width="40" Source="{Binding IconUrl}" />
+                        </Border>-->
+
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   Foreground="Black"
+                                   Text="{Binding Name}" />
+                    </Grid>
+                    <Rectangle Height="2" VerticalAlignment="Bottom" Fill="{DynamicResource TabDivider}" />
+                </Grid>
+
+
+                <TextBlock Margin="5,10,0,0" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource Light}" Text="Scholar Strategy:" />
+                <Rectangle Height="2" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+                <ComboBox ItemsSource="{Binding Source={StaticResource ScholarTbStrategies}}" SelectedValue="{Binding ScholarTbStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBoxTankBusters}" />
+                <Rectangle Height="2" Margin="0,0,0,10" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+
+                <TextBlock Margin="5,0" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource Light}" Text="White Mage Strategy:" />
+                <Rectangle Height="2" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+                <ComboBox ItemsSource="{Binding Source={StaticResource WhiteMageTbStrategies}}" SelectedValue="{Binding WhiteMageTbStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBoxTankBusters}" />
+                <Rectangle Height="2" Margin="0,0,0,10" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+
+                <TextBlock Margin="5,0" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource Light}" Text="Astrologian Strategy:" />
+                <Rectangle Height="2" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+                <ComboBox ItemsSource="{Binding Source={StaticResource AstrologianTbStrategies}}" SelectedValue="{Binding AstrologianTbStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBoxTankBusters}" />
+                <Rectangle Height="2" Margin="0,0,0,10" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+
+                <Rectangle Height="2" VerticalAlignment="Top" Fill="{DynamicResource TabDivider}" />
+            </StackPanel>
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="2" HorizontalAlignment="Left" Fill="{DynamicResource TabDividerVerticalLeft}" />
+
+        </Grid>
+
+        <!--  right column  -->
+        <Border Grid.Column="1" Background="{DynamicResource ClassSelectorBackground}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <!--  Search Bar  -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Path Grid.Column="0"
+                          Width="12"
+                          Height="12"
+                          Data="M9.061606,18.911095C9.5626102,19.711102 10.162613,20.41211 10.862623,21.112111 11.563608,21.812111 12.263617,22.413111 13.064608,22.913115L4.2596264,31.718169C3.7586523,32.218171 2.357658,31.81816 1.2576572,30.718163 0.15664925,29.617159 -0.34334836,28.316144 0.25665479,27.716149z M20.868556,3.8020218C18.967564,3.8020218 17.166579,4.5030141 15.665578,5.9030309 12.86359,8.7050472 12.86359,13.40806 15.665578,16.209084 18.467566,19.011101 23.169541,19.011101 25.97153,16.209084 28.773518,13.308069 28.873522,8.7050472 25.97153,5.9030309 24.570534,4.5030141 22.769549,3.8020218 20.868556,3.8020218z M20.868556,0C23.670544,-1.196986E-08 26.571532,1.1010037 28.773518,3.2020128 33.075497,7.5040369 33.075497,14.608079 28.773518,18.911095 24.470528,23.21312 17.366589,23.21312 13.064608,18.911095 8.661614,14.608079 8.661614,7.604044 12.963595,3.2020128 15.16558,1.1010037 18.066567,-1.196986E-08 20.868556,0z"
+                          Fill="#FF8C8B8B"
+                          RenderTransformOrigin="0.5,0.5"
+                          Stretch="Uniform" />
+
+                    <TextBox Name="SearchAction"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             VerticalAlignment="Center"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="10"
+                             Foreground="White">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding Instance.SearchHealers}" CommandParameter="{Binding ElementName=SearchAction, Path=Text}" />
+                        </TextBox.InputBindings>
+                        <TextBox.CaretBrush>
+                            <SolidColorBrush Color="White" />
+                        </TextBox.CaretBrush>
+                    </TextBox>
+                </Grid>
+
+                <!--  Highlight below search bar  -->
+                <Rectangle Grid.Row="0" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{DynamicResource TabDivider}" />
+
+                <!--  Search List box  -->
+                <ListBox Name="SearchListBox"
+                         Grid.Row="1"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ItemsSource="{Binding Instance.SearchedActionsHealers}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         Style="{DynamicResource ListboxNoBorderSearch}">
+                    <ListBox.Resources>
+                        <ContextMenu x:Key="DispelsSearchListContextMenu">
+                            <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.AddHealers}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Add" />
+                        </ContextMenu>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ListBoxItemSearch}" TargetType="ListBoxItem">
+                            <Setter Property="ContextMenu" Value="{StaticResource DispelsSearchListContextMenu}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <Grid IsHitTestVisible="True">
+                                <Grid.InputBindings>
+                                    <MouseBinding Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.AddHealers}" CommandParameter="{Binding ElementName=SearchListBox, Path=SelectedValue}" MouseAction="LeftDoubleClick" />
+                                </Grid.InputBindings>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!--<Border Grid.Column="0" Background="{DynamicResource Black20}" CornerRadius="5">
+                                    <Image Width="20" VerticalAlignment="Center" Source="{Binding IconUrl}" Stretch="Uniform" />
+                                </Border>-->
+
+                                <TextBlock Grid.Column="1"
+                                           Margin="2,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           Foreground="White"
+                                           Text="{Binding Id}" />
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="10" Foreground="White" Text="{Binding Name}" />
+
+                            </Grid>
+
+
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+        </Border>
+
+        <!--  border on the left of listbox  -->
+        <Rectangle Grid.Column="1" Width="2" HorizontalAlignment="Left" Fill="{DynamicResource TabDividerVerticalLeft}" />
+
+    </Grid>
+</UserControl>

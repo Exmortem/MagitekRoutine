@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Magitek.Controls.Hotkey"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Magitek.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+
+    <Border Width="130" BorderThickness="0.5" CornerRadius="2">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="Black" />
+                <GradientStop Offset="1" Color="#FF0A0A0A" />
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border Padding="5" Background="{DynamicResource ClassSelectorBackground}" BorderThickness="0.5" CornerRadius="2">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="#FF040404" />
+                    <GradientStop Offset="1" Color="#FF1D1D1D" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:Hotkey}}, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBox Name="TxtHk"
+                         Margin="0,3,0,0"
+                         HorizontalAlignment="Center"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="White"
+                         Text="{Binding HkText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:Hotkey}}, UpdateSourceTrigger=PropertyChanged, Mode=OneTime}" />
+            </StackPanel>
+
+        </Border>
+    </Border>
+
+</UserControl>

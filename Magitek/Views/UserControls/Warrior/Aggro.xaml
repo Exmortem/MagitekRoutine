@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Warrior.Aggro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Margin="0,0,0,3" Content="Open With Threat Combo (In Party Only)" IsChecked="{Binding WarriorSettings.OpenWithThreatCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Attempt To Stay On Top Of Enmity By " IsChecked="{Binding WarriorSettings.AttemptToStayOnTopOfEnmityInMainTankMode, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.AttemptToStayOnTopOfEnmityByPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Percent (Main Tank Mode Only)" />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Margin="0,0,0,3" Content="Overpower Only When Main Tank" IsChecked="{Binding WarriorSettings.OverpowerOnlyAsMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Overpower When There Are " IsChecked="{Binding WarriorSettings.UseOverpower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowerMinimumEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Sight" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Overpower " />
+                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowersOnPull, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Times When Getting Into Combat " />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Use Overpower Every " IsChecked="{Binding WarriorSettings.UseOverpowerInterval, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowerIntervalSeconds, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Against A Group Of Enemies " />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Steel Cyclone When There Are " IsChecked="{Binding WarriorSettings.UseSteelCyclone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.SteelCycloneMinimumEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </StackPanel>
+
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Provoke" IsChecked="{Binding WarriorSettings.UseProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Tomahawk" IsChecked="{Binding WarriorSettings.UseTomahawk, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3" Content="Use Tomahawk To Pull" IsChecked="{Binding WarriorSettings.UseTomahawkToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Tomahawk To Pull Nearby Enemies (When Already In Combat)" IsChecked="{Binding WarriorSettings.UseTomahawkToPullExtraEnemies, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Use Tomahawk To Regain Aggro" IsChecked="{Binding WarriorSettings.UseTomahawkOnLostAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Only Use Tomahawk When We Have At Least " />
+                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.UseTomahawkMinTpPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" TP Percent" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+    </StackPanel>
+</UserControl>
