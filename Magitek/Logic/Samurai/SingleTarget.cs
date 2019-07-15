@@ -69,6 +69,9 @@ namespace Magitek.Logic.Samurai
 
         public static async Task<bool> HissatsuSeigan()
         {
+            if (SamuraiSettings.Instance.HissatsuSeigan == false)
+                return false;
+            
             if (Core.Me.ClassLevel < 66)
                 return false;
 
@@ -84,25 +87,11 @@ namespace Magitek.Logic.Samurai
             if (Utilities.Routines.Samurai.SenCount >= 2 && ActionResourceManager.Samurai.Kenki < (45 + SamuraiSettings.Instance.ReservedKenki))
                 return false;
 
-            //Prevent using shinten here to stop double weaves
+            //Prevent using seigan here to stop double weaves
             if (Utilities.Routines.Samurai.SenCount == 3 && ActionResourceManager.Samurai.Kenki <= 90)
                 return false;
-
-            return false;
-        }
-        
-        public static async Task<bool> TsubameGaeshi() //TODO: Remove if doesn't actually exist
-        {
-            if (Core.Me.ClassLevel < 76)
-                return false;
-
-            if (ActionManager.LastSpell != Spells.MidareSetsugekka)
-                return false;
-
-            //Don't go further down the tree, wait for Tsubame if we're over level 76
-
-            return false;
-            //return (await Spells.TsubameGaeshi.Cast(Core.Me.CurrentTarget) || ActionManager.LastSpell == Spells.MidareSetsugekka);
+            
+            return await Spells.HissatsuSeigan.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Shoha()

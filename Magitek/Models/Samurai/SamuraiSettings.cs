@@ -115,5 +115,9 @@ namespace Magitek.Models.Samurai
         [Setting]
         [DefaultValue(700)]
         public int UseOffGCDAbilitiesWithMoreThanXMSLeft { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool HissatsuSeigan { get; set; }
     }
 }

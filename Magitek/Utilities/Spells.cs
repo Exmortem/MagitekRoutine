@@ -172,6 +172,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Meditate = DataManager.GetSpellData(7497);
         public static readonly SpellData ThirdEye = DataManager.GetSpellData(7498);
         public static readonly SpellData MeikyoShisui = DataManager.GetSpellData(7499);
+        public static readonly SpellData HissatsuSeigan = DataManager.GetSpellData(7501);
         public static readonly SpellData HolySpirit = DataManager.GetSpellData(7384);
         public static readonly SpellData Requiescat = DataManager.GetSpellData(7383);
         public static readonly SpellData PitchPerfect = DataManager.GetSpellData(7404);
