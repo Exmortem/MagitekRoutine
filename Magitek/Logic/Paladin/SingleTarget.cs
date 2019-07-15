@@ -123,7 +123,7 @@ namespace Magitek.Logic.Paladin
             if (PaladinSettings.Instance.FoFFirst && Spells.FightorFlight.Cooldown.Seconds < 10)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.FightOrFight, true, 3000))
+            if (Core.Me.HasAura(Auras.FightOrFight, true, 3000))
                 return false;
 
             return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);

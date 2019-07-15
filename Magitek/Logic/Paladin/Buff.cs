@@ -63,7 +63,7 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseFightOrFlight)
                 return false;
 
-            if (Core.Me.ClassLevel >= 68)
+            if (Core.Me.ClassLevel >= 68 && !PaladinSettings.Instance.FoFFirst)
             {
                 if (Spells.Requiescat.Cooldown.Seconds < 10)
                     return false;
@@ -72,7 +72,7 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
-            if (ActionManager.LastSpell == Spells.FastBlade)
+            if (ActionManager.LastSpell == Spells.RiotBlade)
                 return await Spells.FightorFlight.Cast(Core.Me);
 
             return false;
