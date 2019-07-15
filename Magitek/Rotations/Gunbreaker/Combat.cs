@@ -29,6 +29,7 @@ namespace Magitek.Rotations.Gunbreaker
             if (await SingleTarget.RoughDivide()) return true;
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             
+            //TODO: Omni - Add use AoE toggle.
             if (Utilities.Routines.Gunbreaker.OnGcd)
             {
                 if (await Defensive.Execute()) return true;
@@ -40,12 +41,17 @@ namespace Magitek.Rotations.Gunbreaker
                 if (await SingleTarget.JugularRip()) return true;
                 if (await SingleTarget.DangerZone()) return true;
                 if (await SingleTarget.BlastingZone()) return true;
-                if (await Aoe.BowShock()) return true;
+
+                if(GunbreakerSettings.Instance.UseAoe)
+                    if (await Aoe.BowShock()) return true;
             }
 
-            if (await Aoe.FatedCircle()) return true;
-            if (await Aoe.DemonSlaughter()) return true;
-            if (await Aoe.DemonSlice()) return true;
+            if (GunbreakerSettings.Instance.UseAoe)
+            {
+                if (await Aoe.FatedCircle()) return true;
+                if (await Aoe.DemonSlaughter()) return true;
+                if (await Aoe.DemonSlice()) return true;
+            }
 
             if (await SingleTarget.LightningShot()) return true;
             if (await SingleTarget.WickedTalon()) return true;

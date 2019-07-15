@@ -27,9 +27,6 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasTarget)
                 return false;
 
-            if (Core.Me.ClassLevel >= 76)
-                return false;
-
             if (Spells.TrickAttack.Cooldown.Seconds > 20000)
                 return await Spells.Kassatsu.Cast(Core.Me);
 
@@ -37,6 +34,14 @@ namespace Magitek.Logic.Ninja
                 return await Spells.Kassatsu.Cast(Core.Me);
 
             return false;
+        }
+        
+        public static async Task<bool> Bunshin()
+        {
+            if (!NinjaSettings.Instance.UseBunshin)
+                return false;
+
+            return await Spells.Bunshin.Cast(Core.Me);
         }
     }
 }
