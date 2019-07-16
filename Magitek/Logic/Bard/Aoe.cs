@@ -58,7 +58,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.ApexArrow)
                 return false;
 
-            if (MagitekActionResourceManager.Bard.SoulVoice < BardSettings.Instance.ApexArrowMinimumSoulVoice)
+            if (MagitekActionResourceManager.Bard.SoulVoice <= BardSettings.Instance.ApexArrowMinimumSoulVoice)
                 return false;
 
             return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
