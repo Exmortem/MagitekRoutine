@@ -29,7 +29,6 @@ namespace Magitek.Rotations.Gunbreaker
             if (await SingleTarget.RoughDivide()) return true;
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             
-            //TODO: Omni - Add use AoE toggle.
             if (Utilities.Routines.Gunbreaker.OnGcd)
             {
                 if (await Defensive.Execute()) return true;

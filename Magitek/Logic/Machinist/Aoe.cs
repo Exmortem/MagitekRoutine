@@ -26,10 +26,8 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> Bioblaster()
         {
             if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AoeEnemies)
-            {
                 return false;
-            }
-
+            
             if (Core.Me.CurrentTarget.HasAura(Auras.Bioblaster))
                 return false;
 

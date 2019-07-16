@@ -59,17 +59,13 @@ namespace Magitek.Rotations.Machinist
                 if (MachinistSettings.Instance.UseAoe)
                     if (await Aoe.Ricochet()) return true;
                 
-                if (await Buff.Tactician()) return true;
-                return true;
+                return await Buff.Tactician();
             }
 
             if (MachinistSettings.Instance.UseAoe)
-                if(Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AoeEnemies)
-                {
-                    if (await Aoe.Bioblaster()) return true;
-                    if (await SingleTarget.Drill()) return true;
-                }
-
+                if (await Aoe.Bioblaster()) return true;
+                
+            if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.AirAnchor()) return true;
             if (await SingleTarget.HeatBlast()) return true;
 
