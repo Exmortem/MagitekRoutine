@@ -67,14 +67,14 @@ namespace Magitek.Logic.Monk
                 if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DragonKickMinimumTtd)
                     return false;
             }
-            else
+            /*else
             {
                 if (!Core.Me.CurrentTarget.IsBoss())
                 {
                     if (!Core.Me.CurrentTarget.HealthCheck(MonkSettings.Instance.DragonKickMinimumHealth, MonkSettings.Instance.DragonKickMinimumHealthPercent))
                         return false;
                 }
-            }
+            }*/
 
             if (Core.Me.CurrentTarget.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
                 return false;
@@ -92,14 +92,14 @@ namespace Magitek.Logic.Monk
                 if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DemolishMinimumTtd)
                     return false;
             }
-            else
+            /*else
             {
                 if (!Core.Me.CurrentTarget.IsBoss())
                 {
                     if (!Core.Me.CurrentTarget.HealthCheck(MonkSettings.Instance.DemolishMinimumHealth, MonkSettings.Instance.DemolishMinimumHealthPercent))
                         return false;
                 }
-            }
+            }*/
 
             if (Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
                 return false;
