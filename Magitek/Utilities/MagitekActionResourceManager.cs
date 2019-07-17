@@ -28,25 +28,6 @@ namespace Magitek.Utilities
             }
         }
 
-        public class Bard
-        {
-            private static IntPtr? SoulVoiceLocation = null;
-
-            public static int SoulVoice
-            {
-                get
-                {
-                    if (Core.Me.CurrentJob != ClassJobType.Bard)
-                        return 0;
-
-                    if (SoulVoiceLocation == null)
-                        SoulVoiceLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudBRD0").Pointer + 0x26C;
-
-                    return Core.Memory.Read<byte>(SoulVoiceLocation.Value);
-                }
-            }
-        }
-
         public class Arcanist
         {
             private static IntPtr? AetherflowLocation = null;
