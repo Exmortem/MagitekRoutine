@@ -98,6 +98,9 @@ namespace Magitek.Logic.Scholar
 
         public static async Task<bool> EmergencyTacticsAdlo()
         {
+            if (!ScholarSettings.Instance.EmergencyTacticsAdloquium)
+                return false;
+
             if (!PartyManager.IsInParty)
                 return false;
 
