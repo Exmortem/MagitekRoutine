@@ -506,6 +506,24 @@
                                                                                             </StackPanel>
                                                                                         </DataTemplate>
 
+                                                                                        <DataTemplate DataType="{x:Type actions:CastFillerOnCurrentTargetAction}">
+                                                                                            <StackPanel Margin="3">
+                                                                                                <TextBox CaretBrush="White"
+                                                                                                         FontSize="10"
+                                                                                                         Foreground="{DynamicResource Light}"
+                                                                                                         Tag="FILLER SPELLNAME:"
+                                                                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                         Text="{Binding SpellName, Mode=TwoWay}" />
+                                                                                                <TextBox CaretBrush="White"
+                                                                                                         FontSize="10"
+                                                                                                         Foreground="{DynamicResource Light}"
+                                                                                                         Tag="ON PROC SPELLNAME:"
+                                                                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                         Text="{Binding ProcName, Mode=TwoWay}" />
+                                                                                                <CheckBox Margin="3" Content="IS PVP SPELL" IsChecked="{Binding IsPvpSpell, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+
                                                                                         <DataTemplate DataType="{x:Type actions:CastSpellOnAllyAction}">
                                                                                             <StackPanel Margin="3">
                                                                                                 <TextBox CaretBrush="White"
