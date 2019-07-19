@@ -23,6 +23,7 @@ namespace Magitek.Gambits.Actions
     {
         [Description("NO ACTION")] NoAction,
         [Description("CAST ON TARGET")] CastSpellOnCurrentTarget,
+        [Description("CAST FILLER ON TARGET")] CastFillerOnCurrentTarget,
         [Description("CAST ON SELF")] CastSpellOnSelf,
         [Description("CAST ON ALLY")] CastSpellOnAlly,
         [Description("CAST ON ENEMY")] CastSpellOnEnemy,
