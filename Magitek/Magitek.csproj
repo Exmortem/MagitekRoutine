@@ -151,6 +151,7 @@
     <Compile Include="Extensions\SpellDataExtensions.cs" />
     <Compile Include="Extensions\XivDbItemExtensions.cs" />
     <Compile Include="Gambits\Actions\BaseCastSpellAction.cs" />
+    <Compile Include="Gambits\Actions\CastFillerOnCurrentTargetAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnAllyAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnCurrentTargetAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnEnemyAction.cs" />

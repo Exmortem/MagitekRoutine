@@ -30,6 +30,10 @@ namespace Magitek.Converters
                         action = new CastSpellOnCurrentTargetAction();
                         break;
 
+                    case GambitActionTypes.CastFillerOnCurrentTarget:
+                        action = new CastFillerOnCurrentTargetAction();
+                        break;
+
                     case GambitActionTypes.CastSpellOnAlly:
                         action = new CastSpellOnAllyAction();
                         break;

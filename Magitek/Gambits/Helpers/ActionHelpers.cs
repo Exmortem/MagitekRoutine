@@ -37,6 +37,9 @@ namespace Magitek.Gambits.Helpers
                 case GambitActionTypes.CastSpellOnCurrentTarget:
                     newAction = new CastSpellOnCurrentTargetAction() { SpellName = "The Spell's Name" };
                     break;
+                case GambitActionTypes.CastFillerOnCurrentTarget:
+                    newAction = new CastFillerOnCurrentTargetAction() { SpellName = "The Filler's SpellName", ProcName = "The Proc's SpellName" };
+                    break;
                 case GambitActionTypes.PetCast:
                     newAction = new PetCastAction() { SpellName = "The Spell's Name" };
                     break;
