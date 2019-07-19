@@ -36,11 +36,17 @@ namespace Magitek.Rotations.Monk
                 //TODO: Add 5+ target DPS rotation
             }
 
+            if(Casting.LastSpell == Spells.PerfectBalance)
+            {
+                await SingleTarget.DragonKick();
+            }
             if (Utilities.Routines.Monk.OnGcd)
             {
+                if (await Buff.FistOfFire()) return true;
+                if (await Buff.FistOfWind()) return true;
                 if (await SingleTarget.TheForbiddenChakra()) return true;
                 if (await SingleTarget.ShoulderTackle()) return true;
-                ///if (await Buff.PerfectBalance()) return true;
+                //if (await Buff.PerfectBalance()) return true;
                 if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
                 if (await Buff.RiddleOfFire()) return true;
                 if (await Buff.RiddleOfEarth()) return true;
@@ -48,9 +54,10 @@ namespace Magitek.Rotations.Monk
                 if (await Aoe.ElixerField()) return true;
             }
             if (await Aoe.Rockbreaker()) return true;
+            if (await Aoe.FourPointStrike()) return true;
+            if (await SingleTarget.TwinSnakes()) return true;
             if (await SingleTarget.Demolish()) return true;
             if (await SingleTarget.SnapPunch()) return true;
-            if (await SingleTarget.TwinSnakes()) return true;
             if (await SingleTarget.TrueStrike()) return true;
             if (await SingleTarget.Bootshine()) return true;
             if (await SingleTarget.DragonKick()) return true;

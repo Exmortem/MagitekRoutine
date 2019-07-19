@@ -30,6 +30,29 @@ namespace Magitek.Logic.Monk
             }
         }
 
+        public static async Task<bool> FistOfFire()
+        {
+
+            if (Core.Me.HasAura(Auras.FistsofFire))
+                return false;
+
+            if (ActionResourceManager.Monk.GreasedLightning >= 3)
+                return false;
+
+            return await Spells.FistsOfFire.Cast(Core.Me);
+        }
+
+        public static async Task<bool> FistOfWind()
+        {
+            if (Core.Me.HasAura(Auras.FistsofWind))
+                return false;
+
+            if (ActionResourceManager.Monk.GreasedLightning <= 3)
+                return false;
+
+            return await Spells.FistsOfWind.Cast(Core.Me);
+        }
+
         public static async Task<bool> PerfectBalance()
         {
             if (!MonkSettings.Instance.UsePerfectBalance)

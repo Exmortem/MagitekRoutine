@@ -252,6 +252,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Brotherhood = DataManager.GetSpellData(7396);
         public static readonly SpellData Onslaught = DataManager.GetSpellData(7386);
         public static readonly SpellData FormShift = DataManager.GetSpellData(4262);
+		public static readonly SpellData FourPointFury = DataManager.GetSpellData(16473);
 
 
         // Shadowbringers Spells
