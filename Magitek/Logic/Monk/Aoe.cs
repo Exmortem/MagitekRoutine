@@ -26,6 +26,23 @@ namespace Magitek.Logic.Monk
 
             return await Spells.Rockbreaker.Cast(Core.Me.CurrentTarget);
         }
+
+        public static async Task<bool> FourPointStrike()
+        {
+            if (!MonkSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.InView()) < MonkSettings.Instance.RockbreakerEnemies)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.PerfectBalance))
+                return false;
+
+            return await Spells.FourPointFury.Cast(Core.Me);
+        }
+
+
+
         public static async Task<bool> ElixerField()
         {
             // Off GCD
