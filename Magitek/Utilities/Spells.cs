@@ -514,8 +514,13 @@ namespace Magitek.Utilities
         public static readonly SpellData UmbralSoul = DataManager.GetSpellData(16506);
         public static readonly SpellData Xenoglossy = DataManager.GetSpellData(16507);
 
-        #region PVP
-        public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
+		//WAR
+		public static readonly SpellData ChaoticCyclone = DataManager.GetSpellData(16462);
+		public static readonly SpellData MythrilTempest = DataManager.GetSpellData(16462);
+		public static readonly SpellData InnerChaos = DataManager.GetSpellData(16465);
+
+		#region PVP
+		public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
         public static readonly SpellData Muse = DataManager.GetSpellData(1583);
         public static readonly SpellData Safeguard = DataManager.GetSpellData(1585);
         public static readonly SpellData Enliven = DataManager.GetSpellData(1580);
