@@ -108,8 +108,8 @@ namespace Magitek.Logic.Warrior
                     return false;
             }
 
-            return await Spells.InnerBeast.Cast(Core.Me.CurrentTarget);
-        }
+			return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
+		}
 
         internal static async Task<bool> FellCleave()
         {
