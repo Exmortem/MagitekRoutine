@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
@@ -58,7 +59,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.ApexArrow)
                 return false;
 
-            if (MagitekActionResourceManager.Bard.SoulVoice < BardSettings.Instance.ApexArrowMinimumSoulVoice)
+            if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.ApexArrowMinimumSoulVoice)
                 return false;
 
             return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);

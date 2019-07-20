@@ -38,16 +38,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GreyMagic, Version=1.0.41.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="GreyMagic">
       <HintPath>..\References\GreyMagic.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged, Version=2.1.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>packages\PropertyChanged.Fody.2.1.4\lib\netstandard1.0\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RebornBuddy, Version=1.0.267.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="RebornBuddy">
       <HintPath>..\References\RebornBuddy.exe</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -153,6 +151,7 @@
     <Compile Include="Extensions\SpellDataExtensions.cs" />
     <Compile Include="Extensions\XivDbItemExtensions.cs" />
     <Compile Include="Gambits\Actions\BaseCastSpellAction.cs" />
+    <Compile Include="Gambits\Actions\CastFillerOnCurrentTargetAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnAllyAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnCurrentTargetAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnEnemyAction.cs" />

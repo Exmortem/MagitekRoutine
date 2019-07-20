@@ -131,13 +131,5 @@ namespace Magitek.Logic.Ninja
 
             return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
         }
-
-        public static async Task<bool> Bunshin()
-        {
-            if (!NinjaSettings.Instance.UseBunshin)
-                return false;
-
-            return await Spells.Bunshin.Cast(Core.Me.CurrentTarget);
-        }
     }
 }

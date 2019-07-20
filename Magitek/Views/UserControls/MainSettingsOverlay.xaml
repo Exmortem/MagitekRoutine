@@ -45,13 +45,17 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                    <CheckBox Content="Reset Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Reset Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                    </StackPanel>
                 </StackPanel>
-
-          
-
+                
                 <ItemsControl Grid.Row="1" ItemsSource="{Binding SettingsToggles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

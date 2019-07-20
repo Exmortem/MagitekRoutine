@@ -1243,11 +1243,8 @@
   "7691": "Chaos",
   "7695": "Omega",
   "7667": "Hedetet",
-  "7669": "Defective Drone",
   "7672": "Mist Dragon",
-  "7667": "Hedetet",
   "7669": "Defective Drone",
-  "7672": "Mist Dragon",
   "7855": "Mark III-B Magitek Colossus",
   "7856": "Prometheus",
   "7858": "Annia quo Soranus",
@@ -1258,6 +1255,7 @@
   "7657": "Ultima, the High Seraph",
   "7909": "Ultima, the High Seraph",
   "7702": "Suzaku",
+  "8361": "Titania",
   "8365": "Titania",
   "8445": "Forgiven Dissonance",
   "8300": "Tesleen, the Forgiven",
@@ -1287,5 +1285,9 @@
   "8297": "Innocence",
   "8298": "Innocence",
   "8353": "Innocence",
-  "8352": "Hades"
+  "8352": "Hades",
+  "8345": "Eden Prime",
+  "8382": "Voidwalker",
+  "8486": "Leviathan",
+  "8350": "Titan"
 }

@@ -168,25 +168,18 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
 
-            if(ActionResourceManager.Bard.Repertoire >= 2 && Utilities.Routines.Bard.SnapShotCheck != 0)
-            {
+            var repertoire = ActionResourceManager.Bard.Repertoire;
+            
+            if (repertoire == 3)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-            }
 
-            if (ActionResourceManager.Bard.Repertoire > 2 || ActionResourceManager.Bard.Repertoire == BardSettings.Instance.PerfectPitchRepertoire)
-            {
+            if (repertoire >= BardSettings.Instance.PerfectPitchRepertoire)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-            }
 
-            if (ActionResourceManager.Bard.Repertoire == 1 && ActionResourceManager.Bard.Timer.TotalMilliseconds < 2000)
-            {
-                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (ActionResourceManager.Bard.Timer.Seconds > 3)
+            if (repertoire == 0)
                 return false;
 
-            if (ActionResourceManager.Bard.Repertoire == 1)
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 3000)
                 return false;
 
             return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);

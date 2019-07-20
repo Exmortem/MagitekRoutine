@@ -71,9 +71,11 @@
                     <RadioButton Name="Paladin" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Paladin, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonPaladin}" />
                     <RadioButton Name="Warrior" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Warrior, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonWarrior}" />
                     <RadioButton Name="DarkKnight" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=DarkKnight, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonDarkknight}" />
+                    <RadioButton Name="Gunbreaker" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Gunbreaker, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonGunbreaker}" />
 
                     <RadioButton Name="Bard" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Bard, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonBard}" />
                     <RadioButton Name="Machinist" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Machinist, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonMachinist}" />
+                    <RadioButton Name="Dancer" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Dancer, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonDancer}" />
 
                     <RadioButton Name="Summoner" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Summoner, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSummoner}" />
                     <RadioButton Name="BlackMage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=BlackMage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonBlackMage}" />
@@ -1652,6 +1654,24 @@
                                                                                                          Tag="SPELL NAME:"
                                                                                                          Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
                                                                                                          Text="{Binding SpellName, Mode=TwoWay}" />
+                                                                                                <CheckBox Margin="3" Content="IS PVP SPELL" IsChecked="{Binding IsPvpSpell, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+
+                                                                                        <DataTemplate DataType="{x:Type actions:CastFillerOnCurrentTargetAction}">
+                                                                                            <StackPanel Margin="3">
+                                                                                                <TextBox CaretBrush="White"
+                                                                                                         FontSize="10"
+                                                                                                         Foreground="{DynamicResource Light}"
+                                                                                                         Tag="FILLER SPELLNAME:"
+                                                                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                         Text="{Binding SpellName, Mode=TwoWay}" />
+                                                                                                <TextBox CaretBrush="White"
+                                                                                                         FontSize="10"
+                                                                                                         Foreground="{DynamicResource Light}"
+                                                                                                         Tag="ON PROC SPELLNAME:"
+                                                                                                         Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                         Text="{Binding ProcName, Mode=TwoWay}" />
                                                                                                 <CheckBox Margin="3" Content="IS PVP SPELL" IsChecked="{Binding IsPvpSpell, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                             </StackPanel>
                                                                                         </DataTemplate>

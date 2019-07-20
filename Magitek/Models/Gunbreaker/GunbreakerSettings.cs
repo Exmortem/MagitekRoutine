@@ -149,5 +149,9 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAoe { get; set; }
     }
 }

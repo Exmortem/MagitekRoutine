@@ -49,6 +49,28 @@
             </Grid>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Aoe" IsChecked="{Binding GunbreakerSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice When There Are At Least" />
+                        <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.DemonSliceEnemies, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Stun With Low Blow" IsChecked="{Binding GunbreakerSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
