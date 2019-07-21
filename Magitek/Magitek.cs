@@ -94,11 +94,6 @@ namespace Magitek
 
         private void OnStart(BotBase bot)
         {
-            if (BaseSettings.Instance.UseOverlay)
-            {
-                StartMainOverlay();
-            }
-
             Logic.OpenerLogic.InOpener = false;
             Logic.OpenerLogic.OpenerQueue.Clear();
             Logic.SpellQueueLogic.SpellQueue.Clear();
@@ -239,6 +234,9 @@ namespace Magitek
                 return;
 
             Form.Show();
+
+            if (BaseSettings.Instance.UseOverlay)
+                StartMainOverlay();
         }
 
         private static SettingsWindow _form;
@@ -257,7 +255,7 @@ namespace Magitek
             }
         }
         
-        private void StartMainOverlay()
+        private static void StartMainOverlay()
         {
             if (!BaseSettings.Instance.UseOverlay)
                 return;
@@ -265,7 +263,7 @@ namespace Magitek
             OverlayManager.StartMainOverlay();
         }
 
-        private void StopMainOverlay()
+        private static void StopMainOverlay()
         {
             OverlayManager.StopMainOverlay();
         }
