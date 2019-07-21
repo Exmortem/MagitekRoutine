@@ -52,7 +52,10 @@ namespace Magitek.Rotations.Machinist
                 if (await Turret.AutomationQueen()) return true;
                 if (await Turret.Rook()) return true;
                 if (await Aoe.Flamethrower()) return true;
-                if (await Buff.Reassemble()) return true;
+
+                if (Core.Me.ClassLevel < Spells.Drill.LevelAcquired)
+                    if (await Buff.Reassemble()) return true;
+
                 if (await SingleTarget.GaussRound()) return true;
 
                 if (MachinistSettings.Instance.UseAoe)

@@ -44,7 +44,14 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
-            return await Spells.Drill.Cast(Core.Me.CurrentTarget);
+            if(ActionManager.CanCast(Spells.Reassemble, Core.Me))
+                if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
+                    return await Spells.Drill.Cast(Core.Me.CurrentTarget);
+
+            if(Casting.LastSpell == Spells.Reassemble || Spells.Reassemble.Cooldown.Milliseconds > 20000)
+                return await Spells.Drill.Cast(Core.Me.CurrentTarget);
+
+            return false;
         }
 
         public static async Task<bool> AirAnchor()

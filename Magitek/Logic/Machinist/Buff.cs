@@ -17,7 +17,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseReassemble)
                 return false;
 
-            return await Spells.Reassemble.Cast(Core.Me);
+            return await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled);
         }
 
         public static async Task<bool> BarrelStabilizer()
