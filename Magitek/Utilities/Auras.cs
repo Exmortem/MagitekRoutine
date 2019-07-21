@@ -172,6 +172,7 @@ namespace Magitek.Utilities
             ReadytoRip = 1842,
             ReadytoTear = 1843,
             ReadytoGouge = 1844,
+            Reassembled = 851,
             RoyalGuard = 1833;
 
         private const int
