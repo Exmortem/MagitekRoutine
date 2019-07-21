@@ -15,15 +15,6 @@ namespace Magitek.Logic.Monk
     {
         public static async Task<bool> Bootshine()
         {
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                if(Core.Me.HasAura(Auras.LeadenFist))
-                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
-
-                return false;
-            }
-            else
-            {
                 if (!Core.Me.HasAura(Auras.OpoOpoForm))
                     return false;
 
@@ -31,18 +22,11 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> TrueStrike()
         {
 
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                return false;
-            }
-            else
-            {
                 if (!Core.Me.HasAura(Auras.RaptorForm))
                     return false;
 
@@ -50,18 +34,11 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.TrueStrike.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> SnapPunch()
         {
 
-            if(Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                return false;
-            }
-            else
-            {
                 if (!Core.Me.HasAura(Auras.CoeurlForm))
                     return false;
 
@@ -69,27 +46,11 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> TwinSnakes()
         {
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
 
-                if (Casting.LastSpell == Spells.PerfectBalance)
-                    return false;
-
-                if (Core.Me.HasAura(Auras.LeadenFist))
-                    return false;
-
-                if (Casting.LastSpell != Spells.Demolish)
-                    return false;
-
-                return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
-            }
-            else
-            {
                 if (!Core.Me.HasAura(Auras.RaptorForm))
                     return false;
 
@@ -97,26 +58,18 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> DragonKick()
         {
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
-            }
-            else
-            {
-
                 if (!Core.Me.HasAura(Auras.OpoOpoForm))
                     return false;
 
-                if (MonkSettings.Instance.DragonKickUseTtd)
-                {
-                    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DragonKickMinimumTtd)
-                        return false;
-                }
+                //if (MonkSettings.Instance.DragonKickUseTtd)
+                //{
+                //    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DragonKickMinimumTtd)
+                //        return false;
+                //}
                 /*else
                 {
                     if (!Core.Me.CurrentTarget.IsBoss())
@@ -130,37 +83,18 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> Demolish()
         {
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                if (Casting.LastSpell == Spells.PerfectBalance)
-                    return false;
-
-                if (Core.Me.HasAura(Auras.LeadenFist))
-                    return false;
-
-                if (Casting.LastSpell == Spells.Demolish)
-                    return false;
-
-                if (Casting.LastSpell == Spells.TwinSnakes)
-                    return false;
-
-                return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
-            }
-            else
-            {
                 if (!Core.Me.HasAura(Auras.CoeurlForm))
                     return false;
 
-                if (MonkSettings.Instance.DemolishUseTtd)
-                {
-                    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DemolishMinimumTtd)
-                        return false;
-                }
+                //if (MonkSettings.Instance.DemolishUseTtd)
+                //{
+                //    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DemolishMinimumTtd)
+                //        return false;
+                //}
                 /*else
                 {
                     if (!Core.Me.CurrentTarget.IsBoss())
@@ -174,7 +108,6 @@ namespace Magitek.Logic.Monk
                     return false;
 
                 return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
-            }
         }
 
         public static async Task<bool> ShoulderTackle()

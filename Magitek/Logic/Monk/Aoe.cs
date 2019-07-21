@@ -53,6 +53,9 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseElixerField)
                 return false;
 
+            if (Spells.ElixirField.Cooldown.Seconds != 0)
+                return false;
+
             if (Core.Me.EnemiesNearby(5).Count() < MonkSettings.Instance.ElixerFieldEnemies)
                 return false;
 

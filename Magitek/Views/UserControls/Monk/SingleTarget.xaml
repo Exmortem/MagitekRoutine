@@ -68,10 +68,10 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Demolish" IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <!--<CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Demolish" IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Not Use Damage Over Time Spells If Enemy Is Dying Within  " />
                 <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumTtd, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />-->
             </Grid>
         </controls:SettingsBlock>
 
@@ -128,10 +128,10 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Dragon Kick" IsChecked="{Binding MonkSettings.DragonKickUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <!--<CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Dragon Kick" IsChecked="{Binding MonkSettings.DragonKickUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Not Use Damage Over Time Spells If Enemy Is Dying Within  " />
                 <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DragonKickMinimumTtd, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />-->
             </Grid>
         </controls:SettingsBlock>
 

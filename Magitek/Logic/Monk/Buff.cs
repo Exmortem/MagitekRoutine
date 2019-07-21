@@ -32,7 +32,6 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FistOfFire()
         {
-
             if (Core.Me.HasAura(Auras.FistsofFire))
                 return false;
 
@@ -44,6 +43,10 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FistOfWind()
         {
+
+            if (Core.Me.ClassLevel < 76)
+                return false;
+            
             if (Core.Me.HasAura(Auras.FistsofWind))
                 return false;
 
