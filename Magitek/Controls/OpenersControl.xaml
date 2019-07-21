@@ -308,6 +308,49 @@
                                                                 </ItemsControl.ItemsPanel>
 
                                                                 <ItemsControl.Resources>
+
+                                                                    <DataTemplate DataType="{x:Type conditions:PlayerInCombatCondition}">
+                                                                        <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN COMBAT">
+                                                                            <StackPanel>
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="PLAYER IN COMBAT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="True" />
+                                                                                <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveStartOpenerCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                    <Button.CommandParameter>
+                                                                                        <MultiBinding Converter="{StaticResource OpenerConditionRemoveConverter}">
+                                                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                            <Binding Path="Id" />
+                                                                                        </MultiBinding>
+                                                                                    </Button.CommandParameter>
+                                                                                </Button>
+                                                                            </StackPanel>
+                                                                        </ComboBox>
+                                                                    </DataTemplate>
+
+                                                                    <DataTemplate DataType="{x:Type conditions:PlayerNotInCombatCondition}">
+                                                                        <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO COMBAT">
+                                                                            <StackPanel>
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="PLAYER NOT IN COMBAT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="True" />
+                                                                                <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveStartOpenerCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                    <Button.CommandParameter>
+                                                                                        <MultiBinding Converter="{StaticResource OpenerConditionRemoveConverter}">
+                                                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                            <Binding Path="Id" />
+                                                                                        </MultiBinding>
+                                                                                    </Button.CommandParameter>
+                                                                                </Button>
+                                                                            </StackPanel>
+                                                                        </ComboBox>
+                                                                    </DataTemplate>
+
                                                                     <DataTemplate DataType="{x:Type conditions:EnemyCastingSpellCondition}">
                                                                         <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ENEMY CASTING">
                                                                             <StackPanel Width="200" Margin="3">
@@ -474,6 +517,36 @@
                                                                         </ComboBox>
                                                                     </DataTemplate>
 
+                                                                    <DataTemplate DataType="{x:Type conditions:DoesNotHaveAuraCondition}">
+                                                                        <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO AURA">
+                                                                            <StackPanel Width="200">
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="AURA NAME:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding AuraName, Mode=TwoWay}" />
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MINIMUM MILLISECONDS LEFT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding AuraMillisecondsMinimum, Mode=TwoWay}" />
+
+
+                                                                                <CheckBox Margin="3" Content="IS MY AURA" IsChecked="{Binding IsMyAura, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
+                                                                                <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveStartOpenerCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                    <Button.CommandParameter>
+                                                                                        <MultiBinding Converter="{StaticResource OpenerConditionRemoveConverter}">
+                                                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                            <Binding Path="Id" />
+                                                                                        </MultiBinding>
+                                                                                    </Button.CommandParameter>
+                                                                                </Button>
+                                                                            </StackPanel>
+                                                                        </ComboBox>
+                                                                    </DataTemplate>
+
                                                                     <DataTemplate DataType="{x:Type conditions:PlayerHasAuraCondition}">
                                                                         <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER HAS AURA">
                                                                             <StackPanel Width="200">
@@ -501,6 +574,36 @@
                                                                                          Tag="AMOUNT OF STACKS:"
                                                                                          Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
                                                                                          Text="{Binding AuraStacks, Mode=TwoWay}" />
+
+                                                                                <CheckBox Margin="3" Content="IS MY AURA" IsChecked="{Binding IsMyAura, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
+                                                                                <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveStartOpenerCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                    <Button.CommandParameter>
+                                                                                        <MultiBinding Converter="{StaticResource OpenerConditionRemoveConverter}">
+                                                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                            <Binding Path="Id" />
+                                                                                        </MultiBinding>
+                                                                                    </Button.CommandParameter>
+                                                                                </Button>
+                                                                            </StackPanel>
+                                                                        </ComboBox>
+                                                                    </DataTemplate>
+
+                                                                    <DataTemplate DataType="{x:Type conditions:PlayerDoesNotHaveAuraCondition}">
+                                                                        <ComboBox Margin="3,0,0,0" Background="{DynamicResource Warning}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER NO AURA">
+                                                                            <StackPanel Width="200">
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="AURA NAME:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding AuraName, Mode=TwoWay}" />
+                                                                                <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MINIMUM MILLISECONDS LEFT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding AuraMillisecondsMinimum, Mode=TwoWay}" />
+
 
                                                                                 <CheckBox Margin="3" Content="IS MY AURA" IsChecked="{Binding IsMyAura, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                 <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveStartOpenerCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
