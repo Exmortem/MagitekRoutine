@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
@@ -17,7 +16,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseReassemble)
                 return false;
 
-            return await Spells.Reassemble.Cast(Core.Me);
+            return await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled);
         }
 
         public static async Task<bool> BarrelStabilizer()
@@ -65,8 +64,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseTactician)
                 return false;
 
-            if (PartyManager.AllMembers.Any(a => a.BattleCharacter.HasAura(Auras.Troubadour) || a.BattleCharacter.HasAura(Auras.ShieldSamba)))
-                return false;
+            if(PartyManager.IsInParty)
+                if (Group.CastableAlliesWithin20.Any(r => r.HasAura(Auras.Troubadour) || r.HasAura(Auras.ShieldSamba)))
+                    return false;
 
             return await Spells.Tactician.Cast(Core.Me);
         }

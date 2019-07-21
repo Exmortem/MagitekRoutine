@@ -173,7 +173,8 @@ namespace Magitek.Utilities
             ReadytoTear = 1843,
             ReadytoGouge = 1844,
             RoyalGuard = 1833,
-			NascentChaos = 1897;
+			      NascentChaos = 1897;
+            Reassembled = 851,
 
         private const int
             Invincibility0 = 981,

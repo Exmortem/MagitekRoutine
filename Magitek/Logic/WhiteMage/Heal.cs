@@ -489,7 +489,12 @@ namespace Magitek.Logic.WhiteMage
             if (canPlenaryIndulgence < WhiteMageSettings.Instance.PlenaryIndulgenceAllies)
                 return false;
 
-            return await Spells.PlenaryIndulgence.Cast(Core.Me);
+            if (await Spells.PlenaryIndulgence.Cast(Core.Me))
+                if (!await Cure3())
+                    if (!await Medica2())
+                        return await Spells.Medica.Cast(Core.Me);
+
+            return false;
         }
 
         public static async Task<bool> AfflatusSolace()
@@ -515,12 +520,7 @@ namespace Magitek.Logic.WhiteMage
                     if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTankTarget)
                         return false;
 
-                    if (await Spells.AfflatusSolace.Heal(afflatusSolaceTankTarget, false))
-                        if (!await Cure3())
-                            if (!await Medica2())
-                                return await Spells.Medica.Cast(Core.Me);
-
-                    return false;
+                    return await Spells.AfflatusSolace.Heal(afflatusSolaceTankTarget, false);
                 }
 
                 var afflatusSolaceTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.WhiteMage.DontAfflatusSolace.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AfflatusSolaceHealthPercent);
@@ -531,12 +531,7 @@ namespace Magitek.Logic.WhiteMage
                 if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTarget)
                     return false;
 
-                if (await Spells.AfflatusSolace.Heal(afflatusSolaceTarget, false))
-                    if (!await Cure3())
-                        if (!await Medica2())
-                            return await Spells.Medica.Cast(Core.Me);
-
-                return false;
+                return await Spells.AfflatusSolace.Heal(afflatusSolaceTarget, false);
             }
             else
             {

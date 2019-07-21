@@ -15,6 +15,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AoeEnemies)
                 return false;
 
+            if (ActionManager.CanCast(Spells.Reassemble, Core.Me))
+                await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled);
+
             return await Spells.SpreadShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -37,24 +40,20 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> AutoCrossbow()
         {
             if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AoeEnemies)
-            {
                 return false;
-            }
+
+            if (ActionManager.CanCast(Spells.Reassemble, Core.Me))
+                await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled);
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
-
-
+        
         public static async Task<bool> Flamethrower()
         {
             if (!MachinistSettings.Instance.UseFlameThrower)
                 return false;
 
             if (MovementManager.IsMoving)
-                return false;
-
-            // Stop if we're overheated 
-            if (ActionResourceManager.Machinist.OverheatRemaining.Milliseconds > 1)
                 return false;
 
             if (Core.Me.EnemiesInCone(8) < MachinistSettings.Instance.FlamethrowerEnemies)

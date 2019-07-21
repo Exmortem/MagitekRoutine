@@ -37,6 +37,7 @@ namespace Magitek.Utilities
             DeadAllies.Clear();
             CastableTanks.Clear();
             CastableAlliesWithin30.Clear();
+            CastableAlliesWithin20.Clear();
             CastableAlliesWithin15.Clear();
             CastableAlliesWithin10.Clear();
 
@@ -70,10 +71,12 @@ namespace Magitek.Utilities
                         var distance = ally.Distance(Core.Me);
 
                         if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
+                        if (distance <= 30) { CastableAlliesWithin20.Add(ally); }
                         if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
                         if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
 
                         CastableAlliesWithin30.Add(Core.Me);
+                        CastableAlliesWithin20.Add(Core.Me);
                         CastableAlliesWithin15.Add(Core.Me);
                         CastableAlliesWithin10.Add(Core.Me);
                     }
@@ -117,6 +120,7 @@ namespace Magitek.Utilities
                 var distance = ally.Distance(Core.Me);
 
                 if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
+                if (distance <= 30) { CastableAlliesWithin20.Add(ally); }
                 if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
                 if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
             }
@@ -140,6 +144,7 @@ namespace Magitek.Utilities
         public static readonly List<Character> DeadAllies = new List<Character>();       
         public static readonly List<Character> CastableTanks = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
+        public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin15 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin10 = new List<Character>();
     }
