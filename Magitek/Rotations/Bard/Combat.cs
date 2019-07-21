@@ -61,7 +61,6 @@ namespace Magitek.Rotations.Bard
                 if (await Aoe.RainOfDeath()) return true;
                 if (await SingleTarget.Bloodletter()) return true;
                 if (await SingleTarget.RepellingShot()) return true;
-                if (await SingleTarget.Feint()) return true;
             }
 
             if (await Aoe.ApexArrow()) return true;

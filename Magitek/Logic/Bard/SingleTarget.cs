@@ -9,21 +9,30 @@ using Magitek.Models.Bard;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 using ff14bot;
+using QuickGraph;
 
 namespace Magitek.Logic.Bard
 {
     internal static class SingleTarget
     {
+
+        public static async Task<bool> HeavyShot()
+        {
+            if (Core.Me.ClassLevel < 76)
+                return await Spells.HeavyShot.Cast(Core.Me.CurrentTarget);
+
+            return await Spells.BurstShot.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> StraightShot()
         {
             if (!Core.Me.HasAura(Auras.StraighterShot))
                 return false;
 
-            // If we don't have Barrage, cast it
-            if (!ActionManager.HasSpell(Spells.Barrage.Id))
+            if (Core.Me.ClassLevel < 70)
                 return await Spells.StraightShot.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.StraightShot.Cast(Core.Me.CurrentTarget);
+            return await Spells.RefulgentArrow.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> RefulgentBarrage()
@@ -75,11 +84,6 @@ namespace Magitek.Logic.Bard
             return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> HeavyShot()
-        {
-            return await Spells.HeavyShot.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> RepellingShot()
         {
             if (!BardSettings.Instance.RepellingShot)
@@ -109,20 +113,6 @@ namespace Magitek.Logic.Bard
 
                 return await Spells.RepellingShot.Cast(Core.Me.CurrentTarget);
             }
-        }
-
-        public static async Task<bool> Feint()
-        {
-            if (!BardSettings.Instance.Feint)
-                return false;
-
-            if (!MovementManager.IsMoving)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Feint.Id))
-                return false;
-
-            return await Spells.Feint.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SidewinderAndShadowbite()
