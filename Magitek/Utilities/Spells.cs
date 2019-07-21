@@ -51,8 +51,10 @@ namespace Magitek.Utilities
         public static readonly SpellData Malefic = DataManager.GetSpellData(3596);
         public static readonly SpellData Malefic2 = DataManager.GetSpellData(3598);
         public static readonly SpellData Malefic3 = DataManager.GetSpellData(7442);
+        public static readonly SpellData Malefic4 = DataManager.GetSpellData(16555);
         public static readonly SpellData Combust = DataManager.GetSpellData(3599);
         public static readonly SpellData Combust2 = DataManager.GetSpellData(3608);
+        public static readonly SpellData Combust3 = DataManager.GetSpellData(16554);
         public static readonly SpellData Gravity = DataManager.GetSpellData(3615);
         public static readonly SpellData Lightspeed = DataManager.GetSpellData(3606);
         public static readonly SpellData DiurnalSect = DataManager.GetSpellData(3604);
