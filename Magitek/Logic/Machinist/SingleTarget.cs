@@ -48,7 +48,7 @@ namespace Magitek.Logic.Machinist
                 if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
                     return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
-            if(Casting.LastSpell == Spells.Reassemble || Spells.Reassemble.Cooldown.Milliseconds > 20000)
+            if(Casting.LastSpell == Spells.Reassemble || Spells.Reassemble.Cooldown.TotalMilliseconds > 20000)
                 return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
             return false;
