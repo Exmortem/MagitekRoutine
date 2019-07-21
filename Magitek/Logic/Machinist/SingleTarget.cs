@@ -51,7 +51,10 @@ namespace Magitek.Logic.Machinist
                 if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
                     return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
-            if(Casting.LastSpell == Spells.Reassemble || Spells.Reassemble.Cooldown.TotalMilliseconds > 20000)
+            if(Casting.LastSpell == Spells.Reassemble)
+                return await Spells.Drill.Cast(Core.Me.CurrentTarget);
+
+            if(Spells.Reassemble.Cooldown.TotalMilliseconds > 20000 && Spells.AirAnchor.Cooldown.TotalMilliseconds < Spells.Reassemble.Cooldown.TotalMilliseconds)
                 return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -63,7 +66,10 @@ namespace Magitek.Logic.Machinist
                 if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
                     return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
 
-            if(Casting.LastSpell == Spells.Reassemble || Spells.Reassemble.Cooldown.TotalMilliseconds > 20000)
+            if(Casting.LastSpell == Spells.Reassemble)
+                return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
+
+            if(Spells.Reassemble.Cooldown.TotalMilliseconds > 40000 && Spells.Drill.Cooldown.TotalMilliseconds < Spells.Reassemble.Cooldown.TotalMilliseconds)
                 return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
 
             return false;
