@@ -14,22 +14,26 @@ namespace Magitek.Logic.Warrior
     {
         internal static async Task<bool> SteelCyclone()
         {
-            if (!WarriorSettings.Instance.UseSteelCyclone)
-                return false;
+			if (!WarriorSettings.Instance.UseDecimate)
+				return false;
 
-            if (!Core.Me.HasAura(Auras.Defiance))
-                return false;
+			if (!Core.Me.HasAura(Auras.Defiance))
+				return false;
 
-            if (ActionResourceManager.Warrior.BeastGauge < 50 && !Core.Me.HasAura(Auras.InnerRelease))
-                return false;
+			if (ActionResourceManager.Warrior.BeastGauge < 50 && !Core.Me.HasAura(Auras.InnerRelease))
+				return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.SteelCycloneMinimumEnemies)
-                return false;
+			if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies) 
+				return false;
 
-            return await Spells.SteelCyclone.Cast(Core.Me);
-        }
+			if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < 50) 
+				return await Spells.ChaoticCyclone.Cast(Core.Me);
 
-        internal static async Task<bool> Decimate()
+			return await Spells.Decimate.Cast(Core.Me);
+		}
+
+
+		internal static async Task<bool> Decimate()
         {
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;
@@ -49,16 +53,12 @@ namespace Magitek.Logic.Warrior
             return await Spells.Decimate.Cast(Core.Me);
         }
 
-        internal static async Task<bool> Overpower()
+       internal static async Task<bool> Overpower()
+		
+		
         {
-            if (!WarriorSettings.Instance.UseOverpower)
+            if (!WarriorSettings.Instance.UseOverpower) 
                 return false;
-
-            if (WarriorSettings.Instance.OverpowerOnlyAsMainTank)
-            {
-                if (!WarriorSettings.Instance.IsMainTank)
-                    return false;
-            }
 
             if (Core.Me.CurrentTarget == null)
                 return false;
@@ -77,8 +77,13 @@ namespace Magitek.Logic.Warrior
                 if (Casting.LastSpell == Spells.Maim)
                     return false;
             }
+			if (ActionManager.LastSpell == Spells.MythrilTempest && WarriorSettings.Instance.UseOverpower && Core.Me.ClassLevel >= 40)
+			{
+				return await Spells.MythrilTempest.Cast(Core.Me);
+			}
+			return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
 
-            if (!ActionManager.HasSpell(Spells.Overpower.Id))
+			if (!ActionManager.HasSpell(Spells.Overpower.Id))
                 return false;
 
 

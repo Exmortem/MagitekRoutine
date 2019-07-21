@@ -17,8 +17,8 @@ namespace Magitek.Logic.Warrior
             if (WarriorSettings.Instance.IsMainTank && !Core.Me.HasAura(Auras.Defiance))
                 return await Spells.Defiance.Cast(Core.Me);
 
-            if (!WarriorSettings.Instance.IsMainTank && !Core.Me.HasAura(Auras.Deliverance))
-                return await Spells.Deliverance.Cast(Core.Me);
+            if (!WarriorSettings.Instance.IsMainTank && !Core.Me.HasAura(Auras.Defiance))
+                return true;
 
             return false;
         }
@@ -48,8 +48,8 @@ namespace Magitek.Logic.Warrior
             if (!ActionManager.HasSpell(Spells.InnerRelease.Id))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Deliverance))
-                return false;
+            if (!Core.Me.HasAura(Auras.Defiance))
+                return true;
 
             if (!Core.Me.HasAura(Auras.StormsEye, true, 17000))
                 return false;
