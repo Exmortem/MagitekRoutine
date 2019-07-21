@@ -65,8 +65,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseTactician)
                 return false;
 
-            if (PartyManager.AllMembers.Any(a => a.BattleCharacter.HasAura(Auras.Troubadour) || a.BattleCharacter.HasAura(Auras.ShieldSamba)))
-                return false;
+            if(PartyManager.IsInParty)
+                if (Group.CastableAlliesWithin20.Any(r => r.HasAura(Auras.Troubadour) || r.HasAura(Auras.ShieldSamba)))
+                    return false;
 
             return await Spells.Tactician.Cast(Core.Me);
         }
