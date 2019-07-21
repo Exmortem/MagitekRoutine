@@ -12,7 +12,6 @@ namespace Magitek.Rotations.Machinist
 {
     internal static class Combat
     {
-  
         public static async Task<bool> Execute()
         {
             if (BotManager.Current.IsAutonomous)
