@@ -66,7 +66,6 @@ namespace Magitek.Rotations.Machinist
                 
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.AirAnchor()) return true;
-            if (await SingleTarget.HeatBlast()) return true;
 
             if (MachinistSettings.Instance.UseAoe)
             {
@@ -74,6 +73,7 @@ namespace Magitek.Rotations.Machinist
                 if (await Aoe.SpreadShot()) return true;
             }
 
+            if (await SingleTarget.HeatBlast()) return true;
             if (await SingleTarget.HotShot()) return true;
             if (await SingleTarget.CleanShot()) return true;
             if (await SingleTarget.SlugShot()) return true;
