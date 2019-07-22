@@ -17,11 +17,50 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" Content="Pitch Perfect At " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.PerfectPitchRepertoire, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Repertoire" />
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Pitch Perfect At " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.PerfectPitchRepertoire, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Repertoire" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Empyreal Arrow " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Delay Empyreal Arrow before the End of Army's Paeon " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="If Army's Paeon Ends In " Margin="30,0,0,0" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.NaturesMinneHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Bloodletter " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Prioritize Bloodletter during Mage's Ballard" IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Sidewinder " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Margin="5" Content=" Use HeavyShot/BurstShot " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use StraightShot/Refulgent Arrow " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
