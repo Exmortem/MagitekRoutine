@@ -57,7 +57,7 @@ namespace Magitek.Rotations.Paladin
             if (await SingleTarget.Atonement()) return true;
 
 
-            if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel  <60)
+            if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel  <54)
             {
                 var rageTarget = Utilities.Combat.Enemies.FirstOrDefault(r => r.TargetGameObject != Core.Me && ActionManager.CanCast(Spells.RageofHalone, r));
 
@@ -70,7 +70,7 @@ namespace Magitek.Rotations.Paladin
             #region Last Spell RiotBlade
             if (ActionManager.LastSpell == Spells.RiotBlade)
             {
-                if (Core.Me.ClassLevel > 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
+                if (Core.Me.ClassLevel >= 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
                 {
                     if (await Spells.GoringBlade.Cast(Core.Me.CurrentTarget)) return true;
                 }
