@@ -18,47 +18,6 @@
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Refresh Damage Over Time Abilites When There Are " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DotRefreshTime, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content="Do Not Use Damage Over Time Abilities If Enemy Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfEnemyIsDyingWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DontDotIfEnemyIsDyingWithinSeconds, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-                </StackPanel>
-
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use Windbite/StormBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindbite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotWindbiteMaxTargets, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use VenomousBite/CausticBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotVenomousBiteMaxTargets, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
-                </StackPanel>
-
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Horizontal">
                 <CheckBox Margin="5" Content="Pitch Perfect At " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.PerfectPitchRepertoire, Mode=TwoWay}" />

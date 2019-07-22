@@ -587,6 +587,9 @@
     <Compile Include="Views\UserControls\Bard\Cooldowns.xaml.cs">
       <DependentUpon>Cooldowns.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Bard\DamageOverTime.xaml.cs">
+      <DependentUpon>DamageOverTime.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Bard\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
@@ -1019,6 +1022,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bard\Cooldowns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\DamageOverTime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

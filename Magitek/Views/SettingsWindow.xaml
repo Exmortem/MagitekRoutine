@@ -765,6 +765,9 @@
                         <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
                             <bard:SingleTarget />
                         </TabItem>
+                        <TabItem Header="Damage Over Time " Style="{DynamicResource MainTabDamageOverTime}">
+                            <bard:DamageOverTime />
+                        </TabItem>
                         <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
                             <bard:Aoe />
                         </TabItem>
