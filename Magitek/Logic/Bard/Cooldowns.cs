@@ -16,13 +16,18 @@ namespace Magitek.Logic.Bard
         public static async Task<bool> RagingStrikes()
         {
 
-            if (!BardSettings.Instance.RagingStrikes)
+            if (!BardSettings.Instance.UseRageingStrikes)
                 return false;
 
             if (Spells.RagingStrikes.Cooldown != TimeSpan.Zero)
                 return false;
 
-            switch (BardSettings.Instance.CombatBuffStrategy)
+            if (BardSettings.Instance.DelayRageingStrikesUntilBarrageIsReady)
+                if (Spells.Barrage.Cooldown != TimeSpan.Zero)
+                    return false;
+            
+
+            switch (BardSettings.Instance.UseCoolDowns)
             {
                 case BuffStrategy.OnlyBosses when Core.Me.CurrentTarget.IsBoss():
                     break;
@@ -32,13 +37,13 @@ namespace Magitek.Logic.Bard
                     return false;
             }
 
-            if (BardSettings.Instance.RagingStrikesOnlyInWM)
+            if (BardSettings.Instance.UseRageingStrikesOnlyDuringWanderersMinuet)
             {
                 if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 {
                     if (BardSettings.Instance.DelayRageingStrikes)
                     {
-                        if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.RageingStrikesAtSecondsLeft)
+                        if (ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsRemaining)
                             return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
                         return false;

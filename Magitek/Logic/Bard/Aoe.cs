@@ -9,6 +9,18 @@ namespace Magitek.Logic.Bard
 {
     public class Aoe
     {
+        public static async Task<bool> ApexArrow()
+        {
+            if (!BardSettings.Instance.UseApexArrow)
+                return false;
+
+            if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.UseApexArrowWithAtLeastXSoulVoice)
+                return false;
+
+            return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
+        }
+
+        /*
         public static async Task<bool> QuickNock()
         {
             if (!BardSettings.Instance.QuickNock)
@@ -53,16 +65,8 @@ namespace Magitek.Logic.Bard
 
             return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
         }
+        */
 
-        public static async Task<bool> ApexArrow()
-        {
-            if (!BardSettings.Instance.ApexArrow)
-                return false;
-
-            if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.ApexArrowMinimumSoulVoice)
-                return false;
-
-            return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
-        }
     }
+    
 }

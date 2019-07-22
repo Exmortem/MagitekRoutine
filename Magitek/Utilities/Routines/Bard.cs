@@ -13,7 +13,7 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static int SnapShotCheck =0;
+        public static int SnapShotCheck = 0;
         public static int TrickAttackCheck = 0;
 
         public static void RefreshVars()
@@ -39,13 +39,13 @@ namespace Magitek.Utilities.Routines
             if (tar.EnglishName.Contains("Dummy"))
                 return true;
 
-            if (BardSettings.Instance.DontDotIfEnemyIsDyingWithin)
+            if (BardSettings.Instance.DontDotIfEnemyIsDyingSoon)
             {
                 // Target doesn't have a combat time left yet
                 if (Combat.CurrentTargetCombatTimeLeft < 0)
                     return true;
 
-                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfEnemyIsDyingWithinSeconds;
+                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds;
             }
 
             if (tar.IsBoss())

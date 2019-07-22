@@ -65,12 +65,12 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.ApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When We Have At Least " />
                 <controls:Numeric Margin="0,3,0,0"
                                   MaxValue="100"
                                   MinValue="1"
-                                  Value="{Binding BardSettings.ApexArrowMinimumSoulVoice, Mode=TwoWay}" />
+                                  Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
             </StackPanel>
         </controls:SettingsBlock>

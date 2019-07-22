@@ -14,7 +14,7 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> LetMeSingYouTheSongOfMyPeople()
         {
-            if (!BardSettings.Instance.PlaySongs)
+            if (!BardSettings.Instance.UseSongs)
                 return false;
 
             if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
@@ -23,7 +23,7 @@ namespace Magitek.Logic.Bard
             if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
                 return false;
 
-            switch (BardSettings.Instance.SongOrderStrategy)
+            switch (BardSettings.Instance.CurrentSongPlaylist)
             {
                 case SongStrategy.WM_MB_AP: // < 3 Targets
                     if (await WanderersMinuet()) return true;
@@ -53,9 +53,9 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
             //Cut AP Strat
-            if (BardSettings.Instance.EndAPEarly /* && BardSettings.Instance.SongOrderStrategy != SongStrategy.MB_AP_WM */) //FlexibleCode vs UserResponsibility
+            if (BardSettings.Instance.EndArmysPaeonEarly /* && BardSettings.Instance.SongOrderStrategy != SongStrategy.MB_AP_WM */) //FlexibleCode vs UserResponsibility
             {
-                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndAPEarlyTimeLeft)
+                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
                     return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
             }
 

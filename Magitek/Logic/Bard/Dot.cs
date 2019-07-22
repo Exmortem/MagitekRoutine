@@ -15,6 +15,9 @@ namespace Magitek.Logic.Bard
     {
         public static async Task<bool> Windbite(GameObject windbiteTarget)
         {
+            if (!BardSettings.Instance.UseWindBite)
+                return false;
+
             if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.Windbite.Id))
                 return false;
 
@@ -40,6 +43,9 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> VenomousBite(GameObject venomousBiteTarget)
         {
+            if (!BardSettings.Instance.UseVenomousBite)
+                return false;
+
             if (Core.Me.ClassLevel < 64)
             {
                 if (Casting.LastSpell == Spells.VenomousBite && Casting.LastSpellTarget == venomousBiteTarget)
@@ -62,13 +68,16 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> IronJaws(GameObject ironJawsTarget)
         {
+            if (!BardSettings.Instance.UseIronJaws)
+                return false;
+
             if (Casting.LastSpell == Spells.IronJaws && Casting.LastSpellTarget == ironJawsTarget)
                 return false;
 
             if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
                 return false;
 
-            if (ironJawsTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.DotRefreshTime * 1000))
+            if (ironJawsTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000))
                 return false;
 
             return await Spells.IronJaws.Cast(ironJawsTarget);
@@ -97,16 +106,17 @@ namespace Magitek.Logic.Bard
             if (Core.Me.ClassLevel < 6) //No Dots at this point
                 return false;
 
-            if (BardSettings.Instance.DotMultipleTargets)
+            if (BardSettings.Instance.EnableMultiDotting)
             {
 
                 BattleCharacter multiDotTarget = null;
                 int numberOfAttackers = GameObjectManager.NumberOfAttackers;
 
-                if (BardSettings.Instance.MultiDotWindbite)
+                //Doenst make Sense to MultiDot stuff but not our main target
+                if (BardSettings.Instance.UseWindBite && BardSettings.Instance.MultiDotWindBite)
                 {
-                    if (BardSettings.Instance.MultiDotWindbiteMaxTargets == 0 ||
-                        BardSettings.Instance.MultiDotWindbiteMaxTargets <= numberOfAttackers)
+                    if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies == 0 ||
+                        BardSettings.Instance.MultiDotWindBiteUpToXEnemies <= numberOfAttackers)
                     {
                         if (Core.Me.ClassLevel < 64)
                         {
@@ -114,8 +124,7 @@ namespace Magitek.Logic.Bard
                             {
                                 multiDotTarget = Combat.Enemies.FirstOrDefault(r =>
                                     r.InLineOfSight() && !r.HasAura(Auras.Windbite)
-                                                      && r.CombatTimeLeft() > BardSettings.Instance
-                                                          .DontDotIfEnemyIsDyingWithinSeconds
+                                                      && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
                                                       && r != Core.Me.CurrentTarget);
 
                                 if (multiDotTarget != null)
@@ -132,8 +141,7 @@ namespace Magitek.Logic.Bard
                         {
                             multiDotTarget = Combat.Enemies.FirstOrDefault(r =>
                                 r.InLineOfSight() && !r.HasAura(Auras.StormBite)
-                                                  && r.CombatTimeLeft() > BardSettings.Instance
-                                                      .DontDotIfEnemyIsDyingWithinSeconds
+                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
                                                   && r != Core.Me.CurrentTarget);
 
                             if (multiDotTarget != null)
@@ -148,15 +156,15 @@ namespace Magitek.Logic.Bard
                     }
                 }
 
-                if (BardSettings.Instance.MultiDotVenomousBite)
+                if (BardSettings.Instance.UseVenomousBite && BardSettings.Instance.MultiDotVenomousBite)
                 {
-                    if (BardSettings.Instance.MultiDotVenomousBiteMaxTargets == 0 ||
-                        BardSettings.Instance.MultiDotVenomousBiteMaxTargets <= numberOfAttackers)
+                    if (BardSettings.Instance.MultiDotVenomousBiteUpToXEnemies == 0 ||
+                        BardSettings.Instance.MultiDotVenomousBiteUpToXEnemies <= numberOfAttackers)
                     {
                         if (Core.Me.ClassLevel < 64)
                         {
                             multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAura(Auras.VenomousBite)
-                                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinSeconds
+                                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
                                                                                                   && r != Core.Me.CurrentTarget);
 
                             if (multiDotTarget != null)
@@ -171,7 +179,7 @@ namespace Magitek.Logic.Bard
                         else
                         {
                             multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAura(Auras.CausticBite)
-                                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinSeconds
+                                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
                                                                                                   && r != Core.Me.CurrentTarget);
 
                             if (multiDotTarget != null)
@@ -187,13 +195,13 @@ namespace Magitek.Logic.Bard
                 }
                 //We wont need to IJ when we dont want double DoTs on everything
                 //Also is a bandaid workaround to fix casting IJ when only 1 DoT is active, gonna look into that logic at a later point
-                if (/*BardSettings.Instance.MultiDotIronJaws &&*/ BardSettings.Instance.MultiDotVenomousBite && BardSettings.Instance.MultiDotWindbite) 
+                if (/*BardSettings.Instance.MultiDotIronJaws &&*/ BardSettings.Instance.MultiDotVenomousBite && BardSettings.Instance.MultiDotWindBite) 
                 {
                     if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
                         return false;
 
-                    multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.DotRefreshTime * 1000)
-                                                                                          && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinSeconds
+                    multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000)
+                                                                                          && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
                                                                                           && r != Core.Me.CurrentTarget);
                     if (multiDotTarget != null)
                     {

@@ -13,13 +13,179 @@ namespace Magitek.Models.Bard
 
         public static BardSettings Instance { get; set; } = new BardSettings();
 
+        #region SingleTarget
+
         [Setting]
         [DefaultValue(true)]
-        public bool PerfectPitch { get; set; }
-        
+        public bool UseHeavyShot { get; set; }
+
         [Setting]
-        [DefaultValue(2)]
-        public int PerfectPitchRepertoire { get; set; }
+        [DefaultValue(true)]
+        public bool UseStraightShot { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBloodletter { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool PrioritizeBloodletterDuringMagesBallard { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSidewinder { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEmpyrealArrow { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DelayEmpyrealArrowUntilAPEnds { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int EmpyrealArrowWaitTimeInSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePitchPerfect { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int UsePitchPerfectAtRepertoire { get; set; }
+
+        #endregion
+
+        #region DamageOverTime
+
+        [Setting]
+        [DefaultValue(3)]
+        public int RefreshDotsWithLessThanXSecondsRemaining { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DontDotIfEnemyIsDyingSoon { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int DontDotIfEnemyIsDyingWithinXSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseWindBite { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseVenomousBite { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseIronJaws { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool SnapShotWithIronJaws { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool EnableMultiDotting { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool MultiDotWindBite { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int MultiDotWindBiteUpToXEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool MultiDotVenomousBite { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int MultiDotVenomousBiteUpToXEnemies { get; set; }
+
+        #endregion
+
+        #region AoE
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseApexArrow { get; set; }
+
+        [Setting]
+        [DefaultValue(100)]
+        public int UseApexArrowWithAtLeastXSoulVoice { get; set; }
+
+        #endregion
+
+        #region Songs
+
+        [Setting]
+        [DefaultValue(SongStrategy.WM_MB_AP)]
+        public SongStrategy CurrentSongPlaylist { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSongs { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool EndArmysPaeonEarly { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int EndArmysPaeonEarlyWithXSecondsRemaining { get; set; }
+
+        #endregion
+
+        #region Cooldowns
+
+        [Setting]
+        [DefaultValue(BuffStrategy.Always)]
+        public BuffStrategy UseCoolDowns { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRageingStrikes { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRageingStrikesOnlyDuringWanderersMinuet { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DelayRageingStrikesUntilBarrageIsReady { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DelayRageingStrikesDuringWanderersMinuet { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int DelayRageingStrikesDuringWanderersMinuetUntilXSecondsRemaining { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBarrage { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBarrageOnlyWithRageingStrike { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBattleVoice { get; set; }
+
+        #endregion
+
+        #region Utilities
+
+
+
+        #endregion
 
         [Setting]
         [DefaultValue(true)]
@@ -31,19 +197,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseBattleVoice { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseBattleVoiceOnBossOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RagingStrikes { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RagingStrikesOnlyInWM { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -53,49 +207,14 @@ namespace Magitek.Models.Bard
         [DefaultValue(4)]
         public int RageingStrikesAtSecondsLeft { get; set; }
 
-        [Setting]
-        [DefaultValue(BuffStrategy.Always)]
-        public BuffStrategy CombatBuffStrategy { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseWanderersMinuet { get; set; }
 
         [Setting]
-        [DefaultValue(6)]
-        public int DotRefreshTime { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool DotMultipleTargets { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool MultiDotWindbite { get; set; }
-
-        [Setting]
-        [DefaultValue(0)]
-        public int MultiDotWindbiteMaxTargets { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool MultiDotVenomousBite { get; set; }
-
-        [Setting]
-        [DefaultValue(6)]
-        public int MultiDotVenomousBiteMaxTargets { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool MultiDotIronJaws { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DontDotIfEnemyIsDyingWithin { get; set; }
-
-        [Setting]
-        [DefaultValue(20)]
-        public int DontDotIfEnemyIsDyingWithinSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -112,22 +231,6 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool UseAoeBeforeDots { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PlaySongs { get; set; }
-
-        [Setting]
-        [DefaultValue(SongStrategy.WM_MB_AP)]
-        public SongStrategy SongOrderStrategy { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EndAPEarly { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int EndAPEarlyTimeLeft { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -170,10 +273,6 @@ namespace Magitek.Models.Bard
         public bool NaturesMinneDps { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool RagingStrikeAfterWanderersMinuet { get; set; }
-
-        [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 
@@ -181,12 +280,5 @@ namespace Magitek.Models.Bard
         [DefaultValue(false)]
         public bool UseSideWinderOnlyOnTrick { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool ApexArrow { get; set; }
-
-        [Setting]
-        [DefaultValue(70)]
-        public int ApexArrowMinimumSoulVoice { get; set; }
     }
 }

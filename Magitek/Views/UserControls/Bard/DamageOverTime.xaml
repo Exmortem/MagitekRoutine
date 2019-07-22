@@ -17,42 +17,70 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
-
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Refresh Damage Over Time Abilites When There Are " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DotRefreshTime, Mode=TwoWay}" />
+                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="Refresh Damage Over Time Abilites When There Are " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.RefreshDotsWithLessThanXSecondsRemaining, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
                 </StackPanel>
 
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content="Do Not Use Damage Over Time Abilities If Enemy Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfEnemyIsDyingWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DontDotIfEnemyIsDyingWithinSeconds, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Enemy Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfEnemyIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfEnemyIsDyingWithinXSeconds, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use Windbite/StormBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindbite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotWindbiteMaxTargets, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Windbite/StormBite" IsChecked="{Binding BardSettings.UseWindBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use VenomousBite/CausticBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotVenomousBiteMaxTargets, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite" IsChecked="{Binding BardSettings.UseVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Iron Jaws" IsChecked="{Binding BardSettings.UseIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Snapshot Iron Jaws" IsChecked="{Binding BardSettings.SnapShotWithIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Multi Dotting" IsChecked="{Binding BardSettings.EnableMultiDotting, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Windbite/StormBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotWindBiteUpToXEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
+                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotVenomousBiteUpToXEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
                 </StackPanel>
 
             </StackPanel>

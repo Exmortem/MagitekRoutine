@@ -18,6 +18,9 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> HeavyShot()
         {
+            if (!BardSettings.Instance.UseHeavyShot)
+                return false;
+
             if (Core.Me.ClassLevel < 76)
                 return await Spells.HeavyShot.Cast(Core.Me.CurrentTarget);
 
@@ -26,6 +29,9 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> StraightShot()
         {
+            if (!BardSettings.Instance.UseStraightShot)
+                return false;
+
             if (!Core.Me.HasAura(Auras.StraighterShot))
                 return false;
 
@@ -37,7 +43,7 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> PitchPerfect()
         {
-            if (!BardSettings.Instance.PerfectPitch)
+            if (!BardSettings.Instance.UsePitchPerfect)
                 return false;
 
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
@@ -50,18 +56,21 @@ namespace Magitek.Logic.Bard
             if (repertoire == 3)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
-            if (repertoire >= BardSettings.Instance.PerfectPitchRepertoire)
+            if (repertoire >= BardSettings.Instance.UsePitchPerfectAtRepertoire)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             //Logic to catch the last possible PP
             //if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 3000)
             //    return false;
 
-            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+            return false;
         }
 
         public static async Task<bool> BloodletterInMagesBallard()
         {
+            if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
+                return false;
+
             if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
                 return false;
 
@@ -72,6 +81,9 @@ namespace Magitek.Logic.Bard
         }
         public static async Task<bool> Bloodletter()
         {
+            if (!BardSettings.Instance.UseBloodletter)
+                return false;
+
             if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
                 return false;
 
@@ -81,6 +93,9 @@ namespace Magitek.Logic.Bard
         //Add Advanced Logic for end of AP need to be added
         public static async Task<bool> EmpyrealArrow()
         {
+            if (!BardSettings.Instance.UseEmpyrealArrow)
+                return false;
+
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return false;
 
@@ -89,6 +104,9 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> Sidewinder()
         {
+            if (!BardSettings.Instance.UseSidewinder)
+                return false;
+
             if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
                 return false;
 
