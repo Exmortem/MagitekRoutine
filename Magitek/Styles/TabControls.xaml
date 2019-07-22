@@ -559,6 +559,44 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MainTabUtilities" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+
+                    <Border Name="Background" Margin="0,0,2,0">
+                        <Grid Margin="15,3" IsHitTestVisible="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Name="Path"
+                                  Height="12"
+                                  VerticalAlignment="Center"
+                                  Data="M58 40 L58 24 L40 24 L40 6 L24 6 L24 24 L6 24 L6 40 L24 40 L24 58 L40 58 L40 40 Z"
+                                  Fill="{DynamicResource MainTabUnselected}"
+                                  Stretch="Uniform" />
+                            <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource MainTabSelected}" />
+                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabBackgroundSelected}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MainTabDefensives" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">

@@ -15,32 +15,7 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:InterruptStrategy" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <StackPanel Margin="10">
-
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Rest When Under  " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.RestHealthPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Repelling Shot  " IsChecked="{Binding BardSettings.RepellingShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Only When Being Targeted" IsChecked="{Binding BardSettings.RepellingShotOnlyWhenTargeted, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -58,10 +33,26 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use Damage Over Time On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.DotMultipleTargets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MaximumTargetsToMultiDot, Mode=TwoWay}" />
+                    <CheckBox Content=" Use Windbite/StormBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindbite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotWindbiteMaxTargets, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
+                </StackPanel>
+
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content=" Use VenomousBite/CausticBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MultiDotVenomousBiteMaxTargets, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
                 </StackPanel>
 
             </StackPanel>
@@ -75,18 +66,6 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <CheckBox Margin="5" Content="Use Sidewinder only on Trick Attack" IsChecked="{Binding BardSettings.UseSideWinderOnlyOnTrick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
-                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding BardSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
     </StackPanel>
 </UserControl>
 

@@ -768,11 +768,12 @@
                         <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
                             <bard:Aoe />
                         </TabItem>
-                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
-                            <bard:Buffs />
+                        <TabItem Header="Cooldowns" Style="{DynamicResource MainTabBuffs}">
+                            <bard:Cooldowns />
                         </TabItem>
-                        <TabItem Header="Songs" Style="{DynamicResource MainTabBuffs}">
-                            <bard:Songs />
+
+                        <TabItem Header="Utilities" Style="{DynamicResource MainTabUtilities}">
+                            <bard:Utilities />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

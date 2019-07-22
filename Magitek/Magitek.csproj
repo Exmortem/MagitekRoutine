@@ -584,14 +584,14 @@
     <Compile Include="Views\UserControls\Bard\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Bard\Buffs.xaml.cs">
-      <DependentUpon>Buffs.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\Bard\Cooldowns.xaml.cs">
+      <DependentUpon>Cooldowns.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bard\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Bard\Songs.xaml.cs">
-      <DependentUpon>Songs.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\Bard\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\BlackMage\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
@@ -1015,15 +1015,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Bard\Buffs.xaml">
+    <Page Include="Views\UserControls\Bard\Cooldowns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Utilities.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bard\SingleTarget.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Bard\Songs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

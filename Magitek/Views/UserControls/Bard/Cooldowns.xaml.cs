@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Magitek.Views.UserControls.Bard
 {
     /// <summary>
-    /// Interaction logic for Songs.xaml
+    /// Interaction logic for Cooldowns.xaml
     /// </summary>
-    public partial class Songs : UserControl
+    public partial class Cooldowns : UserControl
     {
-        public Songs()
+        public Cooldowns()
         {
             InitializeComponent();
         }
