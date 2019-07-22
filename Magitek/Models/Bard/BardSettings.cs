@@ -58,10 +58,6 @@ namespace Magitek.Models.Bard
         public bool DotMultipleTargets { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int MaximumTargetsToMultiDot { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool MultiDotWindbite { get; set; }
 
@@ -98,10 +94,6 @@ namespace Magitek.Models.Bard
         public bool RepellingShotOnlyWhenTargeted { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool Feint { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
 
@@ -112,6 +104,14 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool PlaySongs { get; set; }
+
+        [Setting]
+        [DefaultValue(SongStrategy.WMintoMBintoAP)]
+        public SongStrategy SongOrderStrategy { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int EndAPEarly { get; set; }
 
         [Setting]
         [DefaultValue(true)]
