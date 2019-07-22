@@ -63,6 +63,26 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
+        public bool MultiDotWindbite { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int MultiDotWindbiteMaxTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool MultiDotVenomousBite { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public int MultiDotVenomousBiteMaxTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool MultiDotIronJaws { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool DontDotIfEnemyIsDyingWithin { get; set; }
 
         [Setting]

@@ -42,33 +42,39 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
-            if (await Buff.NaturesMinne()) return true;
-            if (await Dispel.Execute()) return true;
+            if (await Dot.HandleDots()) return true;
+            if (await Dot.HandleMultiDots()) return true;
+            if (await SingleTarget.HeavyShot()) return true;
 
-            if (await Dot.IronJaws()) return true;
-            if (await Buff.BattleVoice()) return true;
-            if (await Buff.RagingStrikes()) return true;
-            if (await SingleTarget.RefulgentBarrage()) return true;
-            if (await SingleTarget.StraightShot()) return true;
-            if (await SingleTarget.EmpyrealArrow()) return true;
-            if (await SingleTarget.PitchPerfect()) return true;
-    
-            if (Utilities.Routines.Bard.OnGcd)
-            {
-                if (await Songs.Sing()) return true;
-                if (await SingleTarget.SidewinderAndShadowbite()) return true;
-                if (await Aoe.RainOfDeath()) return true;
-                if (await SingleTarget.Bloodletter()) return true;
-                if (await SingleTarget.RepellingShot()) return true;
-            }
+            return false;
 
-            if (await Aoe.ApexArrow()) return true;
-            if (await Aoe.QuickNock()) return true;
-            if (await Dot.Windbite()) return true;
-            if (await Dot.VenomousBite()) return true;
-            if (await Dot.DotMultipleTargets()) return true;
-            return await SingleTarget.HeavyShot();
+            //if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
+            //if (await Buff.NaturesMinne()) return true;
+            //if (await Dispel.Execute()) return true;
+
+            //if (await Dot.IronJaws()) return true;
+            //if (await Buff.BattleVoice()) return true;
+            //if (await Buff.RagingStrikes()) return true;
+            //if (await SingleTarget.RefulgentBarrage()) return true;
+            //if (await SingleTarget.StraightShot()) return true;
+            //if (await SingleTarget.EmpyrealArrow()) return true;
+            //if (await SingleTarget.PitchPerfect()) return true;
+
+            //if (Utilities.Routines.Bard.OnGcd)
+            //{
+            //    if (await Songs.Sing()) return true;
+            //    if (await SingleTarget.SidewinderAndShadowbite()) return true;
+            //    if (await Aoe.RainOfDeath()) return true;
+            //    if (await SingleTarget.Bloodletter()) return true;
+            //    if (await SingleTarget.RepellingShot()) return true;
+            //}
+
+            //if (await Aoe.ApexArrow()) return true;
+            //if (await Aoe.QuickNock()) return true;
+            //if (await Dot.Windbite()) return true;
+            //if (await Dot.VenomousBite()) return true;
+            //if (await Dot.DotMultipleTargets()) return true;
+            //return await SingleTarget.HeavyShot();
         }
     }
 }
