@@ -47,8 +47,9 @@ namespace Magitek.Rotations.Bard
             {
 
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
+                if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
-                //Barrage + RA Combo
+                if (await Cooldowns.RefulgentBarrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await SingleTarget.BloodletterInMagesBallard()) return true;
                 if (await SingleTarget.EmpyrealArrow()) return true;

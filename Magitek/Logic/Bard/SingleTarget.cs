@@ -116,39 +116,6 @@ namespace Magitek.Logic.Bard
             return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> RefulgentBarrage()
-        {
-            if (!BardSettings.Instance.Barrage)
-                return false;
-
-            if (BardSettings.Instance.BarrageOnlyWithRagingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
-                return false;
-
-            if (Spells.Barrage.Cooldown != TimeSpan.Zero)
-                return false;
-
-            return await BarrageCombo();
-
-            // Handle Barrage + Straighter Shot
-            async Task<bool> BarrageCombo()
-            {
-                if (await Spells.Barrage.Cast(Core.Me))
-                    await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Barrage));
-                else
-                    return false;
-
-                while (Core.Me.HasAura(Auras.Barrage))
-                {
-                    if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
-                        return true;
-
-                    await Coroutine.Yield();
-                }
-
-                return false;
-            }
-        }
-
         public static async Task<bool> RepellingShot()
         {
             if (!BardSettings.Instance.RepellingShot)

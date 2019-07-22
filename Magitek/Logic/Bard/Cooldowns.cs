@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
@@ -58,6 +59,57 @@ namespace Magitek.Logic.Bard
             return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
         }
 
+        public static async Task<bool> BattleVoice()
+        {
+            if (!BardSettings.Instance.UseBattleVoice)
+                return false;
+
+            if (!PartyManager.IsInParty)
+                return false;
+
+            //if (BardSettings.Instance.UseBattleVoiceOnBossOnly && !Core.Me.CurrentTarget.IsBoss())
+            //    return false;
+
+            return await Spells.BattleVoice.Cast(Core.Me);
+        }
+
+        public static async Task<bool> RefulgentBarrage()
+        {
+            if (Spells.Barrage.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (!BardSettings.Instance.Barrage)
+                return false;
+
+            //Dont Barrage when whe have a proc up
+            if (Core.Me.HasAura(Auras.StraighterShot))
+                return false;
+
+            if (BardSettings.Instance.BarrageOnlyWithRagingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
+                return false;
+
+            return await BarrageCombo();
+
+            // Handle Barrage + Straighter Shot
+            async Task<bool> BarrageCombo()
+            {
+                if (await Spells.Barrage.Cast(Core.Me))
+                    await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Barrage));
+                else
+                    return false;
+
+                while (Core.Me.HasAura(Auras.Barrage))
+                {
+                    if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
+                        return true;
+
+                    await Coroutine.Yield();
+                }
+
+                return false;
+            }
+        }
+
         /*
         public static async Task<bool> RagingStrikes()
         {
@@ -95,7 +147,7 @@ namespace Magitek.Logic.Bard
         }
         */
 
-            public static async Task<bool> NaturesMinne()
+        public static async Task<bool> NaturesMinne()
         {
             if (!BardSettings.Instance.NaturesMinne)
                 return false;
@@ -118,20 +170,6 @@ namespace Magitek.Logic.Bard
                 return false;
 
             return await Spells.NaturesMinne.Cast(naturesMinneTarget);
-        }
-
-        public static async Task<bool> BattleVoice()
-        {
-            if (!BardSettings.Instance.UseBattleVoice)
-                return false;
-
-            if (!PartyManager.IsInParty)
-                return false;
-
-            if (BardSettings.Instance.UseBattleVoiceOnBossOnly && !Core.Me.CurrentTarget.IsBoss())
-                return false;
-
-            return await Spells.BattleVoice.Cast(Core.Me);
         }
     }
 }
