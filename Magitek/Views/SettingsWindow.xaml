@@ -332,7 +332,7 @@
                             <paladin:Aggro />
                         </TabItem>
                         <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
-                            <gunbreaker:Healing />
+                            <paladin:Healing />
                         </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <paladin:Buffs />
