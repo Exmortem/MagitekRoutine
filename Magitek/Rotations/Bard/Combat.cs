@@ -42,8 +42,19 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
+            //This will still result in tripple weaves i guess
+            if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 850 /* + BardSettings.Instance.UserPingOffset */)
+            {
+
+                if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
+                if (await Cooldowns.RagingStrikes()) return true;
+
+            }
+
             if (await Dot.HandleDots()) return true;
             if (await Dot.HandleMultiDots()) return true;
+            if (await Aoe.ApexArrow()) return true;
+            if (await SingleTarget.StraightShot()) return true;
             if (await SingleTarget.HeavyShot()) return true;
 
             return false;

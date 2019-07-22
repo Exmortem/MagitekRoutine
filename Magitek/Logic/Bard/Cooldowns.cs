@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
@@ -9,8 +10,50 @@ using Magitek.Utilities;
 
 namespace Magitek.Logic.Bard
 {
-    internal static class Buff
+    internal static class Cooldowns
     {
+
+        public static async Task<bool> RagingStrikes()
+        {
+
+            if (!BardSettings.Instance.RagingStrikes)
+                return false;
+
+            if (Spells.RagingStrikes.Cooldown != TimeSpan.Zero)
+                return false;
+
+            switch (BardSettings.Instance.CombatBuffStrategy)
+            {
+                case BuffStrategy.OnlyBosses when Core.Me.CurrentTarget.IsBoss():
+                    break;
+                case BuffStrategy.Always:
+                    break;
+                case BuffStrategy.Never:
+                    return false;
+            }
+
+            if (BardSettings.Instance.RagingStrikesOnlyInWM)
+            {
+                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet)
+                {
+                    if (BardSettings.Instance.DelayRageingStrikes)
+                    {
+                        if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.RageingStrikesAtSecondsLeft)
+                            return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+
+                        return false;
+                    }
+
+                    return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+                }
+
+                return false;
+            }
+
+            return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+        }
+
+        /*
         public static async Task<bool> RagingStrikes()
         {
             if (!BardSettings.Instance.RagingStrikes)
@@ -45,8 +88,9 @@ namespace Magitek.Logic.Bard
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
             }
         }
+        */
 
-        public static async Task<bool> NaturesMinne()
+            public static async Task<bool> NaturesMinne()
         {
             if (!BardSettings.Instance.NaturesMinne)
                 return false;

@@ -2,8 +2,8 @@
 {
     public enum SongStrategy
     {
-        NeverSing,
-        SingOnlyBosses,
-        AlwaysUseSongs,
+        WM_MB_AP,
+        MB_WM_AP,
+        MB_AP_WM
     }
 }

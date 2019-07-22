@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
@@ -10,50 +11,77 @@ namespace Magitek.Logic.Bard
 {
     internal static class Songs
     {
-        public static async Task<bool> Sing()
+
+        public static async Task<bool> LetMeSingYouTheSongOfMyPeople()
         {
             if (!BardSettings.Instance.PlaySongs)
                 return false;
-            
+
             if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
                 return false;
 
-            // Cut Army's Paeon short if we're able to go into Wanderer's Minuet
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+            if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
+                return false;
+
+            switch (BardSettings.Instance.SongOrderStrategy)
             {
-                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= 10 && Spells.TheWanderersMinuet.Cooldown == TimeSpan.Zero)
-                    return await WanderersMinuet();
-                else
-                    return false;
+                case SongStrategy.WM_MB_AP: // < 3 Targets
+                    if (await WanderersMinuet()) return true;
+                    if (await MagesBallad()) return true;
+                    if (await ArmysPaeon()) return true;
+                    break;
+                case SongStrategy.MB_WM_AP: // 3 - 6 Targets
+                    if (await MagesBallad()) return true;
+                    if (await WanderersMinuet()) return true;
+                    if (await ArmysPaeon()) return true;
+                    break;
+                case SongStrategy.MB_AP_WM: // 6+ Targets
+                    if (await ArmysPaeon()) return true;
+                    if (await MagesBallad()) return true;
+                    if (await WanderersMinuet()) return true;
+                    break;
             }
 
-            if (await WanderersMinuet()) return true;
-            if (await MagesBallad()) return true;
-            return await ArmysPaeon();
+            return false;
         }
 
-        private static async Task<bool> MagesBallad()
+        public static async Task<bool> WanderersMinuet()
         {
-            if (Casting.LastSpell == Spells.ArmysPaeon || Casting.LastSpell == Spells.TheWanderersMinuet)
+            if (Spells.TheWanderersMinuet.Cooldown != TimeSpan.Zero)
                 return false;
 
-            return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
+                return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+            //Cut AP Strat
+            if (BardSettings.Instance.EndAPEarly /* && BardSettings.Instance.SongOrderStrategy != SongStrategy.MB_AP_WM */) //FlexibleCode vs UserResponsibility
+            {
+                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndAPEarlyTimeLeft)
+                    return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+            }
+
+            return false;
         }
 
-        private static async Task<bool> WanderersMinuet()
+        public static async Task<bool> MagesBallad()
         {
-            if (Casting.LastSpell == Spells.ArmysPaeon || Casting.LastSpell == Spells.MagesBallad)
+            if (Spells.MagesBallad.Cooldown != TimeSpan.Zero)
                 return false;
 
-            return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
+                return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+
+            return false;
         }
 
-        private static async Task<bool> ArmysPaeon()
+        public static async Task<bool> ArmysPaeon()
         {
-            if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad)
+            if (Spells.ArmysPaeon.Cooldown != TimeSpan.Zero)
                 return false;
 
-            return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
+                return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+            
+            return false;
         }
     }
 }

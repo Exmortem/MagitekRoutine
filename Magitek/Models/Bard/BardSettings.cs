@@ -42,6 +42,18 @@ namespace Magitek.Models.Bard
         public bool RagingStrikes { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool RagingStrikesOnlyInWM { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DelayRageingStrikes { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int RageingStrikesAtSecondsLeft { get; set; }
+
+        [Setting]
         [DefaultValue(BuffStrategy.Always)]
         public BuffStrategy CombatBuffStrategy { get; set; }
 
@@ -106,12 +118,16 @@ namespace Magitek.Models.Bard
         public bool PlaySongs { get; set; }
 
         [Setting]
-        [DefaultValue(SongStrategy.WMintoMBintoAP)]
+        [DefaultValue(SongStrategy.WM_MB_AP)]
         public SongStrategy SongOrderStrategy { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool EndAPEarly { get; set; }
+
+        [Setting]
         [DefaultValue(10)]
-        public int EndAPEarly { get; set; }
+        public int EndAPEarlyTimeLeft { get; set; }
 
         [Setting]
         [DefaultValue(true)]

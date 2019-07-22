@@ -209,7 +209,9 @@ namespace Magitek.Logic.Bard
 
             return false;
         }
+        /*
 
+        Still here for some ideas
         public static async Task<bool> IronJaws()
         {
 
@@ -276,6 +278,7 @@ namespace Magitek.Logic.Bard
             return await Spells.IronJaws.Cast(Core.Me.CurrentTarget);
 
         }
+        */
 
     }
 }

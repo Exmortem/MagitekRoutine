@@ -210,7 +210,7 @@
     <Compile Include="Gambits\GambitGroup.cs" />
     <Compile Include="Gambits\SharedOpener.cs" />
     <Compile Include="Logic\Bard\Aoe.cs" />
-    <Compile Include="Logic\Bard\Buff.cs" />
+    <Compile Include="Logic\Bard\Cooldowns.cs" />
     <Compile Include="Logic\Bard\Dispel.cs" />
     <Compile Include="Logic\Bard\Dot.cs" />
     <Compile Include="Logic\Bard\SingleTarget.cs" />
@@ -589,6 +589,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Bard\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Songs.xaml.cs">
+      <DependentUpon>Songs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bard\Utilities.xaml.cs">
       <DependentUpon>Utilities.xaml</DependentUpon>
@@ -1016,6 +1019,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bard\Cooldowns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Songs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

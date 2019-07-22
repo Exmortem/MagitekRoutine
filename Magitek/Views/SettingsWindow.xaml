@@ -771,7 +771,9 @@
                         <TabItem Header="Cooldowns" Style="{DynamicResource MainTabBuffs}">
                             <bard:Cooldowns />
                         </TabItem>
-
+                        <TabItem Header="Songs" Style="{DynamicResource MainTabSongs}">
+                            <bard:Songs />
+                        </TabItem>
                         <TabItem Header="Utilities" Style="{DynamicResource MainTabUtilities}">
                             <bard:Utilities />
                         </TabItem>
