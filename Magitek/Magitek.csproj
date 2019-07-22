@@ -183,6 +183,7 @@
     <Compile Include="Gambits\Conditions\MonkGreasedLightningCondition.cs" />
     <Compile Include="Gambits\Conditions\NinjaHutonCondition.cs" />
     <Compile Include="Gambits\Conditions\NinjaNinkiCondition.cs" />
+    <Compile Include="Gambits\Conditions\NotInInstanceCondition.cs" />
     <Compile Include="Gambits\Conditions\PlayerDoesNotHaveAuraCondition.cs" />
     <Compile Include="Gambits\Conditions\PlayerHasAuraBelowCondition.cs" />
     <Compile Include="Gambits\Conditions\PlayerHasAuraCondition.cs" />

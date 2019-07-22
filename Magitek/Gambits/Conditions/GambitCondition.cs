@@ -25,6 +25,7 @@ namespace Magitek.Gambits.Conditions
         HpPercentBelow,
         HpPercentBetween,
         InInstance,
+        NotInInstance,
         IsJob,
         IsRole,
         TargetName,

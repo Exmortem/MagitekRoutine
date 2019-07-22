@@ -985,6 +985,27 @@
                                                                                     </ComboBox>
                                                                                 </DataTemplate>
 
+                                                                                <DataTemplate DataType="{x:Type conditions:NotInInstanceCondition}">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NOT IN INSTANCE">
+                                                                                        <StackPanel>
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="NOT IN INSTANCE:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="False" />
+                                                                                            <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveGambitCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                                <Button.CommandParameter>
+                                                                                                    <MultiBinding Converter="{StaticResource ConditionConverter}">
+                                                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                                        <Binding Path="Id" />
+                                                                                                    </MultiBinding>
+                                                                                                </Button.CommandParameter>
+                                                                                            </Button>
+                                                                                        </StackPanel>
+                                                                                    </ComboBox>
+                                                                                </DataTemplate>
+
                                                                                 <DataTemplate DataType="{x:Type conditions:PlayerInCombatCondition}">
                                                                                     <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN COMBAT">
                                                                                         <StackPanel>
@@ -1332,6 +1353,18 @@
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="IN INSTANCE" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">InInstance</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="NOT IN INSTANCE" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">NotInInstance</sys:String>
                                                                                             </Button.Resources>
                                                                                             <Button.CommandParameter>
                                                                                                 <MultiBinding Converter="{StaticResource ConditionAddConverter}">

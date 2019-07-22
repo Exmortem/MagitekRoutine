@@ -47,9 +47,13 @@ namespace Magitek.Gambits.Helpers
                     condition = new HpPercentBetweenCondition();
                     break;
 
-                case "InInstance":
-                    condition = new InInstanceCondition();
-                    break;
+                 case "InInstance":
+                     condition = new InInstanceCondition();
+                     break;
+
+                 case "NotInInstance":
+                     condition = new NotInInstanceCondition();
+                     break;
 
                 case "IsJob":
                     condition = new IsJobCondition();
