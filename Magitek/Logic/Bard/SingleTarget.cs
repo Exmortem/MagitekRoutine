@@ -35,6 +35,69 @@ namespace Magitek.Logic.Bard
             return await Spells.RefulgentArrow.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> PitchPerfect()
+        {
+            if (!BardSettings.Instance.PerfectPitch)
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+                return false;
+            var repertoire = ActionResourceManager.Bard.Repertoire;
+
+            if (repertoire == 0)
+                return false;
+
+            if (repertoire == 3)
+                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+
+            if (repertoire >= BardSettings.Instance.PerfectPitchRepertoire)
+                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+
+            //Logic to catch the last possible PP
+            //if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 3000)
+            //    return false;
+
+            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> BloodletterInMagesBallard()
+        {
+            if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+                return false;
+
+            return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
+        }
+        public static async Task<bool> Bloodletter()
+        {
+            if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
+                return false;
+
+            return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
+        }
+
+        //Add Advanced Logic for end of AP need to be added
+        public static async Task<bool> EmpyrealArrow()
+        {
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
+                return false;
+
+            return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Sidewinder()
+        {
+            if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
+                return false;
+
+            return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> RefulgentBarrage()
         {
             if (!BardSettings.Instance.Barrage)
@@ -66,22 +129,6 @@ namespace Magitek.Logic.Bard
 
                 return false;
             }
-        }
-
-        public static async Task<bool> EmpyrealArrow()
-        {
-            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
-                return false;
-
-            return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Bloodletter()
-        {
-            if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
-                return false;
-
-            return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> RepellingShot()
@@ -148,31 +195,6 @@ namespace Magitek.Logic.Bard
 
                 return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
             }
-        }
-
-        public static async Task<bool> PitchPerfect()
-        {
-            if (!BardSettings.Instance.PerfectPitch)
-                return false;
-
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
-                return false;
-
-            var repertoire = ActionResourceManager.Bard.Repertoire;
-            
-            if (repertoire == 3)
-                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-
-            if (repertoire >= BardSettings.Instance.PerfectPitchRepertoire)
-                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-
-            if (repertoire == 0)
-                return false;
-
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 3000)
-                return false;
-
-            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
         }
     }
 }

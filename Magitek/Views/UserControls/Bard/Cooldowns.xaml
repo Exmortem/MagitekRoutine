@@ -28,7 +28,7 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Buffing Strategy:" />
@@ -39,26 +39,35 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox  Content="Raging Strikes " IsChecked="{Binding BardSettings.RagingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Only During Wanderer's Minuet " IsChecked="{Binding BardSettings.RagingStrikesOnlyInWM, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Delay RS During WM Until " IsChecked="{Binding BardSettings.DelayRageingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.RageingStrikesAtSecondsLeft, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Barrage   " IsChecked="{Binding BardSettings.Barrage, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Only With Raging Strikes " IsChecked="{Binding BardSettings.BarrageOnlyWithRagingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,3,10,0" Content="Raging Strikes " IsChecked="{Binding BardSettings.RagingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="0,3,10,0" Content="Only After Wanderer's Minuet " IsChecked="{Binding BardSettings.RagingStrikeAfterWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Battle Voice   " IsChecked="{Binding BardSettings.Instance.UseBattleVoice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="On Boss Only" IsChecked="{Binding BardSettings.Instance.UseBattleVoiceOnBossOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Battle Voice   " IsChecked="{Binding BardSettings.Instance.UseBattleVoice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="On Boss Only" IsChecked="{Binding BardSettings.Instance.UseBattleVoiceOnBossOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
