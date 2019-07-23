@@ -30,31 +30,22 @@ namespace Magitek.Utilities
 
         public static void AdjustCombatTime()
         {
-            // In a party
+            //General Combat Status Check
+            if (Core.Me.InCombat)
+            {
+                AdjustInCombatTimers();
+            }
+
+            //If Our Party Has Tagged Something We're Also InCombat
             if (PartyManager.IsInParty)
             {
                 if (Core.Me.InCombat || Enemies.Any(r => r.TaggerType == 2))
                 {
                     AdjustInCombatTimers();
                 }
-                else
-                {
-                 AdjustOutOfCombatTimers();
-                }
-
-                // Return since we're in a party
-                return;
             }
 
-            // Not in a party
-            if (Core.Me.InCombat)
-            {
-               AdjustInCombatTimers();
-            }
-            else
-            {
-                AdjustOutOfCombatTimers();
-            }
+            AdjustOutOfCombatTimers();
 
             // Private methods
             void AdjustInCombatTimers()
