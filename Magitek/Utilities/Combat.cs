@@ -33,7 +33,7 @@ namespace Magitek.Utilities
             // In a party
             if (PartyManager.IsInParty)
             {
-                if (Enemies.Any(r => r.TaggerType == 2))
+                if (Core.Me.InCombat || Enemies.Any(r => r.TaggerType == 2))
                 {
                     AdjustInCombatTimers();
                 }

@@ -3,7 +3,6 @@ using Buddy.Overlay;
 using Buddy.Overlay.Controls;
 using ff14bot;
 using Magitek.Models.Account;
-using Magitek.Views;
 using Magitek.Views.UserControls;
 
 namespace Magitek.Utilities
