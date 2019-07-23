@@ -31,10 +31,7 @@ namespace Magitek.Rotations.Astrologian
                 return false;
 
             if (Duty.State() == Duty.States.Ended) return false;
-            if (await Buff.Sect()) return true;
-            if (await Card.Play()) return true;
-            return await Card.Draw();
-            
+            return await Buff.Sect();
         }
     }
 }

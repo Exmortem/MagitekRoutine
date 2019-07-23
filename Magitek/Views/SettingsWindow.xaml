@@ -593,9 +593,6 @@
                         <TabItem Header="Cards" Style="{DynamicResource MainTabCards}">
                             <astrologian:Cards />
                         </TabItem>
-                        <TabItem Header="Card Rules" Style="{DynamicResource MainTabCards}">
-                            <astrologian:CardRules />
-                        </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <astrologian:Buffs />
                         </TabItem>

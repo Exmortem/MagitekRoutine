@@ -46,8 +46,7 @@ namespace Magitek.Rotations.Astrologian
                 if (await Pvp.Benefic()) return true; //Heal
                 if (await Pvp.Concentrate()) return true; //CombatBuff/Heal
                 if (await Pvp.Safeguard()) return true; //CombatBuff/Shield
-                if (await Card.Play()) return true;
-                return await Card.Draw();
+                return false;
             }
             if (Globals.PartyInCombat && Globals.InParty)
             {
@@ -89,10 +88,7 @@ namespace Magitek.Rotations.Astrologian
             }
 
             if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
-            if (await Logic.Astrologian.Heal.Benefic()) return true;
-            if (await Card.Play()) return true;
-            return await Card.Draw();
-
+            return await Logic.Astrologian.Heal.Benefic();
         }
     }
 }

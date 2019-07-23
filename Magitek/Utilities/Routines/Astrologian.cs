@@ -9,7 +9,6 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities.Managers;
-using TreeSharp;
 
 namespace Magitek.Utilities.Routines
 {
@@ -29,8 +28,6 @@ namespace Magitek.Utilities.Routines
         {
             get
             {
-//                return Combat.Enemies.FirstOrDefault(r => r.IsCasting && TankBusterManager.Benefic2List.Contains(r.CastingSpellId))?.TargetCharacter != null;
-
                 var a = Combat.Enemies
                     .FirstOrDefault(r => r.IsCasting && TankBusterManager.Benefic2List.Contains(r.CastingSpellId))
                     ?.TargetCharacter;
@@ -272,85 +269,6 @@ namespace Magitek.Utilities.Routines
         public static readonly uint[] ShieldAuraList = {
             Auras.NocturnalField,
             Auras.Galvanize
-        };
-        
-        public static IEnumerable<BattleCharacter> PartyMembersNearby(this GameObject unit, float distance)
-        {
-            return PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Where(r => r.Distance(unit) <= distance).ToList();
-        }
-        
-        public static IEnumerable<BattleCharacter> PartyMembersNearby(this BattleCharacter unit, float distance)
-        {
-            var response = PartyManager.VisibleMembers.Select(r => r.BattleCharacter)
-                .Where(r => r.Distance(unit) <= distance).ToList();
-            
-            //Logger.WriteInfo($"[PartyMembersNearby Check] Target: {unit} Distance: {distance} Result: {response.Count()}");
-            return response;
-        }
-
-        public static ActionResourceManager.Astrologian.AstrologianCard DrawnCard()
-        {
-            return ActionResourceManager.Astrologian.Cards[0];
-        }
-
-        public static ActionResourceManager.Astrologian.AstrologianCard HeldCard()
-        {
-            return ActionResourceManager.Astrologian.Cards[1];
-        }
-
-        public static ActionResourceManager.Astrologian.AstrologianCardBuff CardBuff()
-        {
-            return ActionResourceManager.Astrologian.Buff;
-        }
-        
-        public static bool CanRedraw = false;
-
-        public static bool CanUndraw = false;
-        
-        public static bool CanMinorArcana = false;
-
-        public static bool ShouldPrepCardsOutOfCombat()
-        {
-            if (Core.Me.InCombat) return true;
-
-            if (!AstrologianSettings.Instance.PrepCardsOutOfCombat) return false;
-
-            if (!Globals.InParty && AstrologianSettings.Instance.PrepCardsOutOfCombatOnlyWhenPartied) return false;
-
-           return Core.Me.InCombat || Globals.InParty || AstrologianSettings.Instance.PrepCardsOutOfCombatOnlyWhenPartied;
-        }
-
-        public static bool HasCardAura(this GameObject unit)
-        {
-            var unitAsCharacter = unit as Character;
-
-            if (unitAsCharacter == null || !unitAsCharacter.IsValid)
-                return false;
-
-            return unitAsCharacter.CharacterAuras.Any(r => CardAuras.Contains(r.Id));
-        }
-
-        public static readonly List<uint> CardAuras = new List<uint>
-        {
-            Auras.TheBalance,
-            Auras.TheBole,
-            Auras.TheArrow,
-            Auras.TheSpear,
-            Auras.TheEwer,
-            Auras.TheSpire
-        };
-
-        public static readonly List<uint> AstAuras = new List<uint>
-        {
-            Auras.AspectedBenefic,
-            Auras.AspectedHelios,
-            Auras.WheelOfFortune,
-            Auras.TheBalance,
-            Auras.TheBole,
-            Auras.TheArrow,
-            Auras.TheSpear,
-            Auras.TheEwer,
-            Auras.TheSpire
         };
         
         public static Vector3 EarthlyStarLocation { get; set; }

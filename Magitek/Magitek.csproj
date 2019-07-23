@@ -204,7 +204,6 @@
     <Compile Include="Gambits\Gambit.cs" />
     <Compile Include="Gambits\GambitGroup.cs" />
     <Compile Include="Gambits\SharedOpener.cs" />
-    <Compile Include="Logic\Astrologian\Card.cs" />
     <Compile Include="Logic\Bard\Aoe.cs" />
     <Compile Include="Logic\Bard\Buff.cs" />
     <Compile Include="Logic\Bard\Dispel.cs" />
@@ -554,9 +553,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Astrologian\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Astrologian\CardRules.xaml.cs">
-      <DependentUpon>CardRules.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Astrologian\Pvp.xaml.cs">
       <DependentUpon>Pvp.xaml</DependentUpon>
@@ -974,10 +970,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Astrologian\Buffs.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Astrologian\CardRules.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
