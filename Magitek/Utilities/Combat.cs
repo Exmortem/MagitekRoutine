@@ -30,7 +30,7 @@ namespace Magitek.Utilities
 
         public static void AdjustCombatTime()
         {
-            //Generell Combat Status Check
+            //General Combat Status Check
             if (Core.Me.InCombat)
             {
                 AdjustInCombatTimers();
