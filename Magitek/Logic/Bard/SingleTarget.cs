@@ -60,8 +60,8 @@ namespace Magitek.Logic.Bard
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             //Logic to catch the last possible PP
-            //if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 3000)
-            //    return false;
+            if (BardSettings.Instance.UsePitchPerfectAtTheEndOfWanderersMinuet && ActionResourceManager.Bard.Timer.TotalMilliseconds < (BardSettings.Instance.UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet * 1000))
+                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             return false;
         }

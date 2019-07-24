@@ -55,6 +55,14 @@ namespace Magitek.Models.Bard
         [DefaultValue(3)]
         public int UsePitchPerfectAtRepertoire { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePitchPerfectAtTheEndOfWanderersMinuet { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet { get; set; }
+
         #endregion
 
         #region DamageOverTime

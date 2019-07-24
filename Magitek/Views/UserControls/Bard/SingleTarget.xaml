@@ -20,9 +20,14 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content="Pitch Perfect At " IsChecked="{Binding BardSettings.UsePitchPerfect, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Pitch Perfect At " IsChecked="{Binding BardSettings.UsePitchPerfect, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.UsePitchPerfectAtRepertoire, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Repertoire" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Pitch Perfect Within The Last " IsChecked="{Binding BardSettings.UsePitchPerfectAtTheEndOfWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="6" MinValue="1" Value="{Binding BardSettings.UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds of Wanderer's Minuet Without Repertoire Requirement" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
