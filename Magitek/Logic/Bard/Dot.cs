@@ -227,9 +227,8 @@ namespace Magitek.Logic.Bard
             {
                 if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.Windbite.Id))
                     return false;
-                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
-                    BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
-                    Combat.Enemies.Count(r => r.HasAura(Auras.Windbite, true))) return false;
+                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 
+                    && BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=Combat.Enemies.Count(r => r.HasAura(Auras.Windbite, true))) return false;
 
                 windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
                                                                             && !r.HasAura(Auras.Windbite, true)
@@ -242,9 +241,8 @@ namespace Magitek.Logic.Bard
                 return true;
             }
 
-            if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
-                BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
-                Combat.Enemies.Count(r => r.HasAura(Auras.StormBite, true) && r != Core.Me.CurrentTarget)) return false;
+            if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 
+                && BardSettings.Instance.MultiDotWindBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(Auras.StormBite, true) && r != Core.Me.CurrentTarget)) return false;
 
             windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
                                                                         && !r.HasAura(Auras.StormBite, true)
@@ -310,30 +308,48 @@ namespace Magitek.Logic.Bard
                 if (await VenomousBiteMultiDoT()) return true;
 
             //We wont need to IJ when we dont want double DoTs on everything
-            //Also is a bandaid workaround to fix casting IJ when only 1 DoT is active, gonna look into that logic at a later point
-
-
-            // Disabled IJ for now
-            /*
             if (!BardSettings.Instance.MultiDotVenomousBite || !BardSettings.Instance.MultiDotWindBite) return false;
-
             if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
                 return false;
 
-            multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000)
-                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
-                                                                                  && r != Core.Me.CurrentTarget);
+            multiDotTarget = Combat.Enemies.FirstOrDefault(IsValidIronJawsTarget);
+
             if (multiDotTarget == null) return false;
             if (!await Spells.IronJaws.Cast(multiDotTarget)) return false;
             Logger.WriteInfo($@"[MultiDot] Iron Jaws on {multiDotTarget.Name}");
             return true;
-            */
-            return false;
+
+            bool IsValidIronJawsTarget(BattleCharacter unit)
+            {
+                if (!unit.InLineOfSight())
+                    return false;
+                if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds)
+                    return false;
+                if (unit == Core.Me.CurrentTarget)
+                    return false;
+
+                if (Core.Me.ClassLevel < 64)
+                {
+                    if (unit.HasAura(Auras.Windbite, true) && unit.HasAura(Auras.VenomousBite, true))
+                        return false;
+
+                    if (!unit.HasAura(Auras.Windbite, true,BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000)
+                        || !unit.HasAura(Auras.VenomousBite, true,BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000))
+                        return true;
+
+                }
+
+                if (!unit.HasAura(Auras.StormBite, true) && !unit.HasAura(Auras.CausticBite, true))
+                    return false;
+
+                return !unit.HasAura(Auras.StormBite, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000)
+                       || !unit.HasAura(Auras.CausticBite, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000);
+            }
 
         }
 
+        
         /*
-
         Still here for some ideas
         public static async Task<bool> IronJaws()
         {
@@ -401,7 +417,7 @@ namespace Magitek.Logic.Bard
             return await Spells.IronJaws.Cast(Core.Me.CurrentTarget);
 
         }
-        */
+        */        
 
     }
 }
