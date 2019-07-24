@@ -35,7 +35,7 @@ namespace Magitek.Logic.Bard
                     if (theWanderersMinuetCooldown == TimeSpan.Zero && (magesBallardCooldown == TimeSpan.Zero || armysPaeonCooldown != TimeSpan.Zero))
                         return await WanderersMinuet();
 
-                    if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds >= 1000 * BardSettings.Instance.DefaultSongTransitionTime)
                         return false;
                     if (magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown != TimeSpan.Zero)
                         return await MagesBallad();
@@ -44,7 +44,7 @@ namespace Magitek.Logic.Bard
                     break;
 
                 case SongStrategy.MB_WM_AP: // 3 - 6 Targets
-                    if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds >= 1000 * BardSettings.Instance.DefaultSongTransitionTime)
                         return false;
 
                     if (magesBallardCooldown == TimeSpan.Zero && (theWanderersMinuetCooldown == TimeSpan.Zero || armysPaeonCooldown != TimeSpan.Zero))
@@ -56,7 +56,7 @@ namespace Magitek.Logic.Bard
                     break;
 
                 case SongStrategy.MB_AP_WM: // 6+ Targets
-                    if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds >= 1000 * BardSettings.Instance.DefaultSongTransitionTime)
                         return false;
 
                     if (magesBallardCooldown == TimeSpan.Zero && (armysPaeonCooldown == TimeSpan.Zero || theWanderersMinuetCooldown != TimeSpan.Zero))

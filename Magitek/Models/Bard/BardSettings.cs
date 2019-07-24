@@ -40,11 +40,11 @@ namespace Magitek.Models.Bard
         public bool UseEmpyrealArrow { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DelayEmpyrealArrowUntilAPEnds { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(1)]
         public int EmpyrealArrowWaitTimeInSeconds { get; set; }
 
         [Setting]
@@ -138,6 +138,10 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool UseSongs { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int DefaultSongTransitionTime { get; set; }
 
         [Setting]
         [DefaultValue(true)]
