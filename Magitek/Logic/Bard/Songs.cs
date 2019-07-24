@@ -12,7 +12,9 @@ namespace Magitek.Logic.Bard
     internal static class Songs
     {
 
-        public static async Task<bool> LetMeSingYouTheSongOfMyPeopleAdvancedLogic()
+        //tbh i could have saved the last song used but that would be bat if we want to switch song rotation mid fight
+        //this is robust and wont break somehow
+        public static async Task<bool> LetMeSingYouTheSongOfMyPeople()
         {
             if (!BardSettings.Instance.UseSongs)
                 return false;
@@ -30,7 +32,6 @@ namespace Magitek.Logic.Bard
             switch (BardSettings.Instance.CurrentSongPlaylist)
             {
                 case SongStrategy.WM_MB_AP: // < 3 Targets
-
                     if (theWanderersMinuetCooldown == TimeSpan.Zero && (magesBallardCooldown == TimeSpan.Zero || armysPaeonCooldown != TimeSpan.Zero))
                         return await WanderersMinuet();
 
@@ -55,42 +56,15 @@ namespace Magitek.Logic.Bard
                     break;
 
                 case SongStrategy.MB_AP_WM: // 6+ Targets
-                    if (await ArmysPaeon()) return true;
-                    if (await MagesBallad()) return true;
-                    if (await WanderersMinuet()) return true;
-                    break;
-            }
+                    if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+                        return false;
 
-            return false;
-        }
-
-        public static async Task<bool> LetMeSingYouTheSongOfMyPeople()
-        {
-            if (!BardSettings.Instance.UseSongs)
-                return false;
-
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
-
-            if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
-                return false;
-
-            switch (BardSettings.Instance.CurrentSongPlaylist)
-            {
-                case SongStrategy.WM_MB_AP: // < 3 Targets
-                    if (await WanderersMinuet()) return true;
-                    if (await MagesBallad()) return true;
-                    if (await ArmysPaeon()) return true;
-                    break;
-                case SongStrategy.MB_WM_AP: // 3 - 6 Targets
-                    if (await MagesBallad()) return true;
-                    if (await WanderersMinuet()) return true;
-                    if (await ArmysPaeon()) return true;
-                    break;
-                case SongStrategy.MB_AP_WM: // 6+ Targets
-                    if (await ArmysPaeon()) return true;
-                    if (await MagesBallad()) return true;
-                    if (await WanderersMinuet()) return true;
+                    if (magesBallardCooldown == TimeSpan.Zero && (armysPaeonCooldown == TimeSpan.Zero || theWanderersMinuetCooldown != TimeSpan.Zero))
+                        return await MagesBallad();
+                    if (armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero)
+                        return await ArmysPaeon();
+                    if (theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown != TimeSpan.Zero)
+                        return await WanderersMinuet();
                     break;
             }
 
@@ -113,9 +87,6 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> MagesBallad()
         {
-            if (Spells.MagesBallad.Cooldown != TimeSpan.Zero)
-                return false;
-
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
 
@@ -124,9 +95,6 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> ArmysPaeon()
         {
-            if (Spells.ArmysPaeon.Cooldown != TimeSpan.Zero)
-                return false;
-
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
             
