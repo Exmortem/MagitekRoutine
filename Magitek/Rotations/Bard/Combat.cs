@@ -43,9 +43,9 @@ namespace Magitek.Rotations.Bard
             }
 
             //This will still result in tripple weaves i guess
-            if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 850 /* + BardSettings.Instance.UserPingOffset */)
+            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 850 /* + BardSettings.Instance.UserPingOffset */)
             {
-                if (await Songs.LetMeSingYouTheSongOfMyPeopleAdvancedLogic()) return true;
+                if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
                 if (await Cooldowns.RefulgentBarrage()) return true;

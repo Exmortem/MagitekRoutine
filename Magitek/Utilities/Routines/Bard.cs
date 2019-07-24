@@ -30,7 +30,31 @@ namespace Magitek.Utilities.Routines
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
-        
+        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.PitchPerfect,
+                                                                            Spells.Bloodletter, Spells.EmpyrealArrow, Spells.Sidewinder,
+                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.TheWanderersMinuet,
+                                                                            Spells.MagesBallad, Spells.ArmysPaeon};
+
+        public static int CheckLastSpellsForWeaveing()
+        {
+            int weaveingCounter = 0;
+
+            if (Casting.SpellCastHistory.Count < 2)
+                return 0;
+
+            SpellData lastSpellCast = Casting.SpellCastHistory.ElementAt(0).Spell;
+            SpellData secondLastSpellCast = Casting.SpellCastHistory.ElementAt(1).Spell;
+
+            if (OGCDSpells.Contains(lastSpellCast))
+                weaveingCounter += 1;
+            else
+                return 0;
+
+            if (OGCDSpells.Contains(secondLastSpellCast))
+                weaveingCounter += 1;
+
+            return weaveingCounter;
+        }
         public static bool HealthCheck(GameObject tar)
         {
             if (tar == null)
