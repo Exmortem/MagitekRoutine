@@ -13,6 +13,10 @@ namespace Magitek.Models.Bard
 
         public static BardSettings Instance { get; set; } = new BardSettings();
 
+        [Setting]
+        [DefaultValue(50)]
+        public int UserPingOffset { get; set; }
+
         #region SingleTarget
 
         [Setting]
@@ -60,7 +64,7 @@ namespace Magitek.Models.Bard
         public bool UsePitchPerfectAtTheEndOfWanderersMinuet { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet { get; set; }
 
         #endregion

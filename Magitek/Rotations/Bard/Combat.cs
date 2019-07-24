@@ -43,7 +43,7 @@ namespace Magitek.Rotations.Bard
             }
 
             //This will still result in tripple weaves i guess
-            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 850 /* + BardSettings.Instance.UserPingOffset */)
+            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserPingOffset )
             {
                 Logger.Error($@"[Debug-Weaving] Weave Counter : {Utilities.Routines.Bard.CheckLastSpellsForWeaveing()}");
                 if (Casting.SpellCastHistory.Count > 2)
