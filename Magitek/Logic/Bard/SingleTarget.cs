@@ -9,6 +9,7 @@ using Magitek.Models.Bard;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 using ff14bot;
+using Magitek.Enumerations;
 using QuickGraph;
 
 namespace Magitek.Logic.Bard
@@ -90,7 +91,6 @@ namespace Magitek.Logic.Bard
             return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
 
-        //Add Advanced Logic for end of AP need to be added
         public static async Task<bool> EmpyrealArrow()
         {
             if (!BardSettings.Instance.UseEmpyrealArrow)
@@ -98,6 +98,20 @@ namespace Magitek.Logic.Bard
 
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return false;
+
+            if (BardSettings.Instance.DelayEmpyrealArrowUntilAPEnds && ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon)
+            {
+                if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+                {
+                    if (BardSettings.Instance.EndArmysPaeonEarly)
+                    {
+                        if ((ActionResourceManager.Bard.Timer.Seconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
+                            return false;
+                    }
+                }
+                if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
+                    return false;
+            }
 
             return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
         }
