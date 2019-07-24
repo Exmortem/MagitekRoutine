@@ -17,10 +17,8 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseSongs)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
                 return false;
-
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true)) return false;
 
             if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
                 return false;
@@ -106,11 +104,11 @@ namespace Magitek.Logic.Bard
             {
                 if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
                     return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
-
-                return false;
             }
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
+                return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+            return false;
         }
 
         public static async Task<bool> MagesBallad()
