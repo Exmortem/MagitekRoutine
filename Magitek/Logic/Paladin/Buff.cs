@@ -72,7 +72,7 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
-            if (ActionManager.LastSpell == Spells.RiotBlade)
+            if (ActionManager.LastSpell == Spells.FastBlade)
                 return await Spells.FightorFlight.Cast(Core.Me);
 
             return false;
