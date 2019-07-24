@@ -45,6 +45,13 @@ namespace Magitek.Rotations.Bard
             //This will still result in tripple weaves i guess
             if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 850 /* + BardSettings.Instance.UserPingOffset */)
             {
+                Logger.Error($@"[Debug-Weaving] Weave Counter : {Utilities.Routines.Bard.CheckLastSpellsForWeaveing()}");
+                if (Casting.SpellCastHistory.Count > 2)
+                {
+                    Logger.Error($@"[Debug-Weaving] Last Spell Casted : {Casting.SpellCastHistory.ElementAt(0).Spell.Name}");
+                    Logger.Error($@"[Debug-Weaving] SecondLast Spell Casted : {Casting.SpellCastHistory.ElementAt(1).Spell.Name}");
+                }
+                Logger.Error($@"[Debug-Weaving] Remaining GCD in MS : {Spells.HeavyShot.Cooldown.TotalMilliseconds}");
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
@@ -57,7 +64,7 @@ namespace Magitek.Rotations.Bard
             }
 
             if (await Dot.HandleDots()) return true;
-            if (await Dot.HandleMultiDots()) return true;
+            if (await Dot.HandleMultiDotsBetterLogic()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());

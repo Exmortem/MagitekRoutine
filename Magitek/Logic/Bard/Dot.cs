@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
@@ -217,6 +218,120 @@ namespace Magitek.Logic.Bard
 
             return false;
         }
+
+        public static async Task<bool> WindBiteMultiDoT()
+        {
+            BattleCharacter windBiteMultiDoTTarget = null;
+
+            if (Core.Me.ClassLevel < 64)
+            {
+                if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.Windbite.Id))
+                    return false;
+                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
+                    BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
+                    Combat.Enemies.Count(r => r.HasAura(Auras.Windbite, true))) return false;
+
+                windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
+                                                                            && !r.HasAura(Auras.Windbite, true)
+                                                                            && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
+                                                                            && r != Core.Me.CurrentTarget);
+
+                if (windBiteMultiDoTTarget == null) return false;
+                if (!await Spells.Windbite.Cast(windBiteMultiDoTTarget)) return false;
+                Logger.WriteInfo($@"[MultiDot] Windbite on {windBiteMultiDoTTarget.Name}");
+                return true;
+            }
+
+            if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
+                BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
+                Combat.Enemies.Count(r => r.HasAura(Auras.StormBite, true) && r != Core.Me.CurrentTarget)) return false;
+
+            windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
+                                                                        && !r.HasAura(Auras.StormBite, true)
+                                                                        && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
+                                                                        && r != Core.Me.CurrentTarget);
+
+            if (windBiteMultiDoTTarget == null) return false;
+            if (!await Spells.Stormbite.Cast(windBiteMultiDoTTarget)) return false;
+            Logger.WriteInfo($@"[MultiDot] Stormbite on {windBiteMultiDoTTarget.Name}");
+            return true;
+
+        }
+
+        public static async Task<bool> VenomousBiteMultiDoT()
+        {
+            BattleCharacter windBiteMultiDoTTarget = null;
+
+            if (Core.Me.ClassLevel < 64)
+            {
+                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
+                    BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
+                    Combat.Enemies.Count(r => r.HasAura(Auras.VenomousBite, true))) return false;
+
+                windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
+                                                                            && !r.HasAura(Auras.VenomousBite, true) && (r.HasAura(Auras.Windbite, true) || !BardSettings.Instance.MultiDotWindBite)
+                                                                            && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
+                                                                            && r != Core.Me.CurrentTarget);
+
+                if (windBiteMultiDoTTarget == null) return false;
+                if (!await Spells.VenomousBite.Cast(windBiteMultiDoTTarget)) return false;
+                Logger.WriteInfo($@"[MultiDot] Venomous Bite on {windBiteMultiDoTTarget.Name}");
+                return true;
+            }
+
+            if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies != 0 &&
+                BardSettings.Instance.MultiDotWindBiteUpToXEnemies <=
+                Combat.Enemies.Count(r => r.HasAura(Auras.CausticBite, true) && r != Core.Me.CurrentTarget)) return false;
+
+            windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight()
+                                                                        && !r.HasAura(Auras.CausticBite, true) && (r.HasAura(Auras.StormBite, true) || !BardSettings.Instance.MultiDotWindBite)
+                                                                        && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
+                                                                        && r != Core.Me.CurrentTarget);
+
+            if (windBiteMultiDoTTarget == null) return false;
+            if (!await Spells.CausticBite.Cast(windBiteMultiDoTTarget)) return false;
+            Logger.WriteInfo($@"[MultiDot] Caustic Bite on {windBiteMultiDoTTarget.Name}");
+            return true;
+        }
+
+        public static async Task<bool> HandleMultiDotsBetterLogic()
+        {
+            if (Core.Me.ClassLevel < 6) //No Dots at this point
+                return false;
+
+            if (!BardSettings.Instance.EnableMultiDotting) return false;
+
+            BattleCharacter multiDotTarget = null;
+
+            if (BardSettings.Instance.UseWindBite && BardSettings.Instance.MultiDotWindBite)
+                if (await WindBiteMultiDoT()) return true;
+
+            if (BardSettings.Instance.UseVenomousBite && BardSettings.Instance.MultiDotVenomousBite)
+                if (await VenomousBiteMultiDoT()) return true;
+
+            //We wont need to IJ when we dont want double DoTs on everything
+            //Also is a bandaid workaround to fix casting IJ when only 1 DoT is active, gonna look into that logic at a later point
+
+
+            // Disabled IJ for now
+            /*
+            if (!BardSettings.Instance.MultiDotVenomousBite || !BardSettings.Instance.MultiDotWindBite) return false;
+
+            if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
+                return false;
+
+            multiDotTarget = Combat.Enemies.FirstOrDefault(r => r.InLineOfSight() && !r.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.RefreshDotsWithLessThanXSecondsRemaining * 1000)
+                                                                                  && r.CombatTimeLeft() > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds
+                                                                                  && r != Core.Me.CurrentTarget);
+            if (multiDotTarget == null) return false;
+            if (!await Spells.IronJaws.Cast(multiDotTarget)) return false;
+            Logger.WriteInfo($@"[MultiDot] Iron Jaws on {multiDotTarget.Name}");
+            return true;
+            */
+            return false;
+
+        }
+
         /*
 
         Still here for some ideas
