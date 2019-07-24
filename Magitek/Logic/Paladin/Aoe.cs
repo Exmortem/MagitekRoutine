@@ -35,6 +35,11 @@ namespace Magitek.Logic.Paladin
 
             if (!canCoS)
                 return false;
+            //Leave last 1/3rd GCD open for FoF/Defensives
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 650)
+            {
+                return false;
+            }
             return await Spells.CircleofScorn.Cast(Core.Me);
         }
 
