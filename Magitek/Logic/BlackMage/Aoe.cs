@@ -31,7 +31,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Flare()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
 
             //Only cast Flare if you have enough mp

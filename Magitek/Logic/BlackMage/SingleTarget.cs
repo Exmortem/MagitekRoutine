@@ -18,12 +18,18 @@ namespace Magitek.Logic.BlackMage
             // If we're moving in combat
             if (Combat.MovingInCombatTime.ElapsedMilliseconds > 100)
             {
-                // If we don't have procs, cast
+                // If we don't have procs (while in movement), cast
                 if (!Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.FireStarter))
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
-
-            return false;
+            //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
+            if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder3)
+            {
+                //We don't have max mana
+                if(Core.Me.CurrentMana < 10000)
+                    return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+            }
+        return false;        
         }
 
         public static async Task<bool> Despair()
@@ -87,6 +93,10 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && !Core.Me.HasAura(Auras.FireStarter, true, 3000))
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
+            //Use if we're at the end of Astral phase and we have a Fire3 proc
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana <= 1200)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+                  
             return false;
         }
 
@@ -98,6 +108,9 @@ namespace Magitek.Logic.BlackMage
 
             // If the last spell we cast is triple cast, stop
             if (Casting.LastSpell == Spells.Triplecast)
+                return false;
+            // It takes a second for thunder dot to actually hit the boss...
+            if (Casting.LastSpell == Spells.Thunder3)
                 return false;
 
             // If we have the triplecast aura, stop
