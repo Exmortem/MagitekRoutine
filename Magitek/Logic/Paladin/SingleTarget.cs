@@ -88,9 +88,12 @@ namespace Magitek.Logic.Paladin
 
             if (Casting.LastSpell == Spells.FightorFlight)
                 return false;
+<<<<<<< HEAD
             //Leave last 1/3rd GCD open for FoF/Defensives
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
                 return false;
+=======
+>>>>>>> parent of ac665ce... oGCD weaving timing
 
             return await Spells.SpiritsWithin.Cast(Core.Me.CurrentTarget);
         }
