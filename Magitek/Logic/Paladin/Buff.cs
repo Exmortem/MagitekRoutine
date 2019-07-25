@@ -69,11 +69,14 @@ namespace Magitek.Logic.Paladin
                     return false;
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
             //Only use FoF in the last 1/3rd of GCD window
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 650)
             {
                 return false;
             }
+=======
+>>>>>>> parent of ac665ce... oGCD weaving timing
 =======
 >>>>>>> parent of ac665ce... oGCD weaving timing
 
