@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -13,6 +14,7 @@ namespace Magitek.Utilities.Routines
         public static uint[] BioAuras = { Auras.Bio, Auras.Bio2, Auras.Bio3 };
         public static uint[] MiasmaAuras = { Auras.Miasma, Auras.Miasma3 };
         public static uint[] MiasmaSpellIds = { Spells.Miasma.Id, Spells.Miasma3.Id };
+        public static HashSet<int> DemiSummonIds = new HashSet<int> { 10, 14 };
 
         public static bool NeedToInterruptCast()
         {
@@ -20,7 +22,7 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             if (ActionResourceManager.Summoner.DreadwyrmTrance &&
-                ActionResourceManager.Summoner.Timer.TotalMilliseconds <= 1000 && 
+                ActionResourceManager.Summoner.Timer.TotalMilliseconds <= 1000 &&
                 Core.Me.IsCasting)
             {
                 Logger.Error($"Stopped {Casting.CastingSpell.LocalizedName}: so we don't lose Deathflare");

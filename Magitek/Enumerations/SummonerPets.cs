@@ -1,11 +1,12 @@
-﻿namespace Magitek.Enumerations
+﻿using ff14bot.Managers;
+
+namespace Magitek.Enumerations
 {
     public enum SummonerPets
     {
-        None,
-        Ifrit,
-        Titan,
-        Garuda
-        //Magitek
+        None = PetType.None,
+        Ifrit = PetType.Ifrit_Egi,
+        Titan = PetType.Titan_Egi,
+        Garuda = PetType.Garuda_Egi
     }
 }
