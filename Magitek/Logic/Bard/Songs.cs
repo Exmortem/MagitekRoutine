@@ -12,7 +12,7 @@ namespace Magitek.Logic.Bard
     internal static class Songs
     {
 
-        //tbh i could have saved the last song used but that would be bat if we want to switch song rotation mid fight
+        //tbh i could have saved the last song used but that would be bat if we want to switch song rotation mid fight/dungeon
         //this is robust and wont break somehow
         public static async Task<bool> LetMeSingYouTheSongOfMyPeople()
         {
@@ -74,7 +74,7 @@ namespace Magitek.Logic.Bard
         public static async Task<bool> WanderersMinuet()
         {
             //Cut AP Strat
-            if (BardSettings.Instance.EndArmysPaeonEarly /* && BardSettings.Instance.SongOrderStrategy != SongStrategy.MB_AP_WM */) //FlexibleCode vs UserResponsibility
+            if (BardSettings.Instance.EndArmysPaeonEarly) 
             {
                 if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
                     return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);

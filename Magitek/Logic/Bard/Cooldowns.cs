@@ -38,25 +38,20 @@ namespace Magitek.Logic.Bard
                     return false;
             }
 
-            if (BardSettings.Instance.UseRageingStrikesOnlyDuringWanderersMinuet)
-            {
-                if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet)
-                {
-                    if (BardSettings.Instance.DelayRageingStrikes)
-                    {
-                        if (ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsRemaining)
-                            return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+            if (!BardSettings.Instance.UseRageingStrikesOnlyDuringWanderersMinuet)
+                return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
-                        return false;
-                    }
-
-                    return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
-                }
-
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
-            }
 
-            return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+            if (!BardSettings.Instance.DelayRageingStrikes)
+                return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+
+            if (ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsRemaining)
+                return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
+
+            return false;
+
         }
 
         public static async Task<bool> BattleVoice()
@@ -66,9 +61,6 @@ namespace Magitek.Logic.Bard
 
             if (!PartyManager.IsInParty)
                 return false;
-
-            //if (BardSettings.Instance.UseBattleVoiceOnBossOnly && !Core.Me.CurrentTarget.IsBoss())
-            //    return false;
 
             return await Spells.BattleVoice.Cast(Core.Me);
         }
@@ -109,43 +101,6 @@ namespace Magitek.Logic.Bard
                 return false;
             }
         }
-
-        /*
-        public static async Task<bool> RagingStrikes()
-        {
-            if (!BardSettings.Instance.RagingStrikes)
-                return false;
-
-            if (Core.Me.CurrentTarget.CombatTimeLeft() < 20 && !Core.Me.CurrentTarget.IsBoss())
-                return false;
-
-            if (!Utilities.Routines.Bard.HealthCheck(Core.Me.CurrentTarget))
-                return false;
-
-            switch (BardSettings.Instance.CombatBuffStrategy)
-            {
-                case BuffStrategy.OnlyBosses when Core.Me.CurrentTarget.IsBoss():
-                    return await DoRagingStrikes();
-                case BuffStrategy.Always:
-                    return await DoRagingStrikes();
-                case BuffStrategy.Never:
-                    return false;
-            }
-
-            return false;
-
-            async Task<bool> DoRagingStrikes()
-            {
-                if (BardSettings.Instance.RagingStrikeAfterWanderersMinuet)
-                {
-                    if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
-                        return false;
-                }
-
-                return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
-            }
-        }
-        */
 
         public static async Task<bool> NaturesMinne()
         {
