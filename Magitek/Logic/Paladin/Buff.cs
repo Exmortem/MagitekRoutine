@@ -69,7 +69,7 @@ namespace Magitek.Logic.Paladin
                     return false;
             }
             //Only use FoF in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 625)
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 650)
             {
                 return false;
             }
