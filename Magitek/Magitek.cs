@@ -101,6 +101,7 @@ namespace Magitek
             // Apply the gambits we have
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.ApplyOpeners();
+            StartMainOverlay();
         }
 
         private void OnStop(BotBase bot)

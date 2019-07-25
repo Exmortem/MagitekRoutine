@@ -2,6 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             xmlns:enumerations="clr-namespace:Magitek.Enumerations"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Width="223">
 
     <UserControl.DataContext>
@@ -15,6 +17,12 @@
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+            <ObjectDataProvider x:Key="SummonerPets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enumerations:SummonerPets" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40" />
@@ -53,6 +61,21 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                  
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding GeneralSettings.CurrentRoutine}" Value="Summoner">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <ComboBox Margin="1,0" Style="{DynamicResource ComboBox}" ItemsSource="{Binding Source={StaticResource SummonerPets}}" SelectedValue="{Binding SummonerSettings.SelectedPet, Mode=TwoWay}" Width="86" Height="26" />
+                        </Grid>
                     </StackPanel>
                 </StackPanel>
                 
