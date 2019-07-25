@@ -99,19 +99,23 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
                 return false;
 
-            if (BardSettings.Instance.DelayEmpyrealArrowUntilAPEnds && ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon)
+            //Cant use PP outside of WM so why would we want to waste a EA here
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet && ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)
+                return false;
+
+            if (!BardSettings.Instance.DelayEmpyrealArrowUntilAPEnds || ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.ArmysPaeon)
+                return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
+
+            if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
             {
-                if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+                if (BardSettings.Instance.EndArmysPaeonEarly)
                 {
-                    if (BardSettings.Instance.EndArmysPaeonEarly)
-                    {
-                        if ((ActionResourceManager.Bard.Timer.Seconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
-                            return false;
-                    }
+                    if ((ActionResourceManager.Bard.Timer.Seconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
+                        return false;
                 }
-                if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
-                    return false;
             }
+            if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
+                return false;
 
             return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
         }
