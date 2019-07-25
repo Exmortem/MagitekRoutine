@@ -180,8 +180,8 @@ namespace Magitek.Models.Bard
         public bool DelayRageingStrikesDuringWanderersMinuet { get; set; }
 
         [Setting]
-        [DefaultValue(26)]
-        public int DelayRageingStrikesDuringWanderersMinuetUntilXSecondsRemaining { get; set; }
+        [DefaultValue(4)]
+        public int DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM { get; set; }
 
         [Setting]
         [DefaultValue(true)]
