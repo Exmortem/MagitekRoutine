@@ -68,14 +68,11 @@ namespace Magitek.Logic.Paladin
                 if (Spells.Requiescat.Cooldown.Seconds < 10)
                     return false;
             }
-<<<<<<< HEAD
             //Only use FoF in the last 1/3rd of GCD window
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 650)
             {
                 return false;
             }
-=======
->>>>>>> parent of ac665ce... oGCD weaving timing
 
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
