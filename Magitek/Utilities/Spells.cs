@@ -585,8 +585,6 @@ namespace Magitek.Utilities
         public static readonly SpellData DivineBenisonPvp = DataManager.GetSpellData(9621);
         public static readonly SpellData AssizePvp = DataManager.GetSpellData(9620);
         public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
-
-        public static object Freeze { get; internal set; }
         #endregion
     }
 }
