@@ -9,7 +9,7 @@ using ff14bot.Objects;
 namespace Magitek.Utilities
 {
     internal static class Combat
-    {        
+    {
         public static readonly List<BattleCharacter> Enemies = new List<BattleCharacter>();
         public static readonly Stopwatch CombatTime = new Stopwatch();
         public static readonly Stopwatch OutOfCombatTime = new Stopwatch();
@@ -24,7 +24,7 @@ namespace Magitek.Utilities
             //if (!Tracking.EnemyInfos.Any(r => r.Unit == target && r.IsMoving)) return false;
 
             var movingTarget = Tracking.EnemyInfos.FirstOrDefault(r => r.Unit == target && r.IsMoving);
-            
+
             return movingTarget != null && movingTarget.IsMovingChange.ElapsedMilliseconds > 2000;
         }
 
@@ -34,14 +34,16 @@ namespace Magitek.Utilities
             if (Core.Me.InCombat)
             {
                 AdjustInCombatTimers();
+                return;
             }
 
             //If Our Party Has Tagged Something We're Also InCombat
             if (PartyManager.IsInParty)
             {
-                if (Core.Me.InCombat || Enemies.Any(r => r.TaggerType == 2))
+                if (Enemies.Any(r => r.TaggerType == 2))
                 {
                     AdjustInCombatTimers();
+                    return;
                 }
             }
 
