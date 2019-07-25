@@ -161,10 +161,6 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.Intervene)
                 return false;
 
-            //Use during first 2/3 of GCD to avoid clipping
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
-                return false;
-
             if (Core.Me.HasAura(Auras.SwordOath) && Core.Me.HasAura(Auras.FightOrFight))
             {
                 // We only want to use this during Sword Oath as a OGCD, one we go into this phase and once after using Atonement
