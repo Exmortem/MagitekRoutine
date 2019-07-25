@@ -68,11 +68,6 @@ namespace Magitek.Logic.Paladin
                 if (Spells.Requiescat.Cooldown.Seconds < 10)
                     return false;
             }
-            //Only use FoF in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 650)
-            {
-                return false;
-            }
 
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
