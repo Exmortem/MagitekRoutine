@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
@@ -19,11 +19,21 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.IsMounted || MovementManager.IsMoving)
                 return false;
 
-            if (Core.Me.Pet != null) return false;
+            if ((int)PetManager.ActivePetType == (int)SummonerSettings.Instance.SelectedPet) return false;
 
-            //TODO: Add logic to summon pet based on Selected Pet Setting
-
-            return await Spells.Summon.Cast(Core.Me);
+            switch (SummonerSettings.Instance.SelectedPet)
+            {
+                case SummonerPets.None:
+                    return PetManager.DoAction("Away", Core.Me);
+                case SummonerPets.Ifrit:
+                    return await Spells.Summon3.Cast(Core.Me);
+                case SummonerPets.Titan:
+                    return await Spells.Summon2.Cast(Core.Me);
+                case SummonerPets.Garuda:
+                    return await Spells.Summon.Cast(Core.Me);
+                default:
+                    return false;
+            }
         }
 
         public static async Task<bool> SummonBahamut()
