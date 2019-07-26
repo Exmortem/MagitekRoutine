@@ -47,7 +47,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.DelayRageingStrikes)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
-            if ((30 - ActionResourceManager.Bard.Timer.Seconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
+            if ((30 - ActionResourceManager.Bard.Timer.TotalSeconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
             return false;
