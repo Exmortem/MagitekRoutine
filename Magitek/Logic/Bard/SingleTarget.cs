@@ -96,27 +96,37 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseEmpyrealArrow)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.None)
-                return false;
-
-            //Cant use PP outside of WM so why would we want to waste a EA here
-            //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
-            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet && ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)
-                return false;
-
-            if (!BardSettings.Instance.DelayEmpyrealArrowUntilAPEnds || ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.ArmysPaeon)
-                return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
-
-            if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+            switch (ActionResourceManager.Bard.ActiveSong)
             {
-                if (BardSettings.Instance.EndArmysPaeonEarly)
-                {
-                    if ((ActionResourceManager.Bard.Timer.Seconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
+                case ActionResourceManager.Bard.BardSong.None:
+                    return false;
+
+                case ActionResourceManager.Bard.BardSong.MagesBallad:
+                    if (Spells.Bloodletter.Cooldown == TimeSpan.Zero)
                         return false;
-                }
+                    break;
+
+                //Cant use PP outside of WM so why would we want to waste a EA here
+                //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
+                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
+                    if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)
+                        return false;
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
+                    if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+                    {
+                        if (BardSettings.Instance.EndArmysPaeonEarly)
+                        {
+                            if ((ActionResourceManager.Bard.Timer.TotalSeconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.DontUseEmpyrealArrowWhenSongEndsInXSeconds)
+                                return false;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
             }
-            if (ActionResourceManager.Bard.Timer.Seconds < BardSettings.Instance.EmpyrealArrowWaitTimeInSeconds)
-                return false;
 
             return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
         }

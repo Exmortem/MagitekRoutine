@@ -49,7 +49,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(1)]
-        public int EmpyrealArrowWaitTimeInSeconds { get; set; }
+        public int DontUseEmpyrealArrowWhenSongEndsInXSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
