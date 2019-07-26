@@ -86,7 +86,7 @@ namespace Magitek.Utilities
         public static readonly SpellData SpiritsWithin = DataManager.GetSpellData(29);
         public static readonly SpellData MercyStroke = DataManager.GetSpellData(36);
         public static readonly SpellData SwordOath = DataManager.GetSpellData(26);
-        public static readonly SpellData ShieldOath = DataManager.GetSpellData(28);
+        public static readonly SpellData IronWill = DataManager.GetSpellData(28);
         public static readonly SpellData Clemency = DataManager.GetSpellData(3541);
         public static readonly SpellData FastBlade = DataManager.GetSpellData(9);
         public static readonly SpellData RiotBlade = DataManager.GetSpellData(15);
