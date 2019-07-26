@@ -17,14 +17,29 @@
 
         <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Use Iron Will" IsChecked="{Binding PaladinSettings.ShieldOath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Iron Will" IsChecked="{Binding PaladinSettings.IronWill, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Fight Or Flight" IsChecked="{Binding PaladinSettings.UseFightOrFlight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="1" Margin ="1,1,10,1" Grid.Column="0" Content="FightOrFlight " IsChecked="{Binding PaladinSettings.UseFightOrFlight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="2" Content="After FastBlde instead of Riot " IsChecked="{Binding PaladinSettings.FoFFastBlade, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">

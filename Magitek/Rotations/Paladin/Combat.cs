@@ -2,11 +2,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Paladin;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Paladin;
+using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -14,6 +17,7 @@ namespace Magitek.Rotations.Paladin
 {
     internal static class Combat
     {
+
         public static async Task<bool> Execute()
         {
             if (await Defensive.TankBusters()) return true;
@@ -26,9 +30,8 @@ namespace Magitek.Rotations.Paladin
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-
             if (await CustomOpenerLogic.Opener()) return true;
-      
+
             if (await Buff.Oath()) return true;
 
 
@@ -42,8 +45,11 @@ namespace Magitek.Rotations.Paladin
                 if (await SingleTarget.Requiescat()) return true;
                 if (await Buff.FightOrFlight()) return true;
                 if (await SingleTarget.Interject()) return true;
-                if (await SingleTarget.SpiritsWithin()) return true;
-                if (await Aoe.CircleofScorn()) return true;
+                if (!Utilities.Routines.Paladin.OGCDHold)
+                {
+                    if (await SingleTarget.SpiritsWithin()) return true;
+                    if (await Aoe.CircleofScorn()) return true;
+                }
                 if (await SingleTarget.Intervene()) return true;
                 if (await Buff.Sheltron()) return true;
             }
@@ -120,7 +126,6 @@ namespace Magitek.Rotations.Paladin
             {
                 return await Spells.ShieldLob.Cast(Core.Me.CurrentTarget);
             }
-
             if (PaladinSettings.Instance.HolySpiritWhenOutOfMeleeRange && Core.Me.ClassLevel >= 64 && await Spells.HolySpirit.Cast(Core.Me.CurrentTarget)) return true;
             return await SingleTarget.ShieldLob();
         }

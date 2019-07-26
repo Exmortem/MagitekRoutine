@@ -27,8 +27,12 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Only Use The Threat Combo" IsChecked="{Binding PaladinSettings.OnlyHaloneCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="GCD Controller: Insert PingOffset" />
+                    <TextBox Text="{Binding PaladinSettings.PingValue, Mode=TwoWay}" TextAlignment="Center" Width="40" Margin="10,0"/>
                 </StackPanel>
+                <StackPanel/>
+
+
 
             </StackPanel>
         </controls:SettingsBlock>
@@ -54,26 +58,13 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
 
-                <StackPanel Margin="0,3" Orientation="Horizontal">
+                <StackPanel Margin="0" Orientation="Horizontal">
                     <CheckBox Content="Always Combo with Prominence" IsChecked="{Binding PaladinSettings.Prominance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Riot Blade at " IsChecked="{Binding PaladinSettings.PriorityRa, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.RiotBladeMinMana, Mode=TwoWay}" />
-            </Grid>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -119,7 +110,7 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Holy Spirit When Above  " IsChecked="{Binding PaladinSettings.HolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Holy Spirit" IsChecked="{Binding PaladinSettings.HolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="When Target Is Out Of Melee Range" IsChecked="{Binding PaladinSettings.HolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <CheckBox Margin="0,3,0,0" Content="Always Holy Spirit When You Have The Requiescat Buff" IsChecked="{Binding PaladinSettings.AlwaysHolySpiritWithBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
