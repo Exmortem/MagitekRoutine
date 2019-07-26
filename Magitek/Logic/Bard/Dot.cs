@@ -180,7 +180,7 @@ namespace Magitek.Logic.Bard
             return true;
         }
 
-        public static async Task<bool> HandleMultiDotsBetterLogic()
+        public static async Task<bool> HandleMultiDotting()
         {
             if (Core.Me.ClassLevel < 6) //No Dots at this point
                 return false;

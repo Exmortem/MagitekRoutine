@@ -15,7 +15,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(50)]
-        public int UserPingOffset { get; set; }
+        public int UserLatencyOffset { get; set; }
 
         #region SingleTarget
 
@@ -213,24 +213,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseBattleVoiceOnBossOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool DelayRageingStrikes { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int RageingStrikesAtSecondsLeft { get; set; }
-
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseWanderersMinuet { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool MultiDotIronJaws { get; set; }
 
         [Setting]
         [DefaultValue(true)]

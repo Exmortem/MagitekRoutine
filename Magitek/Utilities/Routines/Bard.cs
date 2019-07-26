@@ -9,12 +9,10 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Bard
     {
-        public static bool OnGcd => Spells.HeavyShot.Cooldown.TotalMilliseconds > 60;
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
         public static int SnapShotCheck = 0;
-        public static int TrickAttackCheck = 0;
 
         public static void RefreshVars()
         {

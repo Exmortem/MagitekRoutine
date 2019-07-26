@@ -48,7 +48,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Use Iron Jaws" IsChecked="{Binding BardSettings.UseIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="5" Content=" Snapshot Iron Jaws" IsChecked="{Binding BardSettings.SnapShotWithIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Snapshot Iron Jaw ( Not Implemented Yet )" IsChecked="{Binding BardSettings.SnapShotWithIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
             </StackPanel>

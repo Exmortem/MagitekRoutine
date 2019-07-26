@@ -26,7 +26,7 @@ namespace Magitek.Rotations.Bard
             await Casting.CheckForSuccessfulCast();
 
             Globals.InParty = PartyManager.IsInParty;
-            Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
+            Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2) || Core.Me.InCombat;
             Utilities.Routines.Bard.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -42,18 +42,8 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            //This will still result in tripple weaves i guess
-            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserPingOffset )
+            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
             {
-                /*
-                Logger.Error($@"[Debug-Weaving] Weave Counter : {Utilities.Routines.Bard.CheckLastSpellsForWeaveing()}");
-                if (Casting.SpellCastHistory.Count > 2)
-                {
-                    Logger.Error($@"[Debug-Weaving] Last Spell Casted : {Casting.SpellCastHistory.ElementAt(0).Spell.Name}");
-                    Logger.Error($@"[Debug-Weaving] SecondLast Spell Casted : {Casting.SpellCastHistory.ElementAt(1).Spell.Name}");
-                }
-                Logger.Error($@"[Debug-Weaving] Remaining GCD in MS : {Spells.HeavyShot.Cooldown.TotalMilliseconds}");
-                */
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
@@ -66,38 +56,11 @@ namespace Magitek.Rotations.Bard
             }
 
             if (await Dot.HandleDots()) return true;
-            if (await Dot.HandleMultiDotsBetterLogic()) return true;
+            if (await Dot.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());
 
-            //if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
-            //if (await Buff.NaturesMinne()) return true;
-            //if (await Dispel.Execute()) return true;
-
-            //if (await Dot.IronJaws()) return true;
-            //if (await Buff.BattleVoice()) return true;
-            //if (await Buff.RagingStrikes()) return true;
-            //if (await SingleTarget.RefulgentBarrage()) return true;
-            //if (await SingleTarget.StraightShot()) return true;
-            //if (await SingleTarget.EmpyrealArrow()) return true;
-            //if (await SingleTarget.PitchPerfect()) return true;
-
-            //if (Utilities.Routines.Bard.OnGcd)
-            //{
-            //    if (await Songs.Sing()) return true;
-            //    if (await SingleTarget.SidewinderAndShadowbite()) return true;
-            //    if (await Aoe.RainOfDeath()) return true;
-            //    if (await SingleTarget.Bloodletter()) return true;
-            //    if (await SingleTarget.RepellingShot()) return true;
-            //}
-
-            //if (await Aoe.ApexArrow()) return true;
-            //if (await Aoe.QuickNock()) return true;
-            //if (await Dot.Windbite()) return true;
-            //if (await Dot.VenomousBite()) return true;
-            //if (await Dot.DotMultipleTargets()) return true;
-            //return await SingleTarget.HeavyShot();
         }
     }
 }
