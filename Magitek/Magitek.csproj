@@ -64,6 +64,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BossFightLog\BossFight.cs" />
+    <Compile Include="BossFightLog\BossFightLogItem.cs" />
     <Compile Include="Commands\AwaitableDelegateCommand.cs" />
     <Compile Include="Commands\AwaitableDelegateCommandT.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
@@ -71,6 +73,9 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IAsyncCommandT.cs" />
     <Compile Include="Commands\IRaiseCanExecuteChanged.cs" />
+    <Compile Include="Controls\BossFightLog.xaml.cs">
+      <DependentUpon>BossFightLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CurrentNews.xaml.cs">
       <DependentUpon>CurrentNews.xaml</DependentUpon>
     </Compile>
@@ -528,6 +533,7 @@
     <Compile Include="Utilities\XivDataHelper.cs" />
     <Compile Include="ViewModels\AstrologianCardRules.cs" />
     <Compile Include="ViewModels\BaseSettings.cs" />
+    <Compile Include="ViewModels\BossFightViewModel.cs" />
     <Compile Include="ViewModels\Debug.cs" />
     <Compile Include="ViewModels\Dispelling.cs" />
     <Compile Include="ViewModels\GambitsBrowser.cs" />
@@ -840,6 +846,10 @@
     <EmbeddedResource Include="Resources\BossDictionary.json" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\BossFightLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CurrentNews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

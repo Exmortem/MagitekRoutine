@@ -156,11 +156,11 @@ namespace Magitek
             Combat.AdjustCombatTime();
             Combat.AdjustDutyTime();
 
-            Debug.Instance.InCombatTime = Combat.CombatTime.Elapsed.Seconds;
-            Debug.Instance.OutOfCombatTime = Combat.OutOfCombatTime.Elapsed.Seconds;
-            Debug.Instance.InCombatMovingTime = Combat.MovingInCombatTime.Elapsed.Seconds;
-            Debug.Instance.NotMovingInCombatTime = Combat.NotMovingInCombatTime.Elapsed.Seconds;
-            Debug.Instance.DutyTime = Combat.DutyTime.Elapsed.Seconds;
+            Debug.Instance.InCombatTime = (long)Combat.CombatTime.Elapsed.TotalSeconds;
+            Debug.Instance.OutOfCombatTime = (int)Combat.OutOfCombatTime.Elapsed.TotalSeconds;
+            Debug.Instance.InCombatMovingTime = (int)Combat.MovingInCombatTime.Elapsed.TotalSeconds;
+            Debug.Instance.NotMovingInCombatTime = (int)Combat.NotMovingInCombatTime.Elapsed.TotalSeconds;
+            Debug.Instance.DutyTime = (long)Combat.DutyTime.Elapsed.TotalSeconds;
             Debug.Instance.DutyState = Duty.State();
             Debug.Instance.CastingGambit = Casting.CastingGambit;
 
