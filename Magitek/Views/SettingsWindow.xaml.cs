@@ -175,5 +175,10 @@ namespace Magitek.Views
             BaseSettings.Instance.RoutineSelectedInUi = selectedTab.Name;
             TogglesViewModel.Instance.ResetJob(selectedTab.Name);
         }
+
+        private void BossFightLogClick(object sender, RoutedEventArgs e)
+        {
+            BossFightLog.IsSelected = true;
+        }
     }
 }

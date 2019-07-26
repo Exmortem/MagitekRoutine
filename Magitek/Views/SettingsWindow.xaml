@@ -240,8 +240,8 @@
                                                 <Rectangle Grid.Column="5" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
                                                 <Button Grid.Column="6" Click="GambitsClick" Style="{DynamicResource TabButtonGambits}" />
                                                 <Rectangle Grid.Column="7" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
-                                                <Button Grid.Column="8" Click="GambitsClick" Style="{DynamicResource TabButtonBossFight}" />
-                                                <Rectangle Grid.Column="9" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />
+                                                <!--<Button Grid.Column="8" Click="BossFightLogClick" Style="{DynamicResource TabButtonBossFight}" />
+                                                <Rectangle Grid.Column="9" Width="2" Fill="{DynamicResource TabDividerVerticalRight}" />-->
                                             </Grid>
 
                                             <Border Grid.Column="1" Grid.ColumnSpan="3" Margin="2,0,0,0" Background="{DynamicResource ClassSelectorBackground}" />
