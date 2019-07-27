@@ -49,8 +49,8 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
 
-            // Do not Ley Lines if we don't have 3 umbral hearts
-            if (ActionResourceManager.BlackMage.UmbralHearts != 3)
+            // Do not Ley Lines if we don't have any umbral hearts (roundabout check to see if we're at the begining of astral)
+            if (ActionResourceManager.BlackMage.UmbralHearts < 1)
                 return false;
 
             return await Spells.LeyLines.Cast(Core.Me);
@@ -67,5 +67,15 @@ namespace Magitek.Logic.BlackMage
 
             return await Spells.UmbralSoul.Cast(Core.Me);
         }
+
+        public static async Task<bool> ManaFont()
+        {
+            if (Casting.LastSpell == Spells.Fire3 && Spells.Fire.Cooldown.TotalMilliseconds > 700)
+                return await Spells.ManaFont.Cast(Core.Me);
+            return false;
+        }
+
+        
     }
+
 }
