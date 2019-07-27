@@ -68,16 +68,16 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
-                <StackPanel Margin="5" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Nature's Minne At " IsChecked="{Binding BardSettings.NaturesMinne, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.NaturesMinneHealthPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
 
-                <StackPanel Margin="5" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <CheckBox Content="On Tanks  " IsChecked="{Binding BardSettings.Instance.NaturesMinneTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Healers  " IsChecked="{Binding BardSettings.Instance.NaturesMinneHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="DPS  " IsChecked="{Binding BardSettings.Instance.NaturesMinneDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
@@ -88,7 +88,7 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Vertical">
+                <StackPanel  Orientation="Vertical">
                     <CheckBox Content="Use Head Graze To Interrupt" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Only Interrupt Current Target" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>

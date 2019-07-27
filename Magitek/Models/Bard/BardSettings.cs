@@ -240,7 +240,7 @@ namespace Magitek.Models.Bard
         public bool OnlyInterruptCurrentTarget { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool RepellingShot { get; set; }
 
         [Setting]
@@ -250,11 +250,11 @@ namespace Magitek.Models.Bard
         #endregion
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Dispel { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NaturesMinne { get; set; }
 
         [Setting]
@@ -262,15 +262,15 @@ namespace Magitek.Models.Bard
         public float NaturesMinneHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NaturesMinneTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NaturesMinneHealers { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NaturesMinneDps { get; set; }
 
         [Setting]
