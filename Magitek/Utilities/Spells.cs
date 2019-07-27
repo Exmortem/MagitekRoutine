@@ -201,6 +201,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Scathe = DataManager.GetSpellData(156);
         public static readonly SpellData Convert = DataManager.GetSpellData(158);
         public static readonly SpellData Flare = DataManager.GetSpellData(162);
+        public static readonly SpellData Freeze = DataManager.GetSpellData(159);
         public static readonly SpellData LeyLines = DataManager.GetSpellData(3573);
         public static readonly SpellData Sharpcast = DataManager.GetSpellData(3574);
         public static readonly SpellData Enochian = DataManager.GetSpellData(3575);
