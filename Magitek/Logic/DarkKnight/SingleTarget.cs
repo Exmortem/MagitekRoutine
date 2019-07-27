@@ -29,9 +29,6 @@ namespace Magitek.Logic.DarkKnight
             if (!Core.Me.HasBloodWeapon())
                 return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
 
-            if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.Souleater))
-                return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
-
             return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
         }
 
@@ -43,9 +40,6 @@ namespace Magitek.Logic.DarkKnight
             // If we have Blood Price or Blood Weapon we wanna Dark Arts this every time
 
             if (!Core.Me.HasBloodWeapon())
-                return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
-
-            if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.Souleater))
                 return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
 
             return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
@@ -108,14 +102,6 @@ namespace Magitek.Logic.DarkKnight
 
             if (Spells.CarveandSpit.Cooldown != TimeSpan.Zero)
                 return false;
-
-            if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.CarveandSpit))
-            {
-                if (DarkKnightSettings.Instance.CarveAndSpitDarkArtsOnly)
-                    return false;
-
-                return await Spells.CarveandSpit.Cast(Core.Me.CurrentTarget);
-            }
 
             return await Spells.CarveandSpit.Cast(Core.Me.CurrentTarget);
         }

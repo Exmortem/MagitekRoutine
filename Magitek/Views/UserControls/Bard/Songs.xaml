@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
@@ -15,17 +16,38 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="SongStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:SongStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Songs" IsChecked="{Binding BardSettings.Instance.PlaySongs, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Songs" IsChecked="{Binding BardSettings.Instance.UseSongs, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Song Order:" VerticalAlignment="Center" />
+                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource SongStrategy}}" SelectedValue="{Binding BardSettings.CurrentSongPlaylist, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Battle Voice   " IsChecked="{Binding BardSettings.Instance.UseBattleVoice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="On Boss Only" IsChecked="{Binding BardSettings.Instance.UseBattleVoiceOnBossOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Cut Army's Paeon Short When " IsChecked="{Binding BardSettings.EndArmysPaeonEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
             </StackPanel>
         </controls:SettingsBlock>
 

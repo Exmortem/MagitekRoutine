@@ -23,25 +23,5 @@ namespace Magitek.Utilities.Routines
         };
         
         public static bool OnGcd => Spells.HardSlash.Cooldown > TimeSpan.FromMilliseconds(500);
-
-        public static bool CanDarkArts(SpellData spell)
-        {
-            if (!DarkKnightSettings.Instance.DarkArts)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.DarkArts.Id))
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Darkside))
-                return false;
-
-            if (Core.Me.CurrentManaPercent < DarkKnightSettings.Instance.DarkArtsMinimumMp)
-                return false;
-
-            if (Spells.DarkArts.Cost + spell.Cost > Core.Me.CurrentMana)
-                return false;
-
-            return Spells.DarkArts.Cooldown == TimeSpan.Zero;       
-        }
     }
 }

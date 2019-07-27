@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Extensions;
+using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 
 namespace Magitek.Rotations.Paladin
@@ -14,6 +16,9 @@ namespace Magitek.Rotations.Paladin
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 4);
             }
 
+            if (GunbreakerSettings.Instance.PullWithLightningShot)
+                await Spells.LightningShot.Cast(Core.Me.CurrentTarget);
+            
             return await Combat.Execute();
         }
     }

@@ -290,6 +290,45 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MainTabDamageOverTime" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+
+                    <Border Name="Background" Margin="0,0,2,0">
+                        <Grid Margin="15,3" IsHitTestVisible="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Name="Path"
+                                  Height="12"
+                                  VerticalAlignment="Center"
+                                  Data="M 277.46875,555.31250 C 251.47358,558.77519 231.37500,580.96881 231.37500,607.90625 C 231.37500,609.56584 231.50406,611.19281 231.65625,612.81250 C 230.17483,613.49114 228.68990,614.19992 227.25000,615.03125 C 203.92784,628.49629 194.76434,656.97919 204.75000,681.21875 L 204.90625,681.12500 C 199.20358,664.61826 205.75497,645.86682 221.43750,636.81250 C 238.70179,626.84498 260.58461,632.40408 271.25000,649.00000 L 274.65625,647.00000 C 274.22865,645.84839 273.90625,644.64413 273.90625,643.34375 C 273.90626,638.11022 277.76856,633.97295 282.75000,633.09375 L 282.75000,629.00000 C 263.05795,628.04945 247.34375,611.89576 247.34375,591.96875 C 247.34376,573.84953 260.31300,558.80285 277.46875,555.50000 L 277.46875,555.31250 z M 291.62500,555.31250 L 291.62500,555.50000 C 308.77157,558.81471 321.75000,573.86012 321.75000,591.96875 C 321.75000,611.90634 305.98976,628.06524 286.28125,629.00000 L 286.28125,633.06250 C 291.28079,633.92677 295.15625,638.09737 295.15625,643.34375 C 295.15625,644.64413 294.83385,645.84839 294.40625,647.00000 L 297.81250,649.00000 C 308.47786,632.40582 330.36071,626.87620 347.62500,636.84375 C 363.31669,645.90334 369.84252,664.64752 364.12500,681.15625 L 364.31250,681.25000 C 374.31130,657.00618 365.14100,628.49997 341.81250,615.03125 C 340.36958,614.19818 338.89093,613.49163 337.40625,612.81250 C 337.55844,611.19281 337.68750,609.56584 337.68750,607.90625 C 337.68751,580.97613 317.60991,558.78445 291.62500,555.31250 z M 276.46875,650.03125 L 273.00000,652.03125 C 282.05108,669.56695 275.89500,691.27915 258.62500,701.25000 C 242.93330,710.30961 223.43823,706.58088 212.00000,693.37500 L 211.81250,693.46875 C 227.80885,714.24987 257.07775,720.56247 280.40625,707.09375 C 281.85047,706.25993 283.19846,705.32198 284.53125,704.37500 C 285.86701,705.32244 287.21010,706.25882 288.65625,707.09375 C 311.97840,720.55881 341.21950,714.26761 357.21875,693.50000 L 357.06250,693.40625 C 345.61859,706.59826 326.08878,710.33556 310.40625,701.28125 C 293.14465,691.31528 287.02903,669.59550 296.06250,652.06250 L 292.56250,650.03125 C 290.61347,652.37146 287.81464,653.96875 284.53125,653.96875 C 281.24155,653.96874 278.41772,652.37921 276.46875,650.03125 z "
+                                  Fill="{DynamicResource MainTabUnselected}"
+                                  Stretch="Uniform" />
+
+                            <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource MainTabSelected}" />
+                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabBackgroundSelected}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MainTabTankBusters" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
@@ -538,6 +577,82 @@
                                   Height="12"
                                   VerticalAlignment="Center"
                                   Data="M16,19.399998C14.300003,21.200003 12.100006,22.300001 9.6000061,22.300001 9,22.300001 8.4000092,22.200003 7.9000092,22.100004 8.4000092,26.699995 11.900009,30.300003 16,30.300003 20.199997,30.300003 23.600006,26.699995 24.100006,22.100004 23.5,22.200003 23,22.300001 22.400009,22.300001 19.900009,22.300001 17.699997,21.200003 16,19.399998z M19.199997,12.100001C19,14.399998 18.300003,16.600002 17,18.299999 18.400009,19.799999 20.300003,20.700003 22.400009,20.700003 23,20.700003 23.600006,20.600004 24.199997,20.500006 24,16.700001 22,13.500003 19.199997,12.100001z M12.800003,12.100001C10,13.500003 7.9000092,16.700001 7.8000031,20.500006 8.4000092,20.700003 9,20.700003 9.6000061,20.700003 11.699997,20.700003 13.600006,19.799999 15,18.299999 13.800003,16.600002 13,14.399998 12.800003,12.100001z M16,11.299998C15.400009,11.299998 14.800003,11.399997 14.199997,11.500003 14.300003,13.600001 14.900009,15.500004 16,17.000004 17.100006,15.500004 17.699997,13.600001 17.800003,11.500003 17.199997,11.399997 16.600006,11.299998 16,11.299998z M16,5.1999984C15.100006,6.5000015 14.5,8.1000004 14.300003,9.8999958 14.900009,9.7999974 15.400009,9.6999989 16,9.6999989 16.600006,9.6999989 17.199997,9.7999974 17.699997,9.8999958 17.5,8.1000004 16.900009,6.5000015 16,5.1999984z M22.400009,1.599999C20.300003,1.5999989 18.400009,2.5000005 17,4.000001 18.199997,5.6999984 19,7.8999958 19.199997,10.299998 22.699997,11.7 25.300003,15.399998 25.600006,19.899998 28.600006,18.500004 30.600006,15.100002 30.600006,11.100001 30.600006,5.8999953 26.900009,1.5999989 22.400009,1.599999z M9.6000061,1.599999C5.1000061,1.5999989 1.4000092,5.8999953 1.4000092,11.100001 1.4000092,15.000004 3.5,18.399998 6.4000092,19.899998 6.6999969,15.399998 9.3000031,11.7 12.800003,10.299998 13,7.8999958 13.800003,5.7999969 15,4.000001 13.600006,2.5000005 11.699997,1.5999989 9.6000061,1.599999z M9.6000061,0C12.100006,-2.0730113E-08 14.300003,1.0999987 16,2.8999949 17.699997,1.0999987 19.900009,-2.0730113E-08 22.400009,0 27.699997,-2.0730113E-08 32,5.000001 32,11.2 32,16.100002 29.300003,20.200003 25.600006,21.700003 25.199997,27.400007 21.100006,31.999998 16,31.999998 10.900009,31.999998 6.8000031,27.400007 6.4000092,21.700003 2.6999969,20.100002 0,16.000004 0,11.2 0,5.000001 4.3000031,-2.0730113E-08 9.6000061,0z"
+                                  Fill="{DynamicResource MainTabUnselected}"
+                                  Stretch="Uniform" />
+                            <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource MainTabSelected}" />
+                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabBackgroundSelected}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MainTabUtilities" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+
+                    <Border Name="Background" Margin="0,0,2,0">
+                        <Grid Margin="15,3" IsHitTestVisible="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Name="Path"
+                                  Height="12"
+                                  VerticalAlignment="Center"
+                                  Data="M58 40 L58 24 L40 24 L40 6 L24 6 L24 24 L6 24 L6 40 L24 40 L24 58 L40 58 L40 40 Z"
+                                  Fill="{DynamicResource MainTabUnselected}"
+                                  Stretch="Uniform" />
+                            <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource MainTabSelected}" />
+                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabBackgroundSelected}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MainTabSongs" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+
+                    <Border Name="Background" Margin="0,0,2,0">
+                        <Grid Margin="15,3" IsHitTestVisible="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Name="Path"
+                                  Height="12"
+                                  VerticalAlignment="Center"
+                                  Data="M52.66,0.249c-0.216-0.189-0.501-0.275-0.789-0.241l-31,4.011C20.373,4.084,20,4.507,20,5.01v6.017v4.212v25.384  C18.174,38.428,15.273,37,12,37c-5.514,0-10,4.037-10,9s4.486,9,10,9s10-4.037,10-9c0-0.232-0.019-0.46-0.039-0.687  C21.974,45.248,22,45.189,22,45.121V16.118l29-3.753v18.257C49.174,28.428,46.273,27,43,27c-5.514,0-10,4.037-10,9s4.486,9,10,9  c5.464,0,9.913-3.966,9.993-8.867c0-0.013,0.007-0.024,0.007-0.037V11.227V7.016V1C53,0.712,52.876,0.438,52.66,0.249z"
                                   Fill="{DynamicResource MainTabUnselected}"
                                   Stretch="Uniform" />
                             <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />

@@ -15,78 +15,60 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:InterruptStrategy" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Rest When Under  " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.RestHealthPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Repelling Shot  " IsChecked="{Binding BardSettings.RepellingShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Only When Being Targeted" IsChecked="{Binding BardSettings.RepellingShotOnlyWhenTargeted, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Refresh Damage Over Time Abilites When There Are " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DotRefreshTime, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content="Do Not Use Damage Over Time Abilities If Enemy Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfEnemyIsDyingWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.DontDotIfEnemyIsDyingWithinSeconds, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <CheckBox Content=" Use Damage Over Time On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.DotMultipleTargets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.MaximumTargetsToMultiDot, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
-                </StackPanel>
-
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" Content="Pitch Perfect At " IsChecked="{Binding BardSettings.PerfectPitch, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.PerfectPitchRepertoire, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Repertoire" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <CheckBox Margin="5" Content="Use Sidewinder only on Trick Attack" IsChecked="{Binding BardSettings.UseSideWinderOnlyOnTrick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
-                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding BardSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                    <CheckBox Margin="5" Content=" Pitch Perfect At " IsChecked="{Binding BardSettings.UsePitchPerfect, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding BardSettings.UsePitchPerfectAtRepertoire, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Repertoire" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Pitch Perfect Within The Last " IsChecked="{Binding BardSettings.UsePitchPerfectAtTheEndOfWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="6" MinValue="1" Value="{Binding BardSettings.UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds of Wanderer's Minuet Without Repertoire Requirement" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Empyreal Arrow " IsChecked="{Binding BardSettings.UseEmpyrealArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Delay Empyreal Arrow If Army's Paeon Ends In " IsChecked="{Binding BardSettings.DelayEmpyrealArrowUntilAPEnds, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" VerticalAlignment="Center" />
+                    <controls:Numeric MaxValue="30" MinValue="0" Value="{Binding BardSettings.DontUseEmpyrealArrowWhenSongEndsInXSeconds, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Bloodletter " IsChecked="{Binding BardSettings.UseBloodletter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Prioritize Bloodletter during Mage's Ballard" IsChecked="{Binding BardSettings.PrioritizeBloodletterDuringMagesBallard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use Sidewinder " IsChecked="{Binding BardSettings.UseSidewinder, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Margin="5" Content=" Use HeavyShot/BurstShot " IsChecked="{Binding BardSettings.UseHeavyShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use StraightShot/Refulgent Arrow " IsChecked="{Binding BardSettings.UseStraightShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
     </StackPanel>
 </UserControl>
 

@@ -54,7 +54,7 @@ namespace Magitek.Utilities
             Windbite = 129,
             Foresight = 83,
             HallowedGround = 82,
-            ShieldOath = 79,
+            IronWill = 79,
             Rampart = 1191,
             Sentinel = 74,
             GoringBlade = 725,
@@ -172,9 +172,9 @@ namespace Magitek.Utilities
             ReadytoRip = 1842,
             ReadytoTear = 1843,
             ReadytoGouge = 1844,
-            RoyalGuard = 1833,
-            Reassembled = 851,
-            NascentChaos = 1897;
+			Reassembled =851,
+			NascentChaos = 1897,
+            RoyalGuard = 1833;
 
         private const int
             Invincibility0 = 981,

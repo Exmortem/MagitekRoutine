@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Magitek.Views.UserControls.Bard
 {
     /// <summary>
-    /// Interaction logic for BuffAuras.xaml
+    /// Interaction logic for Utilities.xaml
     /// </summary>
-    public partial class Buffs : UserControl
+    public partial class Utilities : UserControl
     {
-        public Buffs()
+        public Utilities()
         {
             InitializeComponent();
         }

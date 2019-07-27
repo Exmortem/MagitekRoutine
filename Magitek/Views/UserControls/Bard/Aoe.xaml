@@ -15,10 +15,9 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Use Area Of Effect Abilities" IsChecked="{Binding BardSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Use Area Of Effect Abilities Before Damage Over Time Abilities" IsChecked="{Binding BardSettings.UseAoeBeforeDots, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -40,7 +39,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="1" Grid.Column="0" Content="Quick Nock" IsChecked="{Binding BardSettings.QuickNock, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Quick Nock" IsChecked="{Binding BardSettings.UseQuickNock, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
                 <controls:Numeric Grid.Row="1"
                                   Grid.Column="2"
@@ -50,7 +49,7 @@
                                   Value="{Binding BardSettings.QuickNockEnemiesInCone, Mode=TwoWay}" />
                 <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In A Cone" />
         
-                <CheckBox Grid.Row="2" Grid.Column="0" Content="Rain Of Death " IsChecked="{Binding BardSettings.RainOfDeath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Grid.Column="0" Content="Rain Of Death " IsChecked="{Binding BardSettings.UseRainOfDeath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
                 <controls:Numeric Grid.Row="2"
                                   Grid.Column="2"
@@ -63,14 +62,20 @@
             </Grid>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.ApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Shadowbite " IsChecked="{Binding BardSettings.UseShadowBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When We Have At Least " />
                 <controls:Numeric Margin="0,3,0,0"
                                   MaxValue="100"
                                   MinValue="1"
-                                  Value="{Binding BardSettings.ApexArrowMinimumSoulVoice, Mode=TwoWay}" />
+                                  Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
             </StackPanel>
         </controls:SettingsBlock>

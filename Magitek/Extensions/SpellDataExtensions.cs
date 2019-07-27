@@ -271,8 +271,6 @@ namespace Magitek.Extensions
         private static readonly HashSet<uint> UmbralSpells = new HashSet<uint>()
         {
             Spells.Blizzard.Id,
-            //TODO: Omni - Verify Blizzard 2 was removed
-            //Spells.Blizzard2.Id,
             Spells.Blizzard3.Id,
             Spells.Blizzard4.Id
         };
