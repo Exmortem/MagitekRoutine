@@ -35,6 +35,7 @@ namespace Magitek.Logic.Paladin
 
             if (!canCoS)
                 return false;
+            
             return await Spells.CircleofScorn.Cast(Core.Me);
         }
 
