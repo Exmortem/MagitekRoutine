@@ -367,7 +367,10 @@ namespace Magitek.Utilities
         public static readonly SpellData FloodofDarkness = DataManager.GetSpellData(16466);
         public static readonly SpellData EdgeofDarkness = DataManager.GetSpellData(16467);
         public static readonly SpellData StalwartSoul = DataManager.GetSpellData(16468);
-
+        public static readonly SpellData FloodofShadow = DataManager.GetSpellData(16469);
+        public static readonly SpellData EdgeofShadow = DataManager.GetSpellData(16470);
+        public static readonly SpellData DarkMissionary = DataManager.GetSpellData(16471);
+        public static readonly SpellData LivingShadow = DataManager.GetSpellData(16472);
 
         //GNB
         public static readonly SpellData KeenEdge = DataManager.GetSpellData(16137);
