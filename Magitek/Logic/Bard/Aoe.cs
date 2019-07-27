@@ -85,54 +85,5 @@ namespace Magitek.Logic.Bard
 
             return await Spells.QuickNock.Cast(Core.Me.CurrentTarget);
         }
-
-        /*
-        public static async Task<bool> QuickNock()
-        {
-            if (!BardSettings.Instance.UseQuickNock)
-                return false;
-
-            if (!BardSettings.Instance.UseAoe)
-                return false;
-
-            if (!BardSettings.Instance.UseAoeBeforeDots)
-            {
-                // We don't have Windbite
-                if (Core.Me.ClassLevel < 30)
-                {
-                    // If the target doesn't have Venomous Bite on return false
-                    if (!Core.Me.CurrentTarget.HasAura(Auras.VenomousBite, true, BardSettings.Instance.DotRefreshTime * 1000))
-                        return false;
-                }
-                else
-                {
-                    // Return false if we don't have both DOTs on target
-                    if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.DotRefreshTime * 1000))
-                        return false;
-                }
-            }
-
-            if (Utilities.Routines.Bard.EnemiesInCone < BardSettings.Instance.QuickNockEnemiesInCone)
-                return false;
-
-            return await Spells.QuickNock.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> RainOfDeath()
-        {
-            if (!BardSettings.Instance.UseRainOfDeath)
-                return false;
-
-            if (!BardSettings.Instance.UseAoe)
-                return false;
-
-            if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
-                return false;
-
-            return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
-        }
-        */
-
     }
-    
 }
