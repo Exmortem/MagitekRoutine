@@ -35,10 +35,9 @@ namespace Magitek.Logic.Bard
 
             BattleCharacter interruptTarget = null;
 
-            if (BardSettings.Instance.OnlyInterruptCurrentTarget)
-                interruptTarget = Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible);
-            else
-                interruptTarget = Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
+            interruptTarget = BardSettings.Instance.OnlyInterruptCurrentTarget ? 
+                Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible) 
+                : Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
 
             if (interruptTarget == null)
                 return false;

@@ -27,7 +27,7 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Rest When Under  " />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.RestHealthPercent, Mode=TwoWay}" />
@@ -71,13 +71,13 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Nature's Minne At " IsChecked="{Binding BardSettings.NaturesMinne, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BardSettings.NaturesMinneHealthPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
 
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="On Tanks  " IsChecked="{Binding BardSettings.Instance.NaturesMinneTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Healers  " IsChecked="{Binding BardSettings.Instance.NaturesMinneHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="DPS  " IsChecked="{Binding BardSettings.Instance.NaturesMinneDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
@@ -86,11 +86,11 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
-                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding BardSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Use Head Graze To Interrupt" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only Interrupt Current Target" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
