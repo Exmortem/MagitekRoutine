@@ -94,7 +94,7 @@ namespace Magitek.Logic.DarkKnight
             if (!await Spells.Unmend.Cast(unmendTarget))
                 return false;
 
-            Logger.Write($@"Using Unmend On {unmendTarget.Name} To Pull Aggro");
+            Logger.Write($@"Unmend On {unmendTarget.Name} To Pull Aggro");
             return true;
         }
 
