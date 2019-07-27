@@ -44,10 +44,16 @@ namespace Magitek.Rotations.Bard
 
             if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
             {
+                // Utility
+                if (await Utility.RepellingShot()) return true;
+                if (await Utility.WardensPaean()) return true;
+                if (await Utility.NaturesMinne()) return true;
                 if (await Utility.Troubadour()) return true;
                 if (await PhysicalDps.ArmsLength(BardSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
                 if (await Utility.HeadGraze()) return true;
+
+                // Damage
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;

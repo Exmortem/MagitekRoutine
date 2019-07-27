@@ -7,6 +7,7 @@ using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Roles;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -46,6 +47,7 @@ namespace Magitek.Logic.Roles
 
             if (!await Spells.ArmsLength.Cast(Core.Me)) return false;
             settings.ForceArmsLength = false;
+            TogglesManager.LoadTogglesForCurrentJob();
             return true;
         }
 

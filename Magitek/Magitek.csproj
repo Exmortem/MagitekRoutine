@@ -211,7 +211,6 @@
     <Compile Include="Gambits\SharedOpener.cs" />
     <Compile Include="Logic\Bard\Aoe.cs" />
     <Compile Include="Logic\Bard\Cooldowns.cs" />
-    <Compile Include="Logic\Bard\Dispel.cs" />
     <Compile Include="Logic\Bard\DamageOverTime.cs" />
     <Compile Include="Logic\Bard\SingleTarget.cs" />
     <Compile Include="Logic\Bard\Songs.cs" />

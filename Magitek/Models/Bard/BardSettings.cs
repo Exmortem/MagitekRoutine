@@ -215,8 +215,6 @@ namespace Magitek.Models.Bard
         [DefaultValue(true)]
         public bool OnlyInterruptCurrentTarget { get; set; }
 
-        #endregion
-
         [Setting]
         [DefaultValue(true)]
         public bool RepellingShot { get; set; }
@@ -224,6 +222,8 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(false)]
         public bool RepellingShotOnlyWhenTargeted { get; set; }
+
+        #endregion
 
         [Setting]
         [DefaultValue(true)]

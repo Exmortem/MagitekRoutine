@@ -148,37 +148,6 @@ namespace Magitek.Logic.Bard
             return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> RepellingShot()
-        {
-            if (!BardSettings.Instance.RepellingShot)
-                return false;
-
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
-                return false;
-
-            if (BardSettings.Instance.RepellingShotOnlyWhenTargeted)
-            {
-                var repellingShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) <= 5 + r.CombatReach && 
-                                                                             r.InView() && 
-                                                                             ActionManager.CanCast(Spells.RepellingShot.Id, r));
-
-                if (repellingShotTarget == null)
-                    return false;
-
-                return await Spells.RepellingShot.Cast(repellingShotTarget);
-            }
-            else
-            {
-                if (Core.Me.CurrentTarget == null)
-                    return false;
-
-                if (Core.Me.CurrentTarget.Distance(Core.Me) > 5 + Core.Me.CurrentTarget.CombatReach)
-                    return false;
-
-                return await Spells.RepellingShot.Cast(Core.Me.CurrentTarget);
-            }
-        }
-
         public static async Task<bool> SidewinderAndShadowbite()
         {
             if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
