@@ -26,7 +26,7 @@ namespace Magitek.Rotations.Bard
             await Casting.CheckForSuccessfulCast();
 
             Globals.InParty = PartyManager.IsInParty;
-            Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
+            Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2) || Core.Me.InCombat;
             Utilities.Routines.Bard.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -42,34 +42,39 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
-            if (await Buff.NaturesMinne()) return true;
-            if (await Dispel.Execute()) return true;
-
-            if (await Dot.IronJaws()) return true;
-            if (await Buff.BattleVoice()) return true;
-            if (await Buff.RagingStrikes()) return true;
-            if (await SingleTarget.RefulgentBarrage()) return true;
-            if (await SingleTarget.StraightShot()) return true;
-            if (await SingleTarget.EmpyrealArrow()) return true;
-            if (await SingleTarget.PitchPerfect()) return true;
-    
-            if (Utilities.Routines.Bard.OnGcd)
+            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
             {
-                if (await Songs.Sing()) return true;
-                if (await SingleTarget.SidewinderAndShadowbite()) return true;
+                // Utility
+                if (await Utility.RepellingShot()) return true;
+                if (await Utility.WardensPaean()) return true;
+                if (await Utility.NaturesMinne()) return true;
+                if (await Utility.Troubadour()) return true;
+                if (await PhysicalDps.ArmsLength(BardSettings.Instance)) return true;
+                if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
+                if (await Utility.HeadGraze()) return true;
+
+                // Damage
+                if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
+                if (await Cooldowns.BattleVoice()) return true;
+                if (await Cooldowns.RagingStrikes()) return true;
+                if (await Cooldowns.RefulgentBarrage()) return true;
+                if (await SingleTarget.PitchPerfect()) return true;
+                if (await Aoe.RainOfDeathDuringMagesBallard()) return true;
+                if (await SingleTarget.BloodletterInMagesBallard()) return true;
+                if (await SingleTarget.EmpyrealArrow()) return true;
+                if (await Aoe.ShadowBite()) return true;
+                if (await SingleTarget.Sidewinder()) return true;
                 if (await Aoe.RainOfDeath()) return true;
                 if (await SingleTarget.Bloodletter()) return true;
-                if (await SingleTarget.RepellingShot()) return true;
-                if (await SingleTarget.Feint()) return true;
             }
 
+            if (await DamageOverTime.HandleDots()) return true;
+            if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await Aoe.QuickNock()) return true;
-            if (await Dot.Windbite()) return true;
-            if (await Dot.VenomousBite()) return true;
-            if (await Dot.DotMultipleTargets()) return true;
-            return await SingleTarget.HeavyShot();
+            if (await SingleTarget.StraightShot()) return true;
+            return (await SingleTarget.HeavyShot());
+
         }
     }
 }

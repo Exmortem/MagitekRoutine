@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Magitek.Utilities;
+using Magitek.Models.Paladin;
 
 namespace Magitek.Utilities.Routines
 {
@@ -11,7 +13,8 @@ namespace Magitek.Utilities.Routines
             Auras.Rampart,
             Auras.Sentinel
         };
-        
-        public static bool OnGcd => Spells.FastBlade.Cooldown > TimeSpan.FromMilliseconds(500);
+
+        public static bool OnGcd => Spells.FastBlade.Cooldown.TotalMilliseconds > 100;
+        public static bool OGCDHold => Spells.FastBlade.Cooldown.TotalMilliseconds < 650 + PaladinSettings.Instance.PingValue;
     }
 }

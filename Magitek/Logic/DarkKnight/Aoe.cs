@@ -101,13 +101,6 @@ namespace Magitek.Logic.DarkKnight
             if (Spells.AbyssalDrain.Cooldown != TimeSpan.Zero)
                 return false;
 
-            // If we have Blood Price we should Dark Arts this ability
-            if (Core.Me.HasBloodWeapon())
-            {
-                if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.AbyssalDrain))
-                    return false;
-            }
-
             // Find the enemy that has the most enemies around them
             GameObject abyssalTarget = null;
             var enemiesInRange = 0;
@@ -154,16 +147,6 @@ namespace Magitek.Logic.DarkKnight
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
                 return false;
-
-            if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.Quietus))
-            {
-                if (ActionResourceManager.DarkKnight.BlackBlood > 90)
-                {
-                    return await Spells.Quietus.Cast(Core.Me);
-                }
-
-                return false;
-            }
 
             return await Spells.Quietus.Cast(Core.Me);
         }

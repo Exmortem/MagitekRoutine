@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Bard.Cooldowns"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="BuffStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:BuffStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Buffing Strategy:" />
+                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource BuffStrategy}}" SelectedValue="{Binding BardSettings.UseCoolDowns, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox  Content="Raging Strikes " IsChecked="{Binding BardSettings.UseRageingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Only During Wanderer's Minuet " IsChecked="{Binding BardSettings.UseRageingStrikesOnlyDuringWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Delay RS Until Barrage Is Off CD " IsChecked="{Binding BardSettings.DelayRageingStrikesUntilBarrageIsReady, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Delay RS Until " IsChecked="{Binding BardSettings.DelayRageingStrikesDuringWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds In Wanderer's Minuet" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Barrage   " IsChecked="{Binding BardSettings.UseBarrage, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only With Raging Strikes " IsChecked="{Binding BardSettings.UseBarrageOnlyWithRageingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Battle Voice   " IsChecked="{Binding BardSettings.Instance.UseBattleVoice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>
+

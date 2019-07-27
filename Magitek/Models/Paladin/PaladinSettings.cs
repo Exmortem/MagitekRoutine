@@ -27,15 +27,23 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(false)]
-        public bool ShieldOath { get; set; }
+        public bool IronWill { get; set; }
 
         [Setting]
         [DefaultValue(7)]
         public int RefreshGoringBlade { get; set; }
 
         [Setting]
+        [DefaultValue(60)]
+        public int PingValue { get; set; }
+
+        [Setting]
         [DefaultValue(4000)]
         public int HealthSetting { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool FoFFastBlade { get; set; }
 
         [Setting]
         [DefaultValue(20.0f)]
@@ -222,10 +230,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool CircleOfScorn { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RoyalAuthorityComboInShieldOath { get; set; }
 
         [Setting]
         [DefaultValue(PaladinOpenerStrategy.AlwaysUseOpener)]

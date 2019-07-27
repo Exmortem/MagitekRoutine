@@ -64,6 +64,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BossFightLog\BossFight.cs" />
+    <Compile Include="BossFightLog\BossFightLogItem.cs" />
     <Compile Include="Commands\AwaitableDelegateCommand.cs" />
     <Compile Include="Commands\AwaitableDelegateCommandT.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
@@ -71,6 +73,9 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IAsyncCommandT.cs" />
     <Compile Include="Commands\IRaiseCanExecuteChanged.cs" />
+    <Compile Include="Controls\BossFightLog.xaml.cs">
+      <DependentUpon>BossFightLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CurrentNews.xaml.cs">
       <DependentUpon>CurrentNews.xaml</DependentUpon>
     </Compile>
@@ -205,11 +210,11 @@
     <Compile Include="Gambits\GambitGroup.cs" />
     <Compile Include="Gambits\SharedOpener.cs" />
     <Compile Include="Logic\Bard\Aoe.cs" />
-    <Compile Include="Logic\Bard\Buff.cs" />
-    <Compile Include="Logic\Bard\Dispel.cs" />
-    <Compile Include="Logic\Bard\Dot.cs" />
+    <Compile Include="Logic\Bard\Cooldowns.cs" />
+    <Compile Include="Logic\Bard\DamageOverTime.cs" />
     <Compile Include="Logic\Bard\SingleTarget.cs" />
     <Compile Include="Logic\Bard\Songs.cs" />
+    <Compile Include="Logic\Bard\Utility.cs" />
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
@@ -528,6 +533,7 @@
     <Compile Include="Utilities\XivDataHelper.cs" />
     <Compile Include="ViewModels\AstrologianCardRules.cs" />
     <Compile Include="ViewModels\BaseSettings.cs" />
+    <Compile Include="ViewModels\BossFightViewModel.cs" />
     <Compile Include="ViewModels\Debug.cs" />
     <Compile Include="ViewModels\Dispelling.cs" />
     <Compile Include="ViewModels\GambitsBrowser.cs" />
@@ -578,14 +584,20 @@
     <Compile Include="Views\UserControls\Bard\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Bard\Buffs.xaml.cs">
-      <DependentUpon>Buffs.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\Bard\Cooldowns.xaml.cs">
+      <DependentUpon>Cooldowns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\DamageOverTime.xaml.cs">
+      <DependentUpon>DamageOverTime.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bard\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bard\Songs.xaml.cs">
       <DependentUpon>Songs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\BlackMage\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
@@ -840,6 +852,10 @@
     <EmbeddedResource Include="Resources\BossDictionary.json" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\BossFightLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CurrentNews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1005,15 +1021,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Bard\Buffs.xaml">
+    <Page Include="Views\UserControls\Bard\Cooldowns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Bard\SingleTarget.xaml">
+    <Page Include="Views\UserControls\Bard\DamageOverTime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bard\Songs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Utilities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\SingleTarget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
