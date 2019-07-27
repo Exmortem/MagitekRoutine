@@ -39,6 +39,16 @@ namespace Magitek.Logic.Roles
             return await Spells.TrueNorth.Cast(Core.Me);
         }
 
+        public static async Task<bool> ArmsLength<T>(T settings) where T : PhysicalDpsSettings
+        {
+            if (!settings.ForceArmsLength)
+                return false;
+
+            if (!await Spells.ArmsLength.Cast(Core.Me)) return false;
+            settings.ForceArmsLength = false;
+            return true;
+        }
+
         public static async Task<bool> Bloodbath<T>(T settings) where T : PhysicalDpsSettings
         {
             if (!settings.UseBloodbath)
