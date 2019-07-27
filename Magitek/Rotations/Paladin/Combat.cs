@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Paladin;
