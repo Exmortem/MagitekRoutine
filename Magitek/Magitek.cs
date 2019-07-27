@@ -40,8 +40,6 @@ namespace Magitek
 {
     public class Magitek
     {
-        // TODO: DELETE THIS NEWB
-
         public void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
@@ -238,8 +236,7 @@ namespace Magitek
 
             Form.Show();
 
-            if (BaseSettings.Instance.UseOverlay)
-                StartMainOverlay();
+            StartMainOverlay();
         }
 
         private static SettingsWindow _form;
