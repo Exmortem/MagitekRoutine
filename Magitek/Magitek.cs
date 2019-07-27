@@ -40,6 +40,8 @@ namespace Magitek
 {
     public class Magitek
     {
+        // TODO: DELETE THIS NEWB
+
         public void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
