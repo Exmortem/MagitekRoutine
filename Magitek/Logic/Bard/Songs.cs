@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -19,8 +20,40 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseSongs)
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
+            if (BardSettings.Instance.CheckDotsBeforeSinging)
+                switch (BardSettings.Instance.AmmountOfDotsBeforeSinging)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        if (Core.Me.ClassLevel < 64)
+                        {
+                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true) || x.HasAura(Auras.VenomousBite, true)) >= 1)
+                                break;
+                            return false;
+                        }
+                        else
+                        {
+                            if (Combat.Enemies.Count(x => x.HasAura(Auras.StormBite, true) || x.HasAura(Auras.CausticBite, true)) >= 1)
+                                break;
+                            return false;
+                        }
+                    case 2:
+                        if (Core.Me.ClassLevel < 64)
+                        {
+                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.VenomousBite, true))  >= 2)
+                                break;
+                            return false;
+                        }
+                        else
+                        {
+                            if (Combat.Enemies.Count(x => x.HasAura(Auras.StormBite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.CausticBite, true)) >= 2)
+                                break;
+                            return false;
+                        }
+                    default:
+                        break;
+                }
 
             if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
                 return false;

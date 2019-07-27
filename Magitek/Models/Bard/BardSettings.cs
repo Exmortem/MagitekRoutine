@@ -168,6 +168,14 @@ namespace Magitek.Models.Bard
         public bool UseSongs { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool CheckDotsBeforeSinging { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int AmmountOfDotsBeforeSinging { get; set; }
+
+        [Setting]
         [DefaultValue(1)]
         public int DefaultSongTransitionTime { get; set; }
 
