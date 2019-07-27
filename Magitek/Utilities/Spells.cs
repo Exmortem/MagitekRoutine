@@ -199,7 +199,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Thunder3 = DataManager.GetSpellData(153);
         public static readonly SpellData Blizzard3 = DataManager.GetSpellData(154);
         public static readonly SpellData Scathe = DataManager.GetSpellData(156);
-        public static readonly SpellData Convert = DataManager.GetSpellData(158);
+        public static readonly SpellData ManaFont = DataManager.GetSpellData(158);
         public static readonly SpellData Flare = DataManager.GetSpellData(162);
         public static readonly SpellData Freeze = DataManager.GetSpellData(159);
         public static readonly SpellData LeyLines = DataManager.GetSpellData(3573);

@@ -30,6 +30,7 @@ namespace Magitek.Rotations.BlackMage
             if (await Buff.Enochian()) return true;
             if (await Buff.Triplecast()) return true;
             if (await Buff.Sharpcast()) return true;
+            if (await Buff.ManaFont()) return true;
             if (await Buff.LeyLines()) return true;
             if (await Buff.UmbralSoul()) return true;
 

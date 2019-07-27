@@ -14,14 +14,22 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Foul()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+            //Can't use whatcha don't have
+            if (Core.Me.ClassLevel < 70)
+                return false;
+            //if you don't have Aspect Mastery, just SMASH THAT FOUL BUTTON
+            if (Core.Me.ClassLevel < 80)
+                if (ActionResourceManager.BlackMage.UmbralStacks == 3)
+                    return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
             //requires Polyglot
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
             //Only use in Astral 3
-            if (ActionResourceManager.BlackMage.AstralStacks != 3)
+            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
+            
             //Only use if you have no MP 
             if (Core.Me.CurrentMana != 0)
                 return false;
@@ -31,6 +39,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Flare()
         {
+            if (Core.Me.ClassLevel < 72)
+                return false; 
+
             if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
 
@@ -43,7 +54,10 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Freeze()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+            if (Core.Me.ClassLevel < 68)
+                return false; 
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
             //Wait until we don't have enough mp to cast Flare  
             if (Core.Me.CurrentMana > 799)
@@ -54,8 +68,11 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder4()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
+            //If we aren't using Flare to dump MP, just refresh when needed
+            if (Core.Me.ClassLevel < 72 && !Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 4000))
+                return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
             //Only use in Astral 3
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
@@ -71,11 +88,12 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire2()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
                 return false;
-            //Never use this trash spell if we have Flare unlocked...
-            if (Core.Me.ClassLevel > 49)
+            //Never use this trash spell if we have Flare+Elemental Trait unlocked...
+            if (Core.Me.ClassLevel > 71)
                 return false;
+
             return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
         }
 
