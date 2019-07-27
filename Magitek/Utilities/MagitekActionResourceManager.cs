@@ -3,7 +3,6 @@ using ff14bot.Managers;
 using System;
 using System.Linq;
 using ff14bot.Enums;
-using static ff14bot.Managers.ActionResourceManager.Samurai;
 
 namespace Magitek.Utilities
 {

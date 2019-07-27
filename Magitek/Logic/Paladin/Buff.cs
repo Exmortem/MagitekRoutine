@@ -117,7 +117,6 @@ namespace Magitek.Logic.Paladin
             return await Spells.DivineVeil.Cast(Core.Me);
         }
         
-        
         public static async Task<bool> Sheltron()
         {
             if (!PaladinSettings.Instance.Sheltron)
