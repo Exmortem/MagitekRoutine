@@ -45,6 +45,14 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Check If We Have At Least " IsChecked="{Binding BardSettings.CheckDotsBeforeSinging, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="2" MinValue="0" Value="{Binding BardSettings.AmmountOfDotsBeforeSinging, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" DoTs Running Before Singing" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Cut Army's Paeon Short When " IsChecked="{Binding BardSettings.EndArmysPaeonEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXSecondsRemaining, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
