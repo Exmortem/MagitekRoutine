@@ -52,14 +52,14 @@ namespace Magitek.Rotations.Gunbreaker
                 if (await Aoe.DemonSlice()) return true;
             }
 
+            if (await SingleTarget.GnashingFang()) return true;
+            if (await SingleTarget.SonicBreak()) return true;
             if (await SingleTarget.LightningShot()) return true;
             if (await SingleTarget.WickedTalon()) return true;
             if (await SingleTarget.SavageClaw()) return true;
-            if (await SingleTarget.GnashingFang()) return true;
-            if (await SingleTarget.SonicBreak()) return true;
-            if (await SingleTarget.BurstStrike()) return true;
             if (await SingleTarget.SolidBarrel()) return true;
             if (await SingleTarget.BrutalShell()) return true;
+            if (await SingleTarget.BurstStrike()) return true;
             return await SingleTarget.KeenEdge();
         }
     }

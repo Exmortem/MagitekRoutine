@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
@@ -30,7 +31,11 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!GunbreakerSettings.Instance.UseNoMercy)
                 return false;
-
+            //Use on last end of 
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds > 700)
+                return false;
+            if (Cartridge != 2)
+                return false;
             return await Spells.NoMercy.Cast(Core.Me);
         }
 

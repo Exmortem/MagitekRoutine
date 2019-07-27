@@ -57,8 +57,7 @@ namespace Magitek.Logic.Paladin
                 
 
             return false;
-        }
-
+          
         public static async Task<bool> FightOrFlight()
         {
             if (!PaladinSettings.Instance.UseFightOrFlight)
@@ -97,7 +96,7 @@ namespace Magitek.Logic.Paladin
                 return await Spells.FightorFlight.Cast(Core.Me);
             }
         }
-
+  
         public static async Task<bool> DivineVeil()
         {
             if (!PaladinSettings.Instance.DivineVeil)
