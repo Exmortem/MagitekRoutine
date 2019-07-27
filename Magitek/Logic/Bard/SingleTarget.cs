@@ -147,40 +147,5 @@ namespace Magitek.Logic.Bard
 
             return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
         }
-
-        public static async Task<bool> SidewinderAndShadowbite()
-        {
-            if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
-                return false;
-
-            // Make sure both DOTs are on target
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
-
-            // Use only on Trick Attack if the setting is enable and we're in a party
-            if (BardSettings.Instance.UseSideWinderOnlyOnTrick && PartyManager.IsInParty)
-            {
-                if (!Core.Me.CurrentTarget.HasAura(638) || Spells.Sidewinder.Cooldown.Milliseconds != 0)
-                    return false;
-
-                Logger.WriteInfo("Using Sidewinder with Trick Attack");
-                return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
-            }
-
-            return await HandleCast();
-
-            async Task<bool> HandleCast()
-            {
-                // At level 63, Shadowbite becomes available
-                if (Core.Me.ClassLevel < 63)
-                    return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
-
-                // If there's multiple targets around our target, use Shadowbite
-                if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() > 1)
-                    return await Spells.Shadowbite.Cast(Core.Me.CurrentTarget);
-
-                return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
-            }
-        }
     }
 }

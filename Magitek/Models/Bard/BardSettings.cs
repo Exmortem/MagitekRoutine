@@ -125,6 +125,30 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseQuickNock { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int QuickNockEnemiesInCone { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRainOfDeath { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int RainOfDeathEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseShadowBite { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseApexArrow { get; set; }
 
         [Setting]
@@ -227,30 +251,6 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseAoe { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAoeBeforeDots { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool QuickNock { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int QuickNockEnemiesInCone { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RainOfDeath { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int RainOfDeathEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Dispel { get; set; }
 
         [Setting]
@@ -276,10 +276,5 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool UseSideWinderOnlyOnTrick { get; set; }
-
     }
 }

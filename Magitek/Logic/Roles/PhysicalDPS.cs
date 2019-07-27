@@ -47,7 +47,7 @@ namespace Magitek.Logic.Roles
 
             if (!await Spells.ArmsLength.Cast(Core.Me)) return false;
             settings.ForceArmsLength = false;
-            TogglesManager.LoadTogglesForCurrentJob();
+            TogglesManager.ResetToggles();
             return true;
         }
 

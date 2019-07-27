@@ -23,7 +23,7 @@ namespace Magitek.Logic.Bard
 
             if (!await Spells.Troubadour.Cast(Core.Me)) return false;
             BardSettings.Instance.ForceTroubadour = false;
-            TogglesManager.LoadTogglesForCurrentJob();
+            TogglesManager.ResetToggles();
             return true;
 
         }

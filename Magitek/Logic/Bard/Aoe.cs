@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -20,10 +21,75 @@ namespace Magitek.Logic.Bard
             return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> RainOfDeathDuringMagesBallard()
+        {
+            if (!BardSettings.Instance.UseAoe)
+                return false;
+
+            if (!BardSettings.Instance.UseRainOfDeath)
+                return false;
+
+            if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+                return false;
+
+            if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
+                return false;
+
+            return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> RainOfDeath()
+        {
+            if (!BardSettings.Instance.UseRainOfDeath)
+                return false;
+
+            if (!BardSettings.Instance.UseAoe)
+                return false;
+
+            if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
+                return false;
+
+            return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> ShadowBite()
+        {
+            if (!BardSettings.Instance.UseShadowBite)
+                return false;
+
+            if (!ActionManager.HasSpell(Spells.Shadowbite.Id))
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
+                return false;
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() <= 1)
+                return false;
+
+            return await Spells.Shadowbite.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> QuickNock()
+        {
+            if (!BardSettings.Instance.UseQuickNock)
+                return false;
+
+            if (!BardSettings.Instance.UseAoe)
+                return false;
+
+            if (Utilities.Routines.Bard.EnemiesInCone < BardSettings.Instance.QuickNockEnemiesInCone)
+                return false;
+
+            return await Spells.QuickNock.Cast(Core.Me.CurrentTarget);
+        }
+
         /*
         public static async Task<bool> QuickNock()
         {
-            if (!BardSettings.Instance.QuickNock)
+            if (!BardSettings.Instance.UseQuickNock)
                 return false;
 
             if (!BardSettings.Instance.UseAoe)
@@ -54,7 +120,7 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> RainOfDeath()
         {
-            if (!BardSettings.Instance.RainOfDeath)
+            if (!BardSettings.Instance.UseRainOfDeath)
                 return false;
 
             if (!BardSettings.Instance.UseAoe)

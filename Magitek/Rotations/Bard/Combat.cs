@@ -59,15 +59,19 @@ namespace Magitek.Rotations.Bard
                 if (await Cooldowns.RagingStrikes()) return true;
                 if (await Cooldowns.RefulgentBarrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
+                if (await Aoe.RainOfDeathDuringMagesBallard()) return true;
                 if (await SingleTarget.BloodletterInMagesBallard()) return true;
                 if (await SingleTarget.EmpyrealArrow()) return true;
+                if (await Aoe.ShadowBite()) return true;
                 if (await SingleTarget.Sidewinder()) return true;
+                if (await Aoe.RainOfDeath()) return true;
                 if (await SingleTarget.Bloodletter()) return true;
             }
 
             if (await DamageOverTime.HandleDots()) return true;
             if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;
+            if (await Aoe.QuickNock()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());
 
