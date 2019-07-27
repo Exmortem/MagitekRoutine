@@ -37,6 +37,9 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.BowShockEnemies)
                 return false;
+            //Only use in the last 1/3rd of GCD window
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
+                return false;
 
             return await Spells.BowShock.Cast(Core.Me);
         }
