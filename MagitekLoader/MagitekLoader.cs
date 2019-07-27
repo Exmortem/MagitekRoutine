@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace MagitekLoader
         private static readonly string BaseDir = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}");
         private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
         private static volatile bool _updaterStarted, _updaterFinished, _loaded;
+        private static volatile bool _getBleedingEdge = false;
         public sealed override CapabilityFlags SupportedCapabilities => CapabilityFlags.All;
 
         public override float PullRange => 25;
@@ -364,6 +366,9 @@ namespace MagitekLoader
 
             if (local == latest || latest == null)
             {
+                if (_getBleedingEdge)
+                    GetLatestBleedingEdge();
+
                 _updaterFinished = true;
                 LoadProduct();
                 return;
@@ -396,6 +401,12 @@ namespace MagitekLoader
             Log($"Update complete in {stopwatch.ElapsedMilliseconds} ms.");
             _updaterFinished = true;
             LoadProduct();
+        }
+
+        private static void GetLatestBleedingEdge()
+        {
+            using (var client = new WebClient())
+                client.DownloadFile("https://magitek.s3-us-west-2.amazonaws.com/Magitek.dll", $@"{BaseDir}\Magitek.dll");
         }
 
         private static bool Clean(string directory)
