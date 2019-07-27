@@ -96,6 +96,9 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseEmpyrealArrow)
                 return false;
 
+            if (!ActionManager.HasSpell(Spells.EmpyrealArrow.Id))
+                return false;
+
             switch (ActionResourceManager.Bard.ActiveSong)
             {
                 case ActionResourceManager.Bard.BardSong.None:

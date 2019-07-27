@@ -31,7 +31,9 @@ namespace Magitek.Utilities.Routines
         public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.PitchPerfect,
                                                                             Spells.Bloodletter, Spells.EmpyrealArrow, Spells.Sidewinder,
                                                                             Spells.RainofDeath, Spells.Shadowbite, Spells.TheWanderersMinuet,
-                                                                            Spells.MagesBallad, Spells.ArmysPaeon};
+                                                                            Spells.MagesBallad, Spells.ArmysPaeon, Spells.Troubadour,
+                                                                            Spells.HeadGraze
+                                                                            };
 
         public static int CheckLastSpellsForWeaveing()
         {

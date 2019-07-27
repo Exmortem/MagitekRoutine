@@ -70,14 +70,14 @@ namespace Magitek.Logic.Bard
             if (Spells.Barrage.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (!BardSettings.Instance.Barrage)
+            if (!BardSettings.Instance.UseBarrage)
                 return false;
 
             //Dont Barrage when whe have a proc up
             if (Core.Me.HasAura(Auras.StraighterShot))
                 return false;
 
-            if (BardSettings.Instance.BarrageOnlyWithRagingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
+            if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
                 return false;
 
             return await BarrageCombo();

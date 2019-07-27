@@ -212,9 +212,10 @@
     <Compile Include="Logic\Bard\Aoe.cs" />
     <Compile Include="Logic\Bard\Cooldowns.cs" />
     <Compile Include="Logic\Bard\Dispel.cs" />
-    <Compile Include="Logic\Bard\Dot.cs" />
+    <Compile Include="Logic\Bard\DamageOverTime.cs" />
     <Compile Include="Logic\Bard\SingleTarget.cs" />
     <Compile Include="Logic\Bard\Songs.cs" />
+    <Compile Include="Logic\Bard\Utility.cs" />
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />

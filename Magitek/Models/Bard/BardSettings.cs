@@ -169,6 +169,10 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
+        public bool DelayRageingStrikes { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseRageingStrikesOnlyDuringWanderersMinuet { get; set; }
 
         [Setting]
@@ -189,7 +193,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseBarrageOnlyWithRageingStrike { get; set; }
+        public bool UseBarrageOnlyWithRageingStrikes { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -199,21 +203,19 @@ namespace Magitek.Models.Bard
 
         #region Utilities
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceTroubadour { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseHeadGraze { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnlyInterruptCurrentTarget { get; set; }
 
         #endregion
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Barrage { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool BarrageOnlyWithRagingStrikes { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DelayRageingStrikes { get; set; }
 
         [Setting]
         [DefaultValue(true)]

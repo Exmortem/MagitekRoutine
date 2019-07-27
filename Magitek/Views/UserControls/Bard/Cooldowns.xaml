@@ -60,7 +60,7 @@
             <StackPanel Margin="5">
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Barrage   " IsChecked="{Binding BardSettings.UseBarrage, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Only With Raging Strikes " IsChecked="{Binding BardSettings.UseBarrageOnlyWithRageingStrike, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only With Raging Strikes " IsChecked="{Binding BardSettings.UseBarrageOnlyWithRageingStrikes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

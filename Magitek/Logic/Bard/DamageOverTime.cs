@@ -12,7 +12,7 @@ using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Bard
 {
-    internal static class Dot
+    internal static class DamageOverTime
     {
 
         #region MainTargetDoTs

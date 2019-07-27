@@ -44,6 +44,10 @@ namespace Magitek.Rotations.Bard
 
             if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
             {
+                if (await Utility.Troubadour()) return true;
+                if (await PhysicalDps.ArmsLength(BardSettings.Instance)) return true;
+                if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
+                if (await Utility.HeadGraze()) return true;
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
@@ -55,8 +59,8 @@ namespace Magitek.Rotations.Bard
                 if (await SingleTarget.Bloodletter()) return true;
             }
 
-            if (await Dot.HandleDots()) return true;
-            if (await Dot.HandleMultiDotting()) return true;
+            if (await DamageOverTime.HandleDots()) return true;
+            if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());
