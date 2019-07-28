@@ -24,6 +24,10 @@ namespace Magitek.Rotations.Summoner
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            //Logger.Write("Aetherflow Count: " + MagitekActionResourceManager.Arcanist.Aetherflow);
+            //Logger.Write("Can Trance: " + MagitekActionResourceManager.Arcanist.CanTrance);
+            //Logger.Write("In Trance: " + MagitekActionResourceManager.Arcanist.CanTrance);
+
             if (await CustomOpenerLogic.Opener()) return true;
 
             if (!SpellQueueLogic.SpellQueue.Any()) SpellQueueLogic.InSpellQueue = false;

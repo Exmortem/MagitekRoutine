@@ -15,8 +15,6 @@ namespace Magitek.Extensions
         public static bool HasAetherflow(this LocalPlayer me)
         {
             return MagitekActionResourceManager.Arcanist.Aetherflow > 0;
-
-            // return ActionResourceManager.Arcanist.Aetherflow > 0;
         }
 
         public static bool HasBloodWeapon(this LocalPlayer me)
