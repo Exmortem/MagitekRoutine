@@ -22,9 +22,6 @@ namespace Magitek.Logic.BlackMage
           if (Core.Me.ClassLevel < 80)
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
-          
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
 
             //requires Polyglot
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
@@ -46,9 +43,6 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 72)
                 return false; 
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
-
             //Only cast Flare if you have enough mp
             if (Core.Me.CurrentMana < 800)
                 return false;
@@ -61,9 +55,6 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 68)
                 return false; 
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
-          
             //Wait until we don't have enough mp to cast Flare  
             if (Core.Me.CurrentMana > 799)
                 return false;
@@ -94,8 +85,6 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire2()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
             //Never use this trash spell if we have Flare+Elemental Trait unlocked...
             if (Core.Me.ClassLevel > 71)
                 return false;

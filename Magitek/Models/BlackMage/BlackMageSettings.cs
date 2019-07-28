@@ -59,7 +59,7 @@ namespace Magitek.Models.BlackMage
 
         [Setting]
         [DefaultValue(true)]
-        public bool Aoe { get; set; }
+        public bool UseAoe { get; set; }
 
         [Setting]
         [DefaultValue(3)]

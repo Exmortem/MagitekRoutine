@@ -34,11 +34,14 @@ namespace Magitek.Rotations.BlackMage
             if (await Buff.LeyLines()) return true;
             if (await Buff.UmbralSoul()) return true;
 
-            if (await Aoe.Flare()) return true;
-            if (await Aoe.Freeze()) return true;
-            if (await Aoe.Foul()) return true;
-            if (await Aoe.Fire2()) return true;
-            if (await Aoe.Thunder4()) return true;
+            if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
+            {
+                if (await Aoe.Flare()) return true;
+                if (await Aoe.Freeze()) return true;
+                if (await Aoe.Foul()) return true;
+                if (await Aoe.Fire2()) return true;
+                if (await Aoe.Thunder4()) return true;
+            }
 
             if (await SingleTarget.Blizzard4()) return true;
             if (await SingleTarget.Thunder3()) return true;
@@ -49,11 +52,7 @@ namespace Magitek.Rotations.BlackMage
             if (await SingleTarget.Fire3()) return true;
             if (await SingleTarget.Fire()) return true;
 
-            if (await SingleTarget.Blizzard3()) return true;
-
-            
-
-            return false;
+            return await SingleTarget.Blizzard3();
         }
     }
 }
