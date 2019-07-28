@@ -27,7 +27,7 @@ namespace Magitek.Logic.BlackMage
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
           
-            //Only use in Umbral 3
+            //Only use in Astral 3
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
           
