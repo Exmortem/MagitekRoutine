@@ -153,5 +153,9 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int LightningShotMinDistance { get; set; }
     }
 }

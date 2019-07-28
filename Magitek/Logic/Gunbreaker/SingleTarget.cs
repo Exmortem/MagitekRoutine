@@ -190,9 +190,9 @@ namespace Magitek.Logic.Gunbreaker
             if (!DutyManager.InInstance)
                 return false;
 
-            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach &&
-                                                                  r.Distance(Core.Me) <= 15 + r.CombatReach &&
-                                                                  r.TargetGameObject != Core.Me);
+            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
+                                                                         && r.Distance(Core.Me) <= 15 + r.CombatReach 
+                                                                         && r.TargetGameObject != Core.Me);
 
             if (lightningShotTarget == null)
                 return false;
