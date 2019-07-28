@@ -27,6 +27,8 @@ namespace Magitek.Utilities
             }
         }
 
+        //TODO: Webook test
+
         public static class Arcanist
         {
             public static bool CanTrance => ActionResourceManager.CostTypesStruct.offset_C > 2 && Spells.Trance.Cooldown.TotalMilliseconds == 0;
