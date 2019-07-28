@@ -18,7 +18,6 @@ namespace Magitek.Logic.BlackMage
                 if (!Core.Me.HasAura(Auras.FireStarter))
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
-
             //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
             if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder3)
             {
@@ -26,7 +25,7 @@ namespace Magitek.Logic.BlackMage
                 if(Core.Me.CurrentMana < 10000)
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
-            return false;        
+        return false;        
         }
 
         public static async Task<bool> Despair()
@@ -49,15 +48,12 @@ namespace Magitek.Logic.BlackMage
         {
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
-
             //refresh astral fire at 5s
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds < 5000)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
-
             //If we don't have despair, use fire 1 to dump mana
             if (Core.Me.ClassLevel < 71 && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
-
             return false;
 
         }
