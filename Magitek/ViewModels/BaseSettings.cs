@@ -43,6 +43,7 @@ namespace Magitek.ViewModels
         public BaseSettings()
         {
             VersionRunning = !File.Exists(_magitekFolder + @"version.txt") ? "No Ver." : File.ReadAllText(_magitekFolder + @"version.txt");
+            VersionRunning = !File.Exists(_magitekFolder + @"BleedingEdgeVersion.txt") ? "No Ver." : "BE Ver: " + File.ReadAllText(_magitekFolder + @"BleedingEdgeVersion.txt");
         }
         
         public ICommand ShowSettingsModal => new DelegateCommand(() =>
