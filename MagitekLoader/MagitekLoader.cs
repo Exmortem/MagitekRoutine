@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -36,7 +35,13 @@ namespace MagitekLoader
         private static readonly string BaseDir = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}");
         private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
         private static volatile bool _updaterStarted, _updaterFinished, _loaded;
-        private static volatile bool _getBleedingEdge = false;
+        private static string LatestBleedingEdgeVersion;
+
+        private static volatile bool _getBleedingEdge = true;
+        private static readonly string BleedingEdgeVersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\BleedingEdgeVersion.txt");
+        private const string BleedingEdgeZipUrl = "https://magitek.s3-us-west-2.amazonaws.com/Magitek.zip";
+        private const string BleedingEdgeVersionUrl = "https://magitek.s3-us-west-2.amazonaws.com/BleedingEdgeVersion.txt";
+
         public sealed override CapabilityFlags SupportedCapabilities => CapabilityFlags.All;
 
         public override float PullRange => 25;
@@ -85,6 +90,13 @@ namespace MagitekLoader
             if (_updaterStarted) { return; }
 
             _updaterStarted = true;
+
+            if (_getBleedingEdge)
+            {
+                Task.Factory.StartNew(GetLatestBleedingEdge);
+                return;
+            }
+
             Task.Factory.StartNew(AutoUpdate);
         }
 
@@ -345,6 +357,21 @@ namespace MagitekLoader
 
         private static string GetLocalVersion()
         {
+            if (_getBleedingEdge)
+            {
+                if (!File.Exists(BleedingEdgeVersionPath)) return null;
+                
+                try
+                {
+                    var version = File.ReadAllText(BleedingEdgeVersionPath);
+                    return version;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
             if (!File.Exists(VersionPath)) { return null; }
             try
             {
@@ -366,9 +393,6 @@ namespace MagitekLoader
 
             if (local == latest || latest == null)
             {
-                if (_getBleedingEdge)
-                    GetLatestBleedingEdge();
-
                 _updaterFinished = true;
                 LoadProduct();
                 return;
@@ -405,8 +429,71 @@ namespace MagitekLoader
 
         private static void GetLatestBleedingEdge()
         {
-            using (var client = new WebClient())
-                client.DownloadFile("https://magitek.s3-us-west-2.amazonaws.com/Magitek.dll", $@"{BaseDir}\Magitek.dll");
+            var stopwatch = Stopwatch.StartNew();
+            var local = GetLocalVersion();
+            LatestBleedingEdgeVersion = GetLatestBleedingEdgeVersion().Result;
+            var latest = LatestBleedingEdgeVersion;
+
+            if (local == latest || latest == null)
+            {
+                _updaterFinished = true;
+                LoadProduct();
+                return;
+            }
+
+            Log($"Updating to Bleeding Edge Version: {latest}.");
+            var bytes = DownloadLatestBleedingEdge(latest).Result;
+
+            if (bytes == null || bytes.Length == 0)
+            {
+                Log("[Error] Bad product data returned.");
+                return;
+            }
+
+            if (!Clean(BaseDir))
+            {
+                Log("[Error] Could not clean directory for update.");
+                return;
+            }
+
+            if (!Extract(bytes, ProjectTypeFolder + @"\Magitek"))
+            {
+                Log("[Error] Could not extract new files.");
+                return;
+            }
+
+            if (File.Exists(BleedingEdgeVersionPath)) { File.Delete(BleedingEdgeVersionPath); }
+            try { File.WriteAllText(BleedingEdgeVersionPath, latest); }
+            catch (Exception e) { Log(e.ToString()); }
+
+            stopwatch.Stop();
+            Log($"Update complete in {stopwatch.ElapsedMilliseconds} ms.");
+            LoadProduct();
+        }
+
+        private static async Task<string> GetLatestBleedingEdgeVersion()
+        {
+            using (var client = new HttpClient())
+            {
+                HttpResponseMessage response;
+                try { response = await client.GetAsync(BleedingEdgeVersionUrl); }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                string responseMessageBytes;
+                try { responseMessageBytes = await response.Content.ReadAsStringAsync(); }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                return responseMessageBytes;
+            }
         }
 
         private static bool Clean(string directory)
@@ -466,6 +553,38 @@ namespace MagitekLoader
                 var contents = await response.Content.ReadAsStringAsync();
                 var responseObject = JsonConvert.DeserializeObject<VersionMessage>(contents);
                 return responseObject;
+            }
+        }
+
+        private static async Task<byte[]> DownloadLatestBleedingEdge(string version)
+        {
+            using (var client = new HttpClient())
+            {
+                HttpResponseMessage response;
+                try
+                {
+                    response = await client.GetAsync(BleedingEdgeZipUrl);
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                byte[] responseMessageBytes;
+                try
+                {
+                    responseMessageBytes = await response.Content.ReadAsByteArrayAsync();
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+
+                return responseMessageBytes;
             }
         }
 
