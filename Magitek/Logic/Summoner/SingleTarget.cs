@@ -179,6 +179,8 @@ namespace Magitek.Logic.Summoner
 
             if ((int)PetManager.ActivePetType == 14 && !SummonerSettings.Instance.EnkindlePhoenix) return false;
 
+            if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 18000) return false;
+
             return await Spells.EnkindleBahamut.Cast(Core.Me.CurrentTarget);
         }
     }
