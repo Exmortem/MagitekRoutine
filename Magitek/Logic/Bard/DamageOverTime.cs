@@ -22,6 +22,9 @@ namespace Magitek.Logic.Bard
             if (Core.Me.ClassLevel < 6) //No Dots at this point
                 return false;
 
+            if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                return false;
+
             if (await Windbite(Core.Me.CurrentTarget))
                 return true;
 
@@ -115,7 +118,7 @@ namespace Magitek.Logic.Bard
                 return false;
             if (!unit.InLineOfSight())
                 return false;
-            if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds)
+            if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
                 return false;
 
             return !unit.HasAura(spell, true);
@@ -213,7 +216,7 @@ namespace Magitek.Logic.Bard
                     return false;
                 if (!unit.InLineOfSight())
                     return false;
-                if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds)
+                if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
                     return false;
 
                 if (Core.Me.ClassLevel < 64)

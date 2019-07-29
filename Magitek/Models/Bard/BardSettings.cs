@@ -76,12 +76,20 @@ namespace Magitek.Models.Bard
         public int RefreshDotsWithLessThanXSecondsRemaining { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool DontDotIfEnemyIsDyingSoon { get; set; }
+        [DefaultValue(false)]
+        public bool DontDotIfCurrentTargetIsDyingSoon { get; set; }
 
         [Setting]
         [DefaultValue(20)]
-        public int DontDotIfEnemyIsDyingWithinXSeconds { get; set; }
+        public int DontDotIfCurrentTargetIsDyingWithinXSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DontDotIfMultiDotTargetIsDyingSoon { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int DontDotIfMultiDotTargetIsDyingWithinXSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]

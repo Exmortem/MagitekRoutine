@@ -63,13 +63,13 @@ namespace Magitek.Utilities.Routines
             if (tar.EnglishName.Contains("Dummy"))
                 return true;
 
-            if (BardSettings.Instance.DontDotIfEnemyIsDyingSoon)
+            if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon)
             {
                 // Target doesn't have a combat time left yet
                 if (Combat.CurrentTargetCombatTimeLeft < 0)
                     return true;
 
-                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds;
+                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds;
             }
 
             if (tar.IsBoss())
