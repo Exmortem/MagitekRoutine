@@ -66,7 +66,7 @@ namespace Magitek.Logic.Bard
             {
                 case SongStrategy.WM_MB_AP: // < 3 Targets
                     //Still think this could be a little bit cleaner
-                    if (theWanderersMinuetCooldown == TimeSpan.Zero && (magesBallardCooldown == TimeSpan.Zero || armysPaeonCooldown != TimeSpan.Zero))
+                    if (theWanderersMinuetCooldown == TimeSpan.Zero && ((magesBallardCooldown == TimeSpan.Zero || magesBallardCooldown.TotalSeconds < 30 ) || armysPaeonCooldown != TimeSpan.Zero))
                         return await WanderersMinuet();
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1000 * BardSettings.Instance.DefaultSongTransitionTime)
                         return false;
