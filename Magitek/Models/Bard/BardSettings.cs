@@ -72,7 +72,7 @@ namespace Magitek.Models.Bard
         #region DamageOverTime
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int RefreshDotsWithLessThanXSecondsRemaining { get; set; }
 
         [Setting]
