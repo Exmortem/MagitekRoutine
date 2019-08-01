@@ -100,12 +100,12 @@ namespace Magitek.Rotations.Paladin
                 //    }
                 //}
 
-                if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, PaladinSettings.Instance.RefreshGoringBlade * 1000))
-                {
-                    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
-                }
+                //if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, PaladinSettings.Instance.RefreshGoringBlade * 1000))
+                //{
+                //    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
+                //}
 
-                if (Core.Me.ClassLevel >= 60)
+                if (Core.Me.ClassLevel >= 4)
                 {
                     return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
                 }
