@@ -54,8 +54,6 @@ namespace Magitek.Logic.Bard
                                 break;
                             return false;
                         }
-                    default:
-                        break;
                 }
 
             switch (BardSettings.Instance.CurrentSongPlaylist)
