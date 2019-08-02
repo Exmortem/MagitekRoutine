@@ -43,31 +43,6 @@ namespace Magitek
         public void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
-
-            var patternFinder = new GreyMagic.PatternFinder(Core.Memory);
-            var intPtr = patternFinder.Find("Search 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? EB AB Add 3 TraceRelative");
-            var languageByte = Core.Memory.Read<byte>(intPtr);
-
-            switch (languageByte)
-            {
-                case 1:
-                    Globals.Language = GameVersion.English;
-                    break;
-                case 2:
-                    Globals.Language = GameVersion.English;
-                    break;
-                case 3:
-                    Globals.Language = GameVersion.English;
-                    break;
-                case 4:
-                    Globals.Language = GameVersion.Chinese;
-                    break;
-                default:
-                    Globals.Language = GameVersion.English;
-                    break;
-            }
-
-            Logger.WriteInfo($"Current Language: {Globals.Language}");
             RotationManager.Reset();
             ViewModels.BaseSettings.Instance.RoutineSelectedInUi = RotationManager.CurrentRotation.ToString();
             DispelManager.Reset();

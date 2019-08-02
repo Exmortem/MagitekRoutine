@@ -11,9 +11,7 @@ using ff14bot.AClasses;
 using ff14bot.Enums;
 using ff14bot.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Text;
 using ff14bot.Managers;
-using Newtonsoft.Json;
 using TreeSharp;
 using Action = TreeSharp.Action;
 
@@ -22,7 +20,6 @@ namespace MagitekLoader
     public class CombatRoutineLoader : CombatRoutine
     {
         private const string ProjectName = "Magitek";
-        private const int ProjectId = 1;
         private const string ProjectMainType = "Magitek.Magitek";
         private const string ProjectAssemblyName = "Magitek.dll";
         private static readonly Color LogColor = Colors.CornflowerBlue;
@@ -31,16 +28,13 @@ namespace MagitekLoader
         private static readonly object Locker = new object();
         private static readonly string ProjectAssembly = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\{ProjectAssemblyName}");
         private static readonly string GreyMagicAssembly = Path.Combine(Environment.CurrentDirectory, @"GreyMagic.dll");
-        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\version.txt");
+        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\Version.txt");
         private static readonly string BaseDir = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}");
         private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
         private static volatile bool _updaterStarted, _updaterFinished, _loaded;
-        private static string LatestBleedingEdgeVersion;
-
-        private static volatile bool _getBleedingEdge = true;
-        private static readonly string BleedingEdgeVersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\BleedingEdgeVersion.txt");
-        private const string BleedingEdgeZipUrl = "https://magitek.s3-us-west-2.amazonaws.com/Magitek.zip";
-        private const string BleedingEdgeVersionUrl = "https://magitek.s3-us-west-2.amazonaws.com/BleedingEdgeVersion.txt";
+        private static string _latestVersion;
+        private const string ZipUrl = "https://magitek.s3-us-west-2.amazonaws.com/Magitek.zip";
+        private const string VersionUrl = "https://magitek.s3-us-west-2.amazonaws.com/Version.txt";
 
         public sealed override CapabilityFlags SupportedCapabilities => CapabilityFlags.All;
 
@@ -90,12 +84,6 @@ namespace MagitekLoader
             if (_updaterStarted) { return; }
 
             _updaterStarted = true;
-
-            if (_getBleedingEdge)
-            {
-                Task.Factory.StartNew(GetLatestBleedingEdge);
-                return;
-            }
 
             Task.Factory.StartNew(AutoUpdate);
         }
@@ -357,21 +345,6 @@ namespace MagitekLoader
 
         private static string GetLocalVersion()
         {
-            if (_getBleedingEdge)
-            {
-                if (!File.Exists(BleedingEdgeVersionPath)) return null;
-                
-                try
-                {
-                    var version = File.ReadAllText(BleedingEdgeVersionPath);
-                    return version;
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-
             if (!File.Exists(VersionPath)) { return null; }
             try
             {
@@ -385,11 +358,8 @@ namespace MagitekLoader
         {
             var stopwatch = Stopwatch.StartNew();
             var local = GetLocalVersion();
-
-            var message = new VersionMessage { LocalVersion = local, ProductId = ProjectId };
-            var responseMessage = GetLatestVersion(message).Result;
-
-            var latest = responseMessage.LatestVersion;
+            _latestVersion = GetLatestVersion().Result;
+            var latest = _latestVersion;
 
             if (local == latest || latest == null)
             {
@@ -398,51 +368,8 @@ namespace MagitekLoader
                 return;
             }
 
-            Log($"Updating to version {latest}.");
-            var bytes = responseMessage.Data;
-            if (bytes == null || bytes.Length == 0) { return; }
-
-            if (!Clean(BaseDir))
-            {
-                Log("Could not clean directory for update.");
-                _updaterFinished = true;
-                return;
-            }
-
-            Log("Extracting new files.");
-            if (!Extract(bytes, ProjectTypeFolder))
-            {
-                Log("Could not extract new files.");
-                _updaterFinished = true;
-                return;
-            }
-
-            if (File.Exists(VersionPath)) { File.Delete(VersionPath); }
-            try { File.WriteAllText(VersionPath, latest); }
-            catch (Exception e) { Log(e.ToString()); }
-
-            stopwatch.Stop();
-            Log($"Update complete in {stopwatch.ElapsedMilliseconds} ms.");
-            _updaterFinished = true;
-            LoadProduct();
-        }
-
-        private static void GetLatestBleedingEdge()
-        {
-            var stopwatch = Stopwatch.StartNew();
-            var local = GetLocalVersion();
-            LatestBleedingEdgeVersion = GetLatestBleedingEdgeVersion().Result;
-            var latest = LatestBleedingEdgeVersion;
-
-            if (local == latest || latest == null)
-            {
-                _updaterFinished = true;
-                LoadProduct();
-                return;
-            }
-
-            Log($"Updating to Bleeding Edge Version: {latest}.");
-            var bytes = DownloadLatestBleedingEdge(latest).Result;
+            Log($"Updating to Version: {latest}.");
+            var bytes = DownloadLatestVersion(latest).Result;
 
             if (bytes == null || bytes.Length == 0)
             {
@@ -462,8 +389,8 @@ namespace MagitekLoader
                 return;
             }
 
-            if (File.Exists(BleedingEdgeVersionPath)) { File.Delete(BleedingEdgeVersionPath); }
-            try { File.WriteAllText(BleedingEdgeVersionPath, latest); }
+            if (File.Exists(VersionPath)) { File.Delete(VersionPath); }
+            try { File.WriteAllText(VersionPath, latest); }
             catch (Exception e) { Log(e.ToString()); }
 
             stopwatch.Stop();
@@ -471,12 +398,12 @@ namespace MagitekLoader
             LoadProduct();
         }
 
-        private static async Task<string> GetLatestBleedingEdgeVersion()
+        private static async Task<string> GetLatestVersion()
         {
             using (var client = new HttpClient())
             {
                 HttpResponseMessage response;
-                try { response = await client.GetAsync(BleedingEdgeVersionUrl); }
+                try { response = await client.GetAsync(VersionUrl); }
                 catch (Exception e)
                 {
                     Log(e.Message);
@@ -530,40 +457,14 @@ namespace MagitekLoader
             return true;
         }
 
-        private static async Task<VersionMessage> GetLatestVersion(VersionMessage message)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://auth.magitek.io");
-
-                var json = JsonConvert.SerializeObject(message);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response;
-                try
-                {
-                    response = await client.PostAsync("/products/version", content);
-                }
-                catch (Exception e)
-                {
-                    Log(e.Message);
-                    return null;
-                }
-
-                var contents = await response.Content.ReadAsStringAsync();
-                var responseObject = JsonConvert.DeserializeObject<VersionMessage>(contents);
-                return responseObject;
-            }
-        }
-
-        private static async Task<byte[]> DownloadLatestBleedingEdge(string version)
+        private static async Task<byte[]> DownloadLatestVersion(string version)
         {
             using (var client = new HttpClient())
             {
                 HttpResponseMessage response;
                 try
                 {
-                    response = await client.GetAsync(BleedingEdgeZipUrl);
+                    response = await client.GetAsync(ZipUrl);
                 }
                 catch (Exception e)
                 {
@@ -586,14 +487,6 @@ namespace MagitekLoader
 
                 return responseMessageBytes;
             }
-        }
-
-        private class VersionMessage
-        {
-            public int ProductId { get; set; }
-            public string LocalVersion { get; set; }
-            public string LatestVersion { get; set; }
-            public byte[] Data { get; set; } = new byte[0];
         }
     }
 }
