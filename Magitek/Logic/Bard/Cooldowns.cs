@@ -73,6 +73,9 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBarrage)
                 return false;
 
+            if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1800)
+                return false;
+
             //Dont Barrage when whe have a proc up
             if (Core.Me.HasAura(Auras.StraighterShot))
                 return false;
