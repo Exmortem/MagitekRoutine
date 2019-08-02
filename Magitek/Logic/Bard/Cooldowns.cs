@@ -101,30 +101,5 @@ namespace Magitek.Logic.Bard
                 return false;
             }
         }
-
-        public static async Task<bool> NaturesMinne()
-        {
-            if (!BardSettings.Instance.NaturesMinne)
-                return false;
-
-            if (!Globals.InParty)
-            {
-                if (Core.Me.CurrentHealthPercent > BardSettings.Instance.NaturesMinneHealthPercent)
-                    return false;
-
-                return await Spells.NaturesMinne.Cast(Core.Me);
-            }
-
-            var naturesMinneTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
-                r.CurrentHealthPercent <= BardSettings.Instance.NaturesMinneHealthPercent && (
-                    BardSettings.Instance.NaturesMinneTanks && r.IsTank() ||
-                    BardSettings.Instance.NaturesMinneDps && r.IsDps() ||
-                    BardSettings.Instance.NaturesMinneHealers && r.IsHealer()));
-
-            if (naturesMinneTarget == null)
-                return false;
-
-            return await Spells.NaturesMinne.Cast(naturesMinneTarget);
-        }
     }
 }

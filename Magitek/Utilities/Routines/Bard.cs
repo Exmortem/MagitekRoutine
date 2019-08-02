@@ -32,7 +32,8 @@ namespace Magitek.Utilities.Routines
                                                                             Spells.Bloodletter, Spells.EmpyrealArrow, Spells.Sidewinder,
                                                                             Spells.RainofDeath, Spells.Shadowbite, Spells.TheWanderersMinuet,
                                                                             Spells.MagesBallad, Spells.ArmysPaeon, Spells.Troubadour,
-                                                                            Spells.HeadGraze, Spells.NaturesMinne, Spells.TheWardensPaean
+                                                                            Spells.HeadGraze, Spells.NaturesMinne, Spells.TheWardensPaean,
+                                                                            Spells.SecondWind
                                                                             };
 
         public static int CheckLastSpellsForWeaveing()
