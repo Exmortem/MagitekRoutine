@@ -72,9 +72,17 @@ namespace Magitek.Logic.Bard
 
             if (!BardSettings.Instance.UseBarrage)
                 return false;
-
-            if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1800)
-                return false;
+            if (Core.Me.ClassLevel < 76)
+            {
+                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
+            else
+            {
+                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
+            
 
             //Dont Barrage when whe have a proc up
             if (Core.Me.HasAura(Auras.StraighterShot))
