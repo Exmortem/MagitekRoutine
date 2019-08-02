@@ -35,8 +35,6 @@ namespace Magitek.Logic.Gunbreaker
             if (!Core.Player.HasAura(Auras.NoMercy))
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.BowShockEnemies)
-                return false;
             //Only use in the last 1/3rd of GCD window
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
                 return false;

@@ -54,6 +54,7 @@ namespace Magitek.Rotations.WhiteMage
 
             if (Casting.LastSpell == Spells.PlenaryIndulgence)
             {
+                if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;
                 if (await Logic.WhiteMage.Heal.Medica2()) return true;
                 return await Spells.Medica.Cast(Core.Me);
