@@ -79,18 +79,12 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseRiddleOfFire)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FistsofFire))
-                return false;
-
             return await Spells.RiddleofFire.Cast(Core.Me);
         }
 
         public static async Task<bool> RiddleOfEarth()
         {
             if (!MonkSettings.Instance.UseRiddleOfEarth)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.FistsofEarth))
                 return false;
 
             return await Spells.RiddleofEarth.Cast(Core.Me);
@@ -103,7 +97,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseBrotherhood)
                 return false;
 
-            return await Spells.Brotherhood.Cast(Core.Me.CurrentTarget);
+            return await Spells.Brotherhood.Cast(Core.Me);
         }
 
         public static async Task<bool> Mantra()
