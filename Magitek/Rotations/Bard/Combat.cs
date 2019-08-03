@@ -57,7 +57,8 @@ namespace Magitek.Rotations.Bard
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
-                if (await Cooldowns.RefulgentBarrage()) return true;
+                //if (await Cooldowns.RefulgentBarrage()) return true;
+                if (await Cooldowns.Barrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await Aoe.RainOfDeathDuringMagesBallard()) return true;
                 if (await SingleTarget.BloodletterInMagesBallard()) return true;
@@ -68,6 +69,7 @@ namespace Magitek.Rotations.Bard
                 if (await SingleTarget.Bloodletter()) return true;
             }
 
+            if (await SingleTarget.StraightShotAfterBarrage()) return true;
             if (await DamageOverTime.HandleDots()) return true;
             if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;

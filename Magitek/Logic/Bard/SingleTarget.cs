@@ -42,6 +42,24 @@ namespace Magitek.Logic.Bard
             return await Spells.RefulgentArrow.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> StraightShotAfterBarrage()
+        {
+            if (Casting.LastSpell != Spells.Barrage && !Core.Me.HasAura(Auras.Barrage)) return false;
+
+            if (!BardSettings.Instance.UseStraightShot)
+                return false;
+
+            
+            if (Core.Me.ClassLevel < 70)
+                if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
+                    return true;
+
+            if (await Spells.RefulgentArrow.Cast(Core.Me.CurrentTarget))
+                return true;
+
+            return true; //We want to check for more oGCDs while waiting for our GCD
+        }
+
         public static async Task<bool> PitchPerfect()
         {
             if (!BardSettings.Instance.UsePitchPerfect)
@@ -109,7 +127,7 @@ namespace Magitek.Logic.Bard
                         return false;
                     break;
 
-                //Cant use PP outside of WM so why would we want to waste a EA here
+                //Cant use PP outside of WM so why would we want to waste an EA here
                 //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
                     if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)

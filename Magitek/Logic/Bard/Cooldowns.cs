@@ -65,6 +65,38 @@ namespace Magitek.Logic.Bard
             return await Spells.BattleVoice.Cast(Core.Me);
         }
 
+        public static async Task<bool> Barrage()
+        {
+
+            if (Spells.Barrage.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (!BardSettings.Instance.UseBarrage)
+                return false;
+
+            //Wait for potential SSR procs from Burstshot
+            if (Core.Me.ClassLevel < 76)
+            {
+                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
+            else
+            {
+                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
+
+            //Dont Barrage when whe have a proc up
+            if (Core.Me.HasAura(Auras.StraighterShot))
+                return false;
+
+            if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
+                return false;
+
+            return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);
+
+        }
+
         public static async Task<bool> RefulgentBarrage()
         {
             if (Spells.Barrage.Cooldown != TimeSpan.Zero)
