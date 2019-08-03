@@ -34,9 +34,9 @@ namespace Magitek.Rotations.Monk
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await Buff.FistsOf()) return true;
-
             if (await CustomOpenerLogic.Opener()) return true;
+
+            if (await Buff.FistsOf()) return true;
 
             //var count = Utilities.Combat.Enemies.Count;
             //if (2 >= count && count < 5)
