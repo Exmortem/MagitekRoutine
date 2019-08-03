@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Buddy.Coroutines;
@@ -166,16 +167,85 @@ namespace Magitek.Logic.Monk
                 //    Utilities.Routines.Monk.PBStage = 0;
                 //    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
                 //}
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 15000;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Bootshine });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Demolish });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.TwinSnakes });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.DragonKick });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Bootshine });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.DragonKick });
-                return true;
+
+                if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
+                {
+                    SpellQueueLogic.SpellQueue.Clear();
+                    SpellQueueLogic.Timeout.Start();
+                    SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 15000;
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.TwinSnakes,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.Bootshine,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.LeadenFist)&& Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.Demolish,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.TwinSnakes,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.DragonKick,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.Bootshine,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
+                    {
+                        Spell = Spells.DragonKick,
+                        TargetSelf = true,
+                        Checks = new List<QueueSpellCheck>()
+                    {
+                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
+                    }
+
+                    });
+                    return true;
+                }
+
 
             }
             return false;
