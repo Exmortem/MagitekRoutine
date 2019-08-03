@@ -62,7 +62,7 @@ namespace Magitek.Logic.Bard
             if (!PartyManager.IsInParty)
                 return false;
 
-            return await Spells.BattleVoice.Cast(Core.Me);
+            return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice);
         }
 
         public static async Task<bool> Barrage()
@@ -77,12 +77,12 @@ namespace Magitek.Logic.Bard
             //Wait for potential SSR procs from Burstshot
             if (Core.Me.ClassLevel < 76)
             {
-                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                if (Casting.LastSpell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
                     return false;
             }
             else
             {
-                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                if (Casting.LastSpell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
                     return false;
             }
 
@@ -95,54 +95,6 @@ namespace Magitek.Logic.Bard
 
             return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);
 
-        }
-
-        public static async Task<bool> RefulgentBarrage()
-        {
-            if (Spells.Barrage.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (!BardSettings.Instance.UseBarrage)
-                return false;
-            if (Core.Me.ClassLevel < 76)
-            {
-                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
-                    return false;
-            }
-            else
-            {
-                if (Casting.SpellCastHistory.ElementAt(0).Spell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
-                    return false;
-            }
-            
-
-            //Dont Barrage when whe have a proc up
-            if (Core.Me.HasAura(Auras.StraighterShot))
-                return false;
-
-            if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
-                return false;
-
-            return await BarrageCombo();
-
-            // Handle Barrage + Straighter Shot
-            async Task<bool> BarrageCombo()
-            {
-                if (await Spells.Barrage.Cast(Core.Me))
-                    await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Barrage));
-                else
-                    return false;
-
-                while (Core.Me.HasAura(Auras.Barrage))
-                {
-                    if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
-                        return true;
-
-                    await Coroutine.Yield();
-                }
-
-                return false;
-            }
         }
     }
 }
