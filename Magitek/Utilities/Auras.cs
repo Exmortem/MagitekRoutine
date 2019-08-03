@@ -6,6 +6,7 @@ namespace Magitek.Utilities
     {
         public const int
             Raise = 148,
+            BattleVoice = 141,
             Swiftcast = 167,
             Aero = 143,
             Aero2 = 144,
