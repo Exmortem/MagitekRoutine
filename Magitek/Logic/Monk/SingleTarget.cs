@@ -138,5 +138,13 @@ namespace Magitek.Logic.Monk
             return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> PerfectBalanceRoT()
+        {
+            //oh boy... right.... let's figure out what we are going to do here.
+
+
+            return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+        }
+
     }
 }

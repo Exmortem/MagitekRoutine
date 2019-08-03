@@ -38,8 +38,6 @@ namespace Magitek.Rotations.Monk
 
             if (Utilities.Routines.Monk.OnGcd)
             {
-                if (await Buff.FistOfFire()) return true;
-                if (await Buff.FistOfWind()) return true;
                 if (await SingleTarget.TheForbiddenChakra()) return true;
                 if (await SingleTarget.ShoulderTackle()) return true;
                 //if (await Buff.PerfectBalance()) return true;
@@ -49,6 +47,7 @@ namespace Magitek.Rotations.Monk
                 if (await Buff.Brotherhood()) return true;
                 if (await Aoe.ElixerField()) return true;
             }
+            //if (await SingleTarget.PerfectBalanceRoT()) return true;
             if (await Aoe.Rockbreaker()) return true;
             if (await Aoe.FourPointStrike()) return true;
             if (await SingleTarget.Demolish()) return true;
