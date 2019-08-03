@@ -65,6 +65,12 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UsePerfectBalance)
                 return false;
 
+            if (!Core.Me.HasAura(Auras.FistsofWind))
+                return false;
+
+            if (Casting.LastSpell != Spells.DragonKick)
+                return false;
+
             return await Spells.PerfectBalance.Cast(Core.Me);
         }
 

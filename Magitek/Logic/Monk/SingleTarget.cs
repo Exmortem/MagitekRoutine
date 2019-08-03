@@ -138,12 +138,47 @@ namespace Magitek.Logic.Monk
             return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> PerfectBalanceRoT()
+        public static bool PerfectBalanceRoT()
         {
-            //oh boy... right.... let's figure out what we are going to do here.
+            if (Core.Me.HasAura(Auras.PerfectBalance))
+            {
+                ////oh boy... right.... let's figure out what we are going to do here.
+                //if (Utilities.Routines.Monk.PBStage == 0)
+                //{
+                //    if (Core.Me.HasAura(Auras.LeadenFist))
+                //    {
+                //        Utilities.Routines.Monk.PBStage = 1;
+                //        return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+                //    }
+                //    else
+                //        return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+                //}
+
+                //if (Utilities.Routines.Monk.PBStage == 1)
+                //{               
+                //        Utilities.Routines.Monk.PBStage = 2;
+                //        return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+                //}
 
 
-            return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+                //if (Utilities.Routines.Monk.PBStage == 2)
+                //{
+                //    Utilities.Routines.Monk.PBStage = 0;
+                //    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+                //}
+                SpellQueueLogic.SpellQueue.Clear();
+                SpellQueueLogic.Timeout.Start();
+                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 15000;
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Bootshine });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Demolish });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.TwinSnakes });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.DragonKick });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Bootshine });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.DragonKick });
+                return true;
+
+            }
+            return false;
         }
 
     }

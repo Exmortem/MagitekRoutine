@@ -5,8 +5,10 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Monk;
 using Magitek.Logic.Roles;
+using Magitek.Models.QueueSpell;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
+using System.Linq;
 
 namespace Magitek.Rotations.Monk
 {
@@ -17,6 +19,16 @@ namespace Magitek.Rotations.Monk
             if (BotManager.Current.IsAutonomous)
             {
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+            }
+
+            if (!SpellQueueLogic.SpellQueue.Any())
+            {
+                SpellQueueLogic.InSpellQueue = false;
+            }
+
+            if (SpellQueueLogic.SpellQueue.Any())
+            {
+                if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
             if (await Buff.FistsOf()) return true;
@@ -40,14 +52,14 @@ namespace Magitek.Rotations.Monk
             {
                 if (await SingleTarget.TheForbiddenChakra()) return true;
                 if (await SingleTarget.ShoulderTackle()) return true;
-                //if (await Buff.PerfectBalance()) return true;
+                if (await Buff.PerfectBalance()) return true;
                 if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
                 if (await Buff.RiddleOfFire()) return true;
                 if (await Buff.RiddleOfEarth()) return true;
                 if (await Buff.Brotherhood()) return true;
                 if (await Aoe.ElixerField()) return true;
             }
-            //if (await SingleTarget.PerfectBalanceRoT()) return true;
+            if (SingleTarget.PerfectBalanceRoT()) return true;
             if (await Aoe.Rockbreaker()) return true;
             if (await Aoe.FourPointStrike()) return true;
             if (await SingleTarget.Demolish()) return true;
