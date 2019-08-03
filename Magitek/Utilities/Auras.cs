@@ -173,9 +173,10 @@ namespace Magitek.Utilities
             ReadytoRip = 1842,
             ReadytoTear = 1843,
             ReadytoGouge = 1844,
-			Reassembled =851,
-			NascentChaos = 1897,
-            RoyalGuard = 1833;
+            Reassembled = 851,
+            NascentChaos = 1897,
+            RoyalGuard = 1833,
+            Anatman = 1862;
 
         private const int
             Invincibility0 = 981,
