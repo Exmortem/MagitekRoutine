@@ -48,8 +48,8 @@ namespace Magitek.Rotations.Paladin
                 {
                     if (await SingleTarget.SpiritsWithin()) return true;
                     if (await Aoe.CircleofScorn()) return true;
+                                   if (await SingleTarget.Intervene()) return true;
                 }
-                if (await SingleTarget.Intervene()) return true;
                 if (await Buff.Sheltron()) return true;
             }
 
@@ -62,14 +62,9 @@ namespace Magitek.Rotations.Paladin
             if (await SingleTarget.Atonement()) return true;
 
 
-            if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel  <54)
+            if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel  <60)
             {
-                var rageTarget = Utilities.Combat.Enemies.FirstOrDefault(r => r.TargetGameObject != Core.Me && ActionManager.CanCast(Spells.RageofHalone, r));
-
-                if (rageTarget == null || Group.CastableAlliesWithin30.Any(r => r.IsTank()))
-                    return await Spells.RageofHalone.Cast(Core.Me.CurrentTarget);
-
-                return await Spells.RageofHalone.Cast(rageTarget);
+                return await Spells.RageofHalone.Cast(Core.Me.CurrentTarget);
             }
 
             #region Last Spell RiotBlade
@@ -105,12 +100,12 @@ namespace Magitek.Rotations.Paladin
                 //    }
                 //}
 
-                if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, PaladinSettings.Instance.RefreshGoringBlade * 1000))
-                {
-                    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
-                }
+                //if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, PaladinSettings.Instance.RefreshGoringBlade * 1000))
+                //{
+                //    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
+                //}
 
-                if (Core.Me.ClassLevel >= 60)
+                if (Core.Me.ClassLevel >= 4)
                 {
                     return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
                 }

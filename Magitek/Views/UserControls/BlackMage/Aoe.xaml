@@ -15,7 +15,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use AOE Rotation Where There Are At Least " IsChecked="{Binding BlackMageSettings.Aoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use AOE Rotation Where There Are At Least " IsChecked="{Binding BlackMageSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.AoeEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>

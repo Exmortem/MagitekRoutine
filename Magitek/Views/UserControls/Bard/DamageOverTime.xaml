@@ -26,12 +26,6 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Enemy Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfEnemyIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfEnemyIsDyingWithinXSeconds, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-                </StackPanel>
-
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -49,6 +43,12 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Use Iron Jaws" IsChecked="{Binding BardSettings.UseIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5" Content=" Snapshot Iron Jaw ( Not Implemented Yet )" IsChecked="{Binding BardSettings.SnapShotWithIronJaws, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Our Current Target Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfCurrentTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfCurrentTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 
             </StackPanel>
@@ -81,6 +81,12 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Multi-Dot Target Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 
             </StackPanel>

@@ -31,6 +31,7 @@ namespace Magitek.Logic.Paladin
                     PaladinSettings.Instance.ShieldLobLostAggro = PaladinSettings.Instance.SwordPullExtra;
                     PaladinSettings.Instance.Requiescat = PaladinSettings.Instance.SwordRequiecast;
                 }
+
                 return await Spells.IronWill.Cast(Core.Me);
             }
 
@@ -40,7 +41,7 @@ namespace Magitek.Logic.Paladin
 
             if (!PaladinSettings.Instance.IronWill && Core.Me.HasAura(Auras.IronWill))
             {
-                if(PaladinSettings.Instance.OathHotSwapMode == true)
+                if (PaladinSettings.Instance.OathHotSwapMode == true)
                 {
                     PaladinSettings.Instance.UseDefensives = PaladinSettings.Instance.ShieldDefensive;
                     PaladinSettings.Instance.UseClemency = PaladinSettings.Instance.ShieldClemency;
@@ -52,12 +53,16 @@ namespace Magitek.Logic.Paladin
                     PaladinSettings.Instance.ShieldLobLostAggro = PaladinSettings.Instance.ShieldPullExtra;
                     PaladinSettings.Instance.Requiescat = PaladinSettings.Instance.ShieldRequiecast;
                 }
+
                 return await Spells.IronWill.Cast(Core.Me);
             }
-                
+
 
             return false;
-          
+
+        }
+
+
         public static async Task<bool> FightOrFlight()
         {
             if (!PaladinSettings.Instance.UseFightOrFlight)
@@ -113,7 +118,6 @@ namespace Magitek.Logic.Paladin
 
             return await Spells.DivineVeil.Cast(Core.Me);
         }
-        
         
         public static async Task<bool> Sheltron()
         {

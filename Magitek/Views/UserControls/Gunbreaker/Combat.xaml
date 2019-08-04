@@ -13,10 +13,29 @@
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Pull With Lightning Shot" IsChecked="{Binding GunbreakerSettings.PullWithLightningShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Lightning Shot To Regain Aggro" IsChecked="{Binding GunbreakerSettings.LightningShotToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Pull With Lightning Shot" IsChecked="{Binding GunbreakerSettings.PullWithLightningShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Grid.Row="1" Margin="0,3,0,0" Content="Lightning Shot To Regain Aggro When Mob Is At Least " IsChecked="{Binding GunbreakerSettings.LightningShotToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Margin="0,3" MaxValue="15" MinValue="0" Value="{Binding GunbreakerSettings.LightningShotMinDistance, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Yalms Away" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="5">
+                </StackPanel>
+            </Grid>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
@@ -33,7 +52,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Save Danger Zone When No Mercy Under" IsChecked="{Binding GunbreakerSettings.SaveDangerZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Save Danger Zone When No Mercy Under " IsChecked="{Binding GunbreakerSettings.SaveDangerZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveDangerZoneMseconds, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Ms" />
                     </StackPanel>
@@ -41,7 +60,7 @@
 
                 <StackPanel Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Save Blasting Zone When No Mercy Under" IsChecked="{Binding GunbreakerSettings.SaveBlastingZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Save Blasting Zone When No Mercy Under " IsChecked="{Binding GunbreakerSettings.SaveBlastingZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveBlastingZoneMseconds, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Ms" />
                     </StackPanel>
@@ -63,7 +82,7 @@
 
                 <StackPanel Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice When There Are At Least" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice When There Are At Least " />
                         <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.DemonSliceEnemies, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
                     </StackPanel>

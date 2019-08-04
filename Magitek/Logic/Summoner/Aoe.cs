@@ -47,6 +47,8 @@ namespace Magitek.Logic.Summoner
 
             if (!Core.Me.HasAura(Auras.HellishConduit) && Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3) return false;
 
+            if (Core.Me.HasAura(Auras.HellishConduit) && ActionResourceManager.Summoner.Timer.TotalMilliseconds < 250) return false;
+
             return await Spells.Outburst.Cast(Core.Me.CurrentTarget);
         }
 

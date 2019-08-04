@@ -3,7 +3,6 @@ using ff14bot.Managers;
 using System;
 using System.Linq;
 using ff14bot.Enums;
-using static ff14bot.Managers.ActionResourceManager.Samurai;
 
 namespace Magitek.Utilities
 {
@@ -28,79 +27,24 @@ namespace Magitek.Utilities
             }
         }
 
-        public class Arcanist
+        public static class Arcanist
         {
-            private static IntPtr? AetherflowLocation = null;
+            public static bool CanTrance => ActionResourceManager.CostTypesStruct.offset_C > 2 && Spells.Trance.Cooldown.TotalMilliseconds == 0;
 
-            public static int Aetherflow
-            {
-                get
-                {
-                    if (Core.Me.CurrentJob != ClassJobType.Arcanist && Core.Me.CurrentJob != ClassJobType.Scholar && Core.Me.CurrentJob != ClassJobType.Summoner)
-                        return 0;
-
-                    if (AetherflowLocation == null)
-                        AetherflowLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudACN0").Pointer + 0x278;
-
-                    return Core.Memory.Read<byte>(AetherflowLocation.Value);
-                }
-            }
+            public static bool InTrance => ActionResourceManager.CostTypesStruct.offset_A != 0;
+            
+            public static int Aetherflow =>
+                ActionResourceManager.CostTypesStruct.offset_C == 0 ? 0 :
+                ActionResourceManager.CostTypesStruct.offset_C == 1 ? 1 :
+                ActionResourceManager.CostTypesStruct.offset_C == 2 ? 2 :
+                ActionResourceManager.CostTypesStruct.offset_C == 8 ? 0 :
+                ActionResourceManager.CostTypesStruct.offset_C == 9 ? 1 :
+                ActionResourceManager.CostTypesStruct.offset_C == 10 ? 2 :
+                ActionResourceManager.CostTypesStruct.offset_C == 16 ? 0 :
+                ActionResourceManager.CostTypesStruct.offset_C == 17 ? 1 :
+                ActionResourceManager.CostTypesStruct.offset_C == 18 ? 2 : 0;
         }
 
-        public static class Samurai
-        {
-            private static IntPtr? KenkiMemoryLocation = null;
-            private static IntPtr? SenMemoryLocation = null;
-
-            public static int Kenki
-            {
-                get
-                {
-                    if (Core.Me.CurrentJob != ff14bot.Enums.ClassJobType.Samurai)
-                        return 0;
-
-                    if(KenkiMemoryLocation == null)
-                        KenkiMemoryLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudSAM0").Pointer + 0x26C;
-
-                    return Core.Memory.Read<int>(KenkiMemoryLocation.Value);
-                }
-            }
-
-            public static Iaijutsu Sen
-            {
-                get
-                {
-                    if (Core.Me.CurrentJob != ClassJobType.Samurai)
-                        return 0;
-
-                    if (SenMemoryLocation == null)
-                        SenMemoryLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudSAM1").Pointer + 0x268;
-
-                    var Sens = Core.Memory.ReadArray<bool>(SenMemoryLocation.Value, 4);
-
-                    Iaijutsu iaijutsu = 0;
-                    if (Sens[1])
-                        iaijutsu |= Iaijutsu.Setsu;
-
-                    if (Sens[2])
-                        iaijutsu |= Iaijutsu.Getsu;
-
-                    if (Sens[3])
-                        iaijutsu |= Iaijutsu.Ka;
-
-
-                    return iaijutsu;
-                }
-            }
-
-            public static bool OnChangeJob() {
-                Logger.Write("Changing MagitekActionResourceManager");
-                KenkiMemoryLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudSAM0").Pointer + 0x26C;
-                SenMemoryLocation = RaptureAtkUnitManager.GetRawControls.FirstOrDefault(x => x.Name == "JobHudSAM1").Pointer + 0x268;
-                return true;
-            }
-        }
-        
         public static class DarkKnight
         {
             private const int BlackBloodOffset = 0x26C;
@@ -162,30 +106,5 @@ namespace Magitek.Utilities
                 return true;
             }
         }
-
-        //public class WhiteMage
-        //{
-        //    public static int Lily
-        //    {
-        //        get
-        //        {
-        //            if (Core.Me.CurrentJob != ClassJobType.WhiteMage)
-        //                return 0;
-
-        //            return Core.Me.ClassLevel < 74 ? ActionResourceManager.CostTypesStruct.offset_A : ActionResourceManager.CostTypesStruct.offset_C;
-        //        }
-        //    }
-
-        //    public static int BloodLily
-        //    {
-        //        get
-        //        {
-        //            if (Core.Me.CurrentJob != ClassJobType.WhiteMage)
-        //                return 0;
-
-        //            return ActionResourceManager.CostTypesStruct.offset_D;
-        //        }
-        //    }
-        //}
     }
 }

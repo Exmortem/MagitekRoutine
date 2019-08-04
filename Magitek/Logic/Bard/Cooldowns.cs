@@ -62,16 +62,29 @@ namespace Magitek.Logic.Bard
             if (!PartyManager.IsInParty)
                 return false;
 
-            return await Spells.BattleVoice.Cast(Core.Me);
+            return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice);
         }
 
-        public static async Task<bool> RefulgentBarrage()
+        public static async Task<bool> Barrage()
         {
+
             if (Spells.Barrage.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!BardSettings.Instance.UseBarrage)
                 return false;
+
+            //Wait for potential SSR procs from Burstshot
+            if (Core.Me.ClassLevel < 76)
+            {
+                if (Casting.LastSpell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
+            else
+            {
+                if (Casting.LastSpell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                    return false;
+            }
 
             //Dont Barrage when whe have a proc up
             if (Core.Me.HasAura(Auras.StraighterShot))
@@ -80,51 +93,8 @@ namespace Magitek.Logic.Bard
             if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
                 return false;
 
-            return await BarrageCombo();
+            return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);
 
-            // Handle Barrage + Straighter Shot
-            async Task<bool> BarrageCombo()
-            {
-                if (await Spells.Barrage.Cast(Core.Me))
-                    await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Barrage));
-                else
-                    return false;
-
-                while (Core.Me.HasAura(Auras.Barrage))
-                {
-                    if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
-                        return true;
-
-                    await Coroutine.Yield();
-                }
-
-                return false;
-            }
-        }
-
-        public static async Task<bool> NaturesMinne()
-        {
-            if (!BardSettings.Instance.NaturesMinne)
-                return false;
-
-            if (!Globals.InParty)
-            {
-                if (Core.Me.CurrentHealthPercent > BardSettings.Instance.NaturesMinneHealthPercent)
-                    return false;
-
-                return await Spells.NaturesMinne.Cast(Core.Me);
-            }
-
-            var naturesMinneTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
-                r.CurrentHealthPercent <= BardSettings.Instance.NaturesMinneHealthPercent && (
-                    BardSettings.Instance.NaturesMinneTanks && r.IsTank() ||
-                    BardSettings.Instance.NaturesMinneDps && r.IsDps() ||
-                    BardSettings.Instance.NaturesMinneHealers && r.IsHealer()));
-
-            if (naturesMinneTarget == null)
-                return false;
-
-            return await Spells.NaturesMinne.Cast(naturesMinneTarget);
         }
     }
 }

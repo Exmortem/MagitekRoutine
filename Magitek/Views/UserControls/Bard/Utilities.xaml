@@ -89,8 +89,8 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel  Orientation="Vertical">
-                    <CheckBox Content="Use Head Graze To Interrupt" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Only Interrupt Current Target" IsChecked="{Binding BardSettings.Dispel, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Head Graze To Interrupt" IsChecked="{Binding BardSettings.UseHeadGraze, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only Interrupt Current Target" IsChecked="{Binding BardSettings.OnlyInterruptCurrentTarget, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

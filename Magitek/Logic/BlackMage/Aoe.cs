@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Helpers;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.BlackMage;
@@ -14,23 +15,20 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Foul()
         {
-
             //Can't use whatcha don't have
             if (Core.Me.ClassLevel < 70)
                 return false;
+
             //if you don't have Aspect Mastery, just SMASH THAT FOUL BUTTON
-          
-            if (Core.Me.ClassLevel < 80)
+          if (Core.Me.ClassLevel < 80)
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
-          
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
+
             //requires Polyglot
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
           
-            //Only use in Umbral 3
+            //Only use in Astral 3
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
           
@@ -46,9 +44,6 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 72)
                 return false; 
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
-
             //Only cast Flare if you have enough mp
             if (Core.Me.CurrentMana < 800)
                 return false;
@@ -61,9 +56,6 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 68)
                 return false; 
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
-          
             //Wait until we don't have enough mp to cast Flare  
             if (Core.Me.CurrentMana > 799)
                 return false;
@@ -80,9 +72,11 @@ namespace Magitek.Logic.BlackMage
             //Only use in Astral 3
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
+
             //Only use if you have no MP 
             if (Core.Me.CurrentMana != 0)
                 return false;
+
             //If we have a polyglot, don't use T4
             if (ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
@@ -92,8 +86,6 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire2()
         {
-            if (Core.Me.CurrentTarget.EnemiesNearby(10).Count() < 2)
-                return false;
             //Never use this trash spell if we have Flare+Elemental Trait unlocked...
             if (Core.Me.ClassLevel > 71)
                 return false;

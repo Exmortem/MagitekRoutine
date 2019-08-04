@@ -21,7 +21,7 @@ namespace Magitek.Logic.Summoner
 
             if (Spells.TriDisaster.Cooldown == TimeSpan.Zero) return false;
 
-            return await Spells.DreadwyrmTrance.Cast(Core.Me);
+            return await Spells.Trance.Cast(Core.Me);
         }
 
         public static async Task<bool> LucidDreaming()

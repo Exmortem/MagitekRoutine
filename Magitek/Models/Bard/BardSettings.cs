@@ -72,16 +72,24 @@ namespace Magitek.Models.Bard
         #region DamageOverTime
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int RefreshDotsWithLessThanXSecondsRemaining { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool DontDotIfEnemyIsDyingSoon { get; set; }
+        [DefaultValue(false)]
+        public bool DontDotIfCurrentTargetIsDyingSoon { get; set; }
 
         [Setting]
         [DefaultValue(20)]
-        public int DontDotIfEnemyIsDyingWithinXSeconds { get; set; }
+        public int DontDotIfCurrentTargetIsDyingWithinXSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DontDotIfMultiDotTargetIsDyingSoon { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int DontDotIfMultiDotTargetIsDyingWithinXSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -166,6 +174,14 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool UseSongs { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool CheckDotsBeforeSinging { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int AmmountOfDotsBeforeSinging { get; set; }
 
         [Setting]
         [DefaultValue(1)]

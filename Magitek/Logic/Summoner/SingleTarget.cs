@@ -143,7 +143,7 @@ namespace Magitek.Logic.Summoner
 
             if (!SummonerSettings.Instance.TriDisaster) return false;
 
-            if (!ActionResourceManager.Summoner.DreadwyrmTrance && Spells.DreadwyrmTrance.Cooldown.TotalMilliseconds > 0)
+            if (!ActionResourceManager.Summoner.DreadwyrmTrance && Spells.Trance.Cooldown.TotalMilliseconds > 0)
             {
                 if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 3000)) return false;
                 if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, 3000)) return false;
@@ -166,7 +166,7 @@ namespace Magitek.Logic.Summoner
 
             if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 1000) return false;
 
-            return await Spells.DeathFlare.Cast(Core.Me.CurrentTarget);
+            return await Spells.Deathflare.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> EnkindleBahamut()
@@ -178,6 +178,8 @@ namespace Magitek.Logic.Summoner
             if ((int)PetManager.ActivePetType == 10 && !SummonerSettings.Instance.EnkindleBahamut) return false;
 
             if ((int)PetManager.ActivePetType == 14 && !SummonerSettings.Instance.EnkindlePhoenix) return false;
+
+            if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 18000) return false;
 
             return await Spells.EnkindleBahamut.Cast(Core.Me.CurrentTarget);
         }

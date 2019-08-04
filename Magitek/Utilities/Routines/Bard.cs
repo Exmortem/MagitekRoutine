@@ -32,7 +32,8 @@ namespace Magitek.Utilities.Routines
                                                                             Spells.Bloodletter, Spells.EmpyrealArrow, Spells.Sidewinder,
                                                                             Spells.RainofDeath, Spells.Shadowbite, Spells.TheWanderersMinuet,
                                                                             Spells.MagesBallad, Spells.ArmysPaeon, Spells.Troubadour,
-                                                                            Spells.HeadGraze, Spells.NaturesMinne, Spells.TheWardensPaean
+                                                                            Spells.HeadGraze, Spells.NaturesMinne, Spells.TheWardensPaean,
+                                                                            Spells.SecondWind
                                                                             };
 
         public static int CheckLastSpellsForWeaveing()
@@ -63,13 +64,13 @@ namespace Magitek.Utilities.Routines
             if (tar.EnglishName.Contains("Dummy"))
                 return true;
 
-            if (BardSettings.Instance.DontDotIfEnemyIsDyingSoon)
+            if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon)
             {
                 // Target doesn't have a combat time left yet
                 if (Combat.CurrentTargetCombatTimeLeft < 0)
                     return true;
 
-                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfEnemyIsDyingWithinXSeconds;
+                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds;
             }
 
             if (tar.IsBoss())

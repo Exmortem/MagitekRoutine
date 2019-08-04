@@ -11,9 +11,7 @@ using ff14bot.AClasses;
 using ff14bot.Enums;
 using ff14bot.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Text;
 using ff14bot.Managers;
-using Newtonsoft.Json;
 using TreeSharp;
 using Action = TreeSharp.Action;
 
@@ -22,7 +20,6 @@ namespace MagitekLoader
     public class CombatRoutineLoader : CombatRoutine
     {
         private const string ProjectName = "Magitek";
-        private const int ProjectId = 1;
         private const string ProjectMainType = "Magitek.Magitek";
         private const string ProjectAssemblyName = "Magitek.dll";
         private static readonly Color LogColor = Colors.CornflowerBlue;
@@ -31,10 +28,14 @@ namespace MagitekLoader
         private static readonly object Locker = new object();
         private static readonly string ProjectAssembly = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\{ProjectAssemblyName}");
         private static readonly string GreyMagicAssembly = Path.Combine(Environment.CurrentDirectory, @"GreyMagic.dll");
-        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\version.txt");
+        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\Version.txt");
         private static readonly string BaseDir = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}");
         private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
         private static volatile bool _updaterStarted, _updaterFinished, _loaded;
+        private static string _latestVersion;
+        private const string ZipUrl = "https://magitek.s3-us-west-2.amazonaws.com/Magitek.zip";
+        private const string VersionUrl = "https://magitek.s3-us-west-2.amazonaws.com/Version.txt";
+
         public sealed override CapabilityFlags SupportedCapabilities => CapabilityFlags.All;
 
         public override float PullRange => 25;
@@ -83,6 +84,7 @@ namespace MagitekLoader
             if (_updaterStarted) { return; }
 
             _updaterStarted = true;
+
             Task.Factory.StartNew(AutoUpdate);
         }
 
@@ -356,11 +358,8 @@ namespace MagitekLoader
         {
             var stopwatch = Stopwatch.StartNew();
             var local = GetLocalVersion();
-
-            var message = new VersionMessage { LocalVersion = local, ProductId = ProjectId };
-            var responseMessage = GetLatestVersion(message).Result;
-
-            var latest = responseMessage.LatestVersion;
+            _latestVersion = GetLatestVersion().Result;
+            var latest = _latestVersion;
 
             if (local == latest || latest == null)
             {
@@ -369,22 +368,24 @@ namespace MagitekLoader
                 return;
             }
 
-            Log($"Updating to version {latest}.");
-            var bytes = responseMessage.Data;
-            if (bytes == null || bytes.Length == 0) { return; }
+            Log($"Updating to Version: {latest}.");
+            var bytes = DownloadLatestVersion(latest).Result;
 
-            if (!Clean(BaseDir))
+            if (bytes == null || bytes.Length == 0)
             {
-                Log("Could not clean directory for update.");
-                _updaterFinished = true;
+                Log("[Error] Bad product data returned.");
                 return;
             }
 
-            Log("Extracting new files.");
-            if (!Extract(bytes, ProjectTypeFolder))
+            if (!Clean(BaseDir))
             {
-                Log("Could not extract new files.");
-                _updaterFinished = true;
+                Log("[Error] Could not clean directory for update.");
+                return;
+            }
+
+            if (!Extract(bytes, ProjectTypeFolder + @"\Magitek"))
+            {
+                Log("[Error] Could not extract new files.");
                 return;
             }
 
@@ -394,8 +395,32 @@ namespace MagitekLoader
 
             stopwatch.Stop();
             Log($"Update complete in {stopwatch.ElapsedMilliseconds} ms.");
-            _updaterFinished = true;
             LoadProduct();
+        }
+
+        private static async Task<string> GetLatestVersion()
+        {
+            using (var client = new HttpClient())
+            {
+                HttpResponseMessage response;
+                try { response = await client.GetAsync(VersionUrl); }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                string responseMessageBytes;
+                try { responseMessageBytes = await response.Content.ReadAsStringAsync(); }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                return responseMessageBytes;
+            }
         }
 
         private static bool Clean(string directory)
@@ -431,20 +456,28 @@ namespace MagitekLoader
 
             return true;
         }
-
-        private static async Task<VersionMessage> GetLatestVersion(VersionMessage message)
+        
+        private static async Task<byte[]> DownloadLatestVersion(string version)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://auth.magitek.io");
-
-                var json = JsonConvert.SerializeObject(message);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response;
                 try
                 {
-                    response = await client.PostAsync("/products/version", content);
+                    response = await client.GetAsync(ZipUrl);
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    return null;
+                }
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                byte[] responseMessageBytes;
+                try
+                {
+                    responseMessageBytes = await response.Content.ReadAsByteArrayAsync();
                 }
                 catch (Exception e)
                 {
@@ -452,18 +485,8 @@ namespace MagitekLoader
                     return null;
                 }
 
-                var contents = await response.Content.ReadAsStringAsync();
-                var responseObject = JsonConvert.DeserializeObject<VersionMessage>(contents);
-                return responseObject;
+                return responseMessageBytes;
             }
-        }
-
-        private class VersionMessage
-        {
-            public int ProductId { get; set; }
-            public string LocalVersion { get; set; }
-            public string LatestVersion { get; set; }
-            public byte[] Data { get; set; } = new byte[0];
         }
     }
 }
