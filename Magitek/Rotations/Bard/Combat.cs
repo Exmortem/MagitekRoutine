@@ -71,8 +71,8 @@ namespace Magitek.Rotations.Bard
 
             if (await SingleTarget.StraightShotAfterBarrage()) return true;
             if (await DamageOverTime.HandleDots()) return true;
-            if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.ApexArrow()) return true;
+            if (await DamageOverTime.HandleMultiDotting()) return true;
             if (await Aoe.QuickNock()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());

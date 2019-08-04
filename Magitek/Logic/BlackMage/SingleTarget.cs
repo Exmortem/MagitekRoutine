@@ -46,6 +46,10 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire()
         {
+            //test for no enochian
+            if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana > 800)
+                return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+            //only use in astral fire
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
             //refresh astral fire at 5s
@@ -158,6 +162,15 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             return false;
+        }
+        public static async Task<bool> Blizzard()   
+        {
+           //this shit sucks if you're using it, buy a level skip
+            if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 801)
+            return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+
+            return false;
+
         }
     }
 }

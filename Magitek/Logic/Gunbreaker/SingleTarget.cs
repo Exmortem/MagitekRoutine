@@ -39,6 +39,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Cartridge == 0)
                 return false;
+            if (Spells.NoMercy.Cooldown.TotalMilliseconds < 10000)
+                return false;
 
             if (Spells.NoMercy.Cooldown.TotalMilliseconds < 10000)
                 return false;
@@ -88,6 +90,9 @@ namespace Magitek.Logic.Gunbreaker
             if (GunbreakerSettings.Instance.SaveBlastingZone)
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
+            //Only use in the last 1/3rd of GCD window
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
+                return false;
 
             //Only use in the last 1/3rd of GCD window
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
@@ -100,6 +105,20 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Cartridge == 0)
                 return false;
+            //Save your bullet for Gnashin
+            if (!Core.Player.HasAura(Auras.NoMercy) && Spells.GnashingFang.Cooldown.TotalMilliseconds < 10000 && Cartridge != 2)
+                return false;
+            if (Spells.NoMercy.Cooldown.TotalMilliseconds < 3000)
+                return false;
+            if (Core.Me.ClassLevel > 75 && Spells.Bloodfest.Cooldown.TotalMilliseconds < 5100)
+                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
+            if (Core.Player.HasAura(Auras.NoMercy) && Cartridge != 0 && Spells.GnashingFang.Cooldown.TotalMilliseconds > 0)
+                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
+            if (Cartridge == 2)
+                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
+            return false;
+
+
 
             //Save your bullet for Gnashin
             if (!Core.Player.HasAura(Auras.NoMercy) && Spells.GnashingFang.Cooldown.TotalMilliseconds < 10000 && Cartridge != 2)
