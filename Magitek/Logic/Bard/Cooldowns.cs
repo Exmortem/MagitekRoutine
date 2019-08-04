@@ -62,7 +62,7 @@ namespace Magitek.Logic.Bard
             if (!PartyManager.IsInParty)
                 return false;
 
-            return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice);
+            return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice, false, 0, false);
         }
 
         public static async Task<bool> Barrage()
