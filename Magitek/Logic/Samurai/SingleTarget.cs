@@ -165,7 +165,7 @@ namespace Magitek.Logic.Samurai
             if (Utilities.Routines.Samurai.SenCount != 3)
                 return false;
 
-            if (Core.Me.ClassLevel >= 62 && !Core.Me.HasAura(Auras.Kaiten))
+            if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten))
                 return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
 
             if (BaseSettings.Instance.DebugPlayerCasting)
