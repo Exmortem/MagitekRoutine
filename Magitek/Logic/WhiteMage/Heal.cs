@@ -491,8 +491,9 @@ namespace Magitek.Logic.WhiteMage
 
             if (await Spells.PlenaryIndulgence.Cast(Core.Me))
                 if (!await Cure3())
-                    if (!await Medica2())
-                        return await Spells.Medica.Cast(Core.Me);
+                    if (!await AfflatusRapture())
+                        if (!await Medica2())
+                            return await Spells.Medica.Cast(Core.Me);
 
             return false;
         }

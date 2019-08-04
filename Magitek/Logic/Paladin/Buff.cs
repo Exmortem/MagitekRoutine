@@ -59,7 +59,9 @@ namespace Magitek.Logic.Paladin
 
 
             return false;
+
         }
+
 
         public static async Task<bool> FightOrFlight()
         {

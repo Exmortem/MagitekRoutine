@@ -21,7 +21,8 @@ namespace Magitek.Logic.BlackMage
         {
             if (Core.Me.HasEnochian())
                 return false;
-
+            if (Core.Me.ClassLevel < 56)
+                return false;
             return await Spells.Enochian.Cast(Core.Me);
         }
 
