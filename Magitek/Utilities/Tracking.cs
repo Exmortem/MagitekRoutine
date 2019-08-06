@@ -23,9 +23,20 @@ namespace Magitek.Utilities
         {
             UpdateCurrentPosition();
 
-            _enemyCache = PartyManager.IsInParty
-                ? GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType == 2).ToList()
-                : GameObjectManager.Attackers.ToList();
+            //In a Party
+            if (PartyManager.IsInParty)
+            {
+                _enemyCache = DutyManager.InInstance
+                    // In a Party And an Instance
+                    ? GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType > 0 || r.IsBoss()).ToList()
+                    // In a Party but OpenWorld
+                    : GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType == 2 || r.IsFate && r.TaggerType > 0).ToList();
+            }
+            else
+            {
+                // Not in a Party so just use attacker list
+                _enemyCache = GameObjectManager.Attackers.ToList();
+            }
 
             Combat.Enemies.Clear();
 
