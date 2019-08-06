@@ -29,13 +29,14 @@ namespace Magitek.Utilities
                 _enemyCache = DutyManager.InInstance
                     // In a Party And an Instance
                     ? GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType > 0 || r.IsBoss()).ToList()
-                    // In a Party but OpenWorld
-                    : GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType == 2 || r.IsFate && r.TaggerType > 0).ToList();
+                    // In Party But OpenWorld, everything our Party tagged or every Fate Mob that is tagged by a Player
+                    : GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType == 2 || r.IsFate && r.TaggerType > 0 && !GameObjectManager.GetObjectsOfType<BattleCharacter>().Any(x => x.IsNpc && x.ObjectId == r.TaggerObjectId)).ToList();
             }
             else
             {
-                // Not in a Party so just use attacker list
-                _enemyCache = GameObjectManager.Attackers.ToList();
+                // Not in a Party, use Attacker List combined with every Fate Mob that is tagged by a Player
+                var _fateEnemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.IsFate && r.TaggerType > 0 && !GameObjectManager.GetObjectsOfType<BattleCharacter>().Any(x => x.IsNpc && x.ObjectId == r.TaggerObjectId));
+                _enemyCache = GameObjectManager.Attackers.Union(_fateEnemyCache).ToList();
             }
 
             Combat.Enemies.Clear();
