@@ -86,8 +86,9 @@ namespace Magitek.Logic.Bard
                         || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
                         return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
 
-                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds <= 30)
-                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds <= 30
+                        || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds > 30 )
+                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget); 
                     break;
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
