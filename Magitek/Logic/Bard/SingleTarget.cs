@@ -44,7 +44,8 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> StraightShotAfterBarrage()
         {
-            if (Casting.LastSpell != Spells.Barrage && !Core.Me.HasAura(Auras.Barrage)) return false;
+            if (!Core.Me.HasAura(Auras.Barrage))
+                return false;
 
             if (!BardSettings.Instance.UseStraightShot)
                 return false;

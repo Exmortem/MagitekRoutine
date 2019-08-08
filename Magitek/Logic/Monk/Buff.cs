@@ -50,7 +50,7 @@ namespace Magitek.Logic.Monk
                 }
             }
 
-            if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >=3)
+            if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >=3 && Core.Me.ClassLevel >= 76)
                 return await Spells.FistsOfWind.Cast(Core.Me);
 
             if (Core.Me.HasAura(Auras.FistsofWind) && ActionResourceManager.Monk.GreasedLightning < 3)

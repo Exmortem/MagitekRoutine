@@ -176,7 +176,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.TwinSnakes,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -186,7 +186,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.Bootshine,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.LeadenFist)&& Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -196,7 +196,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.Demolish,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -206,7 +206,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.TwinSnakes,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -216,7 +216,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.DragonKick,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -226,7 +226,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.Bootshine,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
@@ -236,7 +236,7 @@ namespace Magitek.Logic.Monk
                     SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                     {
                         Spell = Spells.DragonKick,
-                        TargetSelf = true,
+                        TargetSelf = false,
                         Checks = new List<QueueSpellCheck>()
                     {
                     new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.PerfectBalance), Name = "HasPB" }
