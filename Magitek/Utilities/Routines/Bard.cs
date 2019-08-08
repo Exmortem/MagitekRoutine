@@ -28,12 +28,12 @@ namespace Magitek.Utilities.Routines
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
-        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.PitchPerfect,
-                                                                            Spells.Bloodletter, Spells.EmpyrealArrow, Spells.Sidewinder,
-                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.TheWanderersMinuet,
-                                                                            Spells.MagesBallad, Spells.ArmysPaeon, Spells.Troubadour,
-                                                                            Spells.HeadGraze, Spells.NaturesMinne, Spells.TheWardensPaean,
-                                                                            Spells.SecondWind
+        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
+                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow, 
+                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
+                                                                            Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
+                                                                            Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
+                                                                            Spells.HeadGraze, Spells.SecondWind
                                                                             };
 
         public static int CheckLastSpellsForWeaveing()
