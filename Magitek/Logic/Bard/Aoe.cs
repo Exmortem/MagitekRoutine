@@ -15,6 +15,13 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseApexArrow)
                 return false;
 
+            if (BardSettings.Instance.UseBuffedApexArrow 
+                && ActionResourceManager.Bard.SoulVoice >= BardSettings.Instance.UseBuffedApexArrowWithAtLeastXSoulVoice)
+            {
+                if (Utilities.Routines.Bard.CheckCurrentDamageIncrease(BardSettings.Instance.UseBuffedApexArrowWithAtLeastXBonusDamage))
+                    return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
+            }
+
             if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.UseApexArrowWithAtLeastXSoulVoice)
                 return false;
 

@@ -57,7 +57,6 @@ namespace Magitek.Rotations.Bard
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
-                //if (await Cooldowns.RefulgentBarrage()) return true;
                 if (await Cooldowns.Barrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await Aoe.RainOfDeathDuringMagesBallard()) return true;
