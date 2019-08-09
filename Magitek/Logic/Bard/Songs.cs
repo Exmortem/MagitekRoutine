@@ -93,12 +93,14 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds >1000 + BardSettings.Instance.DefaultSongTransitionTime)
-                        return false;
+                    //if (Casting.SpellCastHistory.Any(r => r.Spell == Spells.PitchPerfect && 3 < DateTime.Now.Subtract(r.TimeCast).TotalSeconds) && ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)
+                    if (Spells.PitchPerfect.Cooldown.TotalMilliseconds >= 1000 && ActionResourceManager.Bard.Timer.TotalSeconds < 1)
+                    {
+                        if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
+                            || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
+                            return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
 
-                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
-                        || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
-                        return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+                    }
                     break;
 
                 case ActionResourceManager.Bard.BardSong.MagesBallad:

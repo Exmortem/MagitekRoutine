@@ -42,7 +42,7 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
+            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset )
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;
