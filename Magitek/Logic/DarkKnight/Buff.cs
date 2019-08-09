@@ -37,9 +37,6 @@ namespace Magitek.Logic.DarkKnight
 
             if (Core.Me.HasAura(Auras.Grit))
                 return false;
-
-            //if (!Core.Me.HasAura(Auras.Darkside))
-            //    return false;
             
             return await Spells.BloodWeapon.Cast(Core.Me);
         }

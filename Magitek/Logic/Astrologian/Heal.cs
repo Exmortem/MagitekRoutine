@@ -157,34 +157,34 @@ namespace Magitek.Logic.Astrologian
             }
         }
         
-        public static async Task<bool> LadyOfCrowns()
+        public static async Task<bool> LadyofCrowns()
         {
-            if (!AstrologianSettings.Instance.LadyOfCrowns)
+            if (!AstrologianSettings.Instance.LadyofCrowns)
                 return false;
             
-            if (!ActionManager.HasSpell(Spells.LadyOfCrowns.Id)) return false;
+            if (!ActionManager.HasSpell(Spells.LadyofCrowns.Id)) return false;
             
             if (ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns) return false;
 
             if (Globals.InParty)
             {
                 // Added this to test (Exmortem)
-                var ladyOfCrownsTarget = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).FirstOrDefault(r => !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent);
+                var ladyOfCrownsTarget = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).FirstOrDefault(r => !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyofCrownsHealthPercent);
 
                 if (ladyOfCrownsTarget == null)
                     return false;
 
                 // Added this to test (Exmortem)
-                if (Casting.LastSpell != Spells.LadyOfCrowns) return await Spells.LadyOfCrowns.Heal(ladyOfCrownsTarget);
+                if (Casting.LastSpell != Spells.LadyofCrowns) return await Spells.LadyofCrowns.Heal(ladyOfCrownsTarget);
                 if (Casting.LastSpellTarget == ladyOfCrownsTarget)
                     return false;
 
-                return await Spells.LadyOfCrowns.Heal(ladyOfCrownsTarget);
+                return await Spells.LadyofCrowns.Heal(ladyOfCrownsTarget);
             }
-            if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.LadyOfCrownsHealthPercent)
+            if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.LadyofCrownsHealthPercent)
                 return false;
 
-            return await Spells.LadyOfCrowns.Heal(Core.Me);
+            return await Spells.LadyofCrowns.Heal(Core.Me);
         }
         
         public static async Task<bool> EssentialDignity()

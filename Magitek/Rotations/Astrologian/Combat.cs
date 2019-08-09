@@ -42,7 +42,7 @@ namespace Magitek.Rotations.Astrologian
 
             if (await Aoe.Gravity()) return true;
             if (await SingleTarget.Dots()) return true;
-            if (await SingleTarget.LordOfCrowns()) return true;
+            if (await SingleTarget.LordofCrowns()) return true;
             return await SingleTarget.Malefic();
         }
     }

@@ -546,15 +546,15 @@ namespace Magitek.Models.Astrologian
         
         [Setting]
         [DefaultValue(true)]
-        public bool LordOfCrowns { get; set; }
+        public bool LordofCrowns { get; set; }
         
         [Setting]
         [DefaultValue(true)]
-        public bool LadyOfCrowns { get; set; }
+        public bool LadyofCrowns { get; set; }
         
         [Setting]
         [DefaultValue(60.0f)]
-        public float LadyOfCrownsHealthPercent { get; set; }
+        public float LadyofCrownsHealthPercent { get; set; }
 
         #endregion
 

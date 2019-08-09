@@ -21,27 +21,12 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> SyphonStrike()
         {
-            if (ActionManager.LastSpell != Spells.HardSlash)
-                return false;
-
-            // If we have Blood Price or Blood Weapon we wanna Dark Arts this every time
-
-            if (!Core.Me.HasBloodWeapon())
-                return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
 
             return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SoulEater()
         {
-            if (ActionManager.LastSpell != Spells.SyphonStrike)
-                return false;
-
-            // If we have Blood Price or Blood Weapon we wanna Dark Arts this every time
-
-            if (!Core.Me.HasBloodWeapon())
-                return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
-
             return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
         }
 
@@ -97,12 +82,6 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.CarveAndSpit)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.CarveandSpit.Id))
-                return false;
-
-            if (Spells.CarveandSpit.Cooldown != TimeSpan.Zero)
-                return false;
-
             return await Spells.CarveandSpit.Cast(Core.Me.CurrentTarget);
         }
 
@@ -117,20 +96,10 @@ namespace Magitek.Logic.DarkKnight
             if (ActionResourceManager.DarkKnight.BlackBlood < 50)
                 return false;
 
-            if (Spells.Bloodspiller.Cooldown != TimeSpan.Zero)
-                return false;
 
-            // We only wanna use this with Dark Arts
-
-            //if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.Bloodspiller))
-            //{
-                if (DarkKnightSettings.Instance.Quietus && ActionResourceManager.DarkKnight.BlackBlood > 90)
-                {
-                    return await Spells.Quietus.Cast(Core.Me);
-                }
-
-            //    return false;
-            //}
+            if (DarkKnightSettings.Instance.Quietus && ActionResourceManager.DarkKnight.BlackBlood > 90)
+                return await Spells.Quietus.Cast(Core.Me);
+            
 
             return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
         }
