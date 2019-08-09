@@ -30,18 +30,18 @@ namespace Magitek.Logic.Astrologian
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
         
-        public static async Task<bool> LordOfCrowns()
+        public static async Task<bool> LordofCrowns()
         {
-            if (!AstrologianSettings.Instance.LordOfCrowns)
+            if (!AstrologianSettings.Instance.LordofCrowns)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.LordOfCrowns.Id)) return false;
+            if (!ActionManager.HasSpell(Spells.LordofCrowns.Id)) return false;
             
             if (ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns) return false;
             
             if (Utilities.Routines.Astrologian.OnGcd) return false;
             
-            return await Spells.LordOfCrowns.Cast(Core.Me.CurrentTarget);
+            return await Spells.LordofCrowns.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Dots()

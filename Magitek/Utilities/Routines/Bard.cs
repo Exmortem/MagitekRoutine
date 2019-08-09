@@ -36,25 +36,25 @@ namespace Magitek.Utilities.Routines
                                                                             Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
                                                                             };
 
-        public static int CheckLastSpellsForWeaveing()
+        public static int CheckLastSpellsForWeaving()
         {
-            int weaveingCounter = 0;
+            var weavingCounter = 0;
 
             if (Casting.SpellCastHistory.Count < 2)
                 return 0;
 
-            SpellData lastSpellCast = Casting.SpellCastHistory.ElementAt(0).Spell;
-            SpellData secondLastSpellCast = Casting.SpellCastHistory.ElementAt(1).Spell;
+            var lastSpellCast = Casting.SpellCastHistory.ElementAt(0).Spell;
+            var secondLastSpellCast = Casting.SpellCastHistory.ElementAt(1).Spell;
 
             if (OGCDSpells.Contains(lastSpellCast))
-                weaveingCounter += 1;
+                weavingCounter += 1;
             else
                 return 0;
 
             if (OGCDSpells.Contains(secondLastSpellCast))
-                weaveingCounter += 1;
+                weavingCounter += 1;
 
-            return weaveingCounter;
+            return weavingCounter;
         }
 
         public static bool CheckCurrentDamageIncrease(int _neededDmgIncrease)

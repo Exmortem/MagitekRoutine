@@ -43,10 +43,10 @@
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,0,0,2" Content="Use Lord Of Crowns" IsChecked="{Binding AstrologianSettings.LordOfCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,0,0,2" Content="Use Lord Of Crowns" IsChecked="{Binding AstrologianSettings.LordofCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Lady Of Crowns On Party Members Lower Than " IsChecked="{Binding AstrologianSettings.LadyOfCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LadyOfCrownsHealthPercent, Mode=TwoWay}" />
+                    <CheckBox Content="Use Lady Of Crowns On Party Members Lower Than " IsChecked="{Binding AstrologianSettings.LadyofCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LadyofCrownsHealthPercent, Mode=TwoWay}" />
                     <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
             </StackPanel>

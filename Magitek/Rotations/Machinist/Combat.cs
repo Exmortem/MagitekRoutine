@@ -59,9 +59,10 @@ namespace Magitek.Rotations.Machinist
                 if (await SingleTarget.GaussRound()) return true;
 
                 if (MachinistSettings.Instance.UseAoe)
-                    if (await Aoe.Ricochet()) return true;
-                
+                    return await Aoe.Ricochet();
+
                 return await Buff.Tactician();
+
             }
 
             if (MachinistSettings.Instance.UseAoe)
