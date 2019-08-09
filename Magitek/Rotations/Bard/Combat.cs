@@ -29,6 +29,9 @@ namespace Magitek.Rotations.Bard
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2) || Core.Me.InCombat;
             Utilities.Routines.Bard.RefreshVars();
 
+            Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
+            Utilities.Routines.Bard.CheckForDoTProcs();
+
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
