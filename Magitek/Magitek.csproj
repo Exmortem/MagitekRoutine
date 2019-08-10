@@ -660,9 +660,6 @@
     <Compile Include="Views\UserControls\DarkKnight\Combat.xaml.cs">
       <DependentUpon>Combat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\DarkKnight\DarkArts.xaml.cs">
-      <DependentUpon>DarkArts.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\DarkKnight\Defensives.xaml.cs">
       <DependentUpon>Defensives.xaml</DependentUpon>
     </Compile>
@@ -1118,10 +1115,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\DarkKnight\Combat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\DarkKnight\DarkArts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

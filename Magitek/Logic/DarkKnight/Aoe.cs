@@ -13,92 +13,12 @@ namespace Magitek.Logic.DarkKnight
 {
     internal static class Aoe
     {
-        public static async Task<bool> Unleash()
-        {
-            if (!DarkKnightSettings.Instance.Unleash)
-                return false;
-
-            if (Math.Abs(ActionManager.ComboTimeLeft) > 0)
-                return false;
-            
-            if (Core.Me.OnPvpMap())
-                return false;
-
-            if (BotManager.Current.IsAutonomous)
-                return false;
-
-            if (!Globals.InParty)
-                return false;
-
-            if (DarkKnightSettings.Instance.UnleashAlwaysUseProc && Core.Me.HasAura(Auras.EnhancedUnleash))
-                return await Spells.Unleash.Cast(Core.Me);
-
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.WithinSpellRange(5)) < DarkKnightSettings.Instance.UnleashEnemies)
-                return false;
-
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach && r.TargetGameObject != Core.Me) >= DarkKnightSettings.Instance.UnleashEnemies)
-            {
-                return await Spells.Unleash.Cast(Core.Me);
-            }
-            
-            if (Combat.CombatTime.Elapsed.Seconds < 15 && Utilities.Routines.DarkKnight.PullUnleash < DarkKnightSettings.Instance.UnleashOnGroupPull)
-            {
-                if (!await Spells.Unleash.Cast(Core.Me))
-                    return false;
-                
-                Utilities.Routines.DarkKnight.PullUnleash++;
-                Utilities.Routines.DarkKnight.LastUnleash = DateTime.Now;
-                return true;
-            }
-
-            if (!DarkKnightSettings.Instance.UnleashOnInterval) 
-                return false;
-
-            if (DateTime.Now < Utilities.Routines.DarkKnight.LastUnleash.AddSeconds(DarkKnightSettings.Instance.UnleashIntervalSeconds))
-                return false;
-
-            if (!await Spells.Unleash.Cast(Core.Me))
-                return false;
-            
-            Utilities.Routines.DarkKnight.LastUnleash = DateTime.Now;
-            return true;
-        }
-
-        public static async Task<bool> SaltedEarth()
-        {
-            if (!DarkKnightSettings.Instance.SaltedEarth)
-                return false;
-
-            // We could be gathering enemies?
-            if (MovementManager.IsMoving)
-                return false;
-            
-            //var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 25 && r.TaggerType == 2);
-
-            //if (enemyCount < DarkKnightSettings.Instance.SaltedEarthEnemies)
-            //    return false;
-            
-            //// Lets look at how many enemies are in combat and compare it to how many are in range of us
-            //var saltedEarthCount = Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 15 + r.CombatReach);
-
-            //if (saltedEarthCount < DarkKnightSettings.Instance.SaltedEarthEnemies)
-            //    return false;
-            
-            return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> AbyssalDrain()
-        {         
+        {
             if (!DarkKnightSettings.Instance.AbyssalDrain)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Grit))
-                return false;
-
             if (Core.Me.CurrentManaPercent < DarkKnightSettings.Instance.AbyssalDrainMinimumMp)
-                return false;
-
-            if (Spells.AbyssalDrain.Cooldown != TimeSpan.Zero)
                 return false;
 
             // Find the enemy that has the most enemies around them
@@ -112,23 +32,62 @@ namespace Magitek.Logic.DarkKnight
 
                 var enemyCount = Combat.Enemies.Count(r => r.Distance(enemy) <= 5 + r.CombatReach);
 
-                if (enemyCount < DarkKnightSettings.Instance.AbyssalDrainEnemies)
+                if (enemyCount < DarkKnightSettings.Instance.AoeEnemies)
                     continue;
 
-                if (enemyCount <= enemiesInRange) 
+                if (enemyCount <= enemiesInRange)
                     continue;
-                
+
                 enemiesInRange = enemyCount;
                 abyssalTarget = enemy;
             }
 
-            if (abyssalTarget == null || enemiesInRange < DarkKnightSettings.Instance.AbyssalDrainEnemies)
+            if (abyssalTarget == null || enemiesInRange < DarkKnightSettings.Instance.AoeEnemies)
                 return false;
 
-            if (!Core.Me.HasBloodWeapon())
-                return await Spells.AbyssalDrain.Cast(abyssalTarget);
-
             return await Spells.AbyssalDrain.Cast(abyssalTarget);
+        }
+
+        public static async Task<bool> SaltedEarth()
+        {
+            if (!DarkKnightSettings.Instance.UseSaltedEarth)
+                return false;
+
+            // We could be gathering enemies?
+            if (MovementManager.IsMoving)
+                return false;
+
+            return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Unleash()
+        {
+            if (!DarkKnightSettings.Instance.UseUnleash)
+                return false;
+            
+            if (Combat.CombatTime.Elapsed.Seconds < 15 && Utilities.Routines.DarkKnight.PullUnleash < DarkKnightSettings.Instance.UnleashOnGroupPull)
+            {
+                if (!await Spells.Unleash.Cast(Core.Me))
+                    return false;
+                
+                Utilities.Routines.DarkKnight.PullUnleash++;
+                Utilities.Routines.DarkKnight.LastUnleash = DateTime.Now;
+                return true;
+            }
+            
+            if (!await Spells.Unleash.Cast(Core.Me))
+                return false;
+            
+            Utilities.Routines.DarkKnight.LastUnleash = DateTime.Now;
+            return true;
+        }
+
+        public static async Task<bool> StalwartSoul()
+        {
+            if (ActionManager.LastSpell != Spells.Unleash)
+                return false;
+
+            return await Spells.StalwartSoul.Cast(Core.Me);
         }
 
         public static async Task<bool> Quietus()
@@ -136,19 +95,18 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Quietus)
                 return false;
 
-            if (Core.Me.ClassLevel < 64)
+            if (ActionResourceManager.DarkKnight.BlackBlood >= 80 || Core.Me.HasAura(Auras.Delirium))
+                return await Spells.Quietus.Cast(Core.Me);
+
+            return false;
+        }
+
+        public static async Task<bool> FloodofShadow()
+        {
+            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood < 50)
-                return false;
-
-            if (Spells.Quietus.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
-                return false;
-
-            return await Spells.Quietus.Cast(Core.Me);
+            return await Spells.FloodofShadow.Cast(Core.Me);
         }
     }
 }

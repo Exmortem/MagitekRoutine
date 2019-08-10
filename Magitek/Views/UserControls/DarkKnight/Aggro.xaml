@@ -27,39 +27,20 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Unleash When There Are " IsChecked="{Binding DarkKnightSettings.Unleash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.UnleashEnemies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Unleash " />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="UseUnleash " />
                     <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.UnleashOnGroupPull, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Times When Getting Into Combat " />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Unleash Every " IsChecked="{Binding DarkKnightSettings.UnleashOnInterval, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use UseUnleash Every " IsChecked="{Binding DarkKnightSettings.UnleashOnInterval, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.UnleashIntervalSeconds, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Against A Group Of Enemies " />
                 </StackPanel>
-                <CheckBox Margin="0,3,0,0" Content="Always Use Unleash On Proc" IsChecked="{Binding DarkKnightSettings.UnleashAlwaysUseProc, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Salted Earth When There Are " IsChecked="{Binding DarkKnightSettings.SaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.SaltedEarthEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Abyssal Drain When There Are " IsChecked="{Binding DarkKnightSettings.AbyssalDrain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.AbyssalDrainEnemies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range Of An Enemy" />
-                </StackPanel>
                 <CheckBox Margin="0,3" Content="Allow Pulling With Abyssal Drain" IsChecked="{Binding DarkKnightSettings.AbyssalDrainToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Abyssal Drain If Over " />

@@ -415,9 +415,6 @@
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <darkknight:Buffs />
                         </TabItem>
-                        <TabItem Header="Dark Arts" Style="{DynamicResource MainTabBuffs}">
-                            <darkknight:DarkArts />
-                        </TabItem>
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <darkknight:Defensives />
                         </TabItem>
