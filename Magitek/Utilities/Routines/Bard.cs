@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ff14bot;
+using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
@@ -12,7 +15,8 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static int SnapShotCheck = 0;
+        public static List<DateTime> DoTTickProcs = new List<DateTime>();
+        public static int OldSoulVoice;
 
         public static void RefreshVars()
         {
@@ -55,6 +59,53 @@ namespace Magitek.Utilities.Routines
                 weavingCounter += 1;
 
             return weavingCounter;
+        }
+
+        public static void CheckForDoTProcs()
+        {
+            //Doenst matter if something procs here
+            if (Combat.CombatTime.ElapsedMilliseconds < 2800)
+            {
+                OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
+                DoTTickProcs.Clear();
+                return;
+            }
+
+            if (OldSoulVoice == ActionResourceManager.Bard.SoulVoice)
+                return;
+
+            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
+            {
+                OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
+                return;
+            }
+
+            OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
+
+            if (DoTTickProcs.Count > 20)
+                DoTTickProcs.Remove(DoTTickProcs.Last());
+
+            DoTTickProcs.Insert(0, DateTime.Now);
+
+            //Logger.Error($@"[DoT-Tick-Prediction] Found a Proc at {_DoTTickProcs[0]} next proc chance in 3s from now");
+        }
+
+        public static double TimeUntilNextPossibleDoTTick()
+        {
+            double potentialTickInXms = 999;
+            //if (_DoTTickProcs.Count >= 1)
+            //    if (DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds > 3000)
+            //        Logger.Error($@"[DoT-Tick-Prediction] We passed {DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds / 3000} DoTProc-Windows without a DotProc");
+
+            foreach (var dotTickTime in DoTTickProcs)
+            {
+                double _tmpTime = DateTime.Now.Subtract(dotTickTime).TotalMilliseconds;
+                if (potentialTickInXms > _tmpTime%3000)
+                    potentialTickInXms = _tmpTime%3000;
+            }
+
+            return potentialTickInXms;
+
         }
 
         public static bool CheckCurrentDamageIncrease(int _neededDmgIncrease)
@@ -151,29 +202,6 @@ namespace Magitek.Utilities.Routines
             }
 
             return _dmgIncrease >= (1 + (double)_neededDmgIncrease / 100) && _isEndingSoon;
-        }
-
-        public static bool HealthCheck(GameObject tar)
-        {
-            if (tar == null)
-                return false;
-
-            if (tar.EnglishName.Contains("Dummy"))
-                return true;
-
-            if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon)
-            {
-                // Target doesn't have a combat time left yet
-                if (Combat.CurrentTargetCombatTimeLeft < 0)
-                    return true;
-
-                return Combat.CurrentTargetCombatTimeLeft > BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds;
-            }
-
-            if (tar.IsBoss())
-                return true;
-
-            return tar.CurrentHealthPercent > 20;
         }
     }
 }
