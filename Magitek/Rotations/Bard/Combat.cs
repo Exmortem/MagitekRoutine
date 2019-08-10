@@ -42,7 +42,7 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if ( Utilities.Routines.Bard.CheckLastSpellsForWeaveing() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 700 + BardSettings.Instance.UserLatencyOffset )
+            if (Utilities.Routines.Bard.WeavingHelper.CheckLastSpellsForWeaving() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;
@@ -57,7 +57,6 @@ namespace Magitek.Rotations.Bard
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
-                //if (await Cooldowns.RefulgentBarrage()) return true;
                 if (await Cooldowns.Barrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await Aoe.RainOfDeathDuringMagesBallard()) return true;

@@ -34,9 +34,12 @@ namespace Magitek.Logic.DarkKnight
             if (tankBuster == null)
                 return false;
 
-            if (tankBuster.ShadowWall && targetIsMe && await Spells.ShadowWall.CastAura(Core.Me, Auras.ShadowWall)) return true;
+            if (tankBuster.LivingDead && targetIsMe && await Spells.LivingDead.CastAura(Core.Me, Auras.LivingDead)) return true;
             if (tankBuster.DarkMind && targetIsMe && await Spells.DarkMind.CastAura(Core.Me, Auras.DarkMind)) return true;
+            if (tankBuster.ShadowWall && targetIsMe && await Spells.ShadowWall.CastAura(Core.Me, Auras.ShadowWall)) return true;
+            if (tankBuster.TheBlackestNight && await Spells.TheBlackestNight.Cast(Core.Me)) return true;
             if (tankBuster.ReprisalDk && await Spells.Reprisal.CastAura(Core.Me.CurrentTarget, Auras.Reprisal)) return true;
+            if (tankBuster.DarkMissionary && await Spells.DarkMissionary.CastAura(Core.Me, Auras.DarkMissionary)) return true;
             return tankBuster.RampartDk && targetIsMe && await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
         }
         
@@ -64,14 +67,16 @@ namespace Magitek.Logic.DarkKnight
                     return false;
             }
 
+            if (await DarkMind()) return true;
             if (await ShadowWall()) return true;
-            if (await Rampart()) return true;
+            if (await TheBlackestNight()) return true;
+            if (await DarkMissionary()) return true;
             return await Rampart();
         }
         
         private static async Task<bool> LivingDead()
         {
-            if (!DarkKnightSettings.Instance.LivingDead)
+            if (!DarkKnightSettings.Instance.UseLivingDead)
                 return false;
 
             if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.LivingDeadHealth)
@@ -79,10 +84,21 @@ namespace Magitek.Logic.DarkKnight
             
             return await Spells.LivingDead.CastAura(Core.Me, Auras.LivingDead);
         }
-                
+
+        private static async Task<bool> DarkMind()
+        {
+            if (!DarkKnightSettings.Instance.UseDarkMind)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.DarkMindHealth)
+                return false;
+
+            return await Spells.DarkMind.CastAura(Core.Me, Auras.DarkMind);
+        }
+
         private static async Task<bool> ShadowWall()
         {
-            if (!DarkKnightSettings.Instance.ShadowWall)
+            if (!DarkKnightSettings.Instance.UseShadowWall)
                 return false;
 
             if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.ShadowWallHealth)
@@ -91,16 +107,6 @@ namespace Magitek.Logic.DarkKnight
             return await Spells.ShadowWall.CastAura(Core.Me, Auras.ShadowWall);
         }
 
-        private static async Task<bool> Rampart()
-        {
-            if (!DarkKnightSettings.Instance.UseRampart)
-                return false;
-
-            if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.RampartHpPercentage)
-                return false;
-            
-            return await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
-        }
         public static async Task<bool> TheBlackestNight()
         {
             if (!DarkKnightSettings.Instance.UseTheBlackestNight)
@@ -113,6 +119,28 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             return await Spells.TheBlackestNight.CastAura(Core.Me, Auras.BlackestNight);
+        }
+
+        private static async Task<bool> DarkMissionary()
+        {
+            if (!DarkKnightSettings.Instance.UseDarkMissionary)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.DarkMissionaryHealth)
+                return false;
+
+            return await Spells.DarkMissionary.CastAura(Core.Me, Auras.DarkMissionary);
+        }
+
+        private static async Task<bool> Rampart()
+        {
+            if (!DarkKnightSettings.Instance.UseRampart)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.RampartHpPercentage)
+                return false;
+
+            return await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
         }
     }
 }

@@ -11,7 +11,6 @@ using Magitek.Logic.Roles;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
-using ActionResourceManager = Magitek.Utilities.MagitekActionResourceManager;
 
 namespace Magitek.Rotations.DarkKnight
 {
@@ -19,6 +18,7 @@ namespace Magitek.Rotations.DarkKnight
     {
         public static Queue<QueueSpell> SpellQueue { get; } = new Queue<QueueSpell>();
         private static bool InSpellQueue { get; set; }
+        private static bool AoeCheck => DarkKnightSettings.Instance.UseAoe && Utilities.Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= DarkKnightSettings.Instance.AoeEnemies;
 
         public static async Task<bool> Execute()
         {
@@ -44,8 +44,6 @@ namespace Magitek.Rotations.DarkKnight
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
             }
 
-            Logger.Write($"Blood: {ActionResourceManager.DarkKnight.BlackBlood}, Darkside: {ActionResourceManager.DarkKnight.Darkside.TotalMilliseconds}, DarkArts: {ActionResourceManager.DarkKnight.DarkArts}");
-
             if (await Buff.Grit()) return true;
             if (await Defensive.TheBlackestNight()) return true;
             if (await Buff.Delirium()) return true;
@@ -55,17 +53,30 @@ namespace Magitek.Rotations.DarkKnight
             {
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
                 if (await Defensive.Execute()) return true;
-                if (await SingleTarget.LowBlow()) return true;
-                if (await SingleTarget.Reprisal()) return true;
-                if (await Aoe.SaltedEarth()) return true;
+                if (await Buff.LivingShadow()) return true;
                 if (await SingleTarget.CarveAndSpit()) return true;
+
+                if (AoeCheck)
+                {
+                    if (await Aoe.SaltedEarth()) return true;
+                    if (await Aoe.AbyssalDrain()) return true;
+                    if (await Aoe.FloodofDarknessShadow()) return true;
+                }
+
+                if (await SingleTarget.EdgeofDarknessShadow()) return true;
                 if (await SingleTarget.Plunge()) return true;
+                if (await SingleTarget.Reprisal()) return true;
             }
 
-            if (await Aoe.AbyssalDrain()) return true;
-            if (await Aoe.Unleash()) return true;
             if (await SingleTarget.Unmend()) return true;
-            if (await Aoe.Quietus()) return true;
+            
+            if (AoeCheck)
+            {
+                if (await Aoe.Quietus()) return true;
+                if (await Aoe.StalwartSoul()) return true;
+                if (await Aoe.Unleash()) return true;
+            }
+
             if (await SingleTarget.Bloodspiller()) return true;
             if (await SingleTarget.SoulEater()) return true;
             if (await SingleTarget.SyphonStrike()) return true;

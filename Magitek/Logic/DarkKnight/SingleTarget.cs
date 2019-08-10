@@ -1,14 +1,11 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
-using ActionResourceManager = Magitek.Utilities.MagitekActionResourceManager;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.DarkKnight
 {
@@ -24,11 +21,6 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.HardSlash)
                 return false;
 
-            // If we have Blood Price or Blood Weapon we wanna Dark Arts this every time
-
-            if (!Core.Me.HasBloodWeapon())
-                return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
-
             return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
         }
 
@@ -37,28 +29,21 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.SyphonStrike)
                 return false;
 
-            // If we have Blood Price or Blood Weapon we wanna Dark Arts this every time
-
-            if (!Core.Me.HasBloodWeapon())
-                return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
-
             return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Reprisal()
+        public static async Task<bool> Bloodspiller()
         {
-            if (!DarkKnightSettings.Instance.UseReprisal)
+            if (!DarkKnightSettings.Instance.Bloodspiller)
                 return false;
 
-            return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Plunge()
-        {
-            if (!DarkKnightSettings.Instance.Plunge)
+            if (Spells.Delirium.Cooldown.TotalMilliseconds < 5000 && Core.Me.ClassLevel >= Spells.Delirium.LevelAcquired)
                 return false;
 
-            return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
+                return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
+
+            return false;
         }
 
         public static async Task<bool> Unmend()
@@ -92,66 +77,36 @@ namespace Magitek.Logic.DarkKnight
             return true;
         }
 
+        public static async Task<bool> EdgeofDarknessShadow()
+        {
+            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
+                return false;
+
+            return await Spells.EdgeofDarkness.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> CarveAndSpit()
         {
             if (!DarkKnightSettings.Instance.CarveAndSpit)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.CarveandSpit.Id))
-                return false;
-
-            if (Spells.CarveandSpit.Cooldown != TimeSpan.Zero)
-                return false;
-
             return await Spells.CarveandSpit.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Bloodspiller()
+        public static async Task<bool> Plunge()
         {
-            if (!DarkKnightSettings.Instance.Bloodspiller)
+            if (!DarkKnightSettings.Instance.UsePlunge)
                 return false;
 
-            if (Core.Me.ClassLevel < 68)
-                return false;
-
-            if (ActionResourceManager.DarkKnight.BlackBlood < 50)
-                return false;
-
-            if (Spells.Bloodspiller.Cooldown != TimeSpan.Zero)
-                return false;
-
-            // We only wanna use this with Dark Arts
-
-            //if (!Utilities.Routines.DarkKnight.CanDarkArts(Spells.Bloodspiller))
-            //{
-                if (DarkKnightSettings.Instance.Quietus && ActionResourceManager.DarkKnight.BlackBlood > 90)
-                {
-                    return await Spells.Quietus.Cast(Core.Me);
-                }
-
-            //    return false;
-            //}
-
-            return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
+            return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> LowBlow()
+        public static async Task<bool> Reprisal()
         {
-            if (!DarkKnightSettings.Instance.LowBlow)
+            if (!DarkKnightSettings.Instance.UseReprisal)
                 return false;
 
-            var currentTargetAsCharacter = Core.Me.CurrentTarget as Character;
-
-            if (currentTargetAsCharacter == null)
-                return false;
-
-            if (!currentTargetAsCharacter.IsCasting)
-                return false;
-
-            if (!InterruptsAndStunsManager.AllStuns.Contains(currentTargetAsCharacter.CastingSpellId))
-                return false;
-
-            return await Spells.LowBlow.Cast(Core.Me.CurrentTarget);
+            return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
         }
     }
 }

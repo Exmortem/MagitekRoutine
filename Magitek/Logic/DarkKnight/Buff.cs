@@ -29,18 +29,17 @@ namespace Magitek.Logic.DarkKnight
                 
             return await Spells.Grit.Cast(Core.Me);
         }
-        
+
+        public static async Task<bool> LivingShadow()
+        {
+            return await Spells.LivingShadow.Cast(Core.Me);
+        }
+
         public static async Task<bool> BloodWeapon()
         {
             if (!DarkKnightSettings.Instance.BloodWeapon)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Grit))
-                return false;
-
-            //if (!Core.Me.HasAura(Auras.Darkside))
-            //    return false;
-            
             return await Spells.BloodWeapon.Cast(Core.Me);
         }
 
@@ -49,16 +48,7 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Delirium)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood < 50)
-                return false;
-
-            if (Combat.CombatTotalTimeLeft < 15)
-                return false;
-
-            if (!DarkKnightSettings.Instance.DeliriumWithBloodWeapon)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.BloodWeapon))
+            if (ActionResourceManager.DarkKnight.BlackBlood != 100)
                 return false;
 
             return await Spells.Delirium.Cast(Core.Me);

@@ -15,33 +15,21 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Malefic)
                 return false;
 
-            if (ActionManager.HasSpell(Spells.Malefic3.Id))
-            {
-                return await Spells.Malefic3.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (ActionManager.HasSpell(Spells.Malefic2.Id))
-            {
-                return await Spells.Malefic2.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Utilities.Routines.Astrologian.OnGcd) return false;
-
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
         
-        public static async Task<bool> LordOfCrowns()
+        public static async Task<bool> LordofCrowns()
         {
-            if (!AstrologianSettings.Instance.LordOfCrowns)
+            if (!AstrologianSettings.Instance.LordofCrowns)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.LordOfCrowns.Id)) return false;
+            if (!ActionManager.HasSpell(Spells.LordofCrowns.Id)) return false;
             
             if (ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns) return false;
             
             if (Utilities.Routines.Astrologian.OnGcd) return false;
             
-            return await Spells.LordOfCrowns.Cast(Core.Me.CurrentTarget);
+            return await Spells.LordofCrowns.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Dots()
@@ -66,6 +54,14 @@ namespace Magitek.Logic.Astrologian
         {
             if (!AstrologianSettings.Instance.Combust)
                 return false;
+
+            if (ActionManager.HasSpell(Spells.Combust3.Id))
+            {
+                if (Core.Me.CurrentTarget.HasAura(Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
+                    return false;
+
+                return await Spells.Combust3.CastAura(Core.Me.CurrentTarget, Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
+            }
 
             if (ActionManager.HasSpell(Spells.Combust2.Id))
             {

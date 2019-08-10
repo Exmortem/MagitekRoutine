@@ -54,19 +54,26 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Living Dead  " IsChecked="{Binding DarkKnightSettings.LivingDead, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Living Dead  " IsChecked="{Binding DarkKnightSettings.UseLivingDead, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.LivingDeadHealth, Mode=TwoWay}" />
                     <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Shadow Wall" IsChecked="{Binding DarkKnightSettings.ShadowWall, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="2"
-                                      Grid.Column="1"
-                                      Margin="0,3"
-                                      MaxValue="100"
-                                      MinValue="1"
-                                      Value="{Binding DarkKnightSettings.ShadowWallHealth, Mode=TwoWay}" />
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Dark Mind  " IsChecked="{Binding DarkKnightSettings.UseDarkMind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.DarkMindHealth, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Shadow Wall" IsChecked="{Binding DarkKnightSettings.UseShadowWall, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.ShadowWallHealth, Mode=TwoWay}" />
                     <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                    
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="The Blackest Night" IsChecked="{Binding DarkKnightSettings.UseTheBlackestNight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.TheBlackestNightHealth, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="4" Grid.Column="0" Content="Dark Missionary" IsChecked="{Binding DarkKnightSettings.UseDarkMissionary, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.DarkMissionaryHealth, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
                     <CheckBox Grid.Row="5" Grid.Column="0" Content="Rampart  " IsChecked="{Binding DarkKnightSettings.UseRampart, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="5"
                                       Grid.Column="1"
@@ -78,12 +85,6 @@
 
                 </Grid>
 
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="The Blackest Night" IsChecked="{Binding DarkKnightSettings.UseTheBlackestNight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

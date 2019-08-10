@@ -78,7 +78,7 @@ namespace Magitek.Rotations.Astrologian
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Logic.Astrologian.Heal.Helios()) return true;
-                    if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
+                    if (await Logic.Astrologian.Heal.LadyofCrowns()) return true;
                     if (await Logic.Astrologian.Heal.Benefic2()) return true;
                 }
 
@@ -87,7 +87,7 @@ namespace Magitek.Rotations.Astrologian
                 if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }
 
-            if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
+            if (await Logic.Astrologian.Heal.LadyofCrowns()) return true;
             return await Logic.Astrologian.Heal.Benefic();
         }
     }

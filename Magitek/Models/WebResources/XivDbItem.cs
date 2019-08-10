@@ -56,11 +56,14 @@ namespace Magitek.Models.WebResources
         public bool PaladinTankBuster => DivineVeil || Sheltron || HallowedGround || Sentinel  || Rampart;
 
         public bool RampartDk { get; set; }
+        public bool LivingDead { get; set; }
         public bool ShadowWall { get; set; }
         public bool DarkMind { get; set; }
+        public bool DarkMissionary { get; set; }
+        public bool TheBlackestNight { get; set; }
         public bool ReprisalDk { get; set; }
 
-        public bool DarkKnightTankBuster => RampartDk || ShadowWall || DarkMind;
+        public bool DarkKnightTankBuster => LivingDead || DarkMissionary || TheBlackestNight || RampartDk || ShadowWall || DarkMind;
 
         public bool RampartWar { get; set; }
         public bool ReprisalWar { get; set; }

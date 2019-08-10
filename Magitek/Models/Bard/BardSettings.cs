@@ -116,7 +116,7 @@ namespace Magitek.Models.Bard
         public bool MultiDotWindBite { get; set; }
 
         [Setting]
-        [DefaultValue(0)]
+        [DefaultValue(4)]
         public int MultiDotWindBiteUpToXEnemies { get; set; }
 
         [Setting]
@@ -124,7 +124,7 @@ namespace Magitek.Models.Bard
         public bool MultiDotVenomousBite { get; set; }
 
         [Setting]
-        [DefaultValue(0)]
+        [DefaultValue(4)]
         public int MultiDotVenomousBiteUpToXEnemies { get; set; }
 
         #endregion
@@ -140,7 +140,7 @@ namespace Magitek.Models.Bard
         public bool UseQuickNock { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int QuickNockEnemiesInCone { get; set; }
 
         [Setting]
@@ -162,6 +162,18 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(100)]
         public int UseApexArrowWithAtLeastXSoulVoice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBuffedApexArrow { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int UseBuffedApexArrowWithAtLeastXBonusDamage { get; set; }
+
+        [Setting]
+        [DefaultValue(95)]
+        public int UseBuffedApexArrowWithAtLeastXSoulVoice { get; set; }
 
         #endregion
 

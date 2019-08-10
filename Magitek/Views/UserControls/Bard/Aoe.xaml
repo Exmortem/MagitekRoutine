@@ -69,14 +69,20 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Apex Arrow " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When We Have At Least " />
-                <controls:Numeric Margin="0,3,0,0"
-                                  MaxValue="100"
-                                  MinValue="1"
-                                  Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
+            <StackPanel >
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Apex Arrow " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="With At Least " />
+                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Apex Arrow At " IsChecked="{Binding BardSettings.UseBuffedApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice When A " />
+                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXBonusDamage, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="% Damage-Buff Is About To End" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -44,7 +44,7 @@ namespace Magitek.Logic.Bard
                     case 2:
                         if (Core.Me.ClassLevel < 64)
                         {
-                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.VenomousBite, true))  >= 2)
+                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.VenomousBite, true)) >= 2)
                                 break;
                             return false;
                         }
@@ -79,34 +79,42 @@ namespace Magitek.Logic.Bard
             {
                 case ActionResourceManager.Bard.BardSong.None:
 
-                    if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds < 30)
+                    if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalMilliseconds <= 30000)
                         return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
 
                     if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
-                        || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
+                        || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds < 30000)
                         return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
 
-                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds <= 30
-                        || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds > 30 )
-                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget); 
+                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalMilliseconds < 30000
+                        || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown.TotalMilliseconds > 30000)
+                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
                     break;
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds >1000 + BardSettings.Instance.DefaultSongTransitionTime)
-                        return false;
-
-                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
-                        || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
-                        return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+                    if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds + 250
+                        && (ActionResourceManager.Bard.Repertoire == 0 || Spells.PitchPerfect.Cooldown.TotalMilliseconds > ActionResourceManager.Bard.Timer.TotalMilliseconds))
+                    {
+                        if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
+                            || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds < 30000)
+                            return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+                    }
                     break;
 
                 case ActionResourceManager.Bard.BardSong.MagesBallad:
+                    if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds && ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000)
+                    {
+                        if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalMilliseconds < 30000 
+                            || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown.TotalMilliseconds > 30000)
+                            return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+                    }
                     break;
 
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:
-                    if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds < 30)
-                        return await EarlyWanderersMinuet();
+                    if (Spells.HeavyShot.Cooldown.TotalMilliseconds < Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds - 500)
+                        if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds <= 30)
+                            return await EarlyWanderersMinuet();
                     break;
             }
 
@@ -119,15 +127,33 @@ namespace Magitek.Logic.Bard
             TimeSpan magesBallardCooldown = Spells.MagesBallad.Cooldown;
             TimeSpan armysPaeonCooldown = Spells.ArmysPaeon.Cooldown;
 
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1000 * BardSettings.Instance.DefaultSongTransitionTime)
-                return false;
+            switch (ActionResourceManager.Bard.ActiveSong)
+            {
+                case ActionResourceManager.Bard.BardSong.None:
 
-            if (magesBallardCooldown == TimeSpan.Zero && (theWanderersMinuetCooldown == TimeSpan.Zero || armysPaeonCooldown != TimeSpan.Zero))
-                return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
-            if (armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero)
-                return await EarlyWanderersMinuet();
-            if (armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown != TimeSpan.Zero)
-                return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+                    if (magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero || magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds < 30)
+                        return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+
+                    if (magesBallardCooldown != TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
+                        || magesBallardCooldown != TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalSeconds < 30)
+                        return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+
+                    if (magesBallardCooldown != TimeSpan.Zero && theWanderersMinuetCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds <= 30
+                        || magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds > 30)
+                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.MagesBallad:
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
+                    if (magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero || magesBallardCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalSeconds < 30)
+                        return await EarlyMagesBallad();
+                    break;
+            }
 
             return false;
         }
@@ -138,15 +164,40 @@ namespace Magitek.Logic.Bard
             TimeSpan magesBallardCooldown = Spells.MagesBallad.Cooldown;
             TimeSpan armysPaeonCooldown = Spells.ArmysPaeon.Cooldown;
 
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1000 * BardSettings.Instance.DefaultSongTransitionTime)
-                return false;
+            switch (ActionResourceManager.Bard.ActiveSong)
+            {
+                case ActionResourceManager.Bard.BardSong.None:
 
-            if (magesBallardCooldown == TimeSpan.Zero && (armysPaeonCooldown == TimeSpan.Zero || theWanderersMinuetCooldown != TimeSpan.Zero))
-                return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
-            if (armysPaeonCooldown == TimeSpan.Zero && magesBallardCooldown != TimeSpan.Zero)
-                return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
-            if (theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown != TimeSpan.Zero)
-                return await EarlyWanderersMinuet();
+                    if (magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero || magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds < 30000)
+                        return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+
+                    if (magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero
+                        || magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown.TotalMilliseconds < 30000)
+                        return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+
+                    if (magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown != TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalMilliseconds <= 30000
+                        || magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown != TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds > 30000)
+                        return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
+
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1000 + BardSettings.Instance.DefaultSongTransitionTime)
+                        return false;
+
+                    if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
+                        || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds < 30000)
+                        return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.MagesBallad:
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
+                    if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalMilliseconds < 30000)
+                        return await EarlyWanderersMinuet();
+                    break;
+            }
 
             return false;
         }
@@ -157,8 +208,21 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.EndArmysPaeonEarly)
                 return false;
 
-            if (ActionResourceManager.Bard.Timer.Seconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000 * BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
                 return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+
+
+            return false;
+        }
+
+        public static async Task<bool> EarlyMagesBallad()
+        {
+            //Cut AP Strat
+            if (!BardSettings.Instance.EndArmysPaeonEarly)
+                return false;
+
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000 * BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
+                return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
 
 
             return false;
