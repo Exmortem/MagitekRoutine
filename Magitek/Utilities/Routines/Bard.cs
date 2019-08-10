@@ -27,13 +27,13 @@ namespace Magitek.Utilities.Routines
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
         }
-        
+
         public static List<uint> DotsList => Core.Me.ClassLevel >= 64 ?
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
         public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
-                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow, 
+                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow,
                                                                             Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
                                                                             Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
                                                                             Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
@@ -71,6 +71,17 @@ namespace Magitek.Utilities.Routines
                 return;
             }
 
+            if (DoTTickProcs.Count > 10)
+                DoTTickProcs.Remove(DoTTickProcs.Last());
+
+            //If the proc event is older than 30s then remove it, its safe to assume the dot dropped or target died
+            //The chances to get at least one dot tick proc within 30s are 99.4~%
+            foreach (var _TickTime in DoTTickProcs)
+            {
+                if (DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 30000)
+                    DoTTickProcs.Remove(_TickTime);
+            }
+
             if (OldSoulVoice == ActionResourceManager.Bard.SoulVoice)
                 return;
 
@@ -82,29 +93,24 @@ namespace Magitek.Utilities.Routines
 
             OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
 
-            if (DoTTickProcs.Count > 20)
-                DoTTickProcs.Remove(DoTTickProcs.Last());
-
             DoTTickProcs.Insert(0, DateTime.Now);
 
-            //Logger.Error($@"[DoT-Tick-Prediction] Found a Proc at {_DoTTickProcs[0]} next proc chance in 3s from now");
         }
 
         public static double TimeUntilNextPossibleDoTTick()
         {
-            double potentialTickInXms = 999;
-            //if (_DoTTickProcs.Count >= 1)
-            //    if (DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds > 3000)
-            //        Logger.Error($@"[DoT-Tick-Prediction] We passed {DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds / 3000} DoTProc-Windows without a DotProc");
+            double potentialTickInXms = 999999;
 
             foreach (var dotTickTime in DoTTickProcs)
             {
                 double _tmpTime = DateTime.Now.Subtract(dotTickTime).TotalMilliseconds;
-                if (potentialTickInXms > _tmpTime%3000)
-                    potentialTickInXms = _tmpTime%3000;
+                if (potentialTickInXms > _tmpTime % 3000)
+                    potentialTickInXms = _tmpTime % 3000;
             }
 
-            return potentialTickInXms;
+            if (potentialTickInXms != 999999)
+                return 3000 - potentialTickInXms; // 3000ms, Tick Intervall, minus already passed time = time left
+            return 0; //In case we have zero data about last tick procs, its safe to assume a dot could happen at any time
 
         }
 
