@@ -71,16 +71,6 @@ namespace Magitek.Logic.Bard
 
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
-            var repertoire = ActionResourceManager.Bard.Repertoire;
-
-            if (repertoire == 0)
-                return false;
-
-            if (repertoire == 3)
-                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-
-            if (repertoire >= BardSettings.Instance.UsePitchPerfectAtRepertoire)
-                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             //Logic to catch the last possible PP
             //maybe have to reevalute the 250 ms here
@@ -93,8 +83,11 @@ namespace Magitek.Logic.Bard
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
             }
 
+            if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
+                return false;
 
-            return false;
+            Logger.Error($@"Casting PP with {ActionResourceManager.Bard.Repertoire} Repertoire Stacks");
+            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget); 
         }
 
         public static async Task<bool> BloodletterInMagesBallard()
