@@ -21,8 +21,6 @@ namespace Magitek.Logic.Gunbreaker
             if (ActionManager.LastSpell != Spells.KeenEdge)
                 return false;
 
-            if (Cartridge == 2)
-                return false;
             
             return await Spells.BrutalShell.Cast(Core.Me.CurrentTarget);
         }
@@ -30,6 +28,8 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> SolidBarrel()
         {
             if (ActionManager.LastSpell != Spells.BrutalShell)
+                return false;
+            if (Cartridge == 2)
                 return false;
 
             return await Spells.SolidBarrel.Cast(Core.Me.CurrentTarget);
@@ -79,7 +79,7 @@ namespace Magitek.Logic.Gunbreaker
                     return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
             return await Spells.DangerZone.Cast(Core.Me.CurrentTarget);
@@ -91,12 +91,9 @@ namespace Magitek.Logic.Gunbreaker
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
-            //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
-                return false;
 
             return await Spells.BlastingZone.Cast(Core.Me.CurrentTarget);
         }
@@ -118,27 +115,6 @@ namespace Magitek.Logic.Gunbreaker
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
             return false;
 
-
-
-            //Save your bullet for Gnashin
-            if (!Core.Player.HasAura(Auras.NoMercy) && Spells.GnashingFang.Cooldown.TotalMilliseconds < 10000 && Cartridge != 2)
-                return false;
-
-            if (Spells.NoMercy.Cooldown.TotalMilliseconds < 3000)
-                return false;
-
-            if (Core.Me.ClassLevel > 75 && Spells.Bloodfest.Cooldown.TotalMilliseconds < 5100)
-                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
-
-            if (Core.Player.HasAura(Auras.NoMercy) && Cartridge != 0 && Spells.GnashingFang.Cooldown.TotalMilliseconds > 0)
-                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
-
-            if (Cartridge == 2)
-                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
-
-            return false;
-
-
         }
         
         public static async Task<bool> JugularRip()
@@ -147,7 +123,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
             return await Spells.JugularRip.Cast(Core.Me.CurrentTarget);
@@ -159,7 +135,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
             return await Spells.AbdomenTear.Cast(Core.Me.CurrentTarget);
@@ -171,7 +147,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
             return await Spells.EyeGouge.Cast(Core.Me.CurrentTarget);
@@ -183,7 +159,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 700)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
                 return false;
 
             if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
