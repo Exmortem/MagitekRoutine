@@ -29,9 +29,6 @@ namespace Magitek.Rotations.Bard
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2) || Core.Me.InCombat;
             Utilities.Routines.Bard.RefreshVars();
 
-            Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
-            Utilities.Routines.Bard.CheckForDoTProcs();
-
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
@@ -45,7 +42,7 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if (Utilities.Routines.Bard.CheckLastSpellsForWeaving() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
+            if (Utilities.Routines.Bard.WeavingHelper.CheckLastSpellsForWeaving() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;
