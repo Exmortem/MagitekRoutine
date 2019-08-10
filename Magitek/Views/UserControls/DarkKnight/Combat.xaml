@@ -70,7 +70,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                         <CheckBox Grid.Row="1" Grid.Column="0" Margin="0,5" Content="Quietus " IsChecked="{Binding DarkKnightSettings.Quietus, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <CheckBox Grid.Row="2" Grid.Column="0" Content="Unleash " IsChecked="{Binding DarkKnightSettings.UseUnleash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="3" Grid.Column="0" Content="Salted Earth " IsChecked="{Binding DarkKnightSettings.UseSaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="3" Grid.Column="0" Margin="0,5" Content="Salted Earth " IsChecked="{Binding DarkKnightSettings.UseSaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </Grid>
                 </StackPanel>
             </StackPanel>

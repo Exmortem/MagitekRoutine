@@ -95,7 +95,7 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Quietus)
                 return false;
 
-            if (Spells.Delirium.Cooldown.TotalMilliseconds < 5000)
+            if (Spells.Delirium.Cooldown.TotalMilliseconds < 5000 && Core.Me.ClassLevel >= Spells.Delirium.LevelAcquired)
                 return false;
 
             if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
@@ -104,12 +104,12 @@ namespace Magitek.Logic.DarkKnight
             return false;
         }
 
-        public static async Task<bool> FloodofShadow()
+        public static async Task<bool> FloodofDarknessShadow()
         {
             if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 
-            return await Spells.FloodofShadow.Cast(Core.Me);
+            return await Spells.FloodofDarkness.Cast(Core.Me);
         }
     }
 }

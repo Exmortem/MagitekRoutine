@@ -60,8 +60,8 @@ namespace Magitek.Rotations.DarkKnight
                 if (await Aoe.AbyssalDrain()) return true;
                 if (await SingleTarget.CarveAndSpit()) return true;
                 if(AoeCheck)
-                    if (await Aoe.FloodofShadow()) return true;
-                if (await SingleTarget.EdgeofShadow()) return true;
+                    if (await Aoe.FloodofDarknessShadow()) return true;
+                if (await SingleTarget.EdgeofDarknessShadow()) return true;
             }
 
             if (await SingleTarget.Unmend()) return true;
