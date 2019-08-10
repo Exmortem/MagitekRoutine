@@ -15,18 +15,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Malefic)
                 return false;
 
-            if (ActionManager.HasSpell(Spells.Malefic3.Id))
-            {
-                return await Spells.Malefic3.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (ActionManager.HasSpell(Spells.Malefic2.Id))
-            {
-                return await Spells.Malefic2.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Utilities.Routines.Astrologian.OnGcd) return false;
-
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
         
@@ -66,6 +54,14 @@ namespace Magitek.Logic.Astrologian
         {
             if (!AstrologianSettings.Instance.Combust)
                 return false;
+
+            if (ActionManager.HasSpell(Spells.Combust3.Id))
+            {
+                if (Core.Me.CurrentTarget.HasAura(Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
+                    return false;
+
+                return await Spells.Combust3.CastAura(Core.Me.CurrentTarget, Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
+            }
 
             if (ActionManager.HasSpell(Spells.Combust2.Id))
             {
