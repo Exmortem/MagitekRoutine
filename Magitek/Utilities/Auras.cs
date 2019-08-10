@@ -26,6 +26,7 @@ namespace Magitek.Utilities
             Galvanize = 297,
             Combust = 838,
             Combust2 = 843,
+            Combust3 = 1881,
             EnhancedBenefic2 = 815,
             AspectedBenefic = 835,
             AspectedHelios = 836,
