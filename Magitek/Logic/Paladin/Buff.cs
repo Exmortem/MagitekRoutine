@@ -36,9 +36,6 @@ namespace Magitek.Logic.Paladin
             }
 
 
-            if (PaladinSettings.Instance.IronWill && Core.Me.HasAura(Auras.IronWill))
-                return false;
-
             if (!PaladinSettings.Instance.IronWill && Core.Me.HasAura(Auras.IronWill))
             {
                 if (PaladinSettings.Instance.OathHotSwapMode == true)
@@ -77,7 +74,7 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 15000))
+            if (Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 13000))
                 return false;
 
             if (PaladinSettings.Instance.FoFFastBlade)

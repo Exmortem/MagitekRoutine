@@ -120,7 +120,7 @@ namespace Magitek.Logic.Paladin
                 19000))
                 return false;
 
-            if (PaladinSettings.Instance.FoFFirst && Spells.FightorFlight.Cooldown.Seconds < 10)
+            if (PaladinSettings.Instance.FoFFirst && Spells.FightorFlight.Cooldown.Seconds < 8 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
                 return false;
 
             if (Core.Me.HasAura(Auras.FightOrFight, true, 3000))
