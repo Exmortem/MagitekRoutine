@@ -21,7 +21,7 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Plunge" IsChecked="{Binding DarkKnightSettings.Plunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Plunge" IsChecked="{Binding DarkKnightSettings.UsePlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="5,0" Content="Use To Pull If Available" IsChecked="{Binding DarkKnightSettings.PullWithPlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
@@ -78,8 +78,9 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Stun With Low Blow" IsChecked="{Binding DarkKnightSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject" IsChecked="{Binding DarkKnightSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Stun With Low Blow " IsChecked="{Binding DarkKnightSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject " IsChecked="{Binding DarkKnightSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Reprisal " IsChecked="{Binding DarkKnightSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -62,6 +62,7 @@ namespace Magitek.Rotations.DarkKnight
                 if(AoeCheck)
                     if (await Aoe.FloodofDarknessShadow()) return true;
                 if (await SingleTarget.EdgeofDarknessShadow()) return true;
+                if (await SingleTarget.Reprisal()) return true;
             }
 
             if (await SingleTarget.Unmend()) return true;

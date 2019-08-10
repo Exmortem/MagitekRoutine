@@ -95,10 +95,18 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> Plunge()
         {
-            if (!DarkKnightSettings.Instance.Plunge)
+            if (!DarkKnightSettings.Instance.UsePlunge)
                 return false;
 
             return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Reprisal()
+        {
+            if (!DarkKnightSettings.Instance.UseReprisal)
+                return false;
+
+            return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
         }
     }
 }

@@ -18,9 +18,6 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.AbyssalDrain)
                 return false;
 
-            if (Core.Me.CurrentManaPercent < DarkKnightSettings.Instance.AbyssalDrainMinimumMp)
-                return false;
-
             // Find the enemy that has the most enemies around them
             GameObject abyssalTarget = null;
             var enemiesInRange = 0;

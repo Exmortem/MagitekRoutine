@@ -87,7 +87,7 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool Plunge { get; set; }
+        public bool UsePlunge { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -100,10 +100,6 @@ namespace Magitek.Models.DarkKnight
         [Setting]
         [DefaultValue(true)]
         public bool AbyssalDrainToPull { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        public float AbyssalDrainMinimumMp { get; set; }
         
         [Setting]
         [DefaultValue(true)]
