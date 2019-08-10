@@ -30,6 +30,9 @@ namespace Magitek.Logic.BlackMage
         {
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
+            //Don't use during end of Astral
+            if (Core.Me.CurrentMana < 3000)
+                return false;
 
             // If we're on GCD for more than 700 milliseconds
             if (Spells.Fire.Cooldown.TotalMilliseconds > 700)
