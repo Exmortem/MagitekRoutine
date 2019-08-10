@@ -38,9 +38,22 @@ namespace Magitek.Logic.Monk
             if (!Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
+            if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
+                return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+
             return await Spells.FourPointFury.Cast(Core.Me);
         }
 
+        public static async Task<bool> ArmOfDestroyer()
+        {
+            if (!MonkSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.InView()) < MonkSettings.Instance.RockbreakerEnemies)
+                return false;
+
+            return await Spells.ArmOfTheDestroyer.Cast(Core.Me);
+        }
 
 
         public static async Task<bool> ElixerField()

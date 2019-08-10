@@ -15,8 +15,16 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static List<DateTime> DoTTickProcs = new List<DateTime>();
+        public static List<DateTime> DoTProcEvents = new List<DateTime>();
         public static int OldSoulVoice;
+        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
+                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow,
+                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
+                                                                            Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
+                                                                            Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
+                                                                            Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
+        };
+        public static Weaving WeavingHelper = new Weaving(OGCDSpells);
 
         public static void RefreshVars()
         {
@@ -26,40 +34,31 @@ namespace Magitek.Utilities.Routines
             EnemiesInCone = Core.Me.EnemiesInCone(15);
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+
+            CleanUpDoTProcList();
+            CheckForDoTProcs();
         }
         
+
         public static List<uint> DotsList => Core.Me.ClassLevel >= 64 ?
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
-        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
-                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow, 
-                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
-                                                                            Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
-                                                                            Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
-                                                                            Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
-                                                                            };
-
-        public static int CheckLastSpellsForWeaving()
+        public static void CleanUpDoTProcList()
         {
-            var weavingCounter = 0;
+            //If the proc event is older than 30s then remove it, its safe to assume the dot dropped or target died
+            //The chances to get at least one dot proc within 30s are 99.4~% ( 1 dot 10 ticks )
+            foreach (var _TickTime in DoTProcEvents.Reverse<DateTime>())
+            {
+                if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 30000)) continue;
+                DoTProcEvents.Remove(_TickTime);
+            }
+            
 
-            if (Casting.SpellCastHistory.Count < 2)
-                return 0;
-
-            var lastSpellCast = Casting.SpellCastHistory.ElementAt(0).Spell;
-            var secondLastSpellCast = Casting.SpellCastHistory.ElementAt(1).Spell;
-
-            if (OGCDSpells.Contains(lastSpellCast))
-                weavingCounter += 1;
-            else
-                return 0;
-
-            if (OGCDSpells.Contains(secondLastSpellCast))
-                weavingCounter += 1;
-
-            return weavingCounter;
+            if (DoTProcEvents.Count > 10)
+                DoTProcEvents.Remove(DoTProcEvents.Last());
         }
+
 
         public static void CheckForDoTProcs()
         {
@@ -67,44 +66,36 @@ namespace Magitek.Utilities.Routines
             if (Combat.CombatTime.ElapsedMilliseconds < 2800)
             {
                 OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-                DoTTickProcs.Clear();
+                DoTProcEvents.Clear();
                 return;
             }
 
             if (OldSoulVoice == ActionResourceManager.Bard.SoulVoice)
                 return;
 
-            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
-            {
-                OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-                return;
-            }
-
             OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
 
-            if (DoTTickProcs.Count > 20)
-                DoTTickProcs.Remove(DoTTickProcs.Last());
+            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
+                return;
 
-            DoTTickProcs.Insert(0, DateTime.Now);
+            DoTProcEvents.Insert(0, DateTime.Now);
 
-            //Logger.Error($@"[DoT-Tick-Prediction] Found a Proc at {_DoTTickProcs[0]} next proc chance in 3s from now");
         }
 
         public static double TimeUntilNextPossibleDoTTick()
         {
-            double potentialTickInXms = 999;
-            //if (_DoTTickProcs.Count >= 1)
-            //    if (DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds > 3000)
-            //        Logger.Error($@"[DoT-Tick-Prediction] We passed {DateTime.Now.Subtract(_DoTTickProcs[0]).TotalMilliseconds / 3000} DoTProc-Windows without a DotProc");
+            double potentialTickInXms = 999999;
 
-            foreach (var dotTickTime in DoTTickProcs)
+            foreach (var dotTickTime in DoTProcEvents)
             {
                 double _tmpTime = DateTime.Now.Subtract(dotTickTime).TotalMilliseconds;
-                if (potentialTickInXms > _tmpTime%3000)
-                    potentialTickInXms = _tmpTime%3000;
+                if (potentialTickInXms > _tmpTime % 3000)
+                    potentialTickInXms = _tmpTime % 3000;
             }
 
-            return potentialTickInXms;
+            if (potentialTickInXms != 999999)
+                return 3000 - potentialTickInXms; // 3000ms, Tick Intervall, minus already passed time = time left
+            return 0; //In case we have zero data about past procs, its safe to assume a dot could happen at any time
 
         }
 

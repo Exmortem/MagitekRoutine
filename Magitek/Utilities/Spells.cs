@@ -44,6 +44,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Disembowel = DataManager.GetSpellData(87);
         public static readonly SpellData ChaosThrust = DataManager.GetSpellData(88);
         public static readonly SpellData Phlebotomize = DataManager.GetSpellData(91);
+        public static readonly SpellData ArmOfTheDestroyer = DataManager.GetSpellData(62);
         public static readonly SpellData Jump = DataManager.GetSpellData(92);
         public static readonly SpellData SpineshatterDive = DataManager.GetSpellData(95);
         public static readonly SpellData DragonfireDive = DataManager.GetSpellData(96);

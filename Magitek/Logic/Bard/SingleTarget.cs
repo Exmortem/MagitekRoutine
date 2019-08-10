@@ -66,6 +66,9 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UsePitchPerfect)
                 return false;
 
+            if (Spells.PitchPerfect.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
             var repertoire = ActionResourceManager.Bard.Repertoire;
@@ -80,8 +83,16 @@ namespace Magitek.Logic.Bard
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             //Logic to catch the last possible PP
-            if (BardSettings.Instance.UsePitchPerfectAtTheEndOfWanderersMinuet && ActionResourceManager.Bard.Timer.TotalMilliseconds < (BardSettings.Instance.UsePitchPerfectWithinTheLastXSecondsOfWanderersMinuet * 1000))
+            //maybe have to reevalute the 250 ms here
+            if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds - 250)
+            {
+                if (ActionResourceManager.Bard.Repertoire > 0 && Spells.EmpyrealArrow.Cooldown.TotalMilliseconds < ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                    return false;
+                Logger.Error($@"Casting PP with {ActionResourceManager.Bard.Repertoire} Repertoire Stacks at the end of WM");
+                Logger.Error($@"Song Ends in {ActionResourceManager.Bard.Timer.TotalMilliseconds} - Next expected DoT Tick in {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()}");
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+            }
+
 
             return false;
         }
@@ -131,7 +142,7 @@ namespace Magitek.Logic.Bard
                 //Cant use PP outside of WM so why would we want to waste an EA here
                 //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-                    if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 1000)
+                    if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
                         return false;
                     break;
 

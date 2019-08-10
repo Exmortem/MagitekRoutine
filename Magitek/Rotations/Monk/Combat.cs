@@ -19,7 +19,9 @@ namespace Magitek.Rotations.Monk
             if (BotManager.Current.IsAutonomous)
             {
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
-            }
+            } 
+
+            Utilities.Routines.Monk.RefreshVars();
 
             if (!SpellQueueLogic.SpellQueue.Any())
             {
@@ -64,6 +66,7 @@ namespace Magitek.Rotations.Monk
                 if (SingleTarget.PerfectBalanceRoT()) return true;
                 if (await Aoe.Rockbreaker()) return true;
                 if (await Aoe.FourPointStrike()) return true;
+                if (await Aoe.ArmOfDestroyer()) return true;
                 if (await SingleTarget.Demolish()) return true;
                 if (await SingleTarget.SnapPunch()) return true;
                 if (await SingleTarget.TwinSnakes()) return true;

@@ -69,7 +69,6 @@ namespace Magitek.Utilities
             Darkside = 751,
             Reprisal = 753,
             LivingDead = 810,
-            EnhancedUnleash = 814,
             DragonKick = 98,
             TwinSnakes = 101,
             FistsofFire = 103,
@@ -177,6 +176,8 @@ namespace Magitek.Utilities
             Reassembled = 851,
             NascentChaos = 1897,
             RoyalGuard = 1833,
+            DarkMissionary = 1894,
+            Delirium = 1972,
             Anatman = 1862;
 
         private const int

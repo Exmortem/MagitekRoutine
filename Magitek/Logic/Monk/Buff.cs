@@ -134,6 +134,9 @@ namespace Magitek.Logic.Monk
             if (Core.Me.HasAura(Auras.CoeurlForm))
                 return false;
 
+            if (Core.Me.ClassLevel < 52)
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+
             return await Spells.FormShift.Cast(Core.Me);
         }
     }

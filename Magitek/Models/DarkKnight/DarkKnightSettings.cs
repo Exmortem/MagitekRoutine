@@ -18,12 +18,8 @@ namespace Magitek.Models.DarkKnight
         public bool UseTheBlackestNight { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool DarkArts { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float DarkArtsMinimumMp { get; set; }
+        [DefaultValue(60.0f)]
+        public float TheBlackestNightHealth { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -39,15 +35,11 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool Unleash { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool UnleashAlwaysUseProc { get; set; }
+        public bool UseUnleash { get; set; }
         
         [Setting]
         [DefaultValue(2)]
-        public int UnleashEnemies { get; set; }
+        public int AoeEnemies { get; set; }
         
         [Setting]
         [DefaultValue(2)]
@@ -62,16 +54,8 @@ namespace Magitek.Models.DarkKnight
         public int UnleashIntervalSeconds { get; set; }
         
         [Setting]
-        [DefaultValue(5)]
-        public double UnleashMinTimeLeftInCombat{ get; set; }
-        
-        [Setting]
         [DefaultValue(true)]
-        public bool SaltedEarth { get; set; }
-        
-        [Setting]
-        [DefaultValue(2)]
-        public int SaltedEarthEnemies { get; set; }
+        public bool UseSaltedEarth { get; set; }
                 
         [Setting]
         [DefaultValue(true)]
@@ -103,7 +87,7 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool Plunge { get; set; }
+        public bool UsePlunge { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -118,14 +102,6 @@ namespace Magitek.Models.DarkKnight
         public bool AbyssalDrainToPull { get; set; }
         
         [Setting]
-        [DefaultValue(2)]
-        public int AbyssalDrainEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        public float AbyssalDrainMinimumMp { get; set; }
-        
-        [Setting]
         [DefaultValue(true)]
         public bool CarveAndSpit { get; set; }
 
@@ -134,12 +110,8 @@ namespace Magitek.Models.DarkKnight
         public bool CarveAndSpitDarkArtsOnly{ get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
-        public float CarveAndSpitMana { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
-        public bool ShadowWall { get; set; }
+        public bool UseShadowWall { get; set; }
         
         [Setting]
         [DefaultValue(60.0f)]
@@ -147,7 +119,7 @@ namespace Magitek.Models.DarkKnight
                         
         [Setting]
         [DefaultValue(true)]
-        public bool LivingDead { get; set; }
+        public bool UseLivingDead { get; set; }
         
         [Setting]
         [DefaultValue(15.0f)]
@@ -163,10 +135,6 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool LowBlow { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Bloodspiller { get; set; }
 
         [Setting]
@@ -174,11 +142,23 @@ namespace Magitek.Models.DarkKnight
         public bool Quietus { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int QuietusEnemies { get; set; }
+        [DefaultValue(true)]
+        public bool UseDarkMind { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool SouleaterComboWithGrit { get; set; }
+        [DefaultValue(60.0f)]
+        public float DarkMindHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseDarkMissionary { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float DarkMissionaryHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAoe { get; set; }
     }
 }
