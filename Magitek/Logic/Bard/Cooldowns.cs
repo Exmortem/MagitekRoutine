@@ -74,15 +74,17 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBarrage)
                 return false;
 
-            //Wait for potential SSR procs from Burstshot
+            //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
             if (Core.Me.ClassLevel < 76)
             {
-                if (Casting.LastSpell == Spells.HeavyShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850 
+                    && ( Casting.LastSpell == Spells.HeavyShot || Casting.LastSpell == Spells.Windbite || Casting.LastSpell == Spells.VenomousBite || Casting.LastSpell == Spells.IronJaws ))
                     return false;
             }
             else
             {
-                if (Casting.LastSpell == Spells.BurstShot && Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850)
+                if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
+                    && (Casting.LastSpell == Spells.BurstShot || Casting.LastSpell == Spells.Stormbite || Casting.LastSpell == Spells.CausticBite || Casting.LastSpell == Spells.IronJaws))
                     return false;
             }
 
