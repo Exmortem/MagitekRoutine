@@ -54,14 +54,17 @@ namespace Magitek.Rotations.DarkKnight
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
                 if (await Defensive.Execute()) return true;
                 if (await Buff.LivingShadow()) return true;
-                if (AoeCheck)
-                    if (await Aoe.SaltedEarth()) return true;
-                if (await SingleTarget.Plunge()) return true;
-                if (await Aoe.AbyssalDrain()) return true;
                 if (await SingleTarget.CarveAndSpit()) return true;
-                if(AoeCheck)
+
+                if (AoeCheck)
+                {
+                    if (await Aoe.SaltedEarth()) return true;
+                    if (await Aoe.AbyssalDrain()) return true;
                     if (await Aoe.FloodofDarknessShadow()) return true;
+                }
+
                 if (await SingleTarget.EdgeofDarknessShadow()) return true;
+                if (await SingleTarget.Plunge()) return true;
                 if (await SingleTarget.Reprisal()) return true;
             }
 

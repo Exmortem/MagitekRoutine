@@ -32,7 +32,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> LivingShadow()
         {
-            return await Spells.EdgeofShadow.Cast(Core.Me);
+            return await Spells.LivingShadow.Cast(Core.Me);
         }
 
         public static async Task<bool> BloodWeapon()

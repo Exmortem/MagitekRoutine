@@ -24,7 +24,7 @@ namespace Magitek.Logic.DarkKnight
 
             foreach (var enemy in Combat.Enemies)
             {
-                if (enemy.Distance(Core.Me) < 15)
+                if (enemy.Distance(Core.Me) > 15)
                     continue;
 
                 var enemyCount = Combat.Enemies.Count(r => r.Distance(enemy) <= 5 + r.CombatReach);
@@ -106,7 +106,7 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 
-            return await Spells.FloodofDarkness.Cast(Core.Me);
+            return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
         }
     }
 }
