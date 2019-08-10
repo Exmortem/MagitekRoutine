@@ -95,7 +95,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Quietus)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood >= 80 || Core.Me.HasAura(Auras.Delirium))
+            if (Spells.Delirium.Cooldown.TotalMilliseconds < 5000)
+                return false;
+
+            if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
                 return await Spells.Quietus.Cast(Core.Me);
 
             return false;

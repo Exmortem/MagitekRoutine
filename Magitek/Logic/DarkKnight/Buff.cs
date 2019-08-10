@@ -48,7 +48,7 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Delirium)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood >= 50)
+            if (ActionResourceManager.DarkKnight.BlackBlood != 100)
                 return false;
 
             return await Spells.Delirium.Cast(Core.Me);
