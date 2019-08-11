@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Extensions;
 using Magitek.Utilities;
 using Magitek.Logic.Astrologian;
 
@@ -31,6 +32,8 @@ namespace Magitek.Rotations.Astrologian
                 return false;
 
             if (Duty.State() == Duty.States.Ended) return false;
+            if(ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
+                await Spells.Draw.Cast(Core.Me);
             return await Buff.Sect();
         }
     }
