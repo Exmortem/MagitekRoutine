@@ -73,6 +73,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Margin="5">
                     <StackPanel Orientation="Horizontal">
@@ -84,6 +85,14 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice When There Are At Least " />
                         <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.DemonSliceEnemies, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Fated Circle When There Are At Least " />
+                        <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.FatedCircleEnemies, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
                     </StackPanel>
                 </StackPanel>
