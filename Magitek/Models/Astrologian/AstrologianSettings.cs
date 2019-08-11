@@ -164,6 +164,18 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
+        public bool NeutralSect { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int NeutralSectAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float NeutralSectHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Ascend { get; set; }
 
         [Setting]

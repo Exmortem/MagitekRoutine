@@ -125,6 +125,19 @@ namespace Magitek.Logic.Astrologian
             return await Spells.Synastry.CastAura(target, Auras.SynastryDestination);
         }
 
+        public static async Task<bool> NeutralSect()
+        {
+            if (!AstrologianSettings.Instance.NeutralSect)
+                return false;
+
+            var neutral = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
+
+            if (neutral < AstrologianSettings.Instance.NeutralSectAllies)
+                return false;
+
+            return await Spells.Temperance.Cast(Core.Me);
+        }
+
         public static async Task<bool> Sect()
         {
             if (!Globals.InParty)
