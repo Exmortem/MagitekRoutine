@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
@@ -111,8 +113,35 @@ namespace Magitek.Logic.Astrologian
 
         private static float GetWeight(Character c)
         {
-            if (c.IsDps())
+            if (c.CurrentJob == ClassJobType.Monk)
                 return 100;
+
+            if (c.CurrentJob == ClassJobType.BlackMage)
+                return 99;
+
+            if (c.CurrentJob == ClassJobType.Dragoon)
+                return 98;
+
+            if (c.CurrentJob == ClassJobType.Samurai)
+                return 97;
+
+            if (c.CurrentJob == ClassJobType.Machinist)
+                return 96;
+
+            if (c.CurrentJob == ClassJobType.Summoner)
+                return 95;
+
+            if (c.CurrentJob == ClassJobType.Bard)
+                return 94;
+
+            if (c.CurrentJob == ClassJobType.Ninja)
+                return 93;
+
+            if (c.CurrentJob == ClassJobType.RedMage)
+                return 92;
+
+            if (c.CurrentJob == ClassJobType.Dancer)
+                return 91;
 
             if (c.IsTank())
                 return 90;

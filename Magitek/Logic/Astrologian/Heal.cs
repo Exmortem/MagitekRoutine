@@ -138,15 +138,15 @@ namespace Magitek.Logic.Astrologian
             {
                 if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
                 {
-                    var targetCI = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.IsAlive && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+                    var tar = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.IsAlive && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
 
-                    if (targetCI == null)
+                    if (tar == null)
                         return false;
 
-                    if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == targetCI)
+                    if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == tar)
                         return false;
 
-                    return await Spells.CelestialOpposition.Heal(targetCI, false);
+                    return await Spells.CelestialOpposition.Heal(tar, false);
                 }
 
                 var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);

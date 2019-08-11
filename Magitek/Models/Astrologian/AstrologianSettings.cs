@@ -371,11 +371,11 @@ namespace Magitek.Models.Astrologian
         public bool CelestialIntersection { get; set; }
 
         [Setting]
-        [DefaultValue(95.0f)]
+        [DefaultValue(85.0f)]
         public float CelestialIntersectionHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool CelestialIntersectionTankOnly { get; set; }
 
         [Setting]
