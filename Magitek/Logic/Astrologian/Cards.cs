@@ -99,28 +99,28 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> MeleeDpsOrTank()
         {
-            foreach (var ally in Group.CastableAlliesWithin30)
-            {
-                if (ally.HasAnyCardAura() || ally.IsHealer() || ally.IsRangedDps() || ally.IsDead)
-                    continue;
-
-                return await Spells.Play.Cast(ally);
-            }
-
-            return false;
+            var ally = Group.CastableAlliesWithin30.Where(a => a.HasAnyCardAura() || a.IsHealer() || a.IsRangedDps() || a.IsDead).OrderByDescending(GetWeight).FirstOrDefault();
+            return await Spells.Play.Cast(ally);
         }
 
         private static async Task<bool> RangedDpsOrHealer()
         {
-            foreach (var ally in Group.CastableAlliesWithin30)
-            {
-                if (ally.HasAnyCardAura() || ally.IsTank() || !ally.IsRangedDps() || ally.IsDead)
-                    continue;
+            var ally = Group.CastableAlliesWithin30.Where(a => a.HasAnyCardAura() || a.IsTank() || !a.IsRangedDps() || a.IsDead).OrderByDescending(GetWeight).FirstOrDefault();
+            return await Spells.Play.Cast(ally);
+        }
 
-                return await Spells.Play.Cast(ally);
-            }
+        private static float GetWeight(Character c)
+        {
+            if (c.IsDps())
+                return 100;
 
-            return false;
+            if (c.IsTank())
+                return 90;
+
+            if (c.IsHealer())
+                return 80;
+
+            return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
         }
     }
 }

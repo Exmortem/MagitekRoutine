@@ -126,7 +126,48 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.Benefic2.Heal(Core.Me);
             }
         }
-        
+        public static async Task<bool> CelestialIntersection()
+        {
+            if (!AstrologianSettings.Instance.CelestialIntersection)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Globals.InParty)
+            {
+                if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
+                {
+                    var targetCI = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.IsAlive && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+
+                    if (targetCI == null)
+                        return false;
+
+                    if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == targetCI)
+                        return false;
+
+                    return await Spells.CelestialOpposition.Heal(targetCI, false);
+                }
+
+                var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+
+                if (celestialIntersectionTarget == null)
+                    return false;
+
+                if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == celestialIntersectionTarget)
+                    return false;
+
+                return await Spells.CelestialIntersection.Heal(celestialIntersectionTarget);
+            }
+            else
+            {
+                if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.CelestialIntersectionHealthPercent)
+                    return false;
+
+                return await Spells.CelestialIntersection.Heal(Core.Me, false);
+            }
+        }
+
         public static async Task<bool> EssentialDignity()
         {
             if (!AstrologianSettings.Instance.EssentialDignity)
@@ -162,7 +203,30 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.EssentialDignity.Heal(Core.Me, false);
             }
         }
-        
+        public static async Task<bool> CelestialOpposition()
+        {
+            if (!AstrologianSettings.Instance.CelestialOpposition)
+                return false;
+
+            if (Casting.LastSpell == Spells.Helios)
+                return false;
+
+            if (Casting.LastSpell == Spells.AspectedHelios)
+                return false;
+
+            if (Casting.LastSpell == Spells.CelestialOpposition)
+                return false;
+
+            if (Casting.LastSpell == Spells.Horoscope)
+                return false;
+
+            var celestialOppositionCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialOppositionHealthPercent);
+
+            if (celestialOppositionCount < AstrologianSettings.Instance.CelestialOppositionAllies)
+                return false;
+
+            return await Spells.CelestialOpposition.Heal(Core.Me, false);
+        }
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)
