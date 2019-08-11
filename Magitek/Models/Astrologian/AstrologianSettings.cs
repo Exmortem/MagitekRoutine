@@ -376,10 +376,6 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(false)]
-        public bool CelestialIntersectionTankOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
         public bool CollectiveUnconscious { get; set; }
 
         [Setting]

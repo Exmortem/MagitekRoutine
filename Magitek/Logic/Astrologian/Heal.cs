@@ -126,46 +126,22 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.Benefic2.Heal(Core.Me);
             }
         }
+
+
         public static async Task<bool> CelestialIntersection()
         {
             if (!AstrologianSettings.Instance.CelestialIntersection)
                 return false;
 
-            if (!Core.Me.InCombat)
+            if (!Globals.PartyInCombat)
                 return false;
 
-            if (Globals.InParty)
-            {
-                if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
-                {
-                    var tar = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.IsAlive && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+            var celestialIntersectionTarget = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
 
-                    if (tar == null)
-                        return false;
+            if (celestialIntersectionTarget == null)
+                return false;
 
-                    if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == tar)
-                        return false;
-
-                    return await Spells.CelestialOpposition.Heal(tar, false);
-                }
-
-                var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
-
-                if (celestialIntersectionTarget == null)
-                    return false;
-
-                if (Casting.LastSpell == Spells.EssentialDignity && Casting.LastSpellTarget == celestialIntersectionTarget)
-                    return false;
-
-                return await Spells.CelestialIntersection.Heal(celestialIntersectionTarget);
-            }
-            else
-            {
-                if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.CelestialIntersectionHealthPercent)
-                    return false;
-
-                return await Spells.CelestialIntersection.Heal(Core.Me, false);
-            }
+            return await Spells.CelestialIntersection.Cast(celestialIntersectionTarget);
         }
 
         public static async Task<bool> EssentialDignity()
