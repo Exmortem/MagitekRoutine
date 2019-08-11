@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using ff14bot;
 using ff14bot.Objects;
 using Magitek.Utilities.Managers;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Extensions
 {
@@ -14,6 +16,11 @@ namespace Magitek.Extensions
         public static bool HasAnyDispellableAura(this Character unit)
         {
             return unit.CharacterAuras.Any(r => r.IsDispellable);
+        }
+
+        public static bool HasAnyCardAura(this Character unit)
+        {
+            return Core.Me.HasAnyAura(new uint[] { Auras.TheBalance, Auras.TheArrow, Auras.TheBole, Auras.TheEwer, Auras.TheEwer, Auras.TheSpear, Auras.TheSpire });
         }
     }
 }

@@ -1,8 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
-using ff14bot.Helpers;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;

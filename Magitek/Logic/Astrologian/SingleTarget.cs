@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
@@ -18,20 +16,6 @@ namespace Magitek.Logic.Astrologian
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
         
-        public static async Task<bool> LordofCrowns()
-        {
-            if (!AstrologianSettings.Instance.LordofCrowns)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.LordofCrowns.Id)) return false;
-            
-            if (ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns) return false;
-            
-            if (Utilities.Routines.Astrologian.OnGcd) return false;
-            
-            return await Spells.LordofCrowns.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> Dots()
         {
             if (AstrologianSettings.Instance.UseTimeTillDeathForDots)
@@ -55,25 +39,19 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-            if (ActionManager.HasSpell(Spells.Combust3.Id))
-            {
-                if (Core.Me.CurrentTarget.HasAura(Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
+            var classLevel = Core.Me.ClassLevel;
+            uint combustAura = Auras.Combust;
+
+            if (classLevel >= 72)
+                combustAura = Auras.Combust3;
+
+            if (classLevel < 72 && classLevel >= 46)
+                combustAura = Auras.Combust2;
+
+            if (Core.Me.CurrentTarget.HasAura(combustAura, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
                     return false;
 
-                return await Spells.Combust3.CastAura(Core.Me.CurrentTarget, Auras.Combust3, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
-            }
-
-            if (ActionManager.HasSpell(Spells.Combust2.Id))
-            {
-                if (Core.Me.CurrentTarget.HasAura(Auras.Combust2, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
-                    return false;
-
-                return await Spells.Combust2.CastAura(Core.Me.CurrentTarget, Auras.Combust2, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
-            }
-            if (Core.Me.CurrentTarget.HasAura(Auras.Combust, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
-                    return false;
-
-            return await Spells.Combust.CastAura(Core.Me.CurrentTarget, Auras.Combust, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
+            return await Spells.Combust.CastAura(Core.Me.CurrentTarget, combustAura, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Magitek.Rotations.Astrologian
 
             if (await GambitLogic.Gambit()) return true;
 
+            #region PvP
             if (Globals.OnPvpMap)
             {
                 if (await Pvp.EssentialDignity()) return true; //Heal
@@ -45,23 +46,16 @@ namespace Magitek.Rotations.Astrologian
                 if (await Pvp.Benefic2()) return true; //Heal
                 if (await Pvp.Benefic()) return true; //Heal
                 if (await Pvp.Concentrate()) return true; //CombatBuff/Heal
-                if (await Pvp.Safeguard()) return true; //CombatBuff/Shield
-                return false;
+                return await Pvp.Safeguard();
             }
+            #endregion
+
             if (Globals.PartyInCombat && Globals.InParty)
             {
                 if (await TankBusters.Execute()) return true;
             }
             
             if (await Logic.Astrologian.Heal.Ascend()) return true;
-
-            // Scalebound Extreme Rathalos
-          if (Core.Me.HasAura(1495))
-            {
-                if (await Dispel.Execute()) return true;
-                return false;
-            }
-
             if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
             if (await Dispel.Execute()) return true;
             if (await Buff.LucidDreaming()) return true;
@@ -71,14 +65,12 @@ namespace Magitek.Rotations.Astrologian
 
             if (DutyManager.InInstance || Core.Me.InCombat)
             {
-
                 if (Globals.InParty)
                 {
                     if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Logic.Astrologian.Heal.Helios()) return true;
-                    if (await Logic.Astrologian.Heal.LadyofCrowns()) return true;
                     if (await Logic.Astrologian.Heal.Benefic2()) return true;
                 }
 
@@ -87,7 +79,6 @@ namespace Magitek.Rotations.Astrologian
                 if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }
 
-            if (await Logic.Astrologian.Heal.LadyofCrowns()) return true;
             return await Logic.Astrologian.Heal.Benefic();
         }
     }
