@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
@@ -99,28 +101,55 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> MeleeDpsOrTank()
         {
-            foreach (var ally in Group.CastableAlliesWithin30)
-            {
-                if (ally.HasAnyCardAura() || ally.IsHealer() || ally.IsRangedDps() || ally.IsDead)
-                    continue;
-
-                return await Spells.Play.Cast(ally);
-            }
-
-            return false;
+            var ally = Group.CastableAlliesWithin30.Where(a => a.HasAnyCardAura() || a.IsHealer() || a.IsRangedDps() || a.IsDead).OrderByDescending(GetWeight).FirstOrDefault();
+            return await Spells.Play.Cast(ally);
         }
 
         private static async Task<bool> RangedDpsOrHealer()
         {
-            foreach (var ally in Group.CastableAlliesWithin30)
-            {
-                if (ally.HasAnyCardAura() || ally.IsTank() || !ally.IsRangedDps() || ally.IsDead)
-                    continue;
+            var ally = Group.CastableAlliesWithin30.Where(a => a.HasAnyCardAura() || a.IsTank() || !a.IsRangedDps() || a.IsDead).OrderByDescending(GetWeight).FirstOrDefault();
+            return await Spells.Play.Cast(ally);
+        }
 
-                return await Spells.Play.Cast(ally);
-            }
+        private static float GetWeight(Character c)
+        {
+            if (c.CurrentJob == ClassJobType.Monk)
+                return 100;
 
-            return false;
+            if (c.CurrentJob == ClassJobType.BlackMage)
+                return 99;
+
+            if (c.CurrentJob == ClassJobType.Dragoon)
+                return 98;
+
+            if (c.CurrentJob == ClassJobType.Samurai)
+                return 97;
+
+            if (c.CurrentJob == ClassJobType.Machinist)
+                return 96;
+
+            if (c.CurrentJob == ClassJobType.Summoner)
+                return 95;
+
+            if (c.CurrentJob == ClassJobType.Bard)
+                return 94;
+
+            if (c.CurrentJob == ClassJobType.Ninja)
+                return 93;
+
+            if (c.CurrentJob == ClassJobType.RedMage)
+                return 92;
+
+            if (c.CurrentJob == ClassJobType.Dancer)
+                return 91;
+
+            if (c.IsTank())
+                return 90;
+
+            if (c.IsHealer())
+                return 80;
+
+            return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
         }
     }
 }

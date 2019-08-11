@@ -23,11 +23,17 @@ namespace Magitek.Enumerations
         [Description("DRK")]
         DarkKnight = ClassJobType.DarkKnight,
 
+        [Description("GNB")]
+        Gunbreaker = ClassJobType.Gunbreaker,
+
         [Description("BRD")]
         Bard = ClassJobType.Bard,
 
         [Description("MCH")]
         Machinist = ClassJobType.Machinist,
+
+        [Description("DNC")]
+        Dancer = ClassJobType.Dancer,
 
         [Description("BLM")]
         BlackMage = ClassJobType.BlackMage,

@@ -46,59 +46,6 @@ namespace Magitek.Logic.Astrologian
             return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
         }
 
-        public static async Task<bool> CelestialOpposition()
-        {
-            if (!AstrologianSettings.Instance.CelestialOpposition) return false;
-
-            if (!Core.Me.InCombat) return false;
-
-            if (!ActionManager.HasSpell(Spells.CelestialOpposition.Id)) return false;
-
-            if (Spells.CelestialOpposition.Cooldown != TimeSpan.Zero) return false;
-
-            if (Combat.CombatTotalTimeLeft <= 15) return false;
-            
-            var celestialOppositionTargets = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Where(r => r != Core.Me && r.Distance() <= 20 && (r.HasTarget && r.TargetGameObject.CanAttack)).OrderByDescending(r => r.CurrentHealthPercent);
-            
-            if (AstrologianSettings.Instance.CelestialOppositionAfterAoeCard)
-            {
-                if (celestialOppositionTargets.Count(r =>
-                        (AstrologianSettings.Instance.CelestialOppositionBole && r.HasMyAura(Auras.TheBole)) ||
-                        (AstrologianSettings.Instance.CelestialOppositionBalance && r.HasMyAura(Auras.TheBalance)) ||
-                        (AstrologianSettings.Instance.CelestialOppositionArrow && r.HasMyAura(Auras.TheArrow)) ||
-                        (AstrologianSettings.Instance.CelestialOppositionSpear && r.HasMyAura(Auras.TheSpear))) <=
-                    1) return false;
-            }
-
-            if (AstrologianSettings.Instance.CelestialOppositionAfterCollectiveUnconscious &&
-                AstrologianSettings.Instance.CollectiveUnconscious)
-            {
-                if (celestialOppositionTargets.Count(r => r.HasMyAura(Auras.WheelOfFortune)) <= 1)
-                {
-                    if (celestialOppositionTargets.Count() > 4 && !MovementManager.IsMoving)
-                        return await Spells.CollectiveUnconscious.CastAura(Core.Me, Auras.WheelOfFortune);
-                    
-                    return false;
-                }
-            }
-
-            if (AstrologianSettings.Instance.DiurnalHeliosBeforeCelestialOpposition &&
-                Core.Me.HasAura(Auras.DiurnalSect))
-            {
-                if (Spells.Swiftcast.Cooldown == TimeSpan.Zero && Core.Me.CurrentManaPercent >
-                    AstrologianSettings.Instance.DiurnalHeliosBeforeCelestialOppositionManaPercent)
-                {
-                    if (await SwiftCastAspectedHelios()) return true;
-                }
-            }
-            
-            var hasLucidDreaming = ActionManager.HasSpell(Spells.LucidDreaming.Id) && Spells.LucidDreaming.Cooldown == TimeSpan.Zero;
-            
-            if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.LucidDreamingManaPercent &&
-                hasLucidDreaming) return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
-                            
-            return await Spells.CelestialOpposition.Cast(Core.Me);
-        }
         private static async Task<bool> SwiftCastAspectedHelios()
         {
             if (!await Swiftcast()) return false;
@@ -176,6 +123,19 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.Synastry.CastAura(target, Auras.SynastryDestination);
+        }
+
+        public static async Task<bool> NeutralSect()
+        {
+            if (!AstrologianSettings.Instance.NeutralSect)
+                return false;
+
+            var neutral = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
+
+            if (neutral < AstrologianSettings.Instance.NeutralSectAllies)
+                return false;
+
+            return await Spells.Temperance.Cast(Core.Me);
         }
 
         public static async Task<bool> Sect()

@@ -144,50 +144,6 @@ namespace Magitek.Models.Astrologian
         
         #endregion
 
-        #region BuffExtenders
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOpposition { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionAfterCollectiveUnconscious { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool LucidDreamingBeforeCelestialOpposition { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool DiurnalHeliosBeforeCelestialOpposition { get; set; }
-        
-        [Setting]
-        [DefaultValue(60f)]
-        public float DiurnalHeliosBeforeCelestialOppositionManaPercent { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionAfterAoeCard { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionBalance { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionBole { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionArrow { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CelestialOppositionSpear { get; set; }
-        
-        #endregion
-
         #region Heals
 
         [Setting]
@@ -205,6 +161,18 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool SynastryTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NeutralSect { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int NeutralSectAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float NeutralSectHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -253,7 +221,7 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(70.0f)]
         public float DiurnalHeliosHealthPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(50.0f)]
         public float DiurnalHeliosMinManaPercent { get; set; }
@@ -273,6 +241,18 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(50.0f)]
         public float NocturnalHeliosMinManaPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool CelestialOpposition { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int CelestialOppositionAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(75)]
+        public float CelestialOppositionHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -397,6 +377,14 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Benefic2AlwaysWithEnhancedBenefic2 { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool CelestialIntersection { get; set; }
+
+        [Setting]
+        [DefaultValue(85.0f)]
+        public float CelestialIntersectionHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(false)]

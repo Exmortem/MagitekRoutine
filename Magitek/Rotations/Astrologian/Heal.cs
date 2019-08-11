@@ -61,13 +61,14 @@ namespace Magitek.Rotations.Astrologian
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Lightspeed()) return true;
             if (await Buff.Synastry()) return true;
-            if (await Buff.CelestialOpposition()) return true;
 
             if (DutyManager.InInstance || Core.Me.InCombat)
             {
                 if (Globals.InParty)
                 {
                     if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+                    if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
+                    if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Logic.Astrologian.Heal.Helios()) return true;
