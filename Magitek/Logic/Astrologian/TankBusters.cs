@@ -65,12 +65,12 @@ namespace Magitek.Logic.Astrologian
             if (!enemyCasting)
                 return false;
 
-            if (Core.Me.Sect() == AstrologianSect.Diurnal && Group.CastableAlliesWithin15.Count(r => r.HasAura(Utilities.Auras.AspectedHelios)) < AstrologianSettings.Instance.DiurnalHeliosAllies)
+            if (Core.Me.Sect() == AstrologianSect.Diurnal && Group.CastableAlliesWithin15.Count(r => r.HasAura(Auras.AspectedHelios)) < AstrologianSettings.Instance.DiurnalHeliosAllies)
             {
                 return false;
             }
 
-            if (Core.Me.Sect() == AstrologianSect.Nocturnal && Group.CastableAlliesWithin15.Count(r => r.HasAura(Utilities.Auras.NocturnalField)) < AstrologianSettings.Instance.NocturnalHeliosAllies)
+            if (Core.Me.Sect() == AstrologianSect.Nocturnal && Group.CastableAlliesWithin15.Count(r => r.HasAura(Auras.NocturnalField)) < AstrologianSettings.Instance.NocturnalHeliosAllies)
             {
                 return false;
             }

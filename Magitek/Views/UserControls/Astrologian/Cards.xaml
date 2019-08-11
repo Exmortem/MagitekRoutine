@@ -17,7 +17,7 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Draw Cards" IsChecked="{Binding AstrologianSettings.Draw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Draw Cards" IsChecked="{Binding AstrologianSettings.UseDraw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="0,0,7,0" Style="{DynamicResource TextBlockDefault}" Text="Don't Draw Cards When There is Less Than" />
                     <controls:Numeric Increment="5" MaxValue="60" MinValue="1" Value="{Binding AstrologianSettings.DontDrawWhenCombatTimeIs, Mode=TwoWay}" />

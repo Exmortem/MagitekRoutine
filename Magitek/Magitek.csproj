@@ -211,6 +211,7 @@
     <Compile Include="Gambits\Gambit.cs" />
     <Compile Include="Gambits\GambitGroup.cs" />
     <Compile Include="Gambits\SharedOpener.cs" />
+    <Compile Include="Logic\Astrologian\Cards.cs" />
     <Compile Include="Logic\Bard\Aoe.cs" />
     <Compile Include="Logic\Bard\Cooldowns.cs" />
     <Compile Include="Logic\Bard\DamageOverTime.cs" />
@@ -301,7 +302,6 @@
     <Compile Include="Models\Account\AuthenticationSettings.cs" />
     <Compile Include="Models\Account\ZoneSetting.cs" />
     <Compile Include="Models\Account\ZoneSettingEntry.cs" />
-    <Compile Include="Models\Astrologian\AstrologianDefaultCardRules.cs" />
     <Compile Include="Models\Astrologian\AstrologianZoneSettings.cs" />
     <Compile Include="Models\Authentication\ClientSession.cs" />
     <Compile Include="Models\Bard\BardSettings.cs" />
@@ -534,7 +534,6 @@
     <Compile Include="Utilities\Spells.cs" />
     <Compile Include="Utilities\Tracking.cs" />
     <Compile Include="Utilities\XivDataHelper.cs" />
-    <Compile Include="ViewModels\AstrologianCardRules.cs" />
     <Compile Include="ViewModels\BaseSettings.cs" />
     <Compile Include="ViewModels\BossFightViewModel.cs" />
     <Compile Include="ViewModels\Debug.cs" />

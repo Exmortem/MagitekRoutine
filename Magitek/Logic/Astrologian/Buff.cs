@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 using Buddy.Coroutines;
-using Clio.Utilities;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -11,9 +9,7 @@ using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
-using Magitek.Properties;
 using Magitek.Utilities;
-using QuickGraph;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
@@ -48,49 +44,6 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
-        }
-
-        public static async Task<bool> PresenceOfMind()
-        {
-            if (!AstrologianSettings.Instance.PresenceOfMind)
-                return false;
-
-            if (AstrologianSettings.Instance.DontBuffIfYouHaveOneAlready)
-            {
-                if (Core.Me.HasAura(Auras.DivineSeal))
-                    return false;
-            }
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Globals.InParty)
-            {
-                if (AstrologianSettings.Instance.PresenceOfMindTankOnly)
-                {
-                    if (!Group.CastableTanks.Any(r => r.CurrentHealthPercent <=
-                                                      AstrologianSettings.Instance.PresenceOfMindHealthPercent))
-                        return false;
-
-                    return await Spells.PresenceofMind.Cast(Core.Me);
-                }
-                else
-                {
-                    if (Group.CastableAlliesWithin30.Count(
-                            r => r.CurrentHealthPercent <= AstrologianSettings.Instance.PresenceOfMindHealthPercent) <
-                        AstrologianSettings.Instance.PresenceOfMindNeedHealing)
-                        return false;
-
-                    return await Spells.PresenceofMind.Cast(Core.Me);
-                }
-            }
-            else
-            {
-                if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.PresenceOfMindHealthPercent)
-                    return false;
-
-                return await Spells.PresenceofMind.Cast(Core.Me);
-            }
         }
 
         public static async Task<bool> CelestialOpposition()
@@ -179,14 +132,12 @@ namespace Magitek.Logic.Astrologian
             {
                 if (AstrologianSettings.Instance.LightspeedTankOnly)
                 {
-                    if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >=
-                                                     AstrologianSettings.Instance.LightspeedHealthPercent))
+                    if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
                         return false;
 
                     return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
                 }
-                if (Group.CastableAlliesWithin30.Any(
-                    r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
+                if (Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
                     return false;
 
                 return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);

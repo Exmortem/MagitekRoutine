@@ -120,7 +120,6 @@ namespace Magitek.Views
             TankBusterManager.ResetTanks();
             AuthenticationSettings.Instance.Save();
             RotationManager.Reset();
-            AstrologianCardRules.Instance.ResetAstrologianCardRules();
             GambitsViewModel.Instance.SaveGambits();
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.SaveOpeners();

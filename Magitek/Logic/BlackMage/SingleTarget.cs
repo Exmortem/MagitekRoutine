@@ -11,6 +11,9 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Xenoglossy()
         {
+            if (Casting.LastSpell == Spells.Xenoglossy)
+                return false; 
+
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
@@ -105,6 +108,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
+
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -120,12 +124,16 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
 
-            // If we have thunder cloud, but we don't have at least 3 seconds of it left, use the proc
-            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 3000))
+            // save for Umbral Phase
+            if (Core.Me.CurrentMana < 800)
+                return false;
+
+            // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
+            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 2000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 6000))
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             return false;
