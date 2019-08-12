@@ -317,10 +317,6 @@ namespace Magitek.Models.Scholar
         public bool Consolation { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool ConsolationOnlyWithTank { get; set; }
-
-        [Setting]
         [DefaultValue(75.0f)]
         public float ConsolationHpPercent { get; set; }
 
@@ -353,7 +349,7 @@ namespace Magitek.Models.Scholar
         public bool SummonSeraph { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(75.0f)]
         public float SummonSeraphHpPercent { get; set; }
 
         [Setting]

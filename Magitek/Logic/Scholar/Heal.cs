@@ -5,6 +5,7 @@ using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
@@ -187,7 +188,7 @@ namespace Magitek.Logic.Scholar
 
             if (await Spells.Succor.Heal(Core.Me))
             {
-                return await Coroutine.Wait(2000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
+                return await Coroutine.Wait(8000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
             }
 
             return false;
@@ -538,9 +539,6 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
-                return false;
-
             if (PartyManager.IsInParty)
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
@@ -579,79 +577,33 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (PartyManager.IsInParty)
-            {
-                var canConsolationTargets = Group.CastableAlliesWithin30.Where(CanConsolation).ToList();
-
-                if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
-                    return false;
-
-                if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
-                    return false;
-
-                return await Spells.SummonSeraph.Cast(Core.Me);
-            }
-
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
                 return false;
 
             return await Spells.SummonSeraph.Cast(Core.Me);
-
-            bool CanConsolation(Character unit)
-            {
-                if (unit.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
-                    return false;
-
-                return unit.Distance(Core.Me.Pet) <= 15;
-            }
         }
 
         public static async Task<bool> Consolation()
+        {
+            if (!ScholarSettings.Instance.Consolation)
+                return false;
+
+            if ((int) PetManager.ActivePetType == 15) return false;
+
+            var needConsolation = Group.CastableAlliesWithin20.Count(r => r.IsAlive &&
+                                                                     r.CurrentHealthPercent <= ScholarSettings.Instance.ConsolationHpPercent &&
+                                                                     !r.HasAura(Auras.SeraphicVeil)) >= ScholarSettings.Instance.ConsolationNeedHealing;
+            if (!needConsolation)
+                return false;
+
+            if (await Spells.Consolation.Heal(Core.Me))
             {
-                if (!ScholarSettings.Instance.Consolation)
-                    return false;
-                {
-                    if (Core.Me.ClassLevel < 80) return false;
-
-                    if ((int) PetManager.ActivePetType == 15) return false;
-
-                    if (Casting.LastSpell == Spells.Indomitability)
-                        return false;
-
-                    if (Casting.LastSpell == Spells.Succor)
-                        return false;
-
-                    if (Casting.LastSpell == Spells.Consolation)
-                        return false;
-
-
-                    if (PartyManager.IsInParty)
-                    {
-                        var canConsolationTargets = Group.CastableAlliesWithin30.Where(CanConsolation).ToList();
-
-                        if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
-                            return false;
-
-                        if (ScholarSettings.Instance.ConsolationOnlyWithTank &&
-                            !canConsolationTargets.Any(r => r.IsTank()))
-                            return false;
-
-                        return await Spells.Consolation.Cast(Core.Me);
-                    }
-
-                    if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
-                        return false;
-
-                    return await Spells.Consolation.Cast(Core.Me);
-
-                    bool CanConsolation(Character unit)
-                    {
-                        if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
-                            return false;
-
-                        return unit.Distance(Core.Me.Pet) <= 20;
-                    }
-                }
+                return await Coroutine.Wait(6000, () => Casting.LastSpell == Spells.Consolation);
             }
+
+
+            return await Spells.Consolation.Cast(Core.Me);
+
+        }
     }
 }
