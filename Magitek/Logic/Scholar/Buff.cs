@@ -170,7 +170,7 @@ namespace Magitek.Logic.Scholar
             if (Group.CastableAlliesWithin30.Any(r => r.HasAura(Auras.FeyUnion) || r.HasAura(Auras.FeyUnion2)))
                 return false;
 
-            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.AetherpactMinimumFairieGauge)
+            if (MagitekActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.AetherpactMinimumFairieGauge)
                 return false;
 
             var aetherpactTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanAetherpact);

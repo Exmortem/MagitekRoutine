@@ -36,6 +36,11 @@ namespace Magitek.Utilities
             public static int Aetherflow => ActionResourceManager.CostTypesStruct.offset_A;
         }
 
+        public static class Scholar
+        {
+            public static int FaerieGauge => ActionResourceManager.CostTypesStruct.offset_B;
+        }
+
         public static class DarkKnight
         {
             private const int BlackBloodOffset = 0x26C;
