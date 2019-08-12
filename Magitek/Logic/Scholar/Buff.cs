@@ -70,7 +70,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (Core.Me.HasAetherflow())
+            if (Core.Me.HasAura(Auras.Aetherflow))
                 return false;
 
             return await Spells.Aetherflow.Cast(Core.Me);

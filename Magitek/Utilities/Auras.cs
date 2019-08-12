@@ -125,6 +125,7 @@ namespace Magitek.Utilities
             Thunder4 = 1210,
             FeyUnion = 1222,
             FeyUnion2 = 1223,
+            SeraphicVeil = 1917,
             DiveReady = 222,
             BlackestNight = 1178,
             Exogitation = 1220,

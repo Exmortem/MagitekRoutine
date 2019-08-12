@@ -538,11 +538,14 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
+                return false;
+
             if (PartyManager.IsInParty)
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
 
-                if (canFeyBlessingTargets.Count< ScholarSettings.Instance.FeyBlessingNeedHealing)
+                if (canFeyBlessingTargets.Count < ScholarSettings.Instance.FeyBlessingNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.FeyBlessingOnlyWithTank && !canFeyBlessingTargets.Any(r => r.IsTank()))
@@ -561,8 +564,94 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyBlessingHpPercent)
                     return false;
 
+                return unit.Distance(Core.Me.Pet) <= 20;
+            }
+        }
+
+        public static async Task<bool> SummonSeraph()
+        {
+            if (!ScholarSettings.Instance.SummonSeraph)
+                return false;
+
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (PartyManager.IsInParty)
+            {
+                var canConsolationTargets = Group.CastableAlliesWithin30.Where(CanConsolation).ToList();
+
+                if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
+                    return false;
+
+                if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
+                    return false;
+
+                return await Spells.SummonSeraph.Cast(Core.Me);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                return false;
+
+            return await Spells.SummonSeraph.Cast(Core.Me);
+
+            bool CanConsolation(Character unit)
+            {
+                if (unit.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                    return false;
+
                 return unit.Distance(Core.Me.Pet) <= 15;
             }
         }
+
+        public static async Task<bool> Consolation()
+            {
+                if (!ScholarSettings.Instance.Consolation)
+                    return false;
+                {
+                    if (Core.Me.ClassLevel < 80) return false;
+
+                    if ((int) PetManager.ActivePetType == 15) return false;
+
+                    if (Casting.LastSpell == Spells.Indomitability)
+                        return false;
+
+                    if (Casting.LastSpell == Spells.Succor)
+                        return false;
+
+                    if (Casting.LastSpell == Spells.Consolation)
+                        return false;
+
+
+                    if (PartyManager.IsInParty)
+                    {
+                        var canConsolationTargets = Group.CastableAlliesWithin30.Where(CanConsolation).ToList();
+
+                        if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
+                            return false;
+
+                        if (ScholarSettings.Instance.ConsolationOnlyWithTank &&
+                            !canConsolationTargets.Any(r => r.IsTank()))
+                            return false;
+
+                        return await Spells.Consolation.Cast(Core.Me);
+                    }
+
+                    if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                        return false;
+
+                    return await Spells.Consolation.Cast(Core.Me);
+
+                    bool CanConsolation(Character unit)
+                    {
+                        if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                            return false;
+
+                        return unit.Distance(Core.Me.Pet) <= 20;
+                    }
+                }
+            }
     }
 }
