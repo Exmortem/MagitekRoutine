@@ -188,7 +188,7 @@ namespace Magitek.Logic.Scholar
 
             if (await Spells.Succor.Heal(Core.Me))
             {
-                return await Coroutine.Wait(8000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
+                return await Coroutine.Wait(4000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
             }
 
             return false;
