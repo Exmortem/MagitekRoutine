@@ -61,6 +61,7 @@ namespace Magitek.Rotations.Astrologian
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Lightspeed()) return true;
             if (await Buff.Synastry()) return true;
+            if (await Buff.NeutralSect()) return true;
 
             if (DutyManager.InInstance || Core.Me.InCombat)
             {

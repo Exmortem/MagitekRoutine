@@ -194,6 +194,18 @@ namespace Magitek.Extensions
             return gameObject != null && RangedDps.Contains(gameObject.CurrentJob);
         }
 
+        public static bool IsRangedDpsCard(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && RangedDpsCard.Contains(gameObject.CurrentJob);
+        }
+
+        public static bool IsMeleeDps(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && MeleeDps.Contains(gameObject.CurrentJob);
+        }
+
         public static bool HasMyRegen(this GameObject unit)
         {
             return unit.HasAura(Auras.Regen, true) || unit.HasAura(Auras.Regen2) || unit.HasAura(Auras.AspectedBenefic, true);
@@ -321,6 +333,30 @@ namespace Magitek.Extensions
             ClassJobType.Bard,
             ClassJobType.Machinist,
             ClassJobType.Dancer
+        };
+
+        private static readonly List<ClassJobType> MeleeDps = new List<ClassJobType>()
+        {
+            ClassJobType.Lancer,
+            ClassJobType.Dragoon,
+            ClassJobType.Pugilist,
+            ClassJobType.Monk,
+            ClassJobType.Rogue,
+            ClassJobType.Ninja,
+            ClassJobType.Samurai
+        };
+
+        private static readonly List<ClassJobType> RangedDpsCard = new List<ClassJobType>()
+        {
+            ClassJobType.Archer,
+            ClassJobType.Bard,
+            ClassJobType.Machinist,
+            ClassJobType.Dancer,
+            ClassJobType.Thaumaturge,
+            ClassJobType.BlackMage,
+            ClassJobType.Machinist,
+            ClassJobType.RedMage,
+            ClassJobType.Summoner
         };
     }
 }

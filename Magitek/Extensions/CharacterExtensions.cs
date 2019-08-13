@@ -20,7 +20,7 @@ namespace Magitek.Extensions
 
         public static bool HasAnyCardAura(this Character unit)
         {
-            return Core.Me.HasAnyAura(new uint[] { Auras.TheBalance, Auras.TheArrow, Auras.TheBole, Auras.TheEwer, Auras.TheEwer, Auras.TheSpear, Auras.TheSpire });
+            return Core.Me.HasAnyAura(new uint[] { Auras.TheBalance, Auras.TheArrow, Auras.TheBole, Auras.TheEwer, Auras.TheSpear, Auras.TheSpire, Auras.LordofCrowns, Auras.LadyofCrowns });
         }
     }
 }
