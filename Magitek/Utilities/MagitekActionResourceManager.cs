@@ -32,17 +32,8 @@ namespace Magitek.Utilities
             public static bool CanTrance => ActionResourceManager.CostTypesStruct.offset_C > 2 && Spells.Trance.Cooldown.TotalMilliseconds == 0;
 
             public static bool InTrance => ActionResourceManager.CostTypesStruct.offset_A != 0;
-            
-            public static int Aetherflow =>
-                ActionResourceManager.CostTypesStruct.offset_C == 0 ? 0 :
-                ActionResourceManager.CostTypesStruct.offset_C == 1 ? 1 :
-                ActionResourceManager.CostTypesStruct.offset_C == 2 ? 2 :
-                ActionResourceManager.CostTypesStruct.offset_C == 8 ? 0 :
-                ActionResourceManager.CostTypesStruct.offset_C == 9 ? 1 :
-                ActionResourceManager.CostTypesStruct.offset_C == 10 ? 2 :
-                ActionResourceManager.CostTypesStruct.offset_C == 16 ? 0 :
-                ActionResourceManager.CostTypesStruct.offset_C == 17 ? 1 :
-                ActionResourceManager.CostTypesStruct.offset_C == 18 ? 2 : 0;
+
+            public static int Aetherflow => ActionResourceManager.CostTypesStruct.offset_A;
         }
 
         public static class DarkKnight

@@ -10,7 +10,6 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
-using Magitek.Utilities.Routines;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
@@ -35,45 +34,25 @@ namespace Magitek.Logic.Astrologian
                     if (Core.Me.Sect() == AstrologianSect.Diurnal)
                     {
                         if (!ally.HasAura(Auras.AspectedBenefic))
-                        {
                             return await CastBenefic(ally);
-                        }
 
                         if (!AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderDps && ally.IsDps())
-                        {
                             return await CastBenefic(ally);
-                        }
 
                         if (!AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealer && ally.IsHealer())
-                        {
                             return await CastBenefic(ally);
-                        }
 
                         if (!AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderTank && ally.IsTank())
-                        {
                             return await CastBenefic(ally);
-                        }
 
-                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderDps && ally.IsDps() &&
-                            ally.CurrentHealthPercent < AstrologianSettings.Instance
-                                .DiurnalBeneficDontBeneficUnlessUnderHealth)
-                        {
+                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderDps && ally.IsDps() && ally.CurrentHealthPercent < AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealth)
                             return await CastBenefic(ally);
-                        }
 
-                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealer &&
-                            ally.IsHealer() && ally.CurrentHealthPercent <
-                            AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealth)
-                        {
+                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealer && ally.IsHealer() && ally.CurrentHealthPercent < AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealth)
                             return await CastBenefic(ally);
-                        }
 
-                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderTank && ally.IsTank() &&
-                            ally.CurrentHealthPercent < AstrologianSettings.Instance
-                                .DiurnalBeneficDontBeneficUnlessUnderHealth)
-                        {
+                        if (AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderTank && ally.IsTank() && ally.CurrentHealthPercent < AstrologianSettings.Instance.DiurnalBeneficDontBeneficUnlessUnderHealth)
                             return await CastBenefic(ally);
-                        }
                     }
                     else
                     {
@@ -89,25 +68,16 @@ namespace Magitek.Logic.Astrologian
                     return false;
 
                 if (Core.Me.HasAura(Auras.EnhancedBenefic2) && AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2 && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
-                {
                     return await Spells.Benefic2.Heal(Core.Me);
-                }
 
                 if (Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
-                {
                     return await Spells.Benefic2.Heal(Core.Me);
-                }
 
                 return await Spells.Benefic.Heal(Core.Me);
             }
             
             async Task<bool> CastBenefic(GameObject ally)
             {
-//                if (Core.Me.HasAura(Auras.Freecure))
-//                {
-//                    return await Spells.Cure2.Heal(ally);
-//                }
-                
                 return await Spells.Benefic.Heal(ally);
             }
         }
@@ -156,37 +126,24 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.Benefic2.Heal(Core.Me);
             }
         }
-        
-        public static async Task<bool> LadyofCrowns()
+
+
+        public static async Task<bool> CelestialIntersection()
         {
-            if (!AstrologianSettings.Instance.LadyofCrowns)
-                return false;
-            
-            if (!ActionManager.HasSpell(Spells.LadyofCrowns.Id)) return false;
-            
-            if (ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns) return false;
-
-            if (Globals.InParty)
-            {
-                // Added this to test (Exmortem)
-                var ladyOfCrownsTarget = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).FirstOrDefault(r => !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyofCrownsHealthPercent);
-
-                if (ladyOfCrownsTarget == null)
-                    return false;
-
-                // Added this to test (Exmortem)
-                if (Casting.LastSpell != Spells.LadyofCrowns) return await Spells.LadyofCrowns.Heal(ladyOfCrownsTarget);
-                if (Casting.LastSpellTarget == ladyOfCrownsTarget)
-                    return false;
-
-                return await Spells.LadyofCrowns.Heal(ladyOfCrownsTarget);
-            }
-            if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.LadyofCrownsHealthPercent)
+            if (!AstrologianSettings.Instance.CelestialIntersection)
                 return false;
 
-            return await Spells.LadyofCrowns.Heal(Core.Me);
+            if (!Globals.PartyInCombat)
+                return false;
+
+            var celestialIntersectionTarget = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+
+            if (celestialIntersectionTarget == null)
+                return false;
+
+            return await Spells.CelestialIntersection.Cast(celestialIntersectionTarget);
         }
-        
+
         public static async Task<bool> EssentialDignity()
         {
             if (!AstrologianSettings.Instance.EssentialDignity)
@@ -222,7 +179,30 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.EssentialDignity.Heal(Core.Me, false);
             }
         }
-        
+        public static async Task<bool> CelestialOpposition()
+        {
+            if (!AstrologianSettings.Instance.CelestialOpposition)
+                return false;
+
+            if (Casting.LastSpell == Spells.Helios)
+                return false;
+
+            if (Casting.LastSpell == Spells.AspectedHelios)
+                return false;
+
+            if (Casting.LastSpell == Spells.CelestialOpposition)
+                return false;
+
+            if (Casting.LastSpell == Spells.Horoscope)
+                return false;
+
+            var celestialOppositionCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialOppositionHealthPercent);
+
+            if (celestialOppositionCount < AstrologianSettings.Instance.CelestialOppositionAllies)
+                return false;
+
+            return await Spells.CelestialOpposition.Heal(Core.Me, false);
+        }
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)

@@ -101,17 +101,13 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(50)]
         public int MinMpAurora { get; set; }
-        
-        [Setting]
-        [DefaultValue(1)]
-        public int BowShockEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int FatedCircleEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int DemonSliceEnemies { get; set; }
 
         [Setting]

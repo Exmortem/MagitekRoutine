@@ -21,6 +21,7 @@ namespace Magitek.Utilities.Routines
         public static HashSet<string> DontDiurnalBenefic = new HashSet<string>();
         public static HashSet<string> DontNocturnalBenefic = new HashSet<string>();
         public static HashSet<string> DontEssentialDignity = new HashSet<string>();
+        public static HashSet<string> DontCelestialIntersection = new HashSet<string>();
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
 
