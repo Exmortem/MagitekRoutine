@@ -66,19 +66,15 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content=" Use Windbite/StormBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use Windbite/StormBite On Additional Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotWindBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="10" MinValue="0" Value="{Binding BardSettings.MultiDotWindBiteUpToXEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite On Multiple Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite On Additional Enemies, Up To " IsChecked="{Binding BardSettings.MultiDotVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="10" MinValue="0" Value="{Binding BardSettings.MultiDotVenomousBiteUpToXEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies At Once" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="For Multi Dot Settings Enabled And 0 Enemies Will DoT Everything In Combat" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
