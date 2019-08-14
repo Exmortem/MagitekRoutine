@@ -204,7 +204,6 @@ namespace Magitek.Utilities.Managers
             Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.CombatBuff.Execute());
             Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.Rest.Execute());
             DarkKnightSettings.Instance.Save();
-            MagitekActionResourceManager.DarkKnight.OnChangeJob();
             BaseSettings.Instance.CurrentRoutine = "DarkKnight";
         }
 

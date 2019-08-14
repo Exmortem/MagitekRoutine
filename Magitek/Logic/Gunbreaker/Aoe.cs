@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -51,7 +50,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Cartridge == 0)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < Math.Min(GunbreakerSettings.Instance.FatedCircleEnemies, 4))
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
             return await Spells.FatedCircle.Cast(Core.Me);
