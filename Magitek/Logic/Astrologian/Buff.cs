@@ -69,12 +69,19 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.InCombat)
                 return false;
 
+            if (Combat.CombatTotalTimeLeft <= 25)
+                return false;
+
             if (Spells.Lightspeed.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LightspeedManaPercent)
+                return false;
+
+            if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
+                return false;
 
             //Add if !CardDrawn check to return false
-
             if (Globals.InParty)
             {
                 if (AstrologianSettings.Instance.LightspeedTankOnly)
@@ -89,8 +96,6 @@ namespace Magitek.Logic.Astrologian
 
                 return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
             }
-            if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.LightspeedHealthPercent)
-                return false;
 
             return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
         }
@@ -135,7 +140,7 @@ namespace Magitek.Logic.Astrologian
             if (neutral < AstrologianSettings.Instance.NeutralSectAllies)
                 return false;
 
-            return await Spells.Temperance.Cast(Core.Me);
+            return await Spells.NeutralSect.Cast(Core.Me);
         }
 
         public static async Task<bool> Sect()

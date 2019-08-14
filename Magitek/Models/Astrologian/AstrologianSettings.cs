@@ -43,28 +43,32 @@ namespace Magitek.Models.Astrologian
         public bool DoDamage { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool Combust { get; set; }
+
+        [Setting]
         [DefaultValue(20000)]
-        public int DotHealthMinimum { get; set; }
+        public int CombustHealthMinimum { get; set; }
 
         [Setting]
         [DefaultValue(40.0f)]
-        public float DotHealthMinimumPercent { get; set; }
+        public float CombustHealthMinimumPercent { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
-        public int DotRefreshSeconds { get; set; }
+        [DefaultValue(5)]
+        public int CombustRefreshSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseTimeTillDeathForDots { get; set; }
+        public bool UseTTDForCombust { get; set; }
 
         [Setting]
         [DefaultValue(20)]
-        public int DontDotIfEnemyDyingWithin { get; set; }
+        public int DontCombustIfEnemyDyingWithin { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Combust { get; set; }
+        public bool CombustMultipleTargets { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -89,6 +93,14 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Lightspeed { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float LightspeedManaPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool LightspeedWhileMoving { get; set; }
 
         [Setting]
         [DefaultValue(40.0f)]

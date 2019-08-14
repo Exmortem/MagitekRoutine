@@ -25,7 +25,10 @@ namespace Magitek.Logic.Astrologian
             if (!cardDrawn)
                 if (await Spells.Draw.Cast(Core.Me))
                     await Coroutine.Wait(750, () => Core.Me.HasAnyCardAura());
-                
+
+            if (Combat.CombatTotalTimeLeft <= 20)
+                return false;
+
             if (DivinationSeals.Any(c => c == 0))
                 if (Spells.Redraw.Charges > 1)
                     switch (Arcana)

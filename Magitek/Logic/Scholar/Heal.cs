@@ -539,7 +539,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (MagitekActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
+            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
                 return false;
 
             if (PartyManager.IsInParty)
@@ -601,7 +601,7 @@ namespace Magitek.Logic.Scholar
 
             if (await Spells.Consolation.Heal(Core.Me))
             {
-                return await Coroutine.Wait(6000, () => Casting.LastSpell == Spells.Consolation);
+                return await Coroutine.Wait(5000, () => Casting.LastSpell == Spells.Consolation);
             }
 
 

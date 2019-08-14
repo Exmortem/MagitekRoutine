@@ -91,8 +91,8 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.EnergyDrain)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Aetherflow))
-                return false;
+            if (!Core.Me.HasAetherflow())
+            return false;
 
             if (Spells.Aetherflow.Cooldown.TotalMilliseconds >= 12000)
                 return false; 
