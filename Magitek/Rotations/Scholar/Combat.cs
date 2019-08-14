@@ -29,6 +29,7 @@ namespace Magitek.Rotations.Scholar
             if (await SingleTarget.Bio()) return true;
             if (await SingleTarget.BioMultipleTargets()) return true;
             if (await SingleTarget.Ruin2()) return true;
+            if (await SingleTarget.EnergyDrain2()) return true;
             return await SingleTarget.Broil();
         }
     }

@@ -228,6 +228,14 @@ namespace Magitek.Models.Scholar
 
         [Setting]
         [DefaultValue(true)]
+        public bool EnergyDrain { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float EnergyDrainManaPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool StopCastingIfBelowHealthPercent { get; set; }
 
         [Setting]
@@ -285,7 +293,7 @@ namespace Magitek.Models.Scholar
         public int WhisperingDawnNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(70.0f)]
         public float WhisperingDawnHealthPercent { get; set; }
 
         [Setting]
@@ -306,19 +314,43 @@ namespace Magitek.Models.Scholar
 
         [Setting]
         [DefaultValue(true)]
+        public bool Consolation { get; set; }
+
+        [Setting]
+        [DefaultValue(75.0f)]
+        public float ConsolationHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int ConsolationNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool FeyBlessing { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int FeyBlessingMinimumFairieGauge { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool FeyBlessingOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(75.0f)]
         public float FeyBlessingHpPercent { get; set; }
 
         [Setting]
         [DefaultValue(3)]
         public int FeyBlessingNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonSeraph { get; set; }
+
+        [Setting]
+        [DefaultValue(75.0f)]
+        public float SummonSeraphHpPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -329,7 +361,7 @@ namespace Magitek.Models.Scholar
         public int AetherpactMinimumFairieGauge { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(65.0f)]
         public float AetherpactHealthPercent { get; set; }
 
         [Setting]

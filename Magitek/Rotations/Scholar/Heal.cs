@@ -57,7 +57,7 @@ namespace Magitek.Rotations.Scholar
             if (Globals.InParty)
             {
                 if (await Buff.DeploymentTactics()) return true;
-                //if (await Buff.Aetherpact()) return true;
+                if (await Buff.Aetherpact()) return true;
             }
 
             if (await Buff.ChainStrategem()) return true;
@@ -72,6 +72,8 @@ namespace Magitek.Rotations.Scholar
                 if (await Logic.Scholar.Heal.FeyBlessing()) return true;
                 if (await Logic.Scholar.Heal.WhisperingDawn()) return true;
                 if (await Logic.Scholar.Heal.FeyIllumination()) return true;
+                if (await Logic.Scholar.Heal.SummonSeraph()) return true;
+                if (await Logic.Scholar.Heal.Consolation()) return true;
             }
 
             if (Globals.InParty)

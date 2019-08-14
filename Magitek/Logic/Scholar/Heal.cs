@@ -5,6 +5,7 @@ using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
@@ -187,7 +188,7 @@ namespace Magitek.Logic.Scholar
 
             if (await Spells.Succor.Heal(Core.Me))
             {
-                return await Coroutine.Wait(2000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
+                return await Coroutine.Wait(4000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
             }
 
             return false;
@@ -538,11 +539,14 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
+                return false;
+
             if (PartyManager.IsInParty)
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
 
-                if (canFeyBlessingTargets.Count< ScholarSettings.Instance.FeyBlessingNeedHealing)
+                if (canFeyBlessingTargets.Count < ScholarSettings.Instance.FeyBlessingNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.FeyBlessingOnlyWithTank && !canFeyBlessingTargets.Any(r => r.IsTank()))
@@ -561,8 +565,48 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyBlessingHpPercent)
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 15;
+                return unit.Distance(Core.Me.Pet) <= 20;
             }
+        }
+
+        public static async Task<bool> SummonSeraph()
+        {
+            if (!ScholarSettings.Instance.SummonSeraph)
+                return false;
+
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                return false;
+
+            return await Spells.SummonSeraph.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Consolation()
+        {
+            if (!ScholarSettings.Instance.Consolation)
+                return false;
+
+            if ((int) PetManager.ActivePetType == 15) return false;
+
+            var needConsolation = Group.CastableAlliesWithin20.Count(r => r.IsAlive &&
+                                                                     r.CurrentHealthPercent <= ScholarSettings.Instance.ConsolationHpPercent &&
+                                                                     !r.HasAura(Auras.SeraphicVeil)) >= ScholarSettings.Instance.ConsolationNeedHealing;
+            if (!needConsolation)
+                return false;
+
+            if (await Spells.Consolation.Heal(Core.Me))
+            {
+                return await Coroutine.Wait(5000, () => Casting.LastSpell == Spells.Consolation);
+            }
+
+
+            return await Spells.Consolation.Cast(Core.Me);
+
         }
     }
 }

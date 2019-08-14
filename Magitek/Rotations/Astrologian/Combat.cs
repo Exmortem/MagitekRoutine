@@ -43,6 +43,7 @@ namespace Magitek.Rotations.Astrologian
             if (await Cards.PlayCards()) return true;
             if (await Aoe.Gravity()) return true;
             if (await SingleTarget.Dots()) return true;
+            if (await SingleTarget.CombustMultipleTargets()) return true;
             return await SingleTarget.Malefic();
         }
     }
