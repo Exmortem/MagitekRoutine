@@ -19,13 +19,11 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="Refresh Damage Over Time Abilites When There Are " />
-                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.RefreshDotsWithLessThanXSecondsRemaining, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
+                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="Refresh DoT Effect With AtLeast " />
+                    <controls:Numeric MaxValue="2000" MinValue="100" Increment="50" Value="{Binding BardSettings.RefreshDotsWithXmsLeftAfterLastGCD, Mode=TwoWay}"/>
+                    <TextBlock Margin="5" Style="{DynamicResource TextBlockDefault}" Text="MS Between The Last Possible GCD And DoT Effect Ending" />
                 </StackPanel>
-
             </StackPanel>
         </controls:SettingsBlock>
 

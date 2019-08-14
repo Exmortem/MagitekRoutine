@@ -36,7 +36,9 @@ namespace Magitek.Utilities.Routines
             CleanUpDoTProcList();
             CheckForDoTProcs();
         }
-        
+
+        public static uint Windbite => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.StormBite);
+        public static uint VenomousBite => (uint)(Core.Me.ClassLevel < 64 ? Auras.VenomousBite : Auras.CausticBite);
 
         public static List<uint> DotsList => Core.Me.ClassLevel >= 64 ?
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
