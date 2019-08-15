@@ -68,7 +68,10 @@ namespace Magitek.Utilities
             {
                 //System Abilitys Like Sprint/Dig/Return
                 if (action.Value.Job == ClassJobType.Adventurer && action.Value.SpellType == SpellType.System)
+                {
                     SystemAbilitys.Add(action.Value);
+                    continue;
+                }
 
                 #region RoleActions
 
@@ -120,17 +123,26 @@ namespace Magitek.Utilities
                 //Bard
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Archer || action.Value.Job == ClassJobType.Bard))
+                {
                     Bard.Add(action.Value);
+                    continue;
+                }
 
                 //Machinist
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && action.Value.Job == ClassJobType.Machinist)
+                {
                     Machinist.Add(action.Value);
+                    continue;
+                }
 
                 //Dancer
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && action.Value.Job == ClassJobType.Dancer)
+                {
                     Dancer.Add(action.Value);
+                    continue;
+                }
 
                 #endregion
 
@@ -144,17 +156,29 @@ namespace Magitek.Utilities
                 //BlackMage
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && (action.Value.Job == ClassJobType.Thaumaturge || action.Value.Job == ClassJobType.BlackMage))
+                {
                     BlackMage.Add(action.Value);
+                    continue;
+                }
+
+                //Arcanist
+                if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
+                                                && action.Value.Job == ClassJobType.Arcanist)
+                    Arcanist.Add(action.Value);
 
                 //Summoner
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && (action.Value.Job == ClassJobType.Arcanist || action.Value.Job == ClassJobType.Summoner))
                     Summoner.Add(action.Value);
 
+
                 //RedMage
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && action.Value.Job == ClassJobType.RedMage)
+                {
                     RedMage.Add(action.Value);
+                    continue;
+                }
 
                 #endregion
 
@@ -168,7 +192,10 @@ namespace Magitek.Utilities
                 //Ninja
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Rogue || action.Value.Job == ClassJobType.Ninja))
+                {
                     Ninja.Add(action.Value);
+                    continue;
+                }
 
                 //Pugilist
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
@@ -178,7 +205,10 @@ namespace Magitek.Utilities
                 //Monk
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Pugilist || action.Value.Job == ClassJobType.Monk))
+                {
                     Monk.Add(action.Value);
+                    continue;
+                }
 
                 //Lancer
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
@@ -188,12 +218,18 @@ namespace Magitek.Utilities
                 //Dragoon
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Lancer || action.Value.Job == ClassJobType.Dragoon))
+                {
                     Dragoon.Add(action.Value);
+                    continue;
+                }
 
                 //Samurai
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && action.Value.Job == ClassJobType.Samurai)
+                {
                     Samurai.Add(action.Value);
+                    continue;
+                }
 
                 #endregion
 
@@ -207,7 +243,10 @@ namespace Magitek.Utilities
                 //Paladin
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Gladiator || action.Value.Job == ClassJobType.Paladin))
+                {
                     Paladin.Add(action.Value);
+                    continue;
+                }
 
                 //Marauder
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
@@ -217,17 +256,26 @@ namespace Magitek.Utilities
                 //Warrior
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && (action.Value.Job == ClassJobType.Marauder || action.Value.Job == ClassJobType.Warrior))
+                {
                     Warrior.Add(action.Value);
+                    continue;
+                }
 
                 //DarkKnight
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && action.Value.Job == ClassJobType.DarkKnight)
+                {
                     DarkKnight.Add(action.Value);
+                    continue;
+                }
 
                 //Gunbreaker
                 if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
                                                 && action.Value.Job == ClassJobType.Gunbreaker)
+                {
                     Gunbreaker.Add(action.Value);
+                    continue;
+                }
 
                 #endregion
 
@@ -241,12 +289,18 @@ namespace Magitek.Utilities
                 //WhiteMage
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && (action.Value.Job == ClassJobType.Conjurer || action.Value.Job == ClassJobType.WhiteMage))
+                {
                     WhiteMage.Add(action.Value);
+                    continue;
+                }
 
                 //Scholar
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && (action.Value.Job == ClassJobType.Arcanist || action.Value.Job == ClassJobType.Scholar))
+                {
                     Scholar.Add(action.Value);
+                    continue;
+                }
 
                 //Astrologian
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
@@ -254,11 +308,6 @@ namespace Magitek.Utilities
                     Astrologian.Add(action.Value);
 
                 #endregion
-
-                //Arcanist
-                if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                                && action.Value.Job == ClassJobType.Arcanist)
-                    Arcanist.Add(action.Value);
 
                 #endregion
 
@@ -306,7 +355,7 @@ namespace Magitek.Utilities
 
         }
 
-        static public int GetCurrentWeavingCounter()
+        public static int GetCurrentWeavingCounter()
         {
             var weavingCounter = 0;
 
