@@ -20,7 +20,7 @@ namespace Magitek.Models.Scholar
         public bool LucidDreaming { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(80.0f)]
         public float LucidDreamingManaPercent { get; set; }
 
         [Setting]
@@ -28,7 +28,7 @@ namespace Magitek.Models.Scholar
         public bool LucidDreamingOnlyWhenNoAetherFlow { get; set; }
 
         [Setting]
-        [DefaultValue(ChainStrategemStrategemStrategy.Always)]
+        [DefaultValue(ChainStrategemStrategemStrategy.OnlyBosses)]
         public ChainStrategemStrategemStrategy ChainStrategemsStrategy { get; set; }
 
         [Setting]
@@ -44,13 +44,13 @@ namespace Magitek.Models.Scholar
         public bool RecitationWithIndomitability { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool RecitationWithLustrate { get; set; }
         #endregion
 
         #region Healing
         [Setting]
-        [DefaultValue(90.0f)]
+        [DefaultValue(88.0f)]
         public float InterruptHealingPercent { get; set; }
 
         [Setting]
@@ -71,7 +71,7 @@ namespace Magitek.Models.Scholar
         public bool Physick { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(50.0f)]
         public float PhysickHpPercent { get; set; }
 
         [Setting]
@@ -83,7 +83,7 @@ namespace Magitek.Models.Scholar
         public float AdloquiumHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool AdloquiumOnlyTank { get; set; }
 
         [Setting]
@@ -99,7 +99,7 @@ namespace Magitek.Models.Scholar
         public bool Lustrate { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
+        [DefaultValue(45.0f)]
         public float LustrateHpPercent { get; set; }
 
         [Setting]
@@ -115,15 +115,15 @@ namespace Magitek.Models.Scholar
         public bool Succor { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(50.0f)]
         public float SuccorHpPercent { get; set; }
         
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int SuccorNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SacredSoil { get; set; }
 
         [Setting]
@@ -131,7 +131,7 @@ namespace Magitek.Models.Scholar
         public float SacredSoilHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int SacredSoilNeedHealing { get; set; }
 
         [Setting]
@@ -139,11 +139,11 @@ namespace Magitek.Models.Scholar
         public bool Indomitability { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
+        [DefaultValue(60.0f)]
         public float IndomitabilityHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int IndomitabilityNeedHealing { get; set; }
 
         [Setting]
@@ -159,11 +159,11 @@ namespace Magitek.Models.Scholar
         public bool EmergencyTacticsSuccor { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(40.0f)]
         public float EmergencyTacticsAdloquiumHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(40.0f)]
         public float EmergencyTacticsSuccorHealthPercent { get; set; }
 
         [Setting]
@@ -171,7 +171,7 @@ namespace Magitek.Models.Scholar
         public bool DeploymentTactics { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(4)]
         public int DeploymentTacticsAllyInRange { get; set; }
 
         [Setting]
@@ -179,7 +179,7 @@ namespace Magitek.Models.Scholar
         public bool Excogitation { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ExcogitationOnlyHealer { get; set; }
 
         [Setting]
@@ -187,7 +187,7 @@ namespace Magitek.Models.Scholar
         public bool ExcogitationOnlyTank { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
+        [DefaultValue(65.0f)]
         public float ExcogitationHpPercent { get; set; }
         #endregion
 
@@ -201,7 +201,7 @@ namespace Magitek.Models.Scholar
         public bool DispelOnlyAbove { get; set; }
 
         [Setting]
-        [DefaultValue(75.0f)]
+        [DefaultValue(85.0f)]
         public float DispelOnlyAboveHealth { get; set; }
 
         [Setting]
@@ -289,11 +289,11 @@ namespace Magitek.Models.Scholar
         public bool WhisperingDawnOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int WhisperingDawnNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(75.0f)]
         public float WhisperingDawnHealthPercent { get; set; }
 
         [Setting]
@@ -301,11 +301,11 @@ namespace Magitek.Models.Scholar
         public bool FeyIllumination { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(40.0f)]
         public float FeyIlluminationHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(4)]
         public int FeyIlluminationNeedHealing { get; set; }
 
         [Setting]
@@ -317,11 +317,11 @@ namespace Magitek.Models.Scholar
         public bool Consolation { get; set; }
 
         [Setting]
-        [DefaultValue(75.0f)]
+        [DefaultValue(65.0f)]
         public float ConsolationHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int ConsolationNeedHealing { get; set; }
 
         [Setting]
@@ -345,15 +345,15 @@ namespace Magitek.Models.Scholar
         public float FeyBlessingHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int FeyBlessingNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool SummonSeraph { get; set; }
 
         [Setting]
-        [DefaultValue(75.0f)]
+        [DefaultValue(65.0f)]
         public float SummonSeraphHpPercent { get; set; }
 
         [Setting]
@@ -365,15 +365,15 @@ namespace Magitek.Models.Scholar
         public int AetherpactMinimumFairieGauge { get; set; }
 
         [Setting]
-        [DefaultValue(65.0f)]
+        [DefaultValue(75.0f)]
         public float AetherpactHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(45.0f)]
         public float AetherpactPhysickHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool AetherpactUseAdloquium { get; set; }
 
         [Setting]

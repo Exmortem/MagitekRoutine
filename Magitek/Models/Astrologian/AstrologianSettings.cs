@@ -31,7 +31,7 @@ namespace Magitek.Models.Astrologian
         public bool InterruptHealing { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(90.0f)]
         public float InterruptHealingHealthPercent { get; set; }
         
         [Setting]
@@ -51,7 +51,7 @@ namespace Magitek.Models.Astrologian
         public bool CombustMultipleTargets { get; set; }
 
         [Setting]
-        [DefaultValue(5050)]
+        [DefaultValue(3050)]
         public int CombustRefreshMSeconds { get; set; }
 
         [Setting]
@@ -59,7 +59,7 @@ namespace Magitek.Models.Astrologian
         public bool UseTTDForCombust { get; set; }
 
         [Setting]
-        [DefaultValue(20)]
+        [DefaultValue(21)]
         public int DontCombustIfEnemyDyingWithin { get; set; }
 
         [Setting]
@@ -71,11 +71,11 @@ namespace Magitek.Models.Astrologian
         public int GravityEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(30.0f)]
         public float MinimumManaPercentToDoDamage { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
+        [DefaultValue(20)]
         public int DoDamageIfTimeLeftLessThan { get; set; }
 
         #endregion
@@ -87,19 +87,20 @@ namespace Magitek.Models.Astrologian
         public bool Lightspeed { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(70.0f)]
         public float LightspeedManaPercent { get; set; }
 
+        /*Work in Progress
         [Setting]
         [DefaultValue(true)]
-        public bool LightspeedWhileMoving { get; set; }
+        public bool LightspeedWhileMoving { get; set; }*/
 
         [Setting]
         [DefaultValue(40.0f)]
         public float LightspeedHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool LightspeedTankOnly { get; set; }
 
         [Setting]
@@ -123,7 +124,7 @@ namespace Magitek.Models.Astrologian
         public bool LucidDreaming { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(80.0f)]
         public float LucidDreamingManaPercent { get; set; }
         
         #endregion
@@ -155,7 +156,7 @@ namespace Magitek.Models.Astrologian
         public int NeutralSectAllies { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(60.0f)]
         public float NeutralSectHealthPercent { get; set; }
 
         [Setting]
@@ -175,7 +176,7 @@ namespace Magitek.Models.Astrologian
         public bool EssentialDignityTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
+        [DefaultValue(60.0f)]
         public float EssentialDignityHealthPercent { get; set; }
 
         [Setting]
@@ -183,15 +184,15 @@ namespace Magitek.Models.Astrologian
         public bool Helios { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int HeliosAllies { get; set; }
 
         [Setting]
-        [DefaultValue(70)]
+        [DefaultValue(60)]
         public float HeliosHealthPercent { get; set; }
         
         [Setting]
-        [DefaultValue(50)]
+        [DefaultValue(40)]
         public float HeliosMinManaPercent { get; set; }
 
         [Setting]
@@ -207,7 +208,7 @@ namespace Magitek.Models.Astrologian
         public float DiurnalHeliosHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(30.0f)]
         public float DiurnalHeliosMinManaPercent { get; set; }
 
         [Setting]
@@ -215,15 +216,15 @@ namespace Magitek.Models.Astrologian
         public bool NocturnalHelios { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int NocturnalHeliosAllies { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(70.0f)]
         public float NocturnalHeliosHealthPercent { get; set; }
         
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(30.0f)]
         public float NocturnalHeliosMinManaPercent { get; set; }
 
         [Setting]
@@ -231,7 +232,7 @@ namespace Magitek.Models.Astrologian
         public bool CelestialOpposition { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(4)]
         public int CelestialOppositionAllies { get; set; }
 
         [Setting]
@@ -243,7 +244,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBenefic { get; set; }
         
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(40.0f)]
         public float DiurnalBeneficMinMana { get; set; }
 
         [Setting]
@@ -251,7 +252,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficOnTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool DiurnalBeneficOnHealers { get; set; }
 
         [Setting]
@@ -279,7 +280,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficWhileMoving { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(40.0f)]
         public float DiurnalBeneficWhileMovingMinMana { get; set; }
 
         [Setting]
@@ -287,7 +288,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficDontBeneficUnlessUnderTank { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DiurnalBeneficDontBeneficUnlessUnderHealer { get; set; }
 
         [Setting]
@@ -295,7 +296,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficDontBeneficUnlessUnderDps { get; set; }
 
         [Setting]
-        [DefaultValue(65.0f)]
+        [DefaultValue(60.0f)]
         public float DiurnalBeneficDontBeneficUnlessUnderHealth { get; set; }
 
         [Setting]
@@ -303,7 +304,7 @@ namespace Magitek.Models.Astrologian
         public bool NocturnalBenefic { get; set; }
         
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(40.0f)]
         public float NocturnalBeneficMinMana { get; set; }
 
         [Setting]
@@ -311,11 +312,11 @@ namespace Magitek.Models.Astrologian
         public bool NocturnalBeneficOnTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NocturnalBeneficOnHealers { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool NocturnalBeneficOnDps { get; set; }
 
         [Setting]
@@ -331,7 +332,7 @@ namespace Magitek.Models.Astrologian
         public bool NocturnalBeneficKeepUpOnDps { get; set; }
 
         [Setting]
-        [DefaultValue(85.0f)]
+        [DefaultValue(80.0f)]
         public float NocturnalBeneficHealthPercent { get; set; }
 
         [Setting]
@@ -339,7 +340,7 @@ namespace Magitek.Models.Astrologian
         public bool NocturnalBeneficWhileMoving { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(40.0f)]
         public float NocturnalBeneficWhileMovingMinMana { get; set; }
 
         [Setting]
@@ -347,7 +348,7 @@ namespace Magitek.Models.Astrologian
         public bool Benefic { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(55.0f)]
         public float BeneficHealthPercent { get; set; }
 
         [Setting]
@@ -355,7 +356,7 @@ namespace Magitek.Models.Astrologian
         public bool Benefic2 { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(50.0f)]
         public float Benefic2HealthPercent { get; set; }
 
         [Setting]
@@ -371,11 +372,11 @@ namespace Magitek.Models.Astrologian
         public float CelestialIntersectionHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool CollectiveUnconscious { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int CollectiveUnconsciousAllies { get; set; }
 
         [Setting]
@@ -403,7 +404,7 @@ namespace Magitek.Models.Astrologian
         public bool StellarDetonation { get; set; }
         
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(4)]
         public int EarthlyDominanceCount { get; set; }
         
         [Setting]
@@ -432,7 +433,7 @@ namespace Magitek.Models.Astrologian
         public bool DispelOnlyAbove { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(75.0f)]
         public float DispelOnlyAboveHealth { get; set; }
 
         [Setting]
