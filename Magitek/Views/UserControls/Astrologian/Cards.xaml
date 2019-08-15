@@ -16,41 +16,109 @@
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Draw Cards" IsChecked="{Binding AstrologianSettings.UseDraw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,7,0" Style="{DynamicResource TextBlockDefault}" Text="Don't Draw Cards When There is Less Than" />
-                    <controls:Numeric Increment="5" MaxValue="60" MinValue="1" Value="{Binding AstrologianSettings.DontDrawWhenCombatTimeIs, Mode=TwoWay}" />
-                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Seconds Left in Combat." />
-                </StackPanel>
-            </StackPanel>
+            <CheckBox Margin="5" Content="Use Draw" IsChecked="{Binding AstrologianSettings.UseDraw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,5" Content="Play Cards (using Card Rules)" IsChecked="{Binding AstrologianSettings.Play, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,5" Content="Play Cards" IsChecked="{Binding AstrologianSettings.Play, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,7,0" Style="{DynamicResource TextBlockDefault}" Text="Don't Play Cards When There is Less Than" />
+                    <controls:Numeric Increment="1" MaxValue="60" MinValue="1" Value="{Binding AstrologianSettings.DontPlayWhenCombatTimeIsLessThan, Mode=TwoWay}" />
+                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Seconds Left in Combat." />
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When No Apropriate Card Rule is Found for Drawn Card " />
                     <CheckBox Content="Use Minor Arcana " IsChecked="{Binding AstrologianSettings.CardRuleDefaultToMinorArcana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Discard Card" IsChecked="{Binding AstrologianSettings.CardRuleDefaultToUndraw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Prepare Cards Out of Combat" IsChecked="{Binding AstrologianSettings.PrepCardsOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="5" Content="Only in Party" IsChecked="{Binding AstrologianSettings.PrepCardsOutOfCombatOnlyWhenPartied, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,0,0,2" Content="Use Lord Of Crowns" IsChecked="{Binding AstrologianSettings.LordofCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Lady Of Crowns On Party Members Lower Than " IsChecked="{Binding AstrologianSettings.LadyofCrowns, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LadyofCrownsHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
+                <TextBlock Style="{DynamicResource TextBlockDefault}" HorizontalAlignment="Left" Text=" Card Priority (First to Last) " />
             </StackPanel>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+            </Grid>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="MNK: " />
+                <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.MnkCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="DRG: " />
+                <controls:Numeric Grid.Row="1" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DrgCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="NIN: " />
+                <controls:Numeric Grid.Row="1" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.NinCardWeight, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="SAM: " />
+                <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SamCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
+                <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.BlmCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
+                <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SmnCardWeight, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="RDM: " />
+                <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.RdmCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="3" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="BRD: " />
+                <controls:Numeric Grid.Row="3" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.BrdCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="3" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="MCH: " />
+                <controls:Numeric Grid.Row="3" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.MchCardWeight, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="DNC: " />
+                <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DncCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="4" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="PLD: " />
+                <controls:Numeric Grid.Row="4" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PldCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="4" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="WAR: " />
+                <controls:Numeric Grid.Row="4" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.WarCardWeight, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="DRK: " />
+                <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DrkCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="5" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="GNB: " />
+                <controls:Numeric Grid.Row="5" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.GnbCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="5" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="WHM: " />
+                <controls:Numeric Grid.Row="5" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.WhmCardWeight, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="SCH: " />
+                <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SchCardWeight, Mode=TwoWay}" />
+                <TextBlock Grid.Row="6" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="AST: " />
+                <controls:Numeric Grid.Row="6" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.AstCardWeight, Mode=TwoWay}" />
+            </Grid>
+        </controls:SettingsBlock>
+
 
     </StackPanel>
 

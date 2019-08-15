@@ -19,24 +19,6 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
-        
-        public static async Task<bool> Dots()
-        {
-            if (AstrologianSettings.Instance.UseTTDForCombust)
-            {
-                var combatTimeLeft = Core.Me.CurrentTarget.CombatTimeLeft();
-
-                if (combatTimeLeft > 0 && combatTimeLeft < AstrologianSettings.Instance.DontCombustIfEnemyDyingWithin)
-                    return false;
-            }
-            else
-            {
-                if (!Core.Me.CurrentTarget.HealthCheck(AstrologianSettings.Instance.CombustHealthMinimum, AstrologianSettings.Instance.CombustHealthMinimumPercent))
-                    return false;
-            }
-            
-            return await Combust();
-        }
 
         public static async Task<bool> CombustMultipleTargets()
         {
@@ -58,13 +40,13 @@ namespace Magitek.Logic.Astrologian
                 if (!CanCombust(unit))
                     return false;
 
-                if (Core.Me.ClassLevel < 26)
-                    return !unit.HasAura(Auras.Combust, true, AstrologianSettings.Instance.CombustRefreshSeconds * 1000);
+                if (Core.Me.ClassLevel < 4)
+                    return !unit.HasAura(Auras.Combust, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
 
-                if (Core.Me.ClassLevel < 72)
-                    return !unit.HasAura(Auras.Combust2, true, AstrologianSettings.Instance.CombustRefreshSeconds * 1000);
+                if (Core.Me.ClassLevel < 46)
+                    return !unit.HasAura(Auras.Combust2, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
 
-                return !unit.HasAura(Auras.Combust3, true, AstrologianSettings.Instance.CombustRefreshSeconds * 1000);
+                return !unit.HasAura(Auras.Combust3, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
             }
 
             bool CanCombust(GameObject unit)
@@ -76,24 +58,22 @@ namespace Magitek.Logic.Astrologian
             }
         }
 
-        private static async Task<bool> Combust()
+        public static async Task<bool> Combust()
         {
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-            var classLevel = Core.Me.ClassLevel;
-            uint combustAura = Auras.Combust;
+            if (Core.Me.CurrentTarget.HasAnyAura(CombustAuras, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds))
+                return false;
 
-            if (classLevel >= 72)
-                combustAura = Auras.Combust3;
-
-            if (classLevel < 72 && classLevel >= 46)
-                combustAura = Auras.Combust2;
-
-            if (Core.Me.CurrentTarget.HasAura(combustAura, true, AstrologianSettings.Instance.CombustRefreshSeconds * 1000))
-                    return false;
-
-            return await Spells.Combust.CastAura(Core.Me.CurrentTarget, combustAura, true, AstrologianSettings.Instance.CombustRefreshSeconds * 1000);
+            return await Spells.Combust.Cast(Core.Me.CurrentTarget);
         }
+
+        private static readonly uint[] CombustAuras =
+        {
+            Auras.Combust,
+            Auras.Combust2,
+            Auras.Combust3
+        };
     }
 }

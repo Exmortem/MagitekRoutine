@@ -81,6 +81,9 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.DeploymentTactics)
                 return false;
 
+            if (Casting.LastSpell == Spells.Succor)
+                return false;
+
             // Stop if we're in Combat, we can waste this when we don't know if the tank is pulling or not
             if (!Core.Me.InCombat)
                 return false;

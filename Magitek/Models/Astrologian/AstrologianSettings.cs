@@ -47,16 +47,12 @@ namespace Magitek.Models.Astrologian
         public bool Combust { get; set; }
 
         [Setting]
-        [DefaultValue(20000)]
-        public int CombustHealthMinimum { get; set; }
+        [DefaultValue(true)]
+        public bool CombustMultipleTargets { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
-        public float CombustHealthMinimumPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int CombustRefreshSeconds { get; set; }
+        [DefaultValue(5050)]
+        public int CombustRefreshMSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -65,10 +61,6 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(20)]
         public int DontCombustIfEnemyDyingWithin { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool CombustMultipleTargets { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -111,7 +103,7 @@ namespace Magitek.Models.Astrologian
         public bool LightspeedTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(AstrologianSect.Diurnal)]
+        [DefaultValue(AstrologianSect.Nocturnal)]
         public AstrologianSect SectWithNoPairing { get; set; }
 
         [Setting]
@@ -125,26 +117,6 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(AstrologianSectWithOpposite.Opposite)]
         public AstrologianSectWithOpposite SectWhenPairedWithAst { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool DontBuffIfYouHaveOneAlready { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PresenceOfMind { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float PresenceOfMindHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PresenceOfMindTankOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(1)]
-        public int PresenceOfMindNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -524,21 +496,75 @@ namespace Magitek.Models.Astrologian
         [DefaultValue(true)]
         public bool Play { get; set; }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(true)]
         public bool PrepCardsOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool PrepCardsOutOfCombatOnlyWhenPartied { get; set; }
+        public bool PrepCardsOutOfCombatOnlyWhenPartied { get; set; }*/
 
         [Setting]
-        [DefaultValue(18)]
-        public int DontDrawWhenCombatTimeIs { get; set; }
+        [DefaultValue(25)]
+        public int DontPlayWhenCombatTimeIsLessThan { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool CardRuleDefaultToMinorArcana { get; set; }
+        #endregion
+
+        #region Card Weights
+        [Setting]
+        [DefaultValue(1)]
+        public int MnkCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(2)]
+        public int BlmCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(3)]
+        public int DrgCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(4)]
+        public int SamCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(5)]
+        public int MchCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(6)]
+        public int SmnCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(7)]
+        public int BrdCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(8)]
+        public int NinCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(9)]
+        public int RdmCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(10)]
+        public int DncCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(12)]
+        public int PldCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(13)]
+        public int WarCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(14)]
+        public int DrkCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(15)]
+        public int GnbCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(11)]
+        public int WhmCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(16)]
+        public int SchCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(17)]
+        public int AstCardWeight { get; set; }
         #endregion
 
         #region PVP
