@@ -77,6 +77,8 @@ namespace Magitek.Utilities.Routines
             if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
                 return;
 
+            Logger.Write($@"Detected DoT Proc - estimated next DoT Tick in {TimeUntilNextPossibleDoTTick()}ms");
+
             DoTProcEvents.Insert(0, DateTime.Now);
 
         }
@@ -93,8 +95,8 @@ namespace Magitek.Utilities.Routines
             }
 
             if (potentialTickInXms != 999999)
-                return 3000 - potentialTickInXms; // 3000ms, Tick Intervall, minus already passed time = time left
-            return 0; //In case we have zero data about past procs, its safe to assume a dot could happen at any time
+                return  potentialTickInXms; 
+            return 0; 
 
         }
 
