@@ -35,6 +35,10 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <CheckBox Margin="5" Content="Use Divination" IsChecked="{Binding AstrologianSettings.Divination, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <TextBlock Style="{DynamicResource TextBlockDefault}" HorizontalAlignment="Left" Text=" Card Priority (First to Last) " />
             </StackPanel>

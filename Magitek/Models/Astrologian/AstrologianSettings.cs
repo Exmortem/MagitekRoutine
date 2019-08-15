@@ -506,6 +506,10 @@ namespace Magitek.Models.Astrologian
         public bool PrepCardsOutOfCombatOnlyWhenPartied { get; set; }*/
 
         [Setting]
+        [DefaultValue(true)]
+        public bool Divination { get; set; }
+
+        [Setting]
         [DefaultValue(25)]
         public int DontPlayWhenCombatTimeIsLessThan { get; set; }
 

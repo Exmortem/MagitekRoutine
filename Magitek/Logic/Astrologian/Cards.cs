@@ -55,7 +55,7 @@ namespace Magitek.Logic.Astrologian
                             break;
                     }
 
-            if (DivinationSeals.All(c => c != 0))
+            if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
                 await Spells.Divination.Cast(Core.Me);
 
             if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
