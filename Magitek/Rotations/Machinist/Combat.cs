@@ -44,7 +44,7 @@ namespace Magitek.Rotations.Machinist
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
-            if (Utilities.Routines.Machinist.OnGcd && Utilities.Routines.Machinist.WeavingHelper.CheckLastSpellsForWeaving() < 2)
+            if (Utilities.Routines.Machinist.OnGcd && Weaving.GetCurrentWeavingCounter() < 2)
             {
                 if (await Buff.BarrelStabilizer()) return true;
                 if (await Buff.Wildfire()) return true;

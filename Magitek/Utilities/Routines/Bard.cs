@@ -22,7 +22,6 @@ namespace Magitek.Utilities.Routines
                                                                             Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
                                                                             Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
         };
-        public static Weaving WeavingHelper = new Weaving(OGCDSpells);
 
         public static void RefreshVars()
         {

@@ -12,16 +12,5 @@ namespace Magitek.Utilities.Routines
         {
             Spells.GaussRound
         };
-
-        private static void OGCDSpellsFiller()
-        {
-            foreach (var spell in ActionManager.CurrentActions)
-            {
-                if(spell.Value.BaseCastTime.TotalMilliseconds != 2500)
-                    _ogcdSpells.Add(spell.Value);
-            }
-        }
-
-        public static readonly Weaving WeavingHelper = new Weaving(_ogcdSpells);
     }
 }
