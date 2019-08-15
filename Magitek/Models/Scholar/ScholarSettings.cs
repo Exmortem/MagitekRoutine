@@ -216,14 +216,6 @@ namespace Magitek.Models.Scholar
         #region Combat
         [Setting]
         [DefaultValue(true)]
-        public bool BioUseTimeTillDeath { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int BioDontIfEnemyDyingWithinSeconds { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool DoDamage { get; set; }
 
         [Setting]
@@ -247,16 +239,24 @@ namespace Magitek.Models.Scholar
         public float MinimumManaPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int BioRefreshSeconds { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Bio { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool BioMultipleTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int BioRefreshSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool BioUseTimeTillDeath { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int BioDontIfEnemyDyingWithinSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -313,7 +313,7 @@ namespace Magitek.Models.Scholar
         public bool FeyIlluminationOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Consolation { get; set; }
 
         [Setting]
@@ -323,6 +323,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(3)]
         public int ConsolationNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ConsolationOnlyWithTank { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -345,7 +349,7 @@ namespace Magitek.Models.Scholar
         public int FeyBlessingNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SummonSeraph { get; set; }
 
         [Setting]

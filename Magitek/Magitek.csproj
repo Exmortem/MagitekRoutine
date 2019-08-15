@@ -556,9 +556,6 @@
     <Compile Include="Views\UserControls\Astrologian\Alliance.xaml.cs">
       <DependentUpon>Alliance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Astrologian\BuffExtenders.xaml.cs">
-      <DependentUpon>BuffExtenders.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Astrologian\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
@@ -979,10 +976,6 @@
     <Page Include="Views\UserControls\Astrologian\Alliance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Astrologian\BuffExtenders.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Astrologian\Buffs.xaml">
       <SubType>Designer</SubType>

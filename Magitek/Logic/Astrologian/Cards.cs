@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -8,6 +6,8 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Astrologian;
 
 namespace Magitek.Logic.Astrologian
@@ -26,7 +26,7 @@ namespace Magitek.Logic.Astrologian
                 if (await Spells.Draw.Cast(Core.Me))
                     await Coroutine.Wait(750, () => Core.Me.HasAnyCardAura());
 
-            if (Combat.CombatTotalTimeLeft <= 20)
+            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
             if (DivinationSeals.Any(c => c == 0))
@@ -104,55 +104,70 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> MeleeDpsOrTank()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsTank() || a.IsMeleeDps()) && !a.HasAnyCardAura() && a.IsAlive).OrderByDescending(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsTank() || a.IsMeleeDps()) && !a.HasAnyCardAura() && a.IsAlive).OrderBy(GetWeight);
             
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
         private static async Task<bool> RangedDpsOrHealer()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsHealer() || a.IsRangedDpsCard()) && !a.HasAnyCardAura() && a.IsAlive).OrderByDescending(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsHealer() | a.IsRangedDpsCard()) && !a.HasAnyCardAura() && a.IsAlive).OrderBy(GetWeight);
             
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
-        private static float GetWeight(Character c)
+        private static int GetWeight(Character c)
         {
             if (c.CurrentJob == ClassJobType.Monk)
-                return 100;
+                return AstrologianSettings.Instance.MnkCardWeight;
 
             if (c.CurrentJob == ClassJobType.BlackMage)
-                return 99;
+                return AstrologianSettings.Instance.BlmCardWeight;
 
             if (c.CurrentJob == ClassJobType.Dragoon)
-                return 98;
+                return AstrologianSettings.Instance.DrgCardWeight;
 
             if (c.CurrentJob == ClassJobType.Samurai)
-                return 97;
+                return AstrologianSettings.Instance.SamCardWeight;
 
             if (c.CurrentJob == ClassJobType.Machinist)
-                return 96;
+                return AstrologianSettings.Instance.MchCardWeight;
 
             if (c.CurrentJob == ClassJobType.Summoner)
-                return 95;
+                return AstrologianSettings.Instance.SmnCardWeight;
 
             if (c.CurrentJob == ClassJobType.Bard)
-                return 94;
+                return AstrologianSettings.Instance.BrdCardWeight;
 
             if (c.CurrentJob == ClassJobType.Ninja)
-                return 93;
+                return AstrologianSettings.Instance.NinCardWeight;
 
             if (c.CurrentJob == ClassJobType.RedMage)
-                return 92;
+                return AstrologianSettings.Instance.RdmCardWeight;
 
             if (c.CurrentJob == ClassJobType.Dancer)
-                return 91;
+                return AstrologianSettings.Instance.DncCardWeight;
 
-            if (c.IsTank())
-                return 90;
+            if (c.CurrentJob == ClassJobType.Paladin)
+                return AstrologianSettings.Instance.PldCardWeight;
 
-            if (c.IsHealer())
-                return 80;
+            if (c.CurrentJob == ClassJobType.Warrior)
+                return AstrologianSettings.Instance.WarCardWeight;
+
+            if (c.CurrentJob == ClassJobType.DarkKnight)
+                return AstrologianSettings.Instance.DrkCardWeight;
+
+            if (c.CurrentJob == ClassJobType.Gunbreaker)
+                return AstrologianSettings.Instance.GnbCardWeight;
+
+            if (c.CurrentJob == ClassJobType.WhiteMage)
+                return AstrologianSettings.Instance.WhmCardWeight;
+
+            if (c.CurrentJob == ClassJobType.Scholar)
+                return AstrologianSettings.Instance.SchCardWeight;
+
+            if (c.CurrentJob == ClassJobType.Astrologian)
+                return AstrologianSettings.Instance.AstCardWeight;
 
             return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
         }

@@ -78,10 +78,10 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LightspeedManaPercent)
                 return false;
 
-            if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
-                return false;
+            //I Can't get this to work for some reason.
+            /*if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
+                return false;*/
 
-            //Add if !CardDrawn check to return false
             if (Globals.InParty)
             {
                 if (AstrologianSettings.Instance.LightspeedTankOnly)

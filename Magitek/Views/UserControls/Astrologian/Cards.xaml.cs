@@ -24,5 +24,10 @@ namespace Magitek.Views.UserControls.Astrologian
         {
             InitializeComponent();
         }
+
+        private void CheckBox_Checked(object sender)
+        {
+
+        }
     }
 }
