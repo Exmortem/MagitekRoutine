@@ -128,11 +128,14 @@ namespace Magitek.Logic.Bard
                         return false;
                     break;
 
-                //Cant use PP outside of WM so why would we want to waste an EA here
-                //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-                    if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
+
+                    if (ActionResourceManager.Bard.Repertoire == 3)
                         return false;
+
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                        return false;
+
                     break;
 
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:
