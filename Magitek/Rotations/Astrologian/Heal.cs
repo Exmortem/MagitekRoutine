@@ -13,6 +13,15 @@ namespace Magitek.Rotations.Astrologian
     {
         public static async Task<bool> Execute()
         {
+            if (WorldManager.InSanctuary)
+                return false;
+
+            if (Core.Me.IsMounted)
+                return false;
+
+            if (Duty.State() == Duty.States.Ended)
+                return false;
+
             if (await Chocobo.HandleChocobo()) return true;
 
             Group.UpdateAllies(Utilities.Routines.Astrologian.GroupExtension);
@@ -26,9 +35,6 @@ namespace Magitek.Rotations.Astrologian
             Globals.InParty = PartyManager.IsInParty || Globals.InGcInstance;
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2) || Core.Me.InCombat;
             Globals.OnPvpMap = Core.Me.OnPvpMap();
-
-            if (Duty.State() == Duty.States.Ended)
-                return false;
 
             if (await GambitLogic.Gambit()) return true;
 

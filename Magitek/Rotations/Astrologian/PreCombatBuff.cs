@@ -12,6 +12,15 @@ namespace Magitek.Rotations.Astrologian
     {
         public static async Task<bool> Execute()
         {
+            if (WorldManager.InSanctuary)
+                return false;
+
+            if (Core.Me.IsMounted)
+                return false;
+
+            if (Duty.State() == Duty.States.Ended)
+                return false;
+
             if (await Chocobo.HandleChocobo()) return true;
 
             Group.UpdateAllies(Utilities.Routines.Astrologian.GroupExtension);
@@ -25,19 +34,14 @@ namespace Magitek.Rotations.Astrologian
             Globals.InParty = PartyManager.IsInParty || Globals.InGcInstance; 
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
 
-            if (Core.Me.IsMounted)
-                return false;
-
             if (Globals.OnPvpMap)
                 return false;
-
-            if (WorldManager.InSanctuary)
-                return false;
-
-            if (Duty.State() == Duty.States.Ended) return false;
-
+            
             if(ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
                 await Spells.Draw.Cast(Core.Me);
+
+            Logger.Error("You shouldn't be ticking if in a sanctuary...");
+
             return await Buff.Sect();
         }
     }
