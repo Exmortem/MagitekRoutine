@@ -134,6 +134,7 @@ namespace Magitek.Rotations.Dragoon
                 if (await Buff.BloodOfTheDragon()) return true;
                 if (await Buff.DragonSight()) return true;
                 if (await Buff.BattleLitany()) return true;
+                if (await Buff.TrueNorth()) return true;
                 return false;
             }
 
