@@ -31,7 +31,11 @@ namespace Magitek.Rotations.Astrologian
             if (Globals.OnPvpMap)
                 return false;
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (Duty.State() == Duty.States.Ended) return false;
+
             if(ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
                 await Spells.Draw.Cast(Core.Me);
             return await Buff.Sect();
