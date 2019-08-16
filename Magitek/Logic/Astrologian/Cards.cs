@@ -124,6 +124,7 @@ namespace Magitek.Logic.Astrologian
                     return AstrologianSettings.Instance.AstCardWeight;
 
                 case ClassJobType.Monk:
+                case ClassJobType.Pugilist:
                     return AstrologianSettings.Instance.MnkCardWeight;
 
                 case ClassJobType.BlackMage:
