@@ -29,31 +29,13 @@ namespace Magitek.Logic.Bard
                     case 0:
                         break;
                     case 1:
-                        if (Core.Me.ClassLevel < 64)
-                        {
-                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true) || x.HasAura(Auras.VenomousBite, true)) >= 1)
-                                break;
-                            return false;
-                        }
-                        else
-                        {
-                            if (Combat.Enemies.Count(x => x.HasAura(Auras.StormBite, true) || x.HasAura(Auras.CausticBite, true)) >= 1)
-                                break;
-                            return false;
-                        }
+                        if (Combat.Enemies.Count(x => x.HasAura(Utilities.Routines.Bard.Windbite, true) || x.HasAura(Utilities.Routines.Bard.VenomousBite, true)) >= 1)
+                            break;
+                        return false;
                     case 2:
-                        if (Core.Me.ClassLevel < 64)
-                        {
-                            if (Combat.Enemies.Count(x => x.HasAura(Auras.Windbite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.VenomousBite, true)) >= 2)
-                                break;
-                            return false;
-                        }
-                        else
-                        {
-                            if (Combat.Enemies.Count(x => x.HasAura(Auras.StormBite, true)) + Combat.Enemies.Count(x => x.HasAura(Auras.CausticBite, true)) >= 2)
-                                break;
-                            return false;
-                        }
+                        if (Combat.Enemies.Count(x => x.HasAura(Utilities.Routines.Bard.Windbite, true)) + Combat.Enemies.Count(x => x.HasAura(Utilities.Routines.Bard.VenomousBite, true)) >= 2)
+                            break;
+                        return false;
                 }
 
             switch (BardSettings.Instance.CurrentSongPlaylist)
@@ -94,24 +76,18 @@ namespace Magitek.Logic.Bard
                     break;
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1500)
-                        return false;
 
-                    if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < ActionResourceManager.Bard.Timer.TotalMilliseconds + 250)
-                        return false;
-
-                    if (ActionResourceManager.Bard.Repertoire != 0 && Spells.PitchPerfect.Cooldown.TotalMilliseconds < ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
                         return false;
 
                     if (theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
                         || theWanderersMinuetCooldown != TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero && armysPaeonCooldown.TotalMilliseconds < 30000)
                         return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
                     
+                    
                     break;
 
                 case ActionResourceManager.Bard.BardSong.MagesBallad:
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds > 1500)
-                        return false;
 
                     if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < ActionResourceManager.Bard.Timer.TotalMilliseconds)
                         return false;
@@ -123,9 +99,13 @@ namespace Magitek.Logic.Bard
                     break;
 
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:
-                    if (Spells.HeavyShot.Cooldown.TotalMilliseconds < Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds - 500)
-                        if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds <= 30)
-                            return await EarlyWanderersMinuet();
+
+                    if (Spells.HeavyShot.Cooldown.TotalMilliseconds > Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds - 500)
+                        return false;
+
+                    if (theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown == TimeSpan.Zero || theWanderersMinuetCooldown == TimeSpan.Zero && magesBallardCooldown.TotalSeconds <= 30)
+                        return await EarlyWanderersMinuet();
+
                     break;
             }
 
