@@ -23,6 +23,7 @@ namespace Magitek.Utilities
             Aetherflow = 304,
             AetherialAttunement = 807,
             EmergencyTactics = 792,
+            Dissipation = 791,
             Galvanize = 297,
             Combust = 838,
             Combust2 = 843,
