@@ -15,16 +15,12 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies8Yards;
         public static List<DateTime> DoTProcEvents = new List<DateTime>();
         public static int OldSoulVoice;
-        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
-                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow,
-                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
-                                                                            Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
-                                                                            Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
-                                                                            Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
-        };
 
         public static void RefreshVars()
         {
+            CheckForDoTProcs();
+            CleanUpDoTProcList();
+
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
@@ -32,8 +28,6 @@ namespace Magitek.Utilities.Routines
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
 
-            CleanUpDoTProcList();
-            CheckForDoTProcs();
         }
 
         public static uint Windbite => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.StormBite);
@@ -53,8 +47,8 @@ namespace Magitek.Utilities.Routines
                 DoTProcEvents.Remove(_TickTime);
             }
             
-
-            if (DoTProcEvents.Count > 10)
+            //The More Enemies the more Proc data we need
+            if (DoTProcEvents.Count > Combat.Enemies.Count)
                 DoTProcEvents.Remove(DoTProcEvents.Last());
         }
 
@@ -77,9 +71,9 @@ namespace Magitek.Utilities.Routines
             if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
                 return;
 
-            Logger.Write($@"Detected DoT Proc - estimated next DoT Tick in {TimeUntilNextPossibleDoTTick()}ms");
+            DateTime newProcTime = DateTime.Now;
 
-            DoTProcEvents.Insert(0, DateTime.Now);
+            DoTProcEvents.Insert(0, newProcTime);
 
         }
 
@@ -95,7 +89,7 @@ namespace Magitek.Utilities.Routines
             }
 
             if (potentialTickInXms != 999999)
-                return  potentialTickInXms; 
+                return  3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
             return 0; 
 
         }

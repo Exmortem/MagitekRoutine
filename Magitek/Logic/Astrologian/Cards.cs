@@ -23,8 +23,9 @@ namespace Magitek.Logic.Astrologian
             var cardDrawn = Arcana != AstrologianCard.None;
             
             if (!cardDrawn)
-                if (await Spells.Draw.Cast(Core.Me))
-                    await Coroutine.Wait(750, () => Core.Me.HasAnyCardAura());
+                if(ActionManager.CanCast(Spells.Draw, Core.Me))
+                    if (await Spells.Draw.Cast(Core.Me))
+                        await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
@@ -104,14 +105,14 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> MeleeDpsOrTank()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsTank() || a.IsMeleeDps()) && !a.HasAnyCardAura() && a.IsAlive).OrderBy(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsTank() || a.IsMeleeDps())).OrderBy(GetWeight);
             
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
         private static async Task<bool> RangedDpsOrHealer()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => (a.IsHealer() | a.IsRangedDpsCard()) && !a.HasAnyCardAura() && a.IsAlive).OrderBy(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsHealer() || a.IsRangedDpsCard())).OrderBy(GetWeight);
             
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
