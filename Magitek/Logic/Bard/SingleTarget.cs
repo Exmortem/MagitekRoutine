@@ -61,6 +61,24 @@ namespace Magitek.Logic.Bard
             return true; //We want to check for more oGCDs while waiting for our GCD
         }
 
+        public static async Task<bool> LastPossiblePitchPerfectDuringWM()
+        {
+            if (!BardSettings.Instance.UsePitchPerfect)
+                return false;
+
+            if (Spells.PitchPerfect.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+                return false;
+
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+                return false;
+
+            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+
+        }
+
         public static async Task<bool> PitchPerfect()
         {
             if (!BardSettings.Instance.UsePitchPerfect)
@@ -75,9 +93,7 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.Repertoire == 0)
                 return false;
 
-            //Logic to catch the last possible PP
-            //maybe have to reevalute the 250 ms here
-            if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds - 250)
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 500)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)

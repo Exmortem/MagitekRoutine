@@ -54,6 +54,7 @@ namespace Magitek.Rotations.Bard
                 if (await Utility.HeadGraze()) return true;
 
                 // Damage
+                if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
