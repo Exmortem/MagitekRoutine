@@ -25,7 +25,7 @@ namespace Magitek.Logic.Astrologian
             if (!cardDrawn)
                 if(ActionManager.CanCast(Spells.Draw, Core.Me))
                     if (await Spells.Draw.Cast(Core.Me))
-                        await Coroutine.Wait(750, () => Core.Me.HasAnyCardAura());
+                        await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
