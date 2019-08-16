@@ -30,6 +30,8 @@ namespace Magitek.Rotations.Astrologian
             if (Duty.State() == Duty.States.Ended)
                 return false;
 
+            if (await CustomOpenerLogic.Opener()) return true;
+
             if (await GambitLogic.Gambit()) return true;
 
             #region PvP
