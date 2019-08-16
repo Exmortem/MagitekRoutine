@@ -118,56 +118,68 @@ namespace Magitek.Logic.Astrologian
 
         private static int GetWeight(Character c)
         {
-            if (c.CurrentJob == ClassJobType.Monk)
-                return AstrologianSettings.Instance.MnkCardWeight;
+            switch (c.CurrentJob)
+            {
+                case ClassJobType.Astrologian:
+                    return AstrologianSettings.Instance.AstCardWeight;
 
-            if (c.CurrentJob == ClassJobType.BlackMage)
-                return AstrologianSettings.Instance.BlmCardWeight;
+                case ClassJobType.Monk:
+                case ClassJobType.Pugilist:
+                    return AstrologianSettings.Instance.MnkCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Dragoon)
-                return AstrologianSettings.Instance.DrgCardWeight;
+                case ClassJobType.BlackMage:
+                case ClassJobType.Thaumaturge:
+                    return AstrologianSettings.Instance.BlmCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Samurai)
-                return AstrologianSettings.Instance.SamCardWeight;
+                case ClassJobType.Dragoon:
+                case ClassJobType.Lancer:
+                    return AstrologianSettings.Instance.DrgCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Machinist)
-                return AstrologianSettings.Instance.MchCardWeight;
+                case ClassJobType.Samurai:
+                    return AstrologianSettings.Instance.SamCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Summoner)
-                return AstrologianSettings.Instance.SmnCardWeight;
+                case ClassJobType.Machinist:
+                    return AstrologianSettings.Instance.MchCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Bard)
-                return AstrologianSettings.Instance.BrdCardWeight;
+                case ClassJobType.Summoner:
+                case ClassJobType.Arcanist:
+                    return AstrologianSettings.Instance.SmnCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Ninja)
-                return AstrologianSettings.Instance.NinCardWeight;
+                case ClassJobType.Bard:
+                case ClassJobType.Archer:
+                    return AstrologianSettings.Instance.BrdCardWeight;
 
-            if (c.CurrentJob == ClassJobType.RedMage)
-                return AstrologianSettings.Instance.RdmCardWeight;
+                case ClassJobType.Ninja:
+                case ClassJobType.Rogue:
+                    return AstrologianSettings.Instance.NinCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Dancer)
-                return AstrologianSettings.Instance.DncCardWeight;
+                case ClassJobType.RedMage:
+                    return AstrologianSettings.Instance.RdmCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Paladin)
-                return AstrologianSettings.Instance.PldCardWeight;
+                case ClassJobType.Dancer:
+                    return AstrologianSettings.Instance.DncCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Warrior)
-                return AstrologianSettings.Instance.WarCardWeight;
+                case ClassJobType.Paladin:
+                case ClassJobType.Gladiator:
+                    return AstrologianSettings.Instance.PldCardWeight;
 
-            if (c.CurrentJob == ClassJobType.DarkKnight)
-                return AstrologianSettings.Instance.DrkCardWeight;
+                case ClassJobType.Warrior:
+                case ClassJobType.Marauder:
+                    return AstrologianSettings.Instance.WarCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Gunbreaker)
-                return AstrologianSettings.Instance.GnbCardWeight;
+                case ClassJobType.DarkKnight:
+                    return AstrologianSettings.Instance.DrkCardWeight;
 
-            if (c.CurrentJob == ClassJobType.WhiteMage)
-                return AstrologianSettings.Instance.WhmCardWeight;
+                case ClassJobType.Gunbreaker:
+                    return AstrologianSettings.Instance.GnbCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Scholar)
-                return AstrologianSettings.Instance.SchCardWeight;
+                case ClassJobType.WhiteMage:
+                case ClassJobType.Conjurer:
+                    return AstrologianSettings.Instance.WhmCardWeight;
 
-            if (c.CurrentJob == ClassJobType.Astrologian)
-                return AstrologianSettings.Instance.AstCardWeight;
+                case ClassJobType.Scholar:
+                    return AstrologianSettings.Instance.SchCardWeight;
+            }
 
             return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
         }
