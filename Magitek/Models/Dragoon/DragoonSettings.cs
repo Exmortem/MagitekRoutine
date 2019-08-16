@@ -51,6 +51,10 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
+        public bool DragonSightDpsOrTank { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Defensives { get; set; }
 
         [Setting]
@@ -97,6 +101,8 @@ namespace Magitek.Models.Dragoon
         [DefaultValue(true)]
         public bool Stardiver { get; set; }
 
-
+        [Setting]
+        [DefaultValue(true)]
+        public bool TrueNorth { get; set; }
     }
 }

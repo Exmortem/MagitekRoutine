@@ -126,7 +126,7 @@ namespace Magitek.Utilities
             FeyUnion = 1222,
             FeyUnion2 = 1223,
             SeraphicVeil = 1917,
-            DiveReady = 222,
+            DiveReady = 1243,
             BlackestNight = 1178,
             Exogitation = 1220,
             DivineBenison = 1218,
