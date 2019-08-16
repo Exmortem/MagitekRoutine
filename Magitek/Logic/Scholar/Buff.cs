@@ -19,6 +19,14 @@ namespace Magitek.Logic.Scholar
         {
             if (Core.Me.Pet != null)
                 return false;
+            if (Core.Me.HasAura(Auras.Dissipation))
+                return false;
+
+            if (Casting.LastSpell == Spells.SummonEos)
+                return false;
+
+            if (Casting.LastSpell == Spells.SummonSelene)
+                return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
             {

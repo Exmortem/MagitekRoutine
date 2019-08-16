@@ -34,8 +34,6 @@ namespace Magitek.Rotations.Scholar
             if (Duty.State() == Duty.States.Ended)
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
-
             if (await GambitLogic.Gambit()) return true;
 
             if (await Logic.Scholar.Heal.Resurrection()) return true;
