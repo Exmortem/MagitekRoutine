@@ -116,13 +116,50 @@ namespace Magitek.Logic.Bard
 
             Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
             Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
-
+            
             if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
                 && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
                 return false;
 
             if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
             Logger.WriteInfo($@"[DoT-Refresh] Iron Jaws on {Core.Me.CurrentTarget.Name}");
+            Logger.WriteInfo($@"[DoT-Refresh] Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds}");
+            Logger.WriteInfo($@"[DoT-Refresh] VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
+            return true;
+        }
+
+        public static async Task<bool> SnapShotIronJawsOnCurrentTarget()
+        {
+            if (!BardSettings.Instance.SnapShotWithIronJaws)
+                return false;
+
+            //No Dots at this point
+            if (Core.Me.ClassLevel < 6)
+                return false;
+
+            if (!BardSettings.Instance.UseIronJaws)
+                return false;
+
+            if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
+                return false;
+
+            if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.UseVenomousBite)
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.Windbite, true) || !Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.VenomousBite, true))
+                return false;
+
+            Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
+            Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
+
+            if (!Core.Me.Auras.Any(x => x.Id == Auras.RagingStrikes && x.TimespanLeft.TotalMilliseconds < 4000))
+                return false;
+
+            if (Utilities.Routines.Bard.AlreadySnapped)
+                return false;
+
+            if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
+            Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name}");
             Logger.WriteInfo($@"[DoT-Refresh] Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds}");
             Logger.WriteInfo($@"[DoT-Refresh] VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
             return true;
