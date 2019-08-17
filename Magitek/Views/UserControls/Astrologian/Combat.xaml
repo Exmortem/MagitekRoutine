@@ -82,9 +82,9 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh When There Are " />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh When Combust Has Less Than " />
                         <controls:Numeric Increment="50" MaxValue="30000" MinValue="50" Value="{Binding AstrologianSettings.CombustRefreshMSeconds, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Milliseconds Left Of Damage Over Time" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Milliseconds Left" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Margin="0,3" Orientation="Horizontal">

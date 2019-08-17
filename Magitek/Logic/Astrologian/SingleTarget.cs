@@ -39,14 +39,8 @@ namespace Magitek.Logic.Astrologian
             {
                 if (!CanCombust(unit))
                     return false;
-
-                if (Core.Me.ClassLevel < 4)
-                    return !unit.HasAura(Auras.Combust, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
-
-                if (Core.Me.ClassLevel < 46)
-                    return !unit.HasAura(Auras.Combust2, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
-
-                return !unit.HasAura(Auras.Combust3, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
+                
+                return !unit.HasAnyAura(CombustAuras, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
             }
 
             bool CanCombust(GameObject unit)
