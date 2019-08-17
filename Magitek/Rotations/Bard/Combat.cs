@@ -71,6 +71,7 @@ namespace Magitek.Rotations.Bard
 
             if (await SingleTarget.StraightShotAfterBarrage()) return true;
             if (await DamageOverTime.IronJawsOnCurrentTarget()) return true;
+            if (await DamageOverTime.SnapShotIronJawsOnCurrentTarget()) return true;
             if (await DamageOverTime.WindbiteOnCurrentTarget()) return true;
             if (await DamageOverTime.VenomousBiteOnCurrentTarget()) return true;
             if (await Aoe.ApexArrow()) return true;

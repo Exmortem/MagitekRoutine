@@ -15,6 +15,7 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies8Yards;
         public static List<DateTime> DoTProcEvents = new List<DateTime>();
         public static int OldSoulVoice;
+        public static bool AlreadySnapped = false;
 
         public static void RefreshVars()
         {
@@ -27,6 +28,13 @@ namespace Magitek.Utilities.Routines
             EnemiesInCone = Core.Me.EnemiesInCone(15);
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+
+            if (Casting.LastSpell == Spells.IronJaws && Core.Me.HasAura(Auras.RagingStrikes))
+            {
+                AlreadySnapped = true;
+            }
+            AlreadySnapped = AlreadySnapped && Core.Me.HasAura(Auras.RagingStrikes);
+            
 
         }
 
