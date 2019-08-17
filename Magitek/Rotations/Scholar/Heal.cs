@@ -58,6 +58,7 @@ namespace Magitek.Rotations.Scholar
             {
                 if (await Buff.DeploymentTactics()) return true;
                 if (await Buff.Aetherpact()) return true;
+                if (await Buff.BreakAetherpact()) return true;
             }
 
             if (await Buff.ChainStrategem()) return true;

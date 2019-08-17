@@ -25,6 +25,7 @@ namespace Magitek.Utilities
             EmergencyTactics = 792,
             Dissipation = 791,
             Galvanize = 297,
+            Catalyze = 1918,
             Combust = 838,
             Combust2 = 843,
             Combust3 = 1881,
