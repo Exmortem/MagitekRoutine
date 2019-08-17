@@ -217,9 +217,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
 
-            var canHoroscope = Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent < AstrologianSettings.Instance.HoroscopeHealthPercent);
-
-            if (canHoroscope < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
             if (await Spells.Horoscope.Cast(Core.Me))
@@ -237,15 +235,12 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.HasAura(Auras.HoroscopeHelios))
                 return false;
 
-            var canHoroscope = Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent < AstrologianSettings.Instance.HoroscopeHealthPercent);
-
-            if (canHoroscope < AstrologianSettings.Instance.HoroscopeAllies)
+            if(Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
-            if (await Spells.Horoscope.Cast(Core.Me));
-
-            return false;
+            return await Spells.Horoscope.Cast(Core.Me);
         }
+
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)
