@@ -40,8 +40,6 @@ namespace Magitek.Rotations.Astrologian
             if(ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
                 await Spells.Draw.Cast(Core.Me);
 
-            Logger.Error("You shouldn't be ticking if in a sanctuary...");
-
             return await Buff.Sect();
         }
     }

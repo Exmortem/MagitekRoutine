@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using ff14bot;
 using ff14bot.Objects;
 using Magitek.Utilities.Managers;
 using Auras = Magitek.Utilities.Auras;
