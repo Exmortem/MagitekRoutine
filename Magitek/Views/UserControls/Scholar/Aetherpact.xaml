@@ -26,6 +26,12 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
                 </StackPanel>
 
+                <StackPanel Margin="0,3" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Break Aetherpact If Tank Is Full HP Only With" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.AetherpactEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" or less Enemies " />
+                </StackPanel>
+
             </StackPanel>
         </controls:SettingsBlock>
 

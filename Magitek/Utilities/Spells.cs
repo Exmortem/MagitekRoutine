@@ -354,7 +354,6 @@ namespace Magitek.Utilities
         public static readonly SpellData RiddleofEarth = DataManager.GetSpellData(7394);
         public static readonly SpellData RiddleofFire = DataManager.GetSpellData(7395);
         public static readonly SpellData Brotherhood = DataManager.GetSpellData(7396);
-        public static readonly SpellData Onslaught = DataManager.GetSpellData(7386);
         public static readonly SpellData FormShift = DataManager.GetSpellData(4262);
         public static readonly SpellData FourPointFury = DataManager.GetSpellData(16473);
         #endregion
@@ -569,6 +568,7 @@ namespace Magitek.Utilities
         public static readonly SpellData SteelCyclone = DataManager.GetSpellData(51);
         public static readonly SpellData Infuriate = DataManager.GetSpellData(52);
         public static readonly SpellData Deliverance = DataManager.GetSpellData(3548);
+        public static readonly SpellData Onslaught = DataManager.GetSpellData(7386);
         public static readonly SpellData FellCleave = DataManager.GetSpellData(3549);
         public static readonly SpellData Decimate = DataManager.GetSpellData(3550);
         public static readonly SpellData RawIntuition = DataManager.GetSpellData(3551);

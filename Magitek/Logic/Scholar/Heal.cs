@@ -63,6 +63,8 @@ namespace Magitek.Logic.Scholar
                     if (tankAdloTarget == null)
                         return false;
 
+                    await UseRecitation();
+
                     return await Spells.Adloquium.HealAura(tankAdloTarget, Auras.Galvanize, false);
                 }
 
@@ -70,6 +72,8 @@ namespace Magitek.Logic.Scholar
 
                 if (adloTarget == null)
                     return false;
+
+                await UseRecitation();
 
                 return await Spells.Adloquium.HealAura(adloTarget, Auras.Galvanize);
 
@@ -98,6 +102,26 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             return await Spells.Adloquium.HealAura(Core.Me, Auras.Galvanize);
+
+            async Task UseRecitation()
+            {
+                if (!ScholarSettings.Instance.Recitation)
+                    return;
+
+                if (!ScholarSettings.Instance.RecitationWithAdlo)
+                    return;
+
+                if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
+                    return;
+
+                if (!await Spells.Recitation.Cast(Core.Me))
+                    return;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Recitation)))
+                    return;
+
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Adloquium.Id, Core.Me));
+            }
         }
 
         public static async Task<bool> EmergencyTacticsAdlo()
@@ -238,6 +262,8 @@ namespace Magitek.Logic.Scholar
                 if (excogitationTarget == null)
                     return false;
 
+                await UseRecitation();
+
                 return await Spells.Excogitation.CastAura(excogitationTarget, Auras.Exogitation);
             }
 
@@ -246,6 +272,8 @@ namespace Magitek.Logic.Scholar
 
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ExcogitationHpPercent)
                 return false;
+
+            await UseRecitation();
 
             return await Spells.Excogitation.CastAura(Core.Me, Auras.Exogitation);
 
@@ -270,6 +298,25 @@ namespace Magitek.Logic.Scholar
                     return true;
 
                 return ScholarSettings.Instance.ExcogitationOnlyTank && unit.IsTank();
+            }
+            async Task UseRecitation()
+            {
+                if (!ScholarSettings.Instance.Recitation)
+                    return;
+
+                if (!ScholarSettings.Instance.RecitationWithExcog)
+                    return;
+
+                if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
+                    return;
+
+                if (!await Spells.Recitation.Cast(Core.Me))
+                    return;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Recitation)))
+                    return;
+
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Excogitation.Id, Core.Me));
             }
         }
 

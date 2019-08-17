@@ -76,6 +76,8 @@ namespace Magitek.Rotations.Astrologian
                     if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
                     if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
                     if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
+                    if (await Logic.Astrologian.Heal.Horoscope()) return true;
+                    if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Logic.Astrologian.Heal.Helios()) return true;

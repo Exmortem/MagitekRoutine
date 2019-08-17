@@ -46,6 +46,14 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(false)]
         public bool RecitationWithLustrate { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool RecitationWithExcog { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool RecitationWithAdlo { get; set; }
         #endregion
 
         #region Healing
@@ -359,7 +367,11 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(true)]
         public bool Aetherpact { get; set; }
-        
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AetherpactEnemies { get; set; }
+
         [Setting]
         [DefaultValue(60)]
         public int AetherpactMinimumFairieGauge { get; set; }
@@ -367,6 +379,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(75.0f)]
         public float AetherpactHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(100.0f)]
+        public float BreakAetherpactHp { get; set; }
 
         [Setting]
         [DefaultValue(45.0f)]

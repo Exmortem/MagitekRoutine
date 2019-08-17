@@ -229,6 +229,18 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
+        public bool Horoscope { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int HoroscopeAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(40.0f)]
+        public float HoroscopeHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool CelestialOpposition { get; set; }
 
         [Setting]
@@ -370,6 +382,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(85.0f)]
         public float CelestialIntersectionHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool CelestialIntersectionTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(true)]
