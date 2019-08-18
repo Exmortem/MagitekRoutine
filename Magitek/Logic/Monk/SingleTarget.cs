@@ -116,6 +116,8 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseShoulderTackle)
                 return false;
 
+            Logger.Write($@"[Magitek] The toggle for ShoulderTackle is {MonkSettings.Instance.UseShoulderTackle}");
+
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
