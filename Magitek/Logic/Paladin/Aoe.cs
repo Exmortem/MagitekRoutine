@@ -35,7 +35,31 @@ namespace Magitek.Logic.Paladin
 
             if (!canCoS)
                 return false;
-            
+
+            if (Spells.FightorFlight.Cooldown.Seconds <= 8)
+            {
+                //Right we want to check if we want to hold CoS.
+                if (Casting.LastSpell == Spells.FastBlade)
+                    return false;
+
+                if (Casting.LastSpell == Spells.RiotBlade)
+                    return false;
+
+                if (Casting.LastSpell == Spells.Confiteor)
+                    return false;
+
+                if (Casting.LastSpell == Spells.HolySpirit)
+                    return false;
+
+                if (Casting.LastSpell == Spells.Atonement)
+                    return false;
+
+                if (Casting.LastSpell == Spells.Intervene)
+                    return false;
+
+                return await Spells.CircleofScorn.Cast(Core.Me);
+            }
+
             return await Spells.CircleofScorn.Cast(Core.Me);
         }
 

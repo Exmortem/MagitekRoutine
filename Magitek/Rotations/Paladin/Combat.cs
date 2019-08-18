@@ -33,7 +33,6 @@ namespace Magitek.Rotations.Paladin
 
             if (await Buff.Oath()) return true;
 
-
             if (Utilities.Routines.Paladin.OnGcd)
             {
                 if (await Buff.Cover()) return true;
