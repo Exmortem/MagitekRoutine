@@ -29,7 +29,7 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <CheckBox Content="Deployment Tactics When " IsChecked="{Binding ScholarSettings.DeploymentTactics, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Deployment Tactics Crit Adlo When " IsChecked="{Binding ScholarSettings.DeploymentTactics, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.DeploymentTacticsAllyInRange, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Players Are In Range For Buff" />
             </StackPanel>
@@ -57,10 +57,13 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Recitation" IsChecked="{Binding ScholarSettings.Recitation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="With Lustrate" Margin="10,0" IsChecked="{Binding ScholarSettings.RecitationWithLustrate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="With Excog" Margin="10,0" IsChecked="{Binding ScholarSettings.RecitationWithExcog, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="With Indomitability" IsChecked="{Binding ScholarSettings.RecitationWithIndomitability, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
                 </StackPanel>
 
+
+                <CheckBox Content="With Adlo" Margin="0,5" IsChecked="{Binding ScholarSettings.RecitationWithAdlo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,5,0,0"  Content="Only If We Have No Aetherflow" IsChecked="{Binding ScholarSettings.RecitationOnlyNoAetherflow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
              
 

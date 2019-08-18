@@ -594,9 +594,6 @@
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <astrologian:Buffs />
                         </TabItem>
-                        <TabItem Header="Buff Extenders" Style="{DynamicResource MainTabBuffExtenders}">
-                            <astrologian:BuffExtenders />
-                        </TabItem>
                         <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
                             <astrologian:Alliance />
                         </TabItem>

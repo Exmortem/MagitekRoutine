@@ -79,8 +79,8 @@ namespace Magitek.Logic.Warrior
                 // If Inner Release has less than 22 seconds off cooldown
                 if (Spells.InnerRelease.Cooldown.Milliseconds < 22000)
                 {
-                    // If we're within melee range
-                    if (Core.Me.CurrentTarget.Distance(Core.Me.Location) <= 4)
+                    // If Onslaught is allowed & If we're within melee range
+                    if (WarriorSettings.Instance.UseOnslaught && Core.Me.CurrentTarget.Distance(Core.Me.Location) <= 4)
                     {
                         // Cast Onslaught
                         return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
@@ -269,8 +269,8 @@ namespace Magitek.Logic.Warrior
                 return false;
  
             if (Casting.LastSpell == Spells.FellCleave)
-            {
-                if (await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
+            {   //If Onslaught is allowed
+                if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
                 if (await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
             }
 

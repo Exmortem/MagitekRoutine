@@ -23,6 +23,12 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <CheckBox Content="True North" IsChecked="{Binding DragoonSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
                 <CheckBox Content="Lance Charge" IsChecked="{Binding DragoonSettings.LanceCharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
@@ -42,6 +48,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Dragon Sight" IsChecked="{Binding DragoonSettings.DragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Dragon Sight on Nearest DPS or Tank" IsChecked="{Binding DragoonSettings.DragonSightDpsOrTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}"/>
                 <CheckBox Content="Dragon Sight On Self" IsChecked="{Binding DragoonSettings.DragonSightOnSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>

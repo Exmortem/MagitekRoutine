@@ -135,8 +135,17 @@ namespace Magitek.Logic.Astrologian
 
             if (!Globals.PartyInCombat)
                 return false;
+            if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
+            {
+                var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
 
-            var celestialIntersectionTarget = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+                if (celestialIntersectionTank == null)
+                    return false;
+
+                return await Spells.CelestialIntersection.Heal(celestialIntersectionTank, false);
+            }
+
+            var celestialIntersectionTarget = Group.CastableAlliesWithin20.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
 
             if (celestialIntersectionTarget == null)
                 return false;
@@ -203,6 +212,35 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.CelestialOpposition.Heal(Core.Me, false);
         }
+        public static async Task<bool> Horoscope()
+        {
+            if (!AstrologianSettings.Instance.Horoscope)
+                return false;
+
+            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+                return false;
+
+            if (await Spells.Horoscope.Cast(Core.Me))
+                if (!await AspectedHelios())
+                            return await Spells.Helios.Cast(Core.Me);
+
+            return false;
+        }
+
+        public static async Task<bool> HoroscopePop()
+        {
+            if (AstrologianSettings.Instance.Horoscope)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.HoroscopeHelios))
+                return false;
+
+            if(Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+                return false;
+
+            return await Spells.Horoscope.Cast(Core.Me);
+        }
+
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)

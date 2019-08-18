@@ -28,7 +28,7 @@ namespace Magitek.Logic.BlackMage
                 if(Core.Me.CurrentMana < 10000)
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
-        return false;        
+            return false;        
         }
 
         public static async Task<bool> Despair()

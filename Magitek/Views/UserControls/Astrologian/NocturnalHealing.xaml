@@ -44,6 +44,14 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Percent" />
                 </StackPanel>
 
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content="Celestial Intersection " IsChecked="{Binding AstrologianSettings.CelestialIntersection, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox IsChecked="{Binding AstrologianSettings.CelestialIntersectionTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}"  />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Tank Only at" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.CelestialIntersectionHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -56,6 +64,16 @@
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing " />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.NocturnalHeliosMinManaPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Minimum Mana To Use" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Celestial Opposition " IsChecked="{Binding AstrologianSettings.NocturnalCelestialOpposition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.NocturnalCelestialOppositionHealthPercent, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent When " />
+                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.NocturnalCelestialOppositionAllies, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing " />
             </StackPanel>
         </controls:SettingsBlock>
 

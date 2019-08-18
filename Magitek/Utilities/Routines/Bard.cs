@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Models.Bard;
 
 namespace Magitek.Utilities.Routines
 {
@@ -17,17 +15,13 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies8Yards;
         public static List<DateTime> DoTProcEvents = new List<DateTime>();
         public static int OldSoulVoice;
-        public static List<SpellData> OGCDSpells = new List<SpellData>() {Spells.RagingStrikes, Spells.Barrage, Spells.BattleVoice,
-                                                                            Spells.PitchPerfect, Spells.Bloodletter, Spells.EmpyrealArrow,
-                                                                            Spells.RainofDeath, Spells.Shadowbite, Spells.Sidewinder,
-                                                                            Spells.TheWanderersMinuet, Spells.MagesBallad, Spells.ArmysPaeon,
-                                                                            Spells.Troubadour, Spells.NaturesMinne, Spells.TheWardensPaean,
-                                                                            Spells.HeadGraze, Spells.SecondWind, Spells.ArmsLength
-        };
-        public static Weaving WeavingHelper = new Weaving(OGCDSpells);
+        public static bool AlreadySnapped = false;
 
         public static void RefreshVars()
         {
+            CheckForDoTProcs();
+            CleanUpDoTProcList();
+
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
@@ -35,10 +29,17 @@ namespace Magitek.Utilities.Routines
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
 
-            CleanUpDoTProcList();
-            CheckForDoTProcs();
+            if (Casting.LastSpell == Spells.IronJaws && Core.Me.HasAura(Auras.RagingStrikes))
+            {
+                AlreadySnapped = true;
+            }
+            AlreadySnapped = AlreadySnapped && Core.Me.HasAura(Auras.RagingStrikes);
+            
+
         }
-        
+
+        public static uint Windbite => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.StormBite);
+        public static uint VenomousBite => (uint)(Core.Me.ClassLevel < 64 ? Auras.VenomousBite : Auras.CausticBite);
 
         public static List<uint> DotsList => Core.Me.ClassLevel >= 64 ?
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
@@ -54,8 +55,8 @@ namespace Magitek.Utilities.Routines
                 DoTProcEvents.Remove(_TickTime);
             }
             
-
-            if (DoTProcEvents.Count > 10)
+            //The More Enemies the more Proc data we need
+            if (DoTProcEvents.Count > Combat.Enemies.Count)
                 DoTProcEvents.Remove(DoTProcEvents.Last());
         }
 
@@ -78,7 +79,9 @@ namespace Magitek.Utilities.Routines
             if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
                 return;
 
-            DoTProcEvents.Insert(0, DateTime.Now);
+            DateTime newProcTime = DateTime.Now;
+
+            DoTProcEvents.Insert(0, newProcTime);
 
         }
 
@@ -94,8 +97,8 @@ namespace Magitek.Utilities.Routines
             }
 
             if (potentialTickInXms != 999999)
-                return 3000 - potentialTickInXms; // 3000ms, Tick Intervall, minus already passed time = time left
-            return 0; //In case we have zero data about past procs, its safe to assume a dot could happen at any time
+                return  3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
+            return 0; 
 
         }
 

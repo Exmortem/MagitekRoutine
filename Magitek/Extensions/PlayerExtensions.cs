@@ -13,7 +13,7 @@ namespace Magitek.Extensions
     {
         public static bool HasAetherflow(this LocalPlayer me)
         {
-            return MagitekActionResourceManager.Arcanist.Aetherflow > 0;
+            return ActionResourceManager.Scholar.Aetherflow > 0;
         }
 
         public static bool HasEnochian(this LocalPlayer me)

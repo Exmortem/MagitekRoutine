@@ -45,7 +45,7 @@
                 <CheckBox Grid.Row="2" Grid.Column="0" Content="Interrupt Damage to Heal" IsChecked="{Binding AstrologianSettings.InterruptDamageToHeal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0" Orientation="Horizontal">
                     <TextBlock Margin="1,0,0,0" Style="{DynamicResource TextBlockDefault}" Text="Always Do Damage If Target Time To Death Is Less Than" />
-                    <controls:Numeric Margin="2,0,0,0" Increment="5" MaxValue="60" MinValue="2" Value="{Binding AstrologianSettings.DoDamageIfTimeLeftLessThan, Mode=TwoWay}" />
+                    <controls:Numeric Margin="2,0,0,0" Increment="1" MaxValue="60" MinValue="1" Value="{Binding AstrologianSettings.DoDamageIfTimeLeftLessThan, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
             </Grid>
@@ -82,45 +82,22 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh When There Are " />
-                        <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DotRefreshSeconds, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left Of Damage Over Time" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh When Combust Has Less Than " />
+                        <controls:Numeric Increment="50" MaxValue="30000" MinValue="50" Value="{Binding AstrologianSettings.CombustRefreshMSeconds, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Milliseconds Left" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Margin="0,3" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Use Damage Over Time When The Enemy Has At Least " />
-                        <controls:Numeric Increment="100" MaxValue="99999999" MinValue="1" Value="{Binding AstrologianSettings.DotHealthMinimum, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health" />
+                        <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Damage Over Time Spells" IsChecked="{Binding AstrologianSettings.UseTTDForCombust, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" And At Least " />
-                        <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DotHealthMinimumPercent, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Don't Use DoT if Enemy Dying Within " />
+                        <controls:Numeric Increment="1" MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.DontCombustIfEnemyDyingWithin, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                     </StackPanel>
                 </Grid>
 
-            </Grid>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Damage Over Time Spells" IsChecked="{Binding AstrologianSettings.UseTimeTillDeathForDots, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Not Use Damage Over Time Spells If Enemy Is Dying Within  " />
-                <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DontDotIfEnemyDyingWithin, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
             </Grid>
         </controls:SettingsBlock>
 

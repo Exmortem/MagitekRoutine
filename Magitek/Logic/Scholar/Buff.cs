@@ -19,6 +19,14 @@ namespace Magitek.Logic.Scholar
         {
             if (Core.Me.Pet != null)
                 return false;
+            if (Core.Me.HasAura(Auras.Dissipation))
+                return false;
+
+            if (Casting.LastSpell == Spells.SummonEos)
+                return false;
+
+            if (Casting.LastSpell == Spells.SummonSelene)
+                return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
             {
@@ -80,13 +88,11 @@ namespace Magitek.Logic.Scholar
         {
             if (!ScholarSettings.Instance.DeploymentTactics)
                 return false;
-
             // Stop if we're in Combat, we can waste this when we don't know if the tank is pulling or not
             if (!Core.Me.InCombat)
                 return false;
-
             // Find someone who has the right amount of allies around them based on the users settings
-            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.HasAura(Auras.Galvanize) && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 10) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
+            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.HasAura(Auras.Galvanize) && r.HasAura(Auras.Catalyze) && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 10) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
                 return false;
@@ -193,6 +199,44 @@ namespace Magitek.Logic.Scholar
 
                 return true;
             }
+
+        }
+
+        public static async Task<bool> BreakAetherpact()
+        {
+            if (!ScholarSettings.Instance.Aetherpact)
+                return false;
+
+            if (!Globals.InParty)
+                return false;
+
+            if (!ActionManager.HasSpell(Spells.Aetherpact.Id))
+                return false;
+
+            if (!Group.CastableAlliesWithin30.Any(r => r.HasAura(Auras.FeyUnion) || r.HasAura(Auras.FeyUnion2)))
+                return false;
+
+            var aetherpactTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanDeAetherpact);
+
+            if (aetherpactTarget == null)
+                return false;
+
+            return await Spells.Aetherpact.Cast(aetherpactTarget);
+
+            bool CanDeAetherpact(GameObject unit)
+            {
+                if (unit.EnemiesNearby(6).Count() > ScholarSettings.Instance.AetherpactEnemies)
+                    return false;
+
+                if (unit.CurrentHealthPercent >= ScholarSettings.Instance.BreakAetherpactHp)
+                    return false;
+
+                if (!unit.HasAura(Auras.FeyUnion) || !unit.HasAura(Auras.FeyUnion2))
+                    return false;
+
+                return true;
+            }
+
         }
     }
 }

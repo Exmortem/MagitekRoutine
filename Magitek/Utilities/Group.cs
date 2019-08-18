@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -122,6 +123,7 @@ namespace Magitek.Utilities
                 if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
                 if (distance <= 30) { CastableAlliesWithin20.Add(ally); }
                 if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
+                if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
                 if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
             }
 
@@ -146,6 +148,7 @@ namespace Magitek.Utilities
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin15 = new List<Character>();
+        public static readonly List<Character> CastableAlliesWithin12 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin10 = new List<Character>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Magitek.Logic.Astrologian;
 
 namespace Magitek.Rotations.Astrologian
 {
@@ -6,7 +7,7 @@ namespace Magitek.Rotations.Astrologian
     {
         public static async Task<bool> Execute()
         {
-            return false;
+            return await Cards.PlayCards();
         }
     }
 }
