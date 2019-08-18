@@ -36,7 +36,7 @@ namespace Magitek.Logic.Paladin
             if (!canCoS)
                 return false;
 
-            if (Spells.FightorFlight.Cooldown.Seconds <= 8)
+            if (Spells.FightorFlight.Cooldown.Seconds <= 8 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 8000))
             {
                 //Right we want to check if we want to hold CoS.
                 if (Casting.LastSpell == Spells.FastBlade)
