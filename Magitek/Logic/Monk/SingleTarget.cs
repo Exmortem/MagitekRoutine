@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -136,34 +137,31 @@ namespace Magitek.Logic.Monk
             return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> ElixerField()
+        {
+            // Off GCD
+
+            if (!MonkSettings.Instance.UseElixerField)
+                return false;
+
+            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 25 && r.InCombat);
+            var cosCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
+
+            var canCoS = cosCount >= enemyCount || cosCount > 2;
+
+            if (!canCoS)
+                return false;
+
+            if (Spells.ElixirField.Cooldown.Seconds != 0)
+                return false;
+
+            return await Spells.ElixirField.Cast(Core.Me);
+        }
+
         public static bool PerfectBalanceRoT()
         {
             if (Core.Me.HasAura(Auras.PerfectBalance))
             {
-                ////oh boy... right.... let's figure out what we are going to do here.
-                //if (Utilities.Routines.Monk.PBStage == 0)
-                //{
-                //    if (Core.Me.HasAura(Auras.LeadenFist))
-                //    {
-                //        Utilities.Routines.Monk.PBStage = 1;
-                //        return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
-                //    }
-                //    else
-                //        return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
-                //}
-
-                //if (Utilities.Routines.Monk.PBStage == 1)
-                //{               
-                //        Utilities.Routines.Monk.PBStage = 2;
-                //        return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
-                //}
-
-
-                //if (Utilities.Routines.Monk.PBStage == 2)
-                //{
-                //    Utilities.Routines.Monk.PBStage = 0;
-                //    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
-                //}
 
                 if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
                 {

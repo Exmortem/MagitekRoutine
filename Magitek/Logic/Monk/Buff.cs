@@ -137,6 +137,9 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 52)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
+            if (Core.Me.InCombat)
+                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+
             return await Spells.FormShift.Cast(Core.Me);
         }
     }
