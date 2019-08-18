@@ -31,96 +31,89 @@ namespace Magitek.Rotations.Paladin
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-            if (await Buff.Oath()) return true;
-
-            if (Utilities.Routines.Paladin.OnGcd)
+            if (!Core.Me.HasAura(Auras.PassageOfArms))
             {
-                if (await Buff.Cover()) return true;
-                if (await Tank.Provoke(PaladinSettings.Instance)) return true;
-                if (await Defensive.Defensives()) return true;           
-                if (await Buff.Intervention()) return true;
-                if (await Buff.DivineVeil()) return true;
-                if (await SingleTarget.Requiescat()) return true;
-                if (await Buff.FightOrFlight()) return true;
-                if (await SingleTarget.Interject()) return true;
-                if (!Utilities.Routines.Paladin.OGCDHold)
+                if (await Buff.Oath()) return true;
+
+                if (Utilities.Routines.Paladin.OnGcd)
                 {
-                    if (await SingleTarget.SpiritsWithin()) return true;
-                    if (await Aoe.CircleofScorn()) return true;
-                                   if (await SingleTarget.Intervene()) return true;
-                }
-                if (await Buff.Sheltron()) return true;
-            }
-
-            if (await SingleTarget.ShieldBash()) return true;
-            if (await SingleTarget.ShieldLobLostAggro()) return true;
-            if (await Aoe.Confiteor()) return true;
-            if (await Aoe.HolyCircle()) return true;
-            if (await Aoe.TotalEclipse()) return true;
-            if (await SingleTarget.HolySpirit()) return true;
-            if (await SingleTarget.Atonement()) return true;
-
-
-            if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel  <60)
-            {
-                return await Spells.RageofHalone.Cast(Core.Me.CurrentTarget);
-            }
-
-            #region Last Spell RiotBlade
-            if (ActionManager.LastSpell == Spells.RiotBlade)
-            {
-                if (Core.Me.ClassLevel >= 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
-                {
-                    if (await Spells.GoringBlade.Cast(Core.Me.CurrentTarget)) return true;
+                    if (await Buff.Cover()) return true;
+                    if (await Tank.Provoke(PaladinSettings.Instance)) return true;
+                    if (await Defensive.Defensives()) return true;
+                    if (await Buff.Intervention()) return true;
+                    if (await Buff.DivineVeil()) return true;
+                    if (await SingleTarget.Requiescat()) return true;
+                    if (await Buff.FightOrFlight()) return true;
+                    if (await SingleTarget.Interject()) return true;
+                    if (!Utilities.Routines.Paladin.OGCDHold)
+                    {
+                        if (await SingleTarget.SpiritsWithin()) return true;
+                        if (await Aoe.CircleofScorn()) return true;
+                        if (await SingleTarget.Intervene()) return true;
+                    }
+                    if (await Buff.Sheltron()) return true;
                 }
 
-                if (Core.Me.ClassLevel > 59)
-                    return await Spells.RoyalAuthority.Cast(Core.Me.CurrentTarget);
+                if (await SingleTarget.ShieldBash()) return true;
+                if (await SingleTarget.ShieldLobLostAggro()) return true;
+                if (await Aoe.Confiteor()) return true;
+                if (await Aoe.HolyCircle()) return true;
+                if (await Aoe.TotalEclipse()) return true;
+                if (await SingleTarget.HolySpirit()) return true;
+                if (await SingleTarget.Atonement()) return true;
 
-                return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
-            }
-            #endregion
 
-            #region Last Spell FastBlade
-            if (ActionManager.LastSpell == Spells.FastBlade)
-            {
-                // Low level just fast blade
-                if (Core.Me.ClassLevel < 4)
+                if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel < 60)
                 {
+                    return await Spells.RageofHalone.Cast(Core.Me.CurrentTarget);
+                }
+
+                #region Last Spell RiotBlade
+                if (ActionManager.LastSpell == Spells.RiotBlade)
+                {
+                    if (Core.Me.ClassLevel >= 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
+                    {
+                        if (await Spells.GoringBlade.Cast(Core.Me.CurrentTarget)) return true;
+                    }
+
+                    if (Core.Me.ClassLevel > 59)
+                        return await Spells.RoyalAuthority.Cast(Core.Me.CurrentTarget);
+
                     return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
                 }
-                
-                //// if we have RA and RA in shield oath is enabled riot blade
-                //if (ActionManager.HasSpell(Spells.RoyalAuthority.Id))
-                //{
-                //    if (PaladinSettings.Instance.RoyalAuthorityComboInShieldOath)
-                //    {
-                //        return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
-                //    }
-                //}
+                #endregion
 
-                //if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, PaladinSettings.Instance.RefreshGoringBlade * 1000))
-                //{
-                //    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
-                //}
-
-                if (Core.Me.ClassLevel >= 4)
+                #region Last Spell FastBlade
+                if (ActionManager.LastSpell == Spells.FastBlade)
                 {
-                    return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
+                    // Low level just fast blade
+                    if (Core.Me.ClassLevel < 4)
+                    {
+                        return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
+                    }
+
+                    if (Core.Me.ClassLevel >= 4)
+                    {
+                        return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
+                    }
+
+                    return false;
                 }
+                #endregion
 
-                return false;              
+                if (await Spells.FastBlade.Cast(Core.Me.CurrentTarget)) return true;
+
+                if (PaladinSettings.Instance.ShieldLobToPull && !Core.Me.InCombat)
+                {
+                    return await Spells.ShieldLob.Cast(Core.Me.CurrentTarget);
+                }
+                if (PaladinSettings.Instance.HolySpiritWhenOutOfMeleeRange && Core.Me.ClassLevel >= 64 && await Spells.HolySpirit.Cast(Core.Me.CurrentTarget)) return true;
+                return await SingleTarget.ShieldLob();
             }
-            #endregion
-            
-            if (await Spells.FastBlade.Cast(Core.Me.CurrentTarget)) return true;
-
-            if (PaladinSettings.Instance.ShieldLobToPull && !Core.Me.InCombat)
+            else
             {
-                return await Spells.ShieldLob.Cast(Core.Me.CurrentTarget);
+                return false;
             }
-            if (PaladinSettings.Instance.HolySpiritWhenOutOfMeleeRange && Core.Me.ClassLevel >= 64 && await Spells.HolySpirit.Cast(Core.Me.CurrentTarget)) return true;
-            return await SingleTarget.ShieldLob();
         }
     }
 }
