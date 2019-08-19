@@ -6,7 +6,6 @@ namespace Magitek.Utilities.Routines
     internal static class Warrior
     {
         public static bool OnGcd => Spells.HeavySwing.Cooldown > TimeSpan.FromMilliseconds(500);
-        public static bool NeedThreatCombo;
         public static DateTime LastOverpower;
         public static int PullOverpower;
 

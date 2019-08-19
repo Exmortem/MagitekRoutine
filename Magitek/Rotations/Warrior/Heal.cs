@@ -20,14 +20,6 @@ namespace Magitek.Rotations.Warrior
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
             if (await GambitLogic.Gambit()) return true;
 
-            if (Globals.InParty && WarriorSettings.Instance.OpenWithThreatCombo)
-            {
-                if (!Globals.PartyInCombat)
-                {
-                    Utilities.Routines.Warrior.NeedThreatCombo = true;
-                }
-            }
-
             return false;
         }
     }

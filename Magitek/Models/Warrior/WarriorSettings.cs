@@ -14,7 +14,19 @@ namespace Magitek.Models.Warrior
 
         [Setting]
         [DefaultValue(false)]
-        public bool IsMainTank { get; set; }
+        public bool UseDefiance { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEquilibrium { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseInfuriate { get; set; }
+
+        [Setting]
+        [DefaultValue(70)]
+        public int EquilibriumHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -37,7 +49,7 @@ namespace Magitek.Models.Warrior
         public bool UseOverpower { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool OverpowerNeverInterruptCombo { get; set; }
 
         [Setting]
@@ -45,12 +57,8 @@ namespace Magitek.Models.Warrior
         public int OverpowerMinimumEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool UseOverpowerInterval { get; set; }
-
-        [Setting]
-        [DefaultValue(12)]
-        public int OverpowerIntervalSeconds { get; set; }
+        [DefaultValue(false)]
+        public bool OverpowerOnlyAsMainTank { get; set; }
 
         [Setting]
         [DefaultValue(2)]
@@ -58,7 +66,11 @@ namespace Magitek.Models.Warrior
 
         [Setting]
         [DefaultValue(true)]
-        public bool OverpowerOnlyAsMainTank { get; set; }
+        public bool UseOverpowerInterval { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int OverpowerIntervalSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -79,10 +91,6 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(true)]
         public bool UseShakeItOff { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseShakeItOffOnAnyDebuff { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -117,35 +125,23 @@ namespace Magitek.Models.Warrior
         public bool UseTomahawkToPullExtraEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
-        public float UseTomahawkMinTpPercent { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseOnslaught { get; set; }
 
         [Setting]
-        [DefaultValue(70)]
-        public int UseOnslaughtMinBeastGauge { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
-        public bool AttemptToStayOnTopOfEnmityInMainTankMode { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int AttemptToStayOnTopOfEnmityByPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool OpenWithThreatCombo { get; set; }
+        public bool UseUpheaval { get; set; }
 
         [Setting]
         [DefaultValue(50)]
-        public int UIseInfurateAtBeastGauge { get; set; }
+        public int UseInfuriateAtBeastGauge { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int KeepAtLeastXBeastGauge { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseInnerReleaseDefiance { get; set; }
+        public bool UseInnerRelease { get; set; }
     }
 }

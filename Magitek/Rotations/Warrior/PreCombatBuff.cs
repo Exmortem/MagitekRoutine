@@ -17,7 +17,7 @@ namespace Magitek.Rotations.Warrior
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
             Utilities.Routines.Warrior.PullOverpower = 0;
 
-            return await Buff.Stance();
+            return await Buff.Defiance();
         }
     }
 }

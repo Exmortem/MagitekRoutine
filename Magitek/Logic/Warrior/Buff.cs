@@ -12,50 +12,58 @@ namespace Magitek.Logic.Warrior
 {
     internal static class Buff
     {
-        internal static async Task<bool> Stance()
+        public static async Task<bool> Defiance()
         {
-            if (WarriorSettings.Instance.IsMainTank && !Core.Me.HasAura(Auras.Defiance))
-                return await Spells.Defiance.Cast(Core.Me);
+            if (!WarriorSettings.Instance.UseDefiance)
+            {
+                if (Core.Me.HasAura(Auras.Defiance))
+                {
+                    return await Spells.Defiance.Cast(Core.Me);
+                }
 
-            if (!WarriorSettings.Instance.IsMainTank && !Core.Me.HasAura(Auras.Defiance))
-                return true;
+                return false;
+            }
 
-            return false;
+            if (Core.Me.HasAura(Auras.Defiance))
+                return false;
+
+            return await Spells.Defiance.Cast(Core.Me);
         }
-
-        internal static async Task<bool> InnerReleaseMainTank()
+        internal static async Task<bool> Equilibrium()
         {
-            if (!WarriorSettings.Instance.UseInnerReleaseDefiance)
+            if (!WarriorSettings.Instance.UseEquilibrium)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.EquilibriumHealthPercent)
+                return false;
+
+            return await Spells.Equilibrium.Cast(Core.Me);
+        }
+        //Berserk Becomes Inner Release
+        internal static async Task<bool> InnerRelease()
+        {
+            if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
             if (!ActionManager.HasSpell(Spells.InnerRelease.Id))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Defiance))
-                return false;
-
-            if (ActionResourceManager.Warrior.BeastGauge < 50)
-                return false;
-
-            if (Combat.CombatTotalTimeLeft < 20)
-                return false;
-
-            return await Spells.InnerRelease.Cast(Core.Me);
-        }
-
-        internal static async Task<bool> InnerReleaseOffTank()
-        {
-            if (!ActionManager.HasSpell(Spells.InnerRelease.Id))
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Defiance))
-                return true;
-
-            if (!Core.Me.HasAura(Auras.StormsEye, true, 17000))
+            if (Core.Me.CurrentTarget == null)
                 return false;
 
             if (Spells.InnerRelease.Cooldown != TimeSpan.Zero)
                 return false;
+            //Only use Inner Release after we have Storm's Eye
+            if (!Core.Me.HasAura(Auras.StormsEye, true, 17000))
+                return false;
+
+            if (WarriorSettings.Instance.UseInnerRelease)
+            {
+                if (ActionManager.LastSpell != Spells.HeavySwing)
+                    return false;
+
+                return await Spells.Berserk.Cast(Core.Me);
+            }
 
             // We're assuming IR is usable from here
 
@@ -65,25 +73,49 @@ namespace Magitek.Logic.Warrior
                 // Wait until the GCD has 825 or less remaining
                 await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.Milliseconds <= 825);
             }
-  
+
+            if (Combat.CombatTotalTimeLeft < 20)
+                return false;
+
             return await Spells.InnerRelease.Cast(Core.Me);
         }
-
         internal static async Task<bool> Beserk()
         {
-            // Use on CD if below than max level
-            if (Core.Me.ClassLevel < 70)
-                return await Spells.Berserk.Cast(Core.Me);
-
-            if (!WarriorSettings.Instance.IsMainTank && Spells.InnerRelease.Cooldown.TotalSeconds <= 63)
+            if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
+
+            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
+                return false;
+
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (Core.Me.ClassLevel > 70)
+                return false;
+
+            if (Spells.Berserk.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft < 20)
+                return false;
+            //Only use Berserk After Heavy Swing
+            if (WarriorSettings.Instance.UseInnerRelease)
+            {
+                if (ActionManager.LastSpell != Spells.HeavySwing)
+                    return false;
+
+                return await Spells.Berserk.Cast(Core.Me);
+            }
 
             return await Spells.Berserk.Cast(Core.Me);
         }
 
         internal static async Task<bool> Infuriate()
         {
-            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UIseInfurateAtBeastGauge)
+            if (!WarriorSettings.Instance.UseInfuriate)
+                return false;
+
+            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
                 return false;
 
             return await Spells.Infuriate.Cast(Core.Me);

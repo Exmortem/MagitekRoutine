@@ -17,16 +17,13 @@ namespace Magitek.Logic.Warrior
 			if (!WarriorSettings.Instance.UseDecimate)
 				return false;
 
-			if (!Core.Me.HasAura(Auras.Defiance))
-				return false;
-
-			if (ActionResourceManager.Warrior.BeastGauge < 50 && !Core.Me.HasAura(Auras.InnerRelease))
+			if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
 				return false;
 
 			if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies) 
 				return false;
 
-			if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < 50) 
+			if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50) 
 				return await Spells.ChaoticCyclone.Cast(Core.Me);
 
 			return await Spells.Decimate.Cast(Core.Me);
@@ -38,13 +35,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Deliverance))
-                return false;
-
-            if (Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < 25)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < 50)
+            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
@@ -52,21 +43,38 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.Decimate.Cast(Core.Me);
         }
+        public static async Task<bool> InnerReleaseDecimateSpam()
+        {
+            if (!Core.Me.HasAura(Auras.InnerRelease))
+                return false;
 
-       internal static async Task<bool> Overpower()
-		
-		
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
+                return false;
+
+            if (Casting.LastSpell == Spells.Decimate)
+            {   //If Onslaught is allowed
+                if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
+                if (WarriorSettings.Instance.UseUpheaval && await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
+            }
+
+            await Spells.Decimate.Cast(Core.Me.CurrentTarget);
+
+            // Keep returning true as long as we have Inner Release
+            return true;
+        }
+
+        internal static async Task<bool> Overpower()
         {
             if (!WarriorSettings.Instance.UseOverpower) 
+                return false;
+
+            if (!ActionManager.HasSpell(Spells.Overpower.Id))
                 return false;
 
             if (Core.Me.CurrentTarget == null)
                 return false;
 
             if (BotManager.Current.IsAutonomous)
-                return false;
-
-            if (!Globals.InParty)
                 return false;
 
             if (WarriorSettings.Instance.OverpowerNeverInterruptCombo)
@@ -77,15 +85,10 @@ namespace Magitek.Logic.Warrior
                 if (Casting.LastSpell == Spells.Maim)
                     return false;
             }
-			if (ActionManager.LastSpell == Spells.MythrilTempest && WarriorSettings.Instance.UseOverpower && Core.Me.ClassLevel >= 40)
-			{
-				return await Spells.MythrilTempest.Cast(Core.Me);
-			}
-			return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
-
-			if (!ActionManager.HasSpell(Spells.Overpower.Id))
-                return false;
-
+            if (ActionManager.LastSpell == Spells.Overpower && WarriorSettings.Instance.UseOverpower && Core.Me.ClassLevel >= 40)
+            {
+                return await Spells.MythrilTempest.Cast(Core.Me);
+            }
 
             if (Core.Me.Distance(Core.Me.CurrentTarget) <= 8 + Core.Me.CombatReach && Combat.CombatTime.Elapsed.Seconds < 20 && Utilities.Routines.Warrior.PullOverpower < WarriorSettings.Instance.OverpowersOnPull)
             {
