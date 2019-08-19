@@ -85,6 +85,9 @@ namespace Magitek.Logic.Warrior
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
                 return false;
 
+            if (Core.Me.HasAura(Auras.NascentChaos))
+                return false;
+
             // If we have Inner Release
             if (ActionManager.HasSpell(Spells.InnerRelease.Id))
             {
@@ -127,7 +130,10 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.ClassLevel < 54)
                 return false;
 
-            if (Core.Me.HasAura(Auras.StormsEye, true, 9000))
+            if (Core.Me.ClassLevel < 80 && Core.Me.HasAura(Auras.NascentChaos))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
@@ -239,6 +245,9 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
+                return false;
+
+            if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
             if (ActionManager.HasSpell(Spells.InnerRelease.Id))

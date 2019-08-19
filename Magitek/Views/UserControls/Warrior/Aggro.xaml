@@ -25,7 +25,7 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Overpower / Mythril Tempest When There Are " IsChecked="{Binding WarriorSettings.UseOverpower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Overpower Combo When There Are " IsChecked="{Binding WarriorSettings.UseOverpower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowerMinimumEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>

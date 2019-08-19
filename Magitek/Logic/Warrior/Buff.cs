@@ -57,28 +57,15 @@ namespace Magitek.Logic.Warrior
             if (Combat.CombatTotalTimeLeft < 30)
                 return false;
             //Only use Inner Release after we have Storm's Eye
-            if (!Core.Me.HasAura(Auras.StormsEye, true, 17000))
+            if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
                 return false;
-
-            if (WarriorSettings.Instance.UseInnerRelease)
-            {
-                if (ActionManager.LastSpell != Spells.HeavySwing)
-                    return false;
-
-                return await Spells.Berserk.Cast(Core.Me);
-            }
-
             // We're assuming IR is usable from here
-
             // If we're on GCD with more than 825 milliseconds left
             if (Spells.HeavySwing.Cooldown.Milliseconds > 825)
             {
                 // Wait until the GCD has 825 or less remaining
                 await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.Milliseconds <= 825);
             }
-
-            if (Combat.CombatTotalTimeLeft < 20)
-                return false;
 
             return await Spells.InnerRelease.Cast(Core.Me);
         }
@@ -111,16 +98,26 @@ namespace Magitek.Logic.Warrior
         {
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
-            //Save at least 1 Infuriate for when you want Inner Chaos (I will add in a buff check for this later.)
-            if (Core.Me.ClassLevel == 80 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
-                return false;
-            //If we are in Inner Release and lv 80, don't use Infuriate
-            if (Core.Me.ClassLevel == 80 && Core.Me.HasAura(Auras.InnerRelease))
-                return false;
-            //Buff Check Logic here
 
             if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
                 return false;
+            //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
+            if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
+                return false;
+            //If we are in Inner Release and lv 72+, don't use Infuriate
+            if (Core.Me.ClassLevel >= 72 && Core.Me.HasAura(Auras.InnerRelease))
+                return false;
+            //Buff Check Logic here
+            // If Inner Release as 10 seconds or less left on cooldown
+            if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
+            {
+                // If we don't have Storm's Eye aura for at least 10 seconds + Inner Release cooldown time
+                if (!Core.Me.HasAura(Auras.StormsEye, true, 10000 + Spells.InnerRelease.Cooldown.Milliseconds))
+                {
+                    // Use Storm's Eye
+                    return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
+                }
+            }
 
             return await Spells.Infuriate.Cast(Core.Me);
         }

@@ -26,7 +26,7 @@ namespace Magitek.Logic.Warrior
 			if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50) 
 				return await Spells.ChaoticCyclone.Cast(Core.Me);
 
-			return await Spells.Decimate.Cast(Core.Me);
+			return await Spells.SteelCyclone.Cast(Core.Me);
 		}
 
 
@@ -38,10 +38,15 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
                 return false;
 
+            if (Core.Me.HasAura(Auras.NascentChaos) && Core.Me.ClassLevel < 80)
+            {
+                return await Spells.Decimate.Cast(Core.Me);
+            }
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
                 return false;
 
-            return await Spells.Decimate.Cast(Core.Me);
+            return await Spells.SteelCyclone.Cast(Core.Me);
         }
         public static async Task<bool> InnerReleaseDecimateSpam()
         {
@@ -60,7 +65,7 @@ namespace Magitek.Logic.Warrior
                 if (WarriorSettings.Instance.UseUpheaval && await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
             }
 
-            await Spells.Decimate.Cast(Core.Me.CurrentTarget);
+            await Spells.SteelCyclone.Cast(Core.Me.CurrentTarget);
 
             // Keep returning true as long as we have Inner Release
             return true;
