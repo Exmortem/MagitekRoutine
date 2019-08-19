@@ -82,6 +82,15 @@ namespace Magitek.Logic.Warrior
 
             if (await Tank.Rampart(WarriorSettings.Instance)) return true;
 
+            /*public static async Task<bool> ThrillofBattle()
+            {
+                if (!WarriorSettings.Instance.UseThrillOfBattle)
+                    return false;
+                if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.ThrillOfBattleHpPercentage)
+
+                    return await Spells.ThrillofBattle.Cast(Core.Me);
+            }*/
+
             #region ShakeItOff
             if (WarriorSettings.Instance.UseShakeItOff)
             {

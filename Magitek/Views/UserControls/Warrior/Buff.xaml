@@ -13,19 +13,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Thrill Of Battle When Under " IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.ThrillOfBattleHpPercentage, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Infuriate At " IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.UIseInfurateAtBeastGauge, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Or Under Beast Gauge" />
+                    <CheckBox Content="Use Berserk / Inner Release " IsChecked="{Binding WarriorSettings.UseInnerRelease, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
@@ -33,7 +21,25 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Inner Release In Defiance " IsChecked="{Binding WarriorSettings.UseInnerReleaseDefiance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Thrill Of Battle When Under " IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.ThrillOfBattleHpPercentage, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Use Equilibrium When Under" IsChecked="{Binding WarriorSettings.UseEquilibrium, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.EquilibriumHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent(WIP)" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Use Infuriate At " IsChecked="{Binding WarriorSettings.UseInfuriate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Increment="10" MaxValue="100" MinValue="10" Value="{Binding WarriorSettings.UseInfuriateAtBeastGauge, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Or Under Beast Gauge" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

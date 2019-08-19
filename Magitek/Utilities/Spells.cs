@@ -555,6 +555,7 @@ namespace Magitek.Utilities
         public static readonly SpellData HeavySwing = DataManager.GetSpellData(31);
         public static readonly SpellData Maim = DataManager.GetSpellData(37);
         public static readonly SpellData Berserk = DataManager.GetSpellData(38);
+        public static readonly SpellData ThrillofBattle = DataManager.GetSpellData(40);
         public static readonly SpellData Overpower = DataManager.GetSpellData(41);
         public static readonly SpellData StormsPath = DataManager.GetSpellData(42);
         public static readonly SpellData Holmgang = DataManager.GetSpellData(43);
@@ -563,19 +564,19 @@ namespace Magitek.Utilities
         public static readonly SpellData Tomahawk = DataManager.GetSpellData(46);
         public static readonly SpellData Defiance = DataManager.GetSpellData(48);
         public static readonly SpellData InnerBeast = DataManager.GetSpellData(49);
-        public static readonly SpellData InnerRelease = DataManager.GetSpellData(7389);
-        public static readonly SpellData Upheaval = DataManager.GetSpellData(7387);
         public static readonly SpellData SteelCyclone = DataManager.GetSpellData(51);
         public static readonly SpellData Infuriate = DataManager.GetSpellData(52);
-        public static readonly SpellData Deliverance = DataManager.GetSpellData(3548);
-        public static readonly SpellData Onslaught = DataManager.GetSpellData(7386);
         public static readonly SpellData FellCleave = DataManager.GetSpellData(3549);
         public static readonly SpellData Decimate = DataManager.GetSpellData(3550);
         public static readonly SpellData RawIntuition = DataManager.GetSpellData(3551);
+        public static readonly SpellData Equilibrium = DataManager.GetSpellData(3552);
+        public static readonly SpellData Onslaught = DataManager.GetSpellData(7386);
+        public static readonly SpellData Upheaval = DataManager.GetSpellData(7387);
         public static readonly SpellData ShakeItOff = DataManager.GetSpellData(7388);
-        public static readonly SpellData ChaoticCyclone = DataManager.GetSpellData(16462);
+        public static readonly SpellData InnerRelease = DataManager.GetSpellData(7389);
         public static readonly SpellData MythrilTempest = DataManager.GetSpellData(16462);
         public static readonly SpellData InnerChaos = DataManager.GetSpellData(16465);
+        public static readonly SpellData ChaoticCyclone = DataManager.GetSpellData(16462);
         #endregion
 
         // WHM

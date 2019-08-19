@@ -222,7 +222,7 @@ namespace Magitek.Logic.Astrologian
 
             if (await Spells.Horoscope.Cast(Core.Me))
                 if (!await AspectedHelios())
-                            return await Spells.Helios.Cast(Core.Me);
+                    return await Spells.Helios.Cast(Core.Me);
 
             return false;
         }
@@ -240,7 +240,6 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.Horoscope.Cast(Core.Me);
         }
-
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)

@@ -44,6 +44,9 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.OnPvpMap())
                 return false;
 
+            if (!WarriorSettings.Instance.UseDefiance)
+                return false;
+
             if (!WarriorSettings.Instance.UseTomahawkOnLostAggro)
                 return false;
 
@@ -73,30 +76,38 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
+            if (!Core.Me.HasAura(Auras.StormsEye))
+                return false;
+
+            if (!WarriorSettings.Instance.UseUpheaval)
+                return false;
+
+            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
+                return false;
+
+            if (Core.Me.HasAura(Auras.NascentChaos))
+                return false;
+
             // If we have Inner Release
             if (ActionManager.HasSpell(Spells.InnerRelease.Id))
             {
-                // If Inner Release has less than 22 seconds off cooldown
-                if (Spells.InnerRelease.Cooldown.Milliseconds < 22000)
+                // If Inner Release has less than 30 seconds before it is off cooldown
+                if (Spells.InnerRelease.Cooldown.Milliseconds < 30000)
                 {
-                    // If Onslaught is allowed & If we're within melee range
-                    if (WarriorSettings.Instance.UseOnslaught && Core.Me.CurrentTarget.Distance(Core.Me.Location) <= 4)
-                    {
-                        // Cast Onslaught
-                        return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
-                    }
+                        return false;
+
                 }
             }
 
             return await Spells.Upheaval.Cast(Core.Me.CurrentTarget);
         }
 
-        internal static async Task<bool> InnerBeast()
+        internal static async Task<bool> InnerBeast()//Becomes Fell Cleave
         {
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Defiance))
+            if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
             if (!Core.Me.HasAura(Auras.InnerRelease))
@@ -104,7 +115,7 @@ namespace Magitek.Logic.Warrior
                 if (ActionResourceManager.Warrior.BeastGauge < 50)
                     return false;
 
-                if (Spells.Berserk.Cooldown.TotalSeconds < 5 && Core.Me.CurrentHealthPercent >= 50)
+                if (Spells.Berserk.Cooldown.TotalSeconds < 15)
                     return false;
             }
 
@@ -119,34 +130,13 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.ClassLevel < 54)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Deliverance))
+            if (Core.Me.ClassLevel < 80 && Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
-            // We don't have Inner Release
-            if (!Core.Me.HasAura(Auras.InnerRelease))
-            {
-                // Our Beast Gauge is 90 or higher
-                if (ActionResourceManager.Warrior.BeastGauge >= 90)
-                {
-                    // Storm's Eye has at least 9 seconds left on it
-                    if (Core.Me.HasAura(Auras.StormsEye, true, 9000))
-                    {
-                        // Use Fell Cleave
-                        return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-                    }
-                }
-
-                if (Spells.Infuriate.Cooldown.Milliseconds < 6000)
-                {
-                    return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-                }
-            }
-            
-
-            if (Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < 25)
+            if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < 50)
+            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
                 return false;
 
             return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
@@ -177,8 +167,8 @@ namespace Magitek.Logic.Warrior
                 // If Inner Release as 10 seconds or less left on cooldown
                 if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
                 {
-                    // If we don't have Storm's Eye aura for at least 17 seconds + Inner Release cooldown time
-                    if (!Core.Me.HasAura(Auras.StormsEye, true, 17000 + Spells.InnerRelease.Cooldown.Milliseconds))
+                    // If we don't have Storm's Eye aura for at least 10 seconds + Inner Release cooldown time
+                    if (!Core.Me.HasAura(Auras.StormsEye, true, 10000 + Spells.InnerRelease.Cooldown.Milliseconds))
                     {
                         // Use Storm's Eye
                         return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
@@ -254,11 +244,20 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseOnslaught)
                 return false;
 
-            if (!Utilities.Routines.Warrior.OnGcd)
+            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
                 return false;
 
-            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.UseOnslaughtMinBeastGauge)
+            if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
+
+            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
+            {
+                // If Inner Release as 10 seconds or less left on cooldown
+                if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
+                {//Don't cast Onslaught
+                    return false;
+                }
+            }
 
             return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
         }
@@ -271,7 +270,7 @@ namespace Magitek.Logic.Warrior
             if (Casting.LastSpell == Spells.FellCleave)
             {   //If Onslaught is allowed
                 if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
-                if (await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
+                if (WarriorSettings.Instance.UseUpheaval && await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
             }
 
             await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
