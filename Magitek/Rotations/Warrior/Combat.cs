@@ -32,8 +32,12 @@ namespace Magitek.Rotations.Warrior
             {
                 if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;
+                if (await Buff.Beserk()) return true;
                 if (await Buff.InnerRelease()) return true;
+                if (await Buff.Infuriate()) return true;
                 if (await Buff.Equilibrium()) return true;
+                if (await SingleTarget.Onslaught()) return true;
+                if (await SingleTarget.Upheaval()) return true;
             }
 
             if (WarriorSettings.Instance.UseDefiance)
@@ -44,15 +48,11 @@ namespace Magitek.Rotations.Warrior
 
             if (await Aoe.SteelCyclone()) return true;
             if (await Aoe.Decimate()) return true;
-            if (await Aoe.Overpower()) return true;
             if (await Aoe.InnerReleaseDecimateSpam()) return true;
+            if (await Aoe.Overpower()) return true;
             if (await SingleTarget.InnerBeast()) return true;
             if (await SingleTarget.FellCleave()) return true;
             if (await SingleTarget.InnerReleaseFellCleaveSpam()) return true;
-            if (await SingleTarget.Onslaught()) return true;
-            if (await Buff.Beserk()) return true;
-            if (await Buff.Infuriate()) return true;
-            if (await SingleTarget.Upheaval()) return true;
 
             // Main Rotation Part
 

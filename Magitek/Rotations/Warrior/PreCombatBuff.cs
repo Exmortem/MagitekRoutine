@@ -15,7 +15,6 @@ namespace Magitek.Rotations.Warrior
             await Casting.CheckForSuccessfulCast();        
             Globals.InParty = PartyManager.IsInParty;
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
-            Utilities.Routines.Warrior.PullOverpower = 0;
 
             return await Buff.Defiance();
         }

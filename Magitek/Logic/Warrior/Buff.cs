@@ -53,6 +53,9 @@ namespace Magitek.Logic.Warrior
 
             if (Spells.InnerRelease.Cooldown != TimeSpan.Zero)
                 return false;
+
+            if (Combat.CombatTotalTimeLeft < 30)
+                return false;
             //Only use Inner Release after we have Storm's Eye
             if (!Core.Me.HasAura(Auras.StormsEye, true, 17000))
                 return false;
@@ -90,13 +93,7 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Core.Me.ClassLevel > 70)
-                return false;
-
             if (Spells.Berserk.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Combat.CombatTotalTimeLeft < 20)
                 return false;
             //Only use Berserk After Heavy Swing
             if (WarriorSettings.Instance.UseInnerRelease)

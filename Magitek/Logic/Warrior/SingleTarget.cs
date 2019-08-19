@@ -79,21 +79,20 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
+            if (!WarriorSettings.Instance.UseUpheaval)
+                return false;
+
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
                 return false;
 
             // If we have Inner Release
             if (ActionManager.HasSpell(Spells.InnerRelease.Id))
             {
-                // If Inner Release has less than 22 seconds off cooldown
-                if (Spells.InnerRelease.Cooldown.Milliseconds < 22000)
+                // If Inner Release has less than 30 seconds before it is off cooldown
+                if (Spells.InnerRelease.Cooldown.Milliseconds < 30000)
                 {
-                    // If Onslaught is allowed & If we're within melee range
-                    if (WarriorSettings.Instance.UseOnslaught && Core.Me.CurrentTarget.Distance(Core.Me.Location) <= 4)
-                    {
-                        // Cast Onslaught
-                        return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
-                    }
+                        return false;
+
                 }
             }
 
@@ -128,33 +127,10 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.ClassLevel < 54)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.StormsEye))
+            if (Core.Me.HasAura(Auras.StormsEye, true, 9000))
                 return false;
 
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
-                return false;
-
-            // We don't have Inner Release
-            if (!Core.Me.HasAura(Auras.InnerRelease))
-            {
-                // Our Beast Gauge is 80 or higher
-                if (ActionResourceManager.Warrior.BeastGauge >= 80)
-                {
-                    // Storm's Eye has at least 9 seconds left on it
-                    if (Core.Me.HasAura(Auras.StormsEye, true, 9000))
-                    {
-                        // Use Fell Cleave
-                        return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-                    }
-                }
-
-                if (Spells.Infuriate.Cooldown.Milliseconds < 6000)
-                {
-                    return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-                }
-            }
-
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < 50)
                 return false;
 
             return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
@@ -262,11 +238,17 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseOnslaught)
                 return false;
 
-            if (!Utilities.Routines.Warrior.OnGcd)
-                return false;
-
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
                 return false;
+
+            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
+            {
+                // If Inner Release as 10 seconds or less left on cooldown
+                if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
+                {//Don't cast Onslaught
+                    return false;
+                }
+            }
 
             return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
         }

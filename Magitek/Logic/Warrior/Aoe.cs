@@ -48,6 +48,9 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
+            if (!WarriorSettings.Instance.UseDecimate)
+                return false;
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
                 return false;
 
@@ -63,9 +66,9 @@ namespace Magitek.Logic.Warrior
             return true;
         }
 
-        internal static async Task<bool> Overpower()
+        public static async Task<bool> Overpower()
         {
-            if (!WarriorSettings.Instance.UseOverpower) 
+            if (!WarriorSettings.Instance.UseOverpower)
                 return false;
 
             if (!ActionManager.HasSpell(Spells.Overpower.Id))
@@ -74,66 +77,15 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (BotManager.Current.IsAutonomous)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
                 return false;
 
-            if (WarriorSettings.Instance.OverpowerNeverInterruptCombo)
-            {
-                if (Casting.LastSpell == Spells.HeavySwing)
-                    return false;
-
-                if (Casting.LastSpell == Spells.Maim)
-                    return false;
-            }
-            if (ActionManager.LastSpell == Spells.Overpower && WarriorSettings.Instance.UseOverpower && Core.Me.ClassLevel >= 40)
+            if (ActionManager.LastSpell == Spells.Overpower && Core.Me.ClassLevel >= 40)
             {
                 return await Spells.MythrilTempest.Cast(Core.Me);
             }
 
-            if (Core.Me.Distance(Core.Me.CurrentTarget) <= 8 + Core.Me.CombatReach && Combat.CombatTime.Elapsed.Seconds < 20 && Utilities.Routines.Warrior.PullOverpower < WarriorSettings.Instance.OverpowersOnPull)
-            {
-                if (Core.Me.CurrentTarget.EnemiesNearbyOoc(8 + Core.Me.CombatReach).Count() >= WarriorSettings.Instance.OverpowerMinimumEnemies)
-                {
-                    if (!await Spells.Overpower.Cast(Core.Me.CurrentTarget))
-                        return true;
-
-                    Utilities.Routines.Warrior.PullOverpower++;
-                    Utilities.Routines.Warrior.LastOverpower = DateTime.Now;
-                }
-            }
-
-            if (Combat.Enemies.Count(x => x.IsTargetable && x.InView() && x.Distance(Core.Me) <= 8 + x.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
-                return false;
-
-            if (Combat.Enemies.Count(x => x.IsTargetable && x.InView() && x.Distance(Core.Me) <= 8 + x.CombatReach && x.TargetGameObject != Core.Me) >= WarriorSettings.Instance.OverpowerMinimumEnemies)
-            {
-                return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Combat.CombatTime.Elapsed.Seconds < 20 && Utilities.Routines.Warrior.PullOverpower < WarriorSettings.Instance.OverpowersOnPull)
-            {
-                if (!await Spells.Overpower.Cast(Core.Me.CurrentTarget))
-                    return false;
-
-                Utilities.Routines.Warrior.PullOverpower++;
-                Logger.WriteInfo($@"Using Overpower On Pull [{Utilities.Routines.Warrior.PullOverpower}]");
-                Utilities.Routines.Warrior.LastOverpower = DateTime.Now;
-            }
-
-            if (!WarriorSettings.Instance.UseOverpowerInterval)
-                return false;
-
-            if (DateTime.Now <
-                Utilities.Routines.Warrior.LastOverpower.AddSeconds(WarriorSettings.Instance.OverpowerIntervalSeconds))
-                return false;
-
-            if (!await Spells.Overpower.Cast(Core.Me.CurrentTarget))
-                return false;
-
-            Logger.WriteInfo($@"Using Overpower On Interval");
-
-            Utilities.Routines.Warrior.LastOverpower = DateTime.Now;
-            return true;
+            return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
         }
     }
 }

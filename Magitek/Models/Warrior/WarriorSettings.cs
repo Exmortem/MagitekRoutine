@@ -30,14 +30,6 @@ namespace Magitek.Models.Warrior
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSteelCyclone { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int SteelCycloneMinimumEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseDecimate { get; set; }
 
         [Setting]
@@ -49,28 +41,8 @@ namespace Magitek.Models.Warrior
         public bool UseOverpower { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool OverpowerNeverInterruptCombo { get; set; }
-
-        [Setting]
         [DefaultValue(3)]
         public int OverpowerMinimumEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool OverpowerOnlyAsMainTank { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int OverpowersOnPull { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseOverpowerInterval { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int OverpowerIntervalSeconds { get; set; }
 
         [Setting]
         [DefaultValue(true)]
