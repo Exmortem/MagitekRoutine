@@ -29,7 +29,7 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Use Equilibrium When Under" IsChecked="{Binding WarriorSettings.UseEquilibrium, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.EquilibriumHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent(WIP)" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
@@ -38,7 +38,7 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Use Infuriate At " IsChecked="{Binding WarriorSettings.UseInfuriate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WarriorSettings.UseInfuriateAtBeastGauge, Mode=TwoWay}" />
+                    <controls:Numeric Increment="10" MaxValue="100" MinValue="10" Value="{Binding WarriorSettings.UseInfuriateAtBeastGauge, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Or Under Beast Gauge" />
                 </StackPanel>
             </StackPanel>

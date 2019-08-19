@@ -101,13 +101,16 @@ namespace Magitek.Logic.Warrior
 
             if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
                 return false;
-            //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
+            /*Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
             if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
-                return false;
+                return false;*/
             //If we are in Inner Release and lv 72+, don't use Infuriate
-            if (Core.Me.ClassLevel >= 72 && Core.Me.HasAura(Auras.InnerRelease))
+            if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
                 return false;
-            //Buff Check Logic here
+            //If we are lv 72+ and Inner Release comes off CD in 10 or less seconds don't use Infuriate
+            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 10000)
+                return false;
+            /*Buff Check Logic here
             // If Inner Release as 10 seconds or less left on cooldown
             if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
             {
@@ -117,7 +120,7 @@ namespace Magitek.Logic.Warrior
                     // Use Storm's Eye
                     return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
                 }
-            }
+            }*/
 
             return await Spells.Infuriate.Cast(Core.Me);
         }

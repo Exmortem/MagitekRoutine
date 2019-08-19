@@ -28,13 +28,6 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Shake It Off " IsChecked="{Binding WarriorSettings.UseShakeItOff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Automatically On Any Buff (Not Implemented) " IsChecked="{Binding WarriorSettings.UseShakeItOffOnAnyBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Use Interject To Interrupt " IsChecked="{Binding WarriorSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
