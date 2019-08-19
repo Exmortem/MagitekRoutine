@@ -114,6 +114,13 @@ namespace Magitek.Logic.Warrior
         {
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
+            //Save at least 1 Infuriate for when you want Inner Chaos (I will add in a buff check for this later.)
+            if (Core.Me.ClassLevel == 80 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
+                return false;
+            //If we are in Inner Release and lv 80, don't use Infuriate
+            if (Core.Me.ClassLevel == 80 && Core.Me.HasAura(Auras.InnerRelease))
+                return false;
+            //Buff Check Logic here
 
             if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
                 return false;

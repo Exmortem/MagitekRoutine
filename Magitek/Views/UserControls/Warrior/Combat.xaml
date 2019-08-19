@@ -21,7 +21,7 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <TextBlock Text="Always Keep At Least " Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Text="Always Keep At Least " Style="{DynamicResource TextBlockDefault}" />
                     <controls:Numeric Increment="10" MaxValue="100" MinValue="0" Value="{Binding WarriorSettings.KeepAtLeastXBeastGauge, Mode=TwoWay}"/>
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Beast Gauge for Own Use of Onslaught" />
                 </StackPanel>
@@ -30,8 +30,8 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Shake It Off    " IsChecked="{Binding WarriorSettings.UseShakeItOff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Automatically On Any Buff (WIP) " IsChecked="{Binding WarriorSettings.UseShakeItOffOnAnyBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Shake It Off " IsChecked="{Binding WarriorSettings.UseShakeItOff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Automatically On Any Buff (Not Implemented) " IsChecked="{Binding WarriorSettings.UseShakeItOffOnAnyBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
