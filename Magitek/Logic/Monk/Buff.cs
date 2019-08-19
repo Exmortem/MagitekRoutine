@@ -50,8 +50,13 @@ namespace Magitek.Logic.Monk
                 }
             }
 
-            if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >=3 && Core.Me.ClassLevel >= 76)
-                return await Spells.FistsOfWind.Cast(Core.Me);
+            if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >= 3 && Core.Me.ClassLevel >= 76)
+            {
+                if (Casting.LastSpell == Spells.TwinSnakes || Casting.LastSpell == Spells.TrueStrike)
+                    return await Spells.FistsOfWind.Cast(Core.Me);
+                else
+                    return false;
+            }
 
             if (Core.Me.HasAura(Auras.FistsofWind) && ActionResourceManager.Monk.GreasedLightning < 3)
                 return await Spells.FistsOfFire.Cast(Core.Me);
@@ -65,7 +70,10 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UsePerfectBalance)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FistsofWind))
+            if (!Core.Me.HasAura(Auras.TwinSnakes))
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish))
                 return false;
 
             if (Casting.LastSpell != Spells.DragonKick)
@@ -136,6 +144,9 @@ namespace Magitek.Logic.Monk
 
             if (Core.Me.ClassLevel < 52)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+
+            if (Core.Me.InCombat)
+                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FormShift.Cast(Core.Me);
         }

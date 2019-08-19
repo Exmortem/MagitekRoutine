@@ -199,6 +199,7 @@ namespace Magitek.Utilities
             RoyalGuard = 1833,
             DarkMissionary = 1894,
             Delirium = 1972,
+            PassageOfArms = 1175,
             Anatman = 1862;
 
         private const int
