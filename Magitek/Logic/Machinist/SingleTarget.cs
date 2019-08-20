@@ -18,7 +18,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
                 && MachinistSettings.Instance.UseSpreadShot)
                 return false;
 
@@ -30,7 +30,7 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != MachinistGlobals.HeatedSplitShot)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
                 && MachinistSettings.Instance.UseSpreadShot)
                 return false;
 
@@ -42,7 +42,7 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != MachinistGlobals.HeatedSlugShot)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
                 && MachinistSettings.Instance.UseSpreadShot)
                 return false;
 
