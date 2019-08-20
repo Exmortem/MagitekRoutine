@@ -69,7 +69,7 @@ namespace Magitek.Logic.Machinist
             int heatGeneratinGCDs = (int)(gcdsUntilNextWildfire - drillCastsUntilNextWildFire 
                                                                 - airAnchorCastsUntilNextWildFire);
 
-            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && heatGeneratinGCDs * 5 < 50)
+            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && heatGeneratinGCDs * 5 + ActionResourceManager.Machinist.Heat < 50)
                 return false;
 
             return await Spells.Hypercharge.Cast(Core.Me);
