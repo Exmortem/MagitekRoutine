@@ -72,6 +72,10 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool UseHypercharge { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseWildfire { get; set; }
+
         #endregion
 
 

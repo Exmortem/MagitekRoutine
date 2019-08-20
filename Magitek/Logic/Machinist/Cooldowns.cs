@@ -63,6 +63,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Wildfire()
         {
+            if (!MachinistSettings.Instance.UseWildfire)
+                return false;
+
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
