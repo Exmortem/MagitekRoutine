@@ -313,6 +313,9 @@ namespace Magitek.Utilities
 
             }
 
+            //MCH Flamethrower is an Ability but will trigger the GCD and cant be used during GCD
+            Machinist.Remove(Spells.Flamethrower);
+
             //Adding All Skills Into Our Dictionary
 
             //Ranged Physical DPS
