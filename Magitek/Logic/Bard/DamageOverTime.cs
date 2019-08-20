@@ -20,6 +20,8 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> WindbiteOnCurrentTarget()
         {
+            if (!BardSettings.Instance.UseWindBite)
+                return false;
 
             if (Core.Me.ClassLevel < 64)
             {
@@ -59,6 +61,8 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> VenomousBiteOnCurrentTarget()
         {
+            if (!BardSettings.Instance.UseVenomousBite)
+                return false;
 
             if (Core.Me.ClassLevel < 64)
             {
