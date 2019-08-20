@@ -78,6 +78,22 @@ namespace Magitek.Models.Machinist
 
         #endregion
 
+        #region Pet
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRookQueen { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseRookQueenOverdrive { get; set; }
+
+        [Setting]
+        [DefaultValue(50)]
+        public int MinBatteryForPetSummon { get; set; }
+
+        #endregion
+
         #region Cooldowns
 
         [Setting]
@@ -87,6 +103,10 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseWildfire { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseReassemble { get; set; }
 
         [Setting]
         [DefaultValue(true)]

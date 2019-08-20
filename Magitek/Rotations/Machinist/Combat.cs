@@ -32,6 +32,8 @@ namespace Magitek.Rotations.Machinist
             if (await Cooldowns.Hypercharge()) return true;
             if (await Cooldowns.BarrelStabilizer()) return true;
             if (await Cooldowns.Reassemble()) return true;
+            if (await Pet.RookQueen()) return true;
+            if (await Pet.RookQueenOverdrive()) return true;
             if (await SingleTarget.GaussRound()) return true;
             if (await MultiTarget.Ricochet()) return true;
 

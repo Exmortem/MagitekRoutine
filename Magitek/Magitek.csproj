@@ -240,7 +240,7 @@
     <Compile Include="Logic\Machinist\MultiTarget.cs" />
     <Compile Include="Logic\Machinist\Cooldowns.cs" />
     <Compile Include="Logic\Machinist\SingleTarget.cs" />
-    <Compile Include="Logic\Machinist\Turret.cs" />
+    <Compile Include="Logic\Machinist\Pet.cs" />
     <Compile Include="Logic\Monk\Aoe.cs" />
     <Compile Include="Logic\Monk\Buff.cs" />
     <Compile Include="Logic\Monk\SingleTarget.cs" />
