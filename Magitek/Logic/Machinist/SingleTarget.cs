@@ -27,7 +27,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedSlugShot()
         {
-            if (ActionManager.LastSpell != MachinistGlobals.HeatedSplitShot)
+            if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
@@ -39,7 +39,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedCleanShot()
         {
-            if (ActionManager.LastSpell != MachinistGlobals.HeatedSlugShot)
+            if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount

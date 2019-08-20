@@ -27,10 +27,6 @@ namespace Magitek.Utilities.Routines
                                                     ? Spells.CleanShot
                                                     : Spells.HeatedCleanShot;
 
-        public static SpellData GaussRicochet => Core.Me.ClassLevel < 74 
-                                                    ? Spells.GaussRound
-                                                    : Spells.Ricochet;
-
         public static SpellData HotAirAnchor => Core.Me.ClassLevel < 76
                                                     ? Spells.HotShot
                                                     : Spells.AirAnchor;
