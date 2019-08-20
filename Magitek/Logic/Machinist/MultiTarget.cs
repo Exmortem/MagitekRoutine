@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -26,6 +27,18 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             return await Spells.Bioblaster.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> AutoCrossbow()
+        {
+            if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AutoCrossbowEnemyCount
+                || !MachinistSettings.Instance.UseAutoCrossbow)
+                return false;
+
+            return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
 
     }

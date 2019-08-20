@@ -56,6 +56,14 @@ namespace Magitek.Models.Machinist
         [DefaultValue(2)]
         public int BioBlasterEnemyCount { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAutoCrossbow { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AutoCrossbowEnemyCount { get; set; }
+
         #endregion
 
 

@@ -74,6 +74,10 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.AutoCrossbowEnemyCount
+                && MachinistSettings.Instance.UseAutoCrossbow)
+                return false;
+
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
         }
 
