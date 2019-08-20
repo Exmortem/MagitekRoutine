@@ -15,59 +15,29 @@ namespace Magitek.Models.Machinist
         public static MachinistSettings Instance { get; set; } = new MachinistSettings();
 
         [Setting]
-        [DefaultValue(70.0f)]
-        public float RestHealthPercent { get; set; }
+        [DefaultValue(0)]
+        public int UserLatencyOffset { get; set; }
 
-        [Setting]
-        [DefaultValue(MachinistOpenerStrategy.AlwaysUseOpener)]
-        public MachinistOpenerStrategy MachinistOpenerStrategy { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAoe { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int AoeEnemies { get; set; }
+        #region SingleTarget
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseWildfire { get; set; }
+        public bool UseSplitShotCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseFlameThrower { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int FlamethrowerEnemies { get; set; }
+        public bool UseDrill { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseReassemble { get; set; }
+        public bool UseHotAirAnchor { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool SyncHyperchargeWithWildfire { get; set; }
+        public bool UseHeatBlast { get; set; }
 
-        [Setting]
-        [DefaultValue(10)]
-        public int MaxSecondsToHoldHyperchargeForWildfire { get; set; }
+        #endregion
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseHypercharge { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseBarrelStabilizer { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseTactician { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        public int MinBatteryForTurretSummon { get; set; }
     }
 }

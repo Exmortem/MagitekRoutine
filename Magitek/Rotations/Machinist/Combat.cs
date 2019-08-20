@@ -27,9 +27,20 @@ namespace Magitek.Rotations.Machinist
 
             if (await CustomOpenerLogic.Opener()) return true;
 
+            //oGCDs
 
 
-            return true;
+            //GCDs
+            if (await SingleTarget.HeatBlast()) return true;    //Top HyperCharge Prio
+
+            //Use On CD
+            if (await SingleTarget.Drill()) return true;
+            if (await SingleTarget.HotAirAnchor()) return true;
+
+            //Default Combo
+            if (await SingleTarget.HeatedCleanShot()) return true;
+            if (await SingleTarget.HeatedSlugShot()) return true;
+            return await SingleTarget.HeatedSplitShot();
         }
     }
 }
