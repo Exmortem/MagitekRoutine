@@ -41,6 +41,17 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
+        public static async Task<bool> Ricochet()
+        {
+            if (!MachinistSettings.Instance.UseRicochet)
+                return false;
+
+            //add some mor precise logic for pooling/dumping
+            if (Spells.Ricochet.Charges < 1.8f)
+                return false;
+
+            return await Spells.Ricochet.Cast(Core.Me.CurrentTarget);
+        }
 
     }
 }

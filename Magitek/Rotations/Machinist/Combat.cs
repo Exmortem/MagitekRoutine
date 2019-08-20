@@ -31,6 +31,8 @@ namespace Magitek.Rotations.Machinist
             if (await Cooldowns.Wildfire()) return true;
             if (await Cooldowns.Hypercharge()) return true;
             if (await Cooldowns.BarrelStabilizer()) return true;
+            if (await SingleTarget.GaussRound()) return true;
+            if (await MultiTarget.Ricochet()) return true;
 
             //GCDs
             if (await SingleTarget.HeatBlast()) return true;    //Top HyperCharge Prio

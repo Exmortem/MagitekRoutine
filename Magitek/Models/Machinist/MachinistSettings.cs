@@ -70,6 +70,14 @@ namespace Magitek.Models.Machinist
 
         #endregion
 
+        #region MultiTarget
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRicochet { get; set; }
+
+        #endregion
+
         #region Cooldowns
 
         [Setting]
