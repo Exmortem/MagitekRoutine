@@ -18,12 +18,20 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+                && MachinistSettings.Instance.UseSpreadShot)
+                return false;
+
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatedSlugShot()
         {
             if (ActionManager.LastSpell != MachinistGlobals.HeatedSplitShot)
+                return false;
+
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+                && MachinistSettings.Instance.UseSpreadShot)
                 return false;
 
             return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
@@ -34,12 +42,20 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != MachinistGlobals.HeatedSlugShot)
                 return false;
 
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount
+                && MachinistSettings.Instance.UseSpreadShot)
+                return false;
+
             return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Drill()
         {
             if (!MachinistSettings.Instance.UseDrill)
+                return false;
+
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount 
+                && MachinistSettings.Instance.UseBioBlaster)
                 return false;
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);

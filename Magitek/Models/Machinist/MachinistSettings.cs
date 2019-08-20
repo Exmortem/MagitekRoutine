@@ -38,6 +38,26 @@ namespace Magitek.Models.Machinist
 
         #endregion
 
+        #region Area-Of-Effect
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSpreadShot { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int SpreadShotEnemyCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBioBlaster { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int BioBlasterEnemyCount { get; set; }
+
+        #endregion
+
 
     }
 }
