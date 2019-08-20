@@ -47,11 +47,11 @@ namespace Magitek.Logic.Machinist
             double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
                                             MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) / 3000;
 
-            double drillCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
-                                                  Spells.Drill.Cooldown.TotalMilliseconds) / Spells.Drill.AdjustedCooldown.TotalMilliseconds;
+            double drillCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - Spells.Drill.Cooldown.TotalMilliseconds) 
+                                                 / Spells.Drill.AdjustedCooldown.TotalMilliseconds;
 
-            double airAnchorCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
-                                                      MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds) / MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds;
+            double airAnchorCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds) 
+                                                     / MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds;
 
             //if (Math.Truncate(drillCastsUntilNextWildFire) * Spells.Drill.AdjustedCooldown.TotalMilliseconds > 8000)
             //    drillCastsUntilNextWildFire -= Math.Truncate(drillCastsUntilNextWildFire);
@@ -92,6 +92,21 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Reassemble()
+        {
+            if (!MachinistSettings.Instance.UseReassemble)
+                return false;
+
+            if (!MachinistGlobals.IsInWeaveingWindow)
+                return false;
+
+            if (Spells.Drill.Cooldown != TimeSpan.Zero &&
+                Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown)
+                return false;
+
+            return await Spells.Reassemble.Cast(Core.Me);
         }
         
     }
