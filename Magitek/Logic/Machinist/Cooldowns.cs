@@ -22,7 +22,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            return await Spells.BarrelStabilizer.Cast(Core.Me)
+            return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
 
         public static async Task<bool> Hypercharge()
