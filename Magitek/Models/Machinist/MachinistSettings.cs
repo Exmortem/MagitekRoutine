@@ -66,6 +66,14 @@ namespace Magitek.Models.Machinist
 
         #endregion
 
+        #region Cooldowns
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHypercharge { get; set; }
+
+        #endregion
+
 
     }
 }

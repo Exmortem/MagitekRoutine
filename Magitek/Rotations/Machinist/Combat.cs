@@ -28,7 +28,8 @@ namespace Magitek.Rotations.Machinist
             if (await CustomOpenerLogic.Opener()) return true;
 
             //oGCDs
-
+            if (await Cooldowns.Wildfire()) return true;
+            if (await Cooldowns.Hypercharge()) return true;
 
             //GCDs
             if (await SingleTarget.HeatBlast()) return true;    //Top HyperCharge Prio
