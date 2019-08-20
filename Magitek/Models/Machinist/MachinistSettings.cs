@@ -76,6 +76,11 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool UseWildfire { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBarrelStabilizer { get; set; }
+
+
         #endregion
 
 

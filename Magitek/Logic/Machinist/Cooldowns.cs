@@ -14,6 +14,17 @@ namespace Magitek.Logic.Machinist
     internal static class Cooldowns
     {
 
+        public static async Task<bool> BarrelStabilizer()
+        {
+            if (!MachinistSettings.Instance.UseBarrelStabilizer)
+                return false;
+
+            if (!MachinistGlobals.IsInWeaveingWindow)
+                return false;
+
+            return await Spells.BarrelStabilizer.Cast(Core.Me)
+        }
+
         public static async Task<bool> Hypercharge()
         {
             if (!MachinistSettings.Instance.UseHypercharge)
@@ -26,6 +37,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
+                return false;
+
+            if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
                 return false;
 
             //add check for dropping combo
