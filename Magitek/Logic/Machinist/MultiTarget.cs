@@ -46,6 +46,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRicochet)
                 return false;
 
+            if (!MachinistGlobals.IsInWeaveingWindow)
+                return false;
+
             //add some mor precise logic for pooling/dumping
             if (Spells.Ricochet.Charges < 1.8f)
                 return false;
