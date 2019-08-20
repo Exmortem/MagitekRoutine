@@ -54,7 +54,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount 
+            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount
                 && MachinistSettings.Instance.UseBioBlaster)
                 return false;
 
@@ -81,5 +81,16 @@ namespace Magitek.Logic.Machinist
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> GaussRound()
+        {
+            if (!MachinistSettings.Instance.UseGaussRound)
+                return false;
+
+            //add some mor precise logic for pooling/dumping
+            if (Spells.GaussRound.Charges < 1.8f)
+                return false;
+
+            return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
+        }
     }
 }

@@ -36,6 +36,10 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool UseHeatBlast { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGaussRound { get; set; }
+
         #endregion
 
         #region Area-Of-Effect
@@ -79,7 +83,6 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseBarrelStabilizer { get; set; }
-
 
         #endregion
 
