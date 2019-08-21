@@ -18,7 +18,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.InView()) < MonkSettings.Instance.RockbreakerEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
                 return false;
 
             if (!Core.Me.HasAura(Auras.CoeurlForm) && !Core.Me.HasAura(Auras.PerfectBalance))
@@ -32,7 +32,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.InView()) < MonkSettings.Instance.RockbreakerEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
                 return false;
 
             if (!Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.PerfectBalance))
@@ -49,30 +49,10 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.InView()) < MonkSettings.Instance.RockbreakerEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
                 return false;
 
             return await Spells.ArmOfTheDestroyer.Cast(Core.Me);
-        }
-
-
-        public static async Task<bool> ElixerField()
-        {
-            // Off GCD
-
-            if (!MonkSettings.Instance.UseAoe)
-                return false;
-
-            if (!MonkSettings.Instance.UseElixerField)
-                return false;
-
-            if (Spells.ElixirField.Cooldown.Seconds != 0)
-                return false;
-
-            if (Core.Me.EnemiesNearby(5).Count() < MonkSettings.Instance.ElixerFieldEnemies)
-                return false;
-
-            return await Spells.ElixirField.Cast(Core.Me);
         }
     }
 }

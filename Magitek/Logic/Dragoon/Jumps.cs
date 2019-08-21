@@ -44,6 +44,9 @@ namespace Magitek.Logic.Dragoon
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
+            if (!Core.Me.HasAura(Auras.DiveReady))
+                return false;
+
             // Neko: 2 things that can help. Don't mirage dive unless in Blood of the Dragon, also, don't mirage dive if at 2 eyes.
 
             if (ActionResourceManager.Dragoon.DragonGaze == 2)

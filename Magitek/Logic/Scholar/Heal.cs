@@ -5,6 +5,7 @@ using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
@@ -22,10 +23,10 @@ namespace Magitek.Logic.Scholar
             if (Globals.InParty)
             {
                 var physickTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < ScholarSettings.Instance.PhysickHpPercent);
-                
+
                 if (physickTarget != null)
                     return await Spells.Physick.Heal(physickTarget);
-                
+
                 if (!ScholarSettings.Instance.HealAllianceOnlyPhysick)
                     return false;
 
@@ -33,7 +34,7 @@ namespace Magitek.Logic.Scholar
 
                 if (physickTarget == null)
                     return false;
-                
+
                 return await Spells.Physick.Heal(physickTarget);
 
             }
@@ -62,13 +63,17 @@ namespace Magitek.Logic.Scholar
                     if (tankAdloTarget == null)
                         return false;
 
+                    await UseRecitation();
+
                     return await Spells.Adloquium.HealAura(tankAdloTarget, Auras.Galvanize, false);
                 }
 
                 var adloTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanAdlo);
-                
+
                 if (adloTarget == null)
                     return false;
+
+                await UseRecitation();
 
                 return await Spells.Adloquium.HealAura(adloTarget, Auras.Galvanize);
 
@@ -78,6 +83,9 @@ namespace Magitek.Logic.Scholar
                         return false;
 
                     if (unit.HasAura(Auras.Galvanize))
+                        return false;
+
+                    if (unit.HasAura(Auras.Exogitation))
                         return false;
 
                     if (!ScholarSettings.Instance.AdloquiumOnlyHealer && !ScholarSettings.Instance.AdloquiumOnlyTank)
@@ -94,6 +102,26 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             return await Spells.Adloquium.HealAura(Core.Me, Auras.Galvanize);
+
+            async Task UseRecitation()
+            {
+                if (!ScholarSettings.Instance.Recitation)
+                    return;
+
+                if (!ScholarSettings.Instance.RecitationWithAdlo)
+                    return;
+
+                if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
+                    return;
+
+                if (!await Spells.Recitation.Cast(Core.Me))
+                    return;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Recitation)))
+                    return;
+
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Adloquium.Id, Core.Me));
+            }
         }
 
         public static async Task<bool> EmergencyTacticsAdlo()
@@ -187,7 +215,7 @@ namespace Magitek.Logic.Scholar
 
             if (await Spells.Succor.Heal(Core.Me))
             {
-                return await Coroutine.Wait(2000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
+                return await Coroutine.Wait(4000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
             }
 
             return false;
@@ -234,6 +262,8 @@ namespace Magitek.Logic.Scholar
                 if (excogitationTarget == null)
                     return false;
 
+                await UseRecitation();
+
                 return await Spells.Excogitation.CastAura(excogitationTarget, Auras.Exogitation);
             }
 
@@ -242,6 +272,8 @@ namespace Magitek.Logic.Scholar
 
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ExcogitationHpPercent)
                 return false;
+
+            await UseRecitation();
 
             return await Spells.Excogitation.CastAura(Core.Me, Auras.Exogitation);
 
@@ -267,6 +299,25 @@ namespace Magitek.Logic.Scholar
 
                 return ScholarSettings.Instance.ExcogitationOnlyTank && unit.IsTank();
             }
+            async Task UseRecitation()
+            {
+                if (!ScholarSettings.Instance.Recitation)
+                    return;
+
+                if (!ScholarSettings.Instance.RecitationWithExcog)
+                    return;
+
+                if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
+                    return;
+
+                if (!await Spells.Recitation.Cast(Core.Me))
+                    return;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Recitation)))
+                    return;
+
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Excogitation.Id, Core.Me));
+            }
         }
 
         public static async Task<bool> Lustrate()
@@ -288,7 +339,7 @@ namespace Magitek.Logic.Scholar
                     return false;
 
                 await UseRecitation();
-                
+
                 return await Spells.Lustrate.Cast(lustrateTarget);
             }
 
@@ -395,7 +446,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             var sacredSoilTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => PartyManager.VisibleMembers.Count(x => x.BattleCharacter.CurrentHealthPercent < ScholarSettings.Instance.SacredSoilHpPercent
-                                                                                                                           && x.BattleCharacter.Distance(r) <= 15) >= ScholarSettings.Instance.SacredSoilNeedHealing);
+                    && x.BattleCharacter.Distance(r) <= 15) >= ScholarSettings.Instance.SacredSoilNeedHealing);
 
             if (sacredSoilTarget == null)
                 return false;
@@ -411,7 +462,7 @@ namespace Magitek.Logic.Scholar
             var deadList = Group.DeadAllies.Where(u => u.CurrentHealth == 0 &&
                                                        !u.HasAura(Auras.Raise) &&
                                                        u.Distance(Core.Me) <= 30)
-                                           .OrderByDescending(r => r.GetResurrectionWeight());
+                .OrderByDescending(r => r.GetResurrectionWeight());
 
             var deadTarget = deadList.FirstOrDefault();
 
@@ -538,11 +589,14 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
+                return false;
+
             if (PartyManager.IsInParty)
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
 
-                if (canFeyBlessingTargets.Count< ScholarSettings.Instance.FeyBlessingNeedHealing)
+                if (canFeyBlessingTargets.Count < ScholarSettings.Instance.FeyBlessingNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.FeyBlessingOnlyWithTank && !canFeyBlessingTargets.Any(r => r.IsTank()))
@@ -561,7 +615,82 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyBlessingHpPercent)
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 15;
+                return unit.Distance(Core.Me.Pet) <= 20;
+            }
+        }
+
+        public static async Task<bool> SummonSeraph()
+        {
+            if (!ScholarSettings.Instance.SummonSeraph)
+                return false;
+
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (PartyManager.IsInParty)
+            {
+                var canSummonSeraphTargets = Group.CastableAlliesWithin20.Where(CanSummonSeraph).ToList();
+
+                if (canSummonSeraphTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
+                    return false;
+
+                if (!canSummonSeraphTargets.Any(r => r.IsTank()))
+                    return false;
+
+                return await Spells.SummonSeraph.Cast(Core.Me);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                return false;
+
+            return await Spells.SummonSeraph.Cast(Core.Me);
+
+            bool CanSummonSeraph(Character unit)
+            {
+                if (unit.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                    return false;
+
+                return unit.Distance(Core.Me.Pet) <= 20;
+            }
+        }
+
+        public static async Task<bool> Consolation()
+        {
+            if (!ScholarSettings.Instance.Consolation)
+                return false;
+
+            if ((int) PetManager.ActivePetType == 15) return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (PartyManager.IsInParty)
+            {
+                var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
+
+                if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
+                    return false;
+
+                if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
+                    return false;
+
+                return await Spells.Consolation.Cast(Core.Me);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                return false;
+
+            return await Spells.Consolation.Cast(Core.Me);
+
+            bool CanConsolation(Character unit)
+            {
+                if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                    return false;
+
+                return unit.Distance(Core.Me.Pet) <= 20;
             }
         }
     }

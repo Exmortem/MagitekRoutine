@@ -76,6 +76,10 @@ namespace Magitek.Models.Bard
         public int RefreshDotsWithLessThanXSecondsRemaining { get; set; }
 
         [Setting]
+        [DefaultValue(850)]
+        public int RefreshDotsWithXmsLeftAfterLastGCD { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool DontDotIfCurrentTargetIsDyingSoon { get; set; }
 

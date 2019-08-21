@@ -61,9 +61,9 @@ namespace Magitek.Rotations.Monk
                     if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
                     if (await Buff.RiddleOfFire()) return true;
                     if (await Buff.RiddleOfEarth()) return true;                   
-                    if (await Aoe.ElixerField()) return true;
+                    if (await SingleTarget.ElixerField()) return true;
                 }
-                if (SingleTarget.PerfectBalanceRoT()) return true;
+                if (await SingleTarget.PerfectBalanceRoT()) return true;
                 if (await Aoe.Rockbreaker()) return true;
                 if (await Aoe.FourPointStrike()) return true;
                 if (await Aoe.ArmOfDestroyer()) return true;

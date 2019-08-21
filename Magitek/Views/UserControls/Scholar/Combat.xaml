@@ -57,6 +57,16 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+
+                <CheckBox Content="Energy Drain " IsChecked="{Binding ScholarSettings.EnergyDrain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" When Below " />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.EnergyDrainManaPercent, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent " />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
