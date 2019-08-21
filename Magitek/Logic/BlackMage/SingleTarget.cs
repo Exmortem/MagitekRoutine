@@ -61,6 +61,9 @@ namespace Magitek.Logic.BlackMage
             //If we don't have despair, use fire 1 to dump mana
             if (Core.Me.ClassLevel < 71 && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+            //If sharpcast is about to fall off, force it
+            if (!Core.Me.HasAura(Auras.Sharpcast, true, 3000))
+                return await Spells.Fire.Cast(Core.Me.CurrentTarget);
             return false;
 
         }
@@ -122,10 +125,6 @@ namespace Magitek.Logic.BlackMage
 
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
-                return false;
-
-            // save for Umbral Phase
-            if (Core.Me.CurrentMana < 800)
                 return false;
 
             // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
