@@ -86,5 +86,18 @@ namespace Magitek.Logic.Scholar
             Auras.Bio2,
             Auras.Biolysis
         };
+        public static async Task<bool> EnergyDrain2()
+        {
+            if (!ScholarSettings.Instance.EnergyDrain)
+                return false;
+
+            if (!Core.Me.HasAetherflow())
+            return false;
+
+            if (Spells.Aetherflow.Cooldown.TotalMilliseconds >= 12000)
+                return false; 
+
+            return await Spells.EnergyDrain2.Cast(Core.Me.CurrentTarget);
+        }
     }
 }

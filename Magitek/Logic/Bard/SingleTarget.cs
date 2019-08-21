@@ -61,6 +61,24 @@ namespace Magitek.Logic.Bard
             return true; //We want to check for more oGCDs while waiting for our GCD
         }
 
+        public static async Task<bool> LastPossiblePitchPerfectDuringWM()
+        {
+            if (!BardSettings.Instance.UsePitchPerfect)
+                return false;
+
+            if (Spells.PitchPerfect.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+                return false;
+
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+                return false;
+
+            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+
+        }
+
         public static async Task<bool> PitchPerfect()
         {
             if (!BardSettings.Instance.UsePitchPerfect)
@@ -72,21 +90,15 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
 
-            //Logic to catch the last possible PP
-            //maybe have to reevalute the 250 ms here
-            if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds - 250)
-            {
-                if (ActionResourceManager.Bard.Repertoire > 0 && Spells.EmpyrealArrow.Cooldown.TotalMilliseconds < ActionResourceManager.Bard.Timer.TotalMilliseconds)
-                    return false;
-                //Logger.Error($@"Casting PP with {ActionResourceManager.Bard.Repertoire} Repertoire Stacks at the end of WM");
-                //Logger.Error($@"Song Ends in {ActionResourceManager.Bard.Timer.TotalMilliseconds} - Next expected DoT Tick in {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()}");
+            if (ActionResourceManager.Bard.Repertoire == 0)
+                return false;
+
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 500)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-            }
 
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
                 return false;
 
-            //Logger.Error($@"Casting PP with {ActionResourceManager.Bard.Repertoire} Repertoire Stacks");
             return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget); 
         }
 
@@ -132,11 +144,14 @@ namespace Magitek.Logic.Bard
                         return false;
                     break;
 
-                //Cant use PP outside of WM so why would we want to waste an EA here
-                //Maybe go even further and add a repertoire condition so we wont use EA when < x repertoire in the last y seconds
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-                    if (ActionResourceManager.Bard.Repertoire == 3 || ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
+
+                    if (ActionResourceManager.Bard.Repertoire == 3)
                         return false;
+
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                        return false;
+
                     break;
 
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:

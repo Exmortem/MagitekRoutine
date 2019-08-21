@@ -26,35 +26,33 @@ namespace Magitek.Rotations.Warrior
 
             if (await SingleTarget.LowBlow()) return true;
             if (await SingleTarget.Interject()) return true;
-            if (await Buff.Stance()) return true;
+            if (await Buff.Defiance()) return true;
 
             if (Utilities.Routines.Warrior.OnGcd)
             {
                 if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;
+                if (await Buff.Beserk()) return true;
+                if (await Buff.InnerRelease()) return true;
+                if (await Buff.Infuriate()) return true;
+                if (await Buff.Equilibrium()) return true;
+                if (await SingleTarget.Onslaught()) return true;
+                if (await SingleTarget.Upheaval()) return true;
             }
 
-            if (WarriorSettings.Instance.IsMainTank)
+            if (WarriorSettings.Instance.UseDefiance)
             {
                 if (await Tank.Provoke(WarriorSettings.Instance)) return true;
                 if (await SingleTarget.TomahawkOnLostAggro()) return true;
-                if (await Buff.InnerReleaseMainTank()) return true;
-                if (await Aoe.SteelCyclone()) return true;
-                if (await SingleTarget.InnerBeast()) return true;
-            }
-            else
-            {
-                if (await Buff.InnerReleaseOffTank()) return true;
-                if (await SingleTarget.InnerReleaseFellCleaveSpam()) return true;
-                if (await Aoe.Decimate()) return true;
-                if (await SingleTarget.FellCleave()) return true;
             }
 
-            if (await SingleTarget.Onslaught()) return true;
-            if (await Buff.Beserk()) return true;
-            if (await Buff.Infuriate()) return true;
-            if (await SingleTarget.Upheaval()) return true;
+            if (await Aoe.SteelCyclone()) return true;
+            if (await Aoe.Decimate()) return true;
+            if (await Aoe.InnerReleaseDecimateSpam()) return true;
             if (await Aoe.Overpower()) return true;
+            if (await SingleTarget.InnerBeast()) return true;
+            if (await SingleTarget.FellCleave()) return true;
+            if (await SingleTarget.InnerReleaseFellCleaveSpam()) return true;
 
             // Main Rotation Part
 

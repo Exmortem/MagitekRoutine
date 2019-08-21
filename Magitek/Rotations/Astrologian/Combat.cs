@@ -40,9 +40,9 @@ namespace Magitek.Rotations.Astrologian
                 return await Pvp.Malefic(); //Damage
             }
 
-            if (await Cards.PlayCards()) return true;
             if (await Aoe.Gravity()) return true;
-            if (await SingleTarget.Dots()) return true;
+            if (await SingleTarget.Combust()) return true;
+            if (await SingleTarget.CombustMultipleTargets()) return true;
             return await SingleTarget.Malefic();
         }
     }

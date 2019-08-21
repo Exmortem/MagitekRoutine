@@ -13,7 +13,8 @@ namespace Magitek.Logic.Bard
 {
     internal static class Cooldowns
     {
-
+        //&pins=2%24Main%24%23244F4B%24auras-gained%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%241000125%24true%24true%24and%24any%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%2416496|16495|3560|7409|7407|7406&type=casts 
+        //FFLogs Pin To See The GCDs under RS
         public static async Task<bool> RagingStrikes()
         {
 

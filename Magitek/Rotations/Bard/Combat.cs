@@ -42,7 +42,7 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if (Utilities.Routines.Bard.WeavingHelper.CheckLastSpellsForWeaving() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;
@@ -54,6 +54,7 @@ namespace Magitek.Rotations.Bard
                 if (await Utility.HeadGraze()) return true;
 
                 // Damage
+                if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
@@ -69,9 +70,14 @@ namespace Magitek.Rotations.Bard
             }
 
             if (await SingleTarget.StraightShotAfterBarrage()) return true;
-            if (await DamageOverTime.HandleDots()) return true;
+            if (await DamageOverTime.IronJawsOnCurrentTarget()) return true;
+            if (await DamageOverTime.SnapShotIronJawsOnCurrentTarget()) return true;
+            if (await DamageOverTime.WindbiteOnCurrentTarget()) return true;
+            if (await DamageOverTime.VenomousBiteOnCurrentTarget()) return true;
             if (await Aoe.ApexArrow()) return true;
-            if (await DamageOverTime.HandleMultiDotting()) return true;
+            if (await DamageOverTime.IronJawsOnOffTarget()) return true;
+            if (await DamageOverTime.WindbiteOnOffTarget()) return true;
+            if (await DamageOverTime.VenomousBiteOnOffTarget()) return true;
             if (await Aoe.QuickNock()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());

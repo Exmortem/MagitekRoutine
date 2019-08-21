@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ff14bot;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
+using Magitek.Models.Scholar;
 using Magitek.Utilities;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -15,43 +19,55 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
-        
-        public static async Task<bool> Dots()
-        {
-            if (AstrologianSettings.Instance.UseTimeTillDeathForDots)
-            {
-                var combatTimeLeft = Core.Me.CurrentTarget.CombatTimeLeft();
 
-                if (combatTimeLeft > 0 && combatTimeLeft < AstrologianSettings.Instance.DontDotIfEnemyDyingWithin)
-                    return false;
-            }
-            else
-            {
-                if (!Core.Me.CurrentTarget.HealthCheck(AstrologianSettings.Instance.DotHealthMinimum, AstrologianSettings.Instance.DotHealthMinimumPercent))
-                    return false;
-            }
-            
-            return await Combust();
-        }
-
-        private static async Task<bool> Combust()
+        public static async Task<bool> CombustMultipleTargets()
         {
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-            var classLevel = Core.Me.ClassLevel;
-            uint combustAura = Auras.Combust;
+            if (!AstrologianSettings.Instance.CombustMultipleTargets)
+                return false;
 
-            if (classLevel >= 72)
-                combustAura = Auras.Combust3;
+            var combustTarget = Combat.Enemies.FirstOrDefault(NeedsCombust);
 
-            if (classLevel < 72 && classLevel >= 46)
-                combustAura = Auras.Combust2;
+            if (combustTarget == null)
+                return false;
 
-            if (Core.Me.CurrentTarget.HasAura(combustAura, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000))
+            return await Spells.Combust.Cast(combustTarget);
+
+            bool NeedsCombust(BattleCharacter unit)
+            {
+                if (!CanCombust(unit))
                     return false;
+                
+                return !unit.HasAnyAura(CombustAuras, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds);
+            }
 
-            return await Spells.Combust.CastAura(Core.Me.CurrentTarget, combustAura, true, AstrologianSettings.Instance.DotRefreshSeconds * 1000);
+            bool CanCombust(GameObject unit)
+            {
+                if (!AstrologianSettings.Instance.UseTTDForCombust)
+                    return true;
+
+                return unit.CombatTimeLeft() >= AstrologianSettings.Instance.DontCombustIfEnemyDyingWithin;
+            }
         }
+
+        public static async Task<bool> Combust()
+        {
+            if (!AstrologianSettings.Instance.Combust)
+                return false;
+
+            if (Core.Me.CurrentTarget.HasAnyAura(CombustAuras, true, msLeft:AstrologianSettings.Instance.CombustRefreshMSeconds))
+                return false;
+
+            return await Spells.Combust.Cast(Core.Me.CurrentTarget);
+        }
+
+        private static readonly uint[] CombustAuras =
+        {
+            Auras.Combust,
+            Auras.Combust2,
+            Auras.Combust3
+        };
     }
 }

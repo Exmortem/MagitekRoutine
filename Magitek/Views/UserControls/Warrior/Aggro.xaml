@@ -17,44 +17,26 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,0,0,3" Content="Open With Threat Combo (In Party Only)" IsChecked="{Binding WarriorSettings.OpenWithThreatCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Attempt To Stay On Top Of Enmity By " IsChecked="{Binding WarriorSettings.AttemptToStayOnTopOfEnmityInMainTankMode, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.AttemptToStayOnTopOfEnmityByPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Percent (Main Tank Mode Only)" />
-                </StackPanel>
+                <CheckBox Margin="0,0,0,3" Content="Tank Stance" IsChecked="{Binding WarriorSettings.UseDefiance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,0,0,3" Content="Overpower Only When Main Tank" IsChecked="{Binding WarriorSettings.OverpowerOnlyAsMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Overpower When There Are " IsChecked="{Binding WarriorSettings.UseOverpower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Overpower Combo When There Are " IsChecked="{Binding WarriorSettings.UseOverpower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowerMinimumEnemies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Sight" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Overpower " />
-                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowersOnPull, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Times When Getting Into Combat " />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Overpower Every " IsChecked="{Binding WarriorSettings.UseOverpowerInterval, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.OverpowerIntervalSeconds, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Against A Group Of Enemies " />
-                </StackPanel>
-
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Steel Cyclone When There Are " IsChecked="{Binding WarriorSettings.UseSteelCyclone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.SteelCycloneMinimumEnemies, Mode=TwoWay}" />
+                    <CheckBox Content="Steel Cyclone / Decimate When There Are " IsChecked="{Binding WarriorSettings.UseDecimate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.DecimateMinimumEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
 
@@ -74,12 +56,6 @@
                 <CheckBox Margin="0,3" Content="Use Tomahawk To Pull" IsChecked="{Binding WarriorSettings.UseTomahawkToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Content="Use Tomahawk To Pull Nearby Enemies (When Already In Combat)" IsChecked="{Binding WarriorSettings.UseTomahawkToPullExtraEnemies, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,3,0,0" Content="Use Tomahawk To Regain Aggro" IsChecked="{Binding WarriorSettings.UseTomahawkOnLostAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Only Use Tomahawk When We Have At Least " />
-                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.UseTomahawkMinTpPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" TP Percent" />
-                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
     </StackPanel>
