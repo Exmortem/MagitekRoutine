@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="400"
              d:DesignWidth="500"
@@ -12,6 +14,16 @@
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="LeftEye" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:DragonSightStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <StackPanel Margin="10">
 
@@ -47,10 +59,27 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Dragon Sight" IsChecked="{Binding DragoonSettings.DragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Dragon Sight on Nearest DPS or Tank" IsChecked="{Binding DragoonSettings.DragonSightDpsOrTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}"/>
-                <CheckBox Content="Dragon Sight On Self" IsChecked="{Binding DragoonSettings.DragonSightOnSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content=" Use Dragon Sight" IsChecked="{Binding DragoonSettings.DragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Dragon Sight on:" />
+                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource LeftEye}}" SelectedValue="{Binding DragoonSettings.SelectedLeftEye, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="  Currently only Self works" />
+                </StackPanel>
+        </Grid>
         </controls:SettingsBlock>
 
     </StackPanel>

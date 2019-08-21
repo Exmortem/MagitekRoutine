@@ -2,8 +2,12 @@
 {
     public enum DragonSightStrategy
     {
-        Never,
+        Self,
         ClosestDps,
-        SpecificPerson
+        MeleeDps,
+        RangedDps,
+        Tank,
+        Healer
+
     }
 }

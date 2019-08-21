@@ -88,15 +88,10 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
-            // If we have Inner Release
-            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
+            // If we have Inner Release & CD for it is 25s or less, don't cast upheaval
+            if (ActionManager.HasSpell(Spells.InnerRelease.Id) && Spells.InnerRelease.Cooldown.TotalMilliseconds < 25000)
             {
-                // If Inner Release has less than 30 seconds before it is off cooldown
-                if (Spells.InnerRelease.Cooldown.Milliseconds < 30000)
-                {
-                        return false;
-
-                }
+                return false;
             }
 
             return await Spells.Upheaval.Cast(Core.Me.CurrentTarget);
