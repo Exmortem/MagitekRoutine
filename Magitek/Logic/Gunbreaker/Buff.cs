@@ -40,6 +40,7 @@ namespace Magitek.Logic.Gunbreaker
             //ensure we started combo to get extra cartridge inside buffs
             if (Casting.LastSpell == Spells.SolidBarrel)
                 return false;
+
             return await Spells.NoMercy.Cast(Core.Me);
         }
 

@@ -67,7 +67,8 @@ namespace Magitek.Logic.BlackMage
         {
             //If we aren't using Flare to dump MP, just refresh when needed
             if (Core.Me.ClassLevel < 72 && !Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 4000))
-                return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
+                if (Casting.LastSpell != Spells.Thunder4)
+                    return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
 
             //Only use in Astral 3
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
@@ -87,7 +88,7 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire2()
         {
             //Never use this trash spell if we have Flare+Elemental Trait unlocked...
-            if (Core.Me.ClassLevel > 71)
+            if (Core.Me.ClassLevel > 72)
                 return false;
 
             return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
