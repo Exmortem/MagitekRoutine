@@ -47,13 +47,14 @@ namespace Magitek.Rotations.BlackMage
             }
 
             if (await SingleTarget.Blizzard4()) return true;
+            if (await SingleTarget.Fire()) return true;
             if (await SingleTarget.Thunder3()) return true;
             if (await SingleTarget.Xenoglossy()) return true;
             if (await SingleTarget.Fire4()) return true;
             if (await SingleTarget.Despair()) return true;
 
             if (await SingleTarget.Fire3()) return true;
-            if (await SingleTarget.Fire()) return true;
+            
 
             if (await SingleTarget.Blizzard()) return true;
             if (await SingleTarget.Blizzard3()) return true;

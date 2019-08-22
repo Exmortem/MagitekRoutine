@@ -61,9 +61,7 @@ namespace Magitek.Logic.BlackMage
             //If we don't have despair, use fire 1 to dump mana
             if (Core.Me.ClassLevel < 71 && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
-            //If sharpcast is about to fall off, force it
-            if (!Core.Me.HasAura(Auras.Sharpcast, true, 3000))
-                return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+            
             return false;
 
         }
@@ -111,6 +109,8 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
+            if (Casting.LastSpell == Spells.Thunder3)
+                return false;
 
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
@@ -119,9 +119,7 @@ namespace Magitek.Logic.BlackMage
             // If the last spell we cast is triple cast, stop
             if (Casting.LastSpell == Spells.Triplecast)
                 return false;
-            // It takes a second for thunder dot to actually hit the boss...
-            if (Casting.LastSpell == Spells.Thunder3)
-                return false;
+            
 
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
@@ -131,9 +129,10 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 2000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
+
             // Refresh thunder if it's about to run out
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000))
-                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+                return await Spells.Thunder3.CastAura(Core.Me.CurrentTarget, Auras.Thunder3);
 
             return false;
         }
