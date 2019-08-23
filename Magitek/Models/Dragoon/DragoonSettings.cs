@@ -26,6 +26,10 @@ namespace Magitek.Models.Dragoon
         public bool BuffsUse { get; set; }
 
         [Setting]
+        [DefaultValue(DragonSightStrategy.Self)]
+        public DragonSightStrategy SelectedLeftEye { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool BloodOfTheDragon { get; set; }
 
@@ -44,14 +48,6 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(true)]
         public bool DragonSight { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DragonSightOnSelf { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DragonSightDpsOrTank { get; set; }
 
         [Setting]
         [DefaultValue(true)]
