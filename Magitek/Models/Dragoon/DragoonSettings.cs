@@ -100,5 +100,9 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(true)]
         public bool TrueNorth { get; set; }
+
+        [Setting]
+        [DefaultValue(DragonSightStrategy.ClosestDps)]
+        public DragonSightStrategy SelectedStrategy { get; set; }
     }
 }

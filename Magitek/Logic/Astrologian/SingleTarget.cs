@@ -4,7 +4,6 @@ using ff14bot;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
-using Magitek.Models.Scholar;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
