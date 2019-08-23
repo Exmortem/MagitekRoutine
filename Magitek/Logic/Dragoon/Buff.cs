@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
@@ -68,25 +70,41 @@ namespace Magitek.Logic.Dragoon
             if (!ActionManager.HasSpell(Spells.DragonSight.Id))
                 return false;
 
-            if (Globals.InParty)
+            IEnumerable<Character> ally = null;
+
+            switch (DragoonSettings.Instance.SelectedStrategy)
             {
-                if (DragoonSettings.Instance.DragonSightDpsOrTank)
-                    return await MeleeDpsOrTank();
+                case DragonSightStrategy.ClosestDps:
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && (a.IsMeleeDps() || a.IsRangedDpsCard()));
+
+                    break;
+
+                case DragonSightStrategy.Self:
+                    return await Spells.DragonSight.Cast(Core.Me);
+
+                case DragonSightStrategy.MeleeDps:
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsMeleeDps());
+                    break;
+
+                case DragonSightStrategy.RangedDps:
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsRangedDpsCard());
+                    break;
+
+                case DragonSightStrategy.Tank:
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsTank());
+                    break;
+
+                case DragonSightStrategy.Healer:
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsHealer());
+                    break;
             }
 
-            if (DragoonSettings.Instance.DragonSightOnSelf)
-                return await Spells.DragonSight.Cast(Core.Me);
+            if (ally == null)
+                return false;
 
-            return false;
+            return await Spells.DragonSight.Cast(ally?.FirstOrDefault());
         }
-
-        private static async Task<bool> MeleeDpsOrTank()
-        {
-            var ally = Group.CastableAlliesWithin12.Where(a => (a.IsTank() || a.IsMeleeDps()) && a.IsAlive);
-
-            return await Spells.DragonSight.Cast(ally.FirstOrDefault());
-        }
-
+        
         public static async Task<bool> TrueNorth()
         {
             if (!DragoonSettings.Instance.TrueNorth)

@@ -36,6 +36,8 @@ namespace Magitek.Rotations.Scholar
 
             if (await GambitLogic.Gambit()) return true;
 
+            if (CustomOpenerLogic.InOpener) return false;
+
             if (await Logic.Scholar.Heal.Resurrection()) return true;
 
             // Scalebound Extreme Rathalos
