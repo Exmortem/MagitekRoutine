@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Logic;
 using Magitek.Logic.Scholar;
 using Magitek.Utilities;
 
@@ -26,6 +27,8 @@ namespace Magitek.Rotations.Scholar
 
             if (Core.Me.IsMounted)
                 return false;
+
+            if (CustomOpenerLogic.InOpener) return false;
 
             if (await Buff.SummonPet()) return true;
             return await Buff.Aetherflow();

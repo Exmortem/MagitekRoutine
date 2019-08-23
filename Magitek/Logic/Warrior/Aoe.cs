@@ -60,7 +60,7 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             if (Casting.LastSpell == Spells.Decimate)
-            {   //If Onslaught is allowed
+            {   //If Onslaught is allowed  //If Upheaval is allowed
                 if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
                 if (WarriorSettings.Instance.UseUpheaval && await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
             }
