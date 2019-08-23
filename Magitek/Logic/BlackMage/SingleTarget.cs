@@ -49,6 +49,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire()
         {
+            
             //test for no enochian
             if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana > 800)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
@@ -171,7 +172,10 @@ namespace Magitek.Logic.BlackMage
         }
         public static async Task<bool> Blizzard()   
         {
-           //this shit sucks if you're using it, buy a level skip
+            //stop being level 1, fool
+            if (Core.Me.ClassLevel < 2)
+                return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+            //this shit sucks if you're using it, buy a level skip
             if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 801)
             return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
