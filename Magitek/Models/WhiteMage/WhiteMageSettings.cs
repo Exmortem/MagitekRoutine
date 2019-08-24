@@ -164,6 +164,10 @@ namespace Magitek.Models.WhiteMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool RegenWhileMoving { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool RegenOnHealers { get; set; }
 
         [Setting]
@@ -233,6 +237,10 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(true)]
         public bool PresenceOfMind { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool PresenceOfMindDmg { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]

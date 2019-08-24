@@ -102,17 +102,14 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
+            if (Core.Me.ClassLevel > 54)
+                return false;
+
             if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease))
-            {
-                if (ActionResourceManager.Warrior.BeastGauge < 50)
-                    return false;
-
-                if (Spells.Berserk.Cooldown.TotalSeconds < 15)
-                    return false;
-            }
+            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+                return false;
 
 			return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
 		}
