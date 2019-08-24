@@ -75,11 +75,11 @@ namespace Magitek.Logic.Dragoon
 
             IEnumerable<Character> ally = null;
 
-            switch (DragoonSettings.Instance.SelectedLeftEye)
+            switch (DragoonSettings.Instance.SelectedStrategy)
             {
                 case DragonSightStrategy.ClosestDps:
-                    ally = Group.CastableAlliesWithin10.Where(a =>
-                        a.IsAlive && (a.IsMeleeDps() || a.IsRangedDpsCard()));
+                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && (a.IsMeleeDps() || a.IsRangedDpsCard()));
+
                     break;
 
                 case DragonSightStrategy.Self:
