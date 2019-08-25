@@ -31,9 +31,10 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
 
-            // If we're on GCD for more than 700 milliseconds
-            if (Spells.Fire.Cooldown.TotalMilliseconds > 700)
-                return await Spells.Sharpcast.Cast(Core.Me);
+            // If we used something that opens the GCD
+           
+                if (Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3 || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy) 
+                    return await Spells.Sharpcast.Cast(Core.Me);
             
             return false;
         }

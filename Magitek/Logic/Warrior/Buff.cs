@@ -60,10 +60,10 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
                 return false;
             // We're assuming IR is usable from here
-            // If we're on GCD with more than 750 milliseconds left
+            // If we're on GCD with more than 825 milliseconds left
             if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 900)
             {
-                // Wait until the GCD has 750 or less remaining
+                // Wait until the GCD has 825 or less remaining
                 await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.TotalMilliseconds <= 900);
             }
 

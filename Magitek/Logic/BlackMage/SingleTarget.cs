@@ -49,6 +49,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire()
         {
+            
             //test for no enochian
             if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana > 800)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
@@ -61,6 +62,7 @@ namespace Magitek.Logic.BlackMage
             //If we don't have despair, use fire 1 to dump mana
             if (Core.Me.ClassLevel < 71 && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+            
             return false;
 
         }
@@ -108,6 +110,8 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
+            if (Casting.LastSpell == Spells.Thunder3)
+                return false;
 
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
@@ -116,25 +120,20 @@ namespace Magitek.Logic.BlackMage
             // If the last spell we cast is triple cast, stop
             if (Casting.LastSpell == Spells.Triplecast)
                 return false;
-            // It takes a second for thunder dot to actually hit the boss...
-            if (Casting.LastSpell == Spells.Thunder3)
-                return false;
+            
 
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
-                return false;
-
-            // save for Umbral Phase
-            if (Core.Me.CurrentMana < 800)
                 return false;
 
             // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
             if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 2000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
+
             // Refresh thunder if it's about to run out
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000))
-                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+                return await Spells.Thunder3.CastAura(Core.Me.CurrentTarget, Auras.Thunder3);
 
             return false;
         }
@@ -173,7 +172,10 @@ namespace Magitek.Logic.BlackMage
         }
         public static async Task<bool> Blizzard()   
         {
-           //this shit sucks if you're using it, buy a level skip
+            //stop being level 1, fool
+            if (Core.Me.ClassLevel < 2)
+                return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+            //this shit sucks if you're using it, buy a level skip
             if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 801)
             return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 

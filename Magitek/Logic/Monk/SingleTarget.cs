@@ -170,6 +170,9 @@ namespace Magitek.Logic.Monk
                 if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
                     return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
 
+                if (ActionResourceManager.Monk.Timer.Seconds < 3)
+                    return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+
                 if (Core.Me.HasAura(Auras.LeadenFist))
                     return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 

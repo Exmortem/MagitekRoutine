@@ -17,13 +17,12 @@ namespace Magitek.Rotations.DarkKnight
                 return true;
             
             Group.UpdateAllies();
-       
+            if (await GambitLogic.Gambit()) return true;
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
             
             Globals.InParty = PartyManager.IsInParty;
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
-            if (await GambitLogic.Gambit()) return true;
             return false;
         }
     }

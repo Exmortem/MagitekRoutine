@@ -67,9 +67,6 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.DragonSight)
                 return false;
 
-            if (Core.Me.HasAura(Auras.RightEye))
-                return false;
-
             if (!ActionManager.HasSpell(Spells.DragonSight.Id))
                 return false;
 
@@ -107,8 +104,7 @@ namespace Magitek.Logic.Dragoon
 
             return await Spells.DragonSight.Cast(ally?.FirstOrDefault());
         }
-
-
+        
         public static async Task<bool> TrueNorth()
         {
             if (!DragoonSettings.Instance.TrueNorth)
