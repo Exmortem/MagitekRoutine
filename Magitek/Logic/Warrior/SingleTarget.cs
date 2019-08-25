@@ -111,8 +111,8 @@ namespace Magitek.Logic.Warrior
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
                 return false;
 
-			return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-		}
+            return await Spells.InnerBeast.Cast(Core.Me.CurrentTarget);
+        }
 
         internal static async Task<bool> FellCleave()
         {
