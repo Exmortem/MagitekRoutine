@@ -365,14 +365,14 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.RegenOnTanks)
                 return false;
 
-            if (!MovementManager.IsMoving && WhiteMageSettings.Instance.RegenWhileMoving)
-                return false;
-
             var regenTarget = WhiteMageSettings.Instance.RegenKeepUpOnTanks ? 
                 Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.WhiteMage.DontRegen.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.Regen) && !r.HasMyRegen()) :
                 Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.WhiteMage.DontRegen.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.Regen) && r.CurrentHealthPercent <= WhiteMageSettings.Instance.RegenHealthPercent && !r.HasMyRegen());
 
             if (regenTarget == null)
+                return false;
+
+            if (!MovementManager.IsMoving && WhiteMageSettings.Instance.OnlyRegenWhileMoving)
                 return false;
 
             return await Spells.Regen.Cast(regenTarget);

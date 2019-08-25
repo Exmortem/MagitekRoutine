@@ -47,7 +47,8 @@
                 <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Regen At " />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.RegenHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                    <CheckBox Content="Only Regen While Moving " IsChecked="{Binding WhiteMageSettings.OnlyRegenWhileMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </Grid>
         </controls:SettingsBlock>

@@ -164,7 +164,7 @@ namespace Magitek.Models.WhiteMage
 
         [Setting]
         [DefaultValue(true)]
-        public bool RegenWhileMoving { get; set; }
+        public bool OnlyRegenWhileMoving { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -237,10 +237,6 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(true)]
         public bool PresenceOfMind { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PresenceOfMindDmg { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]
