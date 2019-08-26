@@ -372,6 +372,9 @@ namespace Magitek.Logic.WhiteMage
             if (regenTarget == null)
                 return false;
 
+            if (!MovementManager.IsMoving && WhiteMageSettings.Instance.OnlyRegenWhileMoving)
+                return false;
+
             return await Spells.Regen.Cast(regenTarget);
         }
         
