@@ -47,10 +47,6 @@ namespace Magitek.Models.Roles
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseLowBlow { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseRampart { get; set; }
 
         [Setting]

@@ -24,7 +24,7 @@ namespace Magitek.Rotations.Warrior
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 4);
             }
 
-            if (await SingleTarget.LowBlow()) return true;
+            if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await SingleTarget.Interject()) return true;
             if (await Buff.Defiance()) return true;
 

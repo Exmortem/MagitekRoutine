@@ -101,8 +101,10 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Stun With Low Blow" IsChecked="{Binding GunbreakerSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject" IsChecked="{Binding GunbreakerSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
+                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding GunbreakerSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
