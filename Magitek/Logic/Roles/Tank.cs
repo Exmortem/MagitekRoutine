@@ -66,6 +66,9 @@ namespace Magitek.Logic.Roles
 
         public static async Task<bool> Interrupt<T>(T settings) where T : TankSettings
         {
+            if (!settings.UseInterrupt)
+                return false;
+
             BattleCharacter interruptTarget;
 
             switch (settings.Strategy)

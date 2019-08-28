@@ -48,7 +48,8 @@ namespace Magitek.Rotations.DarkKnight
             if (await Defensive.TheBlackestNight()) return true;
             if (await Buff.Delirium()) return true;
             if (await Buff.BloodWeapon()) return true;
-
+            if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;
+            
             if (Utilities.Routines.DarkKnight.OnGcd)
             {
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;

@@ -52,7 +52,7 @@ namespace Magitek.Logic.Monk
 
             if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >= 3 && Core.Me.ClassLevel >= 76)
             {
-                if (Casting.LastSpell == Spells.TwinSnakes || Casting.LastSpell == Spells.TrueStrike)
+                if (Casting.LastSpell == Spells.TwinSnakes || Casting.LastSpell == Spells.TrueStrike || Casting.LastSpell == Spells.FourPointFury)
                     return await Spells.FistsOfWind.Cast(Core.Me);
                 else
                     return false;

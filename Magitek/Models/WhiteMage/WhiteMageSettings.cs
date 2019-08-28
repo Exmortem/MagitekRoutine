@@ -164,6 +164,10 @@ namespace Magitek.Models.WhiteMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool OnlyRegenWhileMoving { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool RegenOnHealers { get; set; }
 
         [Setting]

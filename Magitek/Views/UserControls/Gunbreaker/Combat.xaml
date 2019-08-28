@@ -10,6 +10,16 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:InterruptStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -101,8 +111,18 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Stun With Low Blow" IsChecked="{Binding GunbreakerSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject" IsChecked="{Binding GunbreakerSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <CheckBox Grid.Row="0" Content="Use Interrupt " IsChecked="{Binding WarriorSettings.UseInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                    <StackPanel Margin="0,5,0,0" Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
+                        <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding WarriorSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </controls:SettingsBlock>
 

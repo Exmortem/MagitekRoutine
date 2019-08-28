@@ -102,20 +102,17 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
+            if (Core.Me.ClassLevel > 54)
+                return false;
+
             if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease))
-            {
-                if (ActionResourceManager.Warrior.BeastGauge < 50)
-                    return false;
+            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+                return false;
 
-                if (Spells.Berserk.Cooldown.TotalSeconds < 15)
-                    return false;
-            }
-
-			return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-		}
+            return await Spells.InnerBeast.Cast(Core.Me.CurrentTarget);
+        }
 
         internal static async Task<bool> FellCleave()
         {
@@ -195,45 +192,7 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.HeavySwing.Cast(Core.Me.CurrentTarget);
         }
-
-        public static async Task<bool> LowBlow()
-        {
-            if (!WarriorSettings.Instance.UseLowBlow)
-                return false;
-
-            var currentTargetAsCharacter = Core.Me.CurrentTarget as Character;
-
-            if (currentTargetAsCharacter == null)
-                return false;
-
-            if (!currentTargetAsCharacter.IsCasting)
-                return false;
-
-            if (!InterruptsAndStunsManager.AllStuns.Contains(currentTargetAsCharacter.CastingSpellId))
-                return false;
-
-            return await Spells.LowBlow.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Interject()
-        {
-            if (!WarriorSettings.Instance.UseInterject)
-                return false;
-
-            var currentTargetAsCharacter = Core.Me.CurrentTarget as Character;
-
-            if (currentTargetAsCharacter == null)
-                return false;
-
-            if (!currentTargetAsCharacter.IsCasting)
-                return false;
-
-            if (!InterruptsAndStunsManager.AllInterrupts.Contains(currentTargetAsCharacter.CastingSpellId))
-                return false;
-
-            return await Spells.Interject.Cast(Core.Me.CurrentTarget);
-        }
-
+        
         public static async Task<bool> Onslaught()
         {
             if (!WarriorSettings.Instance.UseOnslaught)

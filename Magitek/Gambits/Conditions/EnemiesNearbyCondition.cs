@@ -29,7 +29,7 @@ namespace Magitek.Gambits.Conditions
             if (!ByPlayer)
                 return false;
 
-            return Utilities.Combat.Enemies.Count(r => r.Distance(Core.Me.Location) >= Range) >= Count;
+            return Utilities.Combat.Enemies.Count(r => r.Distance(Core.Me) <= Range) >= Count;
         }
     }
 }
