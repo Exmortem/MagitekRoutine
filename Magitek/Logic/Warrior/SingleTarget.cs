@@ -192,26 +192,7 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.HeavySwing.Cast(Core.Me.CurrentTarget);
         }
-
-        public static async Task<bool> Interject()
-        {
-            if (!WarriorSettings.Instance.UseInterject)
-                return false;
-
-            var currentTargetAsCharacter = Core.Me.CurrentTarget as Character;
-
-            if (currentTargetAsCharacter == null)
-                return false;
-
-            if (!currentTargetAsCharacter.IsCasting)
-                return false;
-
-            if (!InterruptsAndStunsManager.AllInterrupts.Contains(currentTargetAsCharacter.CastingSpellId))
-                return false;
-
-            return await Spells.Interject.Cast(Core.Me.CurrentTarget);
-        }
-
+        
         public static async Task<bool> Onslaught()
         {
             if (!WarriorSettings.Instance.UseOnslaught)
