@@ -331,6 +331,9 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.HasAetherflow())
                 return false;
 
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) > ScholarSettings.Instance.IndomitabilityNeedHealing)
+                return false;
+
             if (Globals.InParty)
             {
                 var lustrateTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanLustrate);
