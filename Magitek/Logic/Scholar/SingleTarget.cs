@@ -94,9 +94,15 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.HasAetherflow())
             return false;
 
-            if (Spells.Aetherflow.Cooldown.TotalMilliseconds >= 12000)
-                return false; 
-
+            if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 8000)
+                return false;
+            if (ActionResourceManager.Scholar.Aetherflow == 2 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 6000)
+                return false;
+            if (ActionResourceManager.Scholar.Aetherflow == 1 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 4000)
+                return false;
+            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+                    return true;
             return await Spells.EnergyDrain2.Cast(Core.Me.CurrentTarget);
         }
     }
