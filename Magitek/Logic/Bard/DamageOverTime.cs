@@ -31,7 +31,7 @@ namespace Magitek.Logic.Bard
                 if (!Core.Me.CurrentTarget.InLineOfSight())
                     return false;
 
-                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
+                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon &&  Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                     return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.Windbite, true))
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
+            if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds )
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.StormBite, true))
@@ -72,7 +72,7 @@ namespace Magitek.Logic.Bard
                 if (!Core.Me.CurrentTarget.InLineOfSight())
                     return false;
 
-                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
+                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                     return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.VenomousBite, true))
@@ -89,7 +89,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
+            if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.CausticBite, true))
@@ -281,7 +281,7 @@ namespace Magitek.Logic.Bard
                     return false;
                 if (!unit.InLineOfSight())
                     return false;
-                if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
+                if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon && unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
                     return false;
 
                 if (!unit.HasAura(Utilities.Routines.Bard.Windbite, true) || !unit.HasAura(Utilities.Routines.Bard.VenomousBite, true))
