@@ -1,99 +1,77 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Navigation;
 using Magitek.Extensions;
-using Magitek.Models.Machinist;
 using Magitek.Utilities;
-using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist
 {
     internal static class SingleTarget
     {
-        public static async Task<bool> HeatedSplitShot()
+        public static async Task<bool> SplitShot()
         {
-            //One to disable them all
-            if (!MachinistSettings.Instance.UseSplitShotCombo)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
-                return false;
-
-            return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
+            return await Spells.SplitShot.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> HeatedSlugShot()
+        public static async Task<bool> SlugShot()
         {
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
-                return false;
-
-            return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
+            return await Spells.SlugShot.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> HeatedCleanShot()
+        public static async Task<bool> CleanShot()
         {
             if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
-                return false;
-
-            return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
+            return await Spells.CleanShot.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Drill()
+        public static async Task<bool> HotShot()
         {
-            if (!MachinistSettings.Instance.UseDrill)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount
-                && MachinistSettings.Instance.UseBioBlaster)
-                return false;
-
-            return await Spells.Drill.Cast(Core.Me.CurrentTarget);
+            return await Spells.HotShot.Cast(Core.Me.CurrentTarget);
         }
-
-        public static async Task<bool> HotAirAnchor()
+        
+        public static async Task<bool> GaussRound()
         {
-            if (!MachinistSettings.Instance.UseHotAirAnchor)
-                return false;
-
-            return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
+            return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatBlast()
         {
-            if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.AutoCrossbowEnemyCount
-                && MachinistSettings.Instance.UseAutoCrossbow)
-                return false;
-
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> GaussRound()
+        public static async Task<bool> Drill()
         {
-            if (!MachinistSettings.Instance.UseGaussRound)
-                return false;
+            if(ActionManager.CanCast(Spells.Reassemble, Core.Me))
+                if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
+                    return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
-            if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;
+            if(Casting.LastSpell == Spells.Reassemble)
+                return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
-            //add some mor precise logic for pooling/dumping
-            if (Spells.GaussRound.Charges < 1.8f)
-                return false;
+            if(Spells.Reassemble.Cooldown.TotalMilliseconds > 20000 && Spells.AirAnchor.Cooldown.TotalMilliseconds < Spells.Reassemble.Cooldown.TotalMilliseconds)
+                return await Spells.Drill.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
+            return false;
+        }
+
+        public static async Task<bool> AirAnchor()
+        {
+            if(ActionManager.CanCast(Spells.Reassemble, Core.Me))
+                if (await Spells.Reassemble.CastAura(Core.Me, Auras.Reassembled))
+                    return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
+
+            if(Casting.LastSpell == Spells.Reassemble)
+                return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
+
+            if(Spells.Reassemble.Cooldown.TotalMilliseconds > 40000 && Spells.Drill.Cooldown.TotalMilliseconds < Spells.Reassemble.Cooldown.TotalMilliseconds)
+                return await Spells.AirAnchor.Cast(Core.Me.CurrentTarget);
+
+            return false;
         }
     }
 }
