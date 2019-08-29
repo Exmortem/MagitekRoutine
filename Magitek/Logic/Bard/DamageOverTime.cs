@@ -31,7 +31,7 @@ namespace Magitek.Logic.Bard
                 if (!Core.Me.CurrentTarget.InLineOfSight())
                     return false;
 
-                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
                     return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.Windbite, true))
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.StormBite, true))
@@ -72,7 +72,7 @@ namespace Magitek.Logic.Bard
                 if (!Core.Me.CurrentTarget.InLineOfSight())
                     return false;
 
-                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
                     return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.VenomousBite, true))
@@ -89,7 +89,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds != 0)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.CausticBite, true))
