@@ -179,7 +179,7 @@ namespace Magitek.Logic.Bard
                 return false;
             if (!unit.InLineOfSight())
                 return false;
-            if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
+            if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds != 0)
                 return false;
 
             return !unit.HasAura(spell, true);
