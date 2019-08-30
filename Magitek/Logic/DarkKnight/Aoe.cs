@@ -103,6 +103,9 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> FloodofDarknessShadow()
         {
+            if (Core.Me.HasDarkArts())
+                return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
+
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
                 return false;
 
