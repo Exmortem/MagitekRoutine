@@ -8,7 +8,7 @@ namespace Magitek.Rotations.Machinist
     {
         public static async Task<bool> Execute()
         {
-            return Core.Me.CurrentHealthPercent < 75;
+            return Core.Me.CurrentHealthPercent < MachinistSettings.Instance.RestHealthPercent;
         }
     }
 }
