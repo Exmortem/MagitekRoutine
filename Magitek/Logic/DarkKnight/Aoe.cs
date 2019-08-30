@@ -103,6 +103,9 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> FloodofDarknessShadow()
         {
+            if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
+                return false;
+
             if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 

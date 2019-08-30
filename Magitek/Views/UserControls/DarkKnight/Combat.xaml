@@ -29,9 +29,9 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Syphon Strike When Below " IsChecked="{Binding DarkKnightSettings.SyphonStrike, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.SyphonStrikeBelowMana, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Always Save at least " />
+                    <controls:Numeric Margin="0,3" Increment="100"  MaxValue="10000" MinValue="0" Value="{Binding DarkKnightSettings.SaveXMana, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

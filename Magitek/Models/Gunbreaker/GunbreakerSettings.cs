@@ -13,18 +13,13 @@ namespace Magitek.Models.Gunbreaker
 
         public static GunbreakerSettings Instance { get; set; } = new GunbreakerSettings();
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAmmoCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseRoyalGuard { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float RestHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(MachinistOpenerStrategy.AlwaysUseOpener)]
-        public MachinistOpenerStrategy MachinistOpenerStrategy { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -49,10 +44,6 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(30)]
         public int NebulaHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(15)]
-        public int AuroraAsDefensiveHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -99,16 +90,24 @@ namespace Magitek.Models.Gunbreaker
         public int  UseAuroraSelfHealthPercent { get; set; }
 
         [Setting]
+        [DefaultValue(15)]
+        public int AuroraAsDefensiveHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(50)]
         public int MinMpAurora { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int FatedCircleEnemies { get; set; }
+        [DefaultValue(true)]
+        public bool UseAoe { get; set; }
 
         [Setting]
         [DefaultValue(2)]
         public int DemonSliceEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int FatedCircleEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -125,6 +124,10 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(true)]
         public bool PullWithLightningShot { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int LightningShotMinDistance { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -145,13 +148,5 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAoe { get; set; }
-
-        [Setting]
-        [DefaultValue(0)]
-        public int LightningShotMinDistance { get; set; }
     }
 }

@@ -49,8 +49,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Ammo Combo " IsChecked="{Binding GunbreakerSettings.UseAmmoCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Save Danger Zone When No Mercy Under " IsChecked="{Binding GunbreakerSettings.SaveDangerZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveDangerZoneMseconds, Mode=TwoWay}" />
@@ -58,7 +65,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Margin="5">
+                <StackPanel Grid.Row="2" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Save Blasting Zone When No Mercy Under " IsChecked="{Binding GunbreakerSettings.SaveBlastingZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveBlastingZoneMseconds, Mode=TwoWay}" />
