@@ -79,6 +79,12 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> EdgeofDarknessShadow()
         {
+            if (Core.Me.HasDarkArts())
+                return await Spells.EdgeofDarkness.Cast(Core.Me.CurrentTarget);
+
+            if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
+                return false;
+
             if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 
