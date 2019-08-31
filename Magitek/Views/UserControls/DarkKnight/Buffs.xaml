@@ -12,64 +12,19 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Column="0" Content="Grit  " IsChecked="{Binding DarkKnightSettings.Grit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </Grid>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Column="0" Content="Blood Weapon" IsChecked="{Binding DarkKnightSettings.BloodWeapon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </Grid>
-        </controls:SettingsBlock>
-
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Darkside When Above " IsChecked="{Binding DarkKnightSettings.Darkside, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.DarksideManaOn, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
+                    <CheckBox Content="Blood Weapon  " IsChecked="{Binding DarkKnightSettings.BloodWeapon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-
-                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Turn Off When Below " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.DarksideManaOff, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-
-                <CheckBox Margin="0,3,0,0" Content="Ignore Options And Always Keep Darkside On" IsChecked="{Binding DarkKnightSettings.DarksideAlwaysKeepOn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Delirium  " IsChecked="{Binding DarkKnightSettings.Delirium, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="On Blood Weapon" IsChecked="{Binding DarkKnightSettings.BloodWeapon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Living Shadow  " IsChecked="{Binding DarkKnightSettings.LivingShadow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Reprisal" IsChecked="{Binding DarkKnightSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

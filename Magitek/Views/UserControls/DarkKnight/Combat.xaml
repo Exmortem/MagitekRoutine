@@ -12,19 +12,6 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Pull With Unmend" IsChecked="{Binding DarkKnightSettings.UnmendToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Unmend To Regain Aggro" IsChecked="{Binding DarkKnightSettings.UnmendToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Plunge" IsChecked="{Binding DarkKnightSettings.UsePlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="5,0" Content="Use To Pull If Available" IsChecked="{Binding DarkKnightSettings.PullWithPlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -38,14 +25,20 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Carve And Spit" IsChecked="{Binding DarkKnightSettings.CarveAndSpit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,0,0,0" Content="Only With Dark Arts" IsChecked="{Binding DarkKnightSettings.CarveAndSpitDarkArtsOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Plunge" IsChecked="{Binding DarkKnightSettings.UsePlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Bloodspiller  " IsChecked="{Binding DarkKnightSettings.Bloodspiller, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Carve And Spit  " IsChecked="{Binding DarkKnightSettings.UseCarveAndSpit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Only With Blood Weapon" IsChecked="{Binding DarkKnightSettings.UseCarveOnlyWithBloodWeapon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="BloodSpiller " IsChecked="{Binding DarkKnightSettings.UseBloodspiller, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -64,13 +57,24 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Grid.Column="0" Content="Aoe When There Are  " IsChecked="{Binding DarkKnightSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <controls:Numeric Grid.Row="0" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.AoeEnemies, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                        <CheckBox Grid.Row="1" Grid.Column="0" Margin="0,5" Content="Quietus " IsChecked="{Binding DarkKnightSettings.Quietus, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Unleash " IsChecked="{Binding DarkKnightSettings.UseUnleash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="3" Grid.Column="0" Margin="0,5" Content="Salted Earth " IsChecked="{Binding DarkKnightSettings.UseSaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="0" Grid.Column="0" Margin="0,5" Content="Use AoEs (Does not Affect Abyssal Drain or Salted Earth)" IsChecked="{Binding DarkKnightSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="1" Grid.Column="0" Content="Unleash When There Are  " IsChecked="{Binding DarkKnightSettings.UseUnleash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.UnleashEnemies, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Quietus When There Are  " IsChecked="{Binding DarkKnightSettings.UseQuietus, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.QuietusEnemies, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                        <CheckBox Grid.Row="3" Grid.Column="0" Content="Flood When There Are  " IsChecked="{Binding DarkKnightSettings.UseFloodDarknessShadow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.FloodEnemies, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                        <CheckBox Grid.Row="4" Grid.Column="0" Content="Abyssal When There Are  " IsChecked="{Binding DarkKnightSettings.UseAbyssalDrain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.AbyssalDrainEnemies, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                        <CheckBox Grid.Row="5" Grid.Column="0" Content="Salted Earth When There Are  " IsChecked="{Binding DarkKnightSettings.UseSaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.SaltedEarthEnemies, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                     </Grid>
                 </StackPanel>
             </StackPanel>
@@ -80,13 +84,6 @@
             <StackPanel Margin="5">
                 <CheckBox Content="Stun With Low Blow " IsChecked="{Binding DarkKnightSettings.UseLowBlow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,3,0,0" Content="Interrupt With Interject " IsChecked="{Binding DarkKnightSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Reprisal " IsChecked="{Binding DarkKnightSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Abyssal Drain " IsChecked="{Binding DarkKnightSettings.AbyssalDrain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
