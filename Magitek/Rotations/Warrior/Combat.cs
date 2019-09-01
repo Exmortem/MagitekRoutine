@@ -27,7 +27,7 @@ namespace Magitek.Rotations.Warrior
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
 
-            if (Utilities.Routines.Warrior.OnGcd)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 800 + WarriorSettings.Instance.UserLatencyOffset)
             {
                 if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;
