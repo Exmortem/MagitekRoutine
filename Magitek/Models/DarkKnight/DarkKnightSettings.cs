@@ -21,10 +21,6 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseTheBlackestNight { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UnmendToPullAggro { get; set; }
 
         [Setting]
