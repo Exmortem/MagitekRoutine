@@ -13,7 +13,7 @@ namespace Magitek.Gambits.Conditions
 
         public override bool Check(GameObject gameObject = null)
         {
-            return Core.Me.CurrentMana <= MpPercentage;
+            return Core.Me.CurrentMana => MpPercentage;
         }
     }
 }
