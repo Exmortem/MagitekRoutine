@@ -113,8 +113,8 @@ namespace Magitek.Converters
                     case GambitConditionTypes.CombatTime:
                         condition = new CombatTimeCondition();
                         break;
-                    case GambitConditionTypes.MpAbove:
-                        condition = new MpAboveCondition();
+                    case GambitConditionTypes.MpAboveCondition:
+                        condition = new MpPercentAboveCondition();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

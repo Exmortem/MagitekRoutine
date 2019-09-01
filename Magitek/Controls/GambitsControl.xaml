@@ -964,7 +964,7 @@
                                                                                     </ComboBox>
                                                                                 </DataTemplate>
 
-                                                                                <DataTemplate DataType="{x:Type conditions:MpAboveCondition}">
+                                                                                <DataTemplate DataType="{x:Type conditions:MpPercentAboveCondition}">
                                                                                     <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="MP ABOVE">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"

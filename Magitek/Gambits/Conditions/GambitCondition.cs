@@ -49,6 +49,6 @@ namespace Magitek.Gambits.Conditions
         SamuraiKenki,
         HasPet,
         CombatTime,
-        MpAbove
+        MpAboveCondition
     }
 }
