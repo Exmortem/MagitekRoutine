@@ -29,6 +29,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (ActionManager.LastSpell != Spells.BrutalShell)
                 return false;
+
             if (Cartridge == 2)
                 return false;
 

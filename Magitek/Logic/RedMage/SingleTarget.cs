@@ -87,7 +87,7 @@ namespace Magitek.Logic.RedMage
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (WhiteMana > BlackMana)
+                    if (BlackMana > WhiteMana)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))

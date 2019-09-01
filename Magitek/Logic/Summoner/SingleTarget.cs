@@ -49,7 +49,7 @@ namespace Magitek.Logic.Summoner
         {
             if (!SummonerSettings.Instance.Bio) return false;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= SummonerSettings.Instance.DotRefreshSeconds * 1000)
+            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= SummonerSettings.Instance.DotRefreshSeconds * 1000 && Core.Me.ClassLevel > 53)
                 return false;
 
             return !Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.DotRefreshSeconds * 1000)
@@ -63,7 +63,7 @@ namespace Magitek.Logic.Summoner
             if (MovementManager.IsMoving) return false;
             var refresh = SummonerSettings.Instance.DotRefreshSeconds * 1000;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= refresh)
+            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= refresh && Core.Me.ClassLevel > 53)
                 return false;
 
             switch (Core.Me.ClassLevel)

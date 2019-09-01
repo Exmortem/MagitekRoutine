@@ -5,6 +5,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.RedMage;
+using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
@@ -55,9 +56,15 @@ namespace Magitek.Rotations.RedMage
                 if (await Aoe.ContreSixte()) return true;
                 if (await SingleTarget.Fleche()) return true;
             }
-                        
-            if (await Aoe.Moulinet()) return true;
-            if (await Aoe.Scatter()) return true;
+
+            if (RedMageSettings.Instance.UseAoe)
+            {
+                if (await Aoe.Moulinet()) return true;
+                if (await Aoe.Scatter()) return true;
+                if (await Aoe.Veraero2()) return true;
+                if (await Aoe.Verthunder2()) return true;
+            }
+
             if (await SingleTarget.CorpsACorps()) return true;
 
             if (await SingleTarget.Redoublement()) return true;

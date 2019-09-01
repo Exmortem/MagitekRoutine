@@ -31,8 +31,7 @@ namespace Magitek.Rotations.DarkKnight
             }
 
             if (await Buff.Grit()) return true;
-            if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;
-
+            if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;            
             if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650)
             {
                 if (DarkKnightSettings.Instance.UseAoe)
