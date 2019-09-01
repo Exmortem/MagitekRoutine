@@ -176,7 +176,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 2)
                 return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
             //this shit sucks if you're using it, buy a level skip
-            if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 801)
+            if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 1600)
             return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
             return false;
