@@ -21,6 +21,11 @@ namespace Magitek.Extensions
             return MagitekActionResourceManager.BlackMage.Enochian;
         }
 
+        public static bool HasDarkArts(this LocalPlayer me)
+        {
+            return MagitekActionResourceManager.DarkKnight.DarkArts;
+        }
+
         public static bool OnPvpMap(this LocalPlayer player)
         {
             if (!WorldManager.InPvP)

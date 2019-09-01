@@ -118,6 +118,9 @@ namespace Magitek.Logic.DarkKnight
             if (ActionResourceManager.DarkKnight.BlackBlood < 50)
                 return false;
 
+            if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
+                return false;
+
             return await Spells.TheBlackestNight.CastAura(Core.Me, Auras.BlackestNight);
         }
 

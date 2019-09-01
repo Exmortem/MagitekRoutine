@@ -14,6 +14,10 @@ namespace Magitek.Models.DarkKnight
         public static DarkKnightSettings Instance { get; set; } = new DarkKnightSettings();
 
         [Setting]
+        [DefaultValue(3000)]
+        public int SaveXMana { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseTheBlackestNight { get; set; }
 
@@ -76,14 +80,6 @@ namespace Magitek.Models.DarkKnight
         [Setting]
         [DefaultValue(25.0f)]
         public float DarksideManaOff { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool SyphonStrike { get; set; }
-
-        [Setting]
-        [DefaultValue(40.0f)]
-        public float SyphonStrikeBelowMana { get; set; }
 
         [Setting]
         [DefaultValue(true)]

@@ -41,6 +41,9 @@ namespace Magitek.Logic.Gunbreaker
             if (Cartridge == 0)
                 return false;
 
+            if (!GunbreakerSettings.Instance.UseAmmoCombo)
+                return false;
+
             if (Spells.NoMercy.Cooldown.TotalMilliseconds < 10000)
                 return false;
 
