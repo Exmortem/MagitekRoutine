@@ -74,7 +74,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Bio)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAnyAura(BioAuras, true, ScholarSettings.Instance.BioRefreshSeconds * 1000))
+            if (Core.Me.CurrentTarget.HasAnyAura(BioAuras, true, 4000))
                 return false;
 
             return await Spells.Bio.Cast(Core.Me.CurrentTarget);
@@ -94,11 +94,11 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.HasAetherflow())
             return false;
 
-            if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 8000)
+            if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 9000)
                 return false;
             if (ActionResourceManager.Scholar.Aetherflow == 2 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 6000)
                 return false;
-            if (ActionResourceManager.Scholar.Aetherflow == 1 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 4000)
+            if (ActionResourceManager.Scholar.Aetherflow == 1 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 3000)
                 return false;
             if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
                 if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))

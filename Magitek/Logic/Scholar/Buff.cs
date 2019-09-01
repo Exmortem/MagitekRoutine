@@ -97,6 +97,8 @@ namespace Magitek.Logic.Scholar
             // Stop if we're in Combat, we can waste this when we don't know if the tank is pulling or not
             if (!Core.Me.InCombat)
                 return false;
+            if (Spells.DeploymentTactics.Cooldown.TotalMilliseconds > 1500)
+                return false;
             // Find someone who has the right amount of allies around them based on the users settings
             var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.HasAura(Auras.Galvanize) && r.HasAura(Auras.Catalyze) && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 10) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
