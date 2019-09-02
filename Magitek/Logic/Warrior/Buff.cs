@@ -96,11 +96,13 @@ namespace Magitek.Logic.Warrior
             //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
             if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
                 return false;
+            if (Casting.LastSpell == Spells.InnerRelease)
+                return false;
             //If we are in Inner Release and lv 72+, don't use Infuriate
             if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
                 return false;
             //If we are lv 72+ and Inner Release comes off CD in 10 or less seconds don't use Infuriate
-            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 10000)
+            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.Seconds < 10)
                 return false;
             //Buff Check Logic here
 
