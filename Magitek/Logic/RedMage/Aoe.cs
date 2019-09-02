@@ -32,6 +32,9 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.UseContreSixte)
                 return false;
 
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < RedMageSettings.Instance.ContreSixteEnemies)
+                return false;
+
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
@@ -60,26 +63,11 @@ namespace Magitek.Logic.RedMage
             if (WhiteMana > BlackMana)
                 return false;
 
-            if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
-            {
-                if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
-                    return false;
+            if (!RedMageSettings.Instance.Ver2)
+                return false;
 
-                if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
-                    return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
-
-                if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
-                    return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
-
-                if (await Spells.Swiftcast.Cast(Core.Me))
-                {
-                    await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
-                    await Coroutine.Wait(2000,
-                        () => ActionManager.CanCast(Spells.Veraero2, Core.Me.CurrentTarget));
-                    return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
-
-                }
-            }
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < RedMageSettings.Instance.Ver2Enemies)
+                return false;
 
             return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
         }
@@ -89,27 +77,12 @@ namespace Magitek.Logic.RedMage
             if (BlackMana > WhiteMana)
                 return false;
 
-            if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
-            {
-                if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
-                    return false;
+            if (!RedMageSettings.Instance.Ver2)
+                return false;
 
-                if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
-                    return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < RedMageSettings.Instance.Ver2Enemies)
+                return false;
 
-                if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
-                    return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
-
-                if (await Spells.Swiftcast.Cast(Core.Me))
-                {
-                    await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
-                    await Coroutine.Wait(2000,
-                        () => ActionManager.CanCast(Spells.Verthunder2, Core.Me.CurrentTarget));
-                    return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
-
-                }
-            }
-            
             return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
         }
     }
