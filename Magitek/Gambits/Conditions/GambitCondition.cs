@@ -24,6 +24,7 @@ namespace Magitek.Gambits.Conditions
         PlayerHasAura,
         HpPercentBelow,
         HpPercentBetween,
+        MpPercent,
         InInstance,
         NotInInstance,
         IsJob,
@@ -49,6 +50,5 @@ namespace Magitek.Gambits.Conditions
         SamuraiKenki,
         HasPet,
         CombatTime,
-        MpAboveCondition
     }
 }

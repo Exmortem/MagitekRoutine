@@ -35,6 +35,9 @@ namespace Magitek.Converters
                     case GambitConditionTypes.HpPercentBetween:
                         condition = new HpPercentBetweenCondition();
                         break;
+                    case GambitConditionTypes.MpPercent:
+                        condition = new MpPercentCondition();
+                        break;
                     case GambitConditionTypes.InInstance:
                         condition = new InInstanceCondition();
                         break;
@@ -112,9 +115,6 @@ namespace Magitek.Converters
                         break;
                     case GambitConditionTypes.CombatTime:
                         condition = new CombatTimeCondition();
-                        break;
-                    case GambitConditionTypes.MpAboveCondition:
-                        condition = new MpPercentAboveCondition();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
