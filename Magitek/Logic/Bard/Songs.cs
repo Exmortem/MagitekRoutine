@@ -25,7 +25,7 @@ namespace Magitek.Logic.Bard
 
             if (!ActionManager.HasSpell(Spells.TheWanderersMinuet.Id) || !ActionManager.HasSpell(Spells.MagesBallad.Id) 
                                                                       || !ActionManager.HasSpell(Spells.ArmysPaeon.Id))
-                PlsEndMe();
+                return await PlsEndMe();
 
             if (BardSettings.Instance.CheckDotsBeforeSinging)
                 switch (BardSettings.Instance.AmmountOfDotsBeforeSinging)
