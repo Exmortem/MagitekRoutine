@@ -153,6 +153,12 @@ namespace Magitek.Logic.Monk
             if (Core.Me.InCombat && !Core.Me.HasTarget && MonkSettings.Instance.UseAutoFormShift && ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 4)
                 return await Spells.FormShift.Cast(Core.Me);
 
+            if (MonkSettings.Instance.AutoFormShiftStopCoeurl && !Core.Me.HasAura(Auras.CoeurlForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                return await Spells.FormShift.Cast(Core.Me);
+
+            if (MonkSettings.Instance.AutoFormShiftStopRaptor && !Core.Me.HasAura(Auras.RaptorForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                return await Spells.FormShift.Cast(Core.Me);
+
             if (Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
