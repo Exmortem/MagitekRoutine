@@ -40,6 +40,8 @@ namespace Magitek.Rotations.Monk
 
             if (await Buff.FistsOf()) return true;
 
+            if (await Buff.Meditate()) return true;
+
             //var count = Utilities.Combat.Enemies.Count;
             //if (2 >= count && count < 5)
             //{

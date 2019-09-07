@@ -46,6 +46,14 @@ namespace Magitek.Models.Monk
         public int MantraAllies { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseAutoMeditate { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseAutoFormShift { get; set; }
+
+        [Setting]
         [DefaultValue(60.0f)]
         public float MantraHealthPercent { get; set; }
 

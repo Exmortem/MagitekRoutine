@@ -488,6 +488,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ThirdEye = DataManager.GetSpellData(7498);
         public static readonly SpellData MeikyoShisui = DataManager.GetSpellData(7499);
         public static readonly SpellData HissatsuSeigan = DataManager.GetSpellData(7501);
+        public static readonly SpellData Meditation = DataManager.GetSpellData(3546);
         #endregion
 
         // SCH

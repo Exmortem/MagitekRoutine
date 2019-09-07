@@ -70,9 +70,21 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="True North" IsChecked="{Binding MonkSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Auto Meditate on downtime" IsChecked="{Binding MonkSettings.UseAutoMeditate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content= "Auto FormShift to maintain GL on downtime" IsChecked="{Binding MonkSettings.UseAutoFormShift, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
