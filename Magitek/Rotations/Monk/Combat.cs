@@ -57,6 +57,7 @@ namespace Magitek.Rotations.Monk
                 if (Utilities.Routines.Monk.OnGcd)
                 {
                     if (await Buff.Brotherhood()) return true;
+                    if (await Aoe.Enlightenment()) return true;
                     if (await SingleTarget.TheForbiddenChakra()) return true;
                     if (await SingleTarget.ShoulderTackle()) return true;
                     if (await Buff.PerfectBalance()) return true;

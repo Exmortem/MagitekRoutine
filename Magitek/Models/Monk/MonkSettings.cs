@@ -50,6 +50,14 @@ namespace Magitek.Models.Monk
         public bool UseAutoMeditate { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseEnlightenment { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int EnlightenmentEnemies { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool UseAutoFormShift { get; set; }
 

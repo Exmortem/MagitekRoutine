@@ -9,6 +9,7 @@ namespace Magitek.Utilities.Routines
     {
         public static bool OnGcd => Spells.Bootshine.Cooldown.TotalMilliseconds > 400;
         public static int PBStage = 0;
+        public static int EnemiesInCone;
         public static int AoeEnemies8Yards;
         public static void RefreshVars()
         {
@@ -16,6 +17,7 @@ namespace Magitek.Utilities.Routines
                 return;
 
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+            EnemiesInCone = Core.Me.EnemiesInCone(40);
         }
     }
 }
