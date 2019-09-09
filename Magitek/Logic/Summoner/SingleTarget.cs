@@ -81,11 +81,17 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault()
         {
-            if (Core.Me.ClassLevel < 10) return false;
+            if (Spells.EgiAssault.Cooldown.TotalMilliseconds > 1)
+                return false;
 
             if (!SummonerSettings.Instance.EgiAssault1) return false;
 
             if ((int)PetManager.ActivePetType == 10) return false;
+
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
+                        return true;
 
             return await Spells.EgiAssault.Cast(Core.Me.CurrentTarget);
         }
@@ -117,12 +123,17 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault2()
         {
-            if (Core.Me.ClassLevel < 40) return false;
+            if (Spells.EgiAssault.Cooldown.TotalMilliseconds > 1)
+                return false;
 
             if (!SummonerSettings.Instance.EgiAssault2) return false;
 
             if ((int)PetManager.ActivePetType == 10) return false;
 
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
+                        return true;
             return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
         }
 

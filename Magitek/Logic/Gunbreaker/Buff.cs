@@ -32,16 +32,12 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseNoMercy)
                 return false;
             //Use on last end of GCD
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds > 750)
-                return false;
-            //ensure we have full cartridge for burst
-            if (Cartridge != 2)
-                return false;
-            //ensure we started combo to get extra cartridge inside buffs
-            if (Casting.LastSpell == Spells.SolidBarrel)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds > 850)
                 return false;
 
             return await Spells.NoMercy.Cast(Core.Me);
+
+        
         }
 
         public static async Task<bool> Bloodfest()
@@ -52,7 +48,7 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseBloodfest)
                 return false;
 
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 650)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
             return await Spells.Bloodfest.Cast(Core.Me.CurrentTarget);
