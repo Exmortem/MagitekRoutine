@@ -43,9 +43,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Elixer Field When There Are " IsChecked="{Binding MonkSettings.UseElixerField, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MonkSettings.ElixerFieldEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                <CheckBox Grid.Row="0" Grid.Column="0" Content="Elixer Field" IsChecked="{Binding MonkSettings.UseElixerField, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
 

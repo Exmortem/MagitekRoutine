@@ -33,6 +33,9 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> Rockbreaker()
         {
+            if (Core.Me.ClassLevel < 30)
+                return false;
+
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
@@ -47,6 +50,9 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FourPointStrike()
         {
+            if (Core.Me.ClassLevel < 45)
+                return false;
+
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
@@ -64,6 +70,9 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> ArmOfDestroyer()
         {
+            if (Core.Me.ClassLevel < 26)
+                return false;
+
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
