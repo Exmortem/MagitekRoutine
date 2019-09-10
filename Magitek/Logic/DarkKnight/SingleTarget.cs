@@ -76,7 +76,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> EdgeofDarknessShadow()
         {
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 10 + r.CombatReach && r.InView()) < DarkKnightSettings.Instance.FloodEnemies && Core.Me.HasDarkArts())
+            if (DarkKnightSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies && Core.Me.HasDarkArts())
                 return await Spells.EdgeofDarkness.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)

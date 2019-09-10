@@ -20,11 +20,11 @@ namespace Magitek.Models.DarkKnight
         public int SaveXMana { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UnmendToPullAggro { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UnmendToPull { get; set; }
 
         [Setting]
@@ -39,7 +39,7 @@ namespace Magitek.Models.DarkKnight
         public bool Grit { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseTheBlackestNight { get; set; }
 
         [Setting]
@@ -47,7 +47,7 @@ namespace Magitek.Models.DarkKnight
         public float TheBlackestNightHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseDarkMind { get; set; }
 
         [Setting]
@@ -55,7 +55,7 @@ namespace Magitek.Models.DarkKnight
         public float DarkMindHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseDarkMissionary { get; set; }
 
         [Setting]
@@ -63,7 +63,7 @@ namespace Magitek.Models.DarkKnight
         public float DarkMissionaryHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseShadowWall { get; set; }
 
         [Setting]
@@ -71,7 +71,7 @@ namespace Magitek.Models.DarkKnight
         public float ShadowWallHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseLivingDead { get; set; }
 
         [Setting]
@@ -97,7 +97,7 @@ namespace Magitek.Models.DarkKnight
         //oGCDs
         #region oGCDs
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UsePlunge { get; set; }
 
         [Setting]
@@ -128,7 +128,7 @@ namespace Magitek.Models.DarkKnight
         public bool UseQuietus { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int QuietusEnemies { get; set; }
 
         [Setting]
@@ -136,7 +136,7 @@ namespace Magitek.Models.DarkKnight
         public bool UseSaltedEarth { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(1)]
         public int SaltedEarthEnemies { get; set; }
 
         [Setting]
@@ -144,7 +144,7 @@ namespace Magitek.Models.DarkKnight
         public bool UseAbyssalDrain { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(1)]
         public int AbyssalDrainEnemies { get; set; }
 
         [Setting]
