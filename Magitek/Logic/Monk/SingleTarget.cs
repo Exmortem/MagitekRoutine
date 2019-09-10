@@ -14,10 +14,13 @@ namespace Magitek.Logic.Monk
     {
         public static async Task<bool> Bootshine()
         {
-                if (!Core.Me.HasAura(Auras.OpoOpoForm))
+            if (Core.Me.ClassLevel < 6)
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+
+            if (!Core.Me.HasAura(Auras.OpoOpoForm))
                     return false;
 
-                if (!Core.Me.HasAura(Auras.LeadenFist))
+                if (!Core.Me.HasAura(Auras.LeadenFist) && Core.Me.ClassLevel >= 50)
                     return false;
 
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
@@ -25,11 +28,13 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> TrueStrike()
         {
+                if (Core.Me.ClassLevel < 4)
+                    return false;
 
                 if (!Core.Me.HasAura(Auras.RaptorForm))
                     return false;
 
-                if (!Core.Me.HasAura(Auras.TwinSnakes))
+                if (!Core.Me.HasAura(Auras.TwinSnakes) && Core.Me.ClassLevel >= 18)
                     return false;
 
                 return await Spells.TrueStrike.Cast(Core.Me.CurrentTarget);
@@ -38,10 +43,13 @@ namespace Magitek.Logic.Monk
         public static async Task<bool> SnapPunch()
         {
 
+                if (Core.Me.ClassLevel < 6)
+                    return false;    
+
                 if (!Core.Me.HasAura(Auras.CoeurlForm))
                     return false;
 
-                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish))
+                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish) && Core.Me.ClassLevel >= 30)
                     return false;
 
                 return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
@@ -50,8 +58,11 @@ namespace Magitek.Logic.Monk
         public static async Task<bool> TwinSnakes()
         {
 
-                if (!Core.Me.HasAura(Auras.RaptorForm))
+                if (Core.Me.ClassLevel < 18)
                     return false;
+
+                if (!Core.Me.HasAura(Auras.RaptorForm))
+                        return false;
 
                 if (Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
                     return false;
@@ -61,23 +72,13 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> DragonKick()
         {
-                if (!Core.Me.HasAura(Auras.OpoOpoForm))
+
+                if (Core.Me.ClassLevel < 50)
                     return false;
 
-                //if (MonkSettings.Instance.DragonKickUseTtd)
-                //{
-                //    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DragonKickMinimumTtd)
-                //        return false;
-                //}
-                /*else
-                {
-                    if (!Core.Me.CurrentTarget.IsBoss())
-                    {
-                        if (!Core.Me.CurrentTarget.HealthCheck(MonkSettings.Instance.DragonKickMinimumHealth, MonkSettings.Instance.DragonKickMinimumHealthPercent))
-                            return false;
-                    }
-                }
-                */
+                if (!Core.Me.HasAura(Auras.OpoOpoForm))
+                        return false;
+
                 if (Core.Me.CurrentTarget.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
                     return false;
 
@@ -86,22 +87,12 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> Demolish()
         {
-                if (!Core.Me.HasAura(Auras.CoeurlForm))
+
+                if (Core.Me.ClassLevel < 30)
                     return false;
 
-                //if (MonkSettings.Instance.DemolishUseTtd)
-                //{
-                //    if (Core.Me.CurrentTarget.CombatTimeLeft() < MonkSettings.Instance.DemolishMinimumTtd)
-                //        return false;
-                //}
-                /*else
-                {
-                    if (!Core.Me.CurrentTarget.IsBoss())
-                    {
-                        if (!Core.Me.CurrentTarget.HealthCheck(MonkSettings.Instance.DemolishMinimumHealth, MonkSettings.Instance.DemolishMinimumHealthPercent))
-                            return false;
-                    }
-                }*/
+                if (!Core.Me.HasAura(Auras.CoeurlForm))
+                    return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
                     return false;

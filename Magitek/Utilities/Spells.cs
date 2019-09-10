@@ -356,6 +356,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Brotherhood = DataManager.GetSpellData(7396);
         public static readonly SpellData FormShift = DataManager.GetSpellData(4262);
         public static readonly SpellData FourPointFury = DataManager.GetSpellData(16473);
+        public static readonly SpellData Enlightenment = DataManager.GetSpellData(16474);
         #endregion
 
         // NIN
@@ -488,6 +489,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ThirdEye = DataManager.GetSpellData(7498);
         public static readonly SpellData MeikyoShisui = DataManager.GetSpellData(7499);
         public static readonly SpellData HissatsuSeigan = DataManager.GetSpellData(7501);
+        public static readonly SpellData Meditation = DataManager.GetSpellData(3546);
         #endregion
 
         // SCH

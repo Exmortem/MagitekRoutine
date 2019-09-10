@@ -17,6 +17,7 @@ namespace Magitek.Rotations.Monk
             Globals.PartyInCombat = Globals.InParty && Utilities.Combat.Enemies.Any(r => r.TaggerType == 2);
 
             if (await Buff.FistsOf()) return true;
+            if (await Buff.Meditate()) return true;
 
             return false;
         }
