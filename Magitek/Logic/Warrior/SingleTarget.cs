@@ -79,6 +79,9 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.StormsEye))
                 return false;
 
+            if (Core.Me.HasAura(Auras.InnerRelease))
+                return false;
+
             if (!WarriorSettings.Instance.UseUpheaval)
                 return false;
 
@@ -196,6 +199,9 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> Onslaught()
         {
             if (!WarriorSettings.Instance.UseOnslaught)
+                return false;
+
+            if (Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
             if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
