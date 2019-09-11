@@ -18,7 +18,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseAbyssalDrain)
                 return false;
 
-            // Find the enemy that has the most enemies around them
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.AbyssalDrainEnemies)
+                return false;
+
+            /* Find the enemy that has the most enemies around them
             GameObject abyssalTarget = null;
             var enemiesInRange = 0;
 
@@ -40,9 +43,9 @@ namespace Magitek.Logic.DarkKnight
             }
 
             if (abyssalTarget == null || enemiesInRange < DarkKnightSettings.Instance.AbyssalDrainEnemies)
-                return false;
+                return false;*/
 
-            return await Spells.AbyssalDrain.Cast(abyssalTarget);
+            return await Spells.AbyssalDrain.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SaltedEarth()
@@ -50,10 +53,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseSaltedEarth)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.SaltedEarthEnemies)
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.SaltedEarthEnemies)
                 return false;
 
-            // We could be gathering enemies?
+            //We could be gathering enemies?
             if (MovementManager.IsMoving)
                 return false;
 
@@ -74,6 +77,9 @@ namespace Magitek.Logic.DarkKnight
         public static async Task<bool> StalwartSoul()
         {
             if (ActionManager.LastSpell != Spells.Unleash)
+                return false;
+
+            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
                 return false;
 
             return await Spells.StalwartSoul.Cast(Core.Me);
@@ -98,17 +104,17 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseFloodDarknessShadow)
                 return false;
 
+            if (!DarkKnightSettings.Instance.UseAoe || Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies)
+                return false;
+
+            if (Core.Me.HasDarkArts())
+                return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
+
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
                 return false;
 
             if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
-
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 10 + r.CombatReach && r.InView()) < DarkKnightSettings.Instance.FloodEnemies)
-                return false;
-
-            if (Core.Me.HasDarkArts())
-                return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
         }
