@@ -44,5 +44,11 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Feint" IsChecked="{Binding MonkSettings.UseFeint, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
     </StackPanel>
 </UserControl>

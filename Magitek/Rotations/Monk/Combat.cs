@@ -56,6 +56,9 @@ namespace Magitek.Rotations.Monk
             {
                 if (Utilities.Routines.Monk.OnGcd)
                 {
+                    if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;
+                    if (await PhysicalDps.Bloodbath(MonkSettings.Instance)) return true;
+                    if (await PhysicalDps.Feint(MonkSettings.Instance)) return true;
                     if (await Buff.Brotherhood()) return true;
                     if (await Aoe.Enlightenment()) return true;
                     if (await SingleTarget.TheForbiddenChakra()) return true;
