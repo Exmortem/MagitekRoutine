@@ -27,7 +27,7 @@ namespace Magitek.Rotations.Gunbreaker
             }
 
             if (await SingleTarget.RoughDivide()) return true;
-            if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
+
             
             if (Utilities.Routines.Gunbreaker.OnGcd)
             {

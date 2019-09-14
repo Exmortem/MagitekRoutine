@@ -51,13 +51,11 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseHellfrogMedium)
                 return false;
 
-            if (ActionResourceManager.Ninja.NinkiGauge < 80)
-                return false;
 
             if(Core.Me.ClassLevel < 68)
                 return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < NinjaSettings.Instance.HellfrogMediumEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < 2)
                 return false;
 
             return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);

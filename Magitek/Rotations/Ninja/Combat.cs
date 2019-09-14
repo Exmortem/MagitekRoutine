@@ -44,12 +44,12 @@ namespace Magitek.Rotations.Ninja
 
             if (Utilities.Routines.Ninja.OnGcd)
             {
-                if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
-                if (await PhysicalDps.Bloodbath(NinjaSettings.Instance)) return true;
-                if (await PhysicalDps.Feint(NinjaSettings.Instance)) return true;
+                //if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
+                //if (await PhysicalDps.Bloodbath(NinjaSettings.Instance)) return true;
+                //if (await PhysicalDps.Feint(NinjaSettings.Instance)) return true;
 
-                if (Core.Me.HasAura(Auras.Suiton))
-                    if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
+                //if (Core.Me.HasAura(Auras.Suiton))
+                    //if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
 
                 if (await Buff.ShadeShift()) return true;
                 if (await Buff.Bunshin()) return true;

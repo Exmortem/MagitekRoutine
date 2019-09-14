@@ -186,6 +186,7 @@ namespace Magitek.Utilities
             Recitation = 1896,
             LeadenFist = 1861,
             Kassatsu = 497,
+            AssassinateReady = 1955,
             Camouflage = 1832,
             Nebula = 1834,
             Aurora = 1835,

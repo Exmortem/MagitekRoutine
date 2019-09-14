@@ -16,12 +16,15 @@ namespace Magitek.Logic.Ninja
     {
         public static bool FumaShuriken()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseFumaShuriken)
                 return false;
 
             if (!ActionManager.HasSpell(Spells.FumaShuriken.Id))
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (Core.Me.ClassLevel < 30)
                 return false;
 
@@ -39,6 +42,8 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            
+
             SpellQueueLogic.SpellQueue.Clear();
             SpellQueueLogic.Timeout.Start();
             SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
@@ -54,7 +59,8 @@ namespace Magitek.Logic.Ninja
 
             if (!ActionManager.HasSpell(Spells.Huton.Id))
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (Core.Me.ClassLevel < 45)
                 return false;
 
@@ -82,9 +88,12 @@ namespace Magitek.Logic.Ninja
 
         public static bool GokaMekkyaku()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseGokaMekkyaku)
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (!ActionManager.HasSpell(Spells.GokaMekkyaku.Id))
                 return false;
 
@@ -111,9 +120,12 @@ namespace Magitek.Logic.Ninja
 
         public static bool Doton()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseDoton)
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (MovementManager.IsMoving)
                 return false;
 
@@ -144,9 +156,12 @@ namespace Magitek.Logic.Ninja
 
         public static bool Katon()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseKaton)
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (!NinjaSettings.Instance.UseAoe)
                 return false;
 
@@ -176,9 +191,12 @@ namespace Magitek.Logic.Ninja
 
         public static bool HyoshoRanryu()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseHyoshoRanryu)
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (!ActionManager.HasSpell(Spells.HyoshoRanryu.Id))
                 return false;
 
@@ -202,9 +220,12 @@ namespace Magitek.Logic.Ninja
 
         public static bool Raiton()
         {
-            if (!NinjaSettings.Instance.UseRaiton)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
                 return false;
-
+            if (!NinjaSettings.Instance.UseRaiton) 
+                return false;
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
+                return false;
             if (!ActionManager.HasSpell(Spells.Chi.Id))
                 return false;
 
@@ -224,7 +245,10 @@ namespace Magitek.Logic.Ninja
         }
 
         public static bool Suiton()
+
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (Core.Me.HasAura(Auras.Suiton))
                 return false;
 
@@ -255,6 +279,8 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> TenChiJin()
         {
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
+                return false;
             if (!NinjaSettings.Instance.UseTenChiJin)
                 return false;
 
@@ -263,7 +289,9 @@ namespace Magitek.Logic.Ninja
 
             if (MovementManager.IsMoving)
                 return false;
-
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 26000)
+                if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 20000)
+                    return false;
             if (Spells.Jin.Cooldown.Seconds < 3)
                 return false;
 
@@ -273,7 +301,7 @@ namespace Magitek.Logic.Ninja
             if (!await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.TenChiJin)))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.Seconds < 8)
+            if (Spells.TrickAttack.Cooldown.Seconds < 15)
             {
                 SpellQueueLogic.SpellQueue.Clear();
                 SpellQueueLogic.Timeout.Start();

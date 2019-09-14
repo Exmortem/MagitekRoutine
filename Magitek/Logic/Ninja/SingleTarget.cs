@@ -43,7 +43,7 @@ namespace Magitek.Logic.Ninja
             if (HutonTimer.Seconds == 0)
                 return false;
 
-            if (HutonTimer.TotalMilliseconds > 30000)
+            if (HutonTimer.TotalMilliseconds > 15000)
                 return false;
 
             return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
@@ -81,7 +81,10 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseAssassinate)
                 return false;
-
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+                return false;
+            if (!Core.Me.HasAura(Auras.AssassinateReady))
+                return false;
             return await Spells.Assassinate.Cast(Core.Me.CurrentTarget);
         }
 
@@ -89,7 +92,8 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseMug)
                 return false;
-
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+                return false;
             if (NinkiGauge > 70 && Core.Me.ClassLevel > 65)
                 return false;
 
@@ -100,7 +104,8 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseTrickAttack)
                 return false;
-
+            if(Spells.SpinningEdge.Cooldown.TotalMilliseconds > 850)
+                return false;
             if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
 
@@ -110,26 +115,31 @@ namespace Magitek.Logic.Ninja
             if (!BotManager.Current.IsAutonomous)
                 return false;
 
-            return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
+            return false;
         }
 
         public static async Task<bool> DreamWithinADream()
         {
             if (!NinjaSettings.Instance.UseDreamWithinADream)
                 return false;
-
-            if (Spells.TrickAttack.Cooldown.Seconds > 10)
+            if(Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 50000)
+                return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);
+            return false;
 
-            return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);
+
         }
 
         public static async Task<bool> Bhavacakra()
         {
             if (!NinjaSettings.Instance.UseBhavacakra)
                 return false;
-
-            return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
+            
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+                return false;
+           
+            return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
         }
     }
 }
