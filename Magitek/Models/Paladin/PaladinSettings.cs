@@ -98,10 +98,6 @@ namespace Magitek.Models.Paladin
         public bool ShieldLobToPullExtraEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
-        public float ShieldLobMinTpPercent { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseCover { get; set; }
 
@@ -311,23 +307,6 @@ namespace Magitek.Models.Paladin
 
         #endregion
 
-        public void CycleOpenerStrategy()
-        {
-            switch (PaladinOpenerStrategy)
-            {
-                case PaladinOpenerStrategy.NeverOpener:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.OpenerOnlyBosses;
-                    break;
-                case PaladinOpenerStrategy.OpenerOnlyBosses:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.AlwaysUseOpener;
-                    break;
-                case PaladinOpenerStrategy.AlwaysUseOpener:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.NeverOpener;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
         #region PVP
         [Setting]
