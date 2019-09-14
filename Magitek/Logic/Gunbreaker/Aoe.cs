@@ -36,13 +36,13 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 600)
+            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 850)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 1)
-                return false;
+            
+            if (Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
+                return await Spells.BowShock.Cast(Core.Me);
 
-            return await Spells.BowShock.Cast(Core.Me);
         }
 
         public static async Task<bool> FatedCircle()
