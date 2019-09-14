@@ -252,7 +252,14 @@
                                                        VerticalAlignment="Top"
                                                        Fill="{DynamicResource TabDivider}" />
 
-                                         
+                                            <TextBlock Grid.Column="3"
+                                                       Margin="0,0,7,0"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Bottom"
+                                                       Foreground="{DynamicResource Info}"
+                                                       Text="{Binding VersionRunning}" />
+
+
                                         </Grid>
                                     </Grid>
                                 </ControlTemplate>

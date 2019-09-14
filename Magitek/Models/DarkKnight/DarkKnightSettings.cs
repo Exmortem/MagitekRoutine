@@ -13,12 +13,33 @@ namespace Magitek.Models.DarkKnight
 
         public static DarkKnightSettings Instance { get; set; } = new DarkKnightSettings();
 
+        //General
+        #region General
         [Setting]
         [DefaultValue(3000)]
         public int SaveXMana { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UnmendToPullAggro { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UnmendToPull { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
+        public bool UseBloodspiller { get; set; }
+        #endregion
+
+        //Defensives
+        #region Defensives
+        [Setting]
+        [DefaultValue(true)]
+        public bool Grit { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         public bool UseTheBlackestNight { get; set; }
 
         [Setting]
@@ -26,119 +47,7 @@ namespace Magitek.Models.DarkKnight
         public float TheBlackestNightHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool BloodWeapon { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool Delirium { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DeliriumWithBloodWeapon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseUnleash { get; set; }
-        
-        [Setting]
-        [DefaultValue(2)]
-        public int AoeEnemies { get; set; }
-        
-        [Setting]
-        [DefaultValue(2)]
-        public int UnleashOnGroupPull { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool UnleashOnInterval { get; set; }
-        
-        [Setting]
-        [DefaultValue(15)]
-        public int UnleashIntervalSeconds { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseSaltedEarth { get; set; }
-                
-        [Setting]
-        [DefaultValue(true)]
-        public bool Grit { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool Darkside { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DarksideAlwaysKeepOn { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float DarksideManaOn { get; set; }
-        
-        [Setting]
-        [DefaultValue(25.0f)]
-        public float DarksideManaOff { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UsePlunge { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PullWithPlunge { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AbyssalDrain { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool AbyssalDrainToPull { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool CarveAndSpit { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool CarveAndSpitDarkArtsOnly{ get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseShadowWall { get; set; }
-        
-        [Setting]
-        [DefaultValue(60.0f)]
-        public float ShadowWallHealth { get; set; }
-                        
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseLivingDead { get; set; }
-        
-        [Setting]
-        [DefaultValue(15.0f)]
-        public float LivingDeadHealth { get; set; }
-                                               
-        [Setting]
-        [DefaultValue(true)]
-        public bool UnmendToPullAggro { get; set; }
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool UnmendToPull { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Bloodspiller { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Quietus { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseDarkMind { get; set; }
 
         [Setting]
@@ -146,7 +55,7 @@ namespace Magitek.Models.DarkKnight
         public float DarkMindHealth { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseDarkMissionary { get; set; }
 
         [Setting]
@@ -154,7 +63,98 @@ namespace Magitek.Models.DarkKnight
         public float DarkMissionaryHealth { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseShadowWall { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float ShadowWallHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseLivingDead { get; set; }
+
+        [Setting]
+        [DefaultValue(15.0f)]
+        public float LivingDeadHealth { get; set; }
+        #endregion
+
+        //Buffs
+        #region Buffs
+        [Setting]
+        [DefaultValue(true)]
+        public bool BloodWeapon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Delirium { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool LivingShadow { get; set; }
+        #endregion
+
+        //oGCDs
+        #region oGCDs
+        [Setting]
+        [DefaultValue(false)]
+        public bool UsePlunge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCarveAndSpit { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCarveOnlyWithBloodWeapon { get; set; }
+        #endregion
+
+        //AoE
+        #region AoE
+        [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseUnleash { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int UnleashEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseQuietus { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int QuietusEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSaltedEarth { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int SaltedEarthEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAbyssalDrain { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int AbyssalDrainEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseFloodDarknessShadow { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int FloodEnemies { get; set; }
+        #endregion
+
     }
 }

@@ -35,6 +35,9 @@ namespace Magitek.Converters
                     case GambitConditionTypes.HpPercentBetween:
                         condition = new HpPercentBetweenCondition();
                         break;
+                    case GambitConditionTypes.MpPercent:
+                        condition = new MpPercentCondition();
+                        break;
                     case GambitConditionTypes.InInstance:
                         condition = new InInstanceCondition();
                         break;

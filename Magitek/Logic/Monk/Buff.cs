@@ -33,6 +33,7 @@ namespace Magitek.Logic.Monk
                 }
             }
 
+
             if (!Core.Me.HasAura(Auras.FistsofFire) && !Core.Me.HasAura(Auras.FistsofWind) && !Core.Me.HasAura(Auras.FistsofEarth) && Core.Me.InCombat)
             {
                 switch (MonkSettings.Instance.SelectedFist)
@@ -64,6 +65,22 @@ namespace Magitek.Logic.Monk
             return false;
         }
 
+        public static async Task<bool> Meditate()
+        {
+            if (Core.Me.ClassLevel < 54)
+                return false;
+
+            if(!MonkSettings.Instance.UseAutoMeditate)
+                return false;
+
+            if (!Core.Me.InCombat && ActionResourceManager.Monk.FithChakra < 5)
+                return await Spells.Meditation.Cast(Core.Me);
+
+            if (!Core.Me.HasTarget && ActionResourceManager.Monk.FithChakra < 5)
+                return await Spells.Meditation.Cast(Core.Me);
+
+            return false;
+        }
 
         public static async Task<bool> PerfectBalance()
         {
@@ -79,7 +96,7 @@ namespace Magitek.Logic.Monk
             if (Casting.LastSpell != Spells.DragonKick)
                 return false;
 
-            return await Spells.PerfectBalance.Cast(Core.Me);
+        return await Spells.PerfectBalance.Cast(Core.Me);
         }
 
         public static async Task<bool> RiddleOfFire()
@@ -130,6 +147,18 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShift()
         {
+            if (Core.Me.ClassLevel < 52 && Core.Me.InCombat)
+            {
+                if (!Core.Me.HasTarget && MonkSettings.Instance.UseAutoFormShift && ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 4)
+                    return await Spells.FormShift.Cast(Core.Me);
+
+                if (MonkSettings.Instance.AutoFormShiftStopCoeurl && !Core.Me.HasAura(Auras.CoeurlForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                    return await Spells.FormShift.Cast(Core.Me);
+
+                if (MonkSettings.Instance.AutoFormShiftStopRaptor && !Core.Me.HasAura(Auras.RaptorForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                    return await Spells.FormShift.Cast(Core.Me);
+            }
+
             if (Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 

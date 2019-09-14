@@ -87,7 +87,7 @@ namespace Magitek.Logic.RedMage
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (WhiteMana > BlackMana)
+                    if (BlackMana > WhiteMana)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
@@ -140,6 +140,9 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Fleche()
         {
+            if (!RedMageSettings.Instance.Fleche)
+                return false;
+
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
@@ -172,6 +175,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Engagement()
         {
             if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (!RedMageSettings.Instance.Engagement)
                 return false;
 
             if (BlackMana > 24 && WhiteMana > 24)

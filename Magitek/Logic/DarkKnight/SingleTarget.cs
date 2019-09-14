@@ -34,10 +34,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> Bloodspiller()
         {
-            if (!DarkKnightSettings.Instance.Bloodspiller)
-                return false;
-
-            if (Spells.Delirium.Cooldown.TotalMilliseconds < 5000 && Core.Me.ClassLevel >= Spells.Delirium.LevelAcquired)
+            if (!DarkKnightSettings.Instance.UseBloodspiller)
                 return false;
 
             if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
@@ -79,7 +76,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> EdgeofDarknessShadow()
         {
-            if (Core.Me.HasDarkArts())
+            if (DarkKnightSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies && Core.Me.HasDarkArts())
                 return await Spells.EdgeofDarkness.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
@@ -93,7 +90,10 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> CarveAndSpit()
         {
-            if (!DarkKnightSettings.Instance.CarveAndSpit)
+            if (!DarkKnightSettings.Instance.UseCarveAndSpit)
+                return false;
+
+            if (DarkKnightSettings.Instance.UseCarveOnlyWithBloodWeapon && !Core.Me.HasAura(Auras.BloodWeapon))
                 return false;
 
             return await Spells.CarveandSpit.Cast(Core.Me.CurrentTarget);

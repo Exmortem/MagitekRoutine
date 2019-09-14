@@ -58,26 +58,39 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Riddle Of Fire" IsChecked="{Binding MonkSettings.UseRiddleOfFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin ="20,0,0,0" Content="Earth" IsChecked="{Binding MonkSettings.UseRiddleOfEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Riddle Of Fire" IsChecked="{Binding MonkSettings.UseRiddleOfFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Feint" IsChecked="{Binding MonkSettings.UseFeint, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Riddle Of Earth" IsChecked="{Binding MonkSettings.UseRiddleOfEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
+            <StackPanel Margin="3">
                 <CheckBox Content="True North" IsChecked="{Binding MonkSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
+            <StackPanel Margin="3">
+                <CheckBox Content="Auto Meditate on downtime" IsChecked="{Binding MonkSettings.UseAutoMeditate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="3">
+                <CheckBox Content= "Auto FormShift to maintain GL on downtime" IsChecked="{Binding MonkSettings.UseAutoFormShift, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="3" Orientation="Horizontal">
                 <CheckBox Content="Bloodbath When Below " IsChecked="{Binding MonkSettings.UseBloodbath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.BloodbathHpPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
@@ -93,7 +106,7 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
+            <Grid Margin="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
