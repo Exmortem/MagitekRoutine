@@ -12,8 +12,11 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Displacement" IsChecked="{Binding RedMageSettings.Displacement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Melee" IsChecked="{Binding RedMageSettings.UseMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Displacement" IsChecked="{Binding RedMageSettings.Displacement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Engagement" IsChecked="{Binding RedMageSettings.Engagement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,3,0,0" Content="Corps-a-corps" IsChecked="{Binding RedMageSettings.CorpsACorps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Fleche" IsChecked="{Binding RedMageSettings.Fleche, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

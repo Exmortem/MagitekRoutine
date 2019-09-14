@@ -916,6 +916,37 @@
                                                                                     </ComboBox>
                                                                                 </DataTemplate>
 
+                                                                                <DataTemplate DataType="{x:Type conditions:MpPercentCondition}">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="MP PERCENT">
+                                                                                        <StackPanel Width="200" Margin="3">
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MANA PERCENT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding MPPercentageValue, Mode=TwoWay}" />
+
+                                                                                            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                                                                                <RadioButton Content="Above" GroupName="MPPercentValue" IsChecked="{Binding Above, Mode=TwoWay}" Style="{DynamicResource RadioButtonGambitCondition}" />
+                                                                                                <RadioButton Content="Above Or Equal" GroupName="MPPercentValue" IsChecked="{Binding AboveOrEqual, Mode=TwoWay}" Style="{DynamicResource RadioButtonGambitCondition}" />
+                                                                                            </StackPanel>
+                                                                                            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                                                                                <RadioButton Content="Lower" GroupName="MPPercentValue" IsChecked="{Binding Lower, Mode=TwoWay}" Style="{DynamicResource RadioButtonGambitCondition}" />
+                                                                                                <RadioButton Content="Lower Or Equal" GroupName="MPPercentValue" IsChecked="{Binding LowerOrEqual, Mode=TwoWay}" Style="{DynamicResource RadioButtonGambitCondition}" />
+                                                                                            </StackPanel>
+
+                                                                                            <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveGambitCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                                <Button.CommandParameter>
+                                                                                                    <MultiBinding Converter="{StaticResource ConditionConverter}">
+                                                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                                        <Binding Path="Id" />
+                                                                                                    </MultiBinding>
+                                                                                                </Button.CommandParameter>
+                                                                                            </Button>
+                                                                                        </StackPanel>
+                                                                                    </ComboBox>
+                                                                                </DataTemplate>
+
                                                                                 <DataTemplate DataType="{x:Type conditions:HpPercentBelowCondition}">
                                                                                     <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HP % BELOW">
                                                                                         <StackPanel>
@@ -1338,18 +1369,6 @@
                                                                                 <StackPanel Margin="3" Orientation="Horizontal">
                                                                                     <StackPanel>
 
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="ENEMY CASTING SPELL" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">EnemyCastingSpell</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="IN INSTANCE" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">InInstance</sys:String>
@@ -1365,93 +1384,6 @@
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="NOT IN INSTANCE" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">NotInInstance</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="TARGET NAME" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">TargetName</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="LAST SPELL" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">LastSpell</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HEALTH PERCENT BELOW" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">HpPercentBelow</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HEALTH PERCENT BETWEEN" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">HpPercentBetween</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="COMBAT TIME" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">CombatTime</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                    </StackPanel>
-
-                                                                                    <StackPanel Margin="5,0">
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HAS AURA" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">HasAura</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="PLAYER HAS AURA" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">PlayerHasAura</sys:String>
                                                                                             </Button.Resources>
                                                                                             <Button.CommandParameter>
                                                                                                 <MultiBinding Converter="{StaticResource ConditionAddConverter}">
@@ -1485,58 +1417,6 @@
                                                                                             </Button.CommandParameter>
                                                                                         </Button>
 
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="ENEMIES NEARBY" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">EnemiesNearby</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="TARGET BOSS" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">TargetIsBoss</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                    </StackPanel>
-
-                                                                                    <StackPanel Margin="5,0">
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="DOES NOT HAVE AURA" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">DoesNotHaveAura</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="PLAYER DOES NOT HAVE AURA" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">PlayerDoesNotHaveAura</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>
-
-
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="PLAYER IN COMBAT" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">PlayerInCombat</sys:String>
@@ -1562,10 +1442,173 @@
                                                                                             </Button.CommandParameter>
                                                                                         </Button>
 
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="COMBAT TIME" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">CombatTime</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                    </StackPanel>
+
+                                                                                    <StackPanel Margin="5,0">
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="LAST SPELL" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">LastSpell</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="TARGET NAME" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">TargetName</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="TARGET BOSS" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">TargetIsBoss</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="ENEMY CASTING SPELL" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">EnemyCastingSpell</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="ENEMIES NEARBY" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">EnemiesNearby</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HAS AURA" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">HasAura</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="DOES NOT HAVE AURA" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">DoesNotHaveAura</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+                                                                                        
+                                                                                    </StackPanel>
+
+                                                                                    <StackPanel Margin="5,0">
 
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="SPELL OFF COOLDOWN" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">SpellOffCooldown</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HEALTH PERCENT BELOW" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">HpPercentBelow</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HEALTH PERCENT BETWEEN" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">HpPercentBetween</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="MP PERCENT" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">MpPercent</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="PLAYER HAS AURA" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">PlayerHasAura</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="PLAYER DOES NOT HAVE AURA" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">PlayerDoesNotHaveAura</sys:String>
                                                                                             </Button.Resources>
                                                                                             <Button.CommandParameter>
                                                                                                 <MultiBinding Converter="{StaticResource ConditionAddConverter}">

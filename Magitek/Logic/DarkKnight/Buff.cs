@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
@@ -32,6 +33,9 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> LivingShadow()
         {
+            if (!DarkKnightSettings.Instance.LivingShadow)
+                return false;
+
             return await Spells.LivingShadow.Cast(Core.Me);
         }
 
@@ -48,8 +52,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.Delirium)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood != 100)
-                return false;
+            if (Spells.HardSlash.Cooldown.TotalMilliseconds > 800)
+            {
+                await Coroutine.Wait(3000, () => Spells.HardSlash.Cooldown.TotalMilliseconds <= 800);
+            }
 
             return await Spells.Delirium.Cast(Core.Me);
         }

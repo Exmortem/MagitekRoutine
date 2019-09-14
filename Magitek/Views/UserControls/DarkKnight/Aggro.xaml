@@ -17,38 +17,20 @@
     </UserControl.DataContext>
 
     <StackPanel Margin="10">
+        <StackPanel Margin="5" Orientation="Horizontal">
+            <CheckBox Grid.Column="0" Content="Grit  " IsChecked="{Binding DarkKnightSettings.Grit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </StackPanel>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Provoke" IsChecked="{Binding DarkKnightSettings.UseProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="UseUnleash " />
-                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.UnleashOnGroupPull, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Times When Getting Into Combat " />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use UseUnleash Every " IsChecked="{Binding DarkKnightSettings.UnleashOnInterval, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding DarkKnightSettings.UnleashIntervalSeconds, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Against A Group Of Enemies " />
-                </StackPanel>
+                <CheckBox Content="Pull With Unmend" IsChecked="{Binding DarkKnightSettings.UnmendToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Unmend To Regain Aggro" IsChecked="{Binding DarkKnightSettings.UnmendToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Margin="0,3" Content="Allow Pulling With Abyssal Drain" IsChecked="{Binding DarkKnightSettings.AbyssalDrainToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Abyssal Drain If Over " />
-                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.AbyssalDrainMinimumMp, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>

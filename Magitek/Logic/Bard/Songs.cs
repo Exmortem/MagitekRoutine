@@ -23,6 +23,10 @@ namespace Magitek.Logic.Bard
             if (Casting.LastSpell == Spells.TheWanderersMinuet || Casting.LastSpell == Spells.MagesBallad || Casting.LastSpell == Spells.ArmysPaeon)
                 return false;
 
+            if (!ActionManager.HasSpell(Spells.TheWanderersMinuet.Id) || !ActionManager.HasSpell(Spells.MagesBallad.Id) 
+                                                                      || !ActionManager.HasSpell(Spells.ArmysPaeon.Id))
+                return await PlsEndMe();
+
             if (BardSettings.Instance.CheckDotsBeforeSinging)
                 switch (BardSettings.Instance.AmmountOfDotsBeforeSinging)
                 {
@@ -49,6 +53,14 @@ namespace Magitek.Logic.Bard
                 default:
                     return false;
             }
+        }
+
+        public static async Task<bool> PlsEndMe()
+        {
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+                return false;
+            
+            return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget) || await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
         }
 
         #region WanderersMinuet->MagesBallad->ArmysPaeon

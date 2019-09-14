@@ -51,6 +51,9 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
+                return false;
+
             if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
@@ -60,11 +63,11 @@ namespace Magitek.Logic.Warrior
             if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
                 return false;
             // We're assuming IR is usable from here
-            // If we're on GCD with more than 825 milliseconds left
-            if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 900)
+            // If we're on GCD with more than 800 milliseconds left
+            if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 800)
             {
-                // Wait until the GCD has 825 or less remaining
-                await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.TotalMilliseconds <= 900);
+                // Wait until the GCD has 800 or less remaining
+                await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.TotalMilliseconds <= 800);
             }
 
             return await Spells.InnerRelease.Cast(Core.Me);
@@ -96,11 +99,13 @@ namespace Magitek.Logic.Warrior
             //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
             if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
                 return false;
+            if (Casting.LastSpell == Spells.InnerRelease)
+                return false;
             //If we are in Inner Release and lv 72+, don't use Infuriate
             if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
                 return false;
             //If we are lv 72+ and Inner Release comes off CD in 10 or less seconds don't use Infuriate
-            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 10000)
+            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.Seconds < 10)
                 return false;
             //Buff Check Logic here
 

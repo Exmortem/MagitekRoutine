@@ -47,7 +47,11 @@ namespace Magitek.Gambits.Helpers
                     condition = new HpPercentBetweenCondition();
                     break;
 
-                 case "InInstance":
+                case "MpPercent":
+                     condition = new MpPercentCondition { MPPercentageValue = 50, Above = true, AboveOrEqual = false, Lower = false, LowerOrEqual = false};
+                     break;
+
+                case "InInstance":
                      condition = new InInstanceCondition();
                      break;
 

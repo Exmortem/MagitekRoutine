@@ -37,10 +37,18 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool Displacement { get; set; }
-        
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Engagement { get; set; }
+
         [Setting]
         [DefaultValue(true)]
         public bool CorpsACorps { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Fleche { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -53,6 +61,18 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool UseContreSixte { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int ContreSixteEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Ver2 { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int Ver2Enemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
