@@ -13,12 +13,12 @@ namespace Magitek.Logic.BlackMage
         {
             if (Casting.LastSpell == Spells.Xenoglossy)
                 return false; 
-
+         
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
                 // If we don't have procs (while in movement), cast
-                if (!Core.Me.HasAura(Auras.FireStarter))
+                if (!Core.Me.HasAura(Auras.Swiftcast) || (!Core.Me.HasAura(Auras.Triplecast)))
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
             //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
@@ -36,12 +36,15 @@ namespace Magitek.Logic.BlackMage
             if (!Core.Me.HasEnochian())
                 return false;
 
+            if (Casting.LastSpell == Spells.Despair)
+                return false;
+
             // If we're not in astral, stop
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
 
             // If our mana is lower than 2400, and we have despair unlocked cast
-            if (Core.Me.ClassLevel > 71 && Core.Me.CurrentMana < 2400)
+            if (Core.Me.ClassLevel > 71 && Core.Me.CurrentMana < 2400 && Core.Me.CurrentMana != 0)
                 return await Spells.Despair.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -49,7 +52,8 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire()
         {
-            
+            if (Core.Me.CurrentMana < 1600)
+                return false;
             //test for no enochian
             if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana > 800)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
@@ -62,6 +66,10 @@ namespace Magitek.Logic.BlackMage
             //If we don't have despair, use fire 1 to dump mana
             if (Core.Me.ClassLevel < 71 && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+            //Use Fire early to force sharpcast if about to run out 
+            if (Core.Me.HasAura(Auras.Sharpcast) && ActionResourceManager.BlackMage.UmbralHearts == 0)
+                if (!Core.Me.HasAura(Auras.Sharpcast, true, 5500))
+                    return await Spells.Fire.Cast(Core.Me.CurrentTarget);
             
             return false;
 
@@ -79,6 +87,10 @@ namespace Magitek.Logic.BlackMage
             // If we have 3 astral stacks and our mana is equal to or greater than 2400
             if (ActionResourceManager.BlackMage.AstralStacks == 3 && Core.Me.CurrentMana >= 2400)
                 return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
+            //if we cast Manafont, make sure it doesn't skip ahead before we actually get mp
+            if (Casting.LastSpell == Spells.ManaFont)
+                return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
+
 
             return false;
         }
@@ -110,8 +122,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
-            if (Casting.LastSpell == Spells.Thunder3)
-                return false;
+            
 
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
@@ -127,15 +138,17 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
-            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 2000))
+            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 3500))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
 
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000))
-                return await Spells.Thunder3.CastAura(Core.Me.CurrentTarget, Auras.Thunder3);
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000) && Casting.LastSpell != Spells.Thunder3)
+                await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+            return false;        
+                
 
-            return false;
+            
         }
 
         public static async Task<bool> Blizzard4()
