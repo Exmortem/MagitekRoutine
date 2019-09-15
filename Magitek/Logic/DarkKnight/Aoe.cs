@@ -29,15 +29,12 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseSaltedEarth)
                 return false;
 
-            /*if (MovementManager.IsMoving)
-                return false;*/
+            if (MovementManager.IsMoving)
+                return false;
 
-            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 15 && r.InCombat);
-            var seCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
 
-            var canSE = seCount >= enemyCount || seCount > DarkKnightSettings.Instance.SaltedEarthEnemies;
 
-            if (!canSE)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.SaltedEarthEnemies)
                 return false;
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
