@@ -262,7 +262,7 @@ namespace Magitek.Utilities
                 }
 
                 //DarkKnight
-                if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
+                if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                 && action.Value.Job == ClassJobType.DarkKnight)
                 {
                     DarkKnight.Add(action.Value);

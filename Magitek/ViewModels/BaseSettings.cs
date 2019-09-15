@@ -37,14 +37,6 @@ namespace Magitek.ViewModels
         private static BaseSettings _instance;
         public static BaseSettings Instance => _instance ?? (_instance = new BaseSettings());
 
-        private readonly string _magitekFolder = JsonSettings.AssemblyPath + @"\Routines\Magitek\";
-        public string VersionRunning { get; set; }
-
-        public BaseSettings()
-        {
-            VersionRunning = !File.Exists(_magitekFolder + @"Version.txt") ? "No Ver." : File.ReadAllText(_magitekFolder + @"Version.txt");
-        }
-        
         public ICommand ShowSettingsModal => new DelegateCommand(() =>
         {
             Magitek.Form.ShowModal(new SettingsModal());

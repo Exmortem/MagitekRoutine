@@ -88,6 +88,7 @@ namespace Magitek.Utilities
             DarkDance = 744,
             DarkMind = 746,
             ShadowWall = 747,
+            SaltedEarth = 749,
             Darkside = 751,
             Reprisal = 753,
             LivingDead = 810,
