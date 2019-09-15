@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
@@ -32,9 +30,8 @@ namespace Magitek.Logic.DarkKnight
             if (MovementManager.IsMoving)
                 return false;
 
-
-
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.SaltedEarthEnemies)
+
                 return false;
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);

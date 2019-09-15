@@ -1,15 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.DarkKnight;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.DarkKnight;
-using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 
 namespace Magitek.Rotations.DarkKnight
@@ -33,7 +30,7 @@ namespace Magitek.Rotations.DarkKnight
             if (await Buff.Grit()) return true;
             if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;  
             
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 800)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
                 if (await Defensive.Execute()) return true;
