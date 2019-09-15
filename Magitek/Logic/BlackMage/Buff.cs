@@ -33,7 +33,7 @@ namespace Magitek.Logic.BlackMage
 
             // If we used something that opens the GCD
            
-                if (Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3 || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy) 
+                if (Casting.LastSpell == Spells.Fire3 ||  Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy) 
                     return await Spells.Sharpcast.Cast(Core.Me);
             
             return false;
@@ -54,8 +54,11 @@ namespace Magitek.Logic.BlackMage
             // Do not Ley Lines if we don't have any umbral hearts (roundabout check to see if we're at the begining of astral)
             if (ActionResourceManager.BlackMage.UmbralHearts < 1)
                 return false;
-
-            return await Spells.LeyLines.Cast(Core.Me);
+            // If we used something that opens the GCD
+            if (Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3 || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy)
+                return await Spells.LeyLines.Cast(Core.Me);
+            return false;
+            
         }
 
         public static async Task<bool> UmbralSoul()

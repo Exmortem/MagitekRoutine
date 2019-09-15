@@ -18,26 +18,6 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Stone)
                 return false;
 
-            if (Core.Me.ClassLevel >= 72)
-            {
-                return await Spells.Glare.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Core.Me.ClassLevel >= 64)
-            {
-                return await Spells.Stone4.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Core.Me.ClassLevel >= 54)
-            {
-                return await Spells.Stone3.Cast(Core.Me.CurrentTarget);
-            }
-
-            if (Core.Me.ClassLevel >= 18)
-            {
-                return await Spells.Stone2.Cast(Core.Me.CurrentTarget);
-            }
-
             return await Spells.Stone.Cast(Core.Me.CurrentTarget);
         }
 

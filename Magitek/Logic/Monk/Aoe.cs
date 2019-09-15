@@ -25,9 +25,9 @@ namespace Magitek.Logic.Monk
             if (ActionResourceManager.Monk.FithChakra < 5)
                 return false;
 
-            Logger.Write($@"[Magitek] Enlightenment Check: We have {Utilities.Routines.Monk.EnemiesInCone} Enemies in range we need {MonkSettings.Instance.EnlightenmentEnemies}");
+            Logger.Write($@"[Magitek] Enlightenment Check: We have {Utilities.Routines.Monk.EnemiesInCone} Enemies in range we need {MonkSettings.Instance.EnlightenmentEnemies} and Enlightenment is {MonkSettings.Instance.UseEnlightenment}");
 
-            if (Utilities.Routines.Monk.EnemiesInCone < MonkSettings.Instance.EnlightenmentEnemies)
+            if (Utilities.Routines.Monk.EnemiesInCone > MonkSettings.Instance.EnlightenmentEnemies)
                 return await Spells.Enlightenment.Cast(Core.Me.CurrentTarget);
 
             return false;
