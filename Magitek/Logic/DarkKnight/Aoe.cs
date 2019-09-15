@@ -56,9 +56,9 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.SaltedEarthEnemies)
                 return false;
 
-            //We could be gathering enemies?
+            /*/We could be gathering enemies?
             if (MovementManager.IsMoving)
-                return false;
+                return false;*/
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
         }
@@ -68,7 +68,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseUnleash)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
                 return false;
 
             return await Spells.Unleash.Cast(Core.Me);
@@ -79,7 +82,10 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.Unleash)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
                 return false;
 
             return await Spells.StalwartSoul.Cast(Core.Me);
@@ -90,7 +96,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseQuietus)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
                 return false;
 
             if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
