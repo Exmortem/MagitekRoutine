@@ -13,6 +13,10 @@ namespace Magitek.Logic.DarkKnight
     {
         public static async Task<bool> HardSlash()
         {
+
+            if (Core.Me.HasAura(Auras.Delirium))
+                return false;
+
             return await Spells.HardSlash.Cast(Core.Me.CurrentTarget);
         }
 
@@ -21,12 +25,18 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.HardSlash)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Delirium))
+                return false;
+
             return await Spells.SyphonStrike.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SoulEater()
         {
             if (ActionManager.LastSpell != Spells.SyphonStrike)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
             return await Spells.Souleater.Cast(Core.Me.CurrentTarget);
@@ -46,6 +56,9 @@ namespace Magitek.Logic.DarkKnight
         public static async Task<bool> Unmend()
         {
             if (Core.Me.OnPvpMap())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
             if (!DarkKnightSettings.Instance.UnmendToPullAggro)
@@ -76,7 +89,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> EdgeofDarknessShadow()
         {
-            if (DarkKnightSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies && Core.Me.HasDarkArts())
+            if (Core.Me.HasDarkArts())
                 return await Spells.EdgeofDarkness.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)

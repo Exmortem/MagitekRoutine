@@ -18,32 +18,8 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseAbyssalDrain)
                 return false;
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.AbyssalDrainEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.AbyssalDrainEnemies)
                 return false;
-
-            /* Find the enemy that has the most enemies around them
-            GameObject abyssalTarget = null;
-            var enemiesInRange = 0;
-
-            foreach (var enemy in Combat.Enemies)
-            {
-                if (enemy.Distance(Core.Me) > 15)
-                    continue;
-
-                var enemyCount = Combat.Enemies.Count(r => r.Distance(enemy) <= 5 + r.CombatReach);
-
-                if (enemyCount < DarkKnightSettings.Instance.AbyssalDrainEnemies)
-                    continue;
-
-                if (enemyCount <= enemiesInRange)
-                    continue;
-
-                enemiesInRange = enemyCount;
-                abyssalTarget = enemy;
-            }
-
-            if (abyssalTarget == null || enemiesInRange < DarkKnightSettings.Instance.AbyssalDrainEnemies)
-                return false;*/
 
             return await Spells.AbyssalDrain.Cast(Core.Me.CurrentTarget);
         }
@@ -53,12 +29,16 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseSaltedEarth)
                 return false;
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.SaltedEarthEnemies)
-                return false;
-
-            /*/We could be gathering enemies?
-            if (MovementManager.IsMoving)
+            /*if (MovementManager.IsMoving)
                 return false;*/
+
+            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 15 && r.InCombat);
+            var seCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
+
+            var canSE = seCount >= enemyCount || seCount > DarkKnightSettings.Instance.SaltedEarthEnemies;
+
+            if (!canSE)
+                return false;
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
         }
@@ -69,6 +49,9 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
@@ -83,6 +66,9 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
@@ -113,7 +99,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseFloodDarknessShadow)
                 return false;
 
-            if (!DarkKnightSettings.Instance.UseAoe || Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 10 + r.CombatReach) < DarkKnightSettings.Instance.FloodEnemies)
                 return false;
 
             if (Core.Me.HasDarkArts())
@@ -122,7 +111,7 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
                 return false;
 
-            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
+            if (DarkKnightSettings.Instance.UseTheBlackestNight && Core.Me.CurrentMana < 6000)
                 return false;
 
             return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
