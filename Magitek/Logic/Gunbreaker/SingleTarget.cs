@@ -81,7 +81,7 @@ namespace Magitek.Logic.Gunbreaker
                     return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 750)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
             return await Spells.DangerZone.Cast(Core.Me.CurrentTarget);
@@ -93,7 +93,7 @@ namespace Magitek.Logic.Gunbreaker
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
             //Only use in the last 1/3rd of GCD window
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 750)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
 
@@ -125,7 +125,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 750)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
             return await Spells.JugularRip.Cast(Core.Me.CurrentTarget);
@@ -149,7 +149,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 750)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
             return await Spells.EyeGouge.Cast(Core.Me.CurrentTarget);
@@ -161,13 +161,18 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             //Only use in the last 1/3rd of GCD window
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 750)
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 900)
                 return false;
 
             if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
-
-            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.WickedTalon)
+            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
+                return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
+            if(Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.KeenEdge)
+                return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
+            if(Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BrutalShell)
+                return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
+            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.SolidBarrel)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
 
             return false; 

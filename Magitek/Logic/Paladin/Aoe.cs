@@ -99,9 +99,6 @@ namespace Magitek.Logic.Paladin
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
                 return false;
 
-            if (Core.Me.HasAura(Auras.FightOrFight))
-                return false;
-
             if (!Core.Me.HasAura(Auras.Requiescat))
                 return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
 

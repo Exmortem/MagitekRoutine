@@ -156,10 +156,10 @@ namespace Magitek.Logic.Monk
             if (Core.Me.HasAura(Auras.PerfectBalance))
             {
                 if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
-                    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+                    return await Spells.TwinSnakes.CastAura(Core.Me.CurrentTarget, Auras.TwinSnakes);
 
                 if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
-                    return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+                    return await Spells.Demolish.CastAura(Core.Me.CurrentTarget, Auras.Demolish);
 
                 if (ActionResourceManager.Monk.Timer.Seconds < 3)
                     return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);

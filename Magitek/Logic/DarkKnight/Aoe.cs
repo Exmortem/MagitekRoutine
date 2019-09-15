@@ -62,6 +62,7 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.Unleash)
                 return false;
 
+
             if (!DarkKnightSettings.Instance.UseAoe)
                 return false;
 
@@ -69,6 +70,7 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+
                 return false;
 
             return await Spells.StalwartSoul.Cast(Core.Me);
@@ -100,10 +102,11 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 10 + r.CombatReach) < DarkKnightSettings.Instance.FloodEnemies)
+
                 return false;
 
-            if (Core.Me.HasDarkArts())
-                return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
+                return false;
 
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
                 return false;
