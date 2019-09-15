@@ -36,6 +36,7 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.SaltedEarthEnemies)
+
                 return false;
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
