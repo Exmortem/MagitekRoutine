@@ -32,7 +32,8 @@ namespace Magitek.Logic.DarkKnight
             if (MovementManager.IsMoving)
                 return false;
 
-
+            if (Combat.CombatTotalTimeLeft < 15)
+                return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.SaltedEarthEnemies)
                 return false;

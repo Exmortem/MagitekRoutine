@@ -92,6 +92,10 @@ namespace Magitek.Models.DarkKnight
         [Setting]
         [DefaultValue(true)]
         public bool LivingShadow { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int BuffTTDSeconds { get; set; }
         #endregion
 
         //oGCDs

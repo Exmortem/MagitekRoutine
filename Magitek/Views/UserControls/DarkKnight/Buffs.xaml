@@ -16,10 +16,15 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Blood Weapon  " IsChecked="{Binding DarkKnightSettings.BloodWeapon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Text="Only Buff If"  Style="{DynamicResource TextBlockDefault}" />
+                    <controls:Numeric  MaxValue="360" MinValue="0" Value="{Binding DarkKnightSettings.BuffTTDSeconds, Mode=TwoWay}" />
+                    <TextBlock Text="  Seconds Left In Combat"  Style="{DynamicResource TextBlockDefault}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Delirium  " IsChecked="{Binding DarkKnightSettings.Delirium, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Living Shadow  " IsChecked="{Binding DarkKnightSettings.LivingShadow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Living Shadow  " IsChecked="{Binding DarkKnightSettings.LivingShadow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

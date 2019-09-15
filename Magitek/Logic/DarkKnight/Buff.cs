@@ -36,6 +36,9 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.LivingShadow)
                 return false;
 
+            if (Combat.CombatTotalTimeLeft < DarkKnightSettings.Instance.BuffTTDSeconds)
+                return false;
+
             return await Spells.LivingShadow.Cast(Core.Me);
         }
 
@@ -44,12 +47,18 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.BloodWeapon)
                 return false;
 
+            if (Combat.CombatTotalTimeLeft < DarkKnightSettings.Instance.BuffTTDSeconds)
+                return false;
+
             return await Spells.BloodWeapon.Cast(Core.Me);
         }
 
         public static async Task<bool> Delirium()
         {
             if (!DarkKnightSettings.Instance.Delirium)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft < DarkKnightSettings.Instance.BuffTTDSeconds)
                 return false;
 
             if (Spells.HardSlash.Cooldown.TotalMilliseconds > 800)
