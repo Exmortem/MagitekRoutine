@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Clio.Utilities.Collections;
 using ff14bot;
@@ -7,7 +6,6 @@ using ff14bot.AClasses;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models;
 using Magitek.Models.Account;

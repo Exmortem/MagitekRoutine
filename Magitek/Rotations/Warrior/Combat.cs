@@ -5,6 +5,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Warrior;
+using Magitek.Models.Account;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 
@@ -27,7 +28,7 @@ namespace Magitek.Rotations.Warrior
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 800 + WarriorSettings.Instance.UserLatencyOffset)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 800 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;

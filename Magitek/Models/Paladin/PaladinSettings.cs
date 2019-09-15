@@ -34,10 +34,6 @@ namespace Magitek.Models.Paladin
         public int RefreshGoringBlade { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
-        public int PingValue { get; set; }
-
-        [Setting]
         [DefaultValue(4000)]
         public int HealthSetting { get; set; }
 

@@ -1,12 +1,11 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
@@ -82,7 +81,7 @@ namespace Magitek.Logic.Paladin
                 if (ActionManager.LastSpell != Spells.FastBlade)
                     return false;
 
-                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + PaladinSettings.Instance.PingValue))
+                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
                     return false;
 
                 return await Spells.FightorFlight.Cast(Core.Me);
@@ -92,7 +91,7 @@ namespace Magitek.Logic.Paladin
                 if (ActionManager.LastSpell != Spells.RiotBlade)
                     return false;
 
-                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + PaladinSettings.Instance.PingValue))
+                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
                     return false;
 
                 return await Spells.FightorFlight.Cast(Core.Me);

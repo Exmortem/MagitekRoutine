@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
@@ -29,13 +27,13 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseSaltedEarth)
                 return false;
 
-            /*if (MovementManager.IsMoving)
-                return false;*/
+            if (MovementManager.IsMoving)
+                return false;
 
             var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 15 && r.InCombat);
             var seCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
 
-            var canSE = seCount >= enemyCount || seCount > DarkKnightSettings.Instance.SaltedEarthEnemies;
+            var canSE = seCount >= enemyCount || seCount >= DarkKnightSettings.Instance.SaltedEarthEnemies;
 
             if (!canSE)
                 return false;

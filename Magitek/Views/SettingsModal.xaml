@@ -81,6 +81,11 @@
                                 <ComboBox Width="130" ItemsSource="{Binding Source={StaticResource ChocoboStances}}" SelectedValue="{Binding GeneralSettings.ChocoboStance, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                             </StackPanel>
 
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Latency Offset (Ping):  " />
+                                <controls:Numeric MaxValue="5000" MinValue="0" Value="{Binding GeneralSettings.UserLatencyOffset, Mode=TwoWay}" />
+                            </StackPanel>
+
                         </StackPanel>
                     </controls:SettingsBlock>
 

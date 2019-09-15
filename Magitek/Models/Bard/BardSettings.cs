@@ -13,10 +13,6 @@ namespace Magitek.Models.Bard
 
         public static BardSettings Instance { get; set; } = new BardSettings();
 
-        [Setting]
-        [DefaultValue(50)]
-        public int UserLatencyOffset { get; set; }
-
         #region SingleTarget
 
         [Setting]
