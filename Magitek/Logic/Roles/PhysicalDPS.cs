@@ -131,24 +131,5 @@ namespace Magitek.Logic.Roles
 
             return await Spells.Peloton.CastAura(Core.Me, Auras.Peloton);
         }
-
-        public static async Task<bool> Recuperate<T>(T settings) where T : PhysicalDpsSettings
-        {
-            if (!settings.UseRecuperate)
-                return false;
-
-            if (Core.Me.CurrentHealthPercent > settings.RecuperateHealthPercent)
-                return false;
-
-            return await Spells.Recuperate.Cast(Core.Me);
-        }
-
-        public static async Task<bool> Enliven<T>(T settings) where T : PhysicalDpsSettings
-        {
-            if (!settings.UseEnliven)
-                return false;
-
-            return await Spells.Enliven.Cast(Core.Me);
-        }
     }
 }

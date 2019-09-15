@@ -20,6 +20,8 @@ namespace Magitek.Rotations.Dragoon
 
         public static async Task<bool> Execute()
         {
+            Group.UpdateAllies();
+
             if (BotManager.Current.IsAutonomous)
             {
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
@@ -134,8 +136,7 @@ namespace Magitek.Rotations.Dragoon
                 if (await Buff.BloodOfTheDragon()) return true;
                 if (await Buff.DragonSight()) return true;
                 if (await Buff.BattleLitany()) return true;
-                if (await Buff.TrueNorth()) return true;
-                return false;
+                return await Buff.TrueNorth();
             }
 
             if (await OffGlobalCooldownRotation())

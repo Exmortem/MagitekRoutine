@@ -23,11 +23,7 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
-        public bool BuffsUse { get; set; }
-
-        [Setting]
-        [DefaultValue(DragonSightStrategy.Self)]
-        public DragonSightStrategy SelectedLeftEye { get; set; }
+        public bool UseBuffs { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -47,7 +43,7 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
-        public bool DragonSight { get; set; }
+        public bool UseDragonSight { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -104,5 +100,76 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(DragonSightStrategy.ClosestDps)]
         public DragonSightStrategy SelectedStrategy { get; set; }
+
+        #region Eye Weights
+        [Setting]
+        [DefaultValue(1)]
+        public int MnkEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int BlmEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int DrgEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int SamEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public int MchEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(8)]
+        public int SmnEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int BrdEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int NinEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(9)]
+        public int RdmEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(7)]
+        public int DncEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(14)]
+        public int PldEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(13)]
+        public int WarEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(12)]
+        public int DrkEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(11)]
+        public int GnbEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(15)]
+        public int WhmEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(16)]
+        public int SchEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(17)]
+        public int AstEyeWeight { get; set; }
+
+        #endregion
     }
 }
