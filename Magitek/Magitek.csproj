@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\NewReborn\Routines\Magitek\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -245,6 +245,7 @@
     <Compile Include="Logic\Machinist\Turret.cs" />
     <Compile Include="Logic\Monk\Aoe.cs" />
     <Compile Include="Logic\Monk\Buff.cs" />
+    <Compile Include="Logic\Monk\PositionalToast.cs" />
     <Compile Include="Logic\Monk\SingleTarget.cs" />
     <Compile Include="Logic\Ninja\Aoe.cs" />
     <Compile Include="Logic\Ninja\Buff.cs" />

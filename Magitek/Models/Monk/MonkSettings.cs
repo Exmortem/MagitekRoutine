@@ -160,5 +160,9 @@ namespace Magitek.Models.Monk
         [Setting]
         [DefaultValue(true)]
         public bool UseTheForbiddenChakra { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UsePositionalToasts { get; set; }
     }
 }

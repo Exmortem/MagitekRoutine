@@ -9,6 +9,7 @@ using Magitek.Models.QueueSpell;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
 using System.Linq;
+using Magitek.Models.Account;
 
 namespace Magitek.Rotations.Monk
 {
@@ -51,10 +52,10 @@ namespace Magitek.Rotations.Monk
             //{
             //    //TODO: Add 5+ target DPS rotation
             //}
-
+            if (await PositionalToast.PositionalLogic()) return true;
             if (!Core.Me.HasAura(Auras.Anatman))
             {
-                if (Utilities.Routines.Monk.OnGcd)
+                if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
                 {
                     if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(MonkSettings.Instance)) return true;
