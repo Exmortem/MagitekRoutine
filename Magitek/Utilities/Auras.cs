@@ -203,6 +203,7 @@ namespace Magitek.Utilities
             DarkMissionary = 1894,
             Delirium = 1972,
             PassageOfArms = 1175,
+            RiddleOfEarth = 2008,
             Anatman = 1862;
 
         private const int

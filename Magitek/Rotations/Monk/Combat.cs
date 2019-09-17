@@ -64,7 +64,10 @@ namespace Magitek.Rotations.Monk
                     if (await SingleTarget.TheForbiddenChakra()) return true;
                     if (await SingleTarget.ShoulderTackle()) return true;
                     if (await Buff.PerfectBalance()) return true;
-                    if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
+                    if (!Core.Me.HasAura(Auras.RiddleOfEarth))
+                    {
+                        if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
+                    }
                     if (await Buff.RiddleOfFire()) return true;
                     if (await Buff.RiddleOfEarth()) return true;                   
                     if (await SingleTarget.ElixerField()) return true;
