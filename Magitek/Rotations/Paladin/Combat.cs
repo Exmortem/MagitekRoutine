@@ -86,7 +86,7 @@ namespace Magitek.Rotations.Paladin
                 #region Last Spell FastBlade
                 if (ActionManager.LastSpell == Spells.FastBlade)
                 {
-                    /// Low level just fast blade
+                    // Low level just fast blade
                     if (Core.Me.ClassLevel < 4)
                     {
                         return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
