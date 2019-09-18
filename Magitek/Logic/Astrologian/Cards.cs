@@ -17,9 +17,6 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> PlayCards()
         {
-            if (!AstrologianSettings.Instance.UseDraw)
-                return false;
-
             var cardDrawn = Arcana != AstrologianCard.None;
             
             if (!cardDrawn)
