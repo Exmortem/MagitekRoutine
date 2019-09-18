@@ -115,6 +115,10 @@ namespace Magitek.Models.Dancer
         public bool UseClosedPosition { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool DancePartnerChocobo { get; set; }
+
+        [Setting]
         [DefaultValue(DancePartnerStrategy.ClosestDps)]
         public DancePartnerStrategy SelectedStrategy { get; set; }
 
