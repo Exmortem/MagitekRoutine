@@ -23,12 +23,9 @@ namespace Magitek.Logic.Astrologian
             var cardDrawn = Arcana != AstrologianCard.None;
             
             if (!cardDrawn)
-                if(ActionManager.CanCast(Spells.Draw, Core.Me))
+                if (ActionManager.CanCast(Spells.Draw, Core.Me) && AstrologianSettings.Instance.UseDraw)
                     if (await Spells.Draw.Cast(Core.Me))
                         await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
-
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
 
             if (DivinationSeals.Any(c => c == 0))
                 if (Spells.Redraw.Charges > 1)
@@ -55,6 +52,9 @@ namespace Magitek.Logic.Astrologian
                                 return await Spells.Redraw.Cast(Core.Me);
                             break;
                     }
+
+            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
+                return false;
 
             if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
                 await Spells.Divination.Cast(Core.Me);
@@ -83,7 +83,10 @@ namespace Magitek.Logic.Astrologian
                             await Spells.MinorArcana.Cast(Core.Me);
                         break;
                 }
-            
+
+            if (!AstrologianSettings.Instance.Play)
+                return false;
+
             if (PartyManager.IsInParty)
                 switch (Arcana)
                 {
