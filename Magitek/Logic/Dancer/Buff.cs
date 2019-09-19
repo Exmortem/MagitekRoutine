@@ -105,6 +105,14 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.ClosedPosition))
                 return false;
 
+            if (DancerSettings.Instance.DancePartnerChocobo)
+            {
+                if (!ChocoboManager.Summoned)
+                    return false;
+
+                return await Spells.ClosedPosition.Cast(ChocoboManager.Object);
+            }
+
             IEnumerable<Character> allyList = null;
 
             switch (DancerSettings.Instance.SelectedStrategy)
