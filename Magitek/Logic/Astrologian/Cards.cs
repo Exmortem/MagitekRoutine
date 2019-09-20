@@ -17,12 +17,18 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> PlayCards()
         {
+            if (!AstrologianSettings.Instance.UseDraw)
+                return false;
+
             var cardDrawn = Arcana != AstrologianCard.None;
             
             if (!cardDrawn)
                 if (ActionManager.CanCast(Spells.Draw, Core.Me) && AstrologianSettings.Instance.UseDraw)
                     if (await Spells.Draw.Cast(Core.Me))
                         await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
+
+            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
+                return false;
 
             if (DivinationSeals.Any(c => c == 0))
                 if (Spells.Redraw.Charges > 1)
