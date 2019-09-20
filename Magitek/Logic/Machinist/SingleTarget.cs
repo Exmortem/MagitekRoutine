@@ -105,9 +105,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            /*add some mor precise logic for pooling/dumping
+            //add some mor precise logic for pooling/dumping
             if (Spells.GaussRound.Charges < 1.8f)
-                return false;*/
+                return false;
 
             return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
         }

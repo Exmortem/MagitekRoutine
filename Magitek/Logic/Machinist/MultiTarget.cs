@@ -23,7 +23,7 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount)
+            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
                 return false;
 
             return await Spells.SpreadShot.Cast(Core.Me.CurrentTarget);
@@ -40,7 +40,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Reassembled))
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.BioBlasterEnemyCount)
+            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.BioBlasterEnemyCount)
                 return false;
 
             return await Spells.Bioblaster.Cast(Core.Me.CurrentTarget);
@@ -57,7 +57,7 @@ namespace Magitek.Logic.Machinist
                 if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                     return false;
 
-                if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
+                if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
                     return false;
 
                 return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
@@ -96,9 +96,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < MachinistSettings.Instance.RicochetEnemyCount)
                 return false;
 
-            /*add some mor precise logic for pooling/dumping
+            //add some mor precise logic for pooling/dumping
             if (Spells.Ricochet.Charges < 1.8f)
-                return false;*/
+                return false;
 
             return await Spells.Ricochet.Cast(Core.Me.CurrentTarget);
         }

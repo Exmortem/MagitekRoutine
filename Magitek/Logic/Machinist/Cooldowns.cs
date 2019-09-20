@@ -42,8 +42,8 @@ namespace Magitek.Logic.Machinist
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
-            /*if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
-                return false;*/
+            if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
+                return false;
 
             double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
                                             MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) / 3000;
