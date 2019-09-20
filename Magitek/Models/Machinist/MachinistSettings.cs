@@ -46,6 +46,10 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseSpreadShot { get; set; }
 
         [Setting]
@@ -68,6 +72,14 @@ namespace Magitek.Models.Machinist
         [DefaultValue(3)]
         public int AutoCrossbowEnemyCount { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseFlamethrower { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int FlamethrowerEnemyCount { get; set; }
+
         #endregion
 
         #region MultiTarget
@@ -75,6 +87,10 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseRicochet { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int RicochetEnemyCount { get; set; }
 
         #endregion
 
@@ -111,6 +127,22 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseBarrelStabilizer { get; set; }
+
+        #endregion
+
+        #region Utilty
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ForceTactician { get; internal set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseHeadGraze { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnlyInterruptCurrentTarget { get; set; }
 
         #endregion
 

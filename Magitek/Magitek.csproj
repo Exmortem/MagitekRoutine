@@ -239,6 +239,7 @@
     <Compile Include="Logic\Dragoon\Jumps.cs" />
     <Compile Include="Logic\Dragoon\SingleTarget.cs" />
     <Compile Include="Logic\GambitLogic.cs" />
+    <Compile Include="Logic\Machinist\Utility.cs" />
     <Compile Include="Logic\Machinist\MultiTarget.cs" />
     <Compile Include="Logic\Machinist\Cooldowns.cs" />
     <Compile Include="Logic\Machinist\SingleTarget.cs" />
@@ -698,11 +699,14 @@
     <Compile Include="Views\UserControls\Machinist\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Machinist\Pets.xaml.cs">
+      <DependentUpon>Pets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Machinist\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Machinist\Turrets.xaml.cs">
-      <DependentUpon>Turrets.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\Machinist\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\MainSettingsOverlay.xaml.cs">
       <DependentUpon>MainSettingsOverlay.xaml</DependentUpon>
@@ -1168,9 +1172,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Machinist\Turrets.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\UserControls\Machinist\Pets.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\Utilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\MainSettingsOverlay.xaml">
       <SubType>Designer</SubType>
@@ -1348,7 +1356,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.2.2.0\build\net452\Fody.targets" Condition="Exists('packages\Fody.2.2.0\build\net452\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -18,8 +19,11 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
+            if (ActionManager.LastSpell == Spells.Hypercharge)
+                return false;
+
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
+                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
@@ -30,8 +34,11 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
+            if (ActionManager.LastSpell == Spells.Hypercharge)
+                return false;
+
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
+                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
@@ -42,8 +49,11 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
+            if (ActionManager.LastSpell == Spells.Hypercharge)
+                return false;
+
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot)
+                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
@@ -54,8 +64,11 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
+            if (ActionManager.LastSpell == Spells.Hypercharge)
+                return false;
+
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount
-                && MachinistSettings.Instance.UseBioBlaster)
+                && MachinistSettings.Instance.UseBioBlaster && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
@@ -64,6 +77,9 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HotAirAnchor()
         {
             if (!MachinistSettings.Instance.UseHotAirAnchor)
+                return false;
+
+            if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
 
             return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
@@ -75,7 +91,7 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.AutoCrossbowEnemyCount
-                && MachinistSettings.Instance.UseAutoCrossbow)
+                && MachinistSettings.Instance.UseAutoCrossbow && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
@@ -89,9 +105,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            //add some mor precise logic for pooling/dumping
+            /*add some mor precise logic for pooling/dumping
             if (Spells.GaussRound.Charges < 1.8f)
-                return false;
+                return false;*/
 
             return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
         }

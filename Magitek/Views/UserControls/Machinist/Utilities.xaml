@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="Magitek.Views.UserControls.Machinist.Buffs"
+﻿<UserControl x:Class="Magitek.Views.UserControls.Machinist.Utilities"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:enums="clr-namespace:Magitek.Enumerations"
-             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
@@ -18,33 +17,15 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ObjectDataProvider x:Key="BuffStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:BuffStrategy" />
+                    <x:Type TypeName="enums:InterruptStrategy" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Wildfire" IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hypercharge" IsChecked="{Binding MachinistSettings.UseHypercharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Barrel Stabilizer" IsChecked="{Binding MachinistSettings.UseBarrelStabilizer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
@@ -65,5 +46,15 @@
 
             </Grid>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel  Orientation="Vertical">
+                    <CheckBox Content="Use Head Graze To Interrupt" IsChecked="{Binding MachinistSettings.UseHeadGraze, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only Interrupt Current Target" IsChecked="{Binding MachinistSettings.OnlyInterruptCurrentTarget, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
     </StackPanel>
 </UserControl>
+

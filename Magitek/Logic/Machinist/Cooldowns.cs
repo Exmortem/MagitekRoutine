@@ -30,6 +30,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHypercharge)
                 return false;
 
+            if (Core.Me.HasAura(Auras.WildfireBuff, true))
+                return await Spells.Hypercharge.Cast(Core.Me);
+
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
@@ -39,10 +42,8 @@ namespace Magitek.Logic.Machinist
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
-            if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
-                return false;
-
-            //add check for dropping combo
+            /*if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
+                return false;*/
 
             double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
                                             MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) / 3000;
@@ -102,7 +103,13 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseReassemble)
                 return false;
 
-            if (!MachinistGlobals.IsInWeaveingWindow)
+            /*if (!MachinistGlobals.IsInWeaveingWindow)
+                return false;*/
+
+            if (Core.Me.HasAura(Auras.Reassembled))
+                return false;
+
+            if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
 
             if (Spells.Drill.Cooldown != TimeSpan.Zero &&

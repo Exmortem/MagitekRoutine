@@ -6,6 +6,7 @@ using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
+using Magitek.Models.Account;
 using Magitek.Utilities;
 
 namespace Magitek.Rotations.Machinist
@@ -27,27 +28,49 @@ namespace Magitek.Rotations.Machinist
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-            //oGCDs
-            if (await Cooldowns.Wildfire()) return true;
-            if (await Cooldowns.Hypercharge()) return true;
-            if (await Cooldowns.BarrelStabilizer()) return true;
-            if (await Cooldowns.Reassemble()) return true;
-            if (await Pet.RookQueen()) return true;
-            if (await Pet.RookQueenOverdrive()) return true;
-            if (await SingleTarget.GaussRound()) return true;
-            if (await MultiTarget.Ricochet()) return true;
+            if (MachinistSettings.Instance.UseFlamethrower && Core.Me.HasAura(Auras.Flamethrower))
+            {
+                if (!MachinistSettings.Instance.UseFlamethrower)
+                    return true;
 
-            //GCDs
-            if (await SingleTarget.HeatBlast()) return true;    //Top HyperCharge Prio
+                if (MovementManager.IsMoving)
+                    return false;
+
+                if (Core.Me.EnemiesInCone(8) >= MachinistSettings.Instance.FlamethrowerEnemyCount)
+                    return true;
+            }
+
+            //oGCDs
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            {
+                //Utility
+                if (await Utility.Tactician()) return true;
+                if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
+                if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
+                if (await Utility.HeadGraze()) return true;
+                //Cooldowns
+                if (await Cooldowns.Wildfire()) return true;
+                if (await Cooldowns.Hypercharge()) return true;
+                if (await Cooldowns.BarrelStabilizer()) return true;
+                if (await Cooldowns.Reassemble()) return true;
+                if (await Pet.RookQueen()) return true;
+                if (await Pet.RookQueenOverdrive()) return true;
+                //oGCDs
+                if (await SingleTarget.GaussRound()) return true;
+                if (await MultiTarget.Ricochet()) return true;
+            }
+
+            //GCDs - Top Hypercharge Priority
+            if (await MultiTarget.AutoCrossbow()) return true;
+            if (await SingleTarget.HeatBlast()) return true;
 
             //Use On CD
             if (await MultiTarget.BioBlaster()) return true;
             if (await SingleTarget.Drill()) return true;
-            if (await MultiTarget.AutoCrossbow()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
+            if (await MultiTarget.Flamethrower()) return true;
 
             //Default Combo
-
             if (await MultiTarget.SpreadShot()) return true;
             if (await SingleTarget.HeatedCleanShot()) return true;
             if (await SingleTarget.HeatedSlugShot()) return true;
