@@ -41,24 +41,25 @@ namespace Magitek.Rotations.Machinist
             }
 
             //oGCDs
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
-            {
-                //Utility
-                if (await Utility.Tactician()) return true;
-                if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
-                if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
-                if (await Utility.HeadGraze()) return true;
-                //Cooldowns
-                if (await Cooldowns.Wildfire()) return true;
-                if (await Cooldowns.Hypercharge()) return true;
-                if (await Cooldowns.BarrelStabilizer()) return true;
-                if (await Cooldowns.Reassemble()) return true;
-                if (await Pet.RookQueen()) return true;
-                if (await Pet.RookQueenOverdrive()) return true;
-                //oGCDs
-                if (await SingleTarget.GaussRound()) return true;
-                if (await MultiTarget.Ricochet()) return true;
-            }
+
+            //Utility
+            if (await Utility.Tactician()) return true;
+            if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
+            if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
+            if (await Utility.HeadGraze()) return true;
+            //Cooldowns
+            if (await Cooldowns.Reassemble()) return true;
+            if (await Cooldowns.Wildfire()) return true;
+            if (await Cooldowns.Hypercharge()) return true;
+            if (await Cooldowns.BarrelStabilizer()) return true;
+            if (await Pet.RookQueen()) return true;
+            if (await Pet.RookQueenOverdrive()) return true;
+            //oGCDs
+            if (await SingleTarget.GaussRound()) return true;
+            if (await MultiTarget.Ricochet()) return true;
+            
+
+
 
             //GCDs - Top Hypercharge Priority
             if (await MultiTarget.AutoCrossbow()) return true;
