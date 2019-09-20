@@ -496,7 +496,7 @@ namespace Magitek.Logic.Scholar
                 }
             }
 
-            if (Globals.PartyInCombat)
+            if (!ScholarSettings.Instance.SlowcastRes)
                 return false;
 
             if (!ScholarSettings.Instance.ResOutOfCombat)

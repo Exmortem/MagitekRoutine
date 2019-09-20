@@ -22,10 +22,6 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
-                return false;
-
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -35,10 +31,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionManager.LastSpell == Spells.Hypercharge)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
@@ -52,10 +44,6 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.SpreadShotEnemyCount
-                && MachinistSettings.Instance.UseSpreadShot && MachinistSettings.Instance.UseAoe)
-                return false;
-
             return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -65,10 +53,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionManager.LastSpell == Spells.Hypercharge)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.BioBlasterEnemyCount
-                && MachinistSettings.Instance.UseBioBlaster && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
@@ -88,10 +72,6 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HeatBlast()
         {
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                return false;
-
-            if (Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.AutoCrossbowEnemyCount
-                && MachinistSettings.Instance.UseAutoCrossbow && MachinistSettings.Instance.UseAoe)
                 return false;
 
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
