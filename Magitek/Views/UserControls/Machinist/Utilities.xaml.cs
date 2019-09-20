@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Magitek.Views.UserControls.Bard
+namespace Magitek.Views.UserControls.Machinist
 {
     /// <summary>
     /// Interaction logic for Utilities.xaml

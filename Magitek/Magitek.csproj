@@ -699,11 +699,11 @@
     <Compile Include="Views\UserControls\Machinist\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Machinist\Pets.xaml.cs">
-      <DependentUpon>Pets.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Machinist\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\Turrets.xaml.cs">
+      <DependentUpon>Turrets.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Machinist\Utilities.xaml.cs">
       <DependentUpon>Utilities.xaml</DependentUpon>
@@ -1172,7 +1172,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Machinist\Pets.xaml">
+    <Page Include="Views\UserControls\Machinist\Turrets.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

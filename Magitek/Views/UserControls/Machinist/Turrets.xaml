@@ -32,7 +32,7 @@
 
         <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Rook / Queen at" IsChecked="{Binding MachinistSettings.UseRookQueen, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <controls:Numeric Grid.Row="0" Grid.Column="1" Increment="10" MaxValue="100" MinValue="50" Value="{Binding MachinistSettings.MinBatteryForPetSummon, Mode=TwoWay}" />
-        <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Battery" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text="   Battery Gauge" />
 
       </Grid>
     </StackPanel>

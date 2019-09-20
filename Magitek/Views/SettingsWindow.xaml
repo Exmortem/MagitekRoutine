@@ -729,6 +729,9 @@
                         <TabItem Header="Turrets " Style="{DynamicResource MainTabCombat}">
                             <machinist:Turrets />
                         </TabItem>
+                        <TabItem Header="Utilities " Style="{DynamicResource MainTabCombat}">
+                            <machinist:Utilities />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
