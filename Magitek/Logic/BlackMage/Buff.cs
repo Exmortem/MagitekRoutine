@@ -11,6 +11,9 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Triplecast()
         {
+            if (!BlackMageSettings.Instance.TripleCast)
+                return false;
+
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
