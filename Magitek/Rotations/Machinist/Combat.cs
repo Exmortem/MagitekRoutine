@@ -48,9 +48,9 @@ namespace Magitek.Rotations.Machinist
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await Utility.HeadGraze()) return true;
             //Cooldowns
-            if (await Cooldowns.Reassemble()) return true;
             if (await Cooldowns.Wildfire()) return true;
             if (await Cooldowns.Hypercharge()) return true;
+            if (await Cooldowns.Reassemble()) return true;
             if (await Cooldowns.BarrelStabilizer()) return true;
             if (await Pet.RookQueen()) return true;
             if (await Pet.RookQueenOverdrive()) return true;

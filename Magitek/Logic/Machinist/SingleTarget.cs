@@ -19,7 +19,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
@@ -30,7 +30,7 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
@@ -41,7 +41,7 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
@@ -52,7 +52,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
@@ -63,7 +66,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHotAirAnchor)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
             return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
@@ -85,9 +91,18 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            //add some mor precise logic for pooling/dumping
-            if (Spells.GaussRound.Charges < 1.8f)
+            if (Casting.LastSpell == Spells.Wildfire)
                 return false;
+
+            if (Core.Me.ClassLevel > 45)
+            {
+                if (Spells.Wildfire.Cooldown.Seconds < 1)
+                    return false;
+            }
+
+            /*add some mor precise logic for pooling/dumping
+            if (Spells.GaussRound.Charges < 1.8f)
+                return false;*/
 
             return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
         }
