@@ -9,6 +9,8 @@ namespace Magitek.Rotations.Dragoon
     {
         public static async Task<bool> Execute()
         {
+            Group.UpdateAllies();
+
             if (PartyManager.IsInParty)
             {
                 // If we're in a party and we die, but our group is still in combat, we don't want to reset the counter

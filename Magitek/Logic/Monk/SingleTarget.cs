@@ -79,7 +79,7 @@ namespace Magitek.Logic.Monk
                 if (!Core.Me.HasAura(Auras.OpoOpoForm))
                         return false;
 
-                if (Core.Me.CurrentTarget.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
+                if (Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
                     return false;
 
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
@@ -155,14 +155,14 @@ namespace Magitek.Logic.Monk
         {
             if (Core.Me.HasAura(Auras.PerfectBalance))
             {
-                if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
-                    return await Spells.TwinSnakes.CastAura(Core.Me.CurrentTarget, Auras.TwinSnakes);
-
-                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
-                    return await Spells.Demolish.CastAura(Core.Me.CurrentTarget, Auras.Demolish);
-
-                if (ActionResourceManager.Monk.Timer.Seconds < 3)
+                if (ActionResourceManager.Monk.Timer.Seconds < 4)
                     return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+
+                if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
+                    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+
+                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000) && Casting.LastSpell != Spells.Demolish)
+                    return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
 
                 if (Core.Me.HasAura(Auras.LeadenFist))
                     return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);

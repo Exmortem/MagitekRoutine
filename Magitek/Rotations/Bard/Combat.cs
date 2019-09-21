@@ -6,6 +6,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Bard;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 
@@ -42,7 +43,7 @@ namespace Magitek.Rotations.Bard
                 }
             }
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BardSettings.Instance.UserLatencyOffset)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;

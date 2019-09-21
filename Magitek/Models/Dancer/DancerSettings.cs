@@ -14,11 +14,6 @@ namespace Magitek.Models.Dancer
 
         public static DancerSettings Instance { get; set; } = new DancerSettings();
         
-        
-        [Setting]
-        [DefaultValue(true)]
-        public bool DancePartnerChocobo { get; set; }
-
         [Setting]
         [DefaultValue(true)]
         public bool UseDevilment { get; set; }
@@ -115,5 +110,87 @@ namespace Magitek.Models.Dancer
         [DefaultValue(true)]
         public bool UseImprovisation { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseClosedPosition { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DancePartnerChocobo { get; set; }
+
+        [Setting]
+        [DefaultValue(DancePartnerStrategy.ClosestDps)]
+        public DancePartnerStrategy SelectedStrategy { get; set; }
+
+        #region Partner Weights
+        [Setting]
+        [DefaultValue(1)]
+        public int MnkPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int BlmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int DrgPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int SamPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public int MchPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(8)]
+        public int SmnPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int BrdPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int NinPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(9)]
+        public int RdmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(7)]
+        public int DncPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(14)]
+        public int PldPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(13)]
+        public int WarPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(12)]
+        public int DrkPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(11)]
+        public int GnbPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(15)]
+        public int WhmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(16)]
+        public int SchPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(17)]
+        public int AstPartnerWeight { get; set; }
+
+        #endregion
     }
 }

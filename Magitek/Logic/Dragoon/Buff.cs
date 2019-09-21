@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -19,7 +18,7 @@ namespace Magitek.Logic.Dragoon
     {
         public static async Task<bool> LanceCharge()
         {
-            if (!DragoonSettings.Instance.BuffsUse)
+            if (!DragoonSettings.Instance.UseBuffs)
                 return false;
 
             if (!DragoonSettings.Instance.LanceCharge)
@@ -50,7 +49,7 @@ namespace Magitek.Logic.Dragoon
 
         public static async Task<bool> BattleLitany()
         {
-            if (!DragoonSettings.Instance.BuffsUse)
+            if (!DragoonSettings.Instance.UseBuffs)
                 return false;
 
             if (!DragoonSettings.Instance.BattleLitany)
@@ -58,53 +57,6 @@ namespace Magitek.Logic.Dragoon
 
             return await Spells.BattleLitany.Cast(Core.Me);
         }
-
-        public static async Task<bool> DragonSight()
-        {
-            if (!DragoonSettings.Instance.BuffsUse)
-                return false;
-
-            if (!DragoonSettings.Instance.DragonSight)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.DragonSight.Id))
-                return false;
-
-            IEnumerable<Character> ally = null;
-
-            switch (DragoonSettings.Instance.SelectedStrategy)
-            {
-                case DragonSightStrategy.ClosestDps:
-                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && (a.IsMeleeDps() || a.IsRangedDpsCard()));
-
-                    break;
-
-                case DragonSightStrategy.Self:
-                    return await Spells.DragonSight.Cast(Core.Me);
-
-                case DragonSightStrategy.MeleeDps:
-                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsMeleeDps());
-                    break;
-
-                case DragonSightStrategy.RangedDps:
-                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsRangedDpsCard());
-                    break;
-
-                case DragonSightStrategy.Tank:
-                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsTank());
-                    break;
-
-                case DragonSightStrategy.Healer:
-                    ally = Group.CastableAlliesWithin10.Where(a => a.IsAlive && a.IsHealer());
-                    break;
-            }
-
-            if (ally == null)
-                return false;
-
-            return await Spells.DragonSight.Cast(ally?.FirstOrDefault());
-        }
-        
         public static async Task<bool> TrueNorth()
         {
             if (!DragoonSettings.Instance.TrueNorth)
@@ -124,6 +76,120 @@ namespace Magitek.Logic.Dragoon
 
             return await Spells.TrueNorth.Cast(Core.Me);
         }
+
+        public static async Task<bool> DragonSight()
+        {
+            if (!DragoonSettings.Instance.UseBuffs)
+                return false;
+
+            if (!DragoonSettings.Instance.UseDragonSight)
+                return false;
+
+            if (!ActionManager.CanCast(Spells.DragonSight, Core.Me))
+                return false;
+
+            IEnumerable<Character> allyList = null;
+
+            switch (DragoonSettings.Instance.SelectedStrategy)
+            {
+                case DragonSightStrategy.ClosestDps:
+                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsDps()).OrderBy(GetWeight);
+                    break;
+
+                case DragonSightStrategy.Self:
+                    return await Spells.DragonSight.Cast(Core.Me);
+
+                case DragonSightStrategy.MeleeDps:
+                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsMeleeDps()).OrderBy(GetWeight);
+                    break;
+
+                case DragonSightStrategy.RangedDps:
+                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsRangedDpsCard()).OrderBy(GetWeight);
+                    break;
+
+                case DragonSightStrategy.Tank:
+                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsTank()).OrderBy(GetWeight);
+                    break;
+
+                case DragonSightStrategy.Healer:
+                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsHealer()).OrderBy(GetWeight);
+                    break;
+            }
+
+            if (allyList == null)
+                return false;
+
+            return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
+        }
+        
+        private static int GetWeight(Character c)
+        {
+            switch (c.CurrentJob)
+            {
+                case ClassJobType.Astrologian:
+                    return DragoonSettings.Instance.AstEyeWeight;
+
+                case ClassJobType.Monk:
+                case ClassJobType.Pugilist:
+                    return DragoonSettings.Instance.MnkEyeWeight;
+
+                case ClassJobType.BlackMage:
+                case ClassJobType.Thaumaturge:
+                    return DragoonSettings.Instance.BlmEyeWeight;
+
+                case ClassJobType.Dragoon:
+                case ClassJobType.Lancer:
+                    return DragoonSettings.Instance.DrgEyeWeight;
+
+                case ClassJobType.Samurai:
+                    return DragoonSettings.Instance.SamEyeWeight;
+
+                case ClassJobType.Machinist:
+                    return DragoonSettings.Instance.MchEyeWeight;
+
+                case ClassJobType.Summoner:
+                case ClassJobType.Arcanist:
+                    return DragoonSettings.Instance.SmnEyeWeight;
+
+                case ClassJobType.Bard:
+                case ClassJobType.Archer:
+                    return DragoonSettings.Instance.BrdEyeWeight;
+
+                case ClassJobType.Ninja:
+                case ClassJobType.Rogue:
+                    return DragoonSettings.Instance.NinEyeWeight;
+
+                case ClassJobType.RedMage:
+                    return DragoonSettings.Instance.RdmEyeWeight;
+
+                case ClassJobType.Dancer:
+                    return DragoonSettings.Instance.DncEyeWeight;
+
+                case ClassJobType.Paladin:
+                case ClassJobType.Gladiator:
+                    return DragoonSettings.Instance.PldEyeWeight;
+
+                case ClassJobType.Warrior:
+                case ClassJobType.Marauder:
+                    return DragoonSettings.Instance.WarEyeWeight;
+
+                case ClassJobType.DarkKnight:
+                    return DragoonSettings.Instance.DrkEyeWeight;
+
+                case ClassJobType.Gunbreaker:
+                    return DragoonSettings.Instance.GnbEyeWeight;
+
+                case ClassJobType.WhiteMage:
+                case ClassJobType.Conjurer:
+                    return DragoonSettings.Instance.WhmEyeWeight;
+
+                case ClassJobType.Scholar:
+                    return DragoonSettings.Instance.SchEyeWeight;
+            }
+
+            return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
+        }
+
     }
 
 }

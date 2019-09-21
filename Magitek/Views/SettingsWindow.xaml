@@ -256,10 +256,7 @@
                                                        Margin="0,0,7,0"
                                                        HorizontalAlignment="Right"
                                                        VerticalAlignment="Bottom"
-                                                       Foreground="{DynamicResource Info}"
-                                                       Text="{Binding VersionRunning}" />
-
-
+                                                       Foreground="{DynamicResource Info}"/>
                                         </Grid>
                                     </Grid>
                                 </ControlTemplate>
@@ -731,6 +728,9 @@
                         </TabItem>
                         <TabItem Header="Turrets " Style="{DynamicResource MainTabCombat}">
                             <machinist:Turrets />
+                        </TabItem>
+                        <TabItem Header="Utilities " Style="{DynamicResource MainTabCombat}">
+                            <machinist:Utilities />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

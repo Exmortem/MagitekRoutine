@@ -71,6 +71,10 @@ namespace Magitek.Models.Scholar
         public bool ResOutOfCombat { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool SlowcastRes { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool SwiftcastRes { get; set; }
 

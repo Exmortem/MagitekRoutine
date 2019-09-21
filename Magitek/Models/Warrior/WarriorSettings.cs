@@ -13,10 +13,6 @@ namespace Magitek.Models.Warrior
         public static WarriorSettings Instance { get; set; } = new WarriorSettings();
 
         [Setting]
-        [DefaultValue(0)]
-        public int UserLatencyOffset { get; set; }
-
-        [Setting]
         [DefaultValue(20)]
         public int KeepAtLeastXBeastGauge { get; set; }
 

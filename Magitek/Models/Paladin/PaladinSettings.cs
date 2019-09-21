@@ -34,10 +34,6 @@ namespace Magitek.Models.Paladin
         public int RefreshGoringBlade { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
-        public int PingValue { get; set; }
-
-        [Setting]
         [DefaultValue(4000)]
         public int HealthSetting { get; set; }
 
@@ -96,10 +92,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(false)]
         public bool ShieldLobToPullExtraEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float ShieldLobMinTpPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -311,23 +303,6 @@ namespace Magitek.Models.Paladin
 
         #endregion
 
-        public void CycleOpenerStrategy()
-        {
-            switch (PaladinOpenerStrategy)
-            {
-                case PaladinOpenerStrategy.NeverOpener:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.OpenerOnlyBosses;
-                    break;
-                case PaladinOpenerStrategy.OpenerOnlyBosses:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.AlwaysUseOpener;
-                    break;
-                case PaladinOpenerStrategy.AlwaysUseOpener:
-                    PaladinOpenerStrategy = PaladinOpenerStrategy.NeverOpener;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
         #region PVP
         [Setting]

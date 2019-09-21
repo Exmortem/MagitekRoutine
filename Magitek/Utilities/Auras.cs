@@ -88,6 +88,7 @@ namespace Magitek.Utilities
             DarkDance = 744,
             DarkMind = 746,
             ShadowWall = 747,
+            SaltedEarth = 749,
             Darkside = 751,
             Reprisal = 753,
             LivingDead = 810,
@@ -203,6 +204,7 @@ namespace Magitek.Utilities
             DarkMissionary = 1894,
             Delirium = 1972,
             PassageOfArms = 1175,
+            RiddleOfEarth = 2008,
             Anatman = 1862;
 
         private const int

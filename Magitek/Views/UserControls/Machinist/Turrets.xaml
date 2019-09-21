@@ -6,31 +6,35 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels">
 
-    <UserControl.DataContext>
-        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
-    </UserControl.DataContext>
+  <UserControl.DataContext>
+    <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+  </UserControl.DataContext>
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="Turrets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:MachinistTurrets" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ObjectDataProvider x:Key="Turrets" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:Type TypeName="enums:MachinistTurrets" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </UserControl.Resources>
 
-    <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-        <StackPanel>
-        <Grid Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+  <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+    <StackPanel>
+      <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Minimum Battery For Turret Summon" />
-            <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.MinBatteryForTurretSummon, Mode=TwoWay}" />
-        </Grid>
-        </StackPanel>
-    </controls:SettingsBlock>
+        <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Rook / Queen at" IsChecked="{Binding MachinistSettings.UseRookQueen, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <controls:Numeric Grid.Row="0" Grid.Column="1" Increment="10" MaxValue="100" MinValue="50" Value="{Binding MachinistSettings.MinBatteryForPetSummon, Mode=TwoWay}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text="   Battery Gauge" />
+
+      </Grid>
+    </StackPanel>
+  </controls:SettingsBlock>
 </UserControl>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -88,7 +87,7 @@ namespace Magitek.Utilities
                 }
             }
             
-            foreach (var ally in PartyManager.RawMembers.Select(r => r.BattleCharacter))
+            foreach (var ally in PartyManager.AllMembers.Select(r => r.BattleCharacter))
             {
                 if (ally == null)
                     continue;
@@ -121,7 +120,7 @@ namespace Magitek.Utilities
                 var distance = ally.Distance(Core.Me);
 
                 if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
-                if (distance <= 30) { CastableAlliesWithin20.Add(ally); }
+                if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
                 if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
                 if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
                 if (distance <= 10) { CastableAlliesWithin10.Add(ally); }

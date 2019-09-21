@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
@@ -18,32 +16,8 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseAbyssalDrain)
                 return false;
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.AbyssalDrainEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.AbyssalDrainEnemies)
                 return false;
-
-            /* Find the enemy that has the most enemies around them
-            GameObject abyssalTarget = null;
-            var enemiesInRange = 0;
-
-            foreach (var enemy in Combat.Enemies)
-            {
-                if (enemy.Distance(Core.Me) > 15)
-                    continue;
-
-                var enemyCount = Combat.Enemies.Count(r => r.Distance(enemy) <= 5 + r.CombatReach);
-
-                if (enemyCount < DarkKnightSettings.Instance.AbyssalDrainEnemies)
-                    continue;
-
-                if (enemyCount <= enemiesInRange)
-                    continue;
-
-                enemiesInRange = enemyCount;
-                abyssalTarget = enemy;
-            }
-
-            if (abyssalTarget == null || enemiesInRange < DarkKnightSettings.Instance.AbyssalDrainEnemies)
-                return false;*/
 
             return await Spells.AbyssalDrain.Cast(Core.Me.CurrentTarget);
         }
@@ -53,11 +27,11 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseSaltedEarth)
                 return false;
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < DarkKnightSettings.Instance.SaltedEarthEnemies)
+            if (MovementManager.IsMoving)
                 return false;
 
-            //We could be gathering enemies?
-            if (MovementManager.IsMoving)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5) < DarkKnightSettings.Instance.SaltedEarthEnemies)
+
                 return false;
 
             return await Spells.SaltedEarth.Cast(Core.Me.CurrentTarget);
@@ -68,7 +42,13 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseUnleash)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
                 return false;
 
             return await Spells.Unleash.Cast(Core.Me);
@@ -79,7 +59,15 @@ namespace Magitek.Logic.DarkKnight
             if (ActionManager.LastSpell != Spells.Unleash)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.UnleashEnemies)
+
                 return false;
 
             return await Spells.StalwartSoul.Cast(Core.Me);
@@ -90,7 +78,10 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseQuietus)
                 return false;
 
-            if (DarkKnightSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DarkKnightSettings.Instance.QuietusEnemies)
                 return false;
 
             if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
@@ -104,16 +95,20 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseFloodDarknessShadow)
                 return false;
 
-            if (!DarkKnightSettings.Instance.UseAoe || Core.Me.CurrentTarget.EnemiesNearby(10).Count() < DarkKnightSettings.Instance.FloodEnemies)
+            if (!DarkKnightSettings.Instance.UseAoe)
                 return false;
 
-            if (Core.Me.HasDarkArts())
-                return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 10 + r.CombatReach) < DarkKnightSettings.Instance.FloodEnemies)
+
+                return false;
+
+            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
+                return false;
 
             if (Core.Me.CurrentMana < DarkKnightSettings.Instance.SaveXMana + 3000)
                 return false;
 
-            if (Core.Me.CurrentMana < 6000 && DarkKnightSettings.Instance.UseTheBlackestNight)
+            if (DarkKnightSettings.Instance.UseTheBlackestNight && Core.Me.CurrentMana < 6000)
                 return false;
 
             return await Spells.FloodofDarkness.Cast(Core.Me.CurrentTarget);
