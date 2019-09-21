@@ -30,11 +30,11 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHypercharge)
                 return false;
 
-            if (Core.Me.HasAura(Auras.WildfireBuff, true))
-                return await Spells.Hypercharge.Cast(Core.Me);
-
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff, true))
+                return await Spells.Hypercharge.Cast(Core.Me);
 
             if (Spells.Wildfire.Cooldown != TimeSpan.Zero && MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds > 600 + MachinistGlobals.AnimationLock)
                 return false;
@@ -43,6 +43,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
+                return false;
+
+            if (ActionManager.LastSpell == Spells.SplitShot || ActionManager.LastSpell == Spells.SlugShot)
                 return false;
 
             double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
@@ -103,17 +106,17 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseReassemble)
                 return false;
 
-            /*if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;*/
-
-            if (Core.Me.HasAura(Auras.Reassembled))
+            if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
             if (ActionManager.LastSpell == Spells.Hypercharge)
                 return false;
-
-            if (Spells.Drill.Cooldown != TimeSpan.Zero &&
-                Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown)
+            //If we're in AoE logic, use Reassemble for SpreadShot
+            if (MachinistSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) >= 4)
+                return await Spells.Reassemble.Cast(Core.Me);
+            //If Drill Cooldown isn't up & Drill Cooldown is longer than GCD, don't use Reassemble
+            if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown) &&
+                (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown))
                 return false;
 
             return await Spells.Reassemble.Cast(Core.Me);

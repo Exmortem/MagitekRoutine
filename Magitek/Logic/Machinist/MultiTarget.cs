@@ -67,7 +67,10 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 50)
                 return false;
 
-            if (Spells.Wildfire.Cooldown.Seconds < 10)
+            if (Spells.Wildfire.Cooldown.Seconds < 11)
+                return false;
+
+            if (Spells.Reassemble.Cooldown.Seconds < 11)
                 return false;
 
             if (MovementManager.IsMoving)
