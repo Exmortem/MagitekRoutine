@@ -17,6 +17,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> PlayCards()
         {
+            if (!AstrologianSettings.Instance.UseDraw)
+                return false;
+
             var cardDrawn = Arcana != AstrologianCard.None;
             
             if (!cardDrawn)
@@ -24,31 +27,37 @@ namespace Magitek.Logic.Astrologian
                     if (await Spells.Draw.Cast(Core.Me))
                         await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
 
-            if (DivinationSeals.Any(c => c == 0))
-                if (Spells.Redraw.Charges > 1)
-                    switch (Arcana)
-                    {
-                        //Solar Seal
-                        case AstrologianCard.Balance:
-                        case AstrologianCard.Bole:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
-                                return await Spells.Redraw.Cast(Core.Me);
-                            break;
+            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
+                return false;
 
-                        //Lunar Seal
-                        case AstrologianCard.Arrow:
-                        case AstrologianCard.Ewer:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
-                                return await Spells.Redraw.Cast(Core.Me);
-                            break;
+            if (AstrologianSettings.Instance.UseReDraw)
+            {
+                if (DivinationSeals.Any(c => c == 0))
+                    if (Spells.Redraw.Charges > 1)
+                        switch (Arcana)
+                        {
+                            //Solar Seal
+                            case AstrologianCard.Balance:
+                            case AstrologianCard.Bole:
+                                if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
+                                    return await Spells.Redraw.Cast(Core.Me);
+                                break;
 
-                        //Celestial Seal
-                        case AstrologianCard.Spear:
-                        case AstrologianCard.Spire:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
-                                return await Spells.Redraw.Cast(Core.Me);
-                            break;
-                    }
+                            //Lunar Seal
+                            case AstrologianCard.Arrow:
+                            case AstrologianCard.Ewer:
+                                if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
+                                    return await Spells.Redraw.Cast(Core.Me);
+                                break;
+
+                            //Celestial Seal
+                            case AstrologianCard.Spear:
+                            case AstrologianCard.Spire:
+                                if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
+                                    return await Spells.Redraw.Cast(Core.Me);
+                                break;
+                        }
+            }
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
@@ -56,30 +65,33 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
                 await Spells.Divination.Cast(Core.Me);
 
-            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
-                switch (Arcana)
-                {
-                    //Solar Seal
-                    case AstrologianCard.Balance:
-                    case AstrologianCard.Bole:
-                        if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
-                            await Spells.MinorArcana.Cast(Core.Me);
-                        break;
+            if (AstrologianSettings.Instance.UseMinorArcana)
+            {
+                if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
+                    switch (Arcana)
+                    {
+                        //Solar Seal
+                        case AstrologianCard.Balance:
+                        case AstrologianCard.Bole:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
+                                await Spells.MinorArcana.Cast(Core.Me);
+                            break;
 
-                    //Lunar Seal
-                    case AstrologianCard.Arrow:
-                    case AstrologianCard.Ewer:
-                        if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
-                            await Spells.MinorArcana.Cast(Core.Me);
-                        break;
+                        //Lunar Seal
+                        case AstrologianCard.Arrow:
+                        case AstrologianCard.Ewer:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
+                                await Spells.MinorArcana.Cast(Core.Me);
+                            break;
 
-                    //Celestial Seal
-                    case AstrologianCard.Spear:
-                    case AstrologianCard.Spire:
-                        if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
-                            await Spells.MinorArcana.Cast(Core.Me);
-                        break;
-                }
+                        //Celestial Seal
+                        case AstrologianCard.Spear:
+                        case AstrologianCard.Spire:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
+                                await Spells.MinorArcana.Cast(Core.Me);
+                            break;
+                    }
+            }
 
             if (!AstrologianSettings.Instance.Play)
                 return false;
