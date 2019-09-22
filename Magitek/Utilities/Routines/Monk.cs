@@ -10,7 +10,7 @@ namespace Magitek.Utilities.Routines
         public static bool OnGcd => Spells.Bootshine.Cooldown.TotalMilliseconds > 400;
         public static int EnemiesInCone;
         public static int AoeEnemies8Yards;
-        public static int UseToast = 0;
+        public static int UseToast = 9;
         public static void RefreshVars()
         {
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
