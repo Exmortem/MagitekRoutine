@@ -23,18 +23,18 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            if (ActionResourceManager.Machinist.Heat >= 50)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
+                return false;
+
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> Hypercharge()
         {
             if (!MachinistSettings.Instance.UseHypercharge)
-                return false;
-
-            /*if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;*/
-
-            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds > 600 + MachinistGlobals.AnimationLock)
                 return false;
 
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
@@ -43,33 +43,25 @@ namespace Magitek.Logic.Machinist
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
                 return false;
 
-            double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
-                                            MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) / 3000;
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700)
+            {
+                // Wait until the GCD has 1000 or less remaining
+                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 700);
+            }
 
-            double drillCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - Spells.Drill.Cooldown.TotalMilliseconds) 
-                                                 / Spells.Drill.AdjustedCooldown.TotalMilliseconds;
+            if (Core.Me.ClassLevel > 45)
+            {
 
-            double airAnchorCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds) 
-                                                     / MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds;
+                if (Spells.Wildfire.Cooldown.Seconds > 10 || Spells.Wildfire.Cooldown.Seconds < 1)
+                    return await Spells.Hypercharge.Cast(Core.Me);
 
-            //if (Math.Truncate(drillCastsUntilNextWildFire) * Spells.Drill.AdjustedCooldown.TotalMilliseconds > 8000)
-            //    drillCastsUntilNextWildFire -= Math.Truncate(drillCastsUntilNextWildFire);
-            //else
-            //    drillCastsUntilNextWildFire -= Math.Truncate(drillCastsUntilNextWildFire) + 1;
+                if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
+                    return await Spells.Hypercharge.Cast(Core.Me);
 
-            //if (Math.Truncate(airAnchorCastsUntilNextWildFire) * MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds > 8000)
-            //    airAnchorCastsUntilNextWildFire -= Math.Truncate(airAnchorCastsUntilNextWildFire);
-            //else
-            //    airAnchorCastsUntilNextWildFire -= Math.Truncate(airAnchorCastsUntilNextWildFire) + 1;
-
-            drillCastsUntilNextWildFire = Math.Truncate(drillCastsUntilNextWildFire);
-            airAnchorCastsUntilNextWildFire = Math.Truncate(airAnchorCastsUntilNextWildFire);
-
-            int heatGeneratinGCDs = (int)(gcdsUntilNextWildfire - drillCastsUntilNextWildFire 
-                                                                - airAnchorCastsUntilNextWildFire);
-
-            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && heatGeneratinGCDs * 5 + ActionResourceManager.Machinist.Heat < 50)
                 return false;
+
+            }
 
             return await Spells.Hypercharge.Cast(Core.Me);
         }
@@ -79,22 +71,17 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseWildfire)
                 return false;
 
-            /*if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;*/
-
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
-            //add check for dropping combo
-
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 800)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000)
             {
                 // Wait until the GCD has 1000 or less remaining
                 await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 1000);

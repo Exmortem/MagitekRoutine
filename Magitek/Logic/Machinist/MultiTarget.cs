@@ -101,7 +101,7 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel > 45)
             {
-                if (Spells.Wildfire.Cooldown.Seconds < 1)
+                if (Spells.Wildfire.Cooldown.Seconds < 2)
                     return false;
             }
 
