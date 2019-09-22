@@ -26,6 +26,9 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 50)
                 return false;
 
+            if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
+                return false;
+
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
 
@@ -40,9 +43,12 @@ namespace Magitek.Logic.Machinist
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
                 return false;
 
-            //Testing if this will prevent the rare Drill > Hypercharge > Only 4 Heat Blasts Issue
-            if (Casting.LastSpell == Spells.Drill)
-                return false;
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700)
+            {
+                // Wait until the GCD has 1000 or less remaining
+                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 700);
+            }
 
             if (Core.Me.ClassLevel > 45)
             {
@@ -57,13 +63,6 @@ namespace Magitek.Logic.Machinist
 
             }
 
-            //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700)
-            {
-                // Wait until the GCD has 1000 or less remaining
-                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 700);
-            }
-
             return await Spells.Hypercharge.Cast(Core.Me);
         }
         
@@ -71,9 +70,6 @@ namespace Magitek.Logic.Machinist
         {
             if (!MachinistSettings.Instance.UseWildfire)
                 return false;
-
-            /*if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;*/
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
@@ -85,10 +81,10 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 900)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000)
             {
                 // Wait until the GCD has 1000 or less remaining
-                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 900);
+                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 1000);
             }
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
