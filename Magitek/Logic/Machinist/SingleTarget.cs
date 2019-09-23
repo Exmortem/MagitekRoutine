@@ -19,9 +19,6 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return false;
-
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -30,18 +27,12 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return false;
-
             return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatedCleanShot()
         {
             if (ActionManager.LastSpell != Spells.SlugShot)
-                return false;
-
-            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
