@@ -23,6 +23,7 @@ namespace Magitek.Rotations.Monk
 
             if (MonkSettings.Instance.UsePositionalToasts && Utilities.Routines.Monk.UseToast == 9)
             {
+                Logger.Write($@"[Magitek] Initiated Toast for MNK");
                 Thread T = new Thread(() => PositionalToast.PositionalLogic());
                 Utilities.Routines.Monk.UseToast = 0;
                 PositionalToast.SendToast("Toast Overlay Initiated", 5);
