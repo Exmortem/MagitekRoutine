@@ -14,6 +14,7 @@ namespace Magitek.Logic.Ninja
 {
     internal static class Ninjutsu
     {
+
         public static bool FumaShuriken()
         {
             if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)

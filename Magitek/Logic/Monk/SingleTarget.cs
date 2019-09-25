@@ -107,15 +107,12 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseShoulderTackle)
                 return false;
 
-            Logger.Write($@"[Magitek] The toggle for ShoulderTackle is {MonkSettings.Instance.UseShoulderTackle}");
+           if (Core.Player.HasAura(Auras.Brotherhood) || Core.Player.HasAura(Auras.FistsofFire))
+                return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
+            if (Spells.ShoulderTackle .Cooldown.TotalMilliseconds < 1000)
+                return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
+            return false;
 
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
-                return false;
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) < 10)
-                return false;
-
-            return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> TheForbiddenChakra()
         {

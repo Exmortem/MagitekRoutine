@@ -52,7 +52,7 @@ namespace Magitek.Logic.Ninja
                 return false;
 
 
-            if(Core.Me.ClassLevel < 68)
+            if(Core.Me.ClassLevel < 68 && Core.Me.ClassLevel > 62)
                 return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < 2)
