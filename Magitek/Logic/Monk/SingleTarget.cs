@@ -155,7 +155,7 @@ namespace Magitek.Logic.Monk
         {
             if (Core.Me.HasAura(Auras.PerfectBalance))
             {
-                if (ActionResourceManager.Monk.Timer.Seconds < 4)
+                if (ActionResourceManager.Monk.Timer.Seconds <= 6)
                     return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
 
                 if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
