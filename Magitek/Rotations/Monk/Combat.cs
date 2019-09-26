@@ -52,7 +52,7 @@ namespace Magitek.Rotations.Monk
             //{
             //    //TODO: Add 5+ target DPS rotation
             //}
-            if (!Core.Me.HasAura(Auras.Anatman))
+            if (!Core.Me.HasAura(Auras.Anatman) || MonkSettings.Instance.UseManualPB && Core.Me.HasAura(Auras.PerfectBalance))
             {
                 if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
                 {

@@ -147,7 +147,7 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShift()
         {
-            if (Core.Me.ClassLevel < 52 && Core.Me.InCombat)
+            if (Core.Me.ClassLevel > 52 && DutyManager.InInstance)
             {
                 if (!Core.Me.HasTarget && MonkSettings.Instance.UseAutoFormShift && ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 4)
                     return await Spells.FormShift.Cast(Core.Me);

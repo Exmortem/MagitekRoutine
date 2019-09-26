@@ -67,6 +67,10 @@ namespace Magitek.Models.Monk
 
         [Setting]
         [DefaultValue(false)]
+        public bool UseManualPB { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         public bool AutoFormShiftStopRaptor { get; set; }
 
         [Setting]
