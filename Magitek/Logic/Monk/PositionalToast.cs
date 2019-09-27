@@ -37,7 +37,7 @@ namespace Magitek.Logic.Monk
                     SendToast("Bootshine: Get behind Enemy", 1);
                 }
 
-                if (Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1300) && !Core.Me.HasAura(Auras.PerfectBalance))
+                if (Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100) && !Core.Me.HasAura(Auras.PerfectBalance))
                 {
                     SendToast("TwinSnakes: Side of Enemy", 1);
                 }
