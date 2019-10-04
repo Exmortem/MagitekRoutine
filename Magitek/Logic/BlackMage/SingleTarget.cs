@@ -97,6 +97,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire3()
         {
+            Logger.Write($@"[Magitek] We are inside Fire3");
             // Use if we're in Umbral and we have 3 hearts and have max mp
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
@@ -116,7 +117,14 @@ namespace Magitek.Logic.BlackMage
             //Use if we're at the end of Astral phase and we have a Fire3 proc
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana <= 1200)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
-                  
+
+            //Use if we're at the end of Astral phase and we have a Fire3 proc
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana <= 1200)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+
+            if (ActionResourceManager.BlackMage.UmbralStacks == 2)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+
             return false;
         }
 
@@ -174,7 +182,7 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Blizzard3()
         {
             // If we have no umbral or astral stacks, cast 
-            if (ActionResourceManager.BlackMage.AstralStacks == 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
+            if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             // If our mana is less than 800 while in astral
@@ -182,6 +190,9 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
             //If we're low medium level, use it at a different time
             if (Core.Me.ClassLevel < 72 && Core.Me.CurrentMana < 1500)
+                return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
+
+            if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             return false;
