@@ -130,7 +130,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
-            
+
+            if (Casting.LastSpell == Spells.Thunder3)
+                return false;
 
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
