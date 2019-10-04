@@ -163,6 +163,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Blizzard4()
         {
+            if (Casting.LastSpell == Spells.Blizzard4)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -183,6 +186,10 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Blizzard3()
         {
+
+            if (Casting.LastSpell == Spells.Blizzard3)
+                return false;
+
             // If we have no umbral or astral stacks, cast 
             if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
