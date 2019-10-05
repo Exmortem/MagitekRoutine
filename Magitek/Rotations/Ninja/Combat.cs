@@ -49,8 +49,8 @@ namespace Magitek.Rotations.Ninja
                 //if (await PhysicalDps.Feint(NinjaSettings.Instance)) return true;
 
                 //if (Core.Me.HasAura(Auras.Suiton))
-                    //if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
-
+                //if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
+                if (await Buff.TrueNorth()) return true;
                 if (await Buff.ShadeShift()) return true;
                 if (await Buff.Bunshin()) return true;
                 if (await SingleTarget.Assassinate()) return true;
