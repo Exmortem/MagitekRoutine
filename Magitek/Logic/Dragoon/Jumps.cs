@@ -104,6 +104,9 @@ namespace Magitek.Logic.Dragoon
 
         public static async Task<bool> Stardiver()
         {
+            if (!DragoonSettings.Instance.Stardiver)
+                return false;
+
             return await Spells.Stardiver.Cast(Core.Me.CurrentTarget);
         }
     }
