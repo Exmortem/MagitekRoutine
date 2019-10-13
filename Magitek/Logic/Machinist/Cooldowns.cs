@@ -5,6 +5,7 @@ using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
@@ -44,11 +45,8 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700)
-            {
-                // Wait until the GCD has 1000 or less remaining
-                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 700);
-            }
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
 
             if (Core.Me.ClassLevel > 45)
             {
@@ -81,11 +79,8 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000)
-            {
-                // Wait until the GCD has 1000 or less remaining
-                await Coroutine.Wait(3000, () => Spells.SplitShot.Cooldown.TotalMilliseconds <= 1000);
-            }
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000 + BaseSettings.Instance.UserLatencyOffset)
+            return false;
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
