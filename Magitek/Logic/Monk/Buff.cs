@@ -16,7 +16,7 @@ namespace Magitek.Logic.Monk
         public static async Task<bool> FistsOf()
         {
 
-            if(!Core.Me.InCombat)
+            if(!Core.Me.InCombat && ActionResourceManager.Monk.GreasedLightning <= 3)
             {
                 switch (MonkSettings.Instance.SelectedFist)
                 {
