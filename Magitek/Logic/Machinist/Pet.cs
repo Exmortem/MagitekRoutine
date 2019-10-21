@@ -15,11 +15,29 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRookQueen)
                 return false;
 
-            if (Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
+            if (Core.Me.HasTarget && Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
+                return false;
+
+            if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
             if (ActionResourceManager.Machinist.Battery < MachinistSettings.Instance.MinBatteryForPetSummon)
                 return false;
+
+            if (Core.Me.ClassLevel >= 45)
+            {
+                if (Casting.LastSpell == Spells.Hypercharge)
+                    return false;
+
+                if (Casting.LastSpell == Spells.Wildfire)
+                    return false;
+
+                if (Spells.Wildfire.Cooldown.Seconds < 11)
+                    return false;
+
+                if (Spells.Wildfire.Cooldown.Seconds > 110)
+                    return false;
+            }
 
             return await MachinistGlobals.RookQueenPet.Cast(Core.Me);
         }

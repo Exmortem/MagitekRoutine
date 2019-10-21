@@ -20,7 +20,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseAoe)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
@@ -96,12 +96,21 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < MachinistSettings.Instance.RicochetEnemyCount)
+            if (Casting.LastSpell == Spells.Wildfire)
                 return false;
 
-            //add some mor precise logic for pooling/dumping
+            if (Core.Me.ClassLevel > 45)
+            {
+                if (Spells.Wildfire.Cooldown.Seconds < 2)
+                    return false;
+            }
+
+            /*if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < MachinistSettings.Instance.RicochetEnemyCount)
+                return false;*/
+
+            /*add some mor precise logic for pooling/dumping
             if (Spells.Ricochet.Charges < 1.8f)
-                return false;
+                return false;*/
 
             return await Spells.Ricochet.Cast(Core.Me.CurrentTarget);
         }

@@ -30,6 +30,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
@@ -44,13 +45,19 @@
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <StackPanel Grid.Row="2" Margin="0,3" Orientation="Horizontal">
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" And At Least " />
                         <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumHealthPercent, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                     </StackPanel>
-                </Grid>
+                    
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                        <CheckBox Margin="5" Content="Do Not Demolish If Our Current Target Is Dying Within " IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumTtd, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+                    </StackPanel>
 
+                </Grid>
             </Grid>
         </controls:SettingsBlock>
 

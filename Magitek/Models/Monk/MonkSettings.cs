@@ -67,6 +67,10 @@ namespace Magitek.Models.Monk
 
         [Setting]
         [DefaultValue(false)]
+        public bool UseManualPB { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         public bool AutoFormShiftStopRaptor { get; set; }
 
         [Setting]
@@ -98,7 +102,7 @@ namespace Magitek.Models.Monk
         public bool DemolishUseTtd { get; set; }
 
         [Setting]
-        [DefaultValue(25)]
+        [DefaultValue(15)]
         public double DemolishMinimumTtd { get; set; }
 
         [Setting]

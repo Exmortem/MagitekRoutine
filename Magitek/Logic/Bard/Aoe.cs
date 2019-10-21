@@ -36,10 +36,10 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseRainOfDeath)
                 return false;
 
-            if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+            if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
                 return false;
 
             if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)

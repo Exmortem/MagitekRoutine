@@ -48,6 +48,21 @@ namespace Magitek.Logic.Ninja
             return await Spells.Bunshin.Cast(Core.Me);
         }
 
+        public static async Task<bool> TrueNorth()
+        {
+            if (!NinjaSettings.Instance.UseTrueNorth)
+                return false;
+
+            if (Core.Me.HasAura(Auras.TrueNorth))
+                return false;
+
+            //Do we need to for TA?
+            if (!Core.Me.HasAura(Auras.Suiton))
+                return false;
+
+            return await Spells.TrueNorth.Cast(Core.Me);
+        }
+
         //public static async Task<bool> Meisui()
 
     }

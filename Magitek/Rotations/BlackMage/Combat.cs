@@ -59,7 +59,8 @@ namespace Magitek.Rotations.BlackMage
             if (await SingleTarget.Blizzard()) return true;
             if (await SingleTarget.Blizzard3()) return true;
 
-            
+            if (Core.Me.ClassLevel < 80)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             return false;
 

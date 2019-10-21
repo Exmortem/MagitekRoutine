@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
@@ -22,6 +24,12 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            if (ActionResourceManager.Machinist.Heat >= 50)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
+                return false;
+
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
 
@@ -30,61 +38,35 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHypercharge)
                 return false;
 
-            if (!MachinistGlobals.IsInWeaveingWindow)
-                return false;
-
-            if (Core.Me.HasAura(Auras.WildfireBuff, true))
-                return await Spells.Hypercharge.Cast(Core.Me);
-
-            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds > 600 + MachinistGlobals.AnimationLock)
-                return false;
-
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.SplitShot || ActionManager.LastSpell == Spells.SlugShot)
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            double gcdsUntilNextWildfire = (Spells.Wildfire.Cooldown.TotalMilliseconds -
-                                            MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) / 3000;
+            if (Core.Me.ClassLevel > 45)
+            {
 
-            double drillCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - Spells.Drill.Cooldown.TotalMilliseconds) 
-                                                 / Spells.Drill.AdjustedCooldown.TotalMilliseconds;
+                if (Spells.Wildfire.Cooldown.Seconds > 10 || Spells.Wildfire.Cooldown.Seconds < 1)
+                    return await Spells.Hypercharge.Cast(Core.Me);
 
-            double airAnchorCastsUntilNextWildFire = (Spells.Wildfire.Cooldown.TotalMilliseconds - MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds) 
-                                                     / MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds;
+                if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
+                    return await Spells.Hypercharge.Cast(Core.Me);
 
-            //if (Math.Truncate(drillCastsUntilNextWildFire) * Spells.Drill.AdjustedCooldown.TotalMilliseconds > 8000)
-            //    drillCastsUntilNextWildFire -= Math.Truncate(drillCastsUntilNextWildFire);
-            //else
-            //    drillCastsUntilNextWildFire -= Math.Truncate(drillCastsUntilNextWildFire) + 1;
-
-            //if (Math.Truncate(airAnchorCastsUntilNextWildFire) * MachinistGlobals.HotAirAnchor.AdjustedCooldown.TotalMilliseconds > 8000)
-            //    airAnchorCastsUntilNextWildFire -= Math.Truncate(airAnchorCastsUntilNextWildFire);
-            //else
-            //    airAnchorCastsUntilNextWildFire -= Math.Truncate(airAnchorCastsUntilNextWildFire) + 1;
-
-            drillCastsUntilNextWildFire = Math.Truncate(drillCastsUntilNextWildFire);
-            airAnchorCastsUntilNextWildFire = Math.Truncate(airAnchorCastsUntilNextWildFire);
-
-            int heatGeneratinGCDs = (int)(gcdsUntilNextWildfire - drillCastsUntilNextWildFire 
-                                                                - airAnchorCastsUntilNextWildFire);
-
-            if (Spells.Wildfire.Cooldown != TimeSpan.Zero && heatGeneratinGCDs * 5 + ActionResourceManager.Machinist.Heat < 50)
                 return false;
+
+            }
 
             return await Spells.Hypercharge.Cast(Core.Me);
         }
-
+        
         public static async Task<bool> Wildfire()
         {
             if (!MachinistSettings.Instance.UseWildfire)
-                return false;
-
-            if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
@@ -93,13 +75,44 @@ namespace Magitek.Logic.Machinist
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
-            //add check for dropping combo
-
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000 + BaseSettings.Instance.UserLatencyOffset)
+            return false;
+
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
+        /* OLD LOGIC FOR REFERENCE
+        public static async Task<bool> Hypercharge()
+        {
+            if (!MachinistSettings.Instance.UseHypercharge)
+                return false;
+
+            if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
+                return await Spells.Hypercharge.Cast(Core.Me);
+
+            if (Spells.Wildfire.Cooldown.Seconds > 10 || Spells.Wildfire.Cooldown.Seconds < 1)
+                return await Spells.Hypercharge.Cast(Core.Me);
+
+            return false;
+        }
+
+        public static async Task<bool> Wildfire()
+        {
+            if (!MachinistSettings.Instance.UseWildfire)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff, true))
+                return false;
+
+            if (!MachinistSettings.Instance.UseHypercharge)
+                if (ActionResourceManager.Machinist.Heat <= 45 && Casting.SpellCastHistory.Take(5).All(s => s.Spell != Spells.Hypercharge))
+                    return false;
+
+            return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
+        }*/
 
         public static async Task<bool> Reassemble()
         {
@@ -109,15 +122,29 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Hypercharge)
-                return false;
             //If we're in AoE logic, use Reassemble for SpreadShot
             if (MachinistSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) >= 4)
                 return await Spells.Reassemble.Cast(Core.Me);
-            //If Drill Cooldown isn't up & Drill Cooldown is longer than GCD, don't use Reassemble
-            if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown) &&
-                (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown))
-                return false;
+
+            if (Core.Me.ClassLevel < 58)
+            {
+                if (ActionManager.LastSpell != MachinistGlobals.HeatedSlugShot)
+                    return false;
+            }
+
+            if (Core.Me.ClassLevel > 58 && Core.Me.ClassLevel < 76)
+            {
+                if (Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown)
+                    return false;
+            }
+
+            if (Core.Me.ClassLevel >= 76)
+            {
+                //If Drill Cooldown isn't up & Drill Cooldown is longer than GCD, don't use Reassemble
+                if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown) &&
+                    (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown))
+                    return false;
+            }
 
             return await Spells.Reassemble.Cast(Core.Me);
         }
