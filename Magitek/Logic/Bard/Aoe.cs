@@ -22,9 +22,6 @@ namespace Magitek.Logic.Bard
                     return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
             }
 
-            if (Core.Me.CurrentTarget.IsBoss() && Core.Me.CurrentTarget.CombatTimeLeft() < 5000 && ActionResourceManager.Bard.SoulVoice >= 60)
-                return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
-
             if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.UseApexArrowWithAtLeastXSoulVoice)
                 return false;
 
@@ -40,6 +37,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+                return false;
+
+            if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
                 return false;
 
             if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
