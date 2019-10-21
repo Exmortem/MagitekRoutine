@@ -93,6 +93,9 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.Repertoire == 0)
                 return false;
 
+            if (Core.Me.CurrentTarget.IsBoss() && Core.Me.CurrentTarget.CombatTimeLeft() < 2000)
+                return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
+
             if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 500)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 

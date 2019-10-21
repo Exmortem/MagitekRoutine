@@ -105,10 +105,10 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.ClosedPosition))
                 return false;
 
-            if (DancerSettings.Instance.DancePartnerChocobo)
+            if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)
             {
-                if (!ChocoboManager.Summoned)
-                    return false;
+                //if (!ChocoboManager.Summoned)
+                //    return false;
 
                 return await Spells.ClosedPosition.Cast(ChocoboManager.Object);
             }

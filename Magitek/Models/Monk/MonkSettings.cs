@@ -102,7 +102,7 @@ namespace Magitek.Models.Monk
         public bool DemolishUseTtd { get; set; }
 
         [Setting]
-        [DefaultValue(25)]
+        [DefaultValue(15)]
         public double DemolishMinimumTtd { get; set; }
 
         [Setting]
