@@ -50,8 +50,8 @@ namespace Magitek.Logic.Dancer
             if (!Core.Me.HasAura(Auras.StandardStep))
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
-                return false;
+            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 40)
+            //    return false;
 
             Logger.Write("Starting Dance Queue-up...");
 
@@ -137,8 +137,8 @@ namespace Magitek.Logic.Dancer
             if (!Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
-                return false;
+            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 40)
+            //    return false;
 
             Logger.Write("Starting Dance Queue-up...");
             SpellQueueLogic.SpellQueue.Clear();
