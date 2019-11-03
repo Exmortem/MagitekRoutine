@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
+using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
@@ -28,9 +29,9 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
-            if (Globals.InParty)
+            if (PartyManager.IsInParty)
             {
-                if (!Globals.PartyInCombat)
+                if (!Core.Me.InCombat)
                     return false;
 
                 var vercureTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanVercure);
@@ -84,17 +85,16 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (!Globals.InParty)
+            if (!PartyManager.IsInParty)
                 return false;
             
-            if (!Globals.PartyInCombat)
+            if (!Core.Me.InCombat)
                 return false;
 
             var verraiseTarget = Group.DeadAllies.FirstOrDefault(CanVerraise);
 
             if (verraiseTarget == null)
                 return false;
-
             
             return await Spells.Verraise.Cast(verraiseTarget);
 
