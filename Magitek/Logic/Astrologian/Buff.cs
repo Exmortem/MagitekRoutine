@@ -43,7 +43,7 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= 20)
                 return false;
 
-            return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
+            return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
         private static async Task<bool> SwiftCastAspectedHelios()
