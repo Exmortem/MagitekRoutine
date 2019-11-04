@@ -5,6 +5,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Navigation;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
@@ -19,8 +20,11 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return false;
+            if(BaseSettings.Instance.UserLatencyOffset >= 80)
+            {
+                if (Casting.LastSpell == Spells.Hypercharge)
+                    return false;
+            }
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
