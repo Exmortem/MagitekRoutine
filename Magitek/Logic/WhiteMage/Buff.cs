@@ -76,7 +76,8 @@ namespace Magitek.Logic.WhiteMage
             {
                 if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.PresenceOfMindHealthPercent)
                     return false;
-
+                if (Casting.LastSpell != Spells.Dia || Casting.LastSpell != Spells.Regen || Casting.LastSpell != Spells.AfflatusMisery || Casting.LastSpell != Spells.AfflatusRapture || Casting.LastSpell != Spells.AfflatusSolace)
+                    return false;
                 return await Spells.PresenceofMind.Cast(Core.Me);
             }
         }
@@ -130,8 +131,9 @@ namespace Magitek.Logic.WhiteMage
 
             if (divineBenisonTarget == null)
                 return false;
-
-            return await Spells.DivineBenison.Cast(divineBenisonTarget);
+            if (Casting.LastSpell == Spells.Aero)
+                return await Spells.DivineBenison.Cast(divineBenisonTarget);
+            return false;
         }
 
         public static async Task<bool> Temperance()

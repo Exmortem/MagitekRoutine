@@ -17,8 +17,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool FumaShuriken()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseFumaShuriken)
                 return false;
 
@@ -89,8 +88,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool GokaMekkyaku()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+           
             if (!NinjaSettings.Instance.UseGokaMekkyaku)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -121,8 +119,6 @@ namespace Magitek.Logic.Ninja
 
         public static bool Doton()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
             if (!NinjaSettings.Instance.UseDoton)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -157,8 +153,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool Katon()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseKaton)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -192,8 +187,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool HyoshoRanryu()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseHyoshoRanryu)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -221,8 +215,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool Raiton()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseRaiton) 
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -248,8 +241,7 @@ namespace Magitek.Logic.Ninja
         public static bool Suiton()
 
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (Core.Me.HasAura(Auras.Suiton))
                 return false;
 

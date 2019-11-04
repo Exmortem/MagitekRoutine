@@ -108,7 +108,7 @@ namespace Magitek.Logic.Summoner
 
             if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 2000) && Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, 2000))
                 return await Spells.Fester.Cast(Core.Me.CurrentTarget);
-
+          
             if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
                 if (!ActionResourceManager.Summoner.DreadwyrmTrance)
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
