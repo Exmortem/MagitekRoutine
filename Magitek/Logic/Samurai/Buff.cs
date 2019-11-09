@@ -40,9 +40,6 @@ namespace Magitek.Logic.Samurai
                 || Casting.LastSpell == Spells.Hakaze || Casting.LastSpell == Spells.Shifu || Casting.LastSpell == Spells.Jinpu || Casting.LastSpell == Spells.Fuga)
                 return false;
 
-            if (Core.Me.ClassLevel >= 52 && ActionResourceManager.Samurai.Kenki < 10)
-                return false;
-
             if (!Core.Me.HasAura(Auras.Jinpu, true, 7000) || !Core.Me.HasAura(Auras.Shifu, true, 7000))
                 return false;
 

@@ -14,12 +14,14 @@ namespace Magitek.Logic.Ninja
 {
     internal static class Ninjutsu
     {
+
         public static bool FumaShuriken()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseFumaShuriken)
                 return false;
+            
+
 
             if (!ActionManager.HasSpell(Spells.FumaShuriken.Id))
                 return false;
@@ -27,7 +29,8 @@ namespace Magitek.Logic.Ninja
                 return false;
             if (Core.Me.ClassLevel < 30)
                 return false;
-
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             // First Mudra of the line
             if (!ActionManager.CanCast(Spells.Ten, null))
                 return false;
@@ -56,7 +59,8 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseHuton)
                 return false;
-
+            if (Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             if (!ActionManager.HasSpell(Spells.Huton.Id))
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -88,8 +92,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool GokaMekkyaku()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+           
             if (!NinjaSettings.Instance.UseGokaMekkyaku)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -120,9 +123,9 @@ namespace Magitek.Logic.Ninja
 
         public static bool Doton()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
             if (!NinjaSettings.Instance.UseDoton)
+                return false;
+            if (Core.Me.HasAura(Auras.Kassatsu))
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
                 return false;
@@ -156,8 +159,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool Katon()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseKaton)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -191,8 +193,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool HyoshoRanryu()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseHyoshoRanryu)
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -220,9 +221,10 @@ namespace Magitek.Logic.Ninja
 
         public static bool Raiton()
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (!NinjaSettings.Instance.UseRaiton) 
+                return false;
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
                 return false;
@@ -247,8 +249,7 @@ namespace Magitek.Logic.Ninja
         public static bool Suiton()
 
         {
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
+            
             if (Core.Me.HasAura(Auras.Suiton))
                 return false;
 
@@ -257,14 +258,15 @@ namespace Magitek.Logic.Ninja
 
             if (!ActionManager.HasSpell(Spells.Suiton.Id))
                 return false;
-
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             if (Core.Me.ClassLevel < 45)
                 return false;
 
             if (!ActionManager.CanCast(Spells.Ten, null))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 5000)
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 20000)
                 return false;
 
             SpellQueueLogic.SpellQueue.Clear();

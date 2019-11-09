@@ -38,6 +38,8 @@ namespace Magitek.Logic.WhiteMage
         {
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
+            if (Spells.Assize.Cooldown.TotalMilliseconds > 1)
+                return false;
 
             if (!WhiteMageSettings.Instance.AssizeDamage)
                 return false;
@@ -50,7 +52,10 @@ namespace Magitek.Logic.WhiteMage
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= (8 + r.CombatReach)) < WhiteMageSettings.Instance.AssizeEnemies)
                 return false;
-
+            if (Casting.LastSpell == Spells.Dia)
+                return await Spells.Assize.Cast(Core.Me);
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 5500))
+                return false;
             return await Spells.Assize.Cast(Core.Me);
         }
     }

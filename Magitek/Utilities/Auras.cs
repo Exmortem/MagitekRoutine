@@ -102,6 +102,7 @@ namespace Magitek.Utilities
             CoeurlForm = 109,
             PerfectBalance = 110,
             Demolish = 246,
+            Brotherhood = 1185,
             MeikyoShisui = 1233,
             Jinpu = 1298,
             Shifu = 1299,
