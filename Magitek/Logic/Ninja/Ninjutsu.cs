@@ -20,6 +20,8 @@ namespace Magitek.Logic.Ninja
             
             if (!NinjaSettings.Instance.UseFumaShuriken)
                 return false;
+            
+
 
             if (!ActionManager.HasSpell(Spells.FumaShuriken.Id))
                 return false;
@@ -27,7 +29,8 @@ namespace Magitek.Logic.Ninja
                 return false;
             if (Core.Me.ClassLevel < 30)
                 return false;
-
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             // First Mudra of the line
             if (!ActionManager.CanCast(Spells.Ten, null))
                 return false;
@@ -56,7 +59,8 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseHuton)
                 return false;
-
+            if (Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             if (!ActionManager.HasSpell(Spells.Huton.Id))
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
@@ -120,6 +124,8 @@ namespace Magitek.Logic.Ninja
         public static bool Doton()
         {
             if (!NinjaSettings.Instance.UseDoton)
+                return false;
+            if (Core.Me.HasAura(Auras.Kassatsu))
                 return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
                 return false;
@@ -218,6 +224,8 @@ namespace Magitek.Logic.Ninja
             
             if (!NinjaSettings.Instance.UseRaiton) 
                 return false;
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
                 return false;
             if (!ActionManager.HasSpell(Spells.Chi.Id))
@@ -250,14 +258,15 @@ namespace Magitek.Logic.Ninja
 
             if (!ActionManager.HasSpell(Spells.Suiton.Id))
                 return false;
-
+            if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))
+                return false;
             if (Core.Me.ClassLevel < 45)
                 return false;
 
             if (!ActionManager.CanCast(Spells.Ten, null))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 5000)
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 20000)
                 return false;
 
             SpellQueueLogic.SpellQueue.Clear();

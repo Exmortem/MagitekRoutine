@@ -62,6 +62,7 @@ namespace Magitek.Rotations.Samurai
                 if (await Buff.SecondWind()) return true;
                 if (await Buff.TrueNorth()) return true;
                 if (await Buff.MeikyoShisui()) return true;
+                if (await SingleTarget.Shoha()) return true;
             }
 
             if (await SingleTarget.MidareSetsugekka()) return true;
@@ -73,7 +74,7 @@ namespace Magitek.Rotations.Samurai
 
             if (await SingleTarget.Higanbana()) return true;
 
-            if (await SingleTarget.Shoha()) return true;
+            
 
             if (await SingleTarget.Gekko()) return true;
             if (await SingleTarget.Kasha()) return true;

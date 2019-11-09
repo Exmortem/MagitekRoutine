@@ -50,13 +50,13 @@ namespace Magitek.Rotations.Ninja
 
                 //if (Core.Me.HasAura(Auras.Suiton))
                 //if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
+                if (await SingleTarget.TrickAttack()) return true;
                 if (await Buff.TrueNorth()) return true;
                 if (await Buff.ShadeShift()) return true;
                 if (await Buff.Bunshin()) return true;
                 if (await SingleTarget.Assassinate()) return true;
                 if (await SingleTarget.Mug()) return true;
                 if (await Buff.Kassatsu()) return true;
-                if (await SingleTarget.TrickAttack()) return true;
                 if (await SingleTarget.DreamWithinADream()) return true;
                 if (await Aoe.HellfrogMedium()) return true;
                 if (await SingleTarget.Bhavacakra()) return true;
