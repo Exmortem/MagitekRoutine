@@ -32,7 +32,6 @@ namespace Magitek.Rotations.Summoner
             if (Duty.State() == Duty.States.Ended)
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
             if (await GambitLogic.Gambit()) return true;
            
             return await Logic.Summoner.Heal.Physick();

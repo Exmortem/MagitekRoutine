@@ -63,6 +63,8 @@ namespace Magitek.Logic.Dancer
             {
                 SpellData danceStep;
 
+                Logger.Write($@"[Magitek] Dance Log {step}");
+
                 switch (step)
                 {
                     case ActionResourceManager.Dancer.DanceStep.Finish:
