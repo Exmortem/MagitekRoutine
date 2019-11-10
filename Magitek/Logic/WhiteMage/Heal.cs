@@ -447,7 +447,7 @@ namespace Magitek.Logic.WhiteMage
             if (!deadTarget.IsTargetable)
                 return false;
 
-            if (Core.Me.InCombat || Core.Me.OnPvpMap())
+            if (Core.Me.InCombat || Globals.OnPvpMap)
             {
                 if (Core.Me.ClassLevel < 28)
                     return false;

@@ -536,7 +536,7 @@ namespace Magitek.Logic.Astrologian
             if (!deadTarget.IsTargetable)
                 return false;
 
-            if (Core.Me.InCombat || Core.Me.OnPvpMap())
+            if (Core.Me.InCombat || Globals.OnPvpMap)
             {
                 if (!ActionManager.HasSpell(Spells.Ascend.Id))
                     return false;

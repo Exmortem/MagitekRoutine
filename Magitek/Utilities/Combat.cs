@@ -38,13 +38,10 @@ namespace Magitek.Utilities
             }
 
             //If Our Party Has Tagged Something We're Also InCombat
-            if (PartyManager.IsInParty)
+            if (Globals.InParty && Globals.PartyInCombat)
             {
-                if (Enemies.Any(r => r.TaggerType == 2))
-                {
-                    AdjustInCombatTimers();
-                    return;
-                }
+                AdjustInCombatTimers();
+                return;
             }
 
             AdjustOutOfCombatTimers();

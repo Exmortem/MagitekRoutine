@@ -515,19 +515,7 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseMinorArcana { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Play { get; set; }
-
-        /*[Setting]
-        [DefaultValue(true)]
-        public bool PrepCardsOutOfCombat { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PrepCardsOutOfCombatOnlyWhenPartied { get; set; }*/
 
         [Setting]
         [DefaultValue(true)]
@@ -735,14 +723,7 @@ namespace Magitek.Models.Astrologian
         public int SafeguardEnemiesTargeting { get; set; }
 
         #endregion
-
-        public void Load(string path)
-        {
-            if (!File.Exists(path))
-                return;
-
-            Instance.LoadFrom(path);
-
+        
         }
     }
 }

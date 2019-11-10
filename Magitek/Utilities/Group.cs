@@ -41,12 +41,10 @@ namespace Magitek.Utilities
             CastableAlliesWithin15.Clear();
             CastableAlliesWithin10.Clear();
 
-            if (!PartyManager.IsInParty)
+            if (!Globals.InParty)
             {
-                if (RaptureAtkUnitManager.Controls.Any(r => r.Name == "GcArmyOrder"))
+                if (Globals.InGcInstance)
                 {
-                    Globals.InGcInstance = true;
-
                     foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
                     {
                         if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
@@ -80,10 +78,6 @@ namespace Magitek.Utilities
                         CastableAlliesWithin15.Add(Core.Me);
                         CastableAlliesWithin10.Add(Core.Me);
                     }
-                }
-                else
-                {
-                    Globals.InGcInstance = false;
                 }
             }
             

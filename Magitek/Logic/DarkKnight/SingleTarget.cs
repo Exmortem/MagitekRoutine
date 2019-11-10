@@ -55,7 +55,7 @@ namespace Magitek.Logic.DarkKnight
 
         public static async Task<bool> Unmend()
         {
-            if (Core.Me.OnPvpMap())
+            if (Globals.OnPvpMap)
                 return false;
 
             if (Core.Me.HasAura(Auras.Delirium))
@@ -67,7 +67,7 @@ namespace Magitek.Logic.DarkKnight
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            if (!DutyManager.InInstance)
+            if (!Globals.InActiveDuty)
                 return false;
 
             var unmendTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach &&

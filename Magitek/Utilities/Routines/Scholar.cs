@@ -118,7 +118,7 @@ namespace Magitek.Utilities.Routines
         public static void GroupExtension()
         {
             // Should we be ignoring our alliance?
-            if (!ScholarSettings.Instance.IgnoreAlliance && DutyManager.InInstance)
+            if (!ScholarSettings.Instance.IgnoreAlliance && Globals.InActiveDuty)
             {
                 // Create a list of alliance members that we need to check
                 if (ScholarSettings.Instance.HealAllianceDps || ScholarSettings.Instance.HealAllianceHealers || ScholarSettings.Instance.HealAllianceTanks)

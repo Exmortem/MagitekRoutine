@@ -129,7 +129,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.EmergencyTacticsAdloquium)
                 return false;
 
-            if (!PartyManager.IsInParty)
+            if (!Globals.InParty)
                 return false;
 
             if (!ScholarSettings.Instance.EmergencyTactics || !ScholarSettings.Instance.EmergencyTacticsAdloquium)
@@ -516,7 +516,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
 
@@ -554,7 +554,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 var canFeyIlluminationTargets = Group.CastableAlliesWithin30.Where(CanFeyIllumination).ToList();
 
@@ -595,7 +595,7 @@ namespace Magitek.Logic.Scholar
             if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
 
@@ -633,7 +633,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 var canSummonSeraphTargets = Group.CastableAlliesWithin20.Where(CanSummonSeraph).ToList();
 
@@ -670,7 +670,7 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
 

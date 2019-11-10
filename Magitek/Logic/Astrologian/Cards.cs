@@ -65,67 +65,61 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
                 await Spells.Divination.Cast(Core.Me);
 
-            if (AstrologianSettings.Instance.UseMinorArcana)
-            {
-                if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
-                    switch (Arcana)
-                    {
-                        //Solar Seal
-                        case AstrologianCard.Balance:
-                        case AstrologianCard.Bole:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
-                                await Spells.MinorArcana.Cast(Core.Me);
-                            break;
-
-                        //Lunar Seal
-                        case AstrologianCard.Arrow:
-                        case AstrologianCard.Ewer:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
-                                await Spells.MinorArcana.Cast(Core.Me);
-                            break;
-
-                        //Celestial Seal
-                        case AstrologianCard.Spear:
-                        case AstrologianCard.Spire:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
-                                await Spells.MinorArcana.Cast(Core.Me);
-                            break;
-                    }
-            }
+            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
+                switch (Arcana)
+                {
+                    //Lord of Crowns
+                    case AstrologianCard.Balance:
+                    case AstrologianCard.Arrow:
+                    case AstrologianCard.Spear:
+                        return await MeleeDpsOrTank(true);
+                        
+                    //Lady of Crowns
+                    case AstrologianCard.Bole:
+                    case AstrologianCard.Ewer:
+                    case AstrologianCard.Spire:
+                        return await RangedDpsOrHealer(true);
+                }
 
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
                 switch (Arcana)
                 {
                     case AstrologianCard.Balance:
                     case AstrologianCard.Arrow:
                     case AstrologianCard.Spear:
                     case AstrologianCard.LordofCrowns:
-                        return await MeleeDpsOrTank();
+                        return await MeleeDpsOrTank(false);
 
                     case AstrologianCard.Bole:
                     case AstrologianCard.Ewer:
                     case AstrologianCard.Spire:
                     case AstrologianCard.LadyofCrowns:
-                        return await RangedDpsOrHealer();
+                        return await RangedDpsOrHealer(false);
                 }
 
             return await Spells.Play.Cast(Core.Me);
         }
 
-        private static async Task<bool> MeleeDpsOrTank()
+        private static async Task<bool> MeleeDpsOrTank(bool minor)
         {
             var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsTank() || a.IsMeleeDps())).OrderBy(GetWeight);
             
+            if(minor)
+                return await Spells.MinorArcana.Cast(ally.FirstOrDefault());
+
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
-        private static async Task<bool> RangedDpsOrHealer()
+        private static async Task<bool> RangedDpsOrHealer(bool minor)
         {
             var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsHealer() || a.IsRangedDpsCard())).OrderBy(GetWeight);
-            
+
+            if (minor)
+                return await Spells.MinorArcana.Cast(ally.FirstOrDefault());
+
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
