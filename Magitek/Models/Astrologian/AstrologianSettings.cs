@@ -726,4 +726,3 @@ namespace Magitek.Models.Astrologian
         
         }
     }
-}

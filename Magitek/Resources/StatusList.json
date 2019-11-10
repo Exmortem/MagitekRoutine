@@ -1382,6 +1382,4 @@
 {"icon":"12578","id":"1414","name":"Battle Litany","name_cns":"战斗连祷","name_de":"Litanei Der Schlacht","name_fr":"Litanie Combattante","name_ja":"バトルリタニー"},
 {"icon":"10405","id":"1415","name":"Protect","name_cns":"护盾","name_de":"Protes","name_fr":"Bouclier","name_ja":"プロテス"},
 {"icon":"15806","id":"1416","name":"Grounded","name_cns":"固定低位","name_de":"Erniedrigt","name_fr":"Abaissement","name_ja":"高度固定：低"},
-{"icon":"15586","id":"1417","name":"Stone Curse","name_cns":"石化的诅咒","name_de":"Steinfluch","name_fr":"Piège De Pierre","name_ja":"石化の呪い"},
-
-]
+{"icon":"15586","id":"1417","name":"Stone Curse","name_cns":"石化的诅咒","name_de":"Steinfluch","name_fr":"Piège De Pierre","name_ja":"石化の呪い"}]
