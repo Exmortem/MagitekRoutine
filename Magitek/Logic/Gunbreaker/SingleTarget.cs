@@ -164,8 +164,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 900)
                 return false;
 
-            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
-                return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
+           
             if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
             if(Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.KeenEdge)

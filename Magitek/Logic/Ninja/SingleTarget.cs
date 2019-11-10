@@ -54,8 +54,6 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseShadowFang)
                 return false;
 
-            if (ActionManager.LastSpell != Spells.SpinningEdge)
-                return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.ShadowFang, true, NinjaSettings.Instance.ShadowFangRefresh * 1000))
                 return false;
@@ -137,6 +135,8 @@ namespace Magitek.Logic.Ninja
                 return false;
             
             if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+                return false;
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 7500)
                 return false;
            
             return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
