@@ -15,7 +15,7 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.Testudo)
                 return false;
 
-            if (!PartyManager.IsInParty)
+            if (!Globals.InParty)
                 return false;
 
             var testudoCount = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent < PaladinSettings.Instance.TestudoHealth);

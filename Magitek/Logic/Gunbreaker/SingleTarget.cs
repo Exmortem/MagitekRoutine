@@ -188,7 +188,7 @@ namespace Magitek.Logic.Gunbreaker
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            if (!DutyManager.InInstance)
+            if (!Globals.InActiveDuty)
                 return false;
 
             var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance

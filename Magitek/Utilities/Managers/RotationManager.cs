@@ -1,363 +1,527 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
 using ff14bot;
-using ff14bot.Behavior;
 using ff14bot.Enums;
-using ff14bot.Managers;
-using Magitek.Logic;
-using Magitek.Models.Astrologian;
-using Magitek.Models.Bard;
-using Magitek.Models.BlackMage;
-using Magitek.Models.Dancer;
-using Magitek.Models.DarkKnight;
-using Magitek.Models.Dragoon;
-using Magitek.Models.Gunbreaker;
-using Magitek.Models.Machinist;
-using Magitek.Models.Monk;
-using Magitek.Models.Ninja;
-using Magitek.Models.Paladin;
-using Magitek.Models.RedMage;
-using Magitek.Models.Samurai;
-using Magitek.Models.Scholar;
-using Magitek.Models.Summoner;
-using Magitek.Models.Warrior;
-using Magitek.Models.WhiteMage;
-using Magitek.ViewModels;
 using PropertyChanged;
-using TreeSharp;
 
 namespace Magitek.Utilities.Managers
 {
     [AddINotifyPropertyChangedInterface]
     internal static class RotationManager
     {
-        public static ClassJobType CurrentRotation { get; set; }
+        public static IRotation Rotation => new RotationComposites();
+        public static ClassJobType CurrentRotation => Core.Me.CurrentJob;
+    }
 
-        public static void Reset()
+    public interface IRotation
+    {
+        Task<bool> Rest();
+        Task<bool> PreCombatBuff();
+        Task<bool> Pull();
+        Task<bool> Heal();
+        Task<bool> CombatBuff();
+        Task<bool> Combat();
+        Task<bool> PvP();
+    }
+
+    public abstract class Rotation : IRotation
+    {
+        public abstract Task<bool> Rest();
+        public abstract Task<bool> PreCombatBuff();
+        public abstract Task<bool> Pull();
+        public abstract Task<bool> Heal();
+        public abstract Task<bool> CombatBuff();
+        public abstract Task<bool> Combat();
+        public abstract Task<bool> PvP();
+    }
+    
+    [AddINotifyPropertyChangedInterface]
+    internal class RotationComposites : Rotation
+    {
+        public override async Task<bool> Rest()
         {
-            var hotkeys = HotkeyManager.RegisteredHotkeys.Select(r => r.Name).Where(r => r.Contains("Magitek"));
-
-            foreach (var hk in hotkeys)
+            switch (RotationManager.CurrentRotation)
             {
-                HotkeyManager.Unregister(hk);
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.Rest();
+
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.Rest();
+                    
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.Rest();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.Rest();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.Rest();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.Rest();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.Rest();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.Rest();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.Rest();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.Rest();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.Rest();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.Rest();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.Rest();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.Rest();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.Rest();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.Rest();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.Rest();
+
+                default:
+                    return false;
             }
-            OpenerLogic.OpenerQueue.Clear();
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (Core.Me.CurrentJob)
+        }
+
+        public override async Task<bool> PreCombatBuff()
+        {
+
+            switch (RotationManager.CurrentRotation)
             {
-                    case ClassJobType.Gladiator:
-                    case ClassJobType.Paladin:
-                        SetPaladin();
-                        break;
-                    case ClassJobType.Pugilist:
-                    case ClassJobType.Monk:
-                        SetMonk();
-                        break;
-                    case ClassJobType.Marauder:
-                    case ClassJobType.Warrior:
-                        SetWarrior();
-                        break;
-                    case ClassJobType.Lancer:
-                    case ClassJobType.Dragoon:
-                        SetDragoon();
-                        break;
-                    case ClassJobType.Archer:
-                    case ClassJobType.Bard:
-                        SetBard();
-                        break;
-                    case ClassJobType.Conjurer:
-                    case ClassJobType.WhiteMage:
-                        SetWhiteMage();
-                        break;
-                    case ClassJobType.Thaumaturge:
-                    case ClassJobType.BlackMage:
-                        SetBlackMage();
-                        break;
-                    case ClassJobType.Arcanist:
-                    case ClassJobType.Summoner:
-                        SetSummoner();
-                        break;
-                    case ClassJobType.Scholar:
-                        SetScholar();
-                        break;
-                    case ClassJobType.Rogue:
-                    case ClassJobType.Ninja:
-                        SetNinja();
-                        break;
-                    case ClassJobType.Machinist:
-                        SetMachinist();
-                        break;
-                    case ClassJobType.DarkKnight:
-                        SetDarkKnight();
-                        break;
-                    case ClassJobType.Astrologian:
-                        SetAstrologian();
-                        break;
-                    case ClassJobType.Samurai:
-                        SetSamurai();
-                        break;
-                    case ClassJobType.RedMage:
-                        SetRedMage();
-                        break;
-                    case ClassJobType.Gunbreaker:
-                        SetGunbreaker();
-                        break;
-                    case ClassJobType.Dancer:
-                        SetDancer();
-                        break;
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.PreCombatBuff();
 
-                    //case ClassJobType.BlueMage:
-                    //    SetBlueMage();
-                    //    break;
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.PreCombatBuff();
+
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.PreCombatBuff();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.PreCombatBuff();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.PreCombatBuff();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.PreCombatBuff();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.PreCombatBuff();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.PreCombatBuff();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.PreCombatBuff();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.PreCombatBuff();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.PreCombatBuff();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.PreCombatBuff();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.PreCombatBuff();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.PreCombatBuff();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.PreCombatBuff();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.PreCombatBuff();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.PreCombatBuff();
+
+                default:
+                    return false;
             }
-
-            ResetRbComposites();
         }
 
-        public static void ResetRbComposites()
+        public override async Task<bool> Pull()
         {
-            TreeHooks.Instance.ReplaceHook("Rest", Magitek.RestBehavior);
-            TreeHooks.Instance.ReplaceHook("PreCombat", Magitek.PreCombatBuffBehavior);
-            TreeHooks.Instance.ReplaceHook("Pull", Magitek.PullBehavior);
-            TreeHooks.Instance.ReplaceHook("Heal", Magitek.HealBehavior);
-            TreeHooks.Instance.ReplaceHook("CombatBuff", Magitek.CombatBuffBehavior);
-            TreeHooks.Instance.ReplaceHook("Combat", Magitek.CombatBehavior);
+            switch (RotationManager.CurrentRotation)
+            {
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.Pull();
+
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.Pull();
+
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.Pull();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.Pull();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.Pull();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.Pull();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.Pull();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.Pull();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.Pull();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.Pull();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.Pull();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.Pull();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.Pull();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.Pull();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.Pull();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.Pull();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.Pull();
+
+                default:
+                    return false;
+            }
         }
 
-        private static void SetScholar()
+        public override async Task<bool> Heal()
         {
-            CurrentRotation = ClassJobType.Scholar;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Scholar.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Scholar.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Scholar.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Scholar.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Scholar.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Scholar.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Scholar.Rest.Execute());
-            ScholarSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Scholar";
-        }
-  
-        private static void SetPaladin()
-        {
-            CurrentRotation = ClassJobType.Paladin;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Paladin.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Paladin.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Paladin.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Paladin.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Paladin.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Paladin.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Paladin.Rest.Execute());
-            PaladinSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Paladin";
+
+            switch (RotationManager.CurrentRotation)
+            {
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.Heal();
+
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.Heal();
+
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.Heal();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.Heal();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.Heal();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.Heal();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.Heal();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.Heal();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.Heal();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.Heal();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.Heal();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.Heal();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.Heal();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.Heal();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.Heal();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.Heal();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.Heal();
+
+                default:
+                    return false;
+            }
         }
 
-        private static void SetWhiteMage()
+        public override async Task<bool> CombatBuff()
         {
-            CurrentRotation = ClassJobType.WhiteMage;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.WhiteMage.Rest.Execute());
-            WhiteMageSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "WhiteMage";
-        }
-        
-        private static void SetBard()
-        {
-            CurrentRotation = ClassJobType.Bard;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Bard.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Bard.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Bard.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Bard.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Bard.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Bard.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Bard.Rest.Execute());
-            BardSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Bard";
+
+            switch (RotationManager.CurrentRotation)
+            {
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.CombatBuff();
+
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.CombatBuff();
+
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.CombatBuff();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.CombatBuff();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.CombatBuff();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.CombatBuff();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.CombatBuff();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.CombatBuff();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.CombatBuff();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.CombatBuff();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.CombatBuff();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.CombatBuff();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.CombatBuff();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.CombatBuff();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.CombatBuff();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.CombatBuff();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.CombatBuff();
+
+                default:
+                    return false;
+            }
         }
 
-        private static void SetAstrologian()
+        public override async Task<bool> Combat()
         {
-            CurrentRotation = ClassJobType.Astrologian;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Astrologian.Rest.Execute());
-            AstrologianSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Astrologian";
+
+            switch (RotationManager.CurrentRotation)
+            {
+                case ClassJobType.Gladiator:
+                case ClassJobType.Paladin:
+                    return await Rotations.Paladin.Combat();
+
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.Combat();
+
+                case ClassJobType.Marauder:
+                case ClassJobType.Warrior:
+                    return await Rotations.Warrior.Combat();
+
+                case ClassJobType.Lancer:
+                case ClassJobType.Dragoon:
+                    return await Rotations.Dragoon.Combat();
+
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.Combat();
+
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.Combat();
+
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.Combat();
+
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.Combat();
+
+                case ClassJobType.Scholar:
+                    return await Rotations.Scholar.Combat();
+
+                case ClassJobType.Rogue:
+                case ClassJobType.Ninja:
+                    return await Rotations.Ninja.Combat();
+
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.Combat();
+
+                case ClassJobType.DarkKnight:
+                    return await Rotations.DarkKnight.Combat();
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.Combat();
+
+                case ClassJobType.Samurai:
+                    return await Rotations.Samurai.Combat();
+
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.Combat();
+
+                case ClassJobType.Gunbreaker:
+                    return await Rotations.Gunbreaker.Combat();
+
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.Combat();
+
+                default:
+                    return false;
+            }
         }
 
-        private static void SetDarkKnight()
+        public override async Task<bool> PvP()
         {
-            CurrentRotation = ClassJobType.DarkKnight;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.DarkKnight.Rest.Execute());
-            DarkKnightSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "DarkKnight";
-        }
+            switch (RotationManager.CurrentRotation)
+            {
+                //case ClassJobType.Gladiator:
+                //case ClassJobType.Paladin:
+                //    return await Rotations.Paladin.PvP();    
 
-        private static void SetDragoon()
-        {
-            CurrentRotation = ClassJobType.Dragoon;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Dragoon.Rest.Execute());
-            DragoonSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Dragoon";
-        }
+                //case ClassJobType.Pugilist:
+                //case ClassJobType.Monk:
+                //    return await Rotations.Monk.PvP();    
 
-        private static void SetWarrior()
-        {
-            CurrentRotation = ClassJobType.Warrior;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Warrior.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Warrior.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Warrior.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Warrior.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Warrior.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Warrior.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Warrior.Rest.Execute());
-            WarriorSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Warrior";
-        }
+                //case ClassJobType.Marauder:
+                //case ClassJobType.Warrior:
+                //    return await Rotations.Warrior.PvP();    
 
-        private static void SetMonk()
-        {
-            CurrentRotation = ClassJobType.Monk;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Monk.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Monk.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Monk.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Monk.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Monk.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Monk.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Monk.Rest.Execute());
-            MonkSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Monk";
-        }
+                //case ClassJobType.Lancer:
+                //case ClassJobType.Dragoon:
+                //    return await Rotations.Dragoon.PvP();    
 
-        private static void SetNinja()
-        {
-            CurrentRotation = ClassJobType.Ninja;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Ninja.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Ninja.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Ninja.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Ninja.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Ninja.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Ninja.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Ninja.Rest.Execute());
-            NinjaSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Ninja";
-        }
+                //case ClassJobType.Archer:
+                //case ClassJobType.Bard:
+                //    return await Rotations.Bard.PvP();    
 
-        private static void SetSamurai()
-        {
-            CurrentRotation = ClassJobType.Samurai;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Samurai.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Samurai.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Samurai.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Samurai.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Samurai.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Samurai.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Samurai.Rest.Execute());
-            SamuraiSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Samurai";
-        }
+                //case ClassJobType.Conjurer:
+                //case ClassJobType.WhiteMage:
+                //    return await Rotations.WhiteMage.PvP();    
 
-        private static void SetMachinist()
-        {
-            CurrentRotation = ClassJobType.Machinist;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Machinist.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Machinist.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Machinist.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Machinist.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Machinist.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Machinist.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Machinist.Rest.Execute());
-            MachinistSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Machinist";
-        }
+                //case ClassJobType.Thaumaturge:
+                //case ClassJobType.BlackMage:
+                //    return await Rotations.BlackMage.PvP();    
 
-        private static void SetBlackMage()
-        {
-            CurrentRotation = ClassJobType.BlackMage;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.BlackMage.Rest.Execute());
-            BlackMageSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "BlackMage";
-        }
+                //case ClassJobType.Arcanist:
+                //case ClassJobType.Summoner:
+                //    return await Rotations.Summoner.PvP();    
 
-        private static void SetRedMage()
-        {
-            CurrentRotation = ClassJobType.RedMage;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.RedMage.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.RedMage.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.RedMage.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.RedMage.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.RedMage.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.RedMage.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.RedMage.Rest.Execute());
-            RedMageSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "RedMage";
-        }
+                //case ClassJobType.Scholar:
+                //    return await Rotations.Scholar.PvP();    
 
-        private static void SetSummoner()
-        {
-            CurrentRotation = ClassJobType.Summoner;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Summoner.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Summoner.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Summoner.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Summoner.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Summoner.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Summoner.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Summoner.Rest.Execute());
-            SummonerSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Summoner";
-        }
+                //case ClassJobType.Rogue:
+                //case ClassJobType.Ninja:
+                //    return await Rotations.Ninja.PvP();    
 
-        private static void SetDancer()
-        {
-            CurrentRotation = ClassJobType.Dancer;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Dancer.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Dancer.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Dancer.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Dancer.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Dancer.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Dancer.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Dancer.Rest.Execute());
-            DancerSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Dancer";
-        }
-        private static void SetGunbreaker()
-        {
-            CurrentRotation = ClassJobType.Gunbreaker;
-            Magitek.CombatBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.Combat.Execute());
-            Magitek.HealBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.Heal.Execute());
-            Magitek.PreCombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.PreCombatBuff.Execute());
-            Magitek.PullBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.Pull.Execute());
-            Magitek.PullBuffBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.PullBuff.Execute());
-            Magitek.CombatBuffBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.CombatBuff.Execute());
-            Magitek.RestBehavior = new ActionRunCoroutine(r => Rotations.Gunbreaker.Rest.Execute());
-            GunbreakerSettings.Instance.Save();
-            BaseSettings.Instance.CurrentRoutine = "Gunbreaker";
+                //case ClassJobType.Machinist:
+                //    return await Rotations.Machinist.PvP();    
+
+                //case ClassJobType.DarkKnight:
+                //    return await Rotations.DarkKnight.PvP();    
+
+                case ClassJobType.Astrologian:
+                    return await Rotations.Astrologian.PvP();
+
+                //case ClassJobType.Samurai:
+                //    return await Rotations.Samurai.PvP();    
+
+                //case ClassJobType.RedMage:
+                //    return await Rotations.RedMage.PvP();
+
+                //case ClassJobType.Gunbreaker:
+                //    return await Rotations.Gunbreaker.PvP();    
+
+                //case ClassJobType.Dancer:
+                //    return await Rotations.Dancer.PvP();    
+
+                default:
+                    return false;
+            }
         }
     }
 }

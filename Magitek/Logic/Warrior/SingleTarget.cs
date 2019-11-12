@@ -41,7 +41,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> TomahawkOnLostAggro()
         {
-            if (Core.Me.OnPvpMap())
+            if (Globals.OnPvpMap)
                 return false;
 
             if (!WarriorSettings.Instance.UseDefiance)
@@ -53,7 +53,7 @@ namespace Magitek.Logic.Warrior
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            if (!DutyManager.InInstance)
+            if (!Globals.InActiveDuty)
                 return false;
 
             var tomahawkTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) > 5 + r.CombatReach && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.Distance(Core.Me) <= 15 + r.CombatReach && r.TargetGameObject != Core.Me);

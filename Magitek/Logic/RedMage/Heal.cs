@@ -29,7 +29,7 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
                 if (!Core.Me.InCombat)
                     return false;
@@ -85,7 +85,7 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (!PartyManager.IsInParty)
+            if (!Globals.InParty)
                 return false;
             
             if (!Core.Me.InCombat)

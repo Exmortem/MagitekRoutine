@@ -118,8 +118,6 @@ namespace Magitek.Views
             InterruptsAndStunsManager.Reset();
             TankBusterManager.ResetHealers();
             TankBusterManager.ResetTanks();
-            AuthenticationSettings.Instance.Save();
-            RotationManager.Reset();
             GambitsViewModel.Instance.SaveGambits();
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.SaveOpeners();

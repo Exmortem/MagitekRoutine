@@ -10,7 +10,6 @@ using Magitek.Models.Samurai;
 using Magitek.Utilities;
 using Magitek.Views.UserControls.Scholar;
 using Auras = Magitek.Utilities.Auras;
-using Combat = Magitek.Rotations.Samurai.Combat;
 using Iaijutsu = ff14bot.Managers.ActionResourceManager.Samurai.Iaijutsu;
 using System;
 

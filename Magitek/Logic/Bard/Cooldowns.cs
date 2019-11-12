@@ -60,7 +60,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBattleVoice)
                 return false;
 
-            if (!PartyManager.IsInParty)
+            if (!Globals.InParty)
                 return false;
 
             return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice, false, 0, false);

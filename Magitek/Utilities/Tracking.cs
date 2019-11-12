@@ -24,9 +24,9 @@ namespace Magitek.Utilities
             UpdateCurrentPosition();
 
             //In a Party
-            if (PartyManager.IsInParty)
+            if (Globals.InParty)
             {
-                _enemyCache = DutyManager.InInstance
+                _enemyCache = Globals.InActiveDuty
                     // In a Party And an Instance
                     ? GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType > 0 || r.IsBoss()).ToList()
                     // In Party But OpenWorld, everything our Party tagged or every Fate Mob that is tagged by a Player

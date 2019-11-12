@@ -134,7 +134,7 @@ namespace Magitek.Utilities.Routines
         public static void GroupExtension()
         {
             // Should we be ignoring our alliance? Check to see if we're even in an instance
-            if (!WhiteMageSettings.Instance.IgnoreAlliance && (DutyManager.InInstance || WorldManager.InPvP))
+            if (!WhiteMageSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
             {
                 // Create a list of alliance members that we need to check
                 if (WhiteMageSettings.Instance.HealAllianceDps || WhiteMageSettings.Instance.HealAllianceHealers || WhiteMageSettings.Instance.HealAllianceTanks)

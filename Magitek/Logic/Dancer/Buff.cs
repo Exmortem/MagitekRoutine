@@ -64,7 +64,7 @@ namespace Magitek.Logic.Dancer
                     cureTargets += PartyManager.AllMembers.Count(x => x.IsValid && x.BattleCharacter.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.BattleCharacter.Distance(DancePartner.BattleCharacter) < 5);
             }
 
-            if (cureTargets < (PartyManager.IsInParty ? DancerSettings.Instance.CuringWaltzCount : 1))
+            if (cureTargets < (Globals.InParty ? DancerSettings.Instance.CuringWaltzCount : 1))
                 return false;
 
             return await Spells.CuringWaltz.Cast(Core.Me);

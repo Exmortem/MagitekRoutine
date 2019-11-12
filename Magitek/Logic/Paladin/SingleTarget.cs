@@ -35,7 +35,7 @@ namespace Magitek.Logic.Paladin
         
         public static async Task<bool> ShieldLobLostAggro()
         {
-            if (Core.Me.OnPvpMap())
+            if (Globals.OnPvpMap)
                 return false;
 
             if (!PaladinSettings.Instance.ShieldLobLostAggro)
@@ -44,7 +44,7 @@ namespace Magitek.Logic.Paladin
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            if (!DutyManager.InInstance)
+            if (!Globals.InActiveDuty)
                 return false;
 
             var shieldLobTarget = Combat.Enemies.FirstOrDefault(r =>r.Distance(Core.Me) > 5 + r.CombatReach && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.Distance(Core.Me) <= 15 + r.CombatReach && r.TargetGameObject != Core.Me);

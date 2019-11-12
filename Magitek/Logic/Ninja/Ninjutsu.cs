@@ -309,70 +309,10 @@ namespace Magitek.Logic.Ninja
                 SpellQueueLogic.Timeout.Start();
                 SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 10000;
 
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Ten,
-                    TargetSelf = true,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin });
 
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.FumaShuriken,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Chi,
-                    TargetSelf = true,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Raiton,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Jin,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    TargetSelf = true,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Jin.Cooldown == TimeSpan.Zero, Name = "Jin", WaitTime = 2000 },
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Suiton,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Suiton.Cooldown == TimeSpan.Zero, Name = "Jin", WaitTime = 2000 },
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-
-                });
                 return true;
             }
 
@@ -383,75 +323,10 @@ namespace Magitek.Logic.Ninja
                 SpellQueueLogic.Timeout.Start();
                 SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 10000;
 
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Jin,
-                    TargetSelf = true,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
 
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.FumaShuriken,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Ten,
-                    TargetSelf = true,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Katon,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Chi,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    TargetSelf = true,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Jin.Cooldown == TimeSpan.Zero, Name = "Jin", WaitTime = 2000 },
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-                });
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = Spells.Doton,
-                    TargetSelf = true,
-                    SleepBefore = true,
-                    SleepMilliseconds = 500,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Doton.Cooldown == TimeSpan.Zero, Name = "Jin", WaitTime = 2000 },
-                    Checks = new List<QueueSpellCheck>()
-                {
-                    new QueueSpellCheck() { Check = () => Core.Me.HasAura(Auras.TenChiJin), Name = "HasTCJ" }
-                }
-
-                });
                 return true;
             }
             return false;
