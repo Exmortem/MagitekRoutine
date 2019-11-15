@@ -2,6 +2,7 @@
 using System.Linq;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Utilities;
 
 namespace Magitek.Gambits.Conditions
 {
@@ -17,7 +18,10 @@ namespace Magitek.Gambits.Conditions
             var spell = ActionManager.CurrentActions.Values.FirstOrDefault(SpellDataCheck);
 
             if (spell == null)
+            {
+                Logger.Write($@"[Magitek] {spell} is not off cooldown, not starting opener.");
                 return false;
+            }
 
             return spell.Cooldown <= TimeSpan.Zero;
         }
