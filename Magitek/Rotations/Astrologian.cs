@@ -37,9 +37,7 @@ namespace Magitek.Rotations
 
             Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
             await Casting.CheckForSuccessfulCast();
-
-            Globals.InParty = Globals.InParty || Globals.InGcInstance;
-
+            
             if (Globals.OnPvpMap)
                 return false;
 
