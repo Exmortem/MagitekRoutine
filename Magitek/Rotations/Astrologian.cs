@@ -25,17 +25,9 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return false;
 
-            if (!Globals.InActiveDuty)
-                return false;
-
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies(Utilities.Routines.Astrologian.GroupExtension);
-
             if (Core.Me.IsCasting)
                 return true;
 
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
             await Casting.CheckForSuccessfulCast();
             
             if (Globals.OnPvpMap)
@@ -79,14 +71,6 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return false;
 
-            if (!Globals.InActiveDuty)
-                return false;
-
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies(Utilities.Routines.Astrologian.GroupExtension);
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
@@ -122,7 +106,7 @@ namespace Magitek.Rotations
                     if (await Logic.Astrologian.Heal.Benefic2()) return true;
                 }
 
-                if (await Logic.Astrologian.Heal.Benefic()) return true;
+                if (await Logic.Astrologian.Heal.Benefic2()) return true;
                 if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
                 if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }

@@ -23,7 +23,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             await Casting.CheckForSuccessfulCast();
 
@@ -42,7 +42,7 @@ namespace Magitek.Rotations
 
             if (NinjaSettings.Instance.UseHutonOutsideOfCombat)
             {
-                if (!Globals.InActiveDuty)
+                if (WorldManager.InSanctuary)
                     return false;
             }
 
@@ -55,7 +55,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();

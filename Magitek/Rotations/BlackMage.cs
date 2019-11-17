@@ -20,7 +20,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             if (await Casting.TrackSpellCast())
                 return true;
@@ -59,13 +59,11 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             if (Core.Me.IsMounted)
                 return true;
-
-            Group.UpdateAllies();
-
+            
             if (await Casting.TrackSpellCast())
                 return true;
 
