@@ -2,7 +2,21 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using ff14bot.Enums;
-using Magitek.Models.Account;
+using Magitek.Models.Astrologian;
+using Magitek.Models.Bard;
+using Magitek.Models.BlackMage;
+using Magitek.Models.DarkKnight;
+using Magitek.Models.Dragoon;
+using Magitek.Models.Machinist;
+using Magitek.Models.Monk;
+using Magitek.Models.Ninja;
+using Magitek.Models.Paladin;
+using Magitek.Models.RedMage;
+using Magitek.Models.Samurai;
+using Magitek.Models.Scholar;
+using Magitek.Models.Summoner;
+using Magitek.Models.Warrior;
+using Magitek.Models.WhiteMage;
 using Magitek.Utilities.Managers;
 using Magitek.ViewModels;
 using BaseSettings = Magitek.ViewModels.BaseSettings;
@@ -123,6 +137,25 @@ namespace Magitek.Views
             OpenersViewModel.Instance.SaveOpeners();
             OpenersViewModel.Instance.ApplyOpeners();
             TogglesViewModel.Instance.SaveToggles();
+
+            #region Save Settings For All Routines
+            ScholarSettings.Instance.Save();
+            WhiteMageSettings.Instance.Save();
+            AstrologianSettings.Instance.Save();
+            PaladinSettings.Instance.Save();
+            DarkKnightSettings.Instance.Save();
+            WarriorSettings.Instance.Save();
+            BardSettings.Instance.Save();
+            MachinistSettings.Instance.Save();
+            DragoonSettings.Instance.Save();
+            MonkSettings.Instance.Save();
+            NinjaSettings.Instance.Save();
+            SamuraiSettings.Instance.Save();
+            BlackMageSettings.Instance.Save();
+            RedMageSettings.Instance.Save();
+            SummonerSettings.Instance.Save();
+            #endregion
+
             Hide();
         }
 
