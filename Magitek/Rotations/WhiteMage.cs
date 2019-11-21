@@ -23,25 +23,12 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies(Utilities.Routines.WhiteMage.GroupExtension);
-
             if (Core.Me.IsCasting)
                 return true;
 
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
             await Casting.CheckForSuccessfulCast();
 
-            //if (Globals.OnPvpMap)
-            //{
-            //    return await PvpRotation();
-            //}
-
             if (Core.Me.IsMounted)
-                return false;
-
-            if (!Globals.InActiveDuty)
                 return false;
 
             return false;
@@ -70,27 +57,13 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            Group.UpdateAllies(Utilities.Routines.WhiteMage.GroupExtension);
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
 
-            //if (Globals.OnPvpMap)
-            //{
-            //    await PvpRotation();
-            //    return true;
-            //}
-
-            if (!Globals.InActiveDuty)
-                return false;
-
             if (await GambitLogic.Gambit()) return true;
-
-            if (await Chocobo.HandleChocobo()) return true;
-
+            
             if (Globals.PartyInCombat && Globals.InParty)
             {
                 if (await TankBusters.Execute()) return true;

@@ -22,9 +22,9 @@ namespace Magitek.Utilities.Routines
             get
             {
                 var senCount = 0;
-                if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu)) senCount++;
-                if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka)) senCount++;
-                if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Setsu)) senCount++;
+                if (Sen.HasFlag(Iaijutsu.Getsu)) senCount++;
+                if (Sen.HasFlag(Iaijutsu.Ka)) senCount++;
+                if (Sen.HasFlag(Iaijutsu.Setsu)) senCount++;
                 return senCount;
             }
         }
@@ -41,8 +41,8 @@ namespace Magitek.Utilities.Routines
                 return;
 
             EnemiesInCone = Core.Me.EnemiesInCone(10);
-            AoeEnemies5Yards = Combat.Enemies.Where(x => x.WithinSpellRange(5)).Count();
-            AoeEnemies8Yards = Combat.Enemies.Where(x => x.WithinSpellRange(8)).Count();
+            AoeEnemies5Yards = Combat.Enemies.Count(x => x.WithinSpellRange(5));
+            AoeEnemies8Yards = Combat.Enemies.Count(x => x.WithinSpellRange(8));
         }
 
         public static bool QueueKaitenFollowUp(SpellData spell, SpellData tsubame = null)

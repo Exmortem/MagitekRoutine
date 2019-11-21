@@ -67,9 +67,6 @@ namespace Magitek.Logic.DarkKnight
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            if (!Globals.InActiveDuty)
-                return false;
-
             var unmendTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach &&
                                                                   r.Distance(Core.Me) <= 15 + r.CombatReach &&
                                                                   r.TargetGameObject != Core.Me);

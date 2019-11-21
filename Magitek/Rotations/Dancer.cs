@@ -23,10 +23,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies();
-
+            
+            
             if (Core.Me.IsCasting)
                 return true;
 
@@ -64,7 +62,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
@@ -78,8 +76,6 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
-            Group.UpdateAllies();
-
             if (BotManager.Current.IsAutonomous)
             {
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
