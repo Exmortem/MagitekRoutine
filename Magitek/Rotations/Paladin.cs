@@ -23,10 +23,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies();
-
+            
+            
             if (Core.Me.IsCasting)
                 return true;
 
@@ -53,9 +51,8 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return true;
 
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
-            Group.UpdateAllies();
             if (await GambitLogic.Gambit()) return true;
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();

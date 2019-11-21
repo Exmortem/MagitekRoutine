@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Clio.Utilities.Collections;
 using ff14bot;
@@ -39,6 +40,7 @@ namespace Magitek
 {
     public class Magitek
     {
+        private DateTime _pulseLimiter, _saveFormTime;
         public void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
@@ -164,6 +166,38 @@ namespace Magitek
                     Debug.Instance.TargetCombatTimeLeft = Core.Me.CurrentTarget.CombatTimeLeft();
                 }
             }
+
+            if (DateTime.Now < _pulseLimiter) return;
+            _pulseLimiter = DateTime.Now.AddSeconds(1);
+
+            if (DateTime.Now > _saveFormTime)
+            {
+
+                Dispelling.Instance.Save();
+                InterruptsAndStuns.Instance.Save();
+                TankBusters.Instance.Save();
+                TogglesViewModel.Instance.SaveToggles();
+
+                #region Save Settings For All Routines
+                ScholarSettings.Instance.Save();
+                WhiteMageSettings.Instance.Save();
+                AstrologianSettings.Instance.Save();
+                PaladinSettings.Instance.Save();
+                DarkKnightSettings.Instance.Save();
+                WarriorSettings.Instance.Save();
+                BardSettings.Instance.Save();
+                MachinistSettings.Instance.Save();
+                DragoonSettings.Instance.Save();
+                MonkSettings.Instance.Save();
+                NinjaSettings.Instance.Save();
+                SamuraiSettings.Instance.Save();
+                BlackMageSettings.Instance.Save();
+                RedMageSettings.Instance.Save();
+                SummonerSettings.Instance.Save();
+                #endregion
+
+                _saveFormTime = DateTime.Now.AddSeconds(60);
+            }
         }
 
         public void Shutdown()
@@ -192,7 +226,6 @@ namespace Magitek
             Dispelling.Instance.Save();
             InterruptsAndStuns.Instance.Save();
             TankBusters.Instance.Save();
-            AuthenticationSettings.Instance.Save();
             TogglesViewModel.Instance.SaveToggles();
 
             var hotkeys = HotkeyManager.RegisteredHotkeys.Select(r => r.Name).Where(r => r.Contains("Magitek"));

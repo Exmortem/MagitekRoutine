@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Enums;
 using PropertyChanged;
@@ -39,6 +40,8 @@ namespace Magitek.Utilities.Managers
     {
         public override async Task<bool> Rest()
         {
+            await Chocobo.HandleChocobo();
+
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
@@ -108,6 +111,8 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> PreCombatBuff()
         {
+            Group.UpdateAllies();
+            await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
             {
@@ -133,6 +138,8 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
+                    Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.WhiteMage.PreCombatBuff();
 
                 case ClassJobType.Thaumaturge:
@@ -144,6 +151,8 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.Summoner.PreCombatBuff();
 
                 case ClassJobType.Scholar:
+                    Group.UpdateAllies(Routines.Scholar.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.Scholar.PreCombatBuff();
 
                 case ClassJobType.Rogue:
@@ -157,6 +166,8 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.DarkKnight.PreCombatBuff();
 
                 case ClassJobType.Astrologian:
+                    Group.UpdateAllies(Routines.Astrologian.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.Astrologian.PreCombatBuff();
 
                 case ClassJobType.Samurai:
@@ -247,6 +258,8 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> Heal()
         {
+            Group.UpdateAllies();
+            await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
             {
@@ -272,6 +285,8 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
+                    Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.WhiteMage.Heal();
 
                 case ClassJobType.Thaumaturge:
@@ -283,6 +298,8 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.Summoner.Heal();
 
                 case ClassJobType.Scholar:
+                    Group.UpdateAllies(Routines.Scholar.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.Scholar.Heal();
 
                 case ClassJobType.Rogue:
@@ -296,6 +313,8 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.DarkKnight.Heal();
 
                 case ClassJobType.Astrologian:
+                    Group.UpdateAllies(Routines.Astrologian.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.Astrologian.Heal();
 
                 case ClassJobType.Samurai:
@@ -317,7 +336,6 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> CombatBuff()
         {
-
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
@@ -387,6 +405,8 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> Combat()
         {
+            Group.UpdateAllies();
+            await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
             {

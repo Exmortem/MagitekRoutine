@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -26,14 +23,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (await Chocobo.HandleChocobo()) return true;
-
-            Group.UpdateAllies(Utilities.Routines.Scholar.GroupExtension);
-
             if (Core.Me.IsCasting)
                 return true;
-
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
 
             await Casting.CheckForSuccessfulCast();
 
@@ -65,21 +56,13 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            if (await Chocobo.HandleChocobo()) return true;
-
             if (Core.Me.IsMounted)
                 return true;
-
-            Group.UpdateAllies(Utilities.Routines.Scholar.GroupExtension);
-            Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
-
-            if (!Globals.InActiveDuty)
-                return false;
 
             if (await GambitLogic.Gambit()) return true;
 

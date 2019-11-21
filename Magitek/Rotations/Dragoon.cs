@@ -27,8 +27,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            Group.UpdateAllies();
-
             if (Globals.InParty)
             {
                 // If we're in a party and we die, but our group is still in combat, we don't want to reset the counter
@@ -42,7 +40,7 @@ namespace Magitek.Rotations
 
             Utilities.Routines.Dragoon.MirageDives = 0;
 
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             await Casting.CheckForSuccessfulCast();
 
@@ -63,7 +61,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            if (await Chocobo.HandleChocobo()) return true;
+            
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
@@ -78,8 +76,6 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
-            Group.UpdateAllies();
-
             if (BotManager.Current.IsAutonomous)
             {
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);

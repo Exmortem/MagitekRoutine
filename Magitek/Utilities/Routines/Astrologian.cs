@@ -197,7 +197,7 @@ namespace Magitek.Utilities.Routines
         public static void GroupExtension()
         {
             // Should we be ignoring our alliance?
-            if (!AstrologianSettings.Instance.IgnoreAlliance || !Globals.InParty)
+            if (!AstrologianSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
             {
                 // Create a list of alliance members that we need to check
                 if (AstrologianSettings.Instance.HealAllianceDps || AstrologianSettings.Instance.HealAllianceHealers || AstrologianSettings.Instance.HealAllianceTanks)
