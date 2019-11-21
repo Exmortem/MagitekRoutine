@@ -24,7 +24,7 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
 
-            if (Spells.KaeshiSetsugekka.Cooldown.TotalMilliseconds > 4700 || Spells.KaeshiGoken.Cooldown.TotalMilliseconds > 4700 || Spells.KaeshiHiganbana.Cooldown.TotalMilliseconds > 4700)
+            if (Spells.KaeshiSetsugekka.Cooldown.TotalMilliseconds > 5500 || Spells.KaeshiGoken.Cooldown.TotalMilliseconds > 5500 || Spells.KaeshiHiganbana.Cooldown.TotalMilliseconds > 5500)
                 return false;
 
             if (Utilities.Routines.Samurai.CastDuringMeikyo.Any())

@@ -17,6 +17,7 @@ namespace Magitek.Logic.Samurai
 {
     internal static class SingleTarget
     {
+
         public static async Task<bool> Enpi()
         {
             if (Core.Me.CurrentTarget == null) return false;
@@ -70,7 +71,7 @@ namespace Magitek.Logic.Samurai
         {
             if (SamuraiSettings.Instance.HissatsuSeigan == false)
                 return false;
-            
+
             if (Core.Me.ClassLevel < 66)
                 return false;
 
@@ -89,10 +90,10 @@ namespace Magitek.Logic.Samurai
             //Prevent using seigan here to stop double weaves
             if (Utilities.Routines.Samurai.SenCount == 3 && ActionResourceManager.Samurai.Kenki <= 90)
                 return false;
-            
+
             return await Spells.HissatsuSeigan.Cast(Core.Me.CurrentTarget);
         }
-
+        
         public static async Task<bool> Shoha()
         {
             if (Core.Me.ClassLevel < 80)
@@ -112,11 +113,7 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (Casting.LastSpell != Spells.MidareSetsugekka || (DateTime.Now - Casting.LastSpellTimeFinished) > TimeSpan.FromSeconds(14))
-                return false;
-
-            //Don't go further down the tree, wait for Tsubame if we're over level 76
-            return await Spells.KaeshiSetsugekka.Cast(Core.Me.CurrentTarget) || (Spells.KaeshiSetsugekka.Cooldown.TotalMilliseconds <= 3000 && Casting.LastSpell == Spells.MidareSetsugekka);
+            return await Spells.KaeshiSetsugekka.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HissatsuShinten()
@@ -216,31 +213,31 @@ namespace Magitek.Logic.Samurai
             return await Spells.Higanbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
         }
 
-        public static async Task<bool> KaeshiHiganbana()
-        {
-            if (Core.Me.CurrentTarget == null)
-                return false;
+       // public static async Task<bool> KaeshiHiganbana()  DON'T USE KAESHIHIGANBANA EVER
+       // {
+       //     if (Core.Me.CurrentTarget == null)
+       //         return false;
+       //
+       //     if (Core.Me.ClassLevel < 76)
+       //         return false;
+       //
+       //     if (Core.Me.CurrentTarget.CombatTimeLeft() < 15)
+       //         return false;
+       //
+       //     if (Utilities.Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeComboEnemies)
+        //    {
+        //        if (SamuraiSettings.Instance.AoeCombo)
+          //          return false;
+            //}
 
-            if (Core.Me.ClassLevel < 76)
-                return false;
+            // if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
+             //   return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() < 15)
-                return false;
+           // if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
+             //   return false;
 
-            if (Utilities.Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeComboEnemies)
-            {
-                if (SamuraiSettings.Instance.AoeCombo)
-                    return false;
-            }
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
-                return false;
-
-            if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
-                return false;
-
-            return await Spells.KaeshiHiganbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
-        }
+          //  return await Spells.KaeshiHiganbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+       // }
 
         public static async Task<bool> Kasha()
         {
@@ -372,6 +369,8 @@ namespace Magitek.Logic.Samurai
 
             //If < 62 the only way to gain kenki is by completing combos
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Setsu) && Core.Me.ClassLevel > 62)
+                return false;
+            if (Utilities.Routines.Samurai.SenCount == 0)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Hakaze && !Core.Me.HasAura(Auras.MeikyoShisui))
