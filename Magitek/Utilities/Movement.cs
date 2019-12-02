@@ -23,8 +23,8 @@ namespace Magitek.Utilities
             if (!MovementManager.IsMoving && !unit.InView())
                 Core.Me.Face(Core.Me.CurrentTarget);
 
-            if (AvoidanceManager.Avoids.Any(r => r.IsPointInAvoid(unit.Location)))
-                return;
+    //        if (AvoidanceManager.Avoids.Any(r => r.IsPointInAvoid(unit.Location)))
+    //            return;
 
             if (unit.Distance(Core.Me) > distance)
             {
