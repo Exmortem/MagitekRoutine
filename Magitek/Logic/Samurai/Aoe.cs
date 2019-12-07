@@ -52,7 +52,8 @@ namespace Magitek.Logic.Samurai
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka))
                 return false;
-
+            if (!Core.Me.HasAura(Auras.Jinpu, true, 7000))
+                return false;
             if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                 return false;
             
@@ -69,7 +70,8 @@ namespace Magitek.Logic.Samurai
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
                 return false;
-
+            if (!Core.Me.HasAura(Auras.Shifu, true, 7000))
+                return false;
             if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                 return false;
 

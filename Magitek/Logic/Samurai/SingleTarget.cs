@@ -102,8 +102,8 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (!Core.Me.HasAura("Meditation")) //TODO: Fix with aura ID when known
-                return false;
+            //if (!Core.Me.HasAura("Meditation")) //TODO: Fix with aura ID when known
+                //return false;
 
             return await Spells.Shoha.Cast(Core.Me.CurrentTarget);
         }
@@ -124,6 +124,10 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel < 62)
                 return false;
 
+            if (Utilities.Routines.Samurai.SenCount == 3)
+                return false;
+
+            
             if (Core.Me.CurrentTarget == null)
                 return false;
 
@@ -370,7 +374,7 @@ namespace Magitek.Logic.Samurai
             //If < 62 the only way to gain kenki is by completing combos
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Setsu) && Core.Me.ClassLevel > 62)
                 return false;
-            if (Utilities.Routines.Samurai.SenCount == 0)
+            if (Utilities.Routines.Samurai.SenCount != 2)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Hakaze && !Core.Me.HasAura(Auras.MeikyoShisui))
