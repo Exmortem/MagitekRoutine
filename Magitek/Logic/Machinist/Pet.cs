@@ -15,8 +15,8 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRookQueen)
                 return false;
 
-            if (Core.Me.HasTarget && Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
-                return false;
+            //if (Core.Me.HasTarget && Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
+            //    return false;
 
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
