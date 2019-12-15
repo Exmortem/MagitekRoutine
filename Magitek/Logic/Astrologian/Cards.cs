@@ -65,25 +65,9 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
                 await Spells.Divination.Cast(Core.Me);
 
-            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal || c == AstrologianSeal.Lunar_Seal || c == AstrologianSeal.Celestial_Seal))
-                switch (Arcana)
-                {
-                    //Lord of Crowns
-                    case AstrologianCard.Balance:
-                    case AstrologianCard.Arrow:
-                    case AstrologianCard.Spear:
-                        return await MeleeDpsOrTank(true);
-                        
-                    //Lady of Crowns
-                    case AstrologianCard.Bole:
-                    case AstrologianCard.Ewer:
-                    case AstrologianCard.Spire:
-                        return await RangedDpsOrHealer(true);
-                }
-
             if (!AstrologianSettings.Instance.Play)
                 return false;
-
+            
             if (Globals.InParty)
                 switch (Arcana)
                 {
