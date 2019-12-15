@@ -131,7 +131,7 @@ namespace Magitek.Logic.WhiteMage
 
             if (divineBenisonTarget == null)
                 return false;
-            if (Casting.LastSpell == Spells.Aero)
+            if (Casting.LastSpell == Spells.Aero || Casting.LastSpell == Spells.Aero2 || Casting.LastSpell == Spells.Dia)
                 return await Spells.DivineBenison.Cast(divineBenisonTarget);
             return false;
         }

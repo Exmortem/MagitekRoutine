@@ -74,6 +74,8 @@ namespace Magitek.Rotations
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
 
             if (await CustomOpenerLogic.Opener()) return true;
 
@@ -81,7 +83,8 @@ namespace Magitek.Rotations
             {
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
-
+            // Shoha must come out before kaeshi or you overcap
+            
             if (await SingleTarget.KaeshiSetsugekka()) return true;
             if (await Aoe.KaeshiGoken()) return true;
 
@@ -102,11 +105,11 @@ namespace Magitek.Rotations
                 if (await Buff.SecondWind()) return true;
                 if (await Buff.TrueNorth()) return true;
                 if (await Buff.MeikyoShisui()) return true;
-                if (await SingleTarget.Shoha()) return true;
+                
             }
 
             if (await SingleTarget.MidareSetsugekka()) return true;
-
+            if (await SingleTarget.Shoha()) return true;
             if (await Aoe.TenkaGoken()) return true;
             if (await Aoe.Oka()) return true;
             if (await Aoe.Mangetsu()) return true;

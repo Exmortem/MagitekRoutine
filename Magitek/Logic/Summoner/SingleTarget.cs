@@ -14,10 +14,18 @@ namespace Magitek.Logic.Summoner
         {
             if (!SummonerSettings.Instance.Ruin) return false;
 
-            if ((int)PetManager.ActivePetType == 10)
-                return await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget);
+            //if ((int)PetManager.ActivePetType == 10)
+            //    return await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.ClassLevel >= 38 && MovementManager.IsMoving && !ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Core.Me.ClassLevel >= 40 && MovementManager.IsMoving)
+            {
+                if (Spells.EgiAssault.Cooldown.TotalMilliseconds > 1)
+                    return await Spells.EgiAssault.Cast(Core.Me.CurrentTarget);
+                if (Spells.EgiAssault2.Cooldown.TotalMilliseconds > 1)
+                    return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (Core.Me.ClassLevel >= 38 && MovementManager.IsMoving && !ActionResourceManager.Summoner.DreadwyrmTrance && !Core.Me.HasAura(Auras.EverlastingFlight))
                 return await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget);
 
             return await Spells.SmnRuin.Cast(Core.Me.CurrentTarget);
@@ -31,27 +39,34 @@ namespace Magitek.Logic.Summoner
 
             if (!Core.Me.HasAura(Auras.FurtherRuin)) return false;
 
-            return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
-        }
+           
 
-        public static async Task<bool> Ruin4MaxStacks()
-        {
-            if (Core.Me.ClassLevel < 62) return false;
-
-            if (!SummonerSettings.Instance.Ruin4) return false;
-
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) < 4) return false;
+            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) != 4) return false;
 
             return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
         }
+
+       // public static async Task<bool> Ruin4MaxStacks()
+      //  {
+      //      if (Core.Me.ClassLevel < 62) return false;
+
+      //      if (!SummonerSettings.Instance.Ruin4) return false;
+      
+       //     if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) < 4) return false;
+
+      //      return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
+      //  }
 
         public static async Task<bool> Bio()
         {
             if (!SummonerSettings.Instance.Bio) return false;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= SummonerSettings.Instance.DotRefreshSeconds * 1000 && Core.Me.ClassLevel > 53)
+            if (Core.Me.ClassLevel < 53)
                 return false;
 
+            if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
+                return false;
+            
             return !Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.DotRefreshSeconds * 1000)
                    && await Spells.SmnBio.Cast(Core.Me.CurrentTarget);
         }
@@ -63,9 +78,14 @@ namespace Magitek.Logic.Summoner
             if (MovementManager.IsMoving) return false;
             var refresh = SummonerSettings.Instance.DotRefreshSeconds * 1000;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= refresh && Core.Me.ClassLevel > 53)
+            if (Core.Me.ClassLevel < 53)
                 return false;
 
+            if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
+                return false;
+
+            if (Casting.LastSpell == Spells.Miasma)
+                return false;
             switch (Core.Me.ClassLevel)
             {
                 case var n when n < 6:
@@ -81,18 +101,15 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault()
         {
-            if (Spells.EgiAssault.Cooldown.TotalMilliseconds > 1)
-                return false;
+            if (Spells.EgiAssault.Charges >= 1 && Spells.EgiAssault.Cooldown.TotalMilliseconds < 3000)
+                return await Spells.EgiAssault.Cast(Core.Me.CurrentTarget);
 
             if (!SummonerSettings.Instance.EgiAssault1) return false;
 
             if ((int)PetManager.ActivePetType == 10) return false;
-
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;
-
+            //this logic sucks i know, but i suck too, okay? -sage
+            if (MovementManager.IsMoving || Spells.EnergyDrain.Cooldown.TotalMilliseconds < 1000 || Spells.Aetherpact.Cooldown.TotalMilliseconds < 1000 || ActionResourceManager.Arcanist.Aetherflow != 0 || Spells.Trance.Cooldown.TotalMilliseconds < 1000 || Spells.SummonBahamut.Cooldown.TotalMilliseconds < 1000)
+                 return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
             return await Spells.EgiAssault.Cast(Core.Me.CurrentTarget);
         }
 
@@ -101,7 +118,8 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.ClassLevel < 18) return false;
             if (Spells.Fester.Cooldown.TotalMilliseconds > 1)
                 return false;
-
+            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+                return false;
             if (!SummonerSettings.Instance.Fester) return false;
 
             if (ActionResourceManager.Arcanist.Aetherflow == 0) return false;
@@ -109,8 +127,8 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 2000) && Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, 2000))
                 return await Spells.Fester.Cast(Core.Me.CurrentTarget);
           
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return false;
@@ -121,12 +139,14 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.ClassLevel < 18) return false;
             if (Spells.EnergyDrain.Cooldown.TotalMilliseconds > 1)
                 return false;
+            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+                return false;
             if (!SummonerSettings.Instance.EnergyDrain) return false;
 
             if (ActionResourceManager.Arcanist.Aetherflow > 0) return false;
 
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.EnergyDrain.Cast(Core.Me.CurrentTarget);
@@ -134,18 +154,19 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault2()
         {
-            if (Spells.EgiAssault2.Cooldown.TotalMilliseconds > 1)
-                return false;
+           
+            if (Spells.EgiAssault2.Charges >= 1 && Spells.EgiAssault2.Cooldown.TotalMilliseconds < 3000)
+                return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
 
             if (!SummonerSettings.Instance.EgiAssault2) return false;
 
             if ((int)PetManager.ActivePetType == 10) return false;
 
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;
+            if (MovementManager.IsMoving || Spells.EnergyDrain.Cooldown.TotalMilliseconds < 1000 || Spells.Aetherpact.Cooldown.TotalMilliseconds < 1000 || ActionResourceManager.Arcanist.Aetherflow != 0 || Spells.Trance.Cooldown.TotalMilliseconds < 1000 || Spells.SummonBahamut.Cooldown.TotalMilliseconds < 1000)
+                 return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
+
             return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
+
         }
 
         public static async Task<bool> Enkindle()
@@ -154,11 +175,12 @@ namespace Magitek.Logic.Summoner
             if (Spells.Enkindle.Cooldown.TotalMilliseconds > 1)
                 return false;
             if (!SummonerSettings.Instance.Enkindle) return false;
-
+            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+                return false;
             if ((int)PetManager.ActivePetType == 10 || (int)PetManager.ActivePetType == 14) return false;
 
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.Enkindle.Cast(Core.Me.CurrentTarget);
@@ -167,11 +189,12 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> TriDisaster()
         {
             if (Core.Me.ClassLevel < 56) return false;
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds > 1)
-                return false;
+            
             if (!SummonerSettings.Instance.TriDisaster) return false;
+            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+                return false;
 
-            if (!ActionResourceManager.Summoner.DreadwyrmTrance && Spells.Trance.Cooldown.TotalMilliseconds > 0)
+            if (ActionResourceManager.Summoner.DreadwyrmTrance || Core.Me.HasAura(Auras.EverlastingFlight))
             {
                 if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 3000)) return false;
                 if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, 3000)) return false;
@@ -179,10 +202,13 @@ namespace Magitek.Logic.Summoner
                 return await Spells.TriDisaster.Cast(Core.Me.CurrentTarget);
             }
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.Ruination, true)) return false;
+            if (!Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 4000) || !Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, 4000))
+                if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2 || Casting.LastSpell != Spells.Ruin4)
+                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
+                        return true;
 
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Spells.Trance.Cooldown.TotalMilliseconds < 2000)
+                if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2 || Casting.LastSpell != Spells.Ruin4)
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.TriDisaster.Cast(Core.Me.CurrentTarget);
@@ -191,16 +217,17 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> Deathflare()
         {
             if (Core.Me.ClassLevel < 60) return false;
-            if (Spells.Deathflare.Cooldown.TotalMilliseconds > 1)
+            if (Spells.Deathflare.Cooldown.TotalMilliseconds > 2)
                 return false;
             if (!SummonerSettings.Instance.Deathflare) return false;
-
+            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+                return false;
             if (!ActionResourceManager.Summoner.DreadwyrmTrance) return false;
 
             if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 1000) return false;
 
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.Deathflare.Cast(Core.Me.CurrentTarget);
@@ -209,8 +236,9 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> EnkindleBahamut()
         {
             if (Core.Me.ClassLevel < 70) return false;
-            if (Spells.EnkindleBahamut.Cooldown.TotalMilliseconds > 1)
+            if (Spells.EnkindleBahamut.Cooldown.TotalMilliseconds > 2)
                 return false;
+            
             if ((int)PetManager.ActivePetType != 10 && (int)PetManager.ActivePetType != 14) return false;
 
             if ((int)PetManager.ActivePetType == 10 && !SummonerSettings.Instance.EnkindleBahamut) return false;
@@ -220,7 +248,7 @@ namespace Magitek.Logic.Summoner
             if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 18000) return false;
 
             if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+                if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.EnkindleBahamut.Cast(Core.Me.CurrentTarget);
