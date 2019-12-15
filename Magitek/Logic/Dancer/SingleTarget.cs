@@ -3,6 +3,8 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
+using Magitek.Models.Dancer;
+using System.Linq;
 
 namespace Magitek.Logic.Dancer
 {
@@ -13,6 +15,8 @@ namespace Magitek.Logic.Dancer
         {
             if (ActionResourceManager.Dancer.FourFoldFeathers < 4 && !Core.Me.HasAura(Auras.Devilment) && Core.Me.ClassLevel >= 62) return false;
 
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= DancerSettings.Instance.FanDanceTwoEnemies)
+                return false;
             return await Spells.FanDance.Cast(Core.Me.CurrentTarget);
         }
 

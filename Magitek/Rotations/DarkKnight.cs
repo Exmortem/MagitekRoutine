@@ -39,7 +39,7 @@ namespace Magitek.Rotations
         {
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 4);
             }
 
             return await Combat();
@@ -70,7 +70,7 @@ namespace Magitek.Rotations
 
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 4);
             }
 
             if (await Buff.Grit()) return true;

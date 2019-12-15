@@ -207,6 +207,7 @@ namespace Magitek.Utilities
             PassageOfArms = 1175,
             RiddleOfEarth = 2008,
             Anatman = 1862,
+            EverlastingFlight = 2030,
             MeditationSAM = 2176; 
 
         private const int
