@@ -76,26 +76,60 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 13000))
                 return false;
 
-            if (PaladinSettings.Instance.FoFFastBlade)
+            if (Core.Me.ClassLevel == 80)
             {
-                if (ActionManager.LastSpell != Spells.FastBlade)
-                    return false;
+                if (PaladinSettings.Instance.FoFFastBlade)
+                {
+                    if (ActionManager.LastSpell != Spells.FastBlade)
+                        return false;
 
-                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                    return false;
+                    if (!Core.Me.HasAuraCharge(Auras.SwordOath))
+                        return false;
 
-                return await Spells.FightorFlight.Cast(Core.Me);
+                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
+                        return false;
+
+                    return await Spells.FightorFlight.Cast(Core.Me);
+                }
+                else
+                {
+                    if (ActionManager.LastSpell != Spells.RiotBlade)
+                        return false;
+
+                    if (!Core.Me.HasAuraCharge(Auras.SwordOath))
+                        return false;
+
+                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
+                        return false;
+
+                    return await Spells.FightorFlight.Cast(Core.Me);
+                }
             }
             else
             {
-                if (ActionManager.LastSpell != Spells.RiotBlade)
-                    return false;
+                if (PaladinSettings.Instance.FoFFastBlade)
+                {
+                    if (ActionManager.LastSpell != Spells.FastBlade)
+                        return false;
 
-                if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                    return false;
+                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
+                        return false;
 
-                return await Spells.FightorFlight.Cast(Core.Me);
+                    return await Spells.FightorFlight.Cast(Core.Me);
+                }
+                else
+                {
+                    if (ActionManager.LastSpell != Spells.RiotBlade)
+                        return false;
+
+                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
+                        return false;
+
+                    return await Spells.FightorFlight.Cast(Core.Me);
+                }
             }
+
+
         }
   
         public static async Task<bool> DivineVeil()
