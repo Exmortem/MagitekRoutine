@@ -96,10 +96,10 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
-            if (await SingleTarget.Ruin4MaxStacks()) return true;
-            if (Utilities.Routines.Summoner.OnGcd || !ActionResourceManager.Summoner.DreadwyrmTrance)
-            {
-                if (await SingleTarget.Ruin4()) return true;
+            //if (await SingleTarget.Ruin4MaxStacks()) return true;
+            
+            
+                
                 if (await Aoe.Bane()) return true;
                 if (await Buff.DreadwyrmTrance()) return true;
                 if (await SingleTarget.EnkindleBahamut()) return true;
@@ -109,19 +109,18 @@ namespace Magitek.Rotations
                 if (await Pets.Summon()) return true;
                 if (await Buff.LucidDreaming()) return true;
                 if (await SingleTarget.Enkindle()) return true;
-                if (await SingleTarget.EgiAssault2()) return true;
-                if (await SingleTarget.EgiAssault()) return true;
+               
                 if (await Aoe.Painflare()) return true;
                 if (await SingleTarget.Fester()) return true;
                 if (await Aoe.EnergySiphon()) return true;
                 if (await SingleTarget.EnergyDrain()) return true;
-            }
 
-            if (await Buff.DreadwyrmTrance()) return true;
-            if (await SingleTarget.TriDisaster()) return true;
             if (await SingleTarget.Miasma()) return true;
             if (await SingleTarget.Bio()) return true;
+            if (await SingleTarget.EgiAssault2()) return true;
+            if (await SingleTarget.EgiAssault()) return true;
             if (await Aoe.Outburst()) return true;
+            if (await SingleTarget.Ruin4()) return true;        
             return await SingleTarget.Ruin();
         }
         public static async Task<bool> PvP()

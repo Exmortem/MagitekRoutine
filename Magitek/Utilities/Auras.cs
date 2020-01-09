@@ -67,7 +67,7 @@ namespace Magitek.Utilities
             SleeveDraw = 1926,
             Disembowel = 1914,
             SharperFangandClaw = 802,
-            EnhancedWheelingThrust = 803, 
+            EnhancedWheelingThrust = 803,
             RightEye = 1453,
             LeftEye = 1454,
             Medicated = 49,
@@ -206,7 +206,9 @@ namespace Magitek.Utilities
             Delirium = 1972,
             PassageOfArms = 1175,
             RiddleOfEarth = 2008,
-            Anatman = 1862;
+            Anatman = 1862,
+            EverlastingFlight = 2030,
+            MeditationSAM = 2176; 
 
         private const int
             Invincibility0 = 981,
