@@ -129,7 +129,7 @@ namespace Magitek.Logic.Paladin
                 return false;
 
             if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true,
-                19000))
+                1900) || Core.Me.HasAuraCharge(Auras.SwordOath))
                 return false;
 
             if (PaladinSettings.Instance.FoFFirst && Spells.FightorFlight.Cooldown.Seconds < 8 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
@@ -191,6 +191,18 @@ namespace Magitek.Logic.Paladin
         public static async Task<bool> Atonement()
         {
             if (Core.Me.ClassLevel < 76 || !Core.Me.HasAura(Auras.SwordOath))
+                return false;
+
+            //not in FoF Check
+            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight) && Spells.FightorFlight.Cooldown.TotalMilliseconds < 12000)
+                return false;
+
+            //we are in FoF Check
+            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight,true,7000) && Core.Me.HasAura(Auras.FightOrFight))
+                return false;
+
+            //are we mid combo?
+            if (ActionManager.LastSpell == Spells.FastBlade || ActionManager.LastSpell == Spells.RiotBlade)
                 return false;
 
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);

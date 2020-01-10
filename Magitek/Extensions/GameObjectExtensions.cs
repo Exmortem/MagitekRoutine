@@ -104,6 +104,22 @@ namespace Magitek.Extensions
             return auras.Any(aura => aura.TimespanLeft.TotalMilliseconds >= msLeft);
         }
 
+        public static bool HasAuraCharge(this GameObject unit, uint spell, bool isMyAura = false)
+        {
+            var unitAsCharacter = unit as Character;
+
+            if (unitAsCharacter == null || !unitAsCharacter.IsValid)
+            {
+                return false;
+            }
+
+            var auras = isMyAura
+                ? unitAsCharacter.CharacterAuras.Where(r => r.CasterId == Core.Player.ObjectId && r.Id == spell)
+                : unitAsCharacter.CharacterAuras.Where(r => r.Id == spell);
+
+            return auras.Any(aura => aura.Value == 1);
+        }
+
         public static bool HasAnyAura(this GameObject unit, uint[] auras, bool isMyAura = false, int msLeft = 0)
         {
             var unitAsCharacter = unit as Character;
