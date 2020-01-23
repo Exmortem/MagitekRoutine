@@ -23,9 +23,11 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseDevilment)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Devilment))
+            if (DancerSettings.Instance.DevilmentWithTechnicalStep)
                 return false;
-          
+
+            if (DancerSettings.Instance.DevilmentWithFlourish && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(52))
+                return false;
 
             return await Spells.Devilment.Cast(Core.Me);
         }
@@ -49,7 +51,6 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> CuringWaltz()
         {
-            
             if (!DancerSettings.Instance.UseCuringWaltz)
                 return false;
 

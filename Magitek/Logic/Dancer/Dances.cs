@@ -22,13 +22,10 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep))
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown.TotalMilliseconds < 4300)
+            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4))
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Devilment.Id) && Spells.Devilment.Cooldown.TotalMilliseconds < 4300)
-                return false;
-
-            if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4300))
+            if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000))
                 return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower || x.Id == Auras.FlourshingWindmill));

@@ -112,11 +112,11 @@ namespace Magitek.Rotations
             {
                 //Only cast spells that are instant/off gcd
                 if (await Buff.PreTechnicalDevilment()) return true;
-                if (await Buff.Flourish()) return true;
-                if (await Buff.Devilment()) return true;
                 if (await Aoe.FanDance3()) return true;
                 if (await Aoe.FanDance2()) return true;
                 if (await SingleTarget.FanDance()) return true;
+                if (await Buff.Flourish()) return true;
+                if (await Buff.Devilment()) return true;
                 if (await Buff.CuringWaltz()) return true;
                 if (await Buff.Improvisation()) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
@@ -125,9 +125,9 @@ namespace Magitek.Rotations
             if (await Aoe.SaberDance()) return true;
 
             if (await Aoe.Bloodshower()) return true;
-            if (await SingleTarget.Fountainfall()) return true;
             if (await Aoe.RisingWindmill()) return true;
- 
+
+            if (await SingleTarget.Fountainfall()) return true;
             if (await SingleTarget.ReverseCascade()) return true;
 
             if (await Aoe.Bladeshower()) return true;
