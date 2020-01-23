@@ -16,8 +16,6 @@ namespace Magitek.Logic.Dancer
         {
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired)
                 return false;
-            if (!Core.Me.HasAura(Auras.Devilment) && Spells.Devilment.Cooldown.TotalMilliseconds < 1500)
-                return false;
 
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
@@ -46,8 +44,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.Bloodshower)
                 return false;
 
-            //if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies)
-               // return false;
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies)
+                return false;
 
             if (!Core.Me.HasAura(Auras.FlourshingShower)) return false;
 
@@ -62,8 +60,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.RisingWindmill)
                 return false;
 
-           // if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.RisingWindmillEnemies)
-               // return false;
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.RisingWindmillEnemies)
+                return false;
 
             if (Core.Me.CurrentTarget == null) return false;
 
@@ -71,7 +69,7 @@ namespace Magitek.Logic.Dancer
 
             return await Spells.RisingWindmill.Cast(Core.Me);
         }
-        private static uint[] FlourishingAuras = { Auras.FlourshingCascade, Auras.FlourshingFountain, Auras.FlourshingShower, Auras.FlourshingWindmill, Auras.FlourishingFanDance };
+
         public static async Task<bool> SaberDance()
         {
             if (!DancerSettings.Instance.UseAoe)
@@ -83,24 +81,13 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.SaberDance.LevelAcquired)
                 return false;
 
-            // if we're not in technical step, dump esprit at 90
-            if (!Core.Me.HasAura(Auras.TechnicalStep) && Spells.TechnicalStep.Cooldown.TotalMilliseconds > 7500)
-                if (ActionResourceManager.Dancer.Esprit >= 90)
-                    return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
-            // if we're in t.step, dump earlier to not overcap, and dump even earlier if it dosen't cost any procs
-            if (Core.Me.HasAura(Auras.TechnicalStep))
-            {
-                if (Core.Me.HasAnyAura(FlourishingAuras))
-                {
-                    if (ActionResourceManager.Dancer.Esprit >= 80)
-                        return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
-                    else return false;
-                }
-                else if (ActionResourceManager.Dancer.Esprit >= 50)
-                    return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
-            }
+            if (ActionResourceManager.Dancer.Esprit < DancerSettings.Instance.SaberDanceEsprit)
+                return false;
 
-            return false;
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < DancerSettings.Instance.SaberDanceEnemies)
+                return false;
+
+            return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Bladeshower()
