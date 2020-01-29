@@ -252,6 +252,7 @@
     <Compile Include="Logic\Ninja\Buff.cs" />
     <Compile Include="Logic\Ninja\Ninjutsu.cs" />
     <Compile Include="Logic\Ninja\SingleTarget.cs" />
+    <Compile Include="Logic\Ninja\Utility.cs" />
     <Compile Include="Logic\OpenerLogic.cs" />
     <Compile Include="Logic\Paladin\Aoe.cs" />
     <Compile Include="Logic\Paladin\Buff.cs" />

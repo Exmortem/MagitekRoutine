@@ -89,6 +89,38 @@ namespace Magitek.Models.Ninja
         public bool UseAssassinate { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseForceNinjutsu { get; set; }
+
+        //[Setting]
+        //[DefaultValue(false)]
+        //public bool ForceArmsLenght { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceTrueNorth { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceBloodBath { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceFeint { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceShadeShift { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceSecondWind { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseMug { get; set; }
 

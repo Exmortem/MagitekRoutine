@@ -27,13 +27,13 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasTarget)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Kassatsu))
+            if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.Seconds > 20000)
-                return await Spells.Kassatsu.Cast(Core.Me);
+            if (!NinjaSettings.Instance.UseTrickAttack)
+                return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 9000)
                 return await Spells.Kassatsu.Cast(Core.Me);
 
             return false;
@@ -63,7 +63,17 @@ namespace Magitek.Logic.Ninja
             return await Spells.TrueNorth.Cast(Core.Me);
         }
 
-        //public static async Task<bool> Meisui()
+        public static async Task<bool> Meisui()
+        {
+
+            if (!Core.Me.HasAura(Auras.Suiton))
+                return false;
+
+            if (Spells.TrickAttack.Cooldown.Seconds < 30 && Spells.TenChiJin.Cooldown.Seconds < 15 || !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
+                return false;
+
+            return await Spells.Meisui.Cast(Core.Me);
+        }
 
     }
 }

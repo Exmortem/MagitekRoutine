@@ -31,16 +31,13 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseAoe)
                 return false;
 
-            if (Casting.SpellCastHistory.Take(5).All(s => s.Spell != Spells.DeathBlossom))
-                return false;
-
-            if (ActionManager.LastSpell == Spells.HakkeMujinsatsu)
-                return false;
-
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.DeathBlossomEnemies)
                 return false;
 
-            return await Spells.HakkeMujinsatsu.Cast(Core.Me);
+            if (ActionManager.LastSpell == Spells.DeathBlossom)
+                return await Spells.HakkeMujinsatsu.Cast(Core.Me);
+
+            return false;
         }
 
         public static async Task<bool> HellfrogMedium()
@@ -58,7 +55,49 @@ namespace Magitek.Logic.Ninja
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < 2)
                 return false;
 
-            return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
+            //Logger.Write("Trick Attack Check");
+            int canwesafelycastthis = 0;
+            double cooldown = Spells.TrickAttack.Cooldown.TotalMilliseconds;
+            double gcd = 2100;
+            double ninjutsu = Spells.Jin.Cooldown.TotalMilliseconds;
+            double ninadjust = 0;
+
+            //Are we going to Ninjutsu before we TA?
+            if (cooldown > ninjutsu)
+            {
+                ninadjust = 3;
+            }
+
+            //Check if we have time to use 3rd skill of combo which gives us 10 ninki instead of 5
+            int third = (int)cooldown / 3000;
+            //Logger.Write("Third:" + third);
+
+
+            //Logger.Write("Cooldown:" + cooldown);
+
+            double calc = cooldown / gcd;
+
+            calc = calc - third;
+
+            third = third - 2;
+
+            //Logger.Write("Calc:" + calc);
+
+            //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
+            if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) > 80)
+                canwesafelycastthis = 1;
+
+            if (canwesafelycastthis == 1)
+            {
+                return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (canwesafelycastthis == 0)
+            {
+                if (Spells.Mug.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds + 1000)
+                    return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
+            }
+            return false;
         }
     }
 }
