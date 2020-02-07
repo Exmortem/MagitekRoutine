@@ -18,6 +18,9 @@ namespace Magitek.Logic.Samurai
     {
         public static async Task<bool> MeikyoShisui()
         {
+            if (!SamuraiSettings.Instance.MeikyoShisui)
+                return false;
+
             if (Core.Me.ClassLevel < 50)
                 return false;
 
