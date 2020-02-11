@@ -30,6 +30,10 @@ namespace Magitek.Models.Samurai
         public bool Bloodbath { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool MeikyoShisui { get; set; }
+
+        [Setting]
         [DefaultValue(50.0f)]
         public float BloodbathHealthPercent { get; set; }
 

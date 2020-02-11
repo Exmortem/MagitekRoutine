@@ -396,6 +396,9 @@ namespace Magitek.Utilities
         public static readonly SpellData GokaMekkyaku = DataManager.GetSpellData(16491);
         public static readonly SpellData HyoshoRanryu = DataManager.GetSpellData(16492);
         public static readonly SpellData Bunshin = DataManager.GetSpellData(16493);
+
+        public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
+        
         #endregion
 
         // PLD

@@ -194,7 +194,7 @@ namespace Magitek.Utilities
             CastingTime.Stop();
 
             // Did we successfully cast?
-            if (buffer > 300)
+            if (buffer > 500)
             {
                 NeedAura = false;
                 UseRefreshTime = false;
@@ -210,7 +210,7 @@ namespace Magitek.Utilities
                 Debug.Instance.CastingTime = CastingTime.ElapsedMilliseconds.ToString();
             }
 
-            // Within 400 milliseconds we're gonna assume the spell went off
+            // Within 500 milliseconds we're gonna assume the spell went off
             LastSpell = CastingSpell;
             Debug.Instance.LastSpell = LastSpell;
             LastSpellTimeFinished = DateTime.Now;
