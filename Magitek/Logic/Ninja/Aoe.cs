@@ -143,6 +143,7 @@ namespace Magitek.Logic.Ninja
                     return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
                 }
             }
+            return false;
         }
     }
 }
