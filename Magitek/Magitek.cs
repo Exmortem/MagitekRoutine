@@ -155,7 +155,7 @@ namespace Magitek
             if (Core.Me.InCombat)
             {
                 Debug.Instance.InCombatTimeLeft = Combat.CombatTotalTimeLeft;
-                Debug.Instance.Enmity = new AsyncObservableCollection<Enmity>(EnmityManager.EnmityList);
+                // Debug.Instance.Enmity = new AsyncObservableCollection<Enmity>(EnmityManager.EnmityList);
             }
 
             if (Core.Me.HasTarget)
