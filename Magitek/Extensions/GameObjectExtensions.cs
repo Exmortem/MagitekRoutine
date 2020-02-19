@@ -313,6 +313,7 @@ namespace Magitek.Extensions
             ClassJobType.Warrior,
             ClassJobType.DarkKnight,
             ClassJobType.Gunbreaker,
+            ClassJobType.BlueMage,
         };
 
         private static readonly List<ClassJobType> Healers = new List<ClassJobType>()
@@ -321,7 +322,8 @@ namespace Magitek.Extensions
             ClassJobType.Scholar,
             ClassJobType.Conjurer,
             ClassJobType.WhiteMage,
-            ClassJobType.Astrologian
+            ClassJobType.Astrologian,
+            ClassJobType.BlueMage,
         };
 
         private static readonly List<ClassJobType> Dps = new List<ClassJobType>()
@@ -341,6 +343,7 @@ namespace Magitek.Extensions
             ClassJobType.Samurai,
             ClassJobType.Summoner,
             ClassJobType.Dancer,
+            ClassJobType.BlueMage,
         };
 
         private static readonly List<ClassJobType> RangedDps = new List<ClassJobType>()
@@ -348,7 +351,8 @@ namespace Magitek.Extensions
             ClassJobType.Archer,
             ClassJobType.Bard,
             ClassJobType.Machinist,
-            ClassJobType.Dancer
+            ClassJobType.Dancer,
+            ClassJobType.BlueMage,
         };
 
         private static readonly List<ClassJobType> MeleeDps = new List<ClassJobType>()
@@ -359,7 +363,8 @@ namespace Magitek.Extensions
             ClassJobType.Monk,
             ClassJobType.Rogue,
             ClassJobType.Ninja,
-            ClassJobType.Samurai
+            ClassJobType.Samurai,
+            ClassJobType.BlueMage,
         };
 
         private static readonly List<ClassJobType> RangedDpsCard = new List<ClassJobType>()
@@ -372,7 +377,8 @@ namespace Magitek.Extensions
             ClassJobType.BlackMage,
             ClassJobType.Machinist,
             ClassJobType.RedMage,
-            ClassJobType.Summoner
+            ClassJobType.Summoner,
+            ClassJobType.BlueMage,
         };
     }
 }

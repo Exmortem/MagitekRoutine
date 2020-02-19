@@ -5,6 +5,7 @@ using ff14bot.Enums;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
+using Magitek.Models.BlueMage;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.Dragoon;
 using Magitek.Models.Machinist;
@@ -104,6 +105,9 @@ namespace Magitek.Views
                 case ClassJobType.Samurai:
                     Samurai.IsSelected = true;
                     break;
+                case ClassJobType.BlueMage:
+                    BlueMage.IsSelected = true;
+                    break;
                 case ClassJobType.RedMage:
                     RedMage.IsSelected = true;
                     break;
@@ -151,6 +155,7 @@ namespace Magitek.Views
             MonkSettings.Instance.Save();
             NinjaSettings.Instance.Save();
             SamuraiSettings.Instance.Save();
+            BlueMageSettings.Instance.Save();
             BlackMageSettings.Instance.Save();
             RedMageSettings.Instance.Save();
             SummonerSettings.Instance.Save();

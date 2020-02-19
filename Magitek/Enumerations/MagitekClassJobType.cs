@@ -54,6 +54,9 @@ namespace Magitek.Enumerations
         Ninja = ClassJobType.Ninja,
 
         [Description("SAM")]
-        Samurai = ClassJobType.Samurai
+        Samurai = ClassJobType.Samurai,
+
+        [Description("BLU")]
+        BlueMage = ClassJobType.BlueMage
     }   
 }

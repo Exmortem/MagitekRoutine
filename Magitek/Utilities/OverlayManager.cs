@@ -45,7 +45,13 @@ namespace Magitek.Utilities
 
                 overlayUc.BtnOpenSettings.Click += (sender, args) =>
                 {
-                    Application.Current.Dispatcher.Invoke(Magitek.OnButtonPress);
+                    Application.Current.Dispatcher.Invoke(delegate
+                    {
+                        if (!Magitek.Form.IsVisible)
+                            Magitek.Form.Show();
+
+                        Magitek.Form.Activate();
+                    });
                 };
 
                 _control = new OverlayControl()

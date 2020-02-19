@@ -95,6 +95,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.Rest();
 
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.Rest();
+
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.Rest();
 
@@ -173,6 +176,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.PreCombatBuff();
 
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.PreCombatBuff();
+
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.PreCombatBuff();
 
@@ -241,6 +247,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.Pull();
+
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.Pull();
 
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.Pull();
@@ -320,6 +329,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.Heal();
 
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.Heal();
+
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.Heal();
 
@@ -388,6 +400,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.CombatBuff();
+
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.CombatBuff();
 
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.CombatBuff();
@@ -461,6 +476,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Samurai:
                     return await Rotations.Samurai.Combat();
 
+                case ClassJobType.BlueMage:
+                    return await Rotations.BlueMage.Combat();
+
                 case ClassJobType.RedMage:
                     return await Rotations.RedMage.Combat();
 
@@ -528,7 +546,10 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.Astrologian.PvP();
 
                 //case ClassJobType.Samurai:
-                //    return await Rotations.Samurai.PvP();    
+                //    return await Rotations.Samurai.PvP();
+
+                //case ClassJobType.BlueMage:
+                //    return await Rotations.BlueMage.PvP(); 
 
                 //case ClassJobType.RedMage:
                 //    return await Rotations.RedMage.PvP();

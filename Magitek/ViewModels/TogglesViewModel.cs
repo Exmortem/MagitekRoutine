@@ -10,6 +10,7 @@ using Magitek.Commands;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
+using Magitek.Models.BlueMage;
 using Magitek.Models.Dancer;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.Dragoon;
@@ -224,6 +225,10 @@ namespace Magitek.ViewModels
 
                 case "Samurai":
                     JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(SamuraiSettings.Instance));
+                    break;
+
+                case "BlueMage":
+                    JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(BlueMageSettings.Instance));
                     break;
             }
         }

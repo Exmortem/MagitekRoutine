@@ -72,6 +72,7 @@ namespace MagitekLoader
                     case ClassJobType.Samurai:
                     case ClassJobType.Dancer:
                     case ClassJobType.Gunbreaker:
+                    case ClassJobType.BlueMage:
                         return new[] { Core.Me.CurrentJob };
                     default:
                         return new[] { ClassJobType.Adventurer };
@@ -334,6 +335,8 @@ namespace MagitekLoader
                 InitFunc = Product.GetType().GetMethod("Initialize");
                 ShutdownFunc = Product.GetType().GetMethod("Shutdown");
                 ButtonFunc = Product.GetType().GetMethod("OnButtonPress");
+                if (InitFunc == null) return;
+                InitFunc.Invoke(Product, null);
             }
         }
 
