@@ -79,6 +79,10 @@ namespace Magitek.Controls
                     Samurai.IsChecked = true;
                     break;
 
+                case ClassJobType.BlueMage:
+                    BlueMage.IsChecked = true;
+                    break;
+
                 case ClassJobType.Dancer:
                     Dancer.IsChecked = true;
                     break;

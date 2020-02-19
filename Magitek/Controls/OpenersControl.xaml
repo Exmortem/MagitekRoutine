@@ -85,6 +85,7 @@
                     <RadioButton Name="Ninja" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Ninja, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonNinja}" />
                     <RadioButton Name="Dragoon" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Dragoon, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonDragoon}" />
                     <RadioButton Name="Samurai" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Samurai, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSamurai}" />
+                    <RadioButton Name="BlueMage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=BlueMage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonBlueMage}" />
                 </StackPanel>
 
                 <ToggleButton HorizontalAlignment="Right" Command="{Binding ResetJobOpenerGroupsCommand}" Content="Current Zone" IsChecked="{Binding OnlyCurrentZone, Mode=TwoWay}" Style="{DynamicResource ToggleButtonGambitFilter}" />
@@ -729,6 +730,7 @@
                                                                                         <CheckBox Margin="3,0,0,0" Content="MONK" IsChecked="{Binding IsMnk, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                         <CheckBox Margin="3,3" Content="DRAGOON" IsChecked="{Binding IsDrg, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                         <CheckBox Margin="3,0,0,0" Content="SAMURAI" IsChecked="{Binding IsSam, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
+                                                                                        <CheckBox Margin="3,0,0,0" Content="BLUEMAGE" IsChecked="{Binding IsBlu, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                         <CheckBox Margin="3,3" Content="NINJA" IsChecked="{Binding IsNin, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                     </StackPanel>
                                                                                 </StackPanel>

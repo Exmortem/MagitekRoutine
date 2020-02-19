@@ -49,6 +49,13 @@
         AlwaysUseOpener,
     }
 
+    public enum BlueMageOpenerStrategy
+    {
+        NeverOpener,
+        OpenerOnlyBosses,
+        AlwaysUseOpener,
+    }
+
     public enum MonkOpenerStrategy
     {
         NeverOpener,

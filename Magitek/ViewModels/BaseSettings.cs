@@ -11,6 +11,7 @@ using Magitek.Models.Account;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
+using Magitek.Models.BlueMage;
 using Magitek.Models.Dancer;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.Dragoon;
@@ -69,6 +70,7 @@ namespace Magitek.ViewModels
         public MonkSettings MonkSettings { get; set; } = MonkSettings.Instance;
         public NinjaSettings NinjaSettings { get; set; } = NinjaSettings.Instance;
         public SamuraiSettings SamuraiSettings { get; set; } = SamuraiSettings.Instance;
+        public BlueMageSettings BlueMageSettings { get; set; } = BlueMageSettings.Instance;
         public BlackMageSettings BlackMageSettings { get; set; } = BlackMageSettings.Instance;
         public RedMageSettings RedMageSettings { get; set; } = RedMageSettings.Instance;
         public SummonerSettings SummonerSettings { get; set; } = SummonerSettings.Instance;

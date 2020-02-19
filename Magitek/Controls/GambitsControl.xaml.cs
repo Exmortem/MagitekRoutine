@@ -80,6 +80,10 @@ namespace Magitek.Controls
                     Samurai.IsChecked = true;
                     break;
 
+                case ClassJobType.BlueMage:
+                    BlueMage.IsChecked = true;
+                    break;
+
                 default:
                     return;
             }
