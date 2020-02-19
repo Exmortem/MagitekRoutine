@@ -8,6 +8,7 @@ using ff14bot.Objects;
 using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -15,6 +16,50 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Heal
     {
+        public static async Task<bool> ForceWhispDawn()
+        {
+            if (!ScholarSettings.Instance.ForceWhispDawn)
+                return false;
+
+            if (!await Spells.WhisperingDawn.Cast(Core.Me)) return false;
+            ScholarSettings.Instance.ForceWhispDawn = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceAdlo()
+        {
+            if (!ScholarSettings.Instance.ForceAdlo)
+                return false;
+
+            if (!await Spells.Adloquium.Cast(Core.Me.CurrentTarget)) return false;
+            ScholarSettings.Instance.ForceAdlo = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceIndom()
+        {
+            if (!ScholarSettings.Instance.ForceIndom)
+                return false;
+
+            if (!await Spells.Indomitability.Cast(Core.Me)) return false;
+            ScholarSettings.Instance.ForceIndom = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceExcog()
+        {
+            if (!ScholarSettings.Instance.ForceExcog)
+                return false;
+
+            if (!await Spells.Excogitation.Cast(Core.Me)) return false;
+            ScholarSettings.Instance.ForceExcog = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
         public static async Task<bool> Physick()
         {
             if (!ScholarSettings.Instance.Physick)

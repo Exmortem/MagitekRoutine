@@ -6,6 +6,7 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Gambits.Conditions;
 using Magitek.Models.WhiteMage;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -41,12 +42,24 @@ namespace Magitek.Logic.WhiteMage
         {
             if (!WhiteMageSettings.Instance.DoDamage)
                 return false;
-
+            if (!WhiteMageSettings.Instance.UseAfflatusMisery)
+                return false; 
             if (ActionResourceManager.WhiteMage.BloodLily < 3)
                 return false;
             if (!MovementManager.IsMoving)
                 return false; 
             return await Spells.AfflatusMisery.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> ForceAfflatusMisery()
+        {
+            if (!WhiteMageSettings.Instance.ForceAfflatusMisery)
+                return false;
+
+            if (!await Spells.AfflatusMisery.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceAfflatusMisery = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
 
         public static async Task<bool> Dots()

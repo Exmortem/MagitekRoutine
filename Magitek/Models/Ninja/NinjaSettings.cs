@@ -45,6 +45,10 @@ namespace Magitek.Models.Ninja
         public bool UseDualityWithAeolianEdge { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ForceRaiton { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseDualityWithArmorCrush { get; set; }
 

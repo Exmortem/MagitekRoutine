@@ -8,6 +8,7 @@ using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -59,7 +60,16 @@ namespace Magitek.Logic.Scholar
 
             return false;
         }
+        public static async Task<bool> ForceSeraph()
+        {
+            if (!ScholarSettings.Instance.ForceSeraph)
+                return false;
 
+            if (!await Spells.Summon3.Cast(Core.Me)) return false;
+            ScholarSettings.Instance.ForceSeraph = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
         public static async Task<bool> EmergencyTactics()
         {
             if (Spells.EmergencyTactics.Cooldown != TimeSpan.Zero)

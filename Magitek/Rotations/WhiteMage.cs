@@ -68,6 +68,20 @@ namespace Magitek.Rotations
             {
                 if (await TankBusters.Execute()) return true;
             }
+            //force cast logics
+            if (await Logic.WhiteMage.Heal.ForceRegen()) return true;
+            if (await Logic.WhiteMage.Heal.ForceBenediction()) return true;
+            if (await Logic.WhiteMage.Heal.ForceMedica()) return true;
+            if (await Logic.WhiteMage.Heal.ForceMedicaII()) return true;
+            if (await Logic.WhiteMage.Heal.ForceAfflatusSolace()) return true;
+            if (await Logic.WhiteMage.Heal.ForceAfflatusRapture()) return true;
+            if (await Logic.WhiteMage.Heal.ForceCureII()) return true;
+            if (await Logic.WhiteMage.Heal.ForceCureIII()) return true;
+            
+            if (await Logic.WhiteMage.Heal.ForceTetra()) return true;
+
+            if (await SingleTarget.ForceAfflatusMisery()) return true;
+
 
             if (await Logic.WhiteMage.Heal.Raise()) return true;
 
@@ -132,8 +146,8 @@ namespace Magitek.Rotations
                 if (!WhiteMageSettings.Instance.DoDamage)
                     return true;
 
-                if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
-                    return true;
+                //if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
+                    //return true;
             }
 
             if (BotManager.Current.IsAutonomous)
