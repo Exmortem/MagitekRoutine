@@ -14,6 +14,7 @@ using Magitek.Models.Account;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
+using Magitek.Models.BlueMage;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.Dragoon;
 using Magitek.Models.Machinist;
@@ -155,7 +156,7 @@ namespace Magitek
             if (Core.Me.InCombat)
             {
                 Debug.Instance.InCombatTimeLeft = Combat.CombatTotalTimeLeft;
-                Debug.Instance.Enmity = new AsyncObservableCollection<Enmity>(EnmityManager.EnmityList);
+                //Debug.Instance.Enmity = new AsyncObservableCollection<Enmity>(EnmityManager.EnmityList);
             }
 
             if (Core.Me.HasTarget)
@@ -191,6 +192,7 @@ namespace Magitek
                 MonkSettings.Instance.Save();
                 NinjaSettings.Instance.Save();
                 SamuraiSettings.Instance.Save();
+                BlueMageSettings.Instance.Save();
                 BlackMageSettings.Instance.Save();
                 RedMageSettings.Instance.Save();
                 SummonerSettings.Instance.Save();
@@ -218,6 +220,7 @@ namespace Magitek
             MonkSettings.Instance.Save();
             NinjaSettings.Instance.Save();
             SamuraiSettings.Instance.Save();
+            BlueMageSettings.Instance.Save();
             BlackMageSettings.Instance.Save();
             RedMageSettings.Instance.Save();
             SummonerSettings.Instance.Save();

@@ -10,6 +10,7 @@ using Magitek.Commands;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
+using Magitek.Models.BlueMage;
 using Magitek.Models.DarkKnight;
 using Magitek.Models.Dragoon;
 using Magitek.Models.Gunbreaker;
@@ -85,6 +86,7 @@ namespace Magitek.ViewModels
         public AsyncObservableCollection<MagitekSettings> MonkSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> NinjaSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> SamuraiSettingsList { get; set; }
+        public AsyncObservableCollection<MagitekSettings> BlueMageSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> GunbreakerSettingsList { get; set; }
 
         public ICommand RefreshSettingsList => new AwaitableDelegateCommand<string>(async job =>
@@ -179,10 +181,16 @@ namespace Magitek.ViewModels
                         new AsyncObservableCollection<MagitekSettings>(settingsList.OrderByDescending(r => r.Rating));
                     break;
 
+                case "BlueMage":
+                    BlueMageSettingsList =
+                        new AsyncObservableCollection<MagitekSettings>(settingsList.OrderByDescending(r => r.Rating));
+                    break;
+
                 case "Gunbreaker":
                     GunbreakerSettingsList =
                         new AsyncObservableCollection<MagitekSettings>(settingsList.OrderByDescending(r => r.Rating));
                     break;
+
                 default:
                     SpinnerVisible = false;
                     return;
@@ -317,6 +325,10 @@ namespace Magitek.ViewModels
                     settingString = JsonConvert.SerializeObject(SamuraiSettings.Instance, Formatting.None);
                     break;
 
+                case "BlueMage":
+                    settingString = JsonConvert.SerializeObject(BlueMageSettings.Instance, Formatting.None);
+                    break;
+
                 case "Gunbreaker":
                     settingString = JsonConvert.SerializeObject(GunbreakerSettings.Instance, Formatting.None);
                     break;
@@ -400,6 +412,12 @@ namespace Magitek.ViewModels
                     var samuraiSettings = JsonConvert.DeserializeObject<SamuraiSettings>(settings.File);
                     SamuraiSettings.Instance = samuraiSettings;
                     BaseSettings.Instance.SamuraiSettings = SamuraiSettings.Instance;
+                    break;
+
+                case "BlueMage":
+                    var blueMageSettings = JsonConvert.DeserializeObject<BlueMageSettings>(settings.File);
+                    BlueMageSettings.Instance = blueMageSettings;
+                    BaseSettings.Instance.BlueMageSettings = BlueMageSettings.Instance;
                     break;
 
                 case "DarkKnight":
