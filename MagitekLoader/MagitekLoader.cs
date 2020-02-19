@@ -335,6 +335,8 @@ namespace MagitekLoader
                 InitFunc = Product.GetType().GetMethod("Initialize");
                 ShutdownFunc = Product.GetType().GetMethod("Shutdown");
                 ButtonFunc = Product.GetType().GetMethod("OnButtonPress");
+                if (InitFunc == null) return;
+                InitFunc.Invoke(Product, null);
             }
         }
 
