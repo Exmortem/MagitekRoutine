@@ -16,6 +16,7 @@
         xmlns:paladin="clr-namespace:Magitek.Views.UserControls.Paladin"
         xmlns:redMage="clr-namespace:Magitek.Views.UserControls.RedMage"
         xmlns:samurai="clr-namespace:Magitek.Views.UserControls.Samurai"
+        xmlns:blueMage="clr-namespace:Magitek.Views.UserControls.BlueMage"
         xmlns:scholar="clr-namespace:Magitek.Views.UserControls.Scholar"
         xmlns:summoner="clr-namespace:Magitek.Views.UserControls.Summoner"
         xmlns:userControls="clr-namespace:Magitek.Views.UserControls"
@@ -938,6 +939,35 @@
                         </TabItem>
                         <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
                             <customControls:SubmitSettings Routine="Samurai" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="BlueMage" Style="{DynamicResource TabItemBlueMage}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
+                            <lists:InterruptsAndStuns />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <blueMage:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
+                            <blueMage:Aoe />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <blueMage:Buffs />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="BlueMage" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="BlueMage" />
                         </TabItem>
                     </TabControl>
                 </TabItem>

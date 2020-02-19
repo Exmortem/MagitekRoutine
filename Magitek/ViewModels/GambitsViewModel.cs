@@ -168,7 +168,7 @@ namespace Magitek.ViewModels
                 Action = new CastSpellOnEnemyAction(),
                 ActionType = GambitActionTypes.CastSpellOnEnemy,
                 IsEnabled = true,
-                Order = 1,
+                Order = group.Gambits.Count + 1,
                 Job = SelectedJob,
                 Id = new Random().Next(int.MaxValue),
                 PreventSameActionForTheNextMilliseconds = 2000,
@@ -190,6 +190,65 @@ namespace Magitek.ViewModels
                     group.Gambits.Remove(gambit);
                 }
             }
+        });
+
+        public ICommand MoveGambitDownCommand => new DelegateCommand<Tuple<GambitGroup, Gambit>>(tuple =>
+        {
+            if (tuple.Item1 == null || tuple.Item2 == null)
+                return;
+
+            // If order of our current gambit is equal to the count, then it must mean that it is the last gambit in the list
+            // and that it cannot be moved down
+            if (tuple.Item2.Order == tuple.Item1.Gambits.Count)
+                return;
+
+            // Get the gambit that is below the one we wanna switch
+            var gambitToSwitch = tuple.Item1.Gambits.FirstOrDefault(r => r.Order == tuple.Item2.Order + 1);
+
+            if (gambitToSwitch == null)
+            {
+                tuple.Item2.Order++;
+                return;
+            }
+
+            var newOrder = gambitToSwitch.Order;
+
+            // Switch the orders
+            gambitToSwitch.Order = tuple.Item2.Order;
+            tuple.Item2.Order = newOrder;
+
+            // Refresh the Gambits List
+            var orderedEnumerable = tuple.Item1.Gambits.OrderBy(r => r.Order);
+            tuple.Item1.Gambits = new ObservableCollection<Gambit>(orderedEnumerable);
+
+        });
+
+        public ICommand MoveGambitUpCommand => new DelegateCommand<Tuple<GambitGroup, Gambit>>(tuple =>
+        {
+
+            if (tuple.Item1 == null || tuple.Item2 == null)
+                return;
+
+            // If the gambit has an order of 1 then it means that it is at the top and cannot be moved higher
+            if (tuple.Item2.Order == 1)
+                return;
+
+            // Get the gambit that is below the one we wanna switch
+            var gambitToSwitch = tuple.Item1.Gambits.FirstOrDefault(r => r.Order == tuple.Item2.Order - 1);
+
+            if (gambitToSwitch == null)
+                return;
+
+            var newOrder = gambitToSwitch.Order;
+
+            // Switch the orders
+            gambitToSwitch.Order = tuple.Item2.Order;
+            tuple.Item2.Order = newOrder;
+
+            // Refresh the Gambits List
+            var orderedEnumerable = tuple.Item1.Gambits.OrderBy(r => r.Order);
+            tuple.Item1.Gambits = new ObservableCollection<Gambit>(orderedEnumerable);
+
         });
 
         public ICommand AddGambitCondition => new DelegateCommand<Tuple<Gambit, string>>(tuple =>
@@ -238,6 +297,7 @@ namespace Magitek.ViewModels
             var newGambit = JsonConvert.DeserializeObject<Gambit>(CopiedGambit);
             newGambit.Job = group.Job;
             newGambit.Id = new Random().Next(int.MaxValue);
+            newGambit.Order = group.Gambits.Count + 1;
             group.Gambits.Add(newGambit);
         });
 

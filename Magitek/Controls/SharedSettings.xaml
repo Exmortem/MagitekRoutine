@@ -83,6 +83,10 @@
                             <Setter Property="ListBox.ItemsSource" Value="{Binding SamuraiSettingsList}" />
                         </DataTrigger>
 
+                        <DataTrigger Binding="{Binding Routine, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:SharedSettings}}, UpdateSourceTrigger=PropertyChanged}" Value="BlueMage">
+                            <Setter Property="ListBox.ItemsSource" Value="{Binding BlueMageSettingsList}" />
+                        </DataTrigger>
+
                     </Style.Triggers>
 
                 </Style>

@@ -24,6 +24,7 @@ namespace Magitek.Gambits.Conditions
         public bool IsMnk { get; set; } = false;
         public bool IsDrg { get; set; } = false;
         public bool IsSam { get; set; } = false;
+        public bool IsBlu { get; set; } = false;
 
         public override bool Check(GameObject gameObject = null)
         {
@@ -72,6 +73,9 @@ namespace Magitek.Gambits.Conditions
                 return true;
 
             if (IsSam && currentJob == ClassJobType.Samurai)
+                return true;
+
+            if (IsBlu && currentJob == ClassJobType.BlueMage)
                 return true;
 
             return IsMnk && currentJob == ClassJobType.Monk;

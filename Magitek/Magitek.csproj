@@ -127,6 +127,7 @@
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\GambitConditionConverter.cs" />
     <Compile Include="Converters\GambitActionConverter.cs" />
+    <Compile Include="Converters\GambitOrderPositionConverter.cs" />
     <Compile Include="Converters\IconToIconUrlConverter.cs" />
     <Compile Include="Converters\OpenerConditionAddConverter.cs" />
     <Compile Include="Converters\OpenerConditionRemoveConverter.cs" />
@@ -270,6 +271,9 @@
     <Compile Include="Logic\Dancer\Aoe.cs" />
     <Compile Include="Logic\Dancer\Buff.cs" />
     <Compile Include="Logic\Dancer\SingleTarget.cs" />
+    <Compile Include="Logic\BlueMage\Aoe.cs" />
+    <Compile Include="Logic\BlueMage\Buff.cs" />
+    <Compile Include="Logic\BlueMage\SingleTarget.cs" />
     <Compile Include="Logic\Samurai\Aoe.cs" />
     <Compile Include="Logic\Samurai\Buff.cs" />
     <Compile Include="Logic\Samurai\SingleTarget.cs" />
@@ -344,6 +348,7 @@
     <Compile Include="Models\Roles\PhysicalDpsSettings.cs" />
     <Compile Include="Models\Roles\TankSettings.cs" />
     <Compile Include="Models\Dancer\DancerSettings.cs" />
+    <Compile Include="Models\BlueMage\BlueMageSettings.cs" />
     <Compile Include="Models\Samurai\SamuraiSettings.cs" />
     <Compile Include="Models\Scholar\ScholarSettings.cs" />
     <Compile Include="Models\Summoner\SummonerSettings.cs" />
@@ -367,6 +372,7 @@
     </Compile>
     <Compile Include="Rotations\Astrologian.cs" />
     <Compile Include="Rotations\BlackMage.cs" />
+    <Compile Include="Rotations\BlueMage.cs" />
     <Compile Include="Rotations\Warrior.cs" />
     <Compile Include="Rotations\DarkKnight.cs" />
     <Compile Include="Rotations\Dragoon.cs" />
@@ -407,6 +413,7 @@
     <Compile Include="Utilities\OverlayManager.cs" />
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
+    <Compile Include="Utilities\Routines\BlueMage.cs" />
     <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />
     <Compile Include="Utilities\Duty.cs" />
@@ -655,6 +662,15 @@
       <DependentUpon>Heal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\RedMage\SingleTarget.xaml.cs" />
+    <Compile Include="Views\UserControls\BlueMage\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Samurai\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
@@ -1142,6 +1158,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\RedMage\SingleTarget.xaml" />
+    <Page Include="Views\UserControls\BlueMage\Aoe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\Buffs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Samurai\Aoe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
