@@ -127,6 +127,7 @@
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\GambitConditionConverter.cs" />
     <Compile Include="Converters\GambitActionConverter.cs" />
+    <Compile Include="Converters\GambitOrderPositionConverter.cs" />
     <Compile Include="Converters\IconToIconUrlConverter.cs" />
     <Compile Include="Converters\OpenerConditionAddConverter.cs" />
     <Compile Include="Converters\OpenerConditionRemoveConverter.cs" />

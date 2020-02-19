@@ -26,6 +26,7 @@
             <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
             <converters:ConditionRemoveConverter x:Key="ConditionConverter" />
             <converters:ConditionAddConverter x:Key="ConditionAddConverter" />
+            <converters:GambitOrderPositionConverter x:Key="GambitOrderPositionConverter" />
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         </ResourceDictionary>
@@ -315,6 +316,9 @@
 
                                                                     <Grid Margin="2,6,2,6">
                                                                         <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="17" />
+                                                                            <ColumnDefinition Width="17" />
+                                                                            <ColumnDefinition Width="30" />
                                                                             <ColumnDefinition Width="100" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="38" />
@@ -329,9 +333,34 @@
                                                                             <RowDefinition />
                                                                         </Grid.RowDefinitions>
 
+                                                                        <!--  Buttons Move Up And Down  -->
+                                                                        <Button Grid.Row="1" Grid.Column="0" Margin="0,0,1,0" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MoveGambitDownCommand}" Style="{DynamicResource OpenerMoveDown}">
+                                                                            <Button.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource GambitOrderPositionConverter}">
+                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Expander}}" />
+                                                                                    <Binding Path="." />
+                                                                                </MultiBinding>
+                                                                            </Button.CommandParameter>
+                                                                        </Button>
+
+                                                                        <Button Grid.Row="1" Grid.Column="1" Margin="0,0,1,0" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MoveGambitUpCommand}" Style="{DynamicResource OpenerMoveUp}">
+                                                                            <Button.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource GambitOrderPositionConverter}">
+                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Expander}}" />
+                                                                                    <Binding Path="." />
+                                                                                </MultiBinding>
+                                                                            </Button.CommandParameter>
+                                                                        </Button>
+
+                                                                        <!--  Order  -->
+                                                                        <Grid Grid.Row="1" Grid.Column="2">
+                                                                            <Border Padding="3" Background="{DynamicResource AccentLighter}" CornerRadius="5" />
+                                                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Light}" Text="{Binding Order, Mode=TwoWay}" />
+                                                                        </Grid>
+
                                                                         <!--  Name  -->
                                                                         <TextBox Grid.Row="1"
-                                                                                 Grid.Column="0"
+                                                                                 Grid.Column="3"
                                                                                  CaretBrush="White"
                                                                                  Foreground="{DynamicResource GrayDark}"
                                                                                  Template="{DynamicResource TextBoxTemplateGambit}"
@@ -340,7 +369,7 @@
                                                                         <!--  Action Type  -->
                                                                         <ComboBox Name="GambitActionType"
                                                                                   Grid.Row="1"
-                                                                                  Grid.Column="1"
+                                                                                  Grid.Column="4"
                                                                                   Margin="5,0,2,0"
                                                                                   HorizontalAlignment="Center"
                                                                                   FontSize="9"
@@ -375,7 +404,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Gambit Action Settings Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="2" Margin="3,0,2,0" HorizontalAlignment="Center">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="5" Margin="3,0,2,0" HorizontalAlignment="Center">
                                                                             <ComboBox.Style>
                                                                                 <Style TargetType="{x:Type ComboBox}">
 
@@ -612,7 +641,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Conditions  -->
-                                                                        <ItemsControl Grid.Row="1" Grid.Column="3" Margin="5,0,0,0" ItemsSource="{Binding Conditions}">
+                                                                        <ItemsControl Grid.Row="1" Grid.Column="6" Margin="5,0,0,0" ItemsSource="{Binding Conditions}">
                                                                             <ItemsControl.ItemsPanel>
                                                                                 <ItemsPanelTemplate>
                                                                                     <!--  Make the items display horizontally  -->
@@ -1366,7 +1395,7 @@
                                                                         </ItemsControl>
 
                                                                         <!--  Gambit Add Conditions Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="4" Margin="3,0,0,0" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxGambitAddCondition}">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="7" Margin="3,0,0,0" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxGambitAddCondition}">
                                                                             <StackPanel>
                                                                                 <StackPanel Margin="3" Orientation="Horizontal">
                                                                                     <StackPanel>
@@ -1781,7 +1810,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Gambit Chain Settings Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="5" Margin="3,0,0,0" HorizontalAlignment="Right">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="8" Margin="3,0,0,0" HorizontalAlignment="Right">
                                                                             <ComboBox.Style>
                                                                                 <Style TargetType="{x:Type ComboBox}">
                                                                                     <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -1888,7 +1917,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Gambit Extra Settings Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="6" Margin="3,0,0,0" HorizontalAlignment="Right" Style="{DynamicResource ComboBoxGambitAdditionalSettings}">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="9" Margin="3,0,0,0" HorizontalAlignment="Right" Style="{DynamicResource ComboBoxGambitAdditionalSettings}">
                                                                             <StackPanel Margin="3">
 
                                                                                 <!--  Enable/Disable Gambit  -->
