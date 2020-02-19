@@ -7,6 +7,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -544,6 +545,105 @@ namespace Magitek.Logic.WhiteMage
 
                 return await Spells.AfflatusSolace.Heal(Core.Me, false);
             }
+        }
+
+        public static async Task<bool> ForceMedica()
+        {
+            if (!WhiteMageSettings.Instance.ForceMedica)
+                return false;
+
+            if (!await Spells.Medica.Cast(Core.Me)) return false;
+            WhiteMageSettings.Instance.ForceMedica = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceMedicaII()
+        {
+            if (!WhiteMageSettings.Instance.ForceMedicaII)
+                return false;
+
+            if (!await Spells.Medica2.Cast(Core.Me)) return false;
+            WhiteMageSettings.Instance.ForceMedicaII = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceAfflatusSolace()
+        {
+            if (!WhiteMageSettings.Instance.ForceAfflatusSolace)
+                return false;
+
+            if (!await Spells.AfflatusSolace.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceAfflatusSolace = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceAfflatusRapture()
+        {
+            if (!WhiteMageSettings.Instance.ForceAfflatusRapture)
+                return false;
+
+            if (!await Spells.AfflatusRapture.Cast(Core.Me)) return false;
+            WhiteMageSettings.Instance.ForceAfflatusRapture = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceCureII()
+        {
+            if (!WhiteMageSettings.Instance.ForceCureII)
+                return false;
+
+            if (!await Spells.Cure2.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceCureII = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceCureIII()
+        {
+            if (!WhiteMageSettings.Instance.ForceCureIII)
+                return false;
+
+            if (!await Spells.Cure3.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceCureIII = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceBenediction()
+        {
+            if (!WhiteMageSettings.Instance.ForceBenediction)
+                return false;
+
+            if (!await Spells.Benediction.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceBenediction = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceRegen()
+        {
+            if (!WhiteMageSettings.Instance.ForceRegen)
+                return false;
+
+            if (!await Spells.Regen.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceRegen = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+        public static async Task<bool> ForceTetra()
+        {
+            if (!WhiteMageSettings.Instance.ForceTetra)
+                return false;
+
+            if (!await Spells.Tetragrammaton.Cast(Core.Me.CurrentTarget)) return false;
+            WhiteMageSettings.Instance.ForceTetra = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
 
         public static async Task<bool> AfflatusRapture()

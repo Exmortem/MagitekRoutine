@@ -8,12 +8,41 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Models.QueueSpell;
+using Magitek.Toggles;
 using Magitek.Utilities;
 
 namespace Magitek.Logic.Ninja
 {
     internal static class Ninjutsu
     {
+        public static bool ForceRaiton()
+        {
+            if (!NinjaSettings.Instance.ForceRaiton)
+                return false;
+
+            if (!ActionManager.HasSpell(Spells.Chi.Id))
+                return false;
+
+            if (Core.Me.ClassLevel < 35)
+                return false;
+
+            if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
+                return false;
+
+            if (!ActionManager.CanCast(Spells.Ten, null))
+                return false;
+
+            SpellQueueLogic.SpellQueue.Clear();
+            SpellQueueLogic.Timeout.Start();
+            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Raiton });
+            NinjaSettings.Instance.ForceRaiton = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+    
 
         public static bool FumaShuriken()
         {
@@ -252,6 +281,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Core.Me.ClassLevel < 35)
+                return false;
+            //if we'd rather use katon, don't use raiton -Sage
+            if (Core.Me.CurrentTarget.EnemiesNearby(5 + Core.Me.CurrentTarget.CombatReach).Count() > NinjaSettings.Instance.KatonMinEnemies && NinjaSettings.Instance.UseKaton)
                 return false;
 
             if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
