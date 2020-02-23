@@ -118,16 +118,11 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana <= 1200)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
-           
-
-
             return false;
         }
 
         public static async Task<bool> Thunder3()
         {
-
-           
 
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
@@ -137,23 +132,22 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Triplecast)
                 return false;
             
-
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
+                return false;
+
+            if (Casting.LastSpell == Spells.Thunder3)
                 return false;
 
             // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
             if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 3500))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
-
             // Refresh thunder if it's about to run out
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000) && Casting.LastSpell != Spells.Thunder3)
                 await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
             return false;        
-                
 
-            
         }
 
         public static async Task<bool> Blizzard4()

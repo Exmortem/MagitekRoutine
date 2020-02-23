@@ -166,6 +166,13 @@ namespace Magitek.Rotations
                 return await Dispel.Execute();
             }
 
+            if (await Logic.Scholar.Heal.ForceWhispDawn()) return true;
+            if (await Logic.Scholar.Heal.ForceAdlo()) return true;
+            if (await Logic.Scholar.Heal.ForceIndom()) return true;
+            if (await Logic.Scholar.Heal.ForceExcog()) return true;
+
+
+
             #region Pre-Healing Stuff
             if (Globals.PartyInCombat && Globals.InParty)
             {

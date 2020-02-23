@@ -34,6 +34,46 @@ namespace Magitek.Models.WhiteMage
         public bool RaiseSwiftcast { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ForceMedica { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceMedicaII { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceAfflatusSolace { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceAfflatusRapture { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceCureII { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceCureIII { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceBenediction { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceRegen { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceAfflatusMisery { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceTetra { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Asylum { get; set; }
 
@@ -44,6 +84,10 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(85.0f)]
         public float AsylumHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAfflatusMisery { get; set; }
 
         [Setting]
         [DefaultValue(true)]

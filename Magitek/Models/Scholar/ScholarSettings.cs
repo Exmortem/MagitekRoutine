@@ -75,6 +75,26 @@ namespace Magitek.Models.Scholar
         public bool SlowcastRes { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ForceWhispDawn { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceAdlo { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceIndom { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceExcog { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceSeraph { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool SwiftcastRes { get; set; }
 

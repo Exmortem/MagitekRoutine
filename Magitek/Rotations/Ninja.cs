@@ -142,6 +142,7 @@ namespace Magitek.Rotations
             //        return await Spells.Ten.Cast(Core.Me.CurrentTarget);
             //    }
             //}
+            if (Ninjutsu.ForceRaiton()) return true;
             if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > 850)
             {
                 //Utility Force Toggle
