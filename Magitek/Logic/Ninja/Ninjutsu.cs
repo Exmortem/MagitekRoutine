@@ -372,7 +372,7 @@ namespace Magitek.Logic.Ninja
                 return false;
             if (Utilities.Routines.Ninja.AoeEnemies5Yards > 1 && Utilities.Routines.Ninja.TCJState == 0 && !Core.Me.HasAura(Auras.Doton))
             {
-                Utilities.Routines.Ninja.TCJState = 2;
+                Utilities.Routines.Ninja.TCJState = 1;
             }
 
             if (Utilities.Routines.Ninja.AoeEnemies5Yards < 2 && Utilities.Routines.Ninja.TCJState == 0)
