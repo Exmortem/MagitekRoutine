@@ -24,7 +24,7 @@ namespace Magitek.Utilities
                 _isEnabled = BaseSettings.Instance.ZoomHack;
             }catch(Exception ex)
             {
-                Logger.Write($@"[Magitek] ZoomHack Failed due to FFXIV Update");
+                Logger.Write($@"[Magitek] ZoomHack Failed due to FFXIV Updatet");
             }
         }
     }
