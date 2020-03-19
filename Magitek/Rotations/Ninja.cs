@@ -147,11 +147,13 @@ namespace Magitek.Rotations
             {
                 //Utility Force Toggle
                 if (await PhysicalDps.ArmsLength(NinjaSettings.Instance)) return true;
-                if (await Utility.SecondWind()) return true;
+                if (await Utility.SecondWindForce()) return true;
                 if (await Utility.ShadeShift()) return true;
                 if (await Utility.TrueNorth()) return true;
                 if (await Utility.Feint()) return true;
                 if (await Utility.BloodBath()) return true;
+
+                if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
 
                 //if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
                 if (await SingleTarget.TrickAttack()) return true;
