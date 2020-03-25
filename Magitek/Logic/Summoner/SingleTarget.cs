@@ -4,6 +4,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
+using Magitek.Models.QueueSpell;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Summoner
@@ -34,6 +35,26 @@ namespace Magitek.Logic.Summoner
             return await Spells.SmnRuin.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> BahamutCheese()
+        {
+            Logger.Error("Queuing Bahamut");
+
+            SpellQueueLogic.SpellQueue.Clear();
+            SpellQueueLogic.Timeout.Start();
+            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 25000;
+            SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnkindleBahamut, Wait = new QueueSpellWait() { Name = "Wait for Enkindle", Check = () => ActionManager.CanCast(Spells.EnkindleBahamut, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnergyDrain, Wait = new QueueSpellWait() { Name = "Wait for ED", Check = () => ActionManager.CanCast(Spells.EnergyDrain, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Swiftcast, Wait = new QueueSpellWait() { Name = "Wait for SW", Check = () => ActionManager.CanCast(Spells.Swiftcast, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+            return false;
+        }
+
         public static async Task<bool> Ruin4()
         {
             if (Core.Me.ClassLevel < 62) return false;
@@ -42,11 +63,28 @@ namespace Magitek.Logic.Summoner
 
             if (!Core.Me.HasAura(Auras.FurtherRuin)) return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) == 4 && Spells.Trance.Cooldown.TotalSeconds < Spells.EgiAssault2.Cooldown.TotalSeconds)
+            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) == 4 && Spells.Trance.Cooldown.TotalSeconds < Spells.EgiAssault2.Cooldown.TotalSeconds && Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) == 4 && Spells.Trance.Cooldown.TotalSeconds < Spells.EgiAssault.Cooldown.TotalSeconds)
                 return false;
 
             if (ActionResourceManager.Summoner.DreadwyrmTrance)
-                return false;
+            {
+                //Dwyearn Still
+                if (Spells.Trance.Cooldown.TotalSeconds > 48 && Spells.SummonBahamut.Cooldown.TotalMilliseconds == 0)
+                    return false;
+
+                //Bahamut Phase:
+                if(Spells.SummonBahamut.Cooldown.TotalMilliseconds > 1)
+                {
+                    if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) > 2)
+                        return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
+
+                    if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) <= 2)
+                    {
+
+                        return await BahamutCheese();
+                    }
+                }
+            }
 
             if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) != 4) return false;
 
@@ -247,7 +285,7 @@ namespace Magitek.Logic.Summoner
 
             if (!ActionResourceManager.Summoner.DreadwyrmTrance) return false;
 
-            if (ActionResourceManager.Summoner.Timer.Seconds > 10) return false;
+            if (ActionResourceManager.Summoner.Timer.Seconds > 8) return false;
 
             //if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
             //    if (!ActionResourceManager.Summoner.DreadwyrmTrance || !Core.Me.HasAura(Auras.EverlastingFlight))
