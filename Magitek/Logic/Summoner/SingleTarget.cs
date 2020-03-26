@@ -78,10 +78,15 @@ namespace Magitek.Logic.Summoner
                     if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) > 2)
                         return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
 
-                    if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) <= 2)
+                    if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) == 2 && Spells.Swiftcast.Cooldown.TotalMilliseconds == 0)
                     {
-
                         return await BahamutCheese();
+                    }
+
+                    if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) < 2 && Spells.Swiftcast.Cooldown.TotalMilliseconds > 0)
+                    {
+                        await Ruin();
+                        return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
                     }
                 }
             }
