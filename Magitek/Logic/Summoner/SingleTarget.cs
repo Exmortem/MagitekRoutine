@@ -37,21 +37,25 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> BahamutCheese()
         {
-            Logger.Error("Queuing Bahamut");
+            if (Core.Me.HasTarget)
+            {
+                Logger.Error("Queuing Bahamut");
 
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 18000;
-            SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnkindleBahamut, Wait = new QueueSpellWait() { Name = "Wait for Enkindle", Check = () => ActionManager.CanCast(Spells.EnkindleBahamut, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnergyDrain, Wait = new QueueSpellWait() { Name = "Wait for ED", Check = () => ActionManager.CanCast(Spells.EnergyDrain, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Swiftcast, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for SW", Check = () => ActionManager.CanCast(Spells.Swiftcast, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Clear();
+                SpellQueueLogic.Timeout.Start();
+                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 18000;
+                SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnkindleBahamut, Wait = new QueueSpellWait() { Name = "Wait for Enkindle", Check = () => ActionManager.CanCast(Spells.EnkindleBahamut, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin4, Wait = new QueueSpellWait() { Name = "Wait for Ruin4", Check = () => ActionManager.CanCast(Spells.Ruin4, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnergyDrain, Wait = new QueueSpellWait() { Name = "Wait for ED", Check = () => ActionManager.CanCast(Spells.EnergyDrain, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Swiftcast, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for SW", Check = () => ActionManager.CanCast(Spells.Swiftcast, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
+                return false;
+            }
             return false;
         }
 
@@ -80,7 +84,10 @@ namespace Magitek.Logic.Summoner
 
                     if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) == 2 && Spells.Swiftcast.Cooldown.TotalMilliseconds == 0)
                     {
-                        return await BahamutCheese();
+                        if (Core.Me.HasTarget)
+                        {
+                            return await BahamutCheese();
+                        }
                     }
 
                     if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) < 2 && Spells.Swiftcast.Cooldown.TotalMilliseconds > 0)
