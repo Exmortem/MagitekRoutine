@@ -73,12 +73,12 @@ namespace Magitek.Logic.WhiteMage
                 if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.CureHealthPercent)
                     return false;
 
-                if (Core.Me.HasAura(Auras.Freecure))
+                if (WhiteMageSettings.Instance.Cure2 && Core.Me.HasAura(Auras.Freecure))
                 {
                     return await Spells.Cure2.Heal(Core.Me);
                 }
 
-                if (Core.Me.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure2HealthPercent)
+                if (Core.Me.ClassLevel >= 30 && WhiteMageSettings.Instance.Cure2 && Core.Me.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure2HealthPercent)
                 {
                     return await Spells.Cure2.Heal(Core.Me);
                 }
