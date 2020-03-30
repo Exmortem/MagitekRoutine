@@ -24,7 +24,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat >= 50)
+            if (ActionResourceManager.Machinist.Heat >= 45)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
