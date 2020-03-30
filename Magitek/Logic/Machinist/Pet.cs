@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -13,6 +14,12 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> RookQueen()
         {
             if (!MachinistSettings.Instance.UseRookQueen)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff))
+                return false;
+
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             //if (Core.Me.HasTarget && Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
