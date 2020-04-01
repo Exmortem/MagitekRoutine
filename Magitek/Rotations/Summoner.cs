@@ -60,8 +60,14 @@ namespace Magitek.Rotations
             Casting.DoHealthChecks = false;
 
             if (await GambitLogic.Gambit()) return true;
+            if (await Logic.Summoner.Heal.Raise()) return true;
+            //Force Toggles:
+            if (await Logic.Summoner.Heal.ForceRaise()) return true;
+            if (await Logic.Summoner.Heal.ForceHardRaise()) return true;
+            //Force Toggles End.
 
             return await Logic.Summoner.Heal.Physick();
+
         }
         public static async Task<bool> CombatBuff()
         {
@@ -97,10 +103,9 @@ namespace Magitek.Rotations
                 return false;
 
             //if (await SingleTarget.Ruin4MaxStacks()) return true;
-            
-            
-                
-                if (await Aoe.Bane()) return true;
+
+
+            if (await Aoe.Bane()) return true;
                 if (await Buff.DreadwyrmTrance()) return true;
                 if (await SingleTarget.EnkindleBahamut()) return true;
                 if (await Pets.SummonBahamut()) return true;
