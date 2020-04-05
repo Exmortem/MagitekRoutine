@@ -24,7 +24,7 @@ namespace Magitek.Logic.Summoner
             switch (SummonerSettings.Instance.SelectedPet)
             {
                 case SummonerPets.None:
-                    return PetManager.DoAction("Away", Core.Me);
+                    return false;
                 case SummonerPets.Ifrit:
                     return await Spells.Summon3.Cast(Core.Me);
                 case SummonerPets.Titan:

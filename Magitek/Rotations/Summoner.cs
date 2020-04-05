@@ -105,7 +105,7 @@ namespace Magitek.Rotations
             //if (await SingleTarget.Ruin4MaxStacks()) return true;
 
 
-            if (await Aoe.Bane()) return true;
+                if (await Aoe.Bane()) return true;
                 if (await Buff.DreadwyrmTrance()) return true;
                 if (await SingleTarget.EnkindleBahamut()) return true;
                 if (await Pets.SummonBahamut()) return true;
