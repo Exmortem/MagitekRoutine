@@ -20,9 +20,10 @@ namespace Magitek.Utilities
 
             try
             {
-                Core.Memory.Write(Core.Memory.Read<IntPtr>(Core.Memory.Process.MainModule.BaseAddress + 0x1C62F00) + 0x11c, BaseSettings.Instance.ZoomHack ? 200f : 20f);
+                Core.Memory.Write(Core.Memory.Read<IntPtr>(Core.Memory.Process.MainModule.BaseAddress + 0x1C63F80) + 0x11c, BaseSettings.Instance.ZoomHack ? 200f : 20f);
                 _isEnabled = BaseSettings.Instance.ZoomHack;
-            }catch(Exception ex)
+            }
+            catch (Exception)
             {
                 Logger.Write($@"[Magitek] ZoomHack Failed due to FFXIV Update");
             }
