@@ -99,6 +99,13 @@ namespace Magitek.Models.Samurai
         [DefaultValue(true)]
         public bool HiganbanaOnlyWithJinpu { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHigabana { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSenei { get; set; }
 
         [Setting]
         [DefaultValue(10)]

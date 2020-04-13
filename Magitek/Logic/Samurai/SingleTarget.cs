@@ -51,6 +51,9 @@ namespace Magitek.Logic.Samurai
         {
             if (Core.Me.CurrentTarget == null) return false;
 
+            if (!SamuraiSettings.Instance.UseSenei)
+                return false;
+
             if (SamuraiSettings.Instance.HissatsuSeneiOnlyWithJinpu && !Core.Me.HasAura(Auras.Jinpu))
                 return false;
 
@@ -182,6 +185,9 @@ namespace Magitek.Logic.Samurai
         public static async Task<bool> Higanbana()
         {
             if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (!SamuraiSettings.Instance.UseHigabana)
                 return false;
 
             if (Core.Me.CurrentTarget.CombatTimeLeft() < 40)
