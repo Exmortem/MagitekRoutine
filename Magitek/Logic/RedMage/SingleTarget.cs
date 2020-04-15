@@ -302,6 +302,5 @@ namespace Magitek.Logic.RedMage
 			else
 				return await Spells.Reprise.Cast(Core.Me.CurrentTarget);            
 		}		
-	}
 }
 
