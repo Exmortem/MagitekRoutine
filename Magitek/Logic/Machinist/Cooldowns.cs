@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -35,13 +34,21 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Hypercharge()
         {
+
             if (!MachinistSettings.Instance.UseHypercharge)
+                return false;
+
+            // Not necessary to continue checking if Heat is not at 50
+            if (ActionResourceManager.Machinist.Heat < 50)
                 return false;
 
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
+                return false;
+
+            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
                 return false;
 
             //Force Delay CD
@@ -77,42 +84,16 @@ namespace Magitek.Logic.Machinist
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
+ 
+            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
+                return false;
 
             //Force Delay CD
             if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000 + BaseSettings.Instance.UserLatencyOffset)
-            return false;
+                return false;
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
-        /* OLD LOGIC FOR REFERENCE
-        public static async Task<bool> Hypercharge()
-        {
-            if (!MachinistSettings.Instance.UseHypercharge)
-                return false;
-
-            if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
-                return await Spells.Hypercharge.Cast(Core.Me);
-
-            if (Spells.Wildfire.Cooldown.Seconds > 10 || Spells.Wildfire.Cooldown.Seconds < 1)
-                return await Spells.Hypercharge.Cast(Core.Me);
-
-            return false;
-        }
-
-        public static async Task<bool> Wildfire()
-        {
-            if (!MachinistSettings.Instance.UseWildfire)
-                return false;
-
-            if (Core.Me.HasAura(Auras.WildfireBuff, true))
-                return false;
-
-            if (!MachinistSettings.Instance.UseHypercharge)
-                if (ActionResourceManager.Machinist.Heat <= 45 && Casting.SpellCastHistory.Take(5).All(s => s.Spell != Spells.Hypercharge))
-                    return false;
-
-            return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
-        }*/
 
         public static async Task<bool> Reassemble()
         {

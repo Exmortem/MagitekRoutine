@@ -365,15 +365,12 @@ namespace Magitek.Utilities
             if (Casting.SpellCastHistory.Count < 2)
                 return 0;
 
-            var lastSpellCast = Casting.SpellCastHistory.ElementAt(0).Spell;
-            var secondLastSpellCast = Casting.SpellCastHistory.ElementAt(1).Spell;
-
-            if (NonWeaponskills[Core.Me.CurrentJob].Contains(lastSpellCast))
+            if (NonWeaponskills[Core.Me.CurrentJob].Contains(Casting.SpellCastHistory.ElementAt(0).Spell))
                 weavingCounter += 1;
             else
                 return 0;
 
-            if (NonWeaponskills[Core.Me.CurrentJob].Contains(secondLastSpellCast))
+            if (NonWeaponskills[Core.Me.CurrentJob].Contains(Casting.SpellCastHistory.ElementAt(1).Spell))
                 weavingCounter += 1;
 
             return weavingCounter;

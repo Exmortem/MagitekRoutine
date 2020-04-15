@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Navigation;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Machinist;
@@ -20,11 +19,16 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if(BaseSettings.Instance.UserLatencyOffset >= 80)
+            if (Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            // Why prevent combo inside hypercharge only if ping is > 80ms ? 
+            /*
+            if (BaseSettings.Instance.UserLatencyOffset >= 80)
             {
-                if (Casting.LastSpell == Spells.Hypercharge)
-                    return false;
+                
             }
+            */
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
@@ -34,6 +38,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedSlugShot()
         {
+            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
@@ -48,6 +53,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedCleanShot()
         {
+            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
             if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
@@ -85,6 +91,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
+            if (ActionResourceManager.Machinist.Battery > 80)
+                return false;
+
             return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
         }
 
@@ -114,6 +123,10 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.ClassLevel > 45)
             {
                 if (Spells.Wildfire.Cooldown.Seconds < 2)
+                    return false;
+
+                // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 1.5f)
                     return false;
             }
 

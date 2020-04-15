@@ -103,14 +103,11 @@ namespace Magitek.Logic.Machinist
             {
                 if (Spells.Wildfire.Cooldown.Seconds < 2)
                     return false;
+
+                // Do not run Rico if an hypercharge is almost ready and not enough charges available for Rico and Gauss
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.Ricochet.Charges < 1.5f && Spells.GaussRound.Charges < 1.5f)
+                    return false;
             }
-
-            /*if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < MachinistSettings.Instance.RicochetEnemyCount)
-                return false;*/
-
-            /*add some mor precise logic for pooling/dumping
-            if (Spells.Ricochet.Charges < 1.8f)
-                return false;*/
 
             return await Spells.Ricochet.Cast(Core.Me.CurrentTarget);
         }
