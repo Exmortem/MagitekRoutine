@@ -118,6 +118,7 @@ namespace Magitek.Utilities
             VerfireReady = 1234,
             VerstoneReady = 1235,
             Dualcast = 1249,
+			Manafication = 1971,
             StormsEye = 90,
             Deliverance = 729,
             Defiance = 91,
