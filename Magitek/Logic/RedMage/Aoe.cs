@@ -49,12 +49,48 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Moulinet)
                 return false;
 
-            if (BlackMana < 30 || WhiteMana < 30)
+            if (BlackMana < 20 || WhiteMana < 20)
                 return false;
 
             if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) < RedMageSettings.Instance.MoulinetEnemies)
                 return false;
-
+			
+			if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) >= 4 && BlackMana >= 50 && WhiteMana >= 50 && Spells.Manafication.Cooldown == TimeSpan.Zero && RedMageSettings.Instance.Manafication)
+			{
+				if (BlackMana >= 90 && WhiteMana >= 90 && RedMageSettings.Instance.Embolden)
+				{
+					return await Spells.Embolden.Cast(Core.Me);
+				}
+				
+				while (BlackMana >= 70 && WhiteMana >= 70)
+				{
+					return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+				}
+				
+				if (!Core.Me.HasAura(Auras.Manafication))
+				{
+					return await Spells.Manafication.Cast(Core.Me);
+				}
+				
+				while (BlackMana >= 20 && WhiteMana >= 20)
+				{
+					return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+				}
+				
+				if (Spells.Swiftcast.Cooldown == TimeSpan.Zero && !Core.Me.HasAura(Auras.Swiftcast))
+				{
+					return await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast);
+				}
+				
+				if (Core.Me.HasAura(Auras.Swiftcast)
+				{
+					return await Spells.Impact.Cast(Core.Me.CurrentTarget);
+				}
+			}
+			
+			if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) == 3 && BlackMana >= 90 && WhiteMana >= 90)
+				return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+			
             return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
         }
 
