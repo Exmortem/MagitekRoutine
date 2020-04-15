@@ -14,11 +14,15 @@ namespace Magitek.Logic.RedMage
         {
             if (!RedMageSettings.Instance.Acceleration)
                 return false;
+			
+			if (Core.Me.ClassLevel < 50)
+                return false;
 
             if (Core.Me.HasAura(Auras.VerfireReady) || Core.Me.HasAura(Auras.VerstoneReady))
                 return false;
-
-            return await Spells.Acceleration.Cast(Core.Me);
+			
+			else
+				return await Spells.Acceleration.Cast(Core.Me);
         }
 
         public static async Task<bool> Embolden()
@@ -31,8 +35,9 @@ namespace Magitek.Logic.RedMage
 
             if (ActionManager.LastSpell != Spells.Zwerchhau)
                 return false;
-
-            return await Spells.Embolden.Cast(Core.Me);
+			
+			else
+				return await Spells.Embolden.Cast(Core.Me);
         }
         
         public static async Task<bool> LucidDreaming()
@@ -45,8 +50,9 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
-
-            return await Spells.LucidDreaming.Cast(Core.Me);
+			
+			else
+				return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
         public static async Task<bool> Manafication()
@@ -70,8 +76,9 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
                 return false;
-
-            return await Spells.Manafication.Cast(Core.Me);
+			
+			else
+				return await Spells.Manafication.Cast(Core.Me);
         }
     }
 }
