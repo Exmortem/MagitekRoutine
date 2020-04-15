@@ -47,7 +47,7 @@ namespace Magitek.Logic.Monk
             if (!Core.Me.HasAura(Auras.CoeurlForm) && !Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
-            return await Spells.Rockbreaker.Cast(Core.Me.CurrentTarget);
+            return await Spells.Rockbreaker.Cast(Core.Me);
         }
 
         public static async Task<bool> FourPointStrike()
