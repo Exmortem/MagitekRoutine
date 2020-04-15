@@ -278,8 +278,7 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
-            else
-                return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
+            return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Reprise()
@@ -299,8 +298,8 @@ namespace Magitek.Logic.RedMage
             if (BlackMana < 5 || WhiteMana < 5)
                 return false;
 
-            else
-                return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
+            return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
         }
     }
 }
+
