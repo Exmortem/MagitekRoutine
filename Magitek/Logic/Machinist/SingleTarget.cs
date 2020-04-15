@@ -22,14 +22,6 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            // Why prevent combo inside hypercharge only if ping is > 80ms ? 
-            /*
-            if (BaseSettings.Instance.UserLatencyOffset >= 80)
-            {
-                
-            }
-            */
-
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
@@ -91,7 +83,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (ActionResourceManager.Machinist.Battery > 80)
+            if (ActionResourceManager.Machinist.Battery >= 80)
                 return false;
 
             return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
@@ -126,8 +118,11 @@ namespace Magitek.Logic.Machinist
                     return false;
 
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 1.5f)
-                    return false;
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero)
+                {
+                    if (Spells.GaussRound.Charges < 1.0f && Spells.Ricochet.Charges < 1.5f)
+                        return false;
+                }
             }
 
             /*add some mor precise logic for pooling/dumping
