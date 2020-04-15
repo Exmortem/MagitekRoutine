@@ -1,144 +1,305 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Logic;
-using Magitek.Logic.RedMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
-namespace Magitek.Rotations
+namespace Magitek.Logic.RedMage
 {
-    public static class RedMage
+    internal static class SingleTarget
     {
-        public static async Task<bool> Rest()
+        public static async Task<bool> Jolt()
         {
-            return false;
-        }
+            if (Core.Me.ClassLevel < 4)
+                return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
 
-        public static async Task<bool> PreCombatBuff()
-        {
-            
-
-            if (await Casting.TrackSpellCast())
-                return true;
-
-            await Casting.CheckForSuccessfulCast();
-
-            return false;
-        }
-
-        public static async Task<bool> Pull()
-        {
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (Core.Me.HasTarget)
-                {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.ClassLevel < 2 ? 3 : 20);
-                }
-            }
-
-            if (await Casting.TrackSpellCast())
-                return true;
-
-            await Casting.CheckForSuccessfulCast();
-
-            return await Combat();
-        }
-        public static async Task<bool> Heal()
-        {
-            
-
-            if (await Casting.TrackSpellCast()) return true;
-            await Casting.CheckForSuccessfulCast();
-
-            if (await GambitLogic.Gambit()) return true;
-            if (await Logic.RedMage.Heal.Verraise()) return true;
-            return await Logic.RedMage.Heal.Vercure();
-        }
-        public static async Task<bool> CombatBuff()
-        {
-            return false;
-        }
-        public static async Task<bool> Combat()
-        {
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+            if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
-
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (Core.Me.HasTarget)
-                {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.ClassLevel < 2 ? 3 : 20);
-                }
-            }
-
-            bool FinisherReady()
-            {
-                if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Verflare || s.Spell == Spells.Verholy))
-                    return false;
-
-                return Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Redoublement);
-            }
-
-            if (Core.Me.ClassLevel >= Spells.Verflare.LevelAcquired
-                && FinisherReady()
-                && (BlackMana <= 20 || WhiteMana <= 20))
-            {
-                await SingleTarget.Displacement();
-                if (await SingleTarget.Verholy()) return true;
-                return await SingleTarget.Verflare();
-            }
-
-            if (await SingleTarget.Scorch()) return true;
-
-            if (await Buff.Embolden()) return true;
-            if (await Buff.Manafication()) return true;
-            if (await Buff.LucidDreaming()) return true;
-
-            if (Utilities.Routines.RedMage.OnGcd && Casting.LastSpell != Spells.CorpsACorps)
-            {
-                if (await Aoe.ContreSixte()) return true;
-                if (await SingleTarget.Fleche()) return true;
-            }
-
-            if (RedMageSettings.Instance.UseAoe)
-            {
-                if (await Aoe.Moulinet()) return true;
-                if (await Aoe.Scatter()) return true;
-                if (await Aoe.Veraero2()) return true;
-                if (await Aoe.Verthunder2()) return true;
-            }
-
-            if (await SingleTarget.CorpsACorps()) return true;
-
-            if (await SingleTarget.Redoublement()) return true;
-            if (await SingleTarget.Zwerchhau()) return true;
-            if (await SingleTarget.Riposte()) return true;
-
-            if (await SingleTarget.Displacement()) return true;
-            if (await SingleTarget.Engagement()) return true;
-
-            if (Casting.LastSpell == Spells.CorpsACorps)
-                return true;
-
-            if (await SingleTarget.Verstone()) return true;
-            if (await SingleTarget.Verfire()) return true;
-            if (await SingleTarget.Veraero()) return true;
-            if (await SingleTarget.Verthunder()) return true;
-            if (await Buff.Acceleration()) return true;
-            return await SingleTarget.Jolt();
+            else
+                return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
         }
-        public static async Task<bool> PvP()
+
+        public static async Task<bool> Scorch()
         {
-            return false;
+            if (Core.Me.ClassLevel < Spells.Scorch.LevelAcquired)
+                return false;
+
+            if (ActionManager.LastSpell != Spells.Verholy && ActionManager.LastSpell != Spells.Verflare)
+                return false;
+
+            else
+                return await Spells.Scorch.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Veraero()
+        {
+            if (!Core.Me.HasAura(Auras.Dualcast))
+            {
+                if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
+                {
+                    if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
+                        return false;
+
+                    if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
+                        return false;
+
+                    if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
+                        return false;
+
+                    if (WhiteMana > BlackMana)
+                        return false;
+
+                    if (await Spells.Swiftcast.Cast(Core.Me))
+                    {
+                        await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
+                        await Coroutine.Wait(2000, () => ActionManager.CanCast(Spells.Veraero, Core.Me.CurrentTarget));
+                        return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+                    }
+                }
+                else
+                    return false;
+            }
+
+            if (WhiteMana > BlackMana)
+                return false;
+
+            else
+                return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Verthunder()
+        {
+            if (!Core.Me.HasAura(Auras.Dualcast))
+            {
+                if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
+                {
+                    if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
+                        return false;
+
+                    if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
+                        return false;
+
+                    if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
+                        return false;
+
+                    if (BlackMana > WhiteMana)
+                        return false;
+
+                    if (await Spells.Swiftcast.Cast(Core.Me))
+                    {
+                        await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
+                        await Coroutine.Wait(2000, () => ActionManager.CanCast(Spells.Verthunder, Core.Me.CurrentTarget));
+                        return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+                    }
+                }
+                else
+                    return false;
+            }
+
+            if (Core.Me.ClassLevel < 10)
+                return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+
+            if (BlackMana > WhiteMana)
+                return false;
+
+            else
+                return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Verfire()
+        {
+            if (!Core.Me.HasAura(Auras.VerfireReady))
+                return false;
+
+            if (BlackMana > WhiteMana)
+                return false;
+
+            else
+                return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Verstone()
+        {
+            if (!Core.Me.HasAura(Auras.VerstoneReady))
+                return false;
+
+            if (BlackMana < WhiteMana)
+                return false;
+
+            else
+                return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Verflare()
+        {
+            if (BlackMana <= WhiteMana)
+                return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
+
+            else
+                return false;
+        }
+
+        public static async Task<bool> Verholy()
+        {
+            if (WhiteMana > BlackMana)
+                return false;
+
+            else
+                return await Spells.Verholy.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Fleche()
+        {
+            if (!RedMageSettings.Instance.Fleche)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Dualcast))
+                return false;
+
+            else
+                return await Spells.Fleche.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Displacement()
+        {
+            if (!RedMageSettings.Instance.Displacement)
+                return false;
+
+            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+                return false;
+
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (BlackMana > 24 && WhiteMana > 24)
+                return false;
+
+            var inMeleeCombo = Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Riposte
+                                                                 || s.Spell == Spells.Zwerchhau
+                                                                 || s.Spell == Spells.Redoublement);
+            if (!inMeleeCombo)
+                return false;
+
+            else
+                return await Spells.Displacement.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Engagement()
+        {
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (!RedMageSettings.Instance.Engagement)
+                return false;
+
+            if (BlackMana > 24 && WhiteMana > 24)
+                return false;
+
+            else
+                return await Spells.Engagement.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> CorpsACorps()
+        {
+            if (!RedMageSettings.Instance.CorpsACorps)
+                return false;
+
+            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+                return false;
+
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (BlackMana < 80 || WhiteMana < 80)
+                return false;
+
+            else
+                return await Spells.CorpsACorps.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Zwerchhau()
+        {
+            if (ActionManager.LastSpell != Spells.Riposte)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
+                return false;
+
+            if (BlackMana < 25 || WhiteMana < 25)
+                return false;
+
+            else
+                return await Spells.Zwerchhau.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Redoublement()
+        {
+            if (ActionManager.LastSpell != Spells.Zwerchhau)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
+                return false;
+
+            if (BlackMana < 25 || WhiteMana < 25)
+                return false;
+
+            else
+                return await Spells.Redoublement.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Riposte()
+        {
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
+                return false;
+
+            if (Core.Me.ClassLevel < 2)
+            {
+                return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (Core.Me.ClassLevel < 35)
+            {
+                if (BlackMana < 55 || WhiteMana < 55)
+                    return false;
+            }
+
+            if (Core.Me.ClassLevel > 49)
+            {
+                if (BlackMana < 80 || WhiteMana < 80)
+                    return false;
+            }
+
+            return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Reprise()
+        {
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 26 + Core.Me.CurrentTarget.CombatReach)
+                return false;
+
+            if (Core.Me.ClassLevel > 76)
+                return false;
+
+            if (!MovementManager.IsMoving)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Dualcast) || !Core.Me.HasAura(Auras.Swiftcast))
+                return false;
+
+            if (BlackMana < 5 || WhiteMana < 5)
+                return false;
+
+            return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
         }
     }
 }
+
