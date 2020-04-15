@@ -41,7 +41,7 @@ namespace Magitek.Rotations
                 return await Buff.Sect();
 
             // If not, use dinural
-            return await DiurnalSect();
+            return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
         }
 
         public static async Task<bool> Pull()
