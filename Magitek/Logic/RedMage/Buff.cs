@@ -15,6 +15,9 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Acceleration)
                 return false;
 			
+			if (!Core.Me.InCombat)
+                return false;
+			
 			if (Core.Me.ClassLevel < 50)
                 return false;
 
@@ -28,6 +31,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Embolden()
         {
             if (!RedMageSettings.Instance.Embolden)
+                return false;
+			
+			if (!Core.Me.InCombat)
                 return false;
 
             if (Core.Me.ClassLevel < 58)
@@ -58,6 +64,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Manafication()
         {
             if (!RedMageSettings.Instance.Manafication)
+                return false;
+			
+			if (!Core.Me.InCombat)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Jolt && ActionManager.LastSpell != Spells.Jolt2)

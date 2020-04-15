@@ -10,6 +10,7 @@ using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using Magitek.Models.QueueSpell;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Rotations
@@ -23,9 +24,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
-
-            if (await Casting.TrackSpellCast())
+			if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
@@ -111,7 +110,9 @@ namespace Magitek.Rotations
 
             if (RedMageSettings.Instance.UseAoe)
             {
-                if (await Aoe.Moulinet()) return true;
+				if (!SpellQueueLogic.SpellQueue.Any()) SpellQueueLogic.InSpellQueue = false;
+				if (SpellQueueLogic.SpellQueue.Any()) if (await SpellQueueLogic.SpellQueueMethod()) return true;
+                //if (await Aoe.Moulinet()) return true;
                 if (await Aoe.Scatter()) return true;
                 if (await Aoe.Veraero2()) return true;
                 if (await Aoe.Verthunder2()) return true;
@@ -122,6 +123,7 @@ namespace Magitek.Rotations
             if (await SingleTarget.Redoublement()) return true;
             if (await SingleTarget.Zwerchhau()) return true;
             if (await SingleTarget.Riposte()) return true;
+			if (await SingleTarget.Reprise()) return true;
 
             if (await SingleTarget.Displacement()) return true;
             if (await SingleTarget.Engagement()) return true;
@@ -134,7 +136,8 @@ namespace Magitek.Rotations
             if (await SingleTarget.Veraero()) return true;
             if (await SingleTarget.Verthunder()) return true;
             if (await Buff.Acceleration()) return true;
-            return await SingleTarget.Jolt();
+			else
+				return await SingleTarget.Jolt();
         }
         public static async Task<bool> PvP()
         {

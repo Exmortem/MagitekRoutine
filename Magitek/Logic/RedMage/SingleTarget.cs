@@ -21,6 +21,9 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 			
+			if (WhiteMana || BlackMana > 97)
+				return false;
+			
 			else
 				return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
         }
@@ -52,7 +55,7 @@ namespace Magitek.Logic.RedMage
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (WhiteMana > BlackMana)
+                    if (WhiteMana > BlackMana || WhiteMana > 89)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
@@ -66,9 +69,9 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
-            if (WhiteMana > BlackMana)
+            if (WhiteMana > BlackMana || WhiteMana > 89)
                 return false;
-			
+						
 			else
 				return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
         }
@@ -88,7 +91,7 @@ namespace Magitek.Logic.RedMage
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (BlackMana > WhiteMana)
+                    if (BlackMana > WhiteMana || BlackMana > 89)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
@@ -98,6 +101,9 @@ namespace Magitek.Logic.RedMage
                         return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
                     }
                 }
+				if (WhiteMana < BlackMana || BlackMana > 89)
+					return false;
+			
                 else
                     return false;
             }
@@ -105,7 +111,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 10)
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
-            if (BlackMana > WhiteMana)
+            if (BlackMana > WhiteMana || BlackMana > 89)
                 return false;
 			
 			else
@@ -117,7 +123,7 @@ namespace Magitek.Logic.RedMage
 			if (!Core.Me.HasAura(Auras.VerfireReady))
 				return false;
 			
-			if (BlackMana > WhiteMana)
+			if (BlackMana > WhiteMana || BlackMana > 91)
 				return false;
 			
 			else
@@ -129,7 +135,7 @@ namespace Magitek.Logic.RedMage
 			if (!Core.Me.HasAura(Auras.VerstoneReady))
 				return false;
 			
-			if (BlackMana < WhiteMana)
+			if (BlackMana < WhiteMana || WhiteMana > 91)
 				return false;
 			
 			else
