@@ -258,5 +258,19 @@ namespace Magitek.Logic.RedMage
 
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
+		
+		public static async Task<bool> Reprise()
+		{
+			if (3 < Core.Me.CurrentTarget.Distance(Core.Me) > 26 + Core.Me.CurrentTarget.CombatReach)
+                return false;
+			
+			if (Core.Me.ClassLevel >= 76 && MovementManager.IsMoving && !Core.Me.HasAura(Auras.Dualcast) && !Core.Me.HasAura(Auras.Swiftcast))
+            {
+				if (BlackMana < 5 || WhiteMana < 5)
+                    return false;
+				
+                return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
+            }
+		}
     }
 }
