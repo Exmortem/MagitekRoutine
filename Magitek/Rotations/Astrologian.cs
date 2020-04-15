@@ -36,7 +36,12 @@ namespace Magitek.Rotations
             if (ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
                 await Spells.Draw.Cast(Core.Me);
 
-            return await Buff.Sect();
+            // Check to see if both sects can be used
+            if (Core.Me.ClassLevel >= Spells.NocturnalSect.LevelAcquired)
+                return await Buff.Sect();
+
+            // If not, use dinural
+            return await DiurnalSect();
         }
 
         public static async Task<bool> Pull()

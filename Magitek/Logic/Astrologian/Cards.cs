@@ -62,7 +62,8 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
-            if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination)
+            // Added check to see if more than 2 people are around
+            if (DivinationSeals.All(c => c != 0) && AstrologianSettings.Instance.Divination && Group.CastableAlliesWithin15.Count() >= 2)
                 await Spells.Divination.Cast(Core.Me);
 
             if (!AstrologianSettings.Instance.Play)
@@ -92,7 +93,8 @@ namespace Magitek.Logic.Astrologian
             var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsTank() || a.IsMeleeDps())).OrderBy(GetWeight);
             
             if(minor)
-                return await Spells.MinorArcana.Cast(ally.FirstOrDefault());
+                // Action changed to LordofCrowns from MinorArcana
+                return await Spells.LordofCrowns.Cast(ally.FirstOrDefault());
 
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
@@ -102,7 +104,8 @@ namespace Magitek.Logic.Astrologian
             var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsHealer() || a.IsRangedDpsCard())).OrderBy(GetWeight);
 
             if (minor)
-                return await Spells.MinorArcana.Cast(ally.FirstOrDefault());
+                // Action changed to Lady of Crowns from MinorArcana
+                return await Spells.LadyofCrowns.Cast(ally.FirstOrDefault());
 
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }

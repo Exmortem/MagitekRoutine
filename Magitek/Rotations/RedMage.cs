@@ -23,11 +23,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
-
             if (await Casting.TrackSpellCast())
                 return true;
-
+            
             await Casting.CheckForSuccessfulCast();
 
             return false;
@@ -52,8 +50,6 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
@@ -63,6 +59,41 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> CombatBuff()
         {
+            if (await Buff.Acceleration()) return true;
+            if (await Buff.Embolden()) return true;
+            if (await Buff.Manafication()) return true;
+            if (await Buff.LucidDreaming()) return true;
+
+            // Let's go fishing (for procs)
+            if (BlackMana >=80 && WhiteMana >=80 && Spells.Acceleration.Cooldown > TimeSpan.Zero)
+            {
+                if (BlackMana < WhiteMana && BlackMana < 89 && WhiteMana < 91 && Core.Me.HasAura(Auras.VerfireReady))
+                {
+                    if (Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+                        return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+                    }else if (!Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+                        return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+                    }
+                    return false;
+                }
+                if (BlackMana > WhiteMana && BlackMana < 91 && WhiteMana < 89 && Core.Me.HasAura(Auras.VerstoneReady))
+                {
+                    if (Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+                        return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+                    }else if (!Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+                        return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+                    }
+                    return false;
+                }
+            }
             return false;
         }
         public static async Task<bool> Combat()
@@ -98,11 +129,7 @@ namespace Magitek.Rotations
             }
 
             if (await SingleTarget.Scorch()) return true;
-
-            if (await Buff.Embolden()) return true;
-            if (await Buff.Manafication()) return true;
-            if (await Buff.LucidDreaming()) return true;
-
+                        
             if (Utilities.Routines.RedMage.OnGcd && Casting.LastSpell != Spells.CorpsACorps)
             {
                 if (await Aoe.ContreSixte()) return true;
@@ -111,7 +138,12 @@ namespace Magitek.Rotations
 
             if (RedMageSettings.Instance.UseAoe)
             {
-                if (await Aoe.Moulinet()) return true;
+                // Replacement for moulinet
+                if (SpellQueueLogic.SpellQueue.Any())
+                {
+                    if (await SpellQueueLogic.SpellQueueMethod()) return true;
+                }
+                //if (await Aoe.Moulinet()) return true;
                 if (await Aoe.Scatter()) return true;
                 if (await Aoe.Veraero2()) return true;
                 if (await Aoe.Verthunder2()) return true;
@@ -119,6 +151,7 @@ namespace Magitek.Rotations
 
             if (await SingleTarget.CorpsACorps()) return true;
 
+            if (await SingleTarget.Reprise()) return true;
             if (await SingleTarget.Redoublement()) return true;
             if (await SingleTarget.Zwerchhau()) return true;
             if (await SingleTarget.Riposte()) return true;
@@ -126,14 +159,29 @@ namespace Magitek.Rotations
             if (await SingleTarget.Displacement()) return true;
             if (await SingleTarget.Engagement()) return true;
 
-            if (Casting.LastSpell == Spells.CorpsACorps)
-                return true;
+            if (Casting.LastSpell == Spells.CorpsACorps) return true;
 
+            while (Core.Me.HasAura(Auras.VerstoneReady) && Core.Me.HasAura(Auras.VerfireReady) && BlackMana < 80 && WhiteMana < 80)
+            {
+                if (Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await SingleTarget.Veraero();
+                        await SingleTarget.Verstone();
+                        await SingleTarget.Verthunder();
+                        return await SingleTarget.Verfire();
+                    }else if (!Core.Me.HasAura(Auras.Dualcast))
+                    {
+                        await SingleTarget.Verstone();
+                        await SingleTarget.Veraero();
+                        await SingleTarget.Verfire();
+                        return await SingleTarget.Verthunder();
+                    }
+                    return false;
+            }
             if (await SingleTarget.Verstone()) return true;
             if (await SingleTarget.Verfire()) return true;
             if (await SingleTarget.Veraero()) return true;
             if (await SingleTarget.Verthunder()) return true;
-            if (await Buff.Acceleration()) return true;
             return await SingleTarget.Jolt();
         }
         public static async Task<bool> PvP()

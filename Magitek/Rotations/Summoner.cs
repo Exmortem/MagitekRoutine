@@ -8,6 +8,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Summoner;
+using Magitek.Models.Summoner;
 using Magitek.Utilities;
 
 namespace Magitek.Rotations
