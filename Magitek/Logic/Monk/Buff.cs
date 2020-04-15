@@ -147,12 +147,10 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShift()
         {
-			if (!MonkSettings.Instance.UseAutoFormShift)
-				return false;
-			
-			if (ActionResourceManager.Monk.GreasedLightning > 3)
-				return false;
-			
+
+            if (!DutyManager.InInstance)
+                return false;
+
             if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget)
             {
                 if (Core.Me.ClassLevel >= 76)
@@ -196,9 +194,8 @@ namespace Magitek.Logic.Monk
 
             if (Core.Me.InCombat)
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
-			
-			else
-				return await Spells.FormShift.Cast(Core.Me);
+
+            return await Spells.FormShift.Cast(Core.Me);
         }
     }
 }
