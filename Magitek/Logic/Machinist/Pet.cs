@@ -22,9 +22,6 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            //if (Core.Me.HasTarget && Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
-            //    return false;
-
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
@@ -39,9 +36,11 @@ namespace Magitek.Logic.Machinist
                 if (Casting.LastSpell == Spells.Wildfire)
                     return false;
 
-                if (Spells.Wildfire.Cooldown.Seconds < 11)
+                // Do not understand the reason behind
+                /*
+                   if (Spells.Wildfire.Cooldown.Seconds < 11)
                     return false;
-
+                */
                 if (Spells.Wildfire.Cooldown.Seconds > 110)
                     return false;
             }
