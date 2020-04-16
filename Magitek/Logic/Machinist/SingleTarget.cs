@@ -123,7 +123,7 @@ namespace Magitek.Logic.Machinist
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
                 if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero)
                 {
-                    if (Spells.GaussRound.Charges < 0.5f && Spells.Ricochet.Charges < 1.5f)
+                    if (Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 0.5f)
                         return false;
                 }
             }

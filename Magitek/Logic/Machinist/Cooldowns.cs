@@ -26,7 +26,7 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 45)
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 || ActionResourceManager.Machinist.Heat >= 35 && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000)
+            if (ActionResourceManager.Machinist.Heat >= 35 && (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000) )
                 return false;
 
             if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 7000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.0f && Spells.Ricochet.Charges < 1.0f)
@@ -51,7 +51,7 @@ namespace Magitek.Logic.Machinist
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
             
-            Logger.WriteInfo($@"Ricco: {Spells.Ricochet.Charges} | GaussRound: {Spells.GaussRound.Charges}");
+            //Logger.WriteInfo($@"Ricco: {Spells.Ricochet.Charges} | GaussRound: {Spells.GaussRound.Charges}");
 
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
                 return false;
@@ -65,8 +65,8 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel > 45)
             {
-                Logger.WriteInfo($@"Inside HC Level Check");
-                Logger.WriteInfo($@"Wildifre CD: {Spells.Wildfire.Cooldown.TotalMilliseconds}");
+                //Logger.WriteInfo($@"Inside HC Level Check");
+                //Logger.WriteInfo($@"Wildifre CD: {Spells.Wildfire.Cooldown.TotalMilliseconds}");
                 if (Spells.Wildfire.Cooldown.TotalMilliseconds > 20000)
                     return await Spells.Hypercharge.Cast(Core.Me);
 
