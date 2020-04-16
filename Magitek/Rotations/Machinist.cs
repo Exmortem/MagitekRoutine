@@ -127,13 +127,16 @@ namespace Magitek.Rotations
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
             if (await MultiTarget.Flamethrower()) return true;
+            if (await MultiTarget.SpreadShot()) return true;
 
             //Default Combo
-            if (await MultiTarget.SpreadShot()) return true;
-            if (await SingleTarget.HeatedCleanShot()) return true;
-            if (await SingleTarget.HeatedSlugShot()) return true;
-
+            if (Spells.Drill.Cooldown.TotalMilliseconds > 100)
+            {
+                if (await SingleTarget.HeatedCleanShot()) return true;
+                if (await SingleTarget.HeatedSlugShot()) return true;
+            }
             return await SingleTarget.HeatedSplitShot();
+        
         }
         public static async Task<bool> PvP()
         {

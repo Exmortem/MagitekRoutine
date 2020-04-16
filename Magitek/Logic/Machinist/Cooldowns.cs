@@ -26,6 +26,12 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 45)
                 return false;
 
+            if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 || ActionResourceManager.Machinist.Heat >= 35 && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000)
+                return false;
+
+            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 7000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.0f && Spells.Ricochet.Charges < 1.0f)
+                return await Spells.BarrelStabilizer.Cast(Core.Me);
+
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
@@ -44,28 +50,30 @@ namespace Magitek.Logic.Machinist
 
             if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
+            
+            Logger.WriteInfo($@"Ricco: {Spells.Ricochet.Charges} | GaussRound: {Spells.GaussRound.Charges}");
 
-            if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
+            if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
                 return false;
 
-            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
-                return false;
+            //if (Spells.Ricochet.Charges < 0.5f  && Spells.GaussRound.Charges < 0.5f)
+            //    return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 800 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             if (Core.Me.ClassLevel > 45)
             {
-
-                if (Spells.Wildfire.Cooldown.Seconds > 10 || Spells.Wildfire.Cooldown.Seconds < 1)
+                Logger.WriteInfo($@"Inside HC Level Check");
+                Logger.WriteInfo($@"Wildifre CD: {Spells.Wildfire.Cooldown.TotalMilliseconds}");
+                if (Spells.Wildfire.Cooldown.TotalMilliseconds > 20000)
                     return await Spells.Hypercharge.Cast(Core.Me);
 
                 if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
                     return await Spells.Hypercharge.Cast(Core.Me);
 
                 return false;
-
             }
 
             return await Spells.Hypercharge.Cast(Core.Me);
@@ -83,9 +91,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                return false;
- 
-            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
                 return false;
 
             //Force Delay CD
