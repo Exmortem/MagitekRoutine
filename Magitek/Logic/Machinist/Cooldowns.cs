@@ -29,11 +29,8 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 35 && (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000) )
                 return false;
 
-            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 7000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.0f && Spells.Ricochet.Charges < 1.0f)
+            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 7000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 1.5f)
                 return await Spells.BarrelStabilizer.Cast(Core.Me);
-
-            if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
-                return false;
 
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
