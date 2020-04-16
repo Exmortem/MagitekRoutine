@@ -48,9 +48,6 @@ namespace Magitek.Logic.Machinist
             if (Spells.Ricochet.Charges >= 2.0f || Spells.GaussRound.Charges >= 2.0f)
                 return false;
 
-            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
-                return false;
-
             //Force Delay CD
             if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
@@ -83,9 +80,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                return false;
- 
-            if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
                 return false;
 
             //Force Delay CD
