@@ -148,10 +148,7 @@ namespace Magitek.Logic.Monk
         public static async Task<bool> FormShift()
         {
 
-            if (!DutyManager.InInstance)
-                return false;
-
-            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget)
+            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget && DutyManager.InInstance)
             {
                 if (Core.Me.ClassLevel >= 76)
                 {
