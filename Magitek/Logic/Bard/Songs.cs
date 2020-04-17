@@ -89,7 +89,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
@@ -155,7 +155,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
@@ -219,7 +219,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
