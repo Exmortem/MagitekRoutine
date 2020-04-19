@@ -39,7 +39,12 @@ namespace Magitek.ViewModels
 
         public MagitekApi()
         {
-            UpdateNews();
+            try
+            {
+                UpdateNews();
+            }
+            catch (Exception)
+            { }
         }
 
         private readonly HttpClient _webClient = new HttpClient();
