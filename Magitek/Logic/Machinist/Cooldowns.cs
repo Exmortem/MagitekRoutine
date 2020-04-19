@@ -23,6 +23,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            if(Casting.LastSpell == Spells.Wildfire && ActionResourceManager.Machinist.Heat < 50)
+                return await Spells.BarrelStabilizer.Cast(Core.Me);
+
             if (ActionResourceManager.Machinist.Heat >= 45)
                 return false;
 
@@ -88,10 +91,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                return false;
-
-            //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1000 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
