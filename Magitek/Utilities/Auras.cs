@@ -209,6 +209,7 @@ namespace Magitek.Utilities
             RiddleOfEarth = 2008,
             Anatman = 1862,
             EverlastingFlight = 2030,
+            OffGuard = 1717,
             MeditationSAM = 2176; 
 
         private const int

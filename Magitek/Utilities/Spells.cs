@@ -617,6 +617,15 @@ namespace Magitek.Utilities
         public static readonly SpellData Temperance = DataManager.GetSpellData(16536);
         #endregion
 
+        // BM
+        public static readonly SpellData ShockStrike = DataManager.GetSpellData(11429);
+        public static readonly SpellData SharpKnife = DataManager.GetSpellData(11400);
+        public static readonly SpellData Eruption = DataManager.GetSpellData(11427);         
+        public static readonly SpellData GlassDance = DataManager.GetSpellData(11430);
+        public static readonly SpellData Quasar = DataManager.GetSpellData(18324);
+        public static readonly SpellData Surpanakha = DataManager.GetSpellData(18323);
+        public static readonly SpellData OffGuard = DataManager.GetSpellData(11411);
+        public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300);
         #region PVP
         public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
         public static readonly SpellData Muse = DataManager.GetSpellData(1583);
