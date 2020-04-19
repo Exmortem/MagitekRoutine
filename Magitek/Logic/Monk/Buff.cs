@@ -174,6 +174,9 @@ namespace Magitek.Logic.Monk
                 }
             }
 
+            if (!Core.Me.InCombat)
+                return false;
+
             if (Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
