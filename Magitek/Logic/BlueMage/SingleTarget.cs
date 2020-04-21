@@ -71,5 +71,21 @@ namespace Magitek.Logic.BlueMage
             return await Spells.AbyssalTransfixion.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> SongOfTorment()
+        {
+            if (Casting.LastSpell == Spells.Surpanakha)
+                return false;
+
+            if(!Core.Me.CurrentTarget.HasAura(Auras.Bleeding, true, 6000))
+            {
+                if (!Core.Me.HasAura(Auras.Boost))
+                    return await Spells.Bristle.Cast(Core.Me);
+
+                if (Core.Me.HasAura(Auras.Boost))
+                    return await Spells.SongOfTorment.Cast(Core.Me.CurrentTarget);
+            }
+            return false;
+        }
+
     }
 }

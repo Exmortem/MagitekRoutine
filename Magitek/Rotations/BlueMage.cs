@@ -82,7 +82,7 @@ namespace Magitek.Rotations
 
             if (await Buff.OffGuard()) return true;
             if (await SingleTarget.Surpanakha()) return true;
-            
+            if (await SingleTarget.SongOfTorment()) return true;
             if (Utilities.Routines.BlueMage.OnGcd)
             {           
                 if (await SingleTarget.Eruption()) return true;

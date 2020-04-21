@@ -625,7 +625,9 @@ namespace Magitek.Utilities
         public static readonly SpellData Quasar = DataManager.GetSpellData(18324);
         public static readonly SpellData Surpanakha = DataManager.GetSpellData(18323);
         public static readonly SpellData OffGuard = DataManager.GetSpellData(11411);
-        public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300);
+        public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300); 
+        public static readonly SpellData Bristle = DataManager.GetSpellData(11393);
+        public static readonly SpellData SongOfTorment = DataManager.GetSpellData(11386);
         #region PVP
         public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
         public static readonly SpellData Muse = DataManager.GetSpellData(1583);

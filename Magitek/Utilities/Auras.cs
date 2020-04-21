@@ -210,6 +210,8 @@ namespace Magitek.Utilities
             Anatman = 1862,
             EverlastingFlight = 2030,
             OffGuard = 1717,
+            Bleeding = 1714,
+            Boost = 1716,
             MeditationSAM = 2176; 
 
         private const int
