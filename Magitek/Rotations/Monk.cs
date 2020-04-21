@@ -31,7 +31,7 @@ namespace Magitek.Rotations
 
             if (await Buff.FistsOf()) return true;
             if (await Buff.Meditate()) return true;
-            if (await Buff.FormShiftIC()) return true;
+            if (await Buff.FormShiftOOC()) return true;
 
             if (MonkSettings.Instance.UsePositionalToasts && Utilities.Routines.Monk.UseToast == 9)
             {
