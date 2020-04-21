@@ -84,7 +84,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
-            if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
+            if (Spells.Drill.Cooldown.TotalMilliseconds < 9000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 9000)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
