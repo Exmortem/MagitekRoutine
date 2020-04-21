@@ -23,16 +23,13 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if(Casting.LastSpell == Spells.Wildfire && ActionResourceManager.Machinist.Heat < 50)
-                return await Spells.BarrelStabilizer.Cast(Core.Me);
-
             if (ActionResourceManager.Machinist.Heat >= 45)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat >= 35 && (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000) )
                 return false;
 
-            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 7000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 1.5f)
+            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 8000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.2f && Spells.Ricochet.Charges < 1.2f)
                 return await Spells.BarrelStabilizer.Cast(Core.Me);
 
             return await Spells.BarrelStabilizer.Cast(Core.Me);
@@ -67,7 +64,7 @@ namespace Magitek.Logic.Machinist
             {
                 //Logger.WriteInfo($@"Inside HC Level Check");
                 //Logger.WriteInfo($@"Wildifre CD: {Spells.Wildfire.Cooldown.TotalMilliseconds}");
-                if (Spells.Wildfire.Cooldown.TotalMilliseconds > 20000)
+                if (Spells.Wildfire.Cooldown.TotalMilliseconds > 25000)
                     return await Spells.Hypercharge.Cast(Core.Me);
 
                 if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
@@ -123,8 +120,8 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.ClassLevel >= 76)
             {
                 //If Drill Cooldown isn't up & Drill Cooldown is longer than GCD, don't use Reassemble
-                if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown) &&
-                    (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown))
+                if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) &&
+                    (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds))
                     return false;
             }
 
