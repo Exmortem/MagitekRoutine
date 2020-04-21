@@ -173,6 +173,8 @@ namespace Magitek.Logic.Monk
                         return await Spells.FormShift.Cast(Core.Me);
                 }
             }
+
+            return false;
         }
 
         public static async Task<bool> FormShiftIC()
