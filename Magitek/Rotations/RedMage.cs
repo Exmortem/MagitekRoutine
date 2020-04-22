@@ -93,7 +93,12 @@ namespace Magitek.Rotations
                 && (BlackMana <= 20 || WhiteMana <= 20))
             {
                 await SingleTarget.Displacement();
-                if (await SingleTarget.Verholy()) return true;
+                if (   ActionManager.HasSpell(Spells.Verholy.Id)
+                    && Core.Me.ClassLevel >= Spells.Verholy.LevelAcquired
+                    && BlackMana > WhiteMana) //Cast Verholy if more black mana, to trigger Verstone. Otherwise, Verflare to trigger Verfire
+                {
+                    if (await SingleTarget.Verholy()) return true;
+                }
                 return await SingleTarget.Verflare();
             }
 
