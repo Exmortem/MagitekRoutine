@@ -24,10 +24,19 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.LanceCharge)
                 return false;
 
-            if (Casting.LastSpell != Spells.VorpalThrust && Casting.LastSpell != Spells.Disembowel)
+
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 750)
                 return false;
 
             return await Spells.LanceCharge.Cast(Core.Me);
+        }
+
+        public static async Task<bool> LifeSurge()
+        {
+            if (!DragoonSettings.Instance.LifeSurge)
+                return false;
+
+            return await Spells.LifeSurge.Cast(Core.Me);
         }
 
         public static async Task<bool> BloodOfTheDragon()
@@ -44,6 +53,10 @@ namespace Magitek.Logic.Dragoon
                     return false;
             }
 
+
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 750)
+                return false;
+
             return await Spells.BloodoftheDragon.Cast(Core.Me);
         }
 
@@ -53,6 +66,10 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             if (!DragoonSettings.Instance.BattleLitany)
+                return false;
+
+
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 750)
                 return false;
 
             return await Spells.BattleLitany.Cast(Core.Me);
