@@ -60,6 +60,18 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
+        public bool ResuSwift { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceResuSwift { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceResu { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Fester { get; set; }
 
         [Setting]

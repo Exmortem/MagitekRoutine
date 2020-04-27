@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -11,6 +7,7 @@ using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Rotations
 {
@@ -85,11 +82,12 @@ namespace Magitek.Rotations
 
             if (MachinistSettings.Instance.UseFlamethrower && Core.Me.HasAura(Auras.Flamethrower))
             {
-                if (!MachinistSettings.Instance.UseFlamethrower)
-                    return true;
-
+                // First check movement otherwise Flamethrower can be executed whereas you are moving
                 if (MovementManager.IsMoving)
                     return false;
+
+                if (!MachinistSettings.Instance.UseFlamethrower)
+                    return true;
 
                 if (Core.Me.EnemiesInCone(8) >= MachinistSettings.Instance.FlamethrowerEnemyCount)
                     return true;
@@ -102,19 +100,23 @@ namespace Magitek.Rotations
             if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await Utility.HeadGraze()) return true;
-            //Cooldowns
-            if (await Cooldowns.Wildfire()) return true;
-            if (await Cooldowns.Hypercharge()) return true;
-            if (await Cooldowns.Reassemble()) return true;
-            if (await Cooldowns.BarrelStabilizer()) return true;
-            if (await Pet.RookQueen()) return true;
-            if (await Pet.RookQueenOverdrive()) return true;
-            //oGCDs
-            if (await SingleTarget.GaussRound()) return true;
-            if (await MultiTarget.Ricochet()) return true;
 
+            if (Weaving.GetCurrentWeavingCounter() < 2)
+            {
+                //Pets
+                if (await Pet.RookQueen()) return true;
+                if (await Pet.RookQueenOverdrive()) return true;
 
+                //Cooldowns
+                if (await Cooldowns.Wildfire()) return true;
+                if (await Cooldowns.Hypercharge()) return true;
+                if (await Cooldowns.Reassemble()) return true;
+                if (await Cooldowns.BarrelStabilizer()) return true;
 
+                //oGCDs
+                if (await SingleTarget.GaussRound()) return true;
+                if (await MultiTarget.Ricochet()) return true;
+            }
 
             //GCDs - Top Hypercharge Priority
             if (await MultiTarget.AutoCrossbow()) return true;
@@ -125,12 +127,26 @@ namespace Magitek.Rotations
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
             if (await MultiTarget.Flamethrower()) return true;
+            if (await MultiTarget.SpreadShot()) return true;
 
             //Default Combo
-            if (await MultiTarget.SpreadShot()) return true;
-            if (await SingleTarget.HeatedCleanShot()) return true;
-            if (await SingleTarget.HeatedSlugShot()) return true;
+
+            if(Core.Me.ClassLevel > 58)
+            {
+                if (Spells.Drill.Cooldown.TotalMilliseconds > 100)
+                {
+                    if (await SingleTarget.HeatedCleanShot()) return true;
+                    if (await SingleTarget.HeatedSlugShot()) return true;
+                }
+            }
+            else
+            {
+                if (await SingleTarget.HeatedCleanShot()) return true;
+                if (await SingleTarget.HeatedSlugShot()) return true;
+            }
+
             return await SingleTarget.HeatedSplitShot();
+        
         }
         public static async Task<bool> PvP()
         {

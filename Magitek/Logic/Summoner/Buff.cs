@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -50,6 +51,16 @@ namespace Magitek.Logic.Summoner
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;
             return await Spells.Aetherpact.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Swiftcast()
+        {
+            if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
+            {
+                return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.Swiftcast, true, 7000));
+            }
+
+            return false;
         }
     }
 }

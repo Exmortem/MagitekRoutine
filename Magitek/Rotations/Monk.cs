@@ -31,6 +31,7 @@ namespace Magitek.Rotations
 
             if (await Buff.FistsOf()) return true;
             if (await Buff.Meditate()) return true;
+            if (await Buff.FormShiftOOC()) return true;
 
             if (MonkSettings.Instance.UsePositionalToasts && Utilities.Routines.Monk.UseToast == 9)
             {
@@ -70,7 +71,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> CombatBuff()
         {
-            if (await Buff.FormShift()) return true;
+            if (await Buff.FormShiftOOC()) return true;
             return await Buff.Meditate();
         }
         public static async Task<bool> Combat()
@@ -140,7 +141,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.TrueStrike()) return true;
                 if (await SingleTarget.Bootshine()) return true;
                 if (await SingleTarget.DragonKick()) return true;
-                return await Buff.FormShift();
+                return await Buff.FormShiftIC();
             }
             else
                 return false;

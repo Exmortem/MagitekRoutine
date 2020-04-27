@@ -145,32 +145,40 @@ namespace Magitek.Logic.Monk
             return await Spells.Mantra.Cast(Core.Me);
         }
 
-        public static async Task<bool> FormShift()
+        public static async Task<bool> FormShiftOOC()
         {
-            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget)
+
+            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget && DutyManager.InInstance)
             {
-                if (ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 4)
-                    return await Spells.FormShift.Cast(Core.Me);
+                if (Core.Me.ClassLevel >= 76)
+                {
+                    if (ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 4)
+                        return await Spells.FormShift.Cast(Core.Me);
 
-                if (MonkSettings.Instance.AutoFormShiftStopCoeurl && !Core.Me.HasAura(Auras.CoeurlForm) && ActionResourceManager.Monk.GreasedLightning == 4)
-                    return await Spells.FormShift.Cast(Core.Me);
+                    if (MonkSettings.Instance.AutoFormShiftStopCoeurl && !Core.Me.HasAura(Auras.CoeurlForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                        return await Spells.FormShift.Cast(Core.Me);
 
-                if (MonkSettings.Instance.AutoFormShiftStopRaptor && !Core.Me.HasAura(Auras.RaptorForm) && ActionResourceManager.Monk.GreasedLightning == 4)
-                    return await Spells.FormShift.Cast(Core.Me);
+                    if (MonkSettings.Instance.AutoFormShiftStopRaptor && !Core.Me.HasAura(Auras.RaptorForm) && ActionResourceManager.Monk.GreasedLightning == 4)
+                        return await Spells.FormShift.Cast(Core.Me);
+                }
+                if (Core.Me.ClassLevel >= 52 && Core.Me.ClassLevel < 76)
+                {
+                    if (ActionResourceManager.Monk.Timer.Seconds < 6 && ActionResourceManager.Monk.GreasedLightning == 3)
+                        return await Spells.FormShift.Cast(Core.Me);
+
+                    if (MonkSettings.Instance.AutoFormShiftStopCoeurl && !Core.Me.HasAura(Auras.CoeurlForm) && ActionResourceManager.Monk.GreasedLightning == 3)
+                        return await Spells.FormShift.Cast(Core.Me);
+
+                    if (MonkSettings.Instance.AutoFormShiftStopRaptor && !Core.Me.HasAura(Auras.RaptorForm) && ActionResourceManager.Monk.GreasedLightning == 3)
+                        return await Spells.FormShift.Cast(Core.Me);
+                }
             }
 
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-                return false;
+            return false;
+        }
 
-            if (Core.Me.HasAura(Auras.OpoOpoForm))
-                return false;
-
-            if (Core.Me.HasAura(Auras.RaptorForm))
-                return false;
-
-            if (Core.Me.HasAura(Auras.CoeurlForm))
-                return false;
-
+        public static async Task<bool> FormShiftIC()
+        {
             if (Core.Me.ClassLevel < 52)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 

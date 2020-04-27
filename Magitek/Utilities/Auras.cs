@@ -118,6 +118,7 @@ namespace Magitek.Utilities
             VerfireReady = 1234,
             VerstoneReady = 1235,
             Dualcast = 1249,
+			Manafication = 1971,
             StormsEye = 90,
             Deliverance = 729,
             Defiance = 91,
@@ -208,6 +209,9 @@ namespace Magitek.Utilities
             RiddleOfEarth = 2008,
             Anatman = 1862,
             EverlastingFlight = 2030,
+            OffGuard = 1717,
+            Bleeding = 1714,
+            Boost = 1716,
             MeditationSAM = 2176; 
 
         private const int

@@ -93,7 +93,7 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.Repertoire == 0)
                 return false;
 
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 500)
+            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 550)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)

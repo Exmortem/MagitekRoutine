@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Navigation;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Machinist;
@@ -20,20 +19,23 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if(BaseSettings.Instance.UserLatencyOffset >= 80)
+            if (Core.Me.ClassLevel > 58)
             {
+                if (Spells.Drill.Cooldown.TotalMilliseconds < 100)
+                    return false;
+
                 if (Casting.LastSpell == Spells.Hypercharge)
                     return false;
+
+                if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                    return false;
             }
-
-            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
-                return false;
-
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatedSlugShot()
         {
+            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
@@ -48,6 +50,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedCleanShot()
         {
+            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
             if (ActionManager.LastSpell != Spells.SlugShot)
                 return false;
 
@@ -62,6 +65,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
+            if (Core.Me.ClassLevel < 59)
+                return false;
+
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
@@ -83,6 +89,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
+                return false;
+
+            if (ActionResourceManager.Machinist.Battery >= 80)
                 return false;
 
             return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
@@ -115,6 +124,13 @@ namespace Magitek.Logic.Machinist
             {
                 if (Spells.Wildfire.Cooldown.Seconds < 2)
                     return false;
+
+                // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero)
+                {
+                    if (Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 0.5f)
+                        return false;
+                }
             }
 
             /*add some mor precise logic for pooling/dumping

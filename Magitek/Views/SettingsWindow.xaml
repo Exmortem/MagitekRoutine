@@ -328,9 +328,6 @@
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
                         </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersTanks />
-                        </TabItem>
                         <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
                             <paladin:Combat />
                         </TabItem>
@@ -371,9 +368,6 @@
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
                         </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersTanks />
-                        </TabItem>
                         <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
                             <warrior:Combat />
                         </TabItem>
@@ -408,9 +402,6 @@
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
                         </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersTanks />
-                        </TabItem>
                         <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
                             <darkknight:Combat />
                         </TabItem>
@@ -442,9 +433,6 @@
                         </TabItem>
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
-                        </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersTanks />
                         </TabItem>
                         <TabItem Header="Combat" Style="{DynamicResource MainTabCombat}">
                             <gunbreaker:Combat />
@@ -483,9 +471,6 @@
                         </TabItem>
                         <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
                             <scholar:DispelOptions />
-                        </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersHealers />
                         </TabItem>
                         <TabItem Header="General Combat " Style="{DynamicResource MainTabCombat}">
                             <scholar:Combat />
@@ -531,9 +516,6 @@
                         <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
                             <whitemage:DispelOptions />
                         </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersHealers />
-                        </TabItem>
                         <TabItem Header="General Combat " Style="{DynamicResource MainTabCombat}">
                             <whitemage:Combat />
                         </TabItem>
@@ -577,9 +559,6 @@
                         </TabItem>
                         <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
                             <astrologian:DispelOptions />
-                        </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersHealers />
                         </TabItem>
                         <TabItem Header="Combat " Style="{DynamicResource MainTabCombat}">
                             <astrologian:Combat />
@@ -715,9 +694,6 @@
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
                         </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersHealers />
-                        </TabItem>
                         <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
                             <machinist:SingleTarget />
                         </TabItem>
@@ -752,9 +728,6 @@
                         </TabItem>
                         <TabItem Header="Interrupts and Stuns" Style="{DynamicResource MainTabInterruptsAndStuns}">
                             <lists:InterruptsAndStuns />
-                        </TabItem>
-                        <TabItem Header="Tank Busters" Style="{DynamicResource MainTabTankBusters}">
-                            <lists:TankBustersHealers />
                         </TabItem>
                         <TabItem Header="Dispels" Style="{DynamicResource MainTabDispelling}">
                             <lists:Dispelling />

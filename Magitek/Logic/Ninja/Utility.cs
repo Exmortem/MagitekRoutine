@@ -79,7 +79,7 @@ namespace Magitek.Logic.Ninja
 
         }
 
-        public static async Task<bool> SecondWind()
+        public static async Task<bool> SecondWindForce()
         {
 
             if (!NinjaSettings.Instance.ForceSecondWind)

@@ -38,8 +38,8 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Second Wind When Below " IsChecked="{Binding NinjaSettings.UseSecondWind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding NinjaSettings.SecondWindHpPercent, Mode=TwoWay}" />
+                <CheckBox Content="Second Wind When Below " IsChecked="{Binding PhysicalDpsSettings.UseSecondWind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PhysicalDpsSettings.SecondWindHpPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
             </StackPanel>
         </controls:SettingsBlock>

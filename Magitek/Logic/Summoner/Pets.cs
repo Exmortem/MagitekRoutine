@@ -24,7 +24,7 @@ namespace Magitek.Logic.Summoner
             switch (SummonerSettings.Instance.SelectedPet)
             {
                 case SummonerPets.None:
-                    return PetManager.DoAction("Away", Core.Me);
+                    return false;
                 case SummonerPets.Ifrit:
                     return await Spells.Summon3.Cast(Core.Me);
                 case SummonerPets.Titan:
@@ -41,14 +41,14 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.ClassLevel < 70) return false;
 
             if (Core.Me.Pet == null) return false;
-            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
-                return false;
-            if (ActionResourceManager.Arcanist.AetherAttunement < 2) return false;
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;
+
+            if(Casting.LastSpell == Spells.Deathflare)
             return await Spells.SummonBahamut.Cast(Core.Me);
+
+            if(Spells.Deathflare.Cooldown.TotalSeconds > 8 && Spells.SummonBahamut.Cooldown.TotalSeconds == 0)
+            return await Spells.SummonBahamut.Cast(Core.Me);
+
+            return false;
         }
     }
 }

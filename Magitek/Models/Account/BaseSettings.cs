@@ -57,6 +57,10 @@ namespace Magitek.Models.Account
 
         [Setting]
         [DefaultValue(false)]
+        public bool VersionCheck { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         public bool SettingsWindowTopMost { get; set; }
 
         [Setting]
