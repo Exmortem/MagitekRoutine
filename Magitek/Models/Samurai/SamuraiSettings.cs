@@ -30,6 +30,10 @@ namespace Magitek.Models.Samurai
         public bool Bloodbath { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ForceArmsLenght { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool MeikyoShisui { get; set; }
 
