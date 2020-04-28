@@ -9,7 +9,6 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Samurai;
-using Magitek.Toggles;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 
@@ -17,19 +16,6 @@ namespace Magitek.Logic.Samurai
 {
     internal static class Buff
     {
-
-        public static async Task<bool> ArmsLength()
-        {
-
-            if (!SamuraiSettings.Instance.ForceArmsLenght)
-                return false;
-
-            if (!await Spells.Bloodbath.Cast(Core.Me)) return false;
-            SamuraiSettings.Instance.ForceArmsLenght = false;
-            TogglesManager.ResetToggles();
-            return true;
-        }
-
         public static async Task<bool> MeikyoShisui()
         {
             if (!SamuraiSettings.Instance.MeikyoShisui)

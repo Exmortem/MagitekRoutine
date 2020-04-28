@@ -33,10 +33,10 @@ namespace Magitek.Logic.Dragoon
 
         public static async Task<bool> LifeSurge()
         {
-            if (!DragoonSettings.Instance.LifeSurge)
-                return false;
+            if (!DragoonSettings.Instance.UseLifeSurge)
+                reutrn false;
 
-            return await Spells.LifeSurge.Cast(Core.Me);
+
         }
 
         public static async Task<bool> BloodOfTheDragon()
