@@ -27,7 +27,7 @@ namespace Magitek.Models.RedMage
         public bool Scatter { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int ScatterEnemies { get; set; }
 
         [Setting]
@@ -55,7 +55,7 @@ namespace Magitek.Models.RedMage
         public bool Moulinet { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int MoulinetEnemies { get; set; }
 
         [Setting]
@@ -87,11 +87,11 @@ namespace Magitek.Models.RedMage
         public bool Manafication { get; set; }
         
         [Setting]
-        [DefaultValue(30)]
+        [DefaultValue(40)]
         public int ManaficationMinimumBlackAndWhiteMana { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
+        [DefaultValue(60)]
         public int ManaficationMaximumBlackAndWhiteMana { get; set; }
 
         [Setting]

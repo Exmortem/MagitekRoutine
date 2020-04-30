@@ -455,6 +455,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Jolt2 = DataManager.GetSpellData(7524);
         public static readonly SpellData Verflare = DataManager.GetSpellData(7525);
         public static readonly SpellData Verholy = DataManager.GetSpellData(7526);
+        public static readonly SpellData EnchantedRedoublement = DataManager.GetSpellData(7529);
         public static readonly SpellData Verthunder2 = DataManager.GetSpellData(16524);
         public static readonly SpellData Veraero2 = DataManager.GetSpellData(16525);
         public static readonly SpellData Impact = DataManager.GetSpellData(16526);
