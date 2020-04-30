@@ -143,13 +143,10 @@ namespace Magitek.Logic.Monk
             return await Spells.Mantra.Cast(Core.Me);
         }
 
-        public static async Task<bool> FormShift()
+        public static async Task<bool> FormShiftOOC()
         {
 
-            if (!DutyManager.InInstance)
-                return false;
-
-            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget)
+            if (MonkSettings.Instance.UseAutoFormShift && !Core.Me.HasTarget && DutyManager.InInstance)
             {
                 if (Core.Me.ClassLevel >= 76)
                 {
@@ -175,18 +172,11 @@ namespace Magitek.Logic.Monk
                 }
             }
 
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-                return false;
+            return false;
+        }
 
-            if (Core.Me.HasAura(Auras.OpoOpoForm))
-                return false;
-
-            if (Core.Me.HasAura(Auras.RaptorForm))
-                return false;
-
-            if (Core.Me.HasAura(Auras.CoeurlForm))
-                return false;
-
+        public static async Task<bool> FormShiftIC()
+        {
             if (Core.Me.ClassLevel < 52)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 

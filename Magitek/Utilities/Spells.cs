@@ -456,6 +456,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Jolt2 = DataManager.GetSpellData(7524);
         public static readonly SpellData Verflare = DataManager.GetSpellData(7525);
         public static readonly SpellData Verholy = DataManager.GetSpellData(7526);
+        public static readonly SpellData EnchantedRedoublement = DataManager.GetSpellData(7529);
         public static readonly SpellData Verthunder2 = DataManager.GetSpellData(16524);
         public static readonly SpellData Veraero2 = DataManager.GetSpellData(16525);
         public static readonly SpellData Impact = DataManager.GetSpellData(16526);
@@ -618,6 +619,17 @@ namespace Magitek.Utilities
         public static readonly SpellData Temperance = DataManager.GetSpellData(16536);
         #endregion
 
+        // BM
+        public static readonly SpellData ShockStrike = DataManager.GetSpellData(11429);
+        public static readonly SpellData SharpKnife = DataManager.GetSpellData(11400);
+        public static readonly SpellData Eruption = DataManager.GetSpellData(11427);         
+        public static readonly SpellData GlassDance = DataManager.GetSpellData(11430);
+        public static readonly SpellData Quasar = DataManager.GetSpellData(18324);
+        public static readonly SpellData Surpanakha = DataManager.GetSpellData(18323);
+        public static readonly SpellData OffGuard = DataManager.GetSpellData(11411);
+        public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300); 
+        public static readonly SpellData Bristle = DataManager.GetSpellData(11393);
+        public static readonly SpellData SongOfTorment = DataManager.GetSpellData(11386);
         #region PVP
         public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
         public static readonly SpellData Muse = DataManager.GetSpellData(1583);

@@ -33,10 +33,8 @@ namespace Magitek.Logic
 
             if (CancelSpellQueue.Invoke())
             {
-                SpellQueue.Clear();
-                Timeout.Reset();
+                SpellQueueStop();
                 Logger.WriteInfo("Had To Cancel Spell Queue");
-                InSpellQueue = false;
                 return true;
             }
 
@@ -51,8 +49,7 @@ namespace Magitek.Logic
                     if (!SpellQueue.Any())
                     {
                         Logger.WriteInfo("Spell Queue Complete");
-                        Timeout.Reset();
-                        InSpellQueue = false;
+                        SpellQueueStop();
                     }
                     return true;
                 }
@@ -72,6 +69,7 @@ namespace Magitek.Logic
                 else
                 {
                     SpellQueue.Dequeue();
+                    Logger.Error($"Spell Wait Expired or Otherwise Unable to Cast: {spell.Wait.Name}");
                     return true;
                 }
             }
@@ -104,6 +102,20 @@ namespace Magitek.Logic
 
             NeedToDequeueSuccessfulCast = true;
             return SpellQueue.Any();
+        }
+
+        private static void SpellQueueStop()
+        {
+            SpellQueue.Clear();
+            Timeout.Reset();
+            InSpellQueue = false;
+        }
+
+        public static void SpellQueueReset(Func<bool> cancelSpellQueue)
+        {
+            SpellQueueStop();
+            CancelSpellQueue = cancelSpellQueue;
+            Timeout.Restart();
         }
     }
 }

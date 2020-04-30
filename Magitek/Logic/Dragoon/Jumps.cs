@@ -52,6 +52,9 @@ namespace Magitek.Logic.Dragoon
             if (ActionResourceManager.Dragoon.DragonGaze == 2)
                 return false;
 
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 750)
+                return false;
+
             if (await Spells.MirageDive.Cast(Core.Me.CurrentTarget))
             {
                 Utilities.Routines.Dragoon.MirageDives++;
@@ -77,6 +80,9 @@ namespace Magitek.Logic.Dragoon
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
+                return false;
+
             return await Spells.Jump.Cast(Core.Me.CurrentTarget);
         }
 
@@ -86,6 +92,9 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+                return false;
+
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
                 return false;
 
             return await Spells.SpineshatterDive.Cast(Core.Me.CurrentTarget);
@@ -99,12 +108,18 @@ namespace Magitek.Logic.Dragoon
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
+                return false;
+
             return await Spells.DragonfireDive.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Stardiver()
         {
             if (!DragoonSettings.Instance.Stardiver)
+                return false;
+
+            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
                 return false;
 
             return await Spells.Stardiver.Cast(Core.Me.CurrentTarget);

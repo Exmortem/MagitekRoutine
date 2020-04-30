@@ -5,6 +5,8 @@ using Magitek.Logic;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Logic.BlueMage;
+
 
 namespace Magitek.Rotations
 {
@@ -78,14 +80,21 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
-            if (Utilities.Routines.BlueMage.OnGcd)
-            {
 
+            if (await Buff.OffGuard()) return true;
+            if (await SingleTarget.Surpanakha()) return true;
+            if (await SingleTarget.SongOfTorment()) return true;
+            if (Utilities.Routines.BlueMage.OnGcd)
+            {                      
+                if (await SingleTarget.Eruption()) return true;
+                if (await SingleTarget.GlassDance()) return true;
+                if (await SingleTarget.ShockStrike()) return true;
+                if (await SingleTarget.Quasar()) return true;
             }
 
-            //return await SingleTarget.Enpi();
+            if (await SingleTarget.SharpKnife()) return true;
 
-            return false;
+            return await SingleTarget.AbyssalTransfixion();
         }
         public static async Task<bool> PvP()
         {

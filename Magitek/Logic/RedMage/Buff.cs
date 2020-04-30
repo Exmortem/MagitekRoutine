@@ -1,9 +1,9 @@
-﻿using ff14bot;
+using System.Threading.Tasks;
+using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using System.Linq;
-using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -14,20 +14,15 @@ namespace Magitek.Logic.RedMage
         {
             if (!RedMageSettings.Instance.Acceleration)
                 return false;
-
-            if (!Core.Me.InCombat)
+			
+			if (Core.Me.ClassLevel < 50)
                 return false;
 
-            if (Core.Me.ClassLevel < 50)
+            if (Core.Me.HasAura(Auras.VerfireReady) || Core.Me.HasAura(Auras.VerstoneReady))
                 return false;
-
-            if (Core.Me.HasAura(Auras.VerfireReady) && Core.Me.HasAura(Auras.VerstoneReady))
-                return false;
-
-            if (WhiteMana >= 60 && BlackMana >= 60)
-                return false;
-
-            return await Spells.Acceleration.Cast(Core.Me);
+			
+			else
+				return await Spells.Acceleration.Cast(Core.Me);
         }
 
         public static async Task<bool> Embolden()
@@ -35,18 +30,17 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Embolden)
                 return false;
 
-            if (!Core.Me.InCombat)
-                return false;
-
             if (Core.Me.ClassLevel < 58)
                 return false;
 
-            if (!Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Riposte || s.Spell == Spells.Moulinet)) ;
-            return false;
-
-            return await Spells.Embolden.Cast(Core.Me);
+            //Wait until after Zwerchhau so it's still at max power for Scorch
+            if (ActionManager.LastSpell != Spells.Zwerchhau)
+                return false;
+			
+			else
+				return await Spells.Embolden.Cast(Core.Me);
         }
-
+        
         public static async Task<bool> LucidDreaming()
         {
             if (!RedMageSettings.Instance.LucidDreaming)
@@ -57,8 +51,9 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
-
-            return await Spells.LucidDreaming.Cast(Core.Me);
+			
+			else
+				return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
         public static async Task<bool> Manafication()
@@ -66,21 +61,30 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Manafication)
                 return false;
 
-            if ((WhiteMana < 40) || (WhiteMana > 50) || (BlackMana < 40) || (BlackMana > 50))
-                return false;
-
-            return await Spells.Manafication.Cast(Core.Me);
-        }
-
-        public static async Task<bool> Swiftcast()
-        {
-            if (!RedMageSettings.Instance.SwiftcastVerthunderVeraero)
-                return false;
-
+            //Don't start the combo until we've used up Dualcast
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            return await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast);
+            //Don't fire this off while we're already in a combo, because that wastes a combo opportunity
+            if (SingleTarget.ComboInProgress)
+                return false;
+
+            // Can this be simplified? Yes
+            // I like the readability though
+            if (WhiteMana < RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                return false;
+            
+            if (BlackMana < RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                return false;
+            
+            if (WhiteMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
+                return false;
+
+            if (BlackMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
+                return false;
+			
+			else
+				return await Spells.Manafication.Cast(Core.Me);
         }
     }
 }
