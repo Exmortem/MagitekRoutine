@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Helpers;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Warrior
 {
@@ -14,23 +12,23 @@ namespace Magitek.Logic.Warrior
     {
         internal static async Task<bool> SteelCyclone()
         {
-			if (!WarriorSettings.Instance.UseDecimate)
-				return false;
+            if (!WarriorSettings.Instance.UseDecimate)
+                return false;
 
-			if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
-				return false;
+            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+                return false;
 
-			if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies) 
-				return false;
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
+                return false;
 
-			if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50) 
-				return await Spells.ChaoticCyclone.Cast(Core.Me);
+            if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+                return await Spells.ChaoticCyclone.Cast(Core.Me);
 
-			return await Spells.SteelCyclone.Cast(Core.Me);
-		}
+            return await Spells.SteelCyclone.Cast(Core.Me);
+        }
 
 
-		internal static async Task<bool> Decimate()
+        internal static async Task<bool> Decimate()
         {
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
-using Magitek.Utilities.Managers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {
@@ -13,7 +12,7 @@ namespace Magitek.Utilities.Routines
     {
         public static List<Character> AlliancePhysickOnly = new List<Character>();
 
-        private static bool NeedAdloquiumTankBuster
+        /*private static bool NeedAdloquiumTankBuster
         {
             get
             {
@@ -70,13 +69,13 @@ namespace Magitek.Utilities.Routines
 
                 return !Group.CastableAlliesWithin15.All(r => r.HasAura(Auras.Galvanize));
             }
-        }
+        }*/
 
         public static bool NeedToInterruptCast()
         {
-            if (Casting.CastingTankBuster)
+            /*if (Casting.CastingTankBuster)
                 return false;
-
+                */
             if (Casting.CastingSpell != Spells.Resurrection && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -99,19 +98,19 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
-            if (!ScholarSettings.Instance.UseTankBusters || !ScholarSettings.Instance.PrioritizeTankBusters)
-                return false;
+            /*if (!ScholarSettings.Instance.UseTankBusters || !ScholarSettings.Instance.PrioritizeTankBusters)
+                return false;*/
 
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
 
-            if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.TankBusterMinimumMpPercent)
+            /*if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.TankBusterMinimumMpPercent)
                 return false;
 
             if (!NeedAdloquiumTankBuster && !NeedSuccorTankBuster && !NeedExcogitationTankBuster)
                 return false;
 
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
+            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
             return true;
         }
 
@@ -123,9 +122,9 @@ namespace Magitek.Utilities.Routines
                 // Create a list of alliance members that we need to check
                 if (ScholarSettings.Instance.HealAllianceDps || ScholarSettings.Instance.HealAllianceHealers || ScholarSettings.Instance.HealAllianceTanks)
                 {
-                    var allianceToHeal =  Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (ScholarSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                                           ScholarSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                                           ScholarSettings.Instance.HealAllianceHealers && a.IsDps()));
+                    var allianceToHeal = Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (ScholarSettings.Instance.HealAllianceDps && a.IsDps() ||
+                                                                          ScholarSettings.Instance.HealAllianceTanks && a.IsTank() ||
+                                                                          ScholarSettings.Instance.HealAllianceHealers && a.IsDps()));
 
                     // If all we're going to do with the alliance is Physick them, then simply use this list
                     if (ScholarSettings.Instance.HealAllianceOnlyPhysick)

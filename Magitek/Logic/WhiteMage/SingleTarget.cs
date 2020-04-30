@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Gambits.Conditions;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.WhiteMage
@@ -43,11 +41,11 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.DoDamage)
                 return false;
             if (!WhiteMageSettings.Instance.UseAfflatusMisery)
-                return false; 
+                return false;
             if (ActionResourceManager.WhiteMage.BloodLily < 3)
                 return false;
             if (!MovementManager.IsMoving)
-                return false; 
+                return false;
             return await Spells.AfflatusMisery.Cast(Core.Me.CurrentTarget);
         }
 
@@ -76,7 +74,7 @@ namespace Magitek.Logic.WhiteMage
                 if (!Core.Me.CurrentTarget.HealthCheck(WhiteMageSettings.Instance.DotHealthMinimum, WhiteMageSettings.Instance.DotHealthMinimumPercent))
                     return false;
             }
-            
+
             return await Aero();
         }
 

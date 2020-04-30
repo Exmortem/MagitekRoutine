@@ -15,7 +15,7 @@ namespace Magitek.Utilities.Routines
             Auras.HeartofLight,
             Auras.HeartofStone,
         };
-        
+
         public static bool OnGcd => Spells.KeenEdge.Cooldown > TimeSpan.FromMilliseconds(500);
     }
 }

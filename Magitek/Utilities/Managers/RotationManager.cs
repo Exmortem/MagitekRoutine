@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using PropertyChanged;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Utilities.Managers
 {
@@ -34,7 +34,7 @@ namespace Magitek.Utilities.Managers
         public abstract Task<bool> Combat();
         public abstract Task<bool> PvP();
     }
-    
+
     [AddINotifyPropertyChangedInterface]
     internal class RotationComposites : Rotation
     {
@@ -51,7 +51,7 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Pugilist:
                 case ClassJobType.Monk:
                     return await Rotations.Monk.Rest();
-                    
+
                 case ClassJobType.Marauder:
                 case ClassJobType.Warrior:
                     return await Rotations.Warrior.Rest();

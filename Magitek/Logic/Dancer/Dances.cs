@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Dancer
@@ -96,9 +96,9 @@ namespace Magitek.Logic.Dancer
                 {
                     Spell = danceStep,
                     TargetSelf = true,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Jete.Cooldown == TimeSpan.Zero, Name = "Next Dance Step",WaitTime = 3000 },
+                    Wait = new QueueSpellWait() { Check = () => Spells.Jete.Cooldown == TimeSpan.Zero, Name = "Next Dance Step", WaitTime = 3000 },
 
-                } );
+                });
             }
 
             foreach (var spell in SpellQueueLogic.SpellQueue)

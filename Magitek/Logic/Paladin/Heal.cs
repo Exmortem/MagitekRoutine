@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Paladin
 {
@@ -55,7 +55,7 @@ namespace Magitek.Logic.Paladin
                 }
             }
 
-            if (!PaladinSettings.Instance.UseClemencySelf || anyHealers) 
+            if (!PaladinSettings.Instance.UseClemencySelf || anyHealers)
                 return false;
 
             if (Core.Me.CurrentHealthPercent < PaladinSettings.Instance.UseClemencySelfHp)

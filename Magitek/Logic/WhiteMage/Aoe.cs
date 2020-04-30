@@ -1,10 +1,10 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.WhiteMage
 {
@@ -28,12 +28,12 @@ namespace Magitek.Logic.WhiteMage
                 if (await Spells.PresenceofMind.Cast(Core.Me))
                 {
                     await Coroutine.Wait(3000, () => Core.Me.HasAura(Auras.PresenceOfMind));
-                }               
+                }
             }
 
             return await Spells.Holy.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> AssizeDamage()
         {
             if (!WhiteMageSettings.Instance.Assize)

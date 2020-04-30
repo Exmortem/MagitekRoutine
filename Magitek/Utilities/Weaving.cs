@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities
 {
     internal static class Weaving
     {
         public static Dictionary<ClassJobType, List<SpellData>> NonWeaponskills = new Dictionary<ClassJobType, List<SpellData>>();
-        
+
         static Weaving()
         {
             //System Actions
@@ -76,15 +76,15 @@ namespace Magitek.Utilities
                 #region RoleActions
 
                 //Adding Physical Ranged Role Abilitys
-                if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability 
-                                               && action.Value.JobTypes.Contains(ClassJobType.Bard) && action.Value.JobTypes.Contains(ClassJobType.Archer) 
-                                               && action.Value.JobTypes.Contains(ClassJobType.Machinist) && action.Value.JobTypes.Contains(ClassJobType.Dancer) )
+                if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
+                                               && action.Value.JobTypes.Contains(ClassJobType.Bard) && action.Value.JobTypes.Contains(ClassJobType.Archer)
+                                               && action.Value.JobTypes.Contains(ClassJobType.Machinist) && action.Value.JobTypes.Contains(ClassJobType.Dancer))
                     PhysicalRangedRoleAbilitys.Add(action.Value);
 
                 //Adding Magic Ranged Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
                                                && action.Value.JobTypes.Contains(ClassJobType.Thaumaturge) && action.Value.JobTypes.Contains(ClassJobType.BlackMage)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Arcanist) && action.Value.JobTypes.Contains(ClassJobType.Summoner) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Arcanist) && action.Value.JobTypes.Contains(ClassJobType.Summoner)
                                                && action.Value.JobTypes.Contains(ClassJobType.RedMage))
                     MagicRangedRoleAbilitys.Add(action.Value);
 

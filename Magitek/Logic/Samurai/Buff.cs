@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using Buddy.Coroutines;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Samurai
@@ -34,7 +29,7 @@ namespace Magitek.Logic.Samurai
             {
                 Utilities.Routines.Samurai.CastDuringMeikyo.Clear();
             }
-           
+
             if (SamuraiSettings.Instance.MeikyoOnlyWithZeroSen && Utilities.Routines.Samurai.SenCount != 0)
                 return false;
 

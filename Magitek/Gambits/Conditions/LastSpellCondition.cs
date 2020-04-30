@@ -1,5 +1,5 @@
-﻿using System;
-using ff14bot.Objects;
+﻿using ff14bot.Objects;
+using System;
 
 namespace Magitek.Gambits.Conditions
 {

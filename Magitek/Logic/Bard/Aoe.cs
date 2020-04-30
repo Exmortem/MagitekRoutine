@@ -1,10 +1,10 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Bard
 {
@@ -15,7 +15,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseApexArrow)
                 return false;
 
-            if (BardSettings.Instance.UseBuffedApexArrow 
+            if (BardSettings.Instance.UseBuffedApexArrow
                 && ActionResourceManager.Bard.SoulVoice >= BardSettings.Instance.UseBuffedApexArrowWithAtLeastXSoulVoice)
             {
                 if (Utilities.Routines.Bard.CheckCurrentDamageIncrease(BardSettings.Instance.UseBuffedApexArrowWithAtLeastXBonusDamage))

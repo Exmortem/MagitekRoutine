@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
+using System.Windows.Controls;
 
 namespace Magitek.Views.UserControls.Lists
 {
@@ -12,25 +12,25 @@ namespace Magitek.Views.UserControls.Lists
 
             switch (Core.Me.CurrentJob)
             {
-                    case ClassJobType.Gladiator:
-                        PaladinTab.IsSelected = true;
-                        break;
+                case ClassJobType.Gladiator:
+                    PaladinTab.IsSelected = true;
+                    break;
 
-                    case ClassJobType.Paladin:
-                        PaladinTab.IsSelected = true;
-                        break;
+                case ClassJobType.Paladin:
+                    PaladinTab.IsSelected = true;
+                    break;
 
-                    case ClassJobType.Marauder:
-                        WarriorTab.IsSelected = true;
-                        break;
+                case ClassJobType.Marauder:
+                    WarriorTab.IsSelected = true;
+                    break;
 
-                    case ClassJobType.Warrior:
-                        WarriorTab.IsSelected = true;
-                         break;
+                case ClassJobType.Warrior:
+                    WarriorTab.IsSelected = true;
+                    break;
 
-                    case ClassJobType.DarkKnight:
-                        DarkKnightTab.IsSelected = true;
-                        break;
+                case ClassJobType.DarkKnight:
+                    DarkKnightTab.IsSelected = true;
+                    break;
             }
         }
     }

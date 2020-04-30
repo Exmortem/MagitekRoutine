@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ff14bot;
+using GreyMagic;
+using Magitek.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ff14bot;
-using GreyMagic;
-using Magitek.Models;
 
 namespace Magitek.Utilities.Managers
 {
@@ -40,5 +40,5 @@ namespace Magitek.Utilities.Managers
                 return enmityList.Select(r => new Enmity(r, (int)totalEnmity));
             }
         }
-    }  
+    }
 }

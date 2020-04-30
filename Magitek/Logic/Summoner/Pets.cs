@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Summoner
 {
@@ -42,11 +42,11 @@ namespace Magitek.Logic.Summoner
 
             if (Core.Me.Pet == null) return false;
 
-            if(Casting.LastSpell == Spells.Deathflare)
-            return await Spells.SummonBahamut.Cast(Core.Me);
+            if (Casting.LastSpell == Spells.Deathflare)
+                return await Spells.SummonBahamut.Cast(Core.Me);
 
-            if(Spells.Deathflare.Cooldown.TotalSeconds > 8 && Spells.SummonBahamut.Cooldown.TotalSeconds == 0)
-            return await Spells.SummonBahamut.Cast(Core.Me);
+            if (Spells.Deathflare.Cooldown.TotalSeconds > 8 && Spells.SummonBahamut.Cooldown.TotalSeconds == 0)
+                return await Spells.SummonBahamut.Cast(Core.Me);
 
             return false;
         }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using Clio.Utilities;
+﻿using Clio.Utilities;
 using ff14bot.Objects;
+using System;
+using System.Diagnostics;
 
 namespace Magitek.Models.Debugging
 {

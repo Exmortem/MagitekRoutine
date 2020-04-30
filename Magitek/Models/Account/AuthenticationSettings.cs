@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using PropertyChanged;
+using System.Configuration;
 
 namespace Magitek.Models.Account
 {

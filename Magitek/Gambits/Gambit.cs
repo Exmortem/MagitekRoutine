@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using Magitek.Gambits.Actions;
 using Magitek.Gambits.Conditions;
 using PropertyChanged;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Magitek.Gambits
 {

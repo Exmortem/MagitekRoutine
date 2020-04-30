@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Windows.Forms;
-using System.Windows.Input;
-using Clio.Utilities.Collections;
+﻿using Clio.Utilities.Collections;
 using Magitek.Commands;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
@@ -28,6 +21,13 @@ using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {

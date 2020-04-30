@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
-using System.Configuration;
 using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.RedMage
 {
@@ -33,7 +33,7 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool Acceleration { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Displacement { get; set; }
@@ -85,7 +85,7 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool Manafication { get; set; }
-        
+
         [Setting]
         [DefaultValue(40)]
         public int ManaficationMinimumBlackAndWhiteMana { get; set; }

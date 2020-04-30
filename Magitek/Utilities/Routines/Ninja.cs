@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using System;
+using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {

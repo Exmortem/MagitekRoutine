@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using Magitek.Extensions;
 using Magitek.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities.Managers
 {

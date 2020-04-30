@@ -1,19 +1,17 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.DarkKnight
 {
     internal static class Defensive
     {
-        public static async Task<bool> ExecuteTankBusters()
+        /*public static async Task<bool> ExecuteTankBusters()
         {
             if (!DarkKnightSettings.Instance.UseTankBusters)
                 return false;
@@ -22,7 +20,7 @@ namespace Magitek.Logic.DarkKnight
 
             if (targetAsCharacter == null)
                 return false;
-
+            
             var castingSpell = targetAsCharacter.CastingSpellId;
             var targetIsMe = targetAsCharacter.TargetGameObject == Core.Me;
 
@@ -41,16 +39,17 @@ namespace Magitek.Logic.DarkKnight
             if (tankBuster.ReprisalDk && await Spells.Reprisal.CastAura(Core.Me.CurrentTarget, Auras.Reprisal)) return true;
             if (tankBuster.DarkMissionary && await Spells.DarkMissionary.CastAura(Core.Me, Auras.DarkMissionary)) return true;
             return tankBuster.RampartDk && targetIsMe && await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
-        }
-        
+            
+        }*/
+
         public static async Task<bool> Execute()
         {
             if (!DarkKnightSettings.Instance.UseDefensives)
                 return false;
-            
+            /*
             if (DarkKnightSettings.Instance.UseDefensivesOnlyOnTankBusters)
                 return false;
-            
+            */
             if (Core.Me.HasAura(Auras.LivingDead))
                 return false;
 
@@ -73,7 +72,7 @@ namespace Magitek.Logic.DarkKnight
             if (await DarkMissionary()) return true;
             return await Rampart();
         }
-        
+
         private static async Task<bool> LivingDead()
         {
             if (!DarkKnightSettings.Instance.UseLivingDead)
@@ -81,7 +80,7 @@ namespace Magitek.Logic.DarkKnight
 
             if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.LivingDeadHealth)
                 return false;
-            
+
             return await Spells.LivingDead.CastAura(Core.Me, Auras.LivingDead);
         }
 
@@ -103,7 +102,7 @@ namespace Magitek.Logic.DarkKnight
 
             if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.ShadowWallHealth)
                 return false;
-            
+
             return await Spells.ShadowWall.CastAura(Core.Me, Auras.ShadowWall);
         }
 

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Magitek.Commands;
+using Magitek.Extensions;
+using Magitek.Models.WebResources;
+using Magitek.ViewModels;
+using PropertyChanged;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Magitek.Commands;
-using Magitek.Extensions;
-using Magitek.Models.WebResources;
-using Magitek.Utilities;
-using Magitek.ViewModels;
-using PropertyChanged;
 
 namespace Magitek.Models.Debugging
 {
@@ -22,7 +21,7 @@ namespace Magitek.Models.Debugging
             AffectedName = affectedName;
             Icon = this.GetIcon();
         }
-        
+
         public string Name { get; set; }
         public uint Id { get; set; }
         public string AffectedName { get; set; }

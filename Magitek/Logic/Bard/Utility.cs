@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -9,6 +7,8 @@ using Magitek.Models.Scholar;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Bard
 {
@@ -36,8 +36,8 @@ namespace Magitek.Logic.Bard
 
             BattleCharacter interruptTarget = null;
 
-            interruptTarget = BardSettings.Instance.OnlyInterruptCurrentTarget ? 
-                Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible) 
+            interruptTarget = BardSettings.Instance.OnlyInterruptCurrentTarget ?
+                Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible)
                 : Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
 
             if (interruptTarget == null)

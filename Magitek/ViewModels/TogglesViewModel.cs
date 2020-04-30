@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows.Forms;
-using System.Windows.Input;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Helpers;
 using Magitek.Commands;
 using Magitek.Models.Astrologian;
@@ -29,6 +23,12 @@ using Magitek.Toggles;
 using Magitek.Utilities;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -105,7 +105,7 @@ namespace Magitek.ViewModels
 
         #region Saving and Loading
         public ICommand SaveTogglesCommand => new DelegateCommand(SaveToggles);
-        
+
         public void SaveToggles()
         {
             // Called on main SettingsWindow closed or on command
@@ -128,7 +128,7 @@ namespace Magitek.ViewModels
         {
             var togglesFolder = JsonSettings.CharacterSettingsDirectory + "/Magitek/Toggles/";
             var togglesFile = togglesFolder + SelectedJob + "Toggles.json";
-            
+
             try
             {
                 // Create the folder if it doesn't exist

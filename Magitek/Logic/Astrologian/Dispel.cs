@@ -1,11 +1,11 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -21,7 +21,7 @@ namespace Magitek.Logic.Astrologian
                 return await CheckParty();
             }
 
-            return await CheckSelf();           
+            return await CheckSelf();
         }
 
         private static async Task<bool> CheckParty()

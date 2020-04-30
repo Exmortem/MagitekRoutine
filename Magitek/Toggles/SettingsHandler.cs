@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Magitek.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Magitek.Models;
 
 namespace Magitek.Toggles
 {

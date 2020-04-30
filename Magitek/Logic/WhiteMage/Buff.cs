@@ -1,17 +1,16 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.WhiteMage
 {
     internal static class Buff
-    { 
+    {
         public static async Task<bool> Swiftcast()
         {
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
@@ -110,7 +109,7 @@ namespace Magitek.Logic.WhiteMage
             if (Core.Me.ClassLevel < 62)
                 return false;
 
-            if(Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.ThinAirManaPercent)
+            if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.ThinAirManaPercent)
                 return await Spells.ThinAir.Cast(Core.Me);
 
             if (!preAir)

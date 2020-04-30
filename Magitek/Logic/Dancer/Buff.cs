@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
-using Magitek.Models.Dragoon;
-using Magitek.Models.Samurai;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Dancer
@@ -45,7 +43,7 @@ namespace Magitek.Logic.Dancer
 
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.StandardFinish))
                 return false;
-            
+
             return await Spells.Devilment.Cast(Core.Me);
         }
 
@@ -87,7 +85,7 @@ namespace Magitek.Logic.Dancer
         {
             if (!DancerSettings.Instance.UseFlourish)
                 return false;
-            
+
             if (!Core.Me.HasAura(Auras.StandardFinish))
                 return false;
 
