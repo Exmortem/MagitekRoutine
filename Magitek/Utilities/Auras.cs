@@ -212,11 +212,10 @@ namespace Magitek.Utilities
             Acceleration = 1238,
             Divination = 2034,
             Embolden = 2282,
-            MeditationSAM = 2176;
+            MeditationSAM = 2176,
             OffGuard = 1717,
             Bleeding = 1714,
-            Boost = 1716,
-            MeditationSAM = 2176; 
+            Boost = 1716;
 
         private const int
             Invincibility0 = 981,
