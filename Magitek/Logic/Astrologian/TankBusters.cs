@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
@@ -25,7 +25,6 @@ namespace Magitek.Logic.Astrologian
             if (await AspectedHelios()) return true;
             return await AspectedBenefic();
         }
-
         private static async Task<bool> Benefic2()
         {           
             var benefic2Target = Combat.Enemies.FirstOrDefault(r => r.IsCasting && TankBusterManager.Benefic2List.Contains(r.CastingSpellId))?.TargetCharacter;
@@ -35,7 +34,7 @@ namespace Magitek.Logic.Astrologian
 
             if (!await Spells.Benefic2.Heal(benefic2Target))
                 return false;
-
+            
             Casting.CastingTankBuster = true;
             return true;
         }
@@ -96,4 +95,4 @@ namespace Magitek.Logic.Astrologian
             return true;
         }
     }
-}
+}*/

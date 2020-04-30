@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using Clio.Utilities.Collections;
 using ff14bot;
 using ff14bot.Managers;
@@ -10,6 +6,10 @@ using Magitek.Extensions;
 using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using Magitek.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic
 {
@@ -42,7 +42,7 @@ namespace Magitek.Logic
                 return true;
             }
         }
-        
+
         internal static async Task<bool> Opener()
         {
             if (!InOpener)

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
@@ -8,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
@@ -20,8 +20,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
-            
+
+
             if (Core.Me.IsCasting)
                 return true;
 
@@ -66,7 +66,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            
+
 
             return await GambitLogic.Gambit();
         }

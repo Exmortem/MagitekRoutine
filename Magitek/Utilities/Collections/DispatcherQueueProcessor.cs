@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -30,7 +26,8 @@ namespace Magitek.Utilities.Collections
                 return;
 
             var timer = new System.Timers.Timer(100);
-            timer.Elapsed += (sender, e) => {
+            timer.Elapsed += (sender, e) =>
+            {
                 if (CheckIfDispatcherCreated())
                 {
                     timer.Enabled = false;
@@ -96,7 +93,8 @@ namespace Magitek.Utilities.Collections
                     WeakReference weakRef = new WeakReference(subscribeAction);
                     _subscriberQueue[weakRef] = null;
 
-                    return new DoDispose(subscribeAction, () => {
+                    return new DoDispose(subscribeAction, () =>
+                    {
                         var subscriberQueue = _subscriberQueue;
 
                         if (subscriberQueue == null)
@@ -169,30 +167,31 @@ namespace Magitek.Utilities.Collections
                         _actionWaitingSemaphore.Release(1);
 
 
-                        _dispatcher.Invoke((Action) (() =>
-                        {
-                            if (_actionWaiting != null)
-                            {
-                                _actionWaiting();
-                                _actionWaiting = null;
-                            }
+                        _dispatcher.Invoke((Action)(() =>
+                       {
+                           if (_actionWaiting != null)
+                           {
+                               _actionWaiting();
+                               _actionWaiting = null;
+                           }
 
-                            var countDown = 100;
-                            Action nextCommand;
+                           var countDown = 100;
+                           Action nextCommand;
 
-                            while (countDown > 0 && _actionQueue.TryTake(out nextCommand))
-                            {
-                                --countDown;
-                                nextCommand();
-                            }
-                        }));
+                           while (countDown > 0 && _actionQueue.TryTake(out nextCommand))
+                           {
+                               --countDown;
+                               nextCommand();
+                           }
+                       }));
                         _actionWaitingSemaphore.WaitOne();
                     }
                 }
                 catch (Exception)
                 {
                 }
-            }) {IsBackground = true};
+            })
+            { IsBackground = true };
             actionThread.Start();
         }
 

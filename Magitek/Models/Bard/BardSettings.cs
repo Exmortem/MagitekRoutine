@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Configuration;
-using Magitek.Enumerations;
+﻿using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Bard
 {

@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Scholar
 {
@@ -17,7 +17,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Dispel || !ActionManager.HasSpell(Spells.Esuna.Id))
                 return false;
 
-            if (Globals.InParty) 
+            if (Globals.InParty)
             {
                 if (await CheckParty()) return true;
             }

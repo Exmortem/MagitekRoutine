@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
@@ -70,7 +70,7 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.Hypercharge.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> Wildfire()
         {
             if (!MachinistSettings.Instance.UseWildfire)
@@ -84,7 +84,7 @@ namespace Magitek.Logic.Machinist
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
- 
+
             if (Spells.Ricochet.Charges < 0.5f && Spells.GaussRound.Charges < 0.5f)
                 return false;
 
@@ -129,6 +129,6 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.Reassemble.Cast(Core.Me);
         }
-        
+
     }
 }

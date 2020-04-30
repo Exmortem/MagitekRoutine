@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
+﻿using ff14bot;
 using ff14bot.Directors;
-using ff14bot.Helpers;
+using ff14bot.Managers;
 
 namespace Magitek.Utilities
 {
@@ -22,7 +18,7 @@ namespace Magitek.Utilities
 
             if (DirectorManager.ActiveDirector.DirectorType != DirectorType.InstanceContent) return States.NotInDuty;
 
-            var instanceDirector = (InstanceContentDirector) DirectorManager.ActiveDirector;
+            var instanceDirector = (InstanceContentDirector)DirectorManager.ActiveDirector;
 
             if (instanceDirector.InstanceEnded) return States.Ended;
 

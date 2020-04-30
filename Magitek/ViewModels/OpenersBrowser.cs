@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Clio.Utilities.Collections;
+﻿using Clio.Utilities.Collections;
 using Magitek.Commands;
 using Magitek.Gambits;
 using Magitek.Models.Account;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
-using Magitek.Views.UserControls.Summoner;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -133,7 +132,7 @@ namespace Magitek.ViewModels
                 // Remove it from the list so we can add the new one
                 OpenersViewModel.Instance.OpenerGroups.Remove(oldGambitGroup);
             }
-            
+
             // Add the downloaded opener to the list
             OpenersViewModel.Instance.OpenerGroups.Add(opener);
 

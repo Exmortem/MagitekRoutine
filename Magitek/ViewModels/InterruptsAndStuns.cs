@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
-using ff14bot;
+﻿using ff14bot;
 using Magitek.Commands;
 using Magitek.Models.WebResources;
 using Magitek.Utilities;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System.IO;
+using System.Linq;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -23,8 +22,8 @@ namespace Magitek.ViewModels
         public InterruptsAndStuns()
         {
 
-            ActionList = new Utilities.Collections.List<XivDbItem>();  
-            
+            ActionList = new Utilities.Collections.List<XivDbItem>();
+
             if (File.Exists(_interruptsAndStunsFile))
             {
                 Logger.Write("Loading Interrupts And Stuns From Local File");

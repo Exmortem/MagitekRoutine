@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
@@ -7,7 +6,7 @@ using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
-using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
@@ -20,8 +19,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
-            
+
+
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -52,8 +51,8 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return true;
 
-            
-            
+
+
             if (await Casting.TrackSpellCast())
                 return true;
 

@@ -1,10 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
-using Magitek.Models.DarkKnight;
-using Magitek.Models.QueueSpell;
 
 namespace Magitek.Utilities.Routines
 {
@@ -21,7 +16,7 @@ namespace Magitek.Utilities.Routines
             Auras.Shadowskin,
             Auras.ShadowWall
         };
-        
+
         public static bool OnGcd => Spells.HardSlash.Cooldown > TimeSpan.FromMilliseconds(500);
     }
 }

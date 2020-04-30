@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using Magitek.Models.Account;
+using System.Threading.Tasks;
 
 namespace Magitek.Utilities
 {
@@ -12,7 +12,7 @@ namespace Magitek.Utilities
         public static async Task<bool> HandleChocobo()
         {
             if (await SummonChocobo()) return true;
-            return ManageChocoboStance();            
+            return ManageChocoboStance();
         }
 
         private static async Task<bool> SummonChocobo()
@@ -28,10 +28,10 @@ namespace Magitek.Utilities
 
             if (MovementManager.IsMoving)
                 return false;
-      
+
             if (DutyManager.InInstance)
                 return false;
-                  
+
             ChocoboManager.Summon();
             Logger.WriteInfo("Summoning Chocobo");
             await Coroutine.Wait(4000, () => ChocoboManager.Summoned);

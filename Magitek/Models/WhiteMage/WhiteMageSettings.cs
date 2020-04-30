@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Magitek.Models.Roles;
+using PropertyChanged;
+using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using Magitek.Models.Roles;
-using PropertyChanged;
 
 namespace Magitek.Models.WhiteMage
 {
@@ -116,7 +116,7 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(60.0f)]
         public float TetragrammatonHealthPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Cure3 { get; set; }
@@ -401,7 +401,7 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(false)]
         public bool HealAllianceOnlyCure { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool HealPartyMembersPets { get; set; }

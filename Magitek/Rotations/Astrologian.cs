@@ -1,21 +1,21 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Astrologian;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
     public static class Astrologian
     {
         public static async Task<bool> Rest()
-            {
-                return false;
-            }
+        {
+            return false;
+        }
 
         public static async Task<bool> PreCombatBuff()
         {
@@ -29,7 +29,7 @@ namespace Magitek.Rotations
                 return true;
 
             await Casting.CheckForSuccessfulCast();
-            
+
             if (Globals.OnPvpMap)
                 return false;
 
@@ -82,10 +82,10 @@ namespace Magitek.Rotations
             Casting.DoHealthChecks = false;
 
             if (await GambitLogic.Gambit()) return true;
-            
+
             if (Globals.PartyInCombat && Globals.InParty)
             {
-                if (await TankBusters.Execute()) return true;
+                //    if (await TankBusters.Execute()) return true;
             }
 
             if (await Logic.Astrologian.Heal.Ascend()) return true;
@@ -121,7 +121,16 @@ namespace Magitek.Rotations
 
         public static async Task<bool> CombatBuff()
         {
+            //Added redundancy to make sure buffs go off
+            if (await Buff.LucidDreaming()) return true;
+            if (await Buff.Lightspeed()) return true;
+            if (await Buff.Synastry()) return true;
+            if (await Buff.NeutralSect()) return true;
+
+            //No wonder Divination was not going off
+            if (await Cards.Divination()) return true;
             return await Cards.PlayCards();
+
         }
 
         public static async Task<bool> Combat()

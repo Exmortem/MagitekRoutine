@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Gambits.Conditions;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Gambits.Actions
 {
@@ -65,7 +65,7 @@ namespace Magitek.Gambits.Actions
                     return true;
                 }
             }
-         
+
             bagSlot.UseItem(Core.Me);
             return true;
         }

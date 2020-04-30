@@ -1,13 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Input;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using ff14bot.Managers;
 using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using PropertyChanged;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Magitek.Toggles
 {
@@ -27,7 +27,7 @@ namespace Magitek.Toggles
         public bool ToggleChecked { get; set; }
 
         // Collection of setting values
-        public ObservableCollection<SettingsToggleSetting> Settings { get; set; } 
+        public ObservableCollection<SettingsToggleSetting> Settings { get; set; }
 
         // Command that is bound to the Command (XAML) on the toggle
         public ICommand ExecuteToggleCommand => new DelegateCommand(ExecuteToggle);

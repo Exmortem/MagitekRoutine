@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using ff14bot.Managers;
+﻿using ff14bot.Managers;
 using ff14bot.Objects;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 
 namespace Magitek.Gambits.Actions
 {
@@ -20,7 +20,7 @@ namespace Magitek.Gambits.Actions
             {
                 if (SpellName == null || string.IsNullOrEmpty(SpellName) || string.IsNullOrWhiteSpace(SpellName))
                     return null;
-                
+
                 return ActionManager.CurrentActions.Values.FirstOrDefault(SpellDataCheck);
 
             }

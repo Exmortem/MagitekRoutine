@@ -1,5 +1,5 @@
-﻿using System;
-using Magitek.Gambits.Conditions;
+﻿using Magitek.Gambits.Conditions;
+using System;
 
 namespace Magitek.Gambits.Helpers
 {
@@ -27,7 +27,7 @@ namespace Magitek.Gambits.Helpers
 
             switch (conditionString)
             {
-                 case "EnemyCastingSpell":
+                case "EnemyCastingSpell":
                     condition = new EnemyCastingSpellCondition { SpellName = "Spell Name", TargetAnyone = true };
                     break;
 
@@ -48,16 +48,16 @@ namespace Magitek.Gambits.Helpers
                     break;
 
                 case "MpPercent":
-                     condition = new MpPercentCondition { MPPercentageValue = 50, Above = true, AboveOrEqual = false, Lower = false, LowerOrEqual = false};
-                     break;
+                    condition = new MpPercentCondition { MPPercentageValue = 50, Above = true, AboveOrEqual = false, Lower = false, LowerOrEqual = false };
+                    break;
 
                 case "InInstance":
-                     condition = new InInstanceCondition();
-                     break;
+                    condition = new InInstanceCondition();
+                    break;
 
-                 case "NotInInstance":
-                     condition = new NotInInstanceCondition();
-                     break;
+                case "NotInInstance":
+                    condition = new NotInInstanceCondition();
+                    break;
 
                 case "IsJob":
                     condition = new IsJobCondition();

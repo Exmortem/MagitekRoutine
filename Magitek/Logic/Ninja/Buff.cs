@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Ninja
 {
@@ -38,7 +38,7 @@ namespace Magitek.Logic.Ninja
 
             return false;
         }
-        
+
         public static async Task<bool> Bunshin()
         {
             if (!NinjaSettings.Instance.UseBunshin)

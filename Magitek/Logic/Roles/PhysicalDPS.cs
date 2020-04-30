@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
@@ -9,6 +6,8 @@ using Magitek.Extensions;
 using Magitek.Models.Roles;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Roles
@@ -86,7 +85,7 @@ namespace Magitek.Logic.Roles
                     if (interruptTarget == null)
                         return false;
 
-                    if(Core.Me.IsRangedDps())
+                    if (Core.Me.IsRangedDps())
                         return await Spells.HeadGraze.Cast(interruptTarget);
 
                     return await Spells.LegSweep.Cast(interruptTarget);

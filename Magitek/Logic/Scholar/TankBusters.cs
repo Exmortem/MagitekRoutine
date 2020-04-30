@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿/*using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -32,12 +32,12 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             var castingInfo = castingTarget.SpellCastInfo;
-
+            /*
             if (!TankBusterManager.AdloquiumList.ContainsKey(castingInfo.ActionId))
                 return false;
 
             var adloquiumTankBuster = TankBusterManager.AdloquiumList.FirstOrDefault(r => r.Key == castingInfo.ActionId);
-
+            
             if (castingInfo.CurrentCastTime.TotalMilliseconds < adloquiumTankBuster.Value)
                 return false;
 
@@ -95,4 +95,4 @@ namespace Magitek.Logic.Scholar
             return true;
         }
     }
-}
+}*/

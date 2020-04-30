@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Managers;
+﻿using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -17,36 +17,36 @@ namespace Magitek.Logic.RedMage
 
             if (!Core.Me.InCombat)
                 return false;
-			
-			if (Core.Me.ClassLevel < 50)
+
+            if (Core.Me.ClassLevel < 50)
                 return false;
 
-            if (Core.Me.HasAura(Auras.VerfireReady) || Core.Me.HasAura(Auras.VerstoneReady))
+            if (Core.Me.HasAura(Auras.VerfireReady) && Core.Me.HasAura(Auras.VerstoneReady))
                 return false;
 
-            if (WhiteMana >= 60 && BlackMana >=60 && Core.Me.HasAura(Auras.VerfireReady) && Core.Me.HasAura(Auras.VerstoneReady))
+            if (WhiteMana >= 60 && BlackMana >= 60)
                 return false;
-			
-			return await Spells.Acceleration.Cast(Core.Me);
+
+            return await Spells.Acceleration.Cast(Core.Me);
         }
 
         public static async Task<bool> Embolden()
         {
             if (!RedMageSettings.Instance.Embolden)
                 return false;
-            
+
             if (!Core.Me.InCombat)
                 return false;
 
             if (Core.Me.ClassLevel < 58)
                 return false;
 
-            if (ActionManager.LastSpell != Spells.Zwerchhau)
-                return false;
-			
+            if (!Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Riposte || s.Spell == Spells.Moulinet)) ;
+            return false;
+
             return await Spells.Embolden.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> LucidDreaming()
         {
             if (!RedMageSettings.Instance.LucidDreaming)
@@ -57,8 +57,8 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
-			
-			return await Spells.LucidDreaming.Cast(Core.Me);
+
+            return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
         public static async Task<bool> Manafication()
@@ -66,30 +66,21 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Manafication)
                 return false;
 
-            // Why tho?
-            //if (ActionManager.LastSpell != Spells.Jolt && ActionManager.LastSpell != Spells.Jolt2)
-            //    return false;
-
-            // Can this be simplified? Yes
-            // I like the readability though
-            /*if (WhiteMana < RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
-                return false;
-            
-            if (BlackMana < RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
-                return false;
-            
-            if (WhiteMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
+            if ((WhiteMana < 40) || (WhiteMana > 50) || (BlackMana < 40) || (BlackMana > 50))
                 return false;
 
-            if (BlackMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
-                return false;*/
+            return await Spells.Manafication.Cast(Core.Me);
+        }
 
-            // Should really only be between 40 and 50 for optimal use
-
-			if (WhiteMana < 40 || WhiteMana > 50 || BlackMana < 40 || BlackMana > 50)
+        public static async Task<bool> Swiftcast()
+        {
+            if (!RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 return false;
 
-			return await Spells.Manafication.Cast(Core.Me);
+            if (Core.Me.HasAura(Auras.Dualcast))
+                return false;
+
+            return await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast);
         }
     }
 }

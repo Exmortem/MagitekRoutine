@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using Magitek.Gambits;
+using System.Collections.Generic;
+using System.Configuration;
 
 namespace Magitek.Models
 {

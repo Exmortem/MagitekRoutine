@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist
@@ -92,7 +91,7 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HeatBlast()
         {
 
-            if(Casting.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Hypercharge)
                 return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)

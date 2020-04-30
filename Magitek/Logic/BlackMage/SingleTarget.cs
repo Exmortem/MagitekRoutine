@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.BlackMage;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -11,24 +13,44 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Xenoglossy()
         {
+            if (!ActionResourceManager.BlackMage.PolyglotStatus)
+                return false;
+
             if (Casting.LastSpell == Spells.Xenoglossy)
-                return false; 
-         
+                return false;
+
+            //If we don't have Xeno, Foul is single target
+            if (Core.Me.ClassLevel < 80
+                && ActionResourceManager.BlackMage.UmbralStacks == 3)
+                return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+
+            if (Casting.LastSpell == Spells.Despair
+                && Spells.Triplecast.Cooldown != TimeSpan.Zero)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+
+            if (Casting.LastSpell == Spells.Fire4
+                && Spells.Triplecast.Cooldown == TimeSpan.Zero
+                && Spells.ManaFont.Cooldown == TimeSpan.Zero)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
-                // If we don't have procs (while in movement), cast
-                if (!Core.Me.HasAura(Auras.Swiftcast) || (!Core.Me.HasAura(Auras.Triplecast)))
+                // If we don't have any procs (while in movement), cast
+                if (!Core.Me.HasAura(Auras.Swiftcast)
+                    && !Core.Me.HasAura(Auras.Triplecast)
+                    && !Core.Me.HasAura(Auras.FireStarter)
+                    && !Core.Me.HasAura(Auras.ThunderCloud))
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
             //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
             if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder3)
             {
                 //We don't have max mana
-                if(Core.Me.CurrentMana < 10000)
+                if (Core.Me.CurrentMana < 10000)
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
-            return false;        
+            return false;
         }
 
         public static async Task<bool> Despair()
@@ -52,6 +74,16 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire()
         {
+            //Low level logic
+            if (Core.Me.ClassLevel < 40)
+            {
+                if (Core.Me.CurrentMana > 1600)
+                    return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+                
+                return await Spells.Transpose.Cast(Core.Me);
+            }
+                
+
             if (Core.Me.CurrentMana < 1600)
                 return false;
             //test for no enochian
@@ -70,7 +102,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Sharpcast) && ActionResourceManager.BlackMage.UmbralHearts == 0)
                 if (!Core.Me.HasAura(Auras.Sharpcast, true, 5500))
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
-            
+
             return false;
 
         }
@@ -97,7 +129,7 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire3()
         {
-            
+
             // Use if we're in Umbral and we have 3 hearts and have max mp
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
@@ -123,7 +155,15 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
+            //Low level logic
+            if (Core.Me.ClassLevel < 40)
+            {
+                if (Casting.LastSpell != Spells.Thunder
+                    && Casting.LastSpell == Spells.Transpose)
+                    return await Spells.Thunder.Cast(Core.Me.CurrentTarget);
 
+                return false;
+            }
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -131,10 +171,15 @@ namespace Magitek.Logic.BlackMage
             // If the last spell we cast is triple cast, stop
             if (Casting.LastSpell == Spells.Triplecast)
                 return false;
-            
+
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
+
+            if (MovementManager.IsMoving && Core.Me.HasAura(Auras.ThunderCloud))
+            {
+                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+            }
 
             if (Casting.LastSpell == Spells.Thunder3)
                 return false;
@@ -144,10 +189,11 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 3000) && Casting.LastSpell != Spells.Thunder3)
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500)
+                && Casting.LastSpell != Spells.Thunder3)
                 await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
-            return false;        
 
+            return false;
         }
 
         public static async Task<bool> Blizzard4()
@@ -166,7 +212,7 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks > 0)
             {
                 // If we have less than 3 hearts, cast
-                if (ActionResourceManager.BlackMage.UmbralHearts != 3)
+                if (ActionResourceManager.BlackMage.UmbralHearts < 3)
                     return await Spells.Blizzard4.Cast(Core.Me.CurrentTarget);
             }
 
@@ -195,15 +241,23 @@ namespace Magitek.Logic.BlackMage
 
             return false;
         }
-        public static async Task<bool> Blizzard()   
+        public static async Task<bool> Blizzard()
         {
             //stop being level 1, fool
             if (Core.Me.ClassLevel < 2)
                 return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
-            //this shit sucks if you're using it, buy a level skip
-            if (Core.Me.ClassLevel < 56 && Core.Me.CurrentMana < 1600)
-            return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
+            //Low level logic
+            if (Core.Me.ClassLevel < 40)
+            {
+                if (Core.Me.CurrentMana == 10000)
+                    return false;
+
+                if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+                    return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+
+                return await Spells.Transpose.Cast(Core.Me);
+            }
             return false;
 
         }

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
+using System.ComponentModel;
 
 namespace Magitek.Enumerations
 {
@@ -58,5 +58,5 @@ namespace Magitek.Enumerations
 
         [Description("BLU")]
         BlueMage = ClassJobType.BlueMage
-    }   
+    }
 }

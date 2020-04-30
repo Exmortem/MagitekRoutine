@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
@@ -39,7 +39,7 @@ namespace Magitek.Logic.Gunbreaker
             if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 850)
                 return false;
 
-            
+
             if (Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
                 return await Spells.BowShock.Cast(Core.Me);
 

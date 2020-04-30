@@ -118,7 +118,7 @@ namespace Magitek.Utilities
             VerfireReady = 1234,
             VerstoneReady = 1235,
             Dualcast = 1249,
-			Manafication = 1971,
+            Manafication = 1971,
             StormsEye = 90,
             Deliverance = 729,
             Defiance = 91,
@@ -209,7 +209,10 @@ namespace Magitek.Utilities
             RiddleOfEarth = 2008,
             Anatman = 1862,
             EverlastingFlight = 2030,
-            MeditationSAM = 2176; 
+            Acceleration = 1238,
+            Divination = 2034,
+            Embolden = 2282,
+            MeditationSAM = 2176;
 
         private const int
             Invincibility0 = 981,
@@ -232,7 +235,7 @@ namespace Magitek.Utilities
             PvpLightspeed = 1403;
 
         #endregion
-        
+
         public static readonly List<uint> Invincibility = new List<uint>
         {
             Invincibility0,

@@ -1,10 +1,9 @@
+using ff14bot;
+using ff14bot.Managers;
+using Magitek.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
-using Magitek.Extensions;
 
 namespace Magitek.Utilities.Routines
 {
@@ -34,7 +33,7 @@ namespace Magitek.Utilities.Routines
                 AlreadySnapped = true;
             }
             AlreadySnapped = AlreadySnapped && Core.Me.HasAura(Auras.RagingStrikes);
-            
+
 
         }
 
@@ -54,7 +53,7 @@ namespace Magitek.Utilities.Routines
                 if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 30000)) continue;
                 DoTProcEvents.Remove(_TickTime);
             }
-            
+
             //The More Enemies the more Proc data we need
             if (DoTProcEvents.Count > Combat.Enemies.Count)
                 DoTProcEvents.Remove(DoTProcEvents.Last());
@@ -97,8 +96,8 @@ namespace Magitek.Utilities.Routines
             }
 
             if (potentialTickInXms != 999999)
-                return  3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
-            return 0; 
+                return 3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
+            return 0;
 
         }
 

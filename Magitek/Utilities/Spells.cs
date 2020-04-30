@@ -125,6 +125,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Despair = DataManager.GetSpellData(16505);
         public static readonly SpellData UmbralSoul = DataManager.GetSpellData(16506);
         public static readonly SpellData Xenoglossy = DataManager.GetSpellData(16507);
+        public static readonly SpellData Blizzard2 = DataManager.GetSpellData(146);
         #endregion
 
         // BRD
@@ -398,7 +399,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Bunshin = DataManager.GetSpellData(16493);
 
         public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
-        
+
         #endregion
 
         // PLD
@@ -442,7 +443,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Verfire = DataManager.GetSpellData(7510);
         public static readonly SpellData Verstone = DataManager.GetSpellData(7511);
         public static readonly SpellData Zwerchhau = DataManager.GetSpellData(7512);
-        public static readonly SpellData Moulinet = DataManager.GetSpellData(7513);
+        public static readonly SpellData Moulinet = DataManager.GetSpellData(7530);
         public static readonly SpellData Vercure = DataManager.GetSpellData(7514);
         public static readonly SpellData Displacement = DataManager.GetSpellData(7515);
         public static readonly SpellData Redoublement = DataManager.GetSpellData(7516);
@@ -459,7 +460,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Veraero2 = DataManager.GetSpellData(16525);
         public static readonly SpellData Impact = DataManager.GetSpellData(16526);
         public static readonly SpellData Engagement = DataManager.GetSpellData(16527);
-        public static readonly SpellData Reprise = DataManager.GetSpellData(16529);
+        public static readonly SpellData Reprise = DataManager.GetSpellData(16528);
         public static readonly SpellData Scorch = DataManager.GetSpellData(16530);
         #endregion
 

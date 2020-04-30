@@ -1,8 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
 using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.BlackMage
 {
@@ -60,6 +60,10 @@ namespace Magitek.Models.BlackMage
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool QuadFlare { get; set; }
 
         [Setting]
         [DefaultValue(3)]

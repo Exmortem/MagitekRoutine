@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Clio.Utilities.Collections;
+﻿using Clio.Utilities.Collections;
 using Magitek.Commands;
 using Magitek.Gambits;
 using Magitek.Models.Account;
@@ -12,6 +6,12 @@ using Magitek.Utilities;
 using Magitek.Utilities.Managers;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -65,7 +65,7 @@ namespace Magitek.ViewModels
             catch (Exception e)
             {
                 Logger.Error(e.Message);
-            }      
+            }
         }
 
         #endregion
