@@ -19,15 +19,17 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Spells.Drill.Cooldown.TotalMilliseconds < 100)
-                return false;
+            if (Core.Me.ClassLevel > 58)
+            {
+                if (Spells.Drill.Cooldown.TotalMilliseconds < 100)
+                    return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return false;
+                if (Casting.LastSpell == Spells.Hypercharge)
+                    return false;
 
-            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
-                return false;
-
+                if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                    return false;
+            }
             return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -63,6 +65,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
+            if (Core.Me.ClassLevel < 59)
+                return false;
+
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
