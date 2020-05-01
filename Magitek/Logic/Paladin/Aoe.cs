@@ -1,12 +1,10 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
-using static Magitek.Utilities.Routines.Paladin;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Paladin
 {

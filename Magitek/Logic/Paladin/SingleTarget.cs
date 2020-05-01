@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
@@ -8,12 +5,15 @@ using Magitek.Extensions;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Paladin
 {
     internal static class SingleTarget
-    {      
+    {
         public static async Task<bool> ShieldLob()
         {
             if (PaladinSettings.Instance.ShieldLobToPullExtraEnemies && !BotManager.Current.IsAutonomous)
@@ -32,7 +32,7 @@ namespace Magitek.Logic.Paladin
 
             return await Spells.ShieldLob.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> ShieldLobLostAggro()
         {
             if (Globals.OnPvpMap)
@@ -44,7 +44,7 @@ namespace Magitek.Logic.Paladin
             if (BotManager.Current.IsAutonomous)
                 return false;
 
-            var shieldLobTarget = Combat.Enemies.FirstOrDefault(r =>r.Distance(Core.Me) > 5 + r.CombatReach && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.Distance(Core.Me) <= 15 + r.CombatReach && r.TargetGameObject != Core.Me);
+            var shieldLobTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) > 5 + r.CombatReach && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.Distance(Core.Me) <= 15 + r.CombatReach && r.TargetGameObject != Core.Me);
 
             if (shieldLobTarget == null)
                 return false;
@@ -54,11 +54,11 @@ namespace Magitek.Logic.Paladin
 
             if (!await Spells.ShieldLob.Cast(shieldLobTarget))
                 return false;
-            
+
             Logger.Write($@"[Magitek] Shield Lob On {shieldLobTarget.Name} To Pull Aggro");
             return true;
         }
-        
+
         public static async Task<bool> Interject()
         {
             if (!PaladinSettings.Instance.UseInterject)
@@ -103,7 +103,7 @@ namespace Magitek.Logic.Paladin
 
             return await Spells.SpiritsWithin.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> ShieldBash()
         {
             if (!PaladinSettings.Instance.ShieldBash)
@@ -119,7 +119,7 @@ namespace Magitek.Logic.Paladin
 
             return (InterruptsAndStunsManager.HighPriorityStuns.Contains(tarasc.CastingSpellId) || InterruptsAndStunsManager.NormalStuns.Contains(tarasc.CastingSpellId)) && await Spells.ShieldBash.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> Requiescat()
         {
             if (!PaladinSettings.Instance.Requiescat)
@@ -176,7 +176,7 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.HasAura(Auras.SwordOath) && Core.Me.HasAura(Auras.FightOrFight))
             {
                 // We only want to use this during Sword Oath as a OGCD, one we go into this phase and once after using Atonement
-                if(Casting.LastSpell == Spells.RoyalAuthority)
+                if (Casting.LastSpell == Spells.RoyalAuthority)
                     return await Spells.Intervene.Cast(Core.Me.CurrentTarget);
 
                 if (Casting.LastSpell == Spells.CircleofScorn)
@@ -198,7 +198,7 @@ namespace Magitek.Logic.Paladin
                 return false;
 
             //we are in FoF Check
-            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight,true,7000) && Core.Me.HasAura(Auras.FightOrFight))
+            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight, true, 7000) && Core.Me.HasAura(Auras.FightOrFight))
                 return false;
 
             //are we mid combo?

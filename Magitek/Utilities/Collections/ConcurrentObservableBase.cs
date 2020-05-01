@@ -33,7 +33,7 @@ namespace Magitek.Utilities.Collections
 
             _baseCollection.CollectionChanged += HandleBaseCollectionChanged;
 
-            _viewModel.CollectionChanged += (sender, e) => 
+            _viewModel.CollectionChanged += (sender, e) =>
             {
                 CollectionChanged?.Invoke(sender, e);
             };
@@ -93,7 +93,8 @@ namespace Magitek.Utilities.Collections
 
         protected void DoBaseRead(Action readFunc)
         {
-            DoBaseRead<object>(() => {
+            DoBaseRead<object>(() =>
+            {
                 readFunc();
                 return null;
             });
@@ -170,7 +171,8 @@ namespace Magitek.Utilities.Collections
 
         protected void DoBaseWrite(Action writeFunc)
         {
-            DoBaseWrite<object>(() => {
+            DoBaseWrite<object>(() =>
+            {
                 writeFunc();
                 return null;
             });
@@ -199,7 +201,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     UpdateSnapshot();
                     return _baseSnapshot;
                 });
@@ -279,7 +282,8 @@ namespace Magitek.Utilities.Collections
             {
                 throw new ArgumentNullException(nameof(observer));
             }
-            return DoBaseWrite(() => {
+            return DoBaseWrite(() =>
+            {
                 int key = _subscriberKey++;
                 _subscribers.Add(key, observer);
                 UpdateSnapshot();
@@ -288,8 +292,10 @@ namespace Magitek.Utilities.Collections
                     observer.OnNext(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
                 }
 
-                return new DoDispose(() => {
-                    DoBaseWrite(() => {
+                return new DoDispose(() =>
+                {
+                    DoBaseWrite(() =>
+                    {
                         _subscribers.Remove(key);
                     });
                 });

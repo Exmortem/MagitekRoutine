@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -22,6 +22,6 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.Gravity.Cast(Core.Me.CurrentTarget);
         }
-        
+
     }
 }

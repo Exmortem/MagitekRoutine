@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using Magitek.Enumerations;
+﻿using Magitek.Enumerations;
 using PropertyChanged;
+using System;
+using System.Globalization;
 
 namespace Magitek.Models.WebResources
 {
@@ -30,12 +30,12 @@ namespace Magitek.Models.WebResources
         public bool Dragoon { get; set; }
         public bool Monk { get; set; }
         public bool Ninja { get; set; }
-                
+
         public ScholarTbStrategies ScholarTbStrategy { get; set; } = ScholarTbStrategies.None;
         public WhiteMageTbStrategies WhiteMageTbStrategy { get; set; } = WhiteMageTbStrategies.None;
         public AstrologianTbStrategies AstrologianTbStrategy { get; set; } = AstrologianTbStrategies.None;
 
-        public uint TankBusterTimeIntoCast { get; set; }
+        //public uint TankBusterTimeIntoCast { get; set; }
 
         public string IconUrl
         {
@@ -53,7 +53,7 @@ namespace Magitek.Models.WebResources
         public bool Rampart { get; set; }
         public bool Reprisal { get; set; }
 
-        public bool PaladinTankBuster => DivineVeil || Sheltron || HallowedGround || Sentinel  || Rampart;
+        //public bool PaladinTankBuster => DivineVeil || Sheltron || HallowedGround || Sentinel  || Rampart;
 
         public bool RampartDk { get; set; }
         public bool LivingDead { get; set; }
@@ -63,7 +63,7 @@ namespace Magitek.Models.WebResources
         public bool TheBlackestNight { get; set; }
         public bool ReprisalDk { get; set; }
 
-        public bool DarkKnightTankBuster => LivingDead || DarkMissionary || TheBlackestNight || RampartDk || ShadowWall || DarkMind;
+        //public bool DarkKnightTankBuster => LivingDead || DarkMissionary || TheBlackestNight || RampartDk || ShadowWall || DarkMind;
 
         public bool RampartWar { get; set; }
         public bool ReprisalWar { get; set; }
@@ -72,7 +72,7 @@ namespace Magitek.Models.WebResources
         public bool Vengeance { get; set; }
         public bool RawIntuition { get; set; }
 
-        public bool WarriorTankBuster => RampartWar || ReprisalWar || InnerBeast || Holmgang || Vengeance || RawIntuition;
+        //public bool WarriorTankBuster => RampartWar || ReprisalWar || InnerBeast || Holmgang || Vengeance || RawIntuition;
 
         public bool RampartGnb { get; set; }
         public bool ReprisalGnb { get; set; }
@@ -83,6 +83,6 @@ namespace Magitek.Models.WebResources
         public bool HeartofStone { get; set; }
         public bool Superbolide { get; set; }
 
-        public bool GunbreakerTankBuster => RampartGnb || ReprisalGnb || HeartofLight || HeartofStone || Camouflage || Nebula || Aurora || Superbolide;
+        //public bool GunbreakerTankBuster => RampartGnb || ReprisalGnb || HeartofLight || HeartofStone || Camouflage || Nebula || Aurora || Superbolide;
     }
 }

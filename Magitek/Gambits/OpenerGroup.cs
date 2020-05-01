@@ -1,16 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using Magitek.Gambits.Conditions;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 
 namespace Magitek.Gambits
 {
     [AddINotifyPropertyChangedInterface]
     public class OpenerGroup
     {
-        public string Name { get; set; }   
-        public int Id { get; set; } = 1; 
-        public int ZoneId { get; set; }  
+        public string Name { get; set; }
+        public int Id { get; set; } = 1;
+        public int ZoneId { get; set; }
         public string ZoneName { get; set; }
         public ClassJobType Job { get; set; }
         public string Description { get; set; }

@@ -1,12 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using Magitek.Commands;
-using Magitek.Logic;
+﻿using Magitek.Commands;
 using Magitek.Models.Summoner;
 using Magitek.Toggles;
-using Magitek.Views.UserControls;
 using PropertyChanged;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {

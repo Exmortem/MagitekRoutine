@@ -1,16 +1,13 @@
-using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
-using ff14bot;
-using Magitek.Enumerations;
-using QuickGraph;
 
 namespace Magitek.Logic.Bard
 {
@@ -50,7 +47,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseStraightShot)
                 return false;
 
-            
+
             if (Core.Me.ClassLevel < 70)
                 if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
                     return true;
@@ -99,7 +96,7 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
                 return false;
 
-            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget); 
+            return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> BloodletterInMagesBallard()

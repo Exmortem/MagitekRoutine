@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {
@@ -18,8 +18,8 @@ namespace Magitek.Utilities.Routines
 
         public static bool NeedToInterruptCast()
         {
-            if (Casting.CastingTankBuster || Casting.SpellTarget == null)
-                return false;
+            /*if (Casting.CastingTankBuster || Casting.SpellTarget == null)
+                return false;*/
 
             if (ActionResourceManager.Summoner.DreadwyrmTrance &&
                 ActionResourceManager.Summoner.Timer.TotalMilliseconds <= 1000 &&

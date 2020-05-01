@@ -1,15 +1,8 @@
 ﻿using ff14bot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
-using Magitek.Models.QueueSpell;
-using Magitek.Utilities.Routines;
 using Magitek.Utilities;
+using System;
 using System.Threading;
 
 namespace Magitek.Logic.Monk
@@ -25,7 +18,7 @@ namespace Magitek.Logic.Monk
             System.Windows.Media.Colors.Red,
             System.Windows.Media.Colors.Black,
             new System.Windows.Media.FontFamily("Consolas"));
-            
+
         }
 
         public static void PositionalLogic()

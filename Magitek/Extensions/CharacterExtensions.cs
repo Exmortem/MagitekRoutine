@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using ff14bot.Objects;
+﻿using ff14bot.Objects;
 using Magitek.Utilities.Managers;
+using System.Linq;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Extensions

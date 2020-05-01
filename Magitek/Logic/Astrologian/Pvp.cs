@@ -1,14 +1,13 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
-using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
-using Auras = Magitek.Utilities.Auras;
 using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -24,7 +23,7 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.HasTarget)
                 return false;
 
-            var target = (Character) Core.Me.CurrentTarget;
+            var target = (Character)Core.Me.CurrentTarget;
 
             if (!target.ValidAttackUnit())
                 return false;

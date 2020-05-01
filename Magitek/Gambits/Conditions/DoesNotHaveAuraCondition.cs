@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Objects;
+using System;
+using System.Linq;
 
 namespace Magitek.Gambits.Conditions
 {

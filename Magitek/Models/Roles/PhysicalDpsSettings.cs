@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Configuration;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Roles
 {

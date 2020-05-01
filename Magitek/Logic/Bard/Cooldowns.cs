@@ -1,13 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Bard
 {
@@ -27,7 +25,7 @@ namespace Magitek.Logic.Bard
             if (BardSettings.Instance.DelayRageingStrikesUntilBarrageIsReady)
                 if (Spells.Barrage.Cooldown != TimeSpan.Zero)
                     return false;
-            
+
 
             switch (BardSettings.Instance.UseCoolDowns)
             {
@@ -78,8 +76,8 @@ namespace Magitek.Logic.Bard
             //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
             if (Core.Me.ClassLevel < 76)
             {
-                if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850 
-                    && ( Casting.LastSpell == Spells.HeavyShot || Casting.LastSpell == Spells.Windbite || Casting.LastSpell == Spells.VenomousBite || Casting.LastSpell == Spells.IronJaws ))
+                if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
+                    && (Casting.LastSpell == Spells.HeavyShot || Casting.LastSpell == Spells.Windbite || Casting.LastSpell == Spells.VenomousBite || Casting.LastSpell == Spells.IronJaws))
                     return false;
             }
             else

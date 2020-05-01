@@ -31,7 +31,7 @@ namespace Magitek.Gambits.Conditions
             if (gameObject == null)
                 return false;
 
-            var currentJob = ((BattleCharacter) gameObject).CurrentJob;
+            var currentJob = ((BattleCharacter)gameObject).CurrentJob;
 
             if (IsWhm && currentJob == ClassJobType.WhiteMage)
                 return true;

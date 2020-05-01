@@ -61,14 +61,16 @@ namespace Magitek.Utilities.Collections
 
         public void Add(TKey key, TValue value)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 BaseAdd(key, value);
             });
         }
 
         public bool TryAdd(TKey key, TValue value)
         {
-            return DoBaseReadWrite(() => _keyToIndex.ContainsKey(key), () => false, () => {
+            return DoBaseReadWrite(() => _keyToIndex.ContainsKey(key), () => false, () =>
+            {
                 BaseAdd(key, value);
                 return true;
             });
@@ -77,12 +79,15 @@ namespace Magitek.Utilities.Collections
         public TValue RetrieveOrAdd(TKey key, Func<TValue> getValue)
         {
             var value = default(TValue);
-            return DoBaseReadWrite(() => _keyToIndex.ContainsKey(key), () => {
+            return DoBaseReadWrite(() => _keyToIndex.ContainsKey(key), () =>
+            {
                 var index = _keyToIndex[key].Index;
                 return WriteCollection[index].Value;
-            }, () => {
+            }, () =>
+            {
                 value = getValue();
-            }, () => {
+            }, () =>
+            {
                 BaseAdd(key, value);
                 return value;
             });
@@ -105,7 +110,8 @@ namespace Magitek.Utilities.Collections
 
         public bool Remove(TKey key)
         {
-            return DoBaseWrite(() => {
+            return DoBaseWrite(() =>
+            {
                 if (!_keyToIndex.TryGetValue(key, out DoubleLinkListIndexNode node))
                     return _keyToIndex.Remove(key);
 
@@ -132,14 +138,16 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     var index = _keyToIndex[key].Index;
                     return WriteCollection[index].Value;
                 });
             }
             set
             {
-                DoBaseWrite(() => {
+                DoBaseWrite(() =>
+                {
                     if (_keyToIndex.ContainsKey(key))
                     {
                         var index = _keyToIndex[key].Index;

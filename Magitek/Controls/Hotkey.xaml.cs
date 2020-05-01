@@ -20,7 +20,7 @@ namespace Magitek.Controls
 
         private static void OnModKeyChanged(DependencyObject keySetting, DependencyPropertyChangedEventArgs eventArgs)
         {
-   
+
         }
 
         public Hotkey()

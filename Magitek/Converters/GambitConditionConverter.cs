@@ -1,7 +1,7 @@
-﻿using System;
-using Magitek.Gambits.Conditions;
+﻿using Magitek.Gambits.Conditions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Magitek.Converters
 {

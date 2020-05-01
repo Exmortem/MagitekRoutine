@@ -1,8 +1,7 @@
-using System.ComponentModel;
-using System.Configuration;
-using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Gunbreaker
 {
@@ -87,7 +86,7 @@ namespace Magitek.Models.Gunbreaker
 
         [Setting]
         [DefaultValue(30)]
-        public int  UseAuroraSelfHealthPercent { get; set; }
+        public int UseAuroraSelfHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(15)]

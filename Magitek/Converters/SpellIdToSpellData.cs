@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ff14bot.Managers;
+using ff14bot.Objects;
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using ff14bot.Managers;
-using ff14bot.Objects;
 
 namespace Magitek.Converters
 {

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Helpers;
 using Magitek.Utilities;
 using Magitek.ViewModels;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 namespace Magitek.Toggles
 {
@@ -54,8 +54,8 @@ namespace Magitek.Toggles
                 var togglesFolder = JsonSettings.CharacterSettingsDirectory + "/Magitek/Toggles/";
                 var togglesFile = togglesFolder + Core.Me.CurrentJob + "Toggles.json";
 
-                return !File.Exists(togglesFile) 
-                    ? null 
+                return !File.Exists(togglesFile)
+                    ? null
                     : new List<SettingsToggle>(JsonConvert.DeserializeObject<List<SettingsToggle>>(File.ReadAllText(togglesFile)));
             }
         }

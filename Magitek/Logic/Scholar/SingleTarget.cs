@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Scholar
@@ -45,7 +45,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             return await Spells.Bio.Cast(bioTarget);
-            
+
             bool NeedsBio(BattleCharacter unit)
             {
                 if (!CanBio(unit))
@@ -92,7 +92,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (!Core.Me.HasAetherflow())
-            return false;
+                return false;
 
             if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 9000)
                 return false;

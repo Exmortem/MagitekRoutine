@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Helpers;
 using ff14bot.Managers;
@@ -23,6 +14,15 @@ using Magitek.Utilities;
 using Magitek.Utilities.Managers;
 using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -48,7 +48,7 @@ namespace Magitek.ViewModels
 
             CollectionViewSource = System.Windows.Data.CollectionViewSource.GetDefaultView(GambitGroups);
             CollectionViewSource.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
-            
+
             ResetCollectionViewSource();
         }
 
@@ -415,7 +415,7 @@ namespace Magitek.ViewModels
                 var gambits = GambitGroups.Where(r => r.Job == Core.Me.CurrentJob && (r.ZoneId == WorldManager.ZoneId || r.ZoneId == 1)).SelectMany(x => x.Gambits).Where(x => x.IsEnabled).ToList();
 
                 var interruptGambits = gambits.Where(x => x.InterruptCast &&
-                                                         !x.OnlyUseInChain && 
+                                                         !x.OnlyUseInChain &&
                                                          (x.ActionType == GambitActionTypes.CastSpellOnAlly || x.ActionType == GambitActionTypes.CastSpellOnEnemy || x.ActionType == GambitActionTypes.CastSpellOnFriendlyNpc || x.ActionType == GambitActionTypes.CastSpellOnSelf));
 
                 var toastGambits = gambits.Where(x => x.ActionType == GambitActionTypes.ToastMessage && !x.OnlyUseInChain);
@@ -503,7 +503,7 @@ namespace Magitek.ViewModels
                 Status = $"Gambit Is Null?";
                 return;
             }
-            
+
             if (group.Gambits.Count == 0)
             {
                 Status = $"The Group You're Trying To Share Has No Gambits";
@@ -572,7 +572,7 @@ namespace Magitek.ViewModels
             catch (Exception e)
             {
                 Logger.Error(e.Message);
-            }            
+            }
         });
 
         #endregion
@@ -581,7 +581,7 @@ namespace Magitek.ViewModels
 
         public ICommand ShowGambitsBrowserModal => new DelegateCommand(() =>
         {
-            Magitek.Form.ShowModal(new Controls.GambitBrowser()); 
+            Magitek.Form.ShowModal(new Controls.GambitBrowser());
         });
 
         #endregion

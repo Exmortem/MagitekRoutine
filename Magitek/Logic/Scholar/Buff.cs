@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
@@ -10,6 +7,9 @@ using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Scholar
@@ -96,8 +96,8 @@ namespace Magitek.Logic.Scholar
                 if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
                     return true;
             return await Spells.Aetherflow.Cast(Core.Me);
-            
-            
+
+
         }
 
         public static async Task<bool> DeploymentTactics()
@@ -132,7 +132,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Spells.LucidDreaming.Cooldown.TotalMilliseconds > 1500)
-                return false; 
+                return false;
 
             //force ruin 2 cast to open GCD 
             if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
@@ -155,7 +155,7 @@ namespace Magitek.Logic.Scholar
             switch (ScholarSettings.Instance.ChainStrategemsStrategy)
 
             {
-                
+
                 case ChainStrategemStrategemStrategy.Never:
                     return false;
 
