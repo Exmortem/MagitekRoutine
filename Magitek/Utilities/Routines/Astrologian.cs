@@ -189,7 +189,7 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
-            return true;
+           return false;
         }
 
         public static void GroupExtension()

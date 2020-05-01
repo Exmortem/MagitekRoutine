@@ -33,7 +33,8 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
-            if (ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None)
+            if (ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None
+                && AstrologianSettings.Instance.UseDraw)
                 await Spells.Draw.Cast(Core.Me);
 
             // Check to see if both sects can be used

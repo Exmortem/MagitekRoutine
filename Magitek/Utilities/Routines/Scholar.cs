@@ -90,8 +90,10 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             if (Core.Me.HasAura(Auras.EmergencyTactics))
-                return false;
-
+            {
+                Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
+                return true;
+            }
             if (ScholarSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= ScholarSettings.Instance.InterruptHealingPercent)
             {
                 Logger.Error($@"Stopped Healing: Target's Health Too High");
@@ -111,7 +113,7 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
-            return true;
+            return false;
         }
 
         public static void GroupExtension()
