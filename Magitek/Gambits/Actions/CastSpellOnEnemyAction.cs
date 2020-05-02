@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Magitek.Extensions;
+﻿using Magitek.Extensions;
 using Magitek.Gambits.Conditions;
 using Magitek.Utilities;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Gambits.Actions
 {
@@ -14,7 +14,7 @@ namespace Magitek.Gambits.Actions
         }
 
         public override async Task<bool> Execute(ObservableCollection<IGambitCondition> conditions)
-        {   
+        {
             if (SpellData == null)
                 return false;
 

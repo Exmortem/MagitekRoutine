@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Summoner
 {

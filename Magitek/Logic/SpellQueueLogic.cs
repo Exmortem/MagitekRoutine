@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using Clio.Utilities.Collections;
 using Magitek.Extensions;
 using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Debug = Magitek.ViewModels.Debug;
 
 namespace Magitek.Logic
@@ -96,7 +96,7 @@ namespace Magitek.Logic
             if (!await spell.Spell.Cast(target))
                 return SpellQueue.Any();
 
-                
+
 
             Logger.WriteInfo($@"Queue Cast: {spell.Spell.LocalizedName}");
 

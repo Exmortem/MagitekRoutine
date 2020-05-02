@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist
@@ -48,19 +48,19 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AutoCrossbow()
         {
-                if (!MachinistSettings.Instance.UseBioBlaster)
-                    return false;
+            if (!MachinistSettings.Instance.UseBioBlaster)
+                return false;
 
-                if (!MachinistSettings.Instance.UseAoe)
-                    return false;
+            if (!MachinistSettings.Instance.UseAoe)
+                return false;
 
-                if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
-                    return false;
+            if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
+                return false;
 
-                if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
-                    return false;
+            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
+                return false;
 
-                return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
+            return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Flamethrower()
         {

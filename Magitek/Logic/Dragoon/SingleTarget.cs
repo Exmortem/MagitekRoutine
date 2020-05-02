@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Dragoon
@@ -86,7 +86,7 @@ namespace Magitek.Logic.Dragoon
             // Second Geirskogul should only happen after the second Mirage Dive
             if (Utilities.Routines.Dragoon.MirageDives == 1)
                 return false;
-            
+
             if (ActionResourceManager.Dragoon.Timer.TotalMilliseconds > 28000)
                 return await Spells.Geirskogul.Cast(Core.Me.CurrentTarget);
 

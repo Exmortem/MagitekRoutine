@@ -1,18 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
+﻿using ff14bot;
 using Magitek.Extensions;
 using Magitek.Logic.Roles;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Warrior
 {
     public class Defensive
-    {
+    {/*
         public static async Task<bool> ExecuteTankBusters()
         {
             if (!WarriorSettings.Instance.UseTankBusters)
@@ -39,15 +36,15 @@ namespace Magitek.Logic.Warrior
 			if (tankBuster.RampartWar && targetIsMe && await Spells.Rampart.CastAura(Core.Me, Utilities.Auras.Rampart)) ;
 			if (tankBuster.Vengeance && targetIsMe && await Spells.Vengeance.CastAura(Core.Me, Utilities.Auras.Vengeance)) return true;
 			return (tankBuster.Holmgang && targetIsMe && await Spells.Holmgang.CastAura(Core.Me.CurrentTarget, Utilities.Auras.Holmgang));
-		}
+		}*/
 
         public static async Task<bool> Defensives()
         {
             if (!WarriorSettings.Instance.UseDefensives)
                 return false;
 
-            if (WarriorSettings.Instance.UseDefensivesOnlyOnTankBusters)
-                return false;
+            /*if (WarriorSettings.Instance.UseDefensivesOnlyOnTankBusters)
+                return false;*/
 
             var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => Utilities.Routines.Warrior.Defensives.Contains(r)).ToList();
 
@@ -100,7 +97,7 @@ namespace Magitek.Logic.Warrior
                 }
             }
             #endregion
-            
+
             #region RawIntuition
             if (WarriorSettings.Instance.UseRawIntuition)
             {
@@ -110,7 +107,7 @@ namespace Magitek.Logic.Warrior
                 }
             }
             #endregion
-            
+
             return false;
         }
 

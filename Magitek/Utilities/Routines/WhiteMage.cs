@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
-using Magitek.Utilities.Managers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {
     internal static class WhiteMage
     {
         public static bool OnGcd => Spells.Stone.Cooldown.TotalMilliseconds > 100;
-               
+
         public static HashSet<string> DontCure = new HashSet<string>();
         public static HashSet<string> DontCure2 = new HashSet<string>();
         public static HashSet<string> DontRegen = new HashSet<string>();
         public static HashSet<string> DontTetraGrammaton = new HashSet<string>();
-        public static HashSet<string> DontBenediction = new HashSet<string>();      
-        public static HashSet<string> DontAfflatusSolace = new HashSet<string>();      
+        public static HashSet<string> DontBenediction = new HashSet<string>();
+        public static HashSet<string> DontAfflatusSolace = new HashSet<string>();
         public static List<Character> AllianceCureOnly = new List<Character>();
 
         private static HashSet<uint> DamageSpells = new HashSet<uint>()
@@ -31,8 +29,8 @@ namespace Magitek.Utilities.Routines
             Spells.Holy.Id,
             Spells.Stone4.Id,
         };
-        
-        private static bool NeedCure2TankBuster
+
+        /*private static bool NeedCure2TankBuster
         {
             get
             {
@@ -84,12 +82,12 @@ namespace Magitek.Utilities.Routines
                 return Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.AfflatusRaptureList.Contains(r.CastingSpellId));
             }
         }
-
+        */
         public static bool NeedToInterruptCast()
         {
-            if (Casting.CastingTankBuster)
+            /*if (Casting.CastingTankBuster)
                 return false;
-
+                */
             if (Casting.CastingSpell != Spells.Raise && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -99,7 +97,7 @@ namespace Magitek.Utilities.Routines
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
-
+            /*
             if (!Casting.CastingTankBuster && WhiteMageSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= WhiteMageSettings.Instance.InterruptHealingHealthPercent)
             {
                 Logger.Error($@"Stopped Healing: Target's Health Too High");
@@ -117,20 +115,20 @@ namespace Magitek.Utilities.Routines
 
             if (!WhiteMageSettings.Instance.UseTankBusters || !WhiteMageSettings.Instance.PrioritizeTankBusters)
                 return false;
-
+                */
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
-
+            /*
             if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.TankBusterMinimumMpPercent)
                 return false;
 
             if (!NeedCure2TankBuster && !NeedMedicaTankBuster && !NeedMedica2TankBuster && !NeedDivineBenisonTankBuster &&!NeedAfflatusRaptureTankBuster)
                 return false;
             
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
-            return true;
+            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
+            return false;
         }
-        
+
         public static void GroupExtension()
         {
             // Should we be ignoring our alliance? Check to see if we're even in an instance
@@ -139,9 +137,9 @@ namespace Magitek.Utilities.Routines
                 // Create a list of alliance members that we need to check
                 if (WhiteMageSettings.Instance.HealAllianceDps || WhiteMageSettings.Instance.HealAllianceHealers || WhiteMageSettings.Instance.HealAllianceTanks)
                 {
-                    var allianceToHeal =  Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (WhiteMageSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                                           WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                                           WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
+                    var allianceToHeal = Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (WhiteMageSettings.Instance.HealAllianceDps && a.IsDps() ||
+                                                                          WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank() ||
+                                                                          WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
 
                     // If all we're going to do with the alliance is Physick them, then simply use this list
                     if (WhiteMageSettings.Instance.HealAllianceOnlyCure)

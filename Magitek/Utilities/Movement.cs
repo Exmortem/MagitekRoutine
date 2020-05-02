@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Navigation;
 using ff14bot.Objects;
 using ff14bot.Pathing;
 using Magitek.Extensions;
+using System.Threading.Tasks;
 
 namespace Magitek.Utilities
 {
@@ -16,15 +15,15 @@ namespace Magitek.Utilities
         {
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return;
-            
+
             if (unit == null)
-                return;  
+                return;
 
             if (!MovementManager.IsMoving && !unit.InView())
                 Core.Me.Face(Core.Me.CurrentTarget);
 
-    //        if (AvoidanceManager.Avoids.Any(r => r.IsPointInAvoid(unit.Location)))
-    //            return;
+            //        if (AvoidanceManager.Avoids.Any(r => r.IsPointInAvoid(unit.Location)))
+            //            return;
 
             if (unit.Distance(Core.Me) > distance)
             {

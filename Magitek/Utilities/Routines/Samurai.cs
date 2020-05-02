@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
-using ff14bot.Managers;
+﻿using ff14bot;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Gambits.Conditions;
 using Magitek.Logic;
 using Magitek.Models.QueueSpell;
 using Magitek.Models.Samurai;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static ff14bot.Managers.ActionResourceManager.Samurai;
 
 namespace Magitek.Utilities.Routines
@@ -70,7 +68,7 @@ namespace Magitek.Utilities.Routines
                     Spell = tsubame,
                     TargetSelf = false,
                     Wait = new QueueSpellWait()
-                        {Name = "Wait for 0 Sen (used Iaijutsu)", Check = () => SenCount == 0, WaitTime = 2000, EndQueueIfWaitFailed = true },
+                    { Name = "Wait for 0 Sen (used Iaijutsu)", Check = () => SenCount == 0, WaitTime = 2000, EndQueueIfWaitFailed = true },
                     Checks = new[]
                     {
                         new QueueSpellCheck {Check = () =>  Casting.LastSpell.Id == spell.Id, Name = "Last spell was Iaijutsu"}

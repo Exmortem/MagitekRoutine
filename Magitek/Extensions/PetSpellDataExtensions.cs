@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Magitek.Extensions
 {
@@ -12,7 +12,7 @@ namespace Magitek.Extensions
         {
             if (Core.Me.Pet == null)
                 return;
-            
+
             if (tar == null)
                 return;
 

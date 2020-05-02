@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Ninja
 {
@@ -48,7 +46,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseHellfrogMedium)
                 return false;
 
-            if(Core.Me.ClassLevel < 68 && Core.Me.ClassLevel > 62)
+            if (Core.Me.ClassLevel < 68 && Core.Me.ClassLevel > 62)
                 return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < 2)

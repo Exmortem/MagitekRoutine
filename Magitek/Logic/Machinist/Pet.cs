@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist

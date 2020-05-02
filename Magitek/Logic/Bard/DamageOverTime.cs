@@ -1,14 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Bard
@@ -31,7 +28,7 @@ namespace Magitek.Logic.Bard
                 if (!Core.Me.CurrentTarget.InLineOfSight())
                     return false;
 
-                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon &&  Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                     return false;
 
                 if (Core.Me.CurrentTarget.HasAura(Auras.Windbite, true))
@@ -48,7 +45,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
-            if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds )
+            if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.StormBite, true))
@@ -103,7 +100,7 @@ namespace Magitek.Logic.Bard
         public static async Task<bool> IronJawsOnCurrentTarget()
         {
             //No Dots at this point
-            if (Core.Me.ClassLevel < 6) 
+            if (Core.Me.ClassLevel < 6)
                 return false;
 
             if (!BardSettings.Instance.UseIronJaws)
@@ -120,7 +117,7 @@ namespace Magitek.Logic.Bard
 
             Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
             Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
-            
+
             if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
                 && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
                 return false;

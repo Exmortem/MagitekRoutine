@@ -31,7 +31,7 @@ namespace Magitek.Commands
 
         bool ICommand.CanExecute(object parameter)
         {
-            return !_isExecuting && CanExecute((T) parameter);
+            return !_isExecuting && CanExecute((T)parameter);
         }
 
         void ICommand.Execute(object parameter)
@@ -40,7 +40,7 @@ namespace Magitek.Commands
             try
             {
                 RaiseCanExecuteChanged();
-                Execute((T) parameter);
+                Execute((T)parameter);
             }
             finally
             {

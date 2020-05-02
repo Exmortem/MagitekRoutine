@@ -22,21 +22,24 @@ namespace Magitek.Utilities.Collections
 
         public int IndexOf(T item)
         {
-            return DoBaseRead(() => {
+            return DoBaseRead(() =>
+            {
                 return ReadCollection.IndexOf(item);
             });
         }
 
         public void Insert(int index, T item)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 WriteCollection.Insert(index, item);
             });
         }
 
         public void RemoveAt(int index)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 WriteCollection.RemoveAt(index);
             });
         }
@@ -45,13 +48,15 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ReadCollection[index];
                 });
             }
             set
             {
-                DoBaseWrite(() => {
+                DoBaseWrite(() =>
+                {
                     WriteCollection[index] = value;
                 });
             }
@@ -59,7 +64,8 @@ namespace Magitek.Utilities.Collections
 
         public void Add(T item)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 WriteCollection.Add(item);
             });
         }
@@ -71,14 +77,16 @@ namespace Magitek.Utilities.Collections
 
         public bool Contains(T item)
         {
-            return DoBaseRead(() => {
+            return DoBaseRead(() =>
+            {
                 return ReadCollection.Contains(item);
             });
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            DoBaseRead(() => {
+            DoBaseRead(() =>
+            {
                 ReadCollection.CopyTo(array, arrayIndex);
             });
         }
@@ -87,7 +95,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ReadCollection.Count;
                 });
             }
@@ -97,7 +106,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((ICollection<T>)ReadCollection).IsReadOnly;
                 });
             }
@@ -105,14 +115,16 @@ namespace Magitek.Utilities.Collections
 
         public bool Remove(T item)
         {
-            return DoBaseWrite(() => {
+            return DoBaseWrite(() =>
+            {
                 return WriteCollection.Remove(item);
             });
         }
 
         void ICollection.CopyTo(Array array, int index)
         {
-            DoBaseRead(() => {
+            DoBaseRead(() =>
+            {
                 ((ICollection)ReadCollection).CopyTo(array, index);
             });
         }
@@ -121,7 +133,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((ICollection)ReadCollection).IsSynchronized;
                 });
             }
@@ -131,7 +144,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((ICollection)ReadCollection).SyncRoot;
                 });
             }
@@ -139,28 +153,32 @@ namespace Magitek.Utilities.Collections
 
         int IList.Add(object value)
         {
-            return DoBaseWrite(() => {
+            return DoBaseWrite(() =>
+            {
                 return ((IList)WriteCollection).Add(value);
             });
         }
 
         bool IList.Contains(object value)
         {
-            return DoBaseRead(() => {
+            return DoBaseRead(() =>
+            {
                 return ((IList)ReadCollection).Contains(value);
             });
         }
 
         int IList.IndexOf(object value)
         {
-            return DoBaseRead(() => {
+            return DoBaseRead(() =>
+            {
                 return ((IList)ReadCollection).IndexOf(value);
             });
         }
 
         void IList.Insert(int index, object value)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 ((IList)WriteCollection).Insert(index, value);
             });
         }
@@ -169,7 +187,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((IList)ReadCollection).IsFixedSize;
                 });
             }
@@ -179,7 +198,8 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((IList)ReadCollection).IsReadOnly;
                 });
             }
@@ -187,14 +207,16 @@ namespace Magitek.Utilities.Collections
 
         void IList.Remove(object value)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 ((IList)WriteCollection).Remove(value);
             });
         }
 
         void IList.RemoveAt(int index)
         {
-            DoBaseWrite(() => {
+            DoBaseWrite(() =>
+            {
                 ((IList)WriteCollection).RemoveAt(index);
             });
         }
@@ -203,13 +225,15 @@ namespace Magitek.Utilities.Collections
         {
             get
             {
-                return DoBaseRead(() => {
+                return DoBaseRead(() =>
+                {
                     return ((IList)ReadCollection)[index];
                 });
             }
             set
             {
-                DoBaseWrite(() => {
+                DoBaseWrite(() =>
+                {
                     ((IList)WriteCollection)[index] = value;
                 });
             }

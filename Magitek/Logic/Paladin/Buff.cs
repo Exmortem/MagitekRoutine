@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
@@ -8,6 +5,9 @@ using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Paladin
@@ -131,7 +131,7 @@ namespace Magitek.Logic.Paladin
 
 
         }
-  
+
         public static async Task<bool> DivineVeil()
         {
             if (!PaladinSettings.Instance.DivineVeil)
@@ -148,7 +148,7 @@ namespace Magitek.Logic.Paladin
 
             return await Spells.DivineVeil.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> Sheltron()
         {
             if (!PaladinSettings.Instance.Sheltron)
@@ -185,7 +185,7 @@ namespace Magitek.Logic.Paladin
 
             return await Spells.Sheltron.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> Cover()
         {
             if (!PaladinSettings.Instance.UseCover)
@@ -209,7 +209,7 @@ namespace Magitek.Logic.Paladin
 
             if (!PaladinSettings.Instance.UseCoverDps)
                 return false;
-        
+
             var coverDpsTarget = Group.CastableAlliesWithin10.FirstOrDefault(r => r.IsDps() && r.CurrentHealthPercent < PaladinSettings.Instance.UseCoverDpsHp);
 
             if (coverDpsTarget == null)
@@ -243,7 +243,7 @@ namespace Magitek.Logic.Paladin
                         return await Spells.Intervention.Cast(interventionTarget);
                     }
                 }
-                
+
             }
 
             if (PaladinSettings.Instance.InterventionOnNearbyPartyMemberOnlyRampartOrSentinel)

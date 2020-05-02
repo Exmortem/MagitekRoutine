@@ -1,15 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
+﻿using ff14bot;
 using Magitek.Extensions;
-using Magitek.Models.Bard;
 using Magitek.Models.Ninja;
-using Magitek.Models.Scholar;
 using Magitek.Toggles;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Ninja
 {

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ff14bot;
+using ff14bot.Managers;
+using ff14bot.Objects;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ff14bot;
-using ff14bot.Managers;
-using ff14bot.Objects;
 
 namespace Magitek.Utilities
 {

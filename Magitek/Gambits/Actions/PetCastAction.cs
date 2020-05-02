@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Gambits.Conditions;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Gambits.Actions
 {
