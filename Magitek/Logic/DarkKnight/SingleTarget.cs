@@ -115,6 +115,8 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UsePlunge)
                 return false;
 
+            Logger.Write($@"We are about to Plunge, The toggle was {DarkKnightSettings.Instance.UsePlunge}");
+
             return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
         }
 
