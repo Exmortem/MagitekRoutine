@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Clio.Utilities;
+﻿using Clio.Utilities;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
-using Magitek.Utilities.Managers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {
@@ -25,7 +23,7 @@ namespace Magitek.Utilities.Routines
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
 
-        private static bool NeedBenefic2TankBuster
+        /*private static bool NeedBenefic2TankBuster
         {
             get
             {
@@ -94,12 +92,12 @@ namespace Magitek.Utilities.Routines
                 return Casting.LastSpell != Spells.AspectedBenefic || Casting.LastSpellTarget != a ||
                        DateTime.Now >= Casting.LastTankBusterTime.AddSeconds(5);
             }
-        }
+        }*/
 
         public static bool NeedToInterruptCast()
         {
-            if (Casting.CastingTankBuster)
-                return false;
+            /*if (Casting.CastingTankBuster)
+                return false;*/
 
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
@@ -152,10 +150,10 @@ namespace Magitek.Utilities.Routines
                     return true;
                 }
             }
-
+            /*
             if (!AstrologianSettings.Instance.UseTankBusters || !AstrologianSettings.Instance.PrioritizeTankBusters)
-                return false;
-    
+                return false;*/
+
             if (AstrologianSettings.Instance.InterruptDamageToHeal && !Core.Me.HasAura(1495))
             {
                 if (Casting.CastingSpell == Spells.Malefic || Casting.CastingSpell == Spells.Malefic2 ||
@@ -170,7 +168,7 @@ namespace Magitek.Utilities.Routines
                     };
 
                     var lowestHealthToInterrupt = lowestHealthToInterruptList.Max();
-                    
+
                     if (PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Any(r => r.CurrentHealth > 0 &&
                         r.CurrentHealthPercent <= lowestHealthToInterrupt && r.Distance() < 30 && r.InLineOfSight()))
                     {
@@ -183,15 +181,15 @@ namespace Magitek.Utilities.Routines
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
 
-            if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.TankBusterMinimumMpPercent)
+            /*if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.TankBusterMinimumMpPercent)
                 return false;
-
+            
             if (!NeedBenefic2TankBuster && !NeedHeliosTankBuster && !NeedAspectedHeliosTankBuster &&
                 !NeedAspectedBeneficTankBuster)
                 return false;
 
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
-            return true;
+            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
+           return false;
         }
 
         public static void GroupExtension()
@@ -258,20 +256,20 @@ namespace Magitek.Utilities.Routines
             }
 
             // Heal Pets
-            if (!AstrologianSettings.Instance.HealPartyMembersPets)
+            /*if (!AstrologianSettings.Instance.HealPartyMembersPets)
                 return;
 
             var pets = AstrologianSettings.Instance.HealPartyMembersPetsTitanOnly
                 ? Group.Pets.Where(r => r.EnglishName.Contains("Titan")).ToArray()
                 : Group.Pets.ToArray();
-            Group.CastableAlliesWithin30.AddRange(pets);
+            Group.CastableAlliesWithin30.AddRange(pets);*/
         }
 
         public static readonly uint[] ShieldAuraList = {
             Auras.NocturnalField,
             Auras.Galvanize
         };
-        
+
         public static Vector3 EarthlyStarLocation { get; set; }
 
     }

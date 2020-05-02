@@ -1,8 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
 using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.BlueMage
 {
@@ -119,7 +119,7 @@ namespace Magitek.Models.BlueMage
         [Setting]
         [DefaultValue(700)]
         public int UseOffGCDAbilitiesWithMoreThanXMSLeft { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool HissatsuSeigan { get; set; }

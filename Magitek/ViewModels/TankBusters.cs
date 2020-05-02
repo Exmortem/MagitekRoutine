@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿/*using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using ff14bot;
@@ -120,4 +120,4 @@ namespace Magitek.ViewModels
             File.WriteAllText(_tankBustersTanksFile, dataTanks);
         }
     }
-}
+}*/

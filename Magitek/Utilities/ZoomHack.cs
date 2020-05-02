@@ -1,6 +1,6 @@
-﻿﻿using System;
-using ff14bot;
+﻿using ff14bot;
 using Magitek.Models.Account;
+using System;
 
 namespace Magitek.Utilities
 {

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Buddy.Coroutines;
+using Magitek.Gambits;
+using Magitek.Models.Account;
+using Magitek.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
-using Magitek.Gambits;
-using Magitek.Models.Account;
-using Magitek.Utilities;
 
 namespace Magitek.Logic
 {
@@ -245,7 +245,7 @@ namespace Magitek.Logic
 
             while (InterruptGambitQueue.Any())
             {
-                var currentGambit = InterruptGambitQueue.Dequeue();               
+                var currentGambit = InterruptGambitQueue.Dequeue();
 
                 // return true if the gambit is currently forbidden to execute again
                 if (ForbiddenGambits.ContainsKey(currentGambit.Id))
@@ -256,7 +256,7 @@ namespace Magitek.Logic
                     Logger.WriteInfo($"Canceling Cast To Execute Gambit: {currentGambit.Title}");
                     InterruptGambitQueue = new Queue<Gambit>(StaticInterruptGambitQueue);
                     return true;
-                }            
+                }
 
                 await Coroutine.Yield();
             }

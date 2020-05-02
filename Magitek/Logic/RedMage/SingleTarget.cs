@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using Auras = Magitek.Utilities.Auras;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -20,7 +24,6 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
-
             else
                 return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
         }
@@ -37,22 +40,61 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Scorch.Cast(Core.Me.CurrentTarget);
         }
 
+        private static List<SpellData> ComboInProgressSpells = new List<SpellData>() { Spells.Riposte, Spells.Zwerchhau, Spells.EnchantedRedoublement, Spells.Verflare, Spells.Verholy };
+        public static bool ComboInProgress => ComboInProgressSpells.Any(spell => spell.Id == ActionManager.LastSpellId);
+
+        //We should cast Veraero if we're holding for Veraero, OR if we have less white mana and we're not holding for Verthunder
+        private static bool ShouldCastVeraero =>
+               HoldForVeraero
+            || (   WhiteMana <= BlackMana
+                && !HoldForVerthunder);
+
+        //We should cast Verthunder if we're holding for Verthunder, OR if we have less black mana and we're not holding for Veraero
+        private static bool ShouldCastVerthunder =>
+               HoldForVerthunder
+            || (   BlackMana <= WhiteMana
+                && !HoldForVeraero);
+
+        //We want to cast Veraero even if there's more white mana if:
+        //  1. We've already procced Verfire
+        //  2. We haven't procced Verstone
+        //  3. This won't put the mana difference over 30
+        private static bool HoldForVeraero =>
+               Core.Me.HasAura(Auras.VerfireReady)
+            && !Core.Me.HasAura(Auras.VerstoneReady)
+            && WhiteMana + 11 <= BlackMana + 30
+            && Core.Me.ClassLevel >= Spells.Veraero.LevelAcquired;
+
+        //We want to cast Verthunder even if there's more black mana if:
+        //  1. We've already procced Verstone
+        //  2. We haven't procced Verfire
+        //  3. This won't put the mana difference over 30
+        private static bool HoldForVerthunder =>
+               Core.Me.HasAura(Auras.VerstoneReady)
+            && !Core.Me.HasAura(Auras.VerfireReady)
+            && BlackMana + 11 <= WhiteMana + 30
+            && Core.Me.ClassLevel >= Spells.Verthunder.LevelAcquired;
+
         public static async Task<bool> Veraero()
         {
             if (!Core.Me.HasAura(Auras.Dualcast))
             {
+                //TODO: The Balance says we should hold this for when we're moving around
                 if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 {
-                    if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
-                        return false;
-
                     if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
                         return false;
 
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (WhiteMana > BlackMana)
+                    if (!ShouldCastVeraero)
+                        return false;
+
+                    if (ComboInProgress)
+                        return false;
+
+                    if (!RedMageRoutines.CanWeave)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
@@ -66,7 +108,7 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
-            if (WhiteMana > BlackMana)
+            if (!ShouldCastVeraero)
                 return false;
 
             else
@@ -77,18 +119,22 @@ namespace Magitek.Logic.RedMage
         {
             if (!Core.Me.HasAura(Auras.Dualcast))
             {
+                //TODO: The Balance says we should hold this for when we're moving around
                 if (RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 {
-                    if (Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.CorpsACorps || s.Spell == Spells.Riposte))
-                        return false;
-
                     if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
                         return false;
 
                     if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
                         return false;
 
-                    if (BlackMana > WhiteMana)
+                    if (!ShouldCastVerthunder)
+                        return false;
+
+                    if (ComboInProgress)
+                        return false;
+
+                    if (!RedMageRoutines.CanWeave)
                         return false;
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
@@ -105,7 +151,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 10)
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
-            if (BlackMana > WhiteMana)
+            if (!ShouldCastVerthunder)
                 return false;
 
             else
@@ -117,9 +163,11 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.HasAura(Auras.VerfireReady))
                 return false;
 
-            if (BlackMana > WhiteMana)
+            if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
+            if (BlackMana > WhiteMana)
+                return false;
             else
                 return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
         }
@@ -129,25 +177,40 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.HasAura(Auras.VerstoneReady))
                 return false;
 
-            if (BlackMana < WhiteMana)
+            if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
+            if (BlackMana < WhiteMana)
+                return false;
             else
                 return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verflare()
         {
-            if (BlackMana <= WhiteMana)
-                return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.ClassLevel < Spells.Verflare.LevelAcquired)
+                return false;
+
+            //If we don't have Verholy yet, cast Verflare even if there's more black mana
+            if (BlackMana > WhiteMana && Core.Me.ClassLevel >= Spells.Verholy.LevelAcquired)
+                return false;
+
+            if (ActionManager.LastSpell != Spells.EnchantedRedoublement)
+                return false;
 
             else
-                return false;
+                return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verholy()
         {
+            if (Core.Me.ClassLevel < Spells.Verholy.LevelAcquired)
+                return false;
+
             if (WhiteMana > BlackMana)
+                return false;
+
+            if (ActionManager.LastSpell != Spells.EnchantedRedoublement)
                 return false;
 
             else
@@ -180,10 +243,7 @@ namespace Magitek.Logic.RedMage
             if (BlackMana > 24 && WhiteMana > 24)
                 return false;
 
-            var inMeleeCombo = Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Riposte
-                                                                 || s.Spell == Spells.Zwerchhau
-                                                                 || s.Spell == Spells.Redoublement);
-            if (!inMeleeCombo)
+            if (!ComboInProgress)
                 return false;
 
             else
@@ -205,6 +265,11 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Engagement.Cast(Core.Me.CurrentTarget);
         }
 
+        private static bool ReadyForCombo =>
+               (Core.Me.ClassLevel < 35 && (BlackMana >= 30 && WhiteMana >= 30))
+            || (Core.Me.ClassLevel < 50 && (BlackMana >= 55 && WhiteMana >= 55))
+            ||                             (BlackMana >= 80 && WhiteMana >= 80);
+
         public static async Task<bool> CorpsACorps()
         {
             if (!RedMageSettings.Instance.CorpsACorps)
@@ -216,19 +281,37 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.UseMelee)
                 return false;
 
-            if (BlackMana < 80 || WhiteMana < 80)
+            if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
+            if (!RedMageRoutines.CanWeave)
+                return false;
+
+            //We want to skip Corps-a-corps if:
+            //  1. The user has selected to only use it in melee range, and they're out of melee range.
+            //         When in melee-range-only mode, it will be used whenever possible, rather than
+            //         to open a combo. This can be useful in a boss fight when you don't want
+            //         unexpected movement but still want the DPS when you're close enough. The user
+            //         will need to approach the boss manually to get off a combo
+            // 2. The user has selected to use it outside of melee range, and the combo isn't up yet.
+            //         When in Corps-a-corps-anywhere mode, it will be used only to open a combo. Great
+            //         for getting into melee range quickly to get off a combo, but is dangerous for a
+            //         lot of fights
+            if (   (RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !InMeleeRange)
+                || (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !ReadyForCombo))
+                return false;
             else
                 return await Spells.CorpsACorps.Cast(Core.Me.CurrentTarget);
         }
+
+        private static bool InMeleeRange => Core.Me.CurrentTarget.Distance(Core.Me) <= (4 + Core.Me.CurrentTarget.CombatReach);
 
         public static async Task<bool> Zwerchhau()
         {
             if (ActionManager.LastSpell != Spells.Riposte)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
+            if (!InMeleeRange)
                 return false;
 
             if (BlackMana < 25 || WhiteMana < 25)
@@ -243,7 +326,7 @@ namespace Magitek.Logic.RedMage
             if (ActionManager.LastSpell != Spells.Zwerchhau)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
+            if (!InMeleeRange)
                 return false;
 
             if (BlackMana < 25 || WhiteMana < 25)
@@ -255,9 +338,6 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Riposte()
         {
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 4 + Core.Me.CurrentTarget.CombatReach)
-                return false;
-
             if (Core.Me.ClassLevel < 2)
             {
                 return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
@@ -266,21 +346,16 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.UseMelee)
                 return false;
 
-            if (Core.Me.ClassLevel < 35)
-            {
-                if (BlackMana < 55 || WhiteMana < 55)
-                    return false;
-            }
+            if (Core.Me.HasAura(Auras.Dualcast))
+                return false;
 
-            if (Core.Me.ClassLevel > 49)
-            {
-                if (BlackMana < 80 || WhiteMana < 80)
-                    return false;
-            }
+            if (!ReadyForCombo)
+                return false;
 
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 
+        //TODO: We should probably be using Reprise - The Balance says to use it when moving around, as long as we don't delay our next Manafication
         public static async Task<bool> Reprise()
         {
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 26 + Core.Me.CurrentTarget.CombatReach)

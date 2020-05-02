@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Managers;
+﻿using ff14bot;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.RedMage
@@ -67,7 +66,7 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.CurrentHealthPercent > RedMageSettings.Instance.VercureHealthPercent)
                 return false;
-            
+
             return await Spells.Vercure.Cast(Core.Me);
         }
 
@@ -87,7 +86,7 @@ namespace Magitek.Logic.RedMage
 
             if (!Globals.InParty)
                 return false;
-            
+
             if (!Core.Me.InCombat)
                 return false;
 
@@ -95,7 +94,7 @@ namespace Magitek.Logic.RedMage
 
             if (verraiseTarget == null)
                 return false;
-            
+
             return await Spells.Verraise.Cast(verraiseTarget);
 
             bool CanVerraise(GameObject unit)
@@ -117,7 +116,7 @@ namespace Magitek.Logic.RedMage
                 }
 
                 return RedMageSettings.Instance.VerraiseDps && unit.IsDps();
-            }          
+            }
         }
     }
 }

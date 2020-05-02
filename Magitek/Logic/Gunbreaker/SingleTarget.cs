@@ -1,10 +1,10 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
@@ -21,7 +21,7 @@ namespace Magitek.Logic.Gunbreaker
             if (ActionManager.LastSpell != Spells.KeenEdge)
                 return false;
 
-            
+
             return await Spells.BrutalShell.Cast(Core.Me.CurrentTarget);
         }
 
@@ -35,7 +35,7 @@ namespace Magitek.Logic.Gunbreaker
 
             return await Spells.SolidBarrel.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> GnashingFang()
         {
             if (Cartridge == 0)
@@ -54,7 +54,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (SecondaryComboStage != 1)
                 return false;
-            
+
             return await Spells.SavageClaw.Cast(Core.Me.CurrentTarget);
         }
 
@@ -62,15 +62,15 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (SecondaryComboStage != 2)
                 return false;
-            
+
             return await Spells.WickedTalon.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> SonicBreak()
         {
             if (!Core.Player.HasAura(Auras.NoMercy))
                 return false;
-            
+
             return await Spells.SonicBreak.Cast(Core.Me.CurrentTarget);
         }
 
@@ -99,7 +99,7 @@ namespace Magitek.Logic.Gunbreaker
 
             return await Spells.BlastingZone.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> BurstStrike()
         {
             if (Cartridge == 0)
@@ -118,7 +118,7 @@ namespace Magitek.Logic.Gunbreaker
             return false;
 
         }
-        
+
         public static async Task<bool> JugularRip()
         {
             if (!Core.Player.HasAura(Auras.ReadytoRip))
@@ -164,17 +164,17 @@ namespace Magitek.Logic.Gunbreaker
             if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 900)
                 return false;
 
-           
+
             if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BurstStrike)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
-            if(Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.KeenEdge)
+            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.KeenEdge)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
-            if(Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BrutalShell)
+            if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.BrutalShell)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
             if (Core.Player.HasAura(Auras.NoMercy) && Casting.LastSpell == Spells.SolidBarrel)
                 return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
 
-            return false; 
+            return false;
         }
 
         public static async Task<bool> LightningShot()
@@ -189,7 +189,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
-                                                                         && r.Distance(Core.Me) <= 15 + r.CombatReach 
+                                                                         && r.Distance(Core.Me) <= 15 + r.CombatReach
                                                                          && r.TargetGameObject != Core.Me);
 
             if (lightningShotTarget == null)

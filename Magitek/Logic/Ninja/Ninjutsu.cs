@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -10,6 +6,8 @@ using Magitek.Models.Ninja;
 using Magitek.Models.QueueSpell;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Ninja
 {
@@ -42,7 +40,7 @@ namespace Magitek.Logic.Ninja
             TogglesManager.ResetToggles();
             return true;
         }
-    
+
 
         public static bool FumaShuriken()
         {
@@ -78,7 +76,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
-            
+
 
             SpellQueueLogic.SpellQueue.Clear();
             SpellQueueLogic.Timeout.Start();
@@ -129,7 +127,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool GokaMekkyaku()
         {
-           
+
             if (!NinjaSettings.Instance.UseGokaMekkyaku)
                 return false;
 
@@ -268,7 +266,7 @@ namespace Magitek.Logic.Ninja
 
         public static bool Raiton()
         {
-            if (!NinjaSettings.Instance.UseRaiton) 
+            if (!NinjaSettings.Instance.UseRaiton)
                 return false;
 
             if (Core.Me.ClassLevel > 76 && Core.Me.HasAura(Auras.Kassatsu))

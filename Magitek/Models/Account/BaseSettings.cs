@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using ff14bot.Enums;
+using ff14bot.Helpers;
+using PropertyChanged;
+using System.ComponentModel;
 using System.Configuration;
 using System.Windows.Forms;
 using System.Windows.Input;
-using ff14bot.Enums;
-using ff14bot.Helpers;
-using PropertyChanged;
 
 namespace Magitek.Models.Account
 {
@@ -34,7 +34,7 @@ namespace Magitek.Models.Account
 
         [Setting]
         [DefaultValue(false)]
-        public bool ResetOpeners { get; set; } 
+        public bool ResetOpeners { get; set; }
 
         [Setting]
         public string ContributorKey { get; set; }
@@ -82,11 +82,11 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool EnemySpellCastHistory { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool EnemyAuraHistory { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool PartyMemberAuraHistory { get; set; }

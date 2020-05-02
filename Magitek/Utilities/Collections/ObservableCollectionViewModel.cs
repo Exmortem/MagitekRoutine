@@ -13,7 +13,8 @@ namespace Magitek.Utilities.Collections
         public ObservableCollectionViewModel(IObservable<NotifyCollectionChangedEventArgs> observable)
         {
 
-            _subscriptionActionToken = DispatcherQueueProcessor.Instance.QueueSubscribe(() => {
+            _subscriptionActionToken = DispatcherQueueProcessor.Instance.QueueSubscribe(() =>
+            {
                 _unsubscribeToken = observable.Subscribe(this);
             });
         }
@@ -33,7 +34,8 @@ namespace Magitek.Utilities.Collections
 
         public void OnNext(NotifyCollectionChangedEventArgs value)
         {
-            DispatcherQueueProcessor.Instance.Add(() => {
+            DispatcherQueueProcessor.Instance.Add(() =>
+            {
                 ProcessCommand(value);
             });
         }
@@ -49,45 +51,45 @@ namespace Magitek.Utilities.Collections
             switch (command.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                {
-                    var startIndex = command.NewStartingIndex;
-                    if (startIndex > -1)
                     {
-                        foreach (var item in command.NewItems)
+                        var startIndex = command.NewStartingIndex;
+                        if (startIndex > -1)
                         {
-                            InsertItem(startIndex, (T)item);
-                            ++startIndex;
+                            foreach (var item in command.NewItems)
+                            {
+                                InsertItem(startIndex, (T)item);
+                                ++startIndex;
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in command.NewItems)
+                            {
+                                Add((T)item);
+                            }
                         }
                     }
-                    else
-                    {
-                        foreach (var item in command.NewItems)
-                        {
-                            Add((T)item);
-                        }
-                    }
-                }
                     break;
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                {
-                    var startIndex = command.OldStartingIndex;
-                    foreach (var item in command.OldItems)
                     {
-                        RemoveAt(startIndex);
+                        var startIndex = command.OldStartingIndex;
+                        foreach (var item in command.OldItems)
+                        {
+                            RemoveAt(startIndex);
+                        }
                     }
-                }
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                {
-                    var startIndex = command.OldStartingIndex;
-                    foreach (var item in command.NewItems)
                     {
-                        this[startIndex] = (T)item;
-                        ++startIndex;
+                        var startIndex = command.OldStartingIndex;
+                        foreach (var item in command.NewItems)
+                        {
+                            this[startIndex] = (T)item;
+                            ++startIndex;
+                        }
                     }
-                }
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     break;

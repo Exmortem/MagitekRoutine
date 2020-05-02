@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
-using Magitek.Models.Roles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Monk
 {
@@ -16,7 +14,7 @@ namespace Magitek.Logic.Monk
         public static async Task<bool> FistsOf()
         {
 
-            if(!Core.Me.InCombat && ActionResourceManager.Monk.GreasedLightning <= 3)
+            if (!Core.Me.InCombat && ActionResourceManager.Monk.GreasedLightning <= 3)
             {
                 switch (MonkSettings.Instance.SelectedFist)
                 {
@@ -70,7 +68,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 54)
                 return false;
 
-            if(!MonkSettings.Instance.UseAutoMeditate)
+            if (!MonkSettings.Instance.UseAutoMeditate)
                 return false;
 
             if (!Core.Me.InCombat && ActionResourceManager.Monk.FithChakra < 5)
@@ -96,7 +94,7 @@ namespace Magitek.Logic.Monk
             if (Casting.LastSpell != Spells.DragonKick)
                 return false;
 
-        return await Spells.PerfectBalance.Cast(Core.Me);
+            return await Spells.PerfectBalance.Cast(Core.Me);
         }
 
         public static async Task<bool> RiddleOfFire()

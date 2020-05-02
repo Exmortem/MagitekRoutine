@@ -1,13 +1,13 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using Magitek.Commands;
+﻿using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.WebResources;
 using Magitek.ViewModels;
 using PropertyChanged;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Magitek.Models.Debugging
 {
@@ -69,7 +69,7 @@ namespace Magitek.Models.Debugging
             });
         });
 
-        public ICommand AddToTankBusters => new DelegateCommand<EnemySpellCastInfo>(info =>
+        /*public ICommand AddToTankBusters => new DelegateCommand<EnemySpellCastInfo>(info =>
         {
             if (info == null)
                 return;
@@ -97,6 +97,6 @@ namespace Magitek.Models.Debugging
                 });
             }
 
-        });
+        });*/
     }
 }

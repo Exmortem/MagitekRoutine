@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Samurai;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
@@ -21,7 +18,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
+
 
             await Casting.CheckForSuccessfulCast();
 
@@ -42,7 +39,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            
+
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
@@ -84,7 +81,7 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
             // Shoha must come out before kaeshi or you overcap
-            
+
             if (await SingleTarget.KaeshiSetsugekka()) return true;
             if (await Aoe.KaeshiGoken()) return true;
 
@@ -105,7 +102,7 @@ namespace Magitek.Rotations
                 if (await Buff.SecondWind()) return true;
                 if (await Buff.TrueNorth()) return true;
                 if (await Buff.MeikyoShisui()) return true;
-                
+
             }
 
             if (await SingleTarget.MidareSetsugekka()) return true;

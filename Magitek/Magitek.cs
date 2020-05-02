@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Clio.Utilities.Collections;
+﻿//using Clio.Utilities.Collections;
 using ff14bot;
 using ff14bot.AClasses;
 using ff14bot.Behavior;
@@ -9,8 +6,8 @@ using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Models;
-using Magitek.Models.Account;
+//using Magitek.Models;
+//using Magitek.Models.Account;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
@@ -32,6 +29,9 @@ using Magitek.Utilities;
 using Magitek.Utilities.Managers;
 using Magitek.ViewModels;
 using Magitek.Views;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -48,8 +48,8 @@ namespace Magitek
             ViewModels.BaseSettings.Instance.RoutineSelectedInUi = RotationManager.CurrentRotation.ToString();
             DispelManager.Reset();
             InterruptsAndStunsManager.Reset();
-            TankBusterManager.ResetHealers();
-            TankBusterManager.ResetTanks();
+            //TankBusterManager.ResetHealers();
+            //TankBusterManager.ResetTanks();
             TreeRoot.OnStart += OnStart;
             TreeRoot.OnStop += OnStop;
             CurrentZone = WorldManager.ZoneId;
@@ -115,8 +115,8 @@ namespace Magitek
                 HookBehaviors();
                 DispelManager.Reset();
                 InterruptsAndStunsManager.Reset();
-                TankBusterManager.ResetHealers();
-                TankBusterManager.ResetTanks();
+                //TankBusterManager.ResetHealers();
+                //TankBusterManager.ResetTanks();
             }
             #endregion
 
@@ -176,7 +176,7 @@ namespace Magitek
 
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
-                TankBusters.Instance.Save();
+                //TankBusters.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
 
                 #region Save Settings For All Routines
@@ -228,7 +228,7 @@ namespace Magitek
 
             Dispelling.Instance.Save();
             InterruptsAndStuns.Instance.Save();
-            TankBusters.Instance.Save();
+            //TankBusters.Instance.Save();
             TogglesViewModel.Instance.SaveToggles();
 
             var hotkeys = HotkeyManager.RegisteredHotkeys.Select(r => r.Name).Where(r => r.Contains("Magitek"));

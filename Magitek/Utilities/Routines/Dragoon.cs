@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ff14bot.Objects;
+using System;
 using System.Collections.Generic;
-using ff14bot.Objects;
 
 namespace Magitek.Utilities.Routines
 {

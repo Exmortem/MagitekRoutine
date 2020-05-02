@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Models.Account;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 using Debug = Magitek.ViewModels.Debug;
 
@@ -128,7 +128,7 @@ namespace Magitek.Extensions
         {
             if (!Check(spell, target))
                 return false;
-            
+
             if (spell.GroundTarget)
             {
                 if (!ActionManager.DoActionLocation(spell.Id, target.Location))
@@ -147,7 +147,7 @@ namespace Magitek.Extensions
                 if (!await Coroutine.Wait(3000, () => Core.Me.IsCasting))
                 {
                     return false;
-                }               
+                }
             }
 
             Casting.CastingSpell = spell;
@@ -223,18 +223,33 @@ namespace Magitek.Extensions
             // If it's a Fire spell
             if (AstralSpells.Contains(spell.Id))
             {
-                if (ActionResourceManager.BlackMage.AstralStacks > 0)
+                if (ActionResourceManager.BlackMage.AstralStacks > 0
+                    // If we have Umbral Hearts, its free
+                    && ActionResourceManager.BlackMage.UmbralHearts == 0)
                 {
                     return spell.Cost * 2;
                 }
-
+                if (ActionResourceManager.BlackMage.AstralStacks > 0
+                    // If we have Umbral Hearts, its free
+                    && ActionResourceManager.BlackMage.UmbralHearts > 0)
+                {
+                    if (spell == Spells.Flare)
+                        return spell.Cost / 3;
+                    return spell.Cost * 0;
+                }
                 // Umbral makes a Fire spell cost less
                 switch (ActionResourceManager.BlackMage.UmbralStacks)
                 {
+                    // If we have aspect mastery, its free
                     case 3:
+                        if (Core.Me.ClassLevel >= 72 &&
+                            //Except for Flare =(
+                            spell != Spells.Flare)
+                            return spell.Cost * 0;
+                        break;
                     case 2:
                         return spell.Cost / 4;
-                        
+
                     case 1:
                         return spell.Cost / 2;
                 }
@@ -249,9 +264,13 @@ namespace Magitek.Extensions
             switch (ActionResourceManager.BlackMage.AstralStacks)
             {
                 case 3:
+                    // If we have aspect mastery, its free
+                    if (Core.Me.ClassLevel >= 72)
+                        return spell.Cost * 0;
+                    break;
                 case 2:
                     return spell.Cost / 4;
-                    
+
                 case 1:
                     return spell.Cost / 2;
 
@@ -266,13 +285,15 @@ namespace Magitek.Extensions
             Spells.Fire2.Id,
             Spells.Fire3.Id,
             Spells.Fire4.Id,
+            Spells.Flare.Id
         };
 
         private static readonly HashSet<uint> UmbralSpells = new HashSet<uint>()
         {
             Spells.Blizzard.Id,
             Spells.Blizzard3.Id,
-            Spells.Blizzard4.Id
+            Spells.Blizzard4.Id,
+            Spells.Freeze.Id
         };
 
         public static string IconUrl(this SpellData spell)
@@ -280,7 +301,7 @@ namespace Magitek.Extensions
             var icon = (decimal)spell.Icon;
             var folder = (Math.Floor(icon / 1000) * 1000).ToString(CultureInfo.InvariantCulture).Trim().PadLeft(6, '0');
             var image = spell.Icon.ToString(CultureInfo.InvariantCulture).Trim().PadLeft(6, '0');
-            return $@"https://secure.xivdb.com/img/game/{folder}/{image}.png";           
+            return $@"https://secure.xivdb.com/img/game/{folder}/{image}.png";
         }
     }
 }

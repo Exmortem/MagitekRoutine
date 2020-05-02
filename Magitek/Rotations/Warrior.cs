@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -12,6 +8,7 @@ using Magitek.Logic.Warrior;
 using Magitek.Models.Account;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
@@ -24,7 +21,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
+
 
             await Casting.CheckForSuccessfulCast();
 
@@ -49,7 +46,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-            
+
 
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
@@ -77,7 +74,7 @@ namespace Magitek.Rotations
 
             if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 800 + BaseSettings.Instance.UserLatencyOffset)
             {
-                if (await Defensive.ExecuteTankBusters()) return true;
+                //if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;
                 if (await Buff.Beserk()) return true;
                 if (await Buff.InnerRelease()) return true;

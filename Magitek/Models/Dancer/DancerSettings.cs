@@ -1,9 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
-using ff14bot.Helpers;
 using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Dancer
 {
@@ -13,7 +12,7 @@ namespace Magitek.Models.Dancer
         public DancerSettings() : base(CharacterSettingsDirectory + "/Magitek/Dancer/DancerSettings.json") { }
 
         public static DancerSettings Instance { get; set; } = new DancerSettings();
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool UseDevilment { get; set; }
@@ -21,7 +20,7 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(false)]
         public bool DevilmentWithFlourish { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool DevilmentWithTechnicalStep { get; set; }

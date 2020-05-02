@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Machinist
 {
@@ -23,7 +23,7 @@ namespace Magitek.Logic.Machinist
             return true;
 
         }
-        
+
         public static async Task<bool> HeadGraze()
         {
 

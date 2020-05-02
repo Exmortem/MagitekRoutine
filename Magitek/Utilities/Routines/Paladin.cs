@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Magitek.Models.Account;
+using System.Collections.Generic;
 
 namespace Magitek.Utilities.Routines
 {

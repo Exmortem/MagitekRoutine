@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
-using System;
 using System.Linq;
 
 namespace Magitek.Utilities.Routines

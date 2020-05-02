@@ -593,12 +593,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Lists\Dispelling.xaml.cs" />
     <Compile Include="Views\UserControls\Lists\InterruptsAndStuns.xaml.cs" />
-    <Compile Include="Views\UserControls\Lists\TankBustersHealers.xaml.cs">
-      <DependentUpon>TankBustersHealers.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Lists\TankBustersTanks.xaml.cs">
-      <DependentUpon>TankBustersTanks.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Machinist\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
@@ -1067,14 +1061,6 @@
     </Page>
     <Page Include="Views\UserControls\Lists\Dispelling.xaml" />
     <Page Include="Views\UserControls\Lists\InterruptsAndStuns.xaml" />
-    <Page Include="Views\UserControls\Lists\TankBustersHealers.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Lists\TankBustersTanks.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\UserControls\Machinist\Aoe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
@@ -20,6 +17,9 @@ using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities.Managers;
 using Magitek.ViewModels;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using BaseSettings = Magitek.ViewModels.BaseSettings;
 
 namespace Magitek.Views
@@ -32,7 +32,7 @@ namespace Magitek.Views
             InitializeComponent();
 
             Loaded += SettingsWindow_OnLoaded;
-                             
+
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (RotationManager.CurrentRotation)
             {
@@ -131,11 +131,11 @@ namespace Magitek.Views
         {
             Dispelling.Instance.Save();
             InterruptsAndStuns.Instance.Save();
-            TankBusters.Instance.Save();
+            //TankBusters.Instance.Save();
             DispelManager.Reset();
             InterruptsAndStunsManager.Reset();
-            TankBusterManager.ResetHealers();
-            TankBusterManager.ResetTanks();
+            //TankBusterManager.ResetHealers();
+            //TankBusterManager.ResetTanks();
             GambitsViewModel.Instance.SaveGambits();
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.SaveOpeners();
@@ -168,8 +168,8 @@ namespace Magitek.Views
         {
             if (e.ChangedButton != MouseButton.Left)
                 return;
-            
-            DragMove();         
+
+            DragMove();
         }
 
         private void DebuggingClick(object sender, RoutedEventArgs e)

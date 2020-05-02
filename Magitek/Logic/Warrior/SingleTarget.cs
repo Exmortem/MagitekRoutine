@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Warrior
@@ -192,7 +190,7 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.HeavySwing.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> Onslaught()
         {
             if (!WarriorSettings.Instance.UseOnslaught)
@@ -223,7 +221,7 @@ namespace Magitek.Logic.Warrior
         {
             if (!Core.Me.HasAura(Auras.InnerRelease))
                 return false;
- 
+
             if (Casting.LastSpell == Spells.FellCleave)
             {   //If Onslaught is allowed
                 if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
@@ -233,7 +231,7 @@ namespace Magitek.Logic.Warrior
             await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
 
             // Keep returning true as long as we have Inner Release
-            return true;       
+            return true;
         }
     }
 }
