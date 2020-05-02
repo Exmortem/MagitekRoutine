@@ -47,6 +47,10 @@ namespace Magitek.Models.RedMage
         public bool CorpsACorps { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool CorpsACorpsInMeleeRangeOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Fleche { get; set; }
 

@@ -10,6 +10,7 @@ using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -23,7 +24,6 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
-
             else
                 return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
         }
@@ -94,6 +94,9 @@ namespace Magitek.Logic.RedMage
                     if (ComboInProgress)
                         return false;
 
+                    if (!RedMageRoutines.CanWeave)
+                        return false;
+
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
                         await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
@@ -131,6 +134,9 @@ namespace Magitek.Logic.RedMage
                     if (ComboInProgress)
                         return false;
 
+                    if (!RedMageRoutines.CanWeave)
+                        return false;
+
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
                         await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
@@ -162,7 +168,6 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana > WhiteMana)
                 return false;
-
             else
                 return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
         }
@@ -177,7 +182,6 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana < WhiteMana)
                 return false;
-
             else
                 return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
         }
@@ -280,8 +284,21 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            //Corps-a-corps to start a combo, or during the combo if we're close enough to start without it
-            if (!ReadyForCombo && !ComboInProgress)
+            if (!RedMageRoutines.CanWeave)
+                return false;
+
+            //We want to skip Corps-a-corps if:
+            //  1. The user has selected to only use it in melee range, and they're out of melee range.
+            //         When in melee-range-only mode, it will be used whenever possible, rather than
+            //         to open a combo. This can be useful in a boss fight when you don't want
+            //         unexpected movement but still want the DPS when you're close enough. The user
+            //         will need to approach the boss manually to get off a combo
+            // 2. The user has selected to use it outside of melee range, and the combo isn't up yet.
+            //         When in Corps-a-corps-anywhere mode, it will be used only to open a combo. Great
+            //         for getting into melee range quickly to get off a combo, but is dangerous for a
+            //         lot of fights
+            if (   (RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !InMeleeRange)
+                || (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !ReadyForCombo))
                 return false;
             else
                 return await Spells.CorpsACorps.Cast(Core.Me.CurrentTarget);
@@ -321,9 +338,6 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Riposte()
         {
-            if (!InMeleeRange)
-                return false;
-
             if (Core.Me.ClassLevel < 2)
             {
                 return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
@@ -340,7 +354,6 @@ namespace Magitek.Logic.RedMage
 
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
-
 
         //TODO: We should probably be using Reprise - The Balance says to use it when moving around, as long as we don't delay our next Manafication
         public static async Task<bool> Reprise()

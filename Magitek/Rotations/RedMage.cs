@@ -7,7 +7,7 @@ using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using static ff14bot.Managers.ActionResourceManager.RedMage;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 
 namespace Magitek.Rotations
 {
@@ -84,7 +84,7 @@ namespace Magitek.Rotations
             if (await Buff.Manafication()) return true;
             if (await Buff.LucidDreaming()) return true;
 
-            if (Utilities.Routines.RedMage.GcdMsRemaining >= 700 && Casting.LastSpell != Spells.CorpsACorps)
+            if (RedMageRoutines.CanWeave)
             {
                 if (await SingleTarget.Fleche()) return true;
                 if (await Aoe.ContreSixte()) return true;
@@ -117,6 +117,7 @@ namespace Magitek.Rotations
             if (await Buff.Acceleration()) return true;
             return await SingleTarget.Jolt();
         }
+
         public static async Task<bool> PvP()
         {
             return false;
