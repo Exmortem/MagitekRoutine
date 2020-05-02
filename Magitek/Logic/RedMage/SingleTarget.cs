@@ -24,8 +24,8 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
-            else
-                return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
+            
+            return await Spells.Jolt.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Scorch()
