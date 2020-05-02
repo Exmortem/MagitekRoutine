@@ -4,6 +4,6 @@ namespace Magitek.Utilities.Routines
 {
     internal static class RedMage
     {
-        public static double GcdMsRemaining => Spells.Riposte.Cooldown.TotalMilliseconds;
+        public static bool CanWeave => Spells.Riposte.Cooldown.TotalMilliseconds >= 700;
     }
 }
