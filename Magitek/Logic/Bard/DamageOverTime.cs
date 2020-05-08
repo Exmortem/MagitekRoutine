@@ -63,7 +63,7 @@ namespace Magitek.Logic.Bard
 
             if (Core.Me.ClassLevel < 64)
             {
-                if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.VenomousBite.Id))
+                if (Core.Me.ClassLevel < 6 || !ActionManager.HasSpell(Spells.VenomousBite.Id))
                     return false;
 
                 if (!Core.Me.CurrentTarget.InLineOfSight())
