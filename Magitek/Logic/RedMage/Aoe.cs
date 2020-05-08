@@ -74,7 +74,8 @@ namespace Magitek.Logic.RedMage
                    BlackMana == 100
                 && WhiteMana == 100
                 && Spells.Embolden.Cooldown == TimeSpan.Zero
-                && RedMageSettings.Instance.Embolden;
+                && RedMageSettings.Instance.Embolden
+                && Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired;
 
             bool burstEmboldenAndManaficationAt90 =
                    BlackMana >= 90
@@ -82,13 +83,16 @@ namespace Magitek.Logic.RedMage
                 && Spells.Manafication.Cooldown == TimeSpan.Zero
                 && Spells.Embolden.Cooldown == TimeSpan.Zero
                 && RedMageSettings.Instance.Manafication
-                && RedMageSettings.Instance.Embolden;
+                && RedMageSettings.Instance.Embolden
+                && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired
+                && Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired;
 
             bool burstManaficationAt50 =
                    BlackMana >= 50
                 && WhiteMana >= 50
                 && Spells.Manafication.Cooldown == TimeSpan.Zero
-                && RedMageSettings.Instance.Manafication;
+                && RedMageSettings.Instance.Manafication
+                && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired;
 
             if (   enemiesInRange >= 3
                 && (   burstEmboldenAt100
@@ -140,16 +144,8 @@ namespace Magitek.Logic.RedMage
 
                 return true;
             }
-            //Only two enemies in range - just use Moulinet to prevent wasting mana
-            else if (BlackMana >= 90 && WhiteMana >= 90 && enemiesInRange == 2)
-            {
-                Logger.WriteInfo($"Burning one Moulinet to use excess mana ({enemiesInRange} enemies)");
-                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
-            }
-            //Use a Moulinet so we don't waste mana while waiting for buffs to pop
-            else if (   BlackMana >= 90 && WhiteMana >= 90
-                     && enemiesInRange >= 3
-                     && Spells.Embolden.Cooldown != TimeSpan.Zero)
+            //Use Moulinet to prevent wasting mana
+            else if (BlackMana >= 90 && WhiteMana >= 90 && enemiesInRange >= 2)
             {
                 Logger.WriteInfo($"Burning one Moulinet to use excess mana ({enemiesInRange} enemies)");
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
