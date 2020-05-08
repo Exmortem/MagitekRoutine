@@ -84,8 +84,7 @@ namespace Magitek.Logic.RedMage
                 && Spells.Embolden.Cooldown == TimeSpan.Zero
                 && RedMageSettings.Instance.Manafication
                 && RedMageSettings.Instance.Embolden
-                && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired
-                && Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired;
+                && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired;
 
             bool burstManaficationAt50 =
                    BlackMana >= 50
@@ -94,10 +93,24 @@ namespace Magitek.Logic.RedMage
                 && RedMageSettings.Instance.Manafication
                 && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired;
 
-            if (   enemiesInRange >= 3
-                && (   burstEmboldenAt100
-                    || burstEmboldenAndManaficationAt90
-                    || burstManaficationAt50)) //TODO: Should we delay this if embolden also up, or will be up soon?
+            //No embolden yet, so use Moulinet if there are three enemies, or to burn mana if there are only 2
+            if (Core.Me.ClassLevel < Spells.Embolden.LevelAcquired)
+            {
+                if (enemiesInRange >= 3)
+                {
+                    Logger.WriteInfo($"Using one Moulinet because no buffs available at this level ({enemiesInRange} enemies)");
+                    return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+                }
+                else if (enemiesInRange == 2 && BlackMana >= 90 && WhiteMana >= 90)
+                {
+                    Logger.WriteInfo($"Burning one Moulinet to use excess mana ({enemiesInRange} enemies)");
+                    return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+                }
+            }
+            else if (   enemiesInRange >= 3
+                     && (   burstEmboldenAt100
+                         || burstEmboldenAndManaficationAt90
+                         || burstManaficationAt50)) //TODO: Should we delay this if embolden also up, or will be up soon?
             {
                 if (burstEmboldenAndManaficationAt90)
                 {
@@ -144,8 +157,16 @@ namespace Magitek.Logic.RedMage
 
                 return true;
             }
-            //Use Moulinet to prevent wasting mana
-            else if (BlackMana >= 90 && WhiteMana >= 90 && enemiesInRange >= 2)
+            //Only two enemies in range - just use Moulinet to prevent wasting mana
+            else if (BlackMana >= 90 && WhiteMana >= 90 && enemiesInRange == 2)
+            {
+                Logger.WriteInfo($"Burning one Moulinet to use excess mana ({enemiesInRange} enemies)");
+                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+            }
+            //Use a Moulinet so we don't waste mana while waiting for buffs to pop
+            else if (   BlackMana >= 90 && WhiteMana >= 90
+                     && enemiesInRange >= 3
+                     && Spells.Embolden.Cooldown != TimeSpan.Zero)
             {
                 Logger.WriteInfo($"Burning one Moulinet to use excess mana ({enemiesInRange} enemies)");
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
