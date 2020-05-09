@@ -97,6 +97,11 @@ namespace Magitek.Logic.RedMage
                     if (!RedMageRoutines.CanWeave)
                         return false;
 
+                    if (!Aoe.AllowSingleTargetSwiftcast) //We don't want to use this when we're in our AoE rotation
+                        return false;
+
+                    //TODO: This can still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
+
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
                         await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
@@ -136,6 +141,11 @@ namespace Magitek.Logic.RedMage
 
                     if (!RedMageRoutines.CanWeave)
                         return false;
+
+                    if (!Aoe.AllowSingleTargetSwiftcast) //We don't want to use this when we're in our AoE rotation
+                        return false;
+
+                    //TODO: This can still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {

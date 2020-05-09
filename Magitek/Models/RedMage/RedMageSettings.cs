@@ -63,6 +63,10 @@ namespace Magitek.Models.RedMage
         public int MoulinetEnemies { get; set; }
 
         [Setting]
+        [DefaultValue(40)]
+        public int EmboldenFinisherPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseContreSixte { get; set; }
 

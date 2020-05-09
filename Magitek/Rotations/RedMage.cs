@@ -78,10 +78,6 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (SpellQueueLogic.SpellQueue.Any()) if (await SpellQueueLogic.SpellQueueMethod()) return true;
-
-            if (await Buff.Embolden()) return true;
-            if (await Buff.Manafication()) return true;
             if (await Buff.LucidDreaming()) return true;
 
             if (RedMageRoutines.CanWeave)
@@ -92,11 +88,16 @@ namespace Magitek.Rotations
 
             if (RedMageSettings.Instance.UseAoe)
             {
+                if (await Aoe.Embolden()) return true;
+                if (await Aoe.Manafication()) return true;
                 if (await Aoe.Moulinet()) return true;
                 if (await Aoe.Scatter()) return true;
                 if (await Aoe.Veraero2()) return true;
                 if (await Aoe.Verthunder2()) return true;
             }
+
+            if (await Buff.Embolden()) return true;
+            if (await Buff.Manafication()) return true;
 
             if (await SingleTarget.CorpsACorps()) return true;
 

@@ -211,7 +211,7 @@ namespace Magitek.Utilities
             EverlastingFlight = 2030,
             Acceleration = 1238,
             Divination = 2034,
-            Embolden = 2282,
+            Embolden = 1239,
             MeditationSAM = 2176,
             OffGuard = 1717,
             Bleeding = 1714,
