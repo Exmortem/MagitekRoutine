@@ -32,6 +32,10 @@ namespace Magitek.Models.RedMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool SwiftcastScatter { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Acceleration { get; set; }
 
         [Setting]

@@ -17,6 +17,11 @@ namespace Magitek.Logic.RedMage
 {
     internal static class SingleTarget
     {
+        private static bool InMeleeRange => Core.Me.CurrentTarget.Distance(Core.Me) <= (4 + Core.Me.CurrentTarget.CombatReach);
+
+        //If we're further out than this, we don't want to zoom in, because we might run into some AoE
+        private static bool InSafeCorpsACorpsRange => Core.Me.CurrentTarget.Distance(Core.Me) <= (2 + Core.Me.CurrentTarget.CombatReach);
+
         public static async Task<bool> Jolt()
         {
             if (Core.Me.ClassLevel < 4)
@@ -97,10 +102,7 @@ namespace Magitek.Logic.RedMage
                     if (!RedMageRoutines.CanWeave)
                         return false;
 
-                    if (!Aoe.AllowSingleTargetSwiftcast) //We don't want to use this when we're in our AoE rotation
-                        return false;
-
-                    //TODO: This can still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
+                    //TODO: I think I've seen this still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
@@ -142,10 +144,7 @@ namespace Magitek.Logic.RedMage
                     if (!RedMageRoutines.CanWeave)
                         return false;
 
-                    if (!Aoe.AllowSingleTargetSwiftcast) //We don't want to use this when we're in our AoE rotation
-                        return false;
-
-                    //TODO: This can still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
+                    //TODO: I think I've seen this still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
@@ -307,14 +306,12 @@ namespace Magitek.Logic.RedMage
             //         When in Corps-a-corps-anywhere mode, it will be used only to open a combo. Great
             //         for getting into melee range quickly to get off a combo, but is dangerous for a
             //         lot of fights
-            if (   (RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !InMeleeRange)
+            if (   (RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !InSafeCorpsACorpsRange)
                 || (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !ReadyForCombo))
                 return false;
             else
                 return await Spells.CorpsACorps.Cast(Core.Me.CurrentTarget);
         }
-
-        private static bool InMeleeRange => Core.Me.CurrentTarget.Distance(Core.Me) <= (4 + Core.Me.CurrentTarget.CombatReach);
 
         public static async Task<bool> Zwerchhau()
         {
