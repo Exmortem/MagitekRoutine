@@ -25,23 +25,32 @@ namespace Magitek.Utilities
 
             if (Globals.InActiveDuty)
             {
-                //In an instance
-                //Use every enemy
-                _enemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().ToList();
+                if (BotManager.Current.IsAutonomous)
+                {
+                    //In an instance, autonomous
+                    //We should be a little less aggressive than if we're human-controlled, so just track attackers
+                    _enemyCache = GameObjectManager.Attackers.ToList();
+                }
+                else
+                {
+                    //In an instance, not autonomous
+                    //Track every enemy
+                    _enemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().ToList();
+                }
             }
             else
             {
                 if (Globals.InParty)
                 {
                     //In the open world, in a party
-                    //Use everything our party tagged or every Fate Mob that is tagged by a player
+                    //Track everything our party tagged or every Fate Mob that is tagged by a player
                     _enemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.TaggerType == 2 || r.IsFate && r.TaggerType > 0 && !GameObjectManager.GetObjectsOfType<BattleCharacter>().Any(x => x.IsNpc && x.ObjectId == r.TaggerObjectId))
                                                                                        .ToList();
                 }
                 else
                 {
                     //In the open world, not in a party
-                    //Use attacker list combined with every Fate Mob that is tagged by a player
+                    //Track the attacker list combined with every Fate Mob that is tagged by a player
                     var _fateEnemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.IsFate && r.TaggerType > 0 && !GameObjectManager.GetObjectsOfType<BattleCharacter>().Any(x => x.IsNpc && x.ObjectId == r.TaggerObjectId));
                     _enemyCache = GameObjectManager.Attackers.Union(_fateEnemyCache).ToList();
                 }
