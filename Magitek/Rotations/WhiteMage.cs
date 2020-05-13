@@ -138,7 +138,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
+            //Only stop doing damage when in party
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
             if (Globals.InParty)
