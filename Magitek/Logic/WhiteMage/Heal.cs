@@ -17,6 +17,10 @@ namespace Magitek.Logic.WhiteMage
     {
         public static async Task<bool> Cure()
         {
+            
+            if (!ActionManager.HasSpell("Cure"))
+                return false;
+            
             if (!WhiteMageSettings.Instance.Cure)
                 return false;
 
@@ -94,6 +98,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Cure2()
         {
+            if (!ActionManager.HasSpell("Cure II"))
+                return false;
+            
             if (!WhiteMageSettings.Instance.Cure2)
                 return false;
 
@@ -127,6 +134,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Cure3()
         {
+            if (!ActionManager.HasSpell("Cure III"))
+                return false;
+            
             if (!WhiteMageSettings.Instance.Cure3)
                 return false;
 
@@ -196,6 +206,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Tetragrammaton()
         {
+            if (!ActionManager.HasSpell("Tetragrammaton"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Tetragrammaton)
                 return false;
 
@@ -238,6 +251,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Medica()
         {
+            if (!ActionManager.HasSpell("Medica"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Medica)
                 return false;
 
@@ -260,6 +276,10 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AssizeHeal()
         {
+    
+            if (!ActionManager.HasSpell("Assize"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
 
@@ -285,6 +305,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Asylum()
         {
+            if (!ActionManager.HasSpell("Asylum"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Asylum)
                 return false;
 
@@ -312,6 +335,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Medica2()
         {
+            if (!ActionManager.HasSpell("Medica II"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Medica2)
                 return false;
 
@@ -348,6 +374,9 @@ namespace Magitek.Logic.WhiteMage
 
         private static async Task<bool> RegenHealers()
         {
+            if (!ActionManager.HasSpell("Regen"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.RegenOnHealers)
                 return false;
 
@@ -363,6 +392,9 @@ namespace Magitek.Logic.WhiteMage
 
         private static async Task<bool> RegenTanks()
         {
+            if (!ActionManager.HasSpell("Regen"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.RegenOnTanks)
                 return false;
 
@@ -381,6 +413,9 @@ namespace Magitek.Logic.WhiteMage
 
         private static async Task<bool> RegenDps()
         {
+            if (!ActionManager.HasSpell("Regen"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.RegenOnDps)
                 return false;
 
@@ -396,6 +431,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Regen()
         {
+            if (!ActionManager.HasSpell("Regen"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Regen)
                 return false;
 
@@ -422,6 +460,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Raise()
         {
+            if (!ActionManager.HasSpell("Raise"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Raise)
                 return false;
 
@@ -485,6 +526,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> PlenaryIndulgence()
         {
+            if (!ActionManager.HasSpell("Plenary Indulgence"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.PlenaryIndulgence)
                 return false;
 
@@ -504,6 +548,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AfflatusSolace()
         {
+            if (!ActionManager.HasSpell("Afflatus Solace"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.AfflatusSolace)
                 return false;
 
@@ -549,6 +596,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceMedica()
         {
+            if (!ActionManager.HasSpell("Medica"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceMedica)
                 return false;
 
@@ -560,6 +610,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceMedicaII()
         {
+            if (!ActionManager.HasSpell("Medica II"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceMedicaII)
                 return false;
 
@@ -571,6 +624,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceAfflatusSolace()
         {
+            if (!ActionManager.HasSpell("Afflatus Solace"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceAfflatusSolace)
                 return false;
 
@@ -582,6 +638,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceAfflatusRapture()
         {
+            if (!ActionManager.HasSpell("Afflatus Rapture"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceAfflatusRapture)
                 return false;
 
@@ -593,6 +652,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceCureII()
         {
+            if (!ActionManager.HasSpell("Cure II"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceCureII)
                 return false;
 
@@ -604,6 +666,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceCureIII()
         {
+            if (!ActionManager.HasSpell("Cure III"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceCureIII)
                 return false;
 
@@ -615,6 +680,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceBenediction()
         {
+            if (!ActionManager.HasSpell("Benediction"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceBenediction)
                 return false;
 
@@ -626,6 +694,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceRegen()
         {
+            if (!ActionManager.HasSpell("Regen"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceRegen)
                 return false;
 
@@ -637,6 +708,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceTetra()
         {
+            if (!ActionManager.HasSpell("Tetragrammaton"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceTetra)
                 return false;
 
@@ -648,6 +722,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AfflatusRapture()
         {
+            if (!ActionManager.HasSpell("Afflatus Rapture"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.AfflatusRapture)
                 return false;
 
