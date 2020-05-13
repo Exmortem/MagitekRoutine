@@ -13,6 +13,9 @@ namespace Magitek.Logic.WhiteMage
     {
         public static async Task<bool> Swiftcast()
         {
+            if (!ActionManager.HasSpell("Swiftcast"))
+                return false;
+            
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
             {
                 return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.Swiftcast, true, 7000));
@@ -22,6 +25,9 @@ namespace Magitek.Logic.WhiteMage
         }
         public static async Task<bool> LucidDreaming()
         {
+            if (!ActionManager.HasSpell("Lucid Dreaming"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.LucidDreaming)
                 return false;
 
@@ -36,6 +42,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> PresenceOfMind()
         {
+            if (!ActionManager.HasSpell("Presence of Mind"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.PresenceOfMind)
                 return false;
 
@@ -83,6 +92,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AssizeForMana()
         {
+            if (!ActionManager.HasSpell("Assize"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
 
@@ -103,6 +115,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ThinAir(bool preAir)
         {
+            if (!ActionManager.HasSpell("Thin Air"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ThinAir)
                 return false;
 
@@ -120,6 +135,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> DivineBenison()
         {
+            if (!ActionManager.HasSpell("Divine Benison"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.DivineBenison)
                 return false;
 
@@ -137,6 +155,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Temperance()
         {
+            if (!ActionManager.HasSpell("Temperance"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Temperance)
                 return false;
 
