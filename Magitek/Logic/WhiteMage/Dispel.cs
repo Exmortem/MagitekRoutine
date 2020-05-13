@@ -13,6 +13,9 @@ namespace Magitek.Logic.WhiteMage
     {
         public static async Task<bool> Execute()
         {
+            if (!ActionManager.HasSpell("Esuna"))
+                return false;
+            
             if (!WhiteMageSettings.Instance.Dispel || !ActionManager.HasSpell(Spells.Esuna.Id))
                 return false;
 
