@@ -43,6 +43,7 @@ namespace Magitek.Logic.WhiteMage
         
         private static async Task<bool> Medica()
         {
+        
             if (Casting.LastSpell == Spells.Medica && Casting.LastSpellTarget == Core.Me && DateTime.Now < Casting.LastTankBusterTime.AddSeconds(5))
                 return false;
 
@@ -79,9 +80,6 @@ namespace Magitek.Logic.WhiteMage
 
         private static async Task<bool> DivineBenison()
         {
-            if (ActionResourceManager.WhiteMage.Lily == 0)
-                return false;
-
             var divineBenisonTarget = Combat.Enemies.FirstOrDefault(r => r.IsCasting && TankBusterManager.DivineBenison.Contains(r.CastingSpellId) && r.HasTarget &&
                                                                          !r.TargetGameObject.HasAura(Auras.DivineBenison) && !r.TargetGameObject.HasAura(Auras.DivineBenison2))?.TargetCharacter;
 
