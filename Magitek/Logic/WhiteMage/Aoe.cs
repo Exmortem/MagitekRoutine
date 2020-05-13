@@ -12,6 +12,9 @@ namespace Magitek.Logic.WhiteMage
     {
         public static async Task<bool> Holy()
         {
+            if (!ActionManager.HasSpell("Holy"))
+                return false;
+            
             if (!WhiteMageSettings.Instance.Holy)
                 return false;
 
@@ -36,8 +39,12 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AssizeDamage()
         {
+            if (!ActionManager.HasSpell("Assize"))
+                return false;       
+            
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
+            
             if (Spells.Assize.Cooldown.TotalMilliseconds > 1)
                 return false;
 
