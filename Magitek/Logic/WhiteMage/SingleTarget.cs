@@ -1,4 +1,4 @@
-﻿using ff14bot;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
@@ -22,6 +22,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> FluidAura()
         {
+            if (!ActionManager.HasSpell("Fluid Aura"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.DoDamage)
                 return false;
 
@@ -38,6 +41,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> AfflatusMisery()
         {
+            if (!ActionManager.HasSpell("Afflatus Misery"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.DoDamage)
                 return false;
             if (!WhiteMageSettings.Instance.UseAfflatusMisery)
@@ -51,6 +57,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ForceAfflatusMisery()
         {
+            if (!ActionManager.HasSpell("Afflatus Misery"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.ForceAfflatusMisery)
                 return false;
 
@@ -62,6 +71,9 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Dots()
         {
+            if (!ActionManager.HasSpell("Aero"))
+                return false;            
+            
             if (WhiteMageSettings.Instance.UseTimeTillDeathForDots)
             {
                 var combatTimeLeft = Core.Me.CurrentTarget.CombatTimeLeft();
@@ -80,6 +92,9 @@ namespace Magitek.Logic.WhiteMage
 
         private static async Task<bool> Aero()
         {
+            if (!ActionManager.HasSpell("Aero"))
+                return false;            
+            
             if (!WhiteMageSettings.Instance.Aero)
                 return false;
 
