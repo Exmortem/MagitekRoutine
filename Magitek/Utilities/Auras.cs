@@ -216,6 +216,7 @@ namespace Magitek.Utilities
             OffGuard = 1717,
             Bleeding = 1714,
             Boost = 1716;
+            Temperance = 1872
 
         private const int
             Invincibility0 = 981,
