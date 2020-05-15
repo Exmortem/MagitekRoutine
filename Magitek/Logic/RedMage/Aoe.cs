@@ -206,7 +206,8 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Verthunder2()
         {
-            if (BlackMana > WhiteMana)
+            //We're willing to go unbalanced if we don't have Veraero2 yet
+            if (BlackMana > WhiteMana && Core.Me.ClassLevel >= Spells.Veraero2.LevelAcquired)
                 return false;
 
             if (!RedMageSettings.Instance.Ver2)
