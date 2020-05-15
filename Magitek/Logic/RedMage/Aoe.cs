@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using Buddy.Coroutines;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using Magitek.Models.QueueSpell;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -18,14 +19,35 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Scatter)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Dualcast))
-                return false;
-
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < RedMageSettings.Instance.ScatterEnemies)
                 return false;
 
-            else
-                return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.HasAura(Auras.Dualcast))
+            {
+                //TODO: The Balance says for single target, we should hold this for when we're moving around. Is that true for AoE too?
+                if (RedMageSettings.Instance.SwiftcastScatter)
+                {
+                    if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
+                        return false;
+
+                    if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
+                        return false;
+
+                    if (!RedMageRoutines.CanWeave)
+                        return false;
+
+                    if (await Spells.Swiftcast.Cast(Core.Me))
+                    {
+                        await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
+                        await Coroutine.Wait(2000, () => ActionManager.CanCast(Spells.Scatter, Core.Me.CurrentTarget));
+                        return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
+                    }
+                }
+                else
+                    return false;
+            }
+
+            return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> ContreSixte()
@@ -48,9 +70,6 @@ namespace Magitek.Logic.RedMage
         private static int EnemiesInMeleeRangeWith40PctHealth => Combat.Enemies.Count(r =>    r.InView()
                                                                                            && r.Distance(Core.Me) <= 6 + r.CombatReach
                                                                                            && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
-
-        //We don't want the single target swiftcast firing off when we're doing a Moulinet finisher
-        public static bool AllowSingleTargetSwiftcast => EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies || EnemiesInMeleeRange == 1;
 
         //TODO: Should we be trying to weave this?
         //TODO: Should we only use this if the pack has a certain amount of health left?
@@ -187,7 +206,8 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Verthunder2()
         {
-            if (BlackMana > WhiteMana)
+            //We're willing to go unbalanced if we don't have Veraero2 yet
+            if (BlackMana > WhiteMana && Core.Me.ClassLevel >= Spells.Veraero2.LevelAcquired)
                 return false;
 
             if (!RedMageSettings.Instance.Ver2)
