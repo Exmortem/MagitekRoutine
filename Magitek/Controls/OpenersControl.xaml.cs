@@ -1,9 +1,9 @@
-﻿using System.Windows.Controls;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using Magitek.Gambits;
 using Magitek.Gambits.Actions;
 using Magitek.Utilities.Managers;
 using Magitek.ViewModels;
+using System.Windows.Controls;
 
 namespace Magitek.Controls
 {

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using Clio.Utilities.Collections;
 using Magitek.Extensions;
 using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Debug = Magitek.ViewModels.Debug;
 
 namespace Magitek.Logic
@@ -33,10 +33,8 @@ namespace Magitek.Logic
 
             if (CancelSpellQueue.Invoke())
             {
-                SpellQueue.Clear();
-                Timeout.Reset();
+                SpellQueueStop();
                 Logger.WriteInfo("Had To Cancel Spell Queue");
-                InSpellQueue = false;
                 return true;
             }
 
@@ -51,8 +49,7 @@ namespace Magitek.Logic
                     if (!SpellQueue.Any())
                     {
                         Logger.WriteInfo("Spell Queue Complete");
-                        Timeout.Reset();
-                        InSpellQueue = false;
+                        SpellQueueStop();
                     }
                     return true;
                 }
@@ -72,6 +69,7 @@ namespace Magitek.Logic
                 else
                 {
                     SpellQueue.Dequeue();
+                    Logger.Error($"Spell Wait Expired or Otherwise Unable to Cast: {spell.Wait.Name}");
                     return true;
                 }
             }
@@ -98,12 +96,26 @@ namespace Magitek.Logic
             if (!await spell.Spell.Cast(target))
                 return SpellQueue.Any();
 
-                
+
 
             Logger.WriteInfo($@"Queue Cast: {spell.Spell.LocalizedName}");
 
             NeedToDequeueSuccessfulCast = true;
             return SpellQueue.Any();
+        }
+
+        private static void SpellQueueStop()
+        {
+            SpellQueue.Clear();
+            Timeout.Reset();
+            InSpellQueue = false;
+        }
+
+        public static void SpellQueueReset(Func<bool> cancelSpellQueue)
+        {
+            SpellQueueStop();
+            CancelSpellQueue = cancelSpellQueue;
+            Timeout.Restart();
         }
     }
 }

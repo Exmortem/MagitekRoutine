@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Debugging;
 using Magitek.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.Utilities
@@ -30,7 +30,7 @@ namespace Magitek.Utilities
             }
         }
 
-        private static readonly uint[] PetIds = {1398, 1399, 1400, 1401, 1402, 1403, 1404, 5478};
+        private static readonly uint[] PetIds = { 1398, 1399, 1400, 1401, 1402, 1403, 1404, 5478 };
 
         public static void UpdateAllies(Action extensions = null)
         {
@@ -80,7 +80,7 @@ namespace Magitek.Utilities
                     }
                 }
             }
-            
+
             foreach (var ally in PartyManager.AllMembers.Select(r => r.BattleCharacter))
             {
                 if (ally == null)
@@ -93,7 +93,7 @@ namespace Magitek.Utilities
                 {
                     UpdatePartyMemberHistory(ally);
                 }
-                
+
                 if (ally.CurrentHealth <= 0 || ally.IsDead)
                 {
                     DeadAllies.Add(ally);
@@ -122,21 +122,21 @@ namespace Magitek.Utilities
 
             extensions?.Invoke();
         }
-        
+
         private static void UpdatePartyMemberHistory(Character unit)
         {
             foreach (var aura in unit.CharacterAuras)
             {
                 if (Debug.Instance.PartyMemberAuras.ContainsKey(aura.Id))
                     continue;
-                
+
                 var newAura = new TargetAuraInfo(aura.Name, aura.Id, unit.Name);
                 Logger.WriteInfo($@"[Debug] Adding {aura.Name} To Party Member Aura History");
-                Debug.Instance.PartyMemberAuras.Add(aura.Id, newAura);     
+                Debug.Instance.PartyMemberAuras.Add(aura.Id, newAura);
             }
         }
 
-        public static readonly List<Character> DeadAllies = new List<Character>();       
+        public static readonly List<Character> DeadAllies = new List<Character>();
         public static readonly List<Character> CastableTanks = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();

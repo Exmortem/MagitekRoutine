@@ -226,7 +226,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ListBoxItemTankBuster" TargetType="{x:Type ListBoxItem}">
+    <!--<Style x:Key="ListBoxItemTankBuster" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -252,7 +252,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
     <Style x:Key="ListBoxItemPaladin" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Template">

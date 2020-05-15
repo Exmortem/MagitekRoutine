@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Enums;
@@ -10,12 +7,15 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
 {
     internal static class Buff
-    { 
+    {
         public static async Task<bool> Swiftcast()
         {
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
@@ -25,7 +25,7 @@ namespace Magitek.Logic.Astrologian
 
             return false;
         }
-        
+
         public static async Task<bool> LucidDreaming()
         {
             if (!AstrologianSettings.Instance.LucidDreaming)
@@ -49,7 +49,7 @@ namespace Magitek.Logic.Astrologian
         private static async Task<bool> SwiftCastAspectedHelios()
         {
             if (!await Swiftcast()) return false;
-            
+
             while (Core.Me.HasAura(Auras.Swiftcast))
             {
                 if (await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios, false))
@@ -57,7 +57,7 @@ namespace Magitek.Logic.Astrologian
 
                 await Coroutine.Yield();
             }
-            
+
             return false;
         }
 
@@ -79,8 +79,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             //I Can't get this to work for some reason.
-            /*if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
-                return false;*/
+            //Let's try it now that lightspeed is also under CombatBuffs
+            if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
+                return false;
 
             if (Globals.InParty)
             {
@@ -149,10 +150,10 @@ namespace Magitek.Logic.Astrologian
             {
                 switch (AstrologianSettings.Instance.SectWithNoPairing)
                 {
-                        case AstrologianSect.Diurnal: return await DiurnalSect();
-                        case AstrologianSect.Nocturnal: return await NocturnalSect();
-                        case AstrologianSect.None: return false;
-                        default: return false;
+                    case AstrologianSect.Diurnal: return await DiurnalSect();
+                    case AstrologianSect.Nocturnal: return await NocturnalSect();
+                    case AstrologianSect.None: return false;
+                    default: return false;
                 }
             }
             if (PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Any(r => r.CurrentJob == ClassJobType.Scholar))

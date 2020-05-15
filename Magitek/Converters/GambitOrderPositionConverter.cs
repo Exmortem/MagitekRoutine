@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Magitek.Gambits;
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using Magitek.Gambits;
 
 namespace Magitek.Converters
 {

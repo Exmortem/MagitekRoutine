@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using Clio.Common;
 using ff14bot;
 using ff14bot.Enums;
@@ -11,6 +7,10 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Extensions
@@ -55,7 +55,7 @@ namespace Magitek.Extensions
                 item.UseItem();
                 await Coroutine.Yield();
             }
-            
+
             // Potions give a Medicated aura
             if (lookForMedicated)
             {
@@ -128,7 +128,7 @@ namespace Magitek.Extensions
                 return false;
 
             return isMyAura
-                ? unitAsCharacter.CharacterAuras.Any(r => r.CasterId == Core.Player.ObjectId && auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft) 
+                ? unitAsCharacter.CharacterAuras.Any(r => r.CasterId == Core.Player.ObjectId && auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft)
                 : unitAsCharacter.CharacterAuras.Any(r => auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft);
 
         }
@@ -180,7 +180,7 @@ namespace Magitek.Extensions
         {
             return Combat.Enemies.Where(r => r.Distance(unit) <= distance && r.HasAura(aura, true));
         }
-        
+
         public static bool IsTank(this GameObject unit)
         {
             var gameObject = unit as Character;
@@ -234,7 +234,7 @@ namespace Magitek.Extensions
 
             if (tar.IsBoss())
                 return true;
-            
+
             if (tar.EnglishName.Contains("Dummy"))
                 return true;
 
@@ -264,7 +264,7 @@ namespace Magitek.Extensions
             if (unit.HasAura(Auras.NocturnalSect)) return AstrologianSect.Nocturnal;
             return AstrologianSect.None;
         }
-        
+
         public static bool IsBoss(this GameObject unit)
         {
             return unit != null && (XivDataHelper.BossDictionary.ContainsKey(unit.NpcId) || unit.EnglishName.Contains("Dummy"));

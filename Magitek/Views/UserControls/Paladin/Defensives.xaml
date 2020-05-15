@@ -13,11 +13,11 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
 
-                <CheckBox Content="Use Tank Busters  " IsChecked="{Binding PaladinSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <!--<CheckBox Content="Use Tank Busters  " IsChecked="{Binding PaladinSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />-->
 
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                     <CheckBox Content="Use Defensives  " IsChecked="{Binding PaladinSettings.UseDefensives, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Only On Tank Busters" IsChecked="{Binding PaladinSettings.UseDefensivesOnlyOnTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <!--<CheckBox Content="Only On Tank Busters" IsChecked="{Binding PaladinSettings.UseDefensivesOnlyOnTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />-->
                 </StackPanel>
 
                 <StackPanel Margin="0,10">

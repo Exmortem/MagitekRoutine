@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ff14bot;
-using ff14bot.Managers;
+﻿using ff14bot;
 using ff14bot.Objects;
 
 namespace Magitek.Gambits.Conditions

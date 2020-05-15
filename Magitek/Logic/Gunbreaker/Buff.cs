@@ -1,9 +1,8 @@
-using System.Threading.Tasks;
 using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
@@ -37,7 +36,7 @@ namespace Magitek.Logic.Gunbreaker
 
             return await Spells.NoMercy.Cast(Core.Me);
 
-        
+
         }
 
         public static async Task<bool> Bloodfest()

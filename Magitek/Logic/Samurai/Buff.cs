@@ -1,35 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using Buddy.Coroutines;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Samurai;
-using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Samurai
 {
     internal static class Buff
     {
-
-        public static async Task<bool> ArmsLength()
-        {
-
-            if (!SamuraiSettings.Instance.ForceArmsLenght)
-                return false;
-
-            if (!await Spells.Bloodbath.Cast(Core.Me)) return false;
-            SamuraiSettings.Instance.ForceArmsLenght = false;
-            TogglesManager.ResetToggles();
-            return true;
-        }
-
         public static async Task<bool> MeikyoShisui()
         {
             if (!SamuraiSettings.Instance.MeikyoShisui)
@@ -48,7 +29,7 @@ namespace Magitek.Logic.Samurai
             {
                 Utilities.Routines.Samurai.CastDuringMeikyo.Clear();
             }
-           
+
             if (SamuraiSettings.Instance.MeikyoOnlyWithZeroSen && Utilities.Routines.Samurai.SenCount != 0)
                 return false;
 

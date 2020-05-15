@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.WhiteMage;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
@@ -63,10 +63,10 @@ namespace Magitek.Rotations
             Casting.DoHealthChecks = false;
 
             if (await GambitLogic.Gambit()) return true;
-            
+
             if (Globals.PartyInCombat && Globals.InParty)
             {
-                if (await TankBusters.Execute()) return true;
+                //if (await TankBusters.Execute()) return true;
             }
             //force cast logics
             if (await Logic.WhiteMage.Heal.ForceRegen()) return true;
@@ -77,7 +77,7 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.ForceAfflatusRapture()) return true;
             if (await Logic.WhiteMage.Heal.ForceCureII()) return true;
             if (await Logic.WhiteMage.Heal.ForceCureIII()) return true;
-            
+
             if (await Logic.WhiteMage.Heal.ForceTetra()) return true;
 
             if (await SingleTarget.ForceAfflatusMisery()) return true;
@@ -138,7 +138,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
+            //Only stop doing damage when in party
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
             if (Globals.InParty)
@@ -147,7 +148,7 @@ namespace Magitek.Rotations
                     return true;
 
                 //if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
-                    //return true;
+                //return true;
             }
 
             if (BotManager.Current.IsAutonomous)

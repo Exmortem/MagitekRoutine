@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Magitek.Models.WebResources;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Magitek.Models.WebResources;
-using Newtonsoft.Json;
 
 namespace Magitek.Utilities
 {

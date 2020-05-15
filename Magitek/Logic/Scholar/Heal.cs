@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Commands;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Scholar
@@ -710,7 +709,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Consolation)
                 return false;
 
-            if ((int) PetManager.ActivePetType == 15) return false;
+            if ((int)PetManager.ActivePetType == 15) return false;
 
             if (!Core.Me.InCombat)
                 return false;

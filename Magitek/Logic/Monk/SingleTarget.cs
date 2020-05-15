@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
-using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Monk
 {
@@ -18,89 +16,89 @@ namespace Magitek.Logic.Monk
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
             if (!Core.Me.HasAura(Auras.OpoOpoForm))
-                    return false;
+                return false;
 
-                if (!Core.Me.HasAura(Auras.LeadenFist) && Core.Me.ClassLevel >= 50)
-                    return false;
+            if (!Core.Me.HasAura(Auras.LeadenFist) && Core.Me.ClassLevel >= 50)
+                return false;
 
-                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+            return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> TrueStrike()
         {
-                if (Core.Me.ClassLevel < 4)
-                    return false;
+            if (Core.Me.ClassLevel < 4)
+                return false;
 
-                if (!Core.Me.HasAura(Auras.RaptorForm))
-                    return false;
+            if (!Core.Me.HasAura(Auras.RaptorForm))
+                return false;
 
-                if (!Core.Me.HasAura(Auras.TwinSnakes) && Core.Me.ClassLevel >= 18)
-                    return false;
+            if (!Core.Me.HasAura(Auras.TwinSnakes) && Core.Me.ClassLevel >= 18)
+                return false;
 
-                return await Spells.TrueStrike.Cast(Core.Me.CurrentTarget);
+            return await Spells.TrueStrike.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SnapPunch()
         {
 
-                if (Core.Me.ClassLevel < 6)
-                    return false;    
+            if (Core.Me.ClassLevel < 6)
+                return false;
 
-                if (!Core.Me.HasAura(Auras.CoeurlForm))
-                    return false;
+            if (!Core.Me.HasAura(Auras.CoeurlForm))
+                return false;
 
-                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish) && Core.Me.ClassLevel >= 30)
-                    return false;
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish) && Core.Me.ClassLevel >= 30)
+                return false;
 
-                return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+            return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> TwinSnakes()
         {
 
-                if (Core.Me.ClassLevel < 18)
-                    return false;
+            if (Core.Me.ClassLevel < 18)
+                return false;
 
-                if (!Core.Me.HasAura(Auras.RaptorForm))
-                        return false;
+            if (!Core.Me.HasAura(Auras.RaptorForm))
+                return false;
 
-                if (Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
-                    return false;
+            if (Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
+                return false;
 
-                return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+            return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> DragonKick()
         {
 
-                if (Core.Me.ClassLevel < 50)
-                    return false;
+            if (Core.Me.ClassLevel < 50)
+                return false;
 
-                if (!Core.Me.HasAura(Auras.OpoOpoForm))
-                        return false;
+            if (!Core.Me.HasAura(Auras.OpoOpoForm))
+                return false;
 
-                if (Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
-                    return false;
+            if (Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
+                return false;
 
-                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+            return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Demolish()
         {
 
-                if (Core.Me.ClassLevel < 30)
-                    return false;
+            if (Core.Me.ClassLevel < 30)
+                return false;
 
-                if (!Core.Me.HasAura(Auras.CoeurlForm))
-                    return false;
+            if (!Core.Me.HasAura(Auras.CoeurlForm))
+                return false;
 
-                if (MonkSettings.Instance.DemolishUseTtd && Core.Me.CurrentTarget.CombatTimeLeft() <= MonkSettings.Instance.DemolishMinimumTtd)
-                    return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+            if (MonkSettings.Instance.DemolishUseTtd && Core.Me.CurrentTarget.CombatTimeLeft() <= MonkSettings.Instance.DemolishMinimumTtd)
+                return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
 
-                if (Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
-                    return false;
+            if (Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000))
+                return false;
 
-                return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+            return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> ShoulderTackle()
@@ -110,9 +108,9 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseShoulderTackle)
                 return false;
 
-           if (Core.Player.HasAura(Auras.Brotherhood) || Core.Player.HasAura(Auras.FistsofFire))
+            if (Core.Player.HasAura(Auras.Brotherhood) || Core.Player.HasAura(Auras.FistsofFire))
                 return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
-            if (Spells.ShoulderTackle .Cooldown.TotalMilliseconds < 1000)
+            if (Spells.ShoulderTackle.Cooldown.TotalMilliseconds < 1000)
                 return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
             return false;
 
@@ -167,7 +165,7 @@ namespace Magitek.Logic.Monk
                 if (Core.Me.HasAura(Auras.LeadenFist))
                     return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
             }
             return false;
         }

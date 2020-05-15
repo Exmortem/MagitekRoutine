@@ -329,7 +329,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MainTabTankBusters" TargetType="{x:Type TabItem}">
+    <!--<Style x:Key="MainTabTankBusters" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
@@ -365,7 +365,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
     <Style x:Key="MainTabHotkeys" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="White" />

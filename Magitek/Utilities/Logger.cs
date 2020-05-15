@@ -1,5 +1,5 @@
-﻿using System.Windows.Media;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
+using System.Windows.Media;
 
 namespace Magitek.Utilities
 {

@@ -1,8 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
 using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Dragoon
 {
@@ -63,6 +63,10 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseLifeSurge { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
         public bool DragonfireDive { get; set; }
 
         [Setting]
@@ -72,11 +76,11 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Aoe { get; set; }
-        
+
         [Setting]
         [DefaultValue(4)]
         public int AoeEnemies { get; set; }

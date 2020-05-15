@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 
 namespace Magitek.Utilities.Routines
 {
     internal static class RedMage
     {
-        public static bool OnGcd => Spells.Riposte.Cooldown > TimeSpan.FromMilliseconds(300);
+        //TODO: Can we take lag into account here?
+        public static bool CanWeave => Spells.Riposte.Cooldown.TotalMilliseconds >= 700;
     }
 }

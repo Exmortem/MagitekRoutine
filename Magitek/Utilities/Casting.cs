@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
@@ -14,6 +8,12 @@ using Magitek.Logic;
 using Magitek.Models.Account;
 using Magitek.Utilities.Managers;
 using Magitek.Utilities.Routines;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using Debug = Magitek.ViewModels.Debug;
 
 namespace Magitek.Utilities
@@ -34,11 +34,11 @@ namespace Magitek.Utilities
         public static bool UseRefreshTime;
         public static int RefreshTime;
         public static readonly Stopwatch CastingTime = new Stopwatch();
-        public static bool CastingTankBuster;
+        //public static bool CastingTankBuster;
         public static bool CastingGambit;
-        public static GameObject LastTankBusterTarget;
-        public static DateTime LastTankBusterTime;
-        public static SpellData LastTankBusterSpell;
+        //public static GameObject LastTankBusterTarget;
+        //public static DateTime LastTankBusterTime;
+        //public static SpellData LastTankBusterSpell;
         public static List<SpellCastHistoryItem> SpellCastHistory = new List<SpellCastHistoryItem>();
         #endregion
 
@@ -52,7 +52,7 @@ namespace Magitek.Utilities
                 if (BaseSettings.Instance.DebugSpellCastHistory)
                     Application.Current.Dispatcher.Invoke(delegate { Debug.Instance.SpellCastHistory = new List<SpellCastHistoryItem>(SpellCastHistory); });
             }
-            
+
             // If we're not casting we can return false to keep going down the tree
             if (!Core.Me.IsCasting)
                 return false;
@@ -63,7 +63,7 @@ namespace Magitek.Utilities
                 return false;
 
             await GambitLogic.ToastGambits();
- 
+
             #region Debug and Target Checks
 
             if (BaseSettings.Instance.DebugPlayerCasting)
@@ -97,53 +97,61 @@ namespace Magitek.Utilities
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Scholar:
-                {
-                    if (Scholar.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (Scholar.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ClassJobType.Arcanist:
-                {
-                    if (Scholar.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (Scholar.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ClassJobType.WhiteMage:
-                {
-                    if (WhiteMage.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (WhiteMage.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ClassJobType.Conjurer:
-                {
-                    if (WhiteMage.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (WhiteMage.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ClassJobType.Astrologian:
-                {
-                    if (Astrologian.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (Astrologian.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ClassJobType.Summoner:
-                {
-                    if (Summoner.NeedToInterruptCast())
                     {
-                        await CancelCast();
+                        if (Summoner.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
                     }
-                    break;
-                }
+                case ClassJobType.BlackMage:
+                    {
+                        if (BlackMage.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
+                    }
             }
 
             #endregion
@@ -155,12 +163,12 @@ namespace Magitek.Utilities
         {
             try
             {
-                ActionManager.StopCasting();        
+                ActionManager.StopCasting();
                 await Coroutine.Wait(1000, () => !Core.Me.IsCasting);
 
                 if (msg != null)
                     Logger.Error(msg);
-                
+
                 CastingTime.Stop();
             }
             catch (Exception)
@@ -174,12 +182,12 @@ namespace Magitek.Utilities
             // If the timer isn't running it means it's already been stopped and the variables have already been set
             if (!CastingTime.IsRunning)
             {
-                CastingTankBuster = false;
+                //CastingTankBuster = false;
                 NeedAura = false;
                 UseRefreshTime = false;
                 DoHealthChecks = false;
                 CastingHeal = false;
-                CastingTankBuster = false;
+                //CastingTankBuster = false;
                 CastingGambit = false;
                 return;
             }
@@ -200,7 +208,7 @@ namespace Magitek.Utilities
                 UseRefreshTime = false;
                 DoHealthChecks = false;
                 CastingHeal = false;
-                CastingTankBuster = false;
+                //CastingTankBuster = false;
                 CastingGambit = false;
                 return;
             }
@@ -243,18 +251,18 @@ namespace Magitek.Utilities
 
             #region Fill Variables
 
-            if (CastingTankBuster)
+            /*if (CastingTankBuster)
             {
                 LastTankBusterTarget = SpellTarget;
                 LastTankBusterSpell = CastingSpell;
                 LastTankBusterTime = DateTime.Now;
-            }
+            }*/
 
             NeedAura = false;
             UseRefreshTime = false;
             DoHealthChecks = false;
             CastingHeal = false;
-            CastingTankBuster = false;
+            //CastingTankBuster = false;
             CastingGambit = false;
 
             #endregion

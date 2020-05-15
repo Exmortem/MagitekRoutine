@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using ff14bot.Enums;
+﻿using ff14bot.Enums;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 
 namespace Magitek.Gambits
 {

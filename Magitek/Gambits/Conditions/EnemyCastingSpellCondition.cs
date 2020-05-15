@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Utilities;
+using System;
+using System.Linq;
 
 namespace Magitek.Gambits.Conditions
 {
     public class EnemyCastingSpellCondition : GambitCondition
     {
-        public EnemyCastingSpellCondition() : base (GambitConditionTypes.EnemyCastingSpell) 
+        public EnemyCastingSpellCondition() : base(GambitConditionTypes.EnemyCastingSpell)
         {
         }
 
@@ -18,7 +17,7 @@ namespace Magitek.Gambits.Conditions
         public bool TargetAnyone { get; set; }
         public bool TargetOfSpell { get; set; }
         public bool PlayerTargetOfSpell { get; set; }
-        
+
         public override bool Check(GameObject gameObject = null)
         {
             var enemyCasting = GameObjectManager.GetObjectsOfType<BattleCharacter>().FirstOrDefault(r => r.IsCasting && string.Equals(r.SpellCastInfo.Name, SpellName, StringComparison.InvariantCultureIgnoreCase));

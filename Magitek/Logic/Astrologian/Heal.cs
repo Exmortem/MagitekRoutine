@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.Coroutines;
 using Clio.Utilities;
 using ff14bot;
@@ -10,6 +7,9 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
@@ -59,7 +59,7 @@ namespace Magitek.Logic.Astrologian
                         return await CastBenefic(ally);
                     }
                 }
-                
+
                 return false;
             }
             else
@@ -75,19 +75,19 @@ namespace Magitek.Logic.Astrologian
 
                 return await Spells.Benefic.Heal(Core.Me);
             }
-            
+
             async Task<bool> CastBenefic(GameObject ally)
             {
                 return await Spells.Benefic.Heal(ally);
             }
         }
-        
+
         public static async Task<bool> Benefic2()
         {
             if (!AstrologianSettings.Instance.Benefic2)
                 return false;
 
-            var shouldBenefic2WithEnhancedBenefic2 =  AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2 &&
+            var shouldBenefic2WithEnhancedBenefic2 = AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2 &&
                 Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost;
 
             if (Globals.InParty)
@@ -235,7 +235,7 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.HasAura(Auras.HoroscopeHelios))
                 return false;
 
-            if(Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
             return await Spells.Horoscope.Cast(Core.Me);
@@ -249,12 +249,12 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.HeliosMinManaPercent) return false;
-                
+
             var heliosCount = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Helios.Radius && r.CurrentHealthPercent <= AstrologianSettings.Instance.HeliosHealthPercent);
 
             if (heliosCount < AstrologianSettings.Instance.HeliosAllies)
                 return false;
-            
+
             return await Spells.Helios.Heal(Core.Me, false);
         }
 
@@ -276,7 +276,7 @@ namespace Magitek.Logic.Astrologian
 
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
-            
+
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.DiurnalHeliosMinManaPercent) return false;
 
             var diurnalHeliosCount =
@@ -299,7 +299,7 @@ namespace Magitek.Logic.Astrologian
 
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
-            
+
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.NocturnalHeliosMinManaPercent) return false;
 
             var nocturnalHeliosCount =
@@ -342,7 +342,7 @@ namespace Magitek.Logic.Astrologian
                 if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.NocturnalBeneficWhileMovingMinMana)
                     return false;
             }
-            
+
             if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.NocturnalBeneficMinMana) return false;
 
             if (Globals.InParty)
@@ -489,7 +489,7 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.AspectedBenefic.HealAura(diurnalBeneficTarget, Auras.AspectedBenefic);
         }
-        
+
         public static async Task<bool> Ascend()
         {
             if (!AstrologianSettings.Instance.Ascend)
@@ -524,7 +524,7 @@ namespace Magitek.Logic.Astrologian
             var deadList = Group.DeadAllies.Where(u => !u.HasAura(Auras.Raise) &&
                                                        u.Distance(Core.Me) <= 30 &&
                                                        u.InLineOfSight() &&
-                                                       u.IsTargetable && 
+                                                       u.IsTargetable &&
                                                        u.IsVisible)
                 .OrderByDescending(r => r.GetResurrectionWeight());
 
@@ -589,56 +589,56 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft < 15) return false;
 
             var earthlyStarLocation = Utilities.Routines.Astrologian.EarthlyStarLocation;
-            
+
             var earthlyStarTargets = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).ToList();
-            
+
             if (Core.Me.HasAura(Auras.EarthlyDominance) && Utilities.Routines.Astrologian.EarthlyStarLocation != Vector3.Zero && AstrologianSettings.Instance.StellarDetonation)
             {
                 if (earthlyStarTargets.Count(r => r.Distance(earthlyStarLocation) <= 30 && r.CurrentHealthPercent <= AstrologianSettings.Instance.EarthlyDominanceHealthPercent) > AstrologianSettings.Instance.EarthlyDominanceCount)
                     return await Spells.StellarDetonation.Heal(Core.Me);
             }
-            
+
             if (Core.Me.HasAura(Auras.GiantDominance) && Utilities.Routines.Astrologian.EarthlyStarLocation != Vector3.Zero && AstrologianSettings.Instance.StellarDetonation)
             {
                 if (earthlyStarTargets.Count(r => r.Distance(earthlyStarLocation) <= 30 && r.CurrentHealthPercent <= AstrologianSettings.Instance.GiantDominanceHealthPercent) > AstrologianSettings.Instance.GiantDominanceCount)
                     return await Spells.StellarDetonation.Heal(Core.Me);
             }
-            
+
             if (!AstrologianSettings.Instance.EarthlyStar)
                 return false;
-            
+
             if (Combat.CombatTotalTimeLeft < 40) return false;
 
             if (!Core.Me.HasTarget) return false;
 
             switch (Globals.InParty)
-                {
-                    case true:
-                        if (Core.Target.EnemiesNearby(30).Count() > AstrologianSettings.Instance.EarthlyStarEnemiesNearTarget &&
-                            earthlyStarTargets.Count(r => r.Distance(Core.Target) <= 30 && r.CurrentHealthPercent <=
-                                                          AstrologianSettings.Instance
-                                                              .EarthlyStarPartyMembersNearTargetHealthPercent) > AstrologianSettings
-                                .Instance.EarthlyStarPartyMembersNearTarget)
-                            if (await Spells.EarthlyStar.Cast(Core.Target))
-                            {
-                                Utilities.Routines.Astrologian.EarthlyStarLocation = Core.Target.Location;
-                                return true;
-                            }
-                        break;
-                    default:
-                        if (Core.Target.EnemiesNearby(30).Count() > AstrologianSettings.Instance.EarthlyStarEnemiesNearTarget &&
-                            Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.EarthlyStarPartyMembersNearTargetHealthPercent && Core.Target.Distance() <= 30)
-                            if (await Spells.EarthlyStar.Cast(Core.Target))
-                            {
-                                Utilities.Routines.Astrologian.EarthlyStarLocation = Core.Target.Location;
-                                return true;
-                            }
-                        break;
-                }
+            {
+                case true:
+                    if (Core.Target.EnemiesNearby(30).Count() > AstrologianSettings.Instance.EarthlyStarEnemiesNearTarget &&
+                        earthlyStarTargets.Count(r => r.Distance(Core.Target) <= 30 && r.CurrentHealthPercent <=
+                                                      AstrologianSettings.Instance
+                                                          .EarthlyStarPartyMembersNearTargetHealthPercent) > AstrologianSettings
+                            .Instance.EarthlyStarPartyMembersNearTarget)
+                        if (await Spells.EarthlyStar.Cast(Core.Target))
+                        {
+                            Utilities.Routines.Astrologian.EarthlyStarLocation = Core.Target.Location;
+                            return true;
+                        }
+                    break;
+                default:
+                    if (Core.Target.EnemiesNearby(30).Count() > AstrologianSettings.Instance.EarthlyStarEnemiesNearTarget &&
+                        Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.EarthlyStarPartyMembersNearTargetHealthPercent && Core.Target.Distance() <= 30)
+                        if (await Spells.EarthlyStar.Cast(Core.Target))
+                        {
+                            Utilities.Routines.Astrologian.EarthlyStarLocation = Core.Target.Location;
+                            return true;
+                        }
+                    break;
+            }
 
             return false;
 
         }
-              
+
     }
 }

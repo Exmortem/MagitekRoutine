@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Magitek.Models.Debugging;
+﻿using Magitek.Models.Debugging;
 using Magitek.Models.WebResources;
+using System.Linq;
 
 namespace Magitek.Extensions
 {

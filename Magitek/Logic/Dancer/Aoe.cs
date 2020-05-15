@@ -1,11 +1,10 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace Magitek.Logic.Dancer

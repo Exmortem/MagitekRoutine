@@ -1,14 +1,12 @@
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.QueueSpell;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
-using Iaijutsu = ff14bot.Managers.ActionResourceManager.Samurai.Iaijutsu;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Iaijutsu = ff14bot.Managers.ActionResourceManager.Samurai.Iaijutsu;
 
 namespace Magitek.Logic.Samurai
 {
@@ -56,7 +54,7 @@ namespace Magitek.Logic.Samurai
                 return false;
             if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                 return false;
-            
+
             return await Spells.Oka.Cast(Core.Me);
         }
 

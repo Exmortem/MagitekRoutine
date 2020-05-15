@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Configuration;
-using System.IO;
-using Magitek.Enumerations;
+﻿using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
+using System.IO;
 
 namespace Magitek.Models.Scholar
 {
@@ -67,7 +67,7 @@ namespace Magitek.Models.Scholar
 
         [Setting]
         [DefaultValue(true)]
-        
+
         public bool ResOutOfCombat { get; set; }
 
         [Setting]
@@ -149,7 +149,7 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(50.0f)]
         public float SuccorHpPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(4)]
         public int SuccorNeedHealing { get; set; }
@@ -459,7 +459,7 @@ namespace Magitek.Models.Scholar
         {
             if (!File.Exists(path))
                 return;
-            
+
 
             LoadFrom(path);
         }

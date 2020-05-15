@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -33,6 +33,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 58)
                 return false;
 
+            //Wait until after Zwerchhau so it's still at max power for Scorch
             if (ActionManager.LastSpell != Spells.Zwerchhau)
                 return false;
 			
@@ -60,7 +61,12 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Manafication)
                 return false;
 
-            if (ActionManager.LastSpell != Spells.Jolt && ActionManager.LastSpell != Spells.Jolt2)
+            //Don't start the combo until we've used up Dualcast
+            if (Core.Me.HasAura(Auras.Dualcast))
+                return false;
+
+            //Don't fire this off while we're already in a combo, because that wastes a combo opportunity
+            if (SingleTarget.ComboInProgress)
                 return false;
 
             // Can this be simplified? Yes

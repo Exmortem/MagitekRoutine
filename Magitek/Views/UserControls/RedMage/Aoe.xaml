@@ -33,11 +33,17 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
                 <CheckBox Content="Scatter When There Are " IsChecked="{Binding RedMageSettings.Scatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.ScatterEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="24,0,5,5" Orientation="Horizontal">
+                <CheckBox Content="Swiftcast Scatter" IsChecked="{Binding RedMageSettings.SwiftcastScatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -46,6 +52,14 @@
                 <CheckBox Content="Moulinet When There Are " IsChecked="{Binding RedMageSettings.Moulinet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.MoulinetEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Enemy Health at Least " />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.EmboldenFinisherPercent, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Percent for Embolden+Moulinet Finisher" />
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -1,10 +1,4 @@
-﻿using System.Threading.Tasks;
-using ff14bot;
-using Magitek.Extensions;
-using Magitek.Models.Roles;
-using Magitek.Utilities;
-
-namespace Magitek.Logic.Roles
+﻿namespace Magitek.Logic.Roles
 {
     internal static class MagicDps
     {

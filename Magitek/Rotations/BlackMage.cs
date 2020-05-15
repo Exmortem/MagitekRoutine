@@ -20,7 +20,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            
+
 
             if (await Casting.TrackSpellCast())
                 return true;
@@ -59,11 +59,11 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            
+
 
             if (Core.Me.IsMounted)
                 return true;
-            
+
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -109,10 +109,13 @@ namespace Magitek.Rotations
 
             {
                 if (await Aoe.Flare()) return true;
+                if (await Aoe.Blizzard2()) return true;
                 if (await Aoe.Freeze()) return true;
                 if (await Aoe.Foul()) return true;
                 if (await Aoe.Fire2()) return true;
                 if (await Aoe.Thunder4()) return true;
+                if (await Aoe.Fire3()) return true;
+                if (await Aoe.Fire4()) return true;
             }
 
             if (await SingleTarget.Blizzard4()) return true;

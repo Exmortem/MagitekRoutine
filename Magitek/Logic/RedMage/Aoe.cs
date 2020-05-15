@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
+using Buddy.Coroutines;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using Magitek.Models.QueueSpell;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -19,14 +19,35 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Scatter)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Dualcast))
-                return false;
-
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < RedMageSettings.Instance.ScatterEnemies)
                 return false;
 
-            else
-                return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.HasAura(Auras.Dualcast))
+            {
+                //TODO: The Balance says for single target, we should hold this for when we're moving around. Is that true for AoE too?
+                if (RedMageSettings.Instance.SwiftcastScatter)
+                {
+                    if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
+                        return false;
+
+                    if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
+                        return false;
+
+                    if (!RedMageRoutines.CanWeave)
+                        return false;
+
+                    if (await Spells.Swiftcast.Cast(Core.Me))
+                    {
+                        await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
+                        await Coroutine.Wait(2000, () => ActionManager.CanCast(Spells.Scatter, Core.Me.CurrentTarget));
+                        return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
+                    }
+                }
+                else
+                    return false;
+            }
+
+            return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> ContreSixte()
@@ -44,6 +65,87 @@ namespace Magitek.Logic.RedMage
                 return await Spells.ContreSixte.Cast(Core.Me.CurrentTarget);
         }
 
+        public static int EnemiesInMeleeRange => Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach);
+
+        private static int EnemiesInMeleeRangeWith40PctHealth => Combat.Enemies.Count(r =>    r.InView()
+                                                                                           && r.Distance(Core.Me) <= 6 + r.CombatReach
+                                                                                           && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
+
+        //TODO: Should we be trying to weave this?
+        //TODO: Should we only use this if the pack has a certain amount of health left?
+        public static async Task<bool> Embolden()
+        {
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (!RedMageSettings.Instance.Embolden)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Embolden.LevelAcquired)
+                return false;
+
+            //We only use this in conjunction with Moulinet
+            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
+            return false;
+
+            //We only use this if enough enemies have enough health
+            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+                return false;
+
+            if (BlackMana < 90 || WhiteMana < 90)
+                return false;
+
+            if (   BlackMana == 100
+                && WhiteMana == 100)
+            {
+                return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (Core.Me.HasAura(Auras.Manafication))
+            {
+                return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (   Spells.Manafication.Cooldown == TimeSpan.Zero
+                && RedMageSettings.Instance.Manafication
+                && Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired)
+            {
+                return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
+            }
+
+            return false;
+        }
+
+        //TODO: Should we be trying to weave this?
+        //TODO: Should we only use this if the pack has a certain amount of health left?
+        public static async Task<bool> Manafication()
+        {
+            if (!RedMageSettings.Instance.UseMelee)
+                return false;
+
+            if (!RedMageSettings.Instance.Manafication)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Manafication.LevelAcquired)
+                return false;
+
+            //We only use this in conjunction with Moulinet
+            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
+                return false;
+
+            //We only use this if enough enemies have enough health
+            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+                return false;
+
+            //Only use Manafication for AoE between 50 and 70 mana
+            if (    BlackMana < 50
+                ||  WhiteMana < 50
+                || (BlackMana > 70 && WhiteMana > 70))
+                return false;
+            else
+                return await Spells.Manafication.Cast(Core.Me);
+        }
+
         public static async Task<bool> Moulinet()
         {
             if (!RedMageSettings.Instance.UseMelee)
@@ -52,59 +154,38 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Moulinet)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Moulinet.LevelAcquired)
+                return false;
+                
             if (BlackMana < 20 || WhiteMana < 20)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) < RedMageSettings.Instance.MoulinetEnemies)
+            //Use the dualcast before Moulinet
+            if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) >= 4 && BlackMana >= 50 && WhiteMana >= 50 && Spells.Manafication.Cooldown == TimeSpan.Zero && RedMageSettings.Instance.Manafication)
+            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
+                return false;
+
+            if (EnemiesInMeleeRange >= 3
+                && Core.Me.ClassLevel < Spells.Embolden.LevelAcquired)
             {
-                Logger.Error("Bursting Moulinet");
-
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 18000;
-
-                if (BlackMana >= 90 && WhiteMana >= 90 && RedMageSettings.Instance.Embolden)
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Embolden, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for Embolden", Check = () => ActionManager.CanCast(Spells.Embolden, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                while (BlackMana >= 70 && WhiteMana >= 70)
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Moulinet, Wait = new QueueSpellWait() { Name = "Wait for Moulinet", Check = () => ActionManager.CanCast(Spells.Moulinet, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                if (!Core.Me.HasAura(Auras.Manafication))
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Manafication, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for Manafication", Check = () => ActionManager.CanCast(Spells.Manafication, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                while (BlackMana >= 20 && WhiteMana >= 20)
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Moulinet, Wait = new QueueSpellWait() { Name = "Wait for Moulinet", Check = () => ActionManager.CanCast(Spells.Moulinet, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                if (Spells.Swiftcast.Cooldown == TimeSpan.Zero && !Core.Me.HasAura(Auras.Swiftcast))
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Swiftcast, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for Swiftcast", Check = () => ActionManager.CanCast(Spells.Swiftcast, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                if (Core.Me.HasAura(Auras.Swiftcast))
-                {
-                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Impact, Wait = new QueueSpellWait() { Name = "Wait for Impact", Check = () => ActionManager.CanCast(Spells.Impact, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
-                }
-
-                else
-                    return false;
+                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
             }
 
-            if (Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach) == 3 && BlackMana >= 90 && WhiteMana >= 90)
+            if (   EnemiesInMeleeRange >= 1
+                && (Core.Me.HasAura(Auras.Embolden) || Core.Me.HasAura(Auras.Manafication)))
             {
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Moulinet, Wait = new QueueSpellWait() { Name = "Wait for Moulinet", Check = () => ActionManager.CanCast(Spells.Moulinet, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
+                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
             }
-            
+
+            if (EnemiesInMeleeRange >= 1
+                && BlackMana >= 90
+                && WhiteMana >= 90)
+            {
+                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+            }
+
             return false;
         }
 
@@ -125,7 +206,8 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Verthunder2()
         {
-            if (BlackMana > WhiteMana)
+            //We're willing to go unbalanced if we don't have Veraero2 yet
+            if (BlackMana > WhiteMana && Core.Me.ClassLevel >= Spells.Veraero2.LevelAcquired)
                 return false;
 
             if (!RedMageSettings.Instance.Ver2)

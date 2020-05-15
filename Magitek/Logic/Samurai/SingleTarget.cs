@@ -1,17 +1,13 @@
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Account;
-using Magitek.Models.QueueSpell;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
-using Magitek.Views.UserControls.Scholar;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 using Iaijutsu = ff14bot.Managers.ActionResourceManager.Samurai.Iaijutsu;
-using System;
 
 namespace Magitek.Logic.Samurai
 {
@@ -46,7 +42,7 @@ namespace Magitek.Logic.Samurai
 
             return await Spells.HissatsuGuren.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> HissatsuSenei()
         {
             if (Core.Me.CurrentTarget == null) return false;
@@ -96,7 +92,7 @@ namespace Magitek.Logic.Samurai
 
             return await Spells.HissatsuSeigan.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> Shoha()
         {
             if (Core.Me.ClassLevel < 80)
@@ -106,7 +102,7 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             //if (!Core.Me.HasAura("Meditation")) //TODO: Fix with aura ID when known
-                //return false;
+            //return false;
 
             return await Spells.Shoha.Cast(Core.Me.CurrentTarget);
         }
@@ -130,7 +126,7 @@ namespace Magitek.Logic.Samurai
             if (Utilities.Routines.Samurai.SenCount == 3)
                 return false;
 
-            
+
             if (Core.Me.CurrentTarget == null)
                 return false;
 
@@ -179,7 +175,7 @@ namespace Magitek.Logic.Samurai
 
             //If we get interrupted casting Midare and still have Kaiten up, wait until we either succeed casting it, or we lose Kaiten
             return casted || hasKaiten;
-        
+
         }
 
         public static async Task<bool> Higanbana()
@@ -223,31 +219,31 @@ namespace Magitek.Logic.Samurai
             return await Spells.Higanbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
         }
 
-       // public static async Task<bool> KaeshiHiganbana()  DON'T USE KAESHIHIGANBANA EVER
-       // {
-       //     if (Core.Me.CurrentTarget == null)
-       //         return false;
-       //
-       //     if (Core.Me.ClassLevel < 76)
-       //         return false;
-       //
-       //     if (Core.Me.CurrentTarget.CombatTimeLeft() < 15)
-       //         return false;
-       //
-       //     if (Utilities.Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeComboEnemies)
+        // public static async Task<bool> KaeshiHiganbana()  DON'T USE KAESHIHIGANBANA EVER
+        // {
+        //     if (Core.Me.CurrentTarget == null)
+        //         return false;
+        //
+        //     if (Core.Me.ClassLevel < 76)
+        //         return false;
+        //
+        //     if (Core.Me.CurrentTarget.CombatTimeLeft() < 15)
+        //         return false;
+        //
+        //     if (Utilities.Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeComboEnemies)
         //    {
         //        if (SamuraiSettings.Instance.AoeCombo)
-          //          return false;
-            //}
+        //          return false;
+        //}
 
-            // if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
-             //   return false;
+        // if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
+        //   return false;
 
-           // if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
-             //   return false;
+        // if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
+        //   return false;
 
-          //  return await Spells.KaeshiHiganbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
-       // }
+        //  return await Spells.KaeshiHiganbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+        // }
 
         public static async Task<bool> Kasha()
         {
@@ -259,7 +255,7 @@ namespace Magitek.Logic.Samurai
 
             if (ActionManager.LastSpell != Spells.Shifu && !Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
-    
+
             if (!Core.Me.CurrentTarget.IsFlanking)
             {
                 ViewModels.BaseSettings.Instance.PositionalStatus = "OutOfPosition";

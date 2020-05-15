@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Windows.Input;
-using Clio.Utilities.Collections;
-using ff14bot.Helpers;
+﻿using Clio.Utilities.Collections;
 using Magitek.Commands;
 using Magitek.Enumerations;
 using Magitek.Models.Account;
@@ -29,6 +23,7 @@ using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using Magitek.Views;
 using PropertyChanged;
+using System.Windows.Input;
 
 namespace Magitek.ViewModels
 {
@@ -52,7 +47,7 @@ namespace Magitek.ViewModels
             OverlayManager.StartMainOverlay();
         });
 
-        public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12} ;
+        public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12 };
 
         public Models.Account.BaseSettings GeneralSettings => Models.Account.BaseSettings.Instance;
         public AuthenticationSettings AuthenticationSettings => AuthenticationSettings.Instance;

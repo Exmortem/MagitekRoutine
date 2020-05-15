@@ -1,11 +1,9 @@
-﻿using System.Threading.Tasks;
-using Buddy.Coroutines;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.Account;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Ninja;
 
 namespace Magitek.Logic.Ninja
@@ -29,7 +27,7 @@ namespace Magitek.Logic.Ninja
         {
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
-            
+
             return await Spells.AeolianEdge.Cast(Core.Me.CurrentTarget);
         }
 
@@ -38,7 +36,7 @@ namespace Magitek.Logic.Ninja
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
 
-            if(HutonTimer.TotalMilliseconds < 8000)
+            if (HutonTimer.TotalMilliseconds < 8000)
                 return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
 
             if (!Core.Me.HasAura(Auras.TrueNorth))
@@ -47,9 +45,9 @@ namespace Magitek.Logic.Ninja
                     return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
             }
 
-            if(Core.Me.HasAura(Auras.TrueNorth))
-            { 
-                if(HutonTimer.TotalMilliseconds <= 30000)
+            if (Core.Me.HasAura(Auras.TrueNorth))
+            {
+                if (HutonTimer.TotalMilliseconds <= 30000)
                     return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
             }
 
@@ -120,7 +118,7 @@ namespace Magitek.Logic.Ninja
 
             if (Core.Me.HasAura(Auras.Suiton, true, 1))
                 return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
-            
+
             if (!BotManager.Current.IsAutonomous)
                 return false;
 
@@ -132,7 +130,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseDreamWithinADream)
                 return false;
 
-            if(Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
 
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 50000 && Spells.ShadowFang.Cooldown.TotalMilliseconds > 2000)
@@ -171,7 +169,7 @@ namespace Magitek.Logic.Ninja
                 return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
 
             if (NinkiGauge >= 50 && Spells.Mug.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds + 1000 && Spells.Bunshin.Cooldown.TotalMilliseconds > Spells.TrickAttack.Cooldown.TotalMilliseconds)
-                    return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
+                return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
 
             if (NinkiGauge < 50)
                 return false;
@@ -208,7 +206,7 @@ namespace Magitek.Logic.Ninja
                 //Logger.Write("Calc:" + calc);
 
                 //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
-                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) -5 >= 90)
+                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 >= 90)
                     canwesafelycastthis = 1;
 
                 if (canwesafelycastthis == 1)
@@ -221,7 +219,7 @@ namespace Magitek.Logic.Ninja
             {
                 //Logger.Write("Trick Attack Check");
                 int canwesafelycastthis = 0;
-                double cooldown = Spells.TrickAttack.Cooldown.TotalMilliseconds;              
+                double cooldown = Spells.TrickAttack.Cooldown.TotalMilliseconds;
                 double gcd = 2100;
                 double ninjutsu = Spells.Jin.Cooldown.TotalMilliseconds;
                 double ninadjust = 0;
@@ -236,7 +234,7 @@ namespace Magitek.Logic.Ninja
                 int third = (int)cooldown / 3000;
                 //Logger.Write("Third:" + third);
 
-                
+
                 //Logger.Write("Cooldown:" + cooldown);
 
                 double calc = cooldown / gcd;
@@ -248,9 +246,9 @@ namespace Magitek.Logic.Ninja
                 //Logger.Write("Calc:" + calc);
 
                 //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
-                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) -5 > 70)
+                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 > 70)
                     canwesafelycastthis = 1;
-                
+
                 if (canwesafelycastthis == 1)
                 {
                     return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Configuration;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Roles
 {
@@ -13,17 +13,17 @@ namespace Magitek.Models.Roles
         {
         }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(true)]
-        public bool UseTankBusters { get; set; }
+        //public bool UseTankBusters { get; set; }*/
 
         [Setting]
         [DefaultValue(true)]
         public bool UseDefensives { get; set; }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(false)]
-        public bool UseDefensivesOnlyOnTankBusters { get; set; }
+        //public bool UseDefensivesOnlyOnTankBusters { get; set; }*/
 
         [Setting]
         [DefaultValue(1)]
@@ -60,7 +60,7 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(false)]
         public bool UseReprisal { get; set; }
-        
+
         [Setting]
         [DefaultValue(10)]
         public int ReprisalHealthPercent { get; set; }

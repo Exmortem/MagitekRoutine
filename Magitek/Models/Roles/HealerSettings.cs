@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.Configuration;
-using ff14bot.Helpers;
+﻿using ff14bot.Helpers;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Roles
 {
@@ -14,17 +14,17 @@ namespace Magitek.Models.Roles
         [DefaultValue(3)]
         public int StopDamageWhenMoreThanEnemies { get; set; }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(true)]
-        public bool PrioritizeTankBusters { get; set; }
+        //public bool PrioritizeTankBusters { get; set; }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(true)]
-        public bool UseTankBusters { get; set; }
+        //public bool UseTankBusters { get; set; }
 
         [Setting]
         [DefaultValue(30.0f)]
-        public float TankBusterMinimumMpPercent { get; set; }
+        //public float TankBusterMinimumMpPercent { get; set; }*/
 
         [Setting]
         [DefaultValue(true)]

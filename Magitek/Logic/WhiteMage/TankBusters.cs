@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
@@ -112,4 +112,4 @@ namespace Magitek.Logic.WhiteMage
             return true;
         }
     }
-}
+}*/

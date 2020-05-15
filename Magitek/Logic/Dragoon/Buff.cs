@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
@@ -10,6 +6,10 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Dragoon
@@ -33,10 +33,10 @@ namespace Magitek.Logic.Dragoon
 
         public static async Task<bool> LifeSurge()
         {
-            if (!DragoonSettings.Instance.LifeSurge)
+            if (!DragoonSettings.Instance.UseLifeSurge)
                 return false;
 
-            return await Spells.LifeSurge.Cast(Core.Me);
+            return false;
         }
 
         public static async Task<bool> BloodOfTheDragon()
@@ -88,7 +88,7 @@ namespace Magitek.Logic.Dragoon
             if (Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-            if (Casting.LastSpell != Spells.FullThrust && Casting.LastSpell !=Spells.ChaosThrust  && Casting.LastSpell != Spells.WheelingThrust && Casting.LastSpell != Spells.FangAndClaw)
+            if (Casting.LastSpell != Spells.FullThrust && Casting.LastSpell != Spells.ChaosThrust && Casting.LastSpell != Spells.WheelingThrust && Casting.LastSpell != Spells.FangAndClaw)
                 return false;
 
             return await Spells.TrueNorth.Cast(Core.Me);
@@ -138,7 +138,7 @@ namespace Magitek.Logic.Dragoon
 
             return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
         }
-        
+
         private static int GetWeight(Character c)
         {
             switch (c.CurrentJob)

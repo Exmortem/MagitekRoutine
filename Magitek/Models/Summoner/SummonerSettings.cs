@@ -1,8 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
 using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Summoner
 {
@@ -20,7 +20,7 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(5)]
         public int DotRefreshSeconds { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
@@ -28,7 +28,7 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(60.0f)]
         public float LucidDreamingManaPercent { get; set; }
-        
+
 
         [Setting]
         [DefaultValue(7)]

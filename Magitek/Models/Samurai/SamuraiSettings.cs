@@ -1,8 +1,8 @@
-using System.ComponentModel;
-using System.Configuration;
 using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.Samurai
 {
@@ -28,10 +28,6 @@ namespace Magitek.Models.Samurai
         [Setting]
         [DefaultValue(true)]
         public bool Bloodbath { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceArmsLenght { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -130,7 +126,7 @@ namespace Magitek.Models.Samurai
         [Setting]
         [DefaultValue(700)]
         public int UseOffGCDAbilitiesWithMoreThanXMSLeft { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool HissatsuSeigan { get; set; }

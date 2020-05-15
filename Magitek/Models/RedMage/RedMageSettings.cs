@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
-using System.Configuration;
 using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
+using System;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace Magitek.Models.RedMage
 {
@@ -27,13 +27,17 @@ namespace Magitek.Models.RedMage
         public bool Scatter { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int ScatterEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
+        public bool SwiftcastScatter { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Acceleration { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Displacement { get; set; }
@@ -47,6 +51,10 @@ namespace Magitek.Models.RedMage
         public bool CorpsACorps { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool CorpsACorpsInMeleeRangeOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Fleche { get; set; }
 
@@ -55,8 +63,12 @@ namespace Magitek.Models.RedMage
         public bool Moulinet { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int MoulinetEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(40)]
+        public int EmboldenFinisherPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -85,13 +97,13 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool Manafication { get; set; }
-        
+
         [Setting]
-        [DefaultValue(30)]
+        [DefaultValue(40)]
         public int ManaficationMinimumBlackAndWhiteMana { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
+        [DefaultValue(60)]
         public int ManaficationMaximumBlackAndWhiteMana { get; set; }
 
         [Setting]

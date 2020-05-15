@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
@@ -9,6 +6,9 @@ using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.WhiteMage
@@ -65,7 +65,7 @@ namespace Magitek.Logic.WhiteMage
                         return await CastCure(ally);
                     }
                 }
-                
+
                 return false;
             }
             else
@@ -85,13 +85,13 @@ namespace Magitek.Logic.WhiteMage
 
                 return await Spells.Cure.Heal(Core.Me);
             }
-            
+
             async Task<bool> CastCure(GameObject ally)
-            {               
+            {
                 return await Spells.Cure.Heal(ally);
             }
         }
-        
+
         public static async Task<bool> Cure2()
         {
             if (!WhiteMageSettings.Instance.Cure2)
@@ -124,7 +124,7 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Cure2.Heal(Core.Me);
             }
         }
-        
+
         public static async Task<bool> Cure3()
         {
             if (!WhiteMageSettings.Instance.Cure3)
@@ -137,8 +137,8 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             var cure3Target = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsAlive && r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent &&
-                                                                               Group.CastableAlliesWithin30.Count( x => x.Distance(r) <= 6 &&
-                                                                                                                        x.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent)
+                                                                               Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 6 &&
+                                                                                                                       x.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent)
                                                                                >= WhiteMageSettings.Instance.Cure3Allies);
 
             if (cure3Target == null)
@@ -151,14 +151,14 @@ namespace Magitek.Logic.WhiteMage
 
             return await Spells.Cure3.Heal(cure3Target, false);
         }
-        
+
         public static async Task<bool> Benediction()
         {
             if (!WhiteMageSettings.Instance.Benediction)
                 return false;
 
             if (!Core.Me.InCombat)
-                return false; 
+                return false;
 
             if (Globals.InParty)
             {
@@ -193,7 +193,7 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Benediction.Heal(Core.Me, false);
             }
         }
-        
+
         public static async Task<bool> Tetragrammaton()
         {
             if (!WhiteMageSettings.Instance.Tetragrammaton)
@@ -235,7 +235,7 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Tetragrammaton.Heal(Core.Me, false);
             }
         }
-        
+
         public static async Task<bool> Medica()
         {
             if (!WhiteMageSettings.Instance.Medica)
@@ -257,7 +257,7 @@ namespace Magitek.Logic.WhiteMage
 
             return await Spells.Medica.Heal(Core.Me, false);
         }
-        
+
         public static async Task<bool> AssizeHeal()
         {
             if (!WhiteMageSettings.Instance.Assize)
@@ -282,7 +282,7 @@ namespace Magitek.Logic.WhiteMage
 
             return await Spells.Assize.Heal(Core.Me, false);
         }
-        
+
         public static async Task<bool> Asylum()
         {
             if (!WhiteMageSettings.Instance.Asylum)
@@ -309,7 +309,7 @@ namespace Magitek.Logic.WhiteMage
 
             return await Spells.Asylum.Cast(asylumTarget);
         }
-        
+
         public static async Task<bool> Medica2()
         {
             if (!WhiteMageSettings.Instance.Medica2)
@@ -345,7 +345,7 @@ namespace Magitek.Logic.WhiteMage
                 return true;
             }
         }
-  
+
         private static async Task<bool> RegenHealers()
         {
             if (!WhiteMageSettings.Instance.RegenOnHealers)
@@ -366,7 +366,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.RegenOnTanks)
                 return false;
 
-            var regenTarget = WhiteMageSettings.Instance.RegenKeepUpOnTanks ? 
+            var regenTarget = WhiteMageSettings.Instance.RegenKeepUpOnTanks ?
                 Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.WhiteMage.DontRegen.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.Regen) && !r.HasMyRegen()) :
                 Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.WhiteMage.DontRegen.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.Regen) && r.CurrentHealthPercent <= WhiteMageSettings.Instance.RegenHealthPercent && !r.HasMyRegen());
 
@@ -378,7 +378,7 @@ namespace Magitek.Logic.WhiteMage
 
             return await Spells.Regen.Cast(regenTarget);
         }
-        
+
         private static async Task<bool> RegenDps()
         {
             if (!WhiteMageSettings.Instance.RegenOnDps)
@@ -419,7 +419,7 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Regen.Cast(Core.Me);
             }
         }
-        
+
         public static async Task<bool> Raise()
         {
             if (!WhiteMageSettings.Instance.Raise)

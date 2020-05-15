@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Clio.Utilities.Collections;
+﻿using Clio.Utilities.Collections;
 using ff14bot.Objects;
 using Magitek.Models;
 using Magitek.Models.Debugging;
@@ -7,6 +6,7 @@ using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using Magitek.Utilities.Collections;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 
 namespace Magitek.ViewModels
 {

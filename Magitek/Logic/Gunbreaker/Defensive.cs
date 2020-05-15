@@ -1,19 +1,17 @@
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Gunbreaker
 {
     internal static class Defensive
     {
-        public static async Task<bool> ExecuteTankBusters()
+        /*public static async Task<bool> ExecuteTankBusters()
         {
             if (!GunbreakerSettings.Instance.UseTankBusters)
                 return false;
@@ -42,16 +40,16 @@ namespace Magitek.Logic.Gunbreaker
             if (tankBuster.Nebula && targetIsMe && await Spells.Nebula.CastAura(Core.Me, Auras.Nebula)) return true;
             if (tankBuster.Aurora && await Spells.Aurora.CastAura(Core.Me.CurrentTarget, Auras.Aurora)) return true;
             return tankBuster.Superbolide && targetIsMe && await Spells.Superbolide.CastAura(Core.Me, Auras.Superbolide);
-        }
-      
+        }*/
+
         public static async Task<bool> Execute()
         {
             if (!GunbreakerSettings.Instance.UseDefensives)
                 return false;
-          
-            if (GunbreakerSettings.Instance.UseDefensivesOnlyOnTankBusters)
-                return false;
-          
+
+            /*  if (GunbreakerSettings.Instance.UseDefensivesOnlyOnTankBusters)
+                  return false;*/
+
             if (Core.Me.HasAura(Auras.Superbolide))
                 return false;
 
@@ -76,7 +74,7 @@ namespace Magitek.Logic.Gunbreaker
             if (await Nebula()) return true;
             return await Aurora();
         }
-      
+
         private static async Task<bool> Superbolide()
         {
             if (!GunbreakerSettings.Instance.UseSuperbolide)
@@ -84,7 +82,7 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Core.Me.CurrentHealthPercent > GunbreakerSettings.Instance.SuperbolideHealthPercent)
                 return false;
-          
+
             return await Spells.Superbolide.CastAura(Core.Me, Auras.Superbolide);
         }
 
