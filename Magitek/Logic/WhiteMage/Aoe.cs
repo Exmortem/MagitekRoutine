@@ -54,7 +54,7 @@ namespace Magitek.Logic.WhiteMage
                 return false;
             if (Casting.LastSpell == Spells.Dia)
                 return await Spells.Assize.Cast(Core.Me);
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 5500))
+            if (Core.Me.ClassLevel >= 72 && !Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 5500))
                 return false;
             return await Spells.Assize.Cast(Core.Me);
         }
