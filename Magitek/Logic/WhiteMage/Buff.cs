@@ -44,7 +44,7 @@ namespace Magitek.Logic.WhiteMage
 
             if (WhiteMageSettings.Instance.DontBuffIfYouHaveOneAlready)
             {
-                if (Core.Me.HasAura(Auras.DivineSeal))
+                if (Core.Me.HasAura(Auras.Temperance))
                     return false;
             }
 
