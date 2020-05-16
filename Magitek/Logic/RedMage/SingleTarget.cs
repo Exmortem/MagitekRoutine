@@ -46,7 +46,9 @@ namespace Magitek.Logic.RedMage
         }
 
         private static List<SpellData> ComboInProgressSpells = new List<SpellData>() { Spells.Riposte, Spells.Zwerchhau, Spells.EnchantedRedoublement, Spells.Verflare, Spells.Verholy };
-        public static bool ComboInProgress => ComboInProgressSpells.Any(spell => spell.Id == ActionManager.LastSpellId);
+        //Sometimes, after casting Riposte, the ActionManager still reports the spell *before* Riposte as the LastSpell, so we need to check the Casting class as well, just to be sure
+        public static bool ComboInProgress => ComboInProgressSpells.Any(   spell => spell.Id == ActionManager.LastSpellId
+                                                                        || spell.Id == Casting.LastSpell.Id);
 
         //We should cast Veraero if we're holding for Veraero, OR if we have less white mana and we're not holding for Verthunder
         private static bool ShouldCastVeraero =>
