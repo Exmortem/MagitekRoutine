@@ -1,11 +1,12 @@
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -59,22 +60,6 @@ namespace Magitek.Logic.Paladin
             return true;
         }
 
-        public static async Task<bool> Interject()
-        {
-            if (!PaladinSettings.Instance.UseInterject)
-                return false;
-
-            if (Spells.Interject.Cooldown > TimeSpan.Zero)
-                return false;
-
-            var tarasc = (Core.Me.CurrentTarget as Character);
-
-            if (tarasc == null || !tarasc.IsCasting)
-                return false;
-
-            return (InterruptsAndStunsManager.HighPriorityInterrupts.Contains(tarasc.CastingSpellId) || InterruptsAndStunsManager.NormalInterrupts.Contains(tarasc.CastingSpellId)) && await Spells.Interject.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> SpiritsWithin()
         {
             if (!PaladinSettings.Instance.SpiritsWithin)
@@ -104,20 +89,55 @@ namespace Magitek.Logic.Paladin
             return await Spells.SpiritsWithin.Cast(Core.Me.CurrentTarget);
         }
 
+        //TODO: This uses nearly the same logic as Tank.Interrupt(). Refactor to make it all one.
+        //      Or, for extra credit, make an interrupt routine that can be used by any class - perhaps they pass in stuns, interrupts, and priorities, or something?
         public static async Task<bool> ShieldBash()
         {
-            if (!PaladinSettings.Instance.ShieldBash)
+            if (!PaladinSettings.Instance.UseInterrupt || !PaladinSettings.Instance.ShieldBash)
                 return false;
 
-            if (Spells.ShieldBash.Cooldown > TimeSpan.Zero)
-                return false;
+            //The amount of time before our interrupt will go off
+            int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
+                                           + Globals.AnimationLockMs
+                                           + Casting.SpellCastHistory.LastOrDefault()?.AnimationLockRemainingMs ?? 0;
 
-            var tarasc = (Core.Me.CurrentTarget as Character);
+            BattleCharacter stunTarget;
 
-            if (tarasc == null || !tarasc.IsCasting)
-                return false;
+            switch (PaladinSettings.Instance.Strategy)
+            {
+                case InterruptStrategy.NeverInterrupt:
+                    return false;
 
-            return (InterruptsAndStunsManager.HighPriorityStuns.Contains(tarasc.CastingSpellId) || InterruptsAndStunsManager.NormalStuns.Contains(tarasc.CastingSpellId)) && await Spells.ShieldBash.Cast(Core.Me.CurrentTarget);
+                case InterruptStrategy.InterruptOnlyBosses:
+                    stunTarget = GameObjectManager.Attackers.Where(r =>    r.IsBoss()
+                                                                        && r.InView()
+                                                                        && r.IsCasting
+                                                                        && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
+                                                            .OrderBy(r => r.SpellCastInfo.RemainingCastTime)
+                                                            .FirstOrDefault();
+
+                    if (stunTarget == null)
+                        return false;
+
+                    return await Spells.ShieldBash.Cast(stunTarget);
+
+
+                case InterruptStrategy.AlwaysInterrupt:
+                    stunTarget =
+                        Combat.Enemies.Where(r =>    r.InView()
+                                                  && r.IsCasting
+                                                  && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds > minimumMsLeftOnEnemyCast)
+                                      .OrderBy(r => r.SpellCastInfo.RemainingCastTime)
+                                      .FirstOrDefault();
+
+                    if (stunTarget == null)
+                        return false;
+
+                    return await Spells.ShieldBash.Cast(stunTarget);
+
+                default:
+                    return false;
+            }
         }
 
         public static async Task<bool> Requiescat()

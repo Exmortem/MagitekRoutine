@@ -24,7 +24,7 @@ namespace Magitek.Utilities
         public static bool CastingHeal;
         public static SpellData CastingSpell;
         public static SpellData LastSpell;
-        public static DateTime LastSpellTimeFinished;
+        public static DateTime LastSpellTimeFinishedUtc;
         public static GameObject LastSpellTarget;
         public static GameObject SpellTarget;
         public static TimeSpan SpellCastTime;
@@ -221,11 +221,14 @@ namespace Magitek.Utilities
             // Within 500 milliseconds we're gonna assume the spell went off
             LastSpell = CastingSpell;
             Debug.Instance.LastSpell = LastSpell;
-            LastSpellTimeFinished = DateTime.Now;
+            LastSpellTimeFinishedUtc = DateTime.UtcNow;
             LastSpellTarget = SpellTarget;
             Logger.WriteCast($@"Successfully Casted {LastSpell}");
 
-            SpellCastHistory.Insert(0, new SpellCastHistoryItem { Spell = LastSpell, SpellTarget = SpellTarget, TimeCast = LastSpellTimeFinished });
+            SpellCastHistory.Insert(0, new SpellCastHistoryItem { Spell = LastSpell,
+                                                                  SpellTarget = SpellTarget,
+                                                                  TimeCastUtc = LastSpellTimeFinishedUtc,
+                                                                  TimeStartedUtc = LastSpellTimeFinishedUtc.Subtract(TimeSpan.FromMilliseconds(CastingTime.ElapsedMilliseconds)) });
 
             if (BaseSettings.Instance.DebugSpellCastHistory)
                 Application.Current.Dispatcher.Invoke(delegate { Debug.Instance.SpellCastHistory = new List<SpellCastHistoryItem>(SpellCastHistory); });
@@ -273,6 +276,16 @@ namespace Magitek.Utilities
     {
         public SpellData Spell { get; set; }
         public GameObject SpellTarget { get; set; }
-        public DateTime TimeCast { get; set; }
+        public DateTime TimeCastUtc { get; set; }
+        public DateTime TimeStartedUtc { get; set; }
+
+        public int AnimationLockRemainingMs
+        {
+            get
+            {
+                double timeSinceStartMs = DateTime.UtcNow.Subtract(TimeStartedUtc).TotalMilliseconds;
+                return timeSinceStartMs > Globals.AnimationLockMs ? 0 : Globals.AnimationLockMs - (int)timeSinceStartMs;
+            }
+        }
     }
 }
