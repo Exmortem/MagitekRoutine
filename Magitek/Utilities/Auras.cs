@@ -215,7 +215,8 @@ namespace Magitek.Utilities
             MeditationSAM = 2176,
             OffGuard = 1717,
             Bleeding = 1714,
-            Boost = 1716;
+            Boost = 1716,
+            Temperance = 1872;
 
         private const int
             Invincibility0 = 981,
