@@ -31,7 +31,16 @@ namespace Magitek.Utilities
         //after which, if the enemy is unstunnable, it won't try again. Note also that this has no effect on interrupts,
         //which will still work on interruptible spells cast by unstunnable enemies.
 
-        private const bool mEnableLogging = true;
+        //TODO: Enable non-tank classes with stuns to use this. Maybe refactor Tank.Interrupt into a general routine.
+
+        private enum LogLevel
+        {
+            None = 0,
+            Useful = 1,
+            Debug = 2
+        }
+        private const LogLevel mLogLevelToShow = LogLevel.Useful;
+
         private const double MaxTimeForStunToTakeEffectMs = 1500;
 
         private static HashSet<uint> mUnstunnableEnemyIds = new HashSet<uint>();
@@ -64,7 +73,7 @@ namespace Magitek.Utilities
                     mStunnableEnemyIds.Add(bc.NpcId);
                     mUnstunnableEnemyIds.Remove(bc.NpcId);
                     mStunnableEnemies.Add(bc, new StunData(stun.TimespanLeft, bc));
-                    Log($"Added to stun list: {bc.EnglishName}");
+                    Log(LogLevel.Debug, $"Added to stun list: {bc.EnglishName}");
                 }
             }
 
@@ -74,10 +83,10 @@ namespace Magitek.Utilities
                 //If the enemy is dead or its stun cooldown has expired, clean it out of the list
                 if (!bc.IsAlive || mStunnableEnemies[bc].CooldownExpired)
                 {
-                    Log($"Removed from stun list: {bc.EnglishName}");
+                    Log(LogLevel.Debug, $"Removed from stun list: {bc.EnglishName}");
                     if (bc.IsAlive)
                     {
-                        Log($"{bc.EnglishName.ToUpper()} COOLDOWN RESET");
+                        Log(LogLevel.Useful, $"{bc.EnglishName.ToUpper()} COOLDOWN RESET");
                     }
                     mStunnableEnemies.Remove(bc);
                 }
@@ -89,18 +98,18 @@ namespace Magitek.Utilities
                 //If the enemy is dead or it has been moved to the stunnable list, clean it out of the attempted stun list
                 if (!bc.IsAlive || mStunnableEnemies.ContainsKey(bc))
                 {
-                    Log($"Removed from attempted stun list: {bc.EnglishName}");
+                    Log(LogLevel.Debug, $"Removed from attempted stun list: {bc.EnglishName}");
                     mAttemptedStunEnemies.Remove(bc);
                 }
                 //Else if it's been long enough since the stun attempt was reported, and no stun aura has appeared, the enemy isn't stunnable
                 else if (mAttemptedStunEnemies[bc].MsSinceLastStun > MaxTimeForStunToTakeEffectMs)
                 {
-                    Log($"Removed from attempted stun list: {bc.EnglishName}");
+                    Log(LogLevel.Debug, $"Removed from attempted stun list: {bc.EnglishName}");
                     mAttemptedStunEnemies.Remove(bc);
                     //Just in case we had a false positive, make sure it isn't already known to be stunnable
                     if (!mStunnableEnemyIds.Contains(bc.NpcId))
                     {
-                        Log($"Added to unstunnable list: {bc.EnglishName}");
+                        Log(LogLevel.Useful, $"{bc.EnglishName.ToUpper()} NOT STUNNABLE");
                         mUnstunnableEnemyIds.Add(bc.NpcId);
                     }
                 }
@@ -117,7 +126,7 @@ namespace Magitek.Utilities
                 && !mStunnableEnemies.ContainsKey(enemy)
                 && !mAttemptedStunEnemies.ContainsKey(enemy))
             {
-                Log($"Recording attempted stun: {enemy.EnglishName}");
+                Log(LogLevel.Debug, $"Recording attempted stun: {enemy.EnglishName}");
                 mAttemptedStunEnemies.Remove(enemy);
                 mAttemptedStunEnemies.Add(enemy, new StunData(TimeSpan.Zero, enemy));
             }
@@ -145,9 +154,9 @@ namespace Magitek.Utilities
             return false;
         }
 
-        private static void Log(string strToLog)
+        private static void Log(LogLevel logLevel, string strToLog)
         {
-            if (mEnableLogging)
+            if (logLevel <= mLogLevelToShow)
             {
                 Logger.WriteInfo($"[StunTracker] {strToLog}");
             }
@@ -173,12 +182,12 @@ namespace Magitek.Utilities
                 TimeLeftOnStun = timeLeftOnStun;
                 if (timeLeftOnStun > TimeSpan.Zero)
                 {
-                    Log($"Stun count = 1 on {Enemy.EnglishName}");
+                    Log(LogLevel.Debug, $"Stun count = 1 on {Enemy.EnglishName}");
                     StunCount = 1;
                 }
                 else
                 {
-                    Log($"Stun count = 0 on {Enemy.EnglishName}");
+                    Log(LogLevel.Debug, $"Stun count = 0 on {Enemy.EnglishName}");
                     StunCount = 0;
                 }
             }
@@ -191,10 +200,10 @@ namespace Magitek.Utilities
                 {
                     StunCount++;
                     TimeStunDetected = DateTime.UtcNow;
-                    Log($"Stun count = {StunCount} on {Enemy.EnglishName}");
+                    Log(LogLevel.Debug, $"Stun count = {StunCount} on {Enemy.EnglishName}");
                     if (OnCooldown)
                     {
-                        Log($"{Enemy.EnglishName.ToUpper()} ON COOLDOWN");
+                        Log(LogLevel.Useful, $"{Enemy.EnglishName.ToUpper()} ON COOLDOWN");
                     }
                 }
                 TimeLeftOnStun = timeLeftOnStun;
