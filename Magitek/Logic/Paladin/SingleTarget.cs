@@ -112,6 +112,7 @@ namespace Magitek.Logic.Paladin
                     stunTarget = GameObjectManager.Attackers.Where(r =>    r.IsBoss()
                                                                         && r.InView()
                                                                         && r.IsCasting
+                                                                        && StunTracker.IsStunnable(r)
                                                                         && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
                                                             .OrderBy(r => r.SpellCastInfo.RemainingCastTime)
                                                             .FirstOrDefault();
@@ -119,13 +120,19 @@ namespace Magitek.Logic.Paladin
                     if (stunTarget == null)
                         return false;
 
-                    return await Spells.ShieldBash.Cast(stunTarget);
+                    if (await Spells.ShieldBash.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
+                        return true;
+                    }
 
+                    return false;
 
                 case InterruptStrategy.AlwaysInterrupt:
                     stunTarget =
                         Combat.Enemies.Where(r =>    r.InView()
                                                   && r.IsCasting
+                                                  && StunTracker.IsStunnable(r)
                                                   && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds > minimumMsLeftOnEnemyCast)
                                       .OrderBy(r => r.SpellCastInfo.RemainingCastTime)
                                       .FirstOrDefault();
@@ -133,7 +140,13 @@ namespace Magitek.Logic.Paladin
                     if (stunTarget == null)
                         return false;
 
-                    return await Spells.ShieldBash.Cast(stunTarget);
+                    if (await Spells.ShieldBash.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
+                        return true;
+                    }
+
+                    return false;
 
                 default:
                     return false;

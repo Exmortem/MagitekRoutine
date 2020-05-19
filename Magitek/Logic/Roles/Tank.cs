@@ -92,13 +92,16 @@ namespace Magitek.Logic.Roles
                                                                             && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
                                                                 .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
 
-                    stunTarget = castingEnemies.FirstOrDefault();
+                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
 
                     if (stunTarget == null)
                         return false;
 
                     if (await Spells.LowBlow.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
                         return true;
+                    }
 
                     interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
 
@@ -110,13 +113,16 @@ namespace Magitek.Logic.Roles
                                                                && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
                                                    .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
 
-                    stunTarget = castingEnemies.FirstOrDefault();
+                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
 
                     if (stunTarget == null)
                         return false;
 
                     if (await Spells.LowBlow.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
                         return true;
+                    }
 
                     interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
 

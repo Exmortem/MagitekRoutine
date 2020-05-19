@@ -414,6 +414,7 @@
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
     <Compile Include="Utilities\Routines\BlueMage.cs" />
+    <Compile Include="Utilities\StunTracker.cs" />
     <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />
     <Compile Include="Utilities\Duty.cs" />

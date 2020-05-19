@@ -5,6 +5,7 @@ namespace Magitek.Utilities
     internal static class Auras
     {
         public const int
+            Stun = 2,
             Raise = 148,
             BattleVoice = 141,
             Swiftcast = 167,
