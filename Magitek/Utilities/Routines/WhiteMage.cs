@@ -137,9 +137,13 @@ namespace Magitek.Utilities.Routines
                 // Create a list of alliance members that we need to check
                 if (WhiteMageSettings.Instance.HealAllianceDps || WhiteMageSettings.Instance.HealAllianceHealers || WhiteMageSettings.Instance.HealAllianceTanks)
                 {
-                    var allianceToHeal = Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (WhiteMageSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                                          WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                                          WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
+                    //Exclude the party members - they've already been handled by Group.UpdateAllies, and we don't want them in the list twice
+                    var allianceToHeal = Group.AllianceMembers.Except(PartyManager.AllMembers.Select(r => r.BattleCharacter))
+                                                              .Where(a =>    !a.CanAttack
+                                                                          && !a.HasAura(Auras.MountedPvp)
+                                                                          && (   WhiteMageSettings.Instance.HealAllianceDps && a.IsDps()
+                                                                              || WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank()
+                                                                              || WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
 
                     // If all we're going to do with the alliance is Physick them, then simply use this list
                     if (WhiteMageSettings.Instance.HealAllianceOnlyCure)
