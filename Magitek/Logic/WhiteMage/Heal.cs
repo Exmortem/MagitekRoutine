@@ -7,6 +7,7 @@ using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -136,10 +137,28 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.Cure3)
                 return false;
 
-            var cure3Target = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsAlive && r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent &&
-                                                                               Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 6 &&
-                                                                                                                       x.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent)
-                                                                               >= WhiteMageSettings.Instance.Cure3Allies);
+
+            //Choose the target that will hit the most in-need recipients. If there's a tie, pick the one where the recipients are missing the most health
+            Character cure3Target = null;
+            int bestTargetCount = 0;
+            long mostHealthDown = 0;
+            foreach (Character ally in Group.CastableAlliesWithin30.Where(r => r.IsAlive))
+            {
+                List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 6).ToList();
+                int nearbyTargets = nearby.Count(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent);
+                long totalHealthDown = nearby.Sum(r => r.MaxHealth - r.CurrentHealth);
+                if (   nearbyTargets >= WhiteMageSettings.Instance.Cure3Allies
+                    && (   nearbyTargets > bestTargetCount
+                        || (   nearbyTargets == bestTargetCount
+                            && totalHealthDown > mostHealthDown)))
+                {
+                    List<string> nearbyTargetText = nearby.Select(n => $"{n.EnglishName} ({n.CurrentHealthPercent}%)").ToList();
+                    Logger.WriteInfo($"Casting Cure 3 on {ally.EnglishName} / {nearbyTargets} targets ({string.Join(", ",nearbyTargetText)}) / {totalHealthDown} total health");
+                    bestTargetCount = nearbyTargets;
+                    mostHealthDown = totalHealthDown;
+                    cure3Target = ally;
+                }
+            }
 
             if (cure3Target == null)
                 return false;
