@@ -34,8 +34,12 @@ namespace Magitek.Utilities
                 else
                 {
                     //In an instance, not autonomous
-                    //Track every enemy
-                    _enemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().ToList();
+                    //Track every tagged or aggroed enemy in the vicinity
+                    _enemyCache = GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r =>    (   r.TaggerType > 0
+                                                                                                       || r.HasTarget
+                                                                                                       || r.IsBoss())
+                                                                                                   && Core.Me.Distance(r) < 50)
+                                                                                       .ToList();
                 }
             }
             else
