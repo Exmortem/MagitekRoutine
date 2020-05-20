@@ -67,9 +67,9 @@ namespace Magitek.Logic.RedMage
 
         public static int EnemiesInMeleeRange => Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach);
 
-        private static int EnemiesInMeleeRangeWith40PctHealth => Combat.Enemies.Count(r =>    r.InView()
-                                                                                           && r.Distance(Core.Me) <= 6 + r.CombatReach
-                                                                                           && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
+        private static int EnemiesInMeleeRangeWithEnoughHealth => Combat.Enemies.Count(r =>    r.InView()
+                                                                                            && r.Distance(Core.Me) <= 6 + r.CombatReach
+                                                                                            && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
 
         //TODO: Should we be trying to weave this?
         //TODO: Should we only use this if the pack has a certain amount of health left?
@@ -86,10 +86,10 @@ namespace Magitek.Logic.RedMage
 
             //We only use this in conjunction with Moulinet
             if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
-            return false;
+                return false;
 
             //We only use this if enough enemies have enough health
-            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+            if (EnemiesInMeleeRangeWithEnoughHealth < 3)
                 return false;
 
             if (BlackMana < 90 || WhiteMana < 90)
@@ -134,7 +134,7 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //We only use this if enough enemies have enough health
-            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+            if (EnemiesInMeleeRangeWithEnoughHealth < 3)
                 return false;
 
             //Only use Manafication for AoE between 50 and 70 mana
