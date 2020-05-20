@@ -103,7 +103,7 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (Casting.LastSpell != Spells.TenkaGoken || (DateTime.Now - Casting.LastSpellTimeFinished) > TimeSpan.FromSeconds(14))
+            if (Casting.LastSpell != Spells.TenkaGoken || (DateTime.UtcNow - Casting.LastSpellTimeFinishedUtc) > TimeSpan.FromSeconds(14))
                 return false;
 
             if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)

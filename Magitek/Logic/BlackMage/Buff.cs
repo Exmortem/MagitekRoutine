@@ -154,7 +154,7 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.ManaFont.Cast(Core.Me);
 
             if (Casting.LastSpell == Spells.Fire3
-                && Spells.Fire.Cooldown.TotalMilliseconds > 700)
+                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
                 return await Spells.ManaFont.Cast(Core.Me);
 
             return false;

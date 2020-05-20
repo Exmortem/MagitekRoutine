@@ -163,6 +163,8 @@ namespace Magitek.Utilities
             }
 
             Debug.Instance.Enemies = new ObservableCollection<EnemyInfo>(EnemyInfos);
+
+            StunTracker.Update(Combat.Enemies);
         }
 
         private static void UpdateCurrentPosition()

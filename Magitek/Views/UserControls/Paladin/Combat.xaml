@@ -4,10 +4,22 @@
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="420"
              d:DesignWidth="500"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:InterruptStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
@@ -52,13 +64,6 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Interrupt With Interject" IsChecked="{Binding PaladinSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Use Shield Bash To Stun On Spell Casts" IsChecked="{Binding PaladinSettings.ShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -111,6 +116,17 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Margin="0,3,0,0" Content="Use Stun" IsChecked="{Binding PaladinSettings.UseInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="24,3,0,0" Content="Stun with Shield Bash" IsChecked="{Binding PaladinSettings.ShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Interrupt" IsChecked="{Binding PaladinSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
+                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding PaladinSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
 
     </StackPanel>
 </UserControl>
