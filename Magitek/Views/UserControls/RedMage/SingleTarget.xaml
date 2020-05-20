@@ -13,6 +13,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Use Melee" IsChecked="{Binding RedMageSettings.UseMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Melee Combo on Bosses Only" IsChecked="{Binding RedMageSettings.MeleeComboBossesOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,3,0,0" Content="Displacement" IsChecked="{Binding RedMageSettings.Displacement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="0,3,0,0" Content="Engagement" IsChecked="{Binding RedMageSettings.Engagement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Margin="0,3,0,0" Orientation="Horizontal">

@@ -59,6 +59,10 @@ namespace Magitek.Models.RedMage
         public bool Fleche { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool MeleeComboBossesOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Moulinet { get; set; }
 
