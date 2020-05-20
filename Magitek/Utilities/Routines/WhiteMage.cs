@@ -85,9 +85,9 @@ namespace Magitek.Utilities.Routines
         */
         public static bool NeedToInterruptCast()
         {
-            /*if (Casting.CastingTankBuster)
-                return false;
-                */
+            //if (Casting.CastingTankBuster)
+            //    return false;
+                
             if (Casting.CastingSpell != Spells.Raise && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -97,14 +97,14 @@ namespace Magitek.Utilities.Routines
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
-            /*
-            if (!Casting.CastingTankBuster && WhiteMageSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= WhiteMageSettings.Instance.InterruptHealingHealthPercent)
+
+            if (WhiteMageSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= WhiteMageSettings.Instance.InterruptHealingHealthPercent)
             {
                 Logger.Error($@"Stopped Healing: Target's Health Too High");
                 return true;
             }
 
-            if (!Casting.CastingTankBuster && WhiteMageSettings.Instance.StopDpsIfPartyMemberBelow && DamageSpells.Contains(Core.Me.CastingSpellId))
+            if (WhiteMageSettings.Instance.StopDpsIfPartyMemberBelow && DamageSpells.Contains(Core.Me.CastingSpellId))
             {
                 if (Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < WhiteMageSettings.Instance.StopDpsIfPartyMemberBelowHealthPercent))
                 {
@@ -113,19 +113,19 @@ namespace Magitek.Utilities.Routines
                 }
             }
 
-            if (!WhiteMageSettings.Instance.UseTankBusters || !WhiteMageSettings.Instance.PrioritizeTankBusters)
-                return false;
-                */
+            //if (!WhiteMageSettings.Instance.UseTankBusters || !WhiteMageSettings.Instance.PrioritizeTankBusters)
+            //    return false;
+
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
-            /*
-            if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.TankBusterMinimumMpPercent)
-                return false;
 
-            if (!NeedCure2TankBuster && !NeedMedicaTankBuster && !NeedMedica2TankBuster && !NeedDivineBenisonTankBuster &&!NeedAfflatusRaptureTankBuster)
-                return false;
+            //if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.TankBusterMinimumMpPercent)
+            //    return false;
+
+            //if (!NeedCure2TankBuster && !NeedMedicaTankBuster && !NeedMedica2TankBuster && !NeedDivineBenisonTankBuster &&!NeedAfflatusRaptureTankBuster)
+            //    return false;
             
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
+            //Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
             return false;
         }
 
