@@ -285,6 +285,11 @@ namespace Magitek.Extensions
             return c.IsDps() ? 80 : 0;
         }
 
+        //This method return the heading from the player to the target object in radians.
+        //A circle has 2*Pi radians, so an angle of 90 degrees would be Pi/2, and an angle
+        //of 30 degrees would be Pi/6, etc.
+        //It returns the absolute value, so targets to the left and right both return
+        //positive values. A target directly in front would return 0.
         public static float RadiansFromPlayerHeading(this GameObject target)
         {
             var playerLocation = Core.Me.Location;
