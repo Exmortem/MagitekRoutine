@@ -74,16 +74,7 @@ namespace Magitek.Logic.RedMage
             if (target == null)
                 return false;
 
-            var playerLocation = Core.Me.Location;
-            var playerHeading = Core.Me.Heading;
-            var targetLocation = target.Location;
-            var d = Math.Abs(MathEx.NormalizeRadian(playerHeading - MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, targetLocation) + (float)Math.PI)));
-
-            if (d > Math.PI)
-            {
-                d = Math.Abs(d - 2 * (float)Math.PI);
-            }
-            return d < 1.361f;
+            return target.RadiansFromPlayerHeading() < 1.361f; //Translated from radians, this is ~78 degrees left or right;
         }
 
         private static bool WouldBeHitByMoulinet(GameObject target)
