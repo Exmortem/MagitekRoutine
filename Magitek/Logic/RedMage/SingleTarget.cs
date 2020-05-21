@@ -363,26 +363,18 @@ namespace Magitek.Logic.RedMage
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 
-        //TODO: We should probably be using Reprise - The Balance says to use it when moving around, as long as we don't delay our next Manafication
         public static async Task<bool> Reprise()
         {
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 26 + Core.Me.CurrentTarget.CombatReach)
-                return false;
-
-            if (Core.Me.ClassLevel > 76)
-                return false;
-
-            if (!MovementManager.IsMoving)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Dualcast) || !Core.Me.HasAura(Auras.Swiftcast))
-                return false;
-
             if (BlackMana < 5 || WhiteMana < 5)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Reprise.Range + Core.Me.CurrentTarget.CombatReach + Core.Me.CombatReach)
+                return false;
+
+            if (!Combat.Enemies.Any(e => e.IsBoss()))
                 return false;
 
             return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
         }
     }
 }
-

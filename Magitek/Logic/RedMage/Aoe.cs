@@ -162,7 +162,7 @@ namespace Magitek.Logic.RedMage
 
         private static bool InMoulinetRange(GameObject target)
         {
-            return target != null && target.InView() && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + Spells.Moulinet.Radius;
+            return target != null && target.InView() && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + Spells.Moulinet.Range;
         }
 
         public static async Task<bool> Moulinet()
