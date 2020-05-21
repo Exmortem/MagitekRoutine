@@ -71,7 +71,7 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //This skill is used to get to the melee combo faster. If we only want the melee combo on bosses,
-            //then we shouldn't fire it off here. Aoe.Manafication will fire it off if non-boss scenarios.
+            //then we shouldn't use it here. Aoe.Manafication will use it in non-boss scenarios.
             if (RedMageSettings.Instance.MeleeComboBossesOnly && !Combat.Enemies.Any(e => e.IsBoss()))
                 return false;
 

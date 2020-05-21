@@ -152,8 +152,6 @@ namespace Magitek.Logic.WhiteMage
                         || (   nearbyTargets == bestTargetCount
                             && totalHealthDown > mostHealthDown)))
                 {
-                    List<string> nearbyTargetText = nearby.Select(n => $"{n.EnglishName} ({n.CurrentHealthPercent}%)").ToList();
-                    Logger.WriteInfo($"Casting Cure 3 on {ally.EnglishName} / {nearbyTargets} targets ({string.Join(", ",nearbyTargetText)}) / {totalHealthDown} total health");
                     bestTargetCount = nearbyTargets;
                     mostHealthDown = totalHealthDown;
                     cure3Target = ally;
