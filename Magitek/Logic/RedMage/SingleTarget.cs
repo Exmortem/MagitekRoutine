@@ -98,6 +98,9 @@ namespace Magitek.Logic.RedMage
                     if (!ShouldCastVeraero)
                         return false;
 
+                    if (Core.Me.HasAura(Auras.VerstoneReady))
+                        return false;
+
                     if (ComboInProgress)
                         return false;
 
@@ -136,6 +139,9 @@ namespace Magitek.Logic.RedMage
                         return false;
 
                     if (!ShouldCastVerthunder)
+                        return false;
+
+                    if (Core.Me.HasAura(Auras.VerfireReady))
                         return false;
 
                     if (ComboInProgress)
