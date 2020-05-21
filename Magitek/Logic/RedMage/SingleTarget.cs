@@ -357,6 +357,9 @@ namespace Magitek.Logic.RedMage
             if (!ReadyForCombo)
                 return false;
 
+            if (RedMageSettings.Instance.MeleeComboBossesOnly && !Core.Me.CurrentTarget.IsBoss())
+                return false;
+
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 

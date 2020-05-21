@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
@@ -67,6 +68,11 @@ namespace Magitek.Logic.RedMage
 
             //Don't fire this off while we're already in a combo, because that wastes a combo opportunity
             if (SingleTarget.ComboInProgress)
+                return false;
+
+            //This skill is used to get to the melee combo faster. If we only want the melee combo on bosses,
+            //then we shouldn't use it here. Aoe.Manafication will use it in non-boss scenarios.
+            if (RedMageSettings.Instance.MeleeComboBossesOnly && !Combat.Enemies.Any(e => e.IsBoss()))
                 return false;
 
             // Can this be simplified? Yes

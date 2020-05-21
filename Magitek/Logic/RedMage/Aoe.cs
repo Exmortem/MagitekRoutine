@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Buddy.Coroutines;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
+using Auras = Magitek.Utilities.Auras;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -65,11 +67,23 @@ namespace Magitek.Logic.RedMage
                 return await Spells.ContreSixte.Cast(Core.Me.CurrentTarget);
         }
 
-        public static int EnemiesInMeleeRange => Combat.Enemies.Count(r => r.InView() && r.Distance(Core.Me) <= 6 + r.CombatReach);
+        private static bool InMoulinetArc(GameObject target)
+        {
+            if (target == null)
+                return false;
 
-        private static int EnemiesInMeleeRangeWith40PctHealth => Combat.Enemies.Count(r =>    r.InView()
-                                                                                           && r.Distance(Core.Me) <= 6 + r.CombatReach
-                                                                                           && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
+            return target.RadiansFromPlayerHeading() < 1.361f; //Translated from radians, this is ~78 degrees left or right;
+        }
+
+        private static bool WouldBeHitByMoulinet(GameObject target)
+        {
+            return InMoulinetArc(target) && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + Spells.Moulinet.Radius;
+        }
+
+        private static int EnemiesInMoulinetArc => Combat.Enemies.Count(r => WouldBeHitByMoulinet(r));
+
+        private static int EnemiesInMoulinetArcWithEnoughHealth => Combat.Enemies.Count(r =>    WouldBeHitByMoulinet(r)
+                                                                                             && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
 
         //TODO: Should we be trying to weave this?
         //TODO: Should we only use this if the pack has a certain amount of health left?
@@ -85,11 +99,11 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //We only use this in conjunction with Moulinet
-            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
-            return false;
+            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
+                return false;
 
             //We only use this if enough enemies have enough health
-            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+            if (EnemiesInMoulinetArcWithEnoughHealth < 3)
                 return false;
 
             if (BlackMana < 90 || WhiteMana < 90)
@@ -130,11 +144,11 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //We only use this in conjunction with Moulinet
-            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
+            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
                 return false;
 
             //We only use this if enough enemies have enough health
-            if (EnemiesInMeleeRangeWith40PctHealth < 3)
+            if (EnemiesInMoulinetArcWithEnoughHealth < 3)
                 return false;
 
             //Only use Manafication for AoE between 50 and 70 mana
@@ -144,6 +158,11 @@ namespace Magitek.Logic.RedMage
                 return false;
             else
                 return await Spells.Manafication.Cast(Core.Me);
+        }
+
+        private static bool InMoulinetRange(GameObject target)
+        {
+            return target != null && target.InView() && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + Spells.Moulinet.Radius;
         }
 
         public static async Task<bool> Moulinet()
@@ -164,22 +183,25 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (EnemiesInMeleeRange < RedMageSettings.Instance.MoulinetEnemies)
+            if (!InMoulinetRange(Core.Me.CurrentTarget))
                 return false;
 
-            if (EnemiesInMeleeRange >= 3
+            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
+                return false;
+
+            if (   EnemiesInMoulinetArc >= 3
                 && Core.Me.ClassLevel < Spells.Embolden.LevelAcquired)
             {
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
             }
 
-            if (   EnemiesInMeleeRange >= 1
+            if (   EnemiesInMoulinetArc >= 1
                 && (Core.Me.HasAura(Auras.Embolden) || Core.Me.HasAura(Auras.Manafication)))
             {
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
             }
 
-            if (EnemiesInMeleeRange >= 1
+            if (   EnemiesInMoulinetArc >= 1
                 && BlackMana >= 90
                 && WhiteMana >= 90)
             {
