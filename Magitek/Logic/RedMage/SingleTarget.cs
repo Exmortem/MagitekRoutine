@@ -466,6 +466,9 @@ namespace Magitek.Logic.RedMage
             if (BlackMana < 5 || WhiteMana < 5)
                 return false;
 
+            if (!MovementManager.IsMoving)
+                return false;
+
             if (ComboInProgress)
                 return false;
 
