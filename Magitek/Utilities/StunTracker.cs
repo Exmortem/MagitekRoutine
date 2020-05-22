@@ -80,6 +80,13 @@ namespace Magitek.Utilities
             //Maintain the stunned enemies list
             foreach (BattleCharacter bc in mStunnableEnemies.Keys.ToList())
             {
+                if (!bc.IsValid)
+                {
+                    Log(LogLevel.Debug, $"Removed no-longer-valid enemy from stun list");
+                    mStunnableEnemies.Remove(bc);
+                    continue;
+                }
+
                 //If the enemy is dead or its stun cooldown has expired, clean it out of the list
                 if (!bc.IsAlive || mStunnableEnemies[bc].CooldownExpired)
                 {
@@ -95,6 +102,13 @@ namespace Magitek.Utilities
             //Maintain the attempted stuns list
             foreach (BattleCharacter bc in mAttemptedStunEnemies.Keys.ToList())
             {
+                if (!bc.IsValid)
+                {
+                    Log(LogLevel.Debug, $"Removed no-longer-valid enemy from attempted stun list");
+                    mStunnableEnemies.Remove(bc);
+                    continue;
+                }
+
                 //If the enemy is dead or it has been moved to the stunnable list, clean it out of the attempted stun list
                 if (!bc.IsAlive || mStunnableEnemies.ContainsKey(bc))
                 {
