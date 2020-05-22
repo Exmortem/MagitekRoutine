@@ -119,9 +119,16 @@ namespace Magitek.Logic.RedMage
                     return false;
             }
 
+            //Check if prepping would make us ready for the combo
+            if (ReadyForCombo(BlackMana, WhiteMana + 11))
+            {
+                if (PrepForComboWithVeraero())
+                    return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+            }
+
             //Check if we need to clean up our procs before the combo
             //TODO: We also need to prep if we're going to manify right after this
-            if (ReadyForCombo(BlackMana, WhiteMana+11))
+            if (ReadyForCombo())
             {
                 if (PrepForComboWithVeraero())
                     return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
@@ -208,9 +215,16 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 10)
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
+            //Check if prepping would make us ready for the combo
+            if (ReadyForCombo(BlackMana + 11, WhiteMana))
+            {
+                if (PrepForComboWithVerthunder())
+                    return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+            }
+
             //Check if we need to clean up our procs before the combo
             //TODO: We also need to prep if we're going to manify right after this
-            if (ReadyForCombo(BlackMana + 11, WhiteMana))
+            if (ReadyForCombo())
             {
                 if (PrepForComboWithVerthunder())
                     return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
