@@ -110,7 +110,7 @@ namespace Magitek.Utilities
                 }
 
                 //If the enemy is dead or it has been moved to the stunnable list, clean it out of the attempted stun list
-                if (!bc.IsValid || !bc.IsAlive || mStunnableEnemies.ContainsKey(bc))
+                if (!bc.IsAlive || mStunnableEnemies.ContainsKey(bc))
                 {
                     Log(LogLevel.Debug, $"Removed from attempted stun list: {bc.EnglishName}");
                     mAttemptedStunEnemies.Remove(bc);
