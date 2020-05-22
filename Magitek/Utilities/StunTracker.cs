@@ -105,7 +105,7 @@ namespace Magitek.Utilities
                 if (!bc.IsValid)
                 {
                     Log(LogLevel.Debug, $"Removed no-longer-valid enemy from attempted stun list");
-                    mStunnableEnemies.Remove(bc);
+                    mAttemptedStunEnemies.Remove(bc);
                     continue;
                 }
 
