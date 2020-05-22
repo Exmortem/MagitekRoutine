@@ -102,7 +102,7 @@ namespace Magitek.Logic.RedMage
                         return false;
 
                     //Don't swiftcast right before a combo, it'll mess up our procs, or in a combo, it'll mess up the combo
-                    if (ReadyForCombo || ComboInProgress)
+                    if (ReadyForCombo() || ComboInProgress)
                         return false;
 
                     if (!RedMageRoutines.CanWeave)
@@ -120,7 +120,8 @@ namespace Magitek.Logic.RedMage
             }
 
             //Check if we need to clean up our procs before the combo
-            if (ReadyForCombo)
+            //TODO: We also need to prep if we're going to manify right after this
+            if (ReadyForCombo(BlackMana, WhiteMana+11))
             {
                 if (PrepForComboWithVeraero())
                     return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
@@ -187,7 +188,7 @@ namespace Magitek.Logic.RedMage
                         return false;
 
                     //Don't swiftcast right before a combo, it'll mess up our procs, or in a combo, it'll mess up the combo
-                    if (ReadyForCombo || ComboInProgress)
+                    if (ReadyForCombo(BlackMana+11, WhiteMana))
                         return false;
 
                     if (!RedMageRoutines.CanWeave)
@@ -208,7 +209,8 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
             //Check if we need to clean up our procs before the combo
-            if (ReadyForCombo)
+            //TODO: We also need to prep if we're going to manify right after this
+            if (ReadyForCombo())
             {
                 if (PrepForComboWithVerthunder())
                     return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
@@ -339,10 +341,17 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Engagement.Cast(Core.Me.CurrentTarget);
         }
 
-        private static bool ReadyForCombo =>
-               (Core.Me.ClassLevel < 35 && (BlackMana >= 30 && WhiteMana >= 30))
-            || (Core.Me.ClassLevel < 50 && (BlackMana >= 55 && WhiteMana >= 55))
-            ||                             (BlackMana >= 80 && WhiteMana >= 80);
+        private static bool ReadyForCombo()
+        {
+            return ReadyForCombo(BlackMana, WhiteMana);
+        }
+
+        private static bool ReadyForCombo(int bm, int wm)
+        {
+            return (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
+                   || (Core.Me.ClassLevel < 50 && (bm >= 55 && wm >= 55))
+                   || (bm >= 80 && wm >= 80);
+        }
 
         public static async Task<bool> CorpsACorps()
         {
@@ -372,7 +381,7 @@ namespace Magitek.Logic.RedMage
             //         for getting into melee range quickly to get off a combo, but is dangerous for a
             //         lot of fights
             if (   (RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !InSafeCorpsACorpsRange)
-                || (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !ReadyForCombo))
+                || (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly && !ReadyForCombo()))
                 return false;
             else
                 return await Spells.CorpsACorps.Cast(Core.Me.CurrentTarget);
@@ -408,6 +417,7 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Redoublement.Cast(Core.Me.CurrentTarget);
         }
 
+        //TODO: Handle case where you have verflare but not yet verholy
         private static bool DumpVerfireBeforeCombo =>
             BlackMana < WhiteMana && Core.Me.HasAura(Auras.VerfireReady) && (Math.Max(BlackMana + 9, 100) - 100) + (Math.Max(WhiteMana + 11, 100) - 100) <= 8;
 
@@ -433,7 +443,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (!ReadyForCombo)
+            if (!ReadyForCombo())
                 return false;
 
             if (RedMageSettings.Instance.MeleeComboBossesOnly && !Core.Me.CurrentTarget.IsBoss())
