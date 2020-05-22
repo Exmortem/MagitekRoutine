@@ -188,7 +188,7 @@ namespace Magitek.Logic.RedMage
                         return false;
 
                     //Don't swiftcast right before a combo, it'll mess up our procs, or in a combo, it'll mess up the combo
-                    if (ReadyForCombo(BlackMana+11, WhiteMana))
+                    if (ReadyForCombo() || ComboInProgress)
                         return false;
 
                     if (!RedMageRoutines.CanWeave)
@@ -210,7 +210,7 @@ namespace Magitek.Logic.RedMage
 
             //Check if we need to clean up our procs before the combo
             //TODO: We also need to prep if we're going to manify right after this
-            if (ReadyForCombo())
+            if (ReadyForCombo(BlackMana + 11, WhiteMana))
             {
                 if (PrepForComboWithVerthunder())
                     return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
