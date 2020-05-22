@@ -188,7 +188,7 @@ namespace Magitek.Logic.RedMage
                         return false;
 
                     //Don't swiftcast right before a combo, it'll mess up our procs, or in a combo, it'll mess up the combo
-                    if (ComboInProgress || ReadyForCombo())
+                    if (ReadyForCombo() || ComboInProgress)
                         return false;
 
                     if (!RedMageRoutines.CanWeave)
