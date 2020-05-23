@@ -412,7 +412,9 @@
     <Compile Include="Utilities\Combat.cs" />
     <Compile Include="Utilities\MagitekActionResourceManager.cs" />
     <Compile Include="Utilities\Managers\EnmityManager.cs" />
-    <Compile Include="Utilities\OverlayManager.cs" />
+    <Compile Include="Utilities\Overlays\CombatMessageUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\MainOverlayUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\OverlayManager.cs" />
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
     <Compile Include="Utilities\Routines\BlueMage.cs" />

@@ -20,7 +20,7 @@ using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
-using Magitek.Utilities;
+using Magitek.Utilities.Overlays;
 using Magitek.Views;
 using PropertyChanged;
 using System.Windows.Input;
@@ -40,13 +40,7 @@ namespace Magitek.ViewModels
 
         public ICommand ResetOverlayPositions => new DelegateCommand(() =>
         {
-            Models.Account.BaseSettings.Instance.OverlayPosX = 60;
-            Models.Account.BaseSettings.Instance.OverlayPosY = 60;
-            Models.Account.BaseSettings.Instance.CombatMessageOverlayWidth = -1;
-            Models.Account.BaseSettings.Instance.CombatMessageOverlayHeight = -1;
-            Models.Account.BaseSettings.Instance.CombatMessageOverlayPosX = -1;
-            Models.Account.BaseSettings.Instance.CombatMessageOverlayPosY = -1;
-            Models.Account.BaseSettings.Instance.Save();
+            Models.Account.BaseSettings.ResetOverlayPositions();
 
             OverlayManager.RestartMainOverlay();
             OverlayManager.RestartCombatMessageOverlay();

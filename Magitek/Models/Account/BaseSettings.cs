@@ -16,7 +16,25 @@ namespace Magitek.Models.Account
         private static BaseSettings _instance;
         public static BaseSettings Instance => _instance ?? (_instance = new BaseSettings());
 
-        [Setting]
+        private const double DefaultOverlayPosX = 60;
+        private const double DefaultOverlayPosY = 60;
+        private const double DefaultCombatMessageOverlayWidth = -1;
+        private const double DefaultCombatMessageOverlayHeight = -1;
+        private const double DefaultCombatMessageOverlayPosX = -1;
+        private const double DefaultCombatMessageOverlayPosY = -1;
+
+        public static void ResetOverlayPositions()
+        {
+            Instance.OverlayPosX = DefaultOverlayPosX;
+            Instance.OverlayPosY = DefaultOverlayPosY;
+            Instance.CombatMessageOverlayWidth = DefaultCombatMessageOverlayWidth;
+            Instance.CombatMessageOverlayHeight = DefaultCombatMessageOverlayHeight;
+            Instance.CombatMessageOverlayPosX = DefaultCombatMessageOverlayPosX;
+            Instance.CombatMessageOverlayPosY = DefaultCombatMessageOverlayPosY;
+            Instance.Save();
+        }
+
+            [Setting]
         [DefaultValue(ModifierKeys.None)]
         public ModifierKeys UseOpenersModkey { get; set; }
 
@@ -104,11 +122,11 @@ namespace Magitek.Models.Account
         public bool DebugCastingCallerMemberNameIncludePath { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
+        [DefaultValue(DefaultOverlayPosX)]
         public double OverlayPosX { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
+        [DefaultValue(DefaultOverlayPosY)]
         public double OverlayPosY { get; set; }
 
         [Setting]
@@ -156,19 +174,19 @@ namespace Magitek.Models.Account
         public bool CombatMessageOverlayAdjustable { get; set; }
 
         [Setting]
-        [DefaultValue(-1)]
+        [DefaultValue(DefaultCombatMessageOverlayPosX)]
         public double CombatMessageOverlayPosX { get; set; }
 
         [Setting]
-        [DefaultValue(-1)]
+        [DefaultValue(DefaultCombatMessageOverlayPosY)]
         public double CombatMessageOverlayPosY { get; set; }
 
         [Setting]
-        [DefaultValue(-1)]
+        [DefaultValue(DefaultCombatMessageOverlayWidth)]
         public double CombatMessageOverlayWidth { get; set; }
 
         [Setting]
-        [DefaultValue(-1)]
+        [DefaultValue(DefaultCombatMessageOverlayHeight)]
         public double CombatMessageOverlayHeight { get; set; }
 
         [Setting]

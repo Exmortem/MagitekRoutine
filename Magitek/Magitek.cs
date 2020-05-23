@@ -27,6 +27,7 @@ using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
+using Magitek.Utilities.Overlays;
 using Magitek.ViewModels;
 using Magitek.Views;
 using System;
