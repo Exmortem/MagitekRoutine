@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Converters\BooleanConverterT.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToOpaqueConverter.cs" />
     <Compile Include="Converters\ConditionAddConverter.cs" />
     <Compile Include="Converters\ConditionRemoveConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />

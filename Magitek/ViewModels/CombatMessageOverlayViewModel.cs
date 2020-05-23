@@ -1,5 +1,6 @@
 ﻿using PropertyChanged;
 using Magitek.Models;
+using BaseSettingsModel = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.ViewModels
 {
@@ -10,5 +11,6 @@ namespace Magitek.ViewModels
         public static CombatMessageOverlayViewModel Instance => _instance ?? (_instance = new CombatMessageOverlayViewModel());
 
         public CombatMessageModel CombatOverlayMessage => CombatMessageModel.Instance;
+        public BaseSettingsModel BaseSettingsInstance => BaseSettingsModel.Instance;
     }
 }

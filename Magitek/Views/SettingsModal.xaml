@@ -41,9 +41,12 @@
 
                     <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
                         <StackPanel Margin="5">
-                            <CheckBox HorizontalAlignment="Center" Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
-                            <CheckBox HorizontalAlignment="Center" Content="Use The Combat Message Overlay" IsChecked="{Binding GeneralSettings.UseCombatMessageOverlay, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" />
-                            <Button Style="{DynamicResource ButtonLists}" Margin="0,5,0,0" HorizontalAlignment="Center" Content="Reset Overlay Positions" Padding="0,2" Command="{Binding ResetOverlayPositions}" />
+                            <CheckBox Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                            <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                <CheckBox Margin ="0,0,15,0" Content="Use The Combat Message Overlay" IsChecked="{Binding GeneralSettings.UseCombatMessageOverlay, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                                <CheckBox Content="Make Adjustable" IsChecked="{Binding GeneralSettings.CombatMessageOverlayAdjustable, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" ToolTip="Check to move and resize the combat message overlay. Uncheck when done." ToolTipService.ShowDuration="5000" ToolTipService.InitialShowDelay="0"/>
+                            </StackPanel>
+                            <Button Style="{DynamicResource ButtonLists}" Margin="0,5,0,0" Content="Reset Overlay Positions" Padding="0,2" Command="{Binding ResetOverlayPositions}" />
                         </StackPanel>
                     </controls:SettingsBlock>
 

@@ -136,7 +136,7 @@ namespace Magitek.Utilities
 
     internal class CombatMessageUiComponent : OverlayUIComponent
     {
-        public CombatMessageUiComponent(bool isHitTestable) : base(true) { }
+        public CombatMessageUiComponent(bool isHitTestable) : base(isHitTestable) { }
 
         private OverlayControl _control;
 
