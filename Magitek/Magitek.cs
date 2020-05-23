@@ -82,13 +82,15 @@ namespace Magitek
             // Apply the gambits we have
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.ApplyOpeners();
-            StartMainOverlay();
+            OverlayManager.StartMainOverlay();
+            OverlayManager.StartCombatMessageOverlay();
             HookBehaviors();
         }
 
         public void OnStop(BotBase bot)
         {
-            StopMainOverlay();
+            OverlayManager.StopMainOverlay();
+            OverlayManager.StopCombatMessageOverlay();
             TogglesViewModel.Instance.SaveToggles();
         }
 
@@ -248,7 +250,7 @@ namespace Magitek
 
             Form.Show();
 
-            StartMainOverlay();
+            OverlayManager.StartMainOverlay();
         }
 
         private static SettingsWindow _form;
@@ -265,19 +267,6 @@ namespace Magitek
                 };
                 return _form;
             }
-        }
-
-        public static void StartMainOverlay()
-        {
-            if (!BaseSettings.Instance.UseOverlay)
-                return;
-
-            OverlayManager.StartMainOverlay();
-        }
-
-        public static void StopMainOverlay()
-        {
-            OverlayManager.StopMainOverlay();
         }
 
         #region Behavior Composites

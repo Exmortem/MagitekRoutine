@@ -148,6 +148,30 @@ namespace Magitek.Models.Account
         public double PositionalOverlayPosY { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseCombatMessageOverlay { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool CombatMessageOverlayAdjustable { get; set; }
+
+        [Setting]
+        [DefaultValue(-1)]
+        public double CombatMessageOverlayPosX { get; set; }
+
+        [Setting]
+        [DefaultValue(-1)]
+        public double CombatMessageOverlayPosY { get; set; }
+
+        [Setting]
+        [DefaultValue(-1)]
+        public double CombatMessageOverlayWidth { get; set; }
+
+        [Setting]
+        [DefaultValue(-1)]
+        public double CombatMessageOverlayHeight { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool UseCastOrQueue { get; set; }
 

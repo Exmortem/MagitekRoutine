@@ -41,8 +41,9 @@
 
                     <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
                         <StackPanel Margin="5">
-                            <CheckBox HorizontalAlignment="Center" Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                            <Button Style="{DynamicResource ButtonLists}" Margin="0,5,0,0" HorizontalAlignment="Center" Content="Reset Overlay Position" Padding="0,2" Command="{Binding ResetOverlayPosition}" />
+                            <CheckBox HorizontalAlignment="Center" Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                            <CheckBox HorizontalAlignment="Center" Content="Use The Combat Message Overlay" IsChecked="{Binding GeneralSettings.UseCombatMessageOverlay, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                            <Button Style="{DynamicResource ButtonLists}" Margin="0,5,0,0" HorizontalAlignment="Center" Content="Reset Overlay Positions" Padding="0,2" Command="{Binding ResetOverlayPositions}" />
                         </StackPanel>
                     </controls:SettingsBlock>
 

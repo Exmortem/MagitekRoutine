@@ -320,6 +320,7 @@
     <Compile Include="Models\BitBucket\MetaData.cs" />
     <Compile Include="Models\BitBucket\ReportedBy.cs" />
     <Compile Include="Models\BlackMage\BlackMageSettings.cs" />
+    <Compile Include="Models\CombatMessageModel.cs" />
     <Compile Include="Models\Gunbreaker\GunbreakerSettings.cs" />
     <Compile Include="Models\DarkKnight\DarkKnightSettings.cs" />
     <Compile Include="Models\Dragoon\DragoonSettings.cs" />
@@ -453,6 +454,7 @@
     <Compile Include="ViewModels\GambitsViewModel.cs" />
     <Compile Include="ViewModels\InterruptsAndStuns.cs" />
     <Compile Include="ViewModels\MagitekApi.cs" />
+    <Compile Include="ViewModels\CombatMessageOverlayViewModel.cs" />
     <Compile Include="ViewModels\MainOverlayViewModel.cs" />
     <Compile Include="ViewModels\OpenersBrowser.cs" />
     <Compile Include="ViewModels\OpenersViewModel.cs" />
@@ -608,6 +610,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Machinist\Utilities.xaml.cs">
       <DependentUpon>Utilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CombatMessageOverlay.xaml.cs">
+      <DependentUpon>CombatMessageOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\MainSettingsOverlay.xaml.cs">
       <DependentUpon>MainSettingsOverlay.xaml</DependentUpon>
@@ -1079,6 +1084,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Machinist\Utilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\CombatMessageOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

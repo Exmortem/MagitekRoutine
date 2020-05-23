@@ -38,13 +38,28 @@ namespace Magitek.ViewModels
             Magitek.Form.ShowModal(new SettingsModal());
         });
 
-        public ICommand ResetOverlayPosition => new DelegateCommand(() =>
+        public ICommand ResetOverlayPositions => new DelegateCommand(() =>
         {
             Models.Account.BaseSettings.Instance.OverlayPosX = 60;
             Models.Account.BaseSettings.Instance.OverlayPosY = 60;
+            Models.Account.BaseSettings.Instance.CombatMessageOverlayWidth = -1;
+            Models.Account.BaseSettings.Instance.CombatMessageOverlayHeight = -1;
+            Models.Account.BaseSettings.Instance.CombatMessageOverlayPosX = -1;
+            Models.Account.BaseSettings.Instance.CombatMessageOverlayPosY = -1;
+            Models.Account.BaseSettings.Instance.Save();
 
-            OverlayManager.StopMainOverlay();
-            OverlayManager.StartMainOverlay();
+            OverlayManager.RestartMainOverlay();
+            OverlayManager.RestartCombatMessageOverlay();
+        });
+
+        public ICommand RestartOverlay => new DelegateCommand(() =>
+        {
+            OverlayManager.RestartMainOverlay();
+        });
+
+        public ICommand RestartCombatMessageOverlay => new DelegateCommand(() =>
+        {
+           OverlayManager.RestartCombatMessageOverlay();
         });
 
         public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12 };

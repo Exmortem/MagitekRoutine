@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.CombatMessageOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:CombatMessageOverlayViewModel.Instance}" />
+    </UserControl.DataContext>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Viewbox Stretch="Uniform">
+            <TextBlock
+                Text="{Binding CombatOverlayMessage.Message, Mode=OneWay}"
+                Foreground="DeepSkyBlue"
+                FontWeight="UltraBold">
+                <TextBlock.Effect>
+                    <DropShadowEffect
+                        ShadowDepth="1"
+                        Color="Black"
+                        Opacity="1.0"
+                        BlurRadius="0.0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Viewbox>
+    </Grid>
+
+</UserControl>
