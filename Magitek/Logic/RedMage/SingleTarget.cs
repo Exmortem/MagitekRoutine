@@ -46,7 +46,9 @@ namespace Magitek.Logic.RedMage
         }
 
         private static List<SpellData> ComboInProgressSpells = new List<SpellData>() { Spells.Riposte, Spells.Zwerchhau, Spells.EnchantedRedoublement, Spells.Verflare, Spells.Verholy };
-        public static bool ComboInProgress => ComboInProgressSpells.Any(spell => spell.Id == ActionManager.LastSpellId);
+        //Sometimes, after casting Riposte, the ActionManager still reports the spell *before* Riposte as the LastSpell, so we need to check the Casting class as well, just to be sure
+        public static bool ComboInProgress => ComboInProgressSpells.Any(spell =>    spell.Id == ActionManager.LastSpellId
+                                                                                 || spell.Id == Casting.LastSpell?.Id);
 
         //We should cast Veraero if we're holding for Veraero, OR if we have less white mana and we're not holding for Verthunder
         private static bool ShouldCastVeraero =>
@@ -102,8 +104,6 @@ namespace Magitek.Logic.RedMage
                     if (!RedMageRoutines.CanWeave)
                         return false;
 
-                    //TODO: I think I've seen this still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
-
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
                         await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
@@ -143,8 +143,6 @@ namespace Magitek.Logic.RedMage
 
                     if (!RedMageRoutines.CanWeave)
                         return false;
-
-                    //TODO: I think I've seen this still sneak in between Corps-a-corps and Riposte. Figure out why and add a check here.
 
                     if (await Spells.Swiftcast.Cast(Core.Me))
                     {
@@ -357,6 +355,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (!ReadyForCombo)
+                return false;
+
+            if (RedMageSettings.Instance.MeleeComboBossesOnly && !Core.Me.CurrentTarget.IsBoss())
                 return false;
 
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
