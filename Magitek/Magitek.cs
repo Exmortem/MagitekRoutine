@@ -26,6 +26,7 @@ using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using Magitek.Utilities.CombatMessages;
 using Magitek.Utilities.Managers;
 using Magitek.Utilities.Overlays;
 using Magitek.ViewModels;
@@ -68,6 +69,7 @@ namespace Magitek
             });
 
             TogglesManager.LoadTogglesForCurrentJob();
+            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
             Logger.WriteInfo("Initialized");
         }
 
@@ -85,6 +87,7 @@ namespace Magitek
             OpenersViewModel.Instance.ApplyOpeners();
             OverlayManager.StartMainOverlay();
             OverlayManager.StartCombatMessageOverlay();
+            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
             HookBehaviors();
         }
 
@@ -118,6 +121,7 @@ namespace Magitek
                 HookBehaviors();
                 DispelManager.Reset();
                 InterruptsAndStunsManager.Reset();
+                CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
                 //TankBusterManager.ResetHealers();
                 //TankBusterManager.ResetTanks();
             }
@@ -203,7 +207,9 @@ namespace Magitek
 
                 _saveFormTime = DateTime.Now.AddSeconds(60);
             }
-        }
+
+            CombatMessageManager.UpdateDisplayedMessage();
+       }
 
         public void Shutdown()
         {

@@ -410,6 +410,9 @@
     <Compile Include="Utilities\Collections\ImmutableCollectionBase.cs" />
     <Compile Include="Utilities\Collections\ObservableCollectionViewModel.cs" />
     <Compile Include="Utilities\Combat.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageManager.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageStrategy.cs" />
+    <Compile Include="Utilities\CombatMessages\ICombatMessageStrategy.cs" />
     <Compile Include="Utilities\MagitekActionResourceManager.cs" />
     <Compile Include="Utilities\Managers\EnmityManager.cs" />
     <Compile Include="Utilities\Overlays\CombatMessageUiComponent.cs" />
