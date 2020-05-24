@@ -96,6 +96,7 @@ namespace Magitek.Rotations
             if (await Buff.Lightspeed()) return true;
             if (await Buff.Synastry()) return true;
             if (await Buff.NeutralSect()) return true;
+            if (await Buff.SleeveDraw()) return true;
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
