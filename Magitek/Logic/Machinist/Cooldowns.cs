@@ -17,6 +17,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BarrelStabilizer()
         {
+            if (!Core.Me.HasTarget)
+                return false;
+
             if (!MachinistSettings.Instance.UseBarrelStabilizer)
                 return false;
 
