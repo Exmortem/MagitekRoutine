@@ -6,6 +6,7 @@ using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
+using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
 
 namespace Magitek.Logic.RedMage
 {
@@ -17,6 +18,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 			
 			if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             if (Core.Me.HasAura(Auras.VerfireReady) || Core.Me.HasAura(Auras.VerstoneReady))
