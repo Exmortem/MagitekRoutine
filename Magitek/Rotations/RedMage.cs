@@ -11,6 +11,7 @@ using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
+using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Rotations
 {
@@ -141,14 +142,14 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "Combo Ready!",
-                                          () =>    SingleTarget.ReadyForCombo
+                                          () =>    SingleTarget.ReadyForCombo()
                                                 && bossPresenceOk()));
 
             //Third priority (tie): Melee combo will be ready soon
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => SingleTarget.ReadyForComboSoon
+                                          () => SingleTarget.ReadyForCombo(BlackMana + 9, WhiteMana + 9)
                                                 && !SingleTarget.ComboInProgress
                                                 && bossPresenceOk()));
 
