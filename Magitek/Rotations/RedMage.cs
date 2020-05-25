@@ -149,7 +149,7 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => SingleTarget.ReadyForCombo(BlackMana + 9, WhiteMana + 9)
+                                          () =>    SingleTarget.ReadyForCombo(BlackMana + 9, WhiteMana + 9)
                                                 && !SingleTarget.ComboInProgress
                                                 && bossPresenceOk()));
 

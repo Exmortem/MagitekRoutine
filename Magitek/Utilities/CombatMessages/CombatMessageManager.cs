@@ -44,19 +44,13 @@ namespace Magitek.Utilities.CombatMessages
         static ClassJobType? mCurrentClass = null;
 
         //To add combat messages for a class, update this method to call out to a method that will register the
-        //desired class's message strategies
-        //
-        //The messages use a strategy pattern. Each strategy includes:
-        // - Message:       The message to be displayed, if ShowMessage() returns true and no higher-priority
-        //                  message should be shown
-        // - ShowMessage(): A test to determine if the message should be displayed. The first strategy (in Priority
-        //                  order) for which ShowMessage() returns true is displayed.
-        // - Priority:      The order the strategies are evaluated. Lowest value is evaluated first.
+        //desired class's message strategies.
         //
         //Each method called by this method should call RegisterMessage() to add all desired message strategies
         //for its respective class
         //
-        //See Rotations.RedMage.RegisterCombatMessages() for an example.
+        //See Rotations.RedMage.RegisterCombatMessages() for an example. For details on how the message strategies
+        //work, see ICombatMessageStrategy
         //
         public static void RegisterMessageStrategiesFoClass(ClassJobType currentClass)
         {
