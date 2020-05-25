@@ -34,6 +34,7 @@ namespace Magitek.Utilities.CombatMessages
                 if (message.ShowMessage())
                 {
                     CombatMessageModel.Instance.Message = message.Message;
+                    CombatMessageModel.Instance.ImageSource = message.ImageSource;
                     return;
                 }
             }

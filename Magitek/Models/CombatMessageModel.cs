@@ -11,8 +11,10 @@ namespace Magitek.Models
         public void ClearMessage()
         {
             Message = "";
+            ImageSource = "";
         }
 
         public string Message { get; set; } = "";
+        public string ImageSource { get; set; } = "";
     }
 }

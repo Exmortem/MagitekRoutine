@@ -1285,6 +1285,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Monk\ArowNoneHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowDownHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowSidesHighlighted.png" />
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.2.2.0\build\net452\Fody.targets" Condition="Exists('packages\Fody.2.2.0\build\net452\Fody.targets')" />
