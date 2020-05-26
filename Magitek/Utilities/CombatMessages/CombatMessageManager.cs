@@ -71,6 +71,7 @@ namespace Magitek.Utilities.CombatMessages
 
                 case ClassJobType.Pugilist:
                 case ClassJobType.Monk:
+                    Rotations.Monk.RegisterCombatMessages();
                     break;
 
                 case ClassJobType.Marauder:
