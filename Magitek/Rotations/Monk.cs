@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
+using Magitek.Utilities.CombatMessages;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,15 +30,6 @@ namespace Magitek.Rotations
             if (await Buff.FistsOf()) return true;
             if (await Buff.Meditate()) return true;
             if (await Buff.FormShiftOOC()) return true;
-
-            if (MonkSettings.Instance.UsePositionalToasts && Utilities.Routines.Monk.UseToast == 9)
-            {
-                Logger.Write($@"[Magitek] Initiated Toast for MNK");
-                Thread T = new Thread(() => PositionalToast.PositionalLogic());
-                Utilities.Routines.Monk.UseToast = 0;
-                PositionalToast.SendToast("Toast Overlay Initiated", 5);
-                T.Start();
-            }
 
             return false;
         }
@@ -146,6 +138,41 @@ namespace Magitek.Rotations
         public static async Task<bool> PvP()
         {
             return false;
+        }
+
+        public static void RegisterCombatMessages()
+        {
+
+            //Highest priority: Don't show anything if we're not in combat
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(100,
+                                          "",
+                                          () => !Core.Me.InCombat));
+
+            //Second priority: Melee combo is ready
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "Bootshine: Get behind Enemy",
+                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.HasAura(Auras.LeadenFist) && !Core.Me.HasAura(Auras.PerfectBalance)));
+
+            //Third priority (tie): Melee combo will be ready soon
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "TwinSnakes: Side of Enemy",
+                                          () => Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100) && !Core.Me.HasAura(Auras.PerfectBalance)));
+
+            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "TrueStrike: Get behind Enemy",
+                                          () => Core.Me.HasAura(Auras.RaptorForm) && Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance)));
+
+            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "DragonKick: Side of Enemy",
+                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && !Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance)));
+
         }
     }
 }
