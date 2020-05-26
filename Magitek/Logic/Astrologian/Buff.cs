@@ -10,7 +10,6 @@ using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static ff14bot.Managers.ActionResourceManager.Astrologian;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
@@ -19,12 +18,6 @@ namespace Magitek.Logic.Astrologian
     {
         public static async Task<bool> Swiftcast()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
-            if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
-                return false;
-
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
             {
                 return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.Swiftcast, true, 7000));
@@ -36,9 +29,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> LucidDreaming()
         {
             if (!AstrologianSettings.Instance.LucidDreaming)
-                return false;
-
-            if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -114,9 +104,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> Synastry()
         {
             if (!AstrologianSettings.Instance.Synastry)
-                return false;
-
-            if (Spells.Synastry.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -228,28 +215,5 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.NocturnalSect.CastAura(Core.Me, Auras.NocturnalSect);
         }
-        public static async Task<bool> SleeveDraw()
-        {
-            if (Core.Me.ClassLevel < Spells.SleeveDraw.LevelAcquired)
-                return false;
-
-            if (Spells.SleeveDraw.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Spells.Draw.Cooldown == TimeSpan.Zero)
-                return false;
-
-            if (Arcana != AstrologianCard.None)
-                return false;
-
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
-
-            if (Spells.Divination.Cooldown == TimeSpan.Zero)
-                return false;
-
-            return await Spells.SleeveDraw.Cast(Core.Me);
-        }
-
     }
 }
