@@ -61,6 +61,10 @@ namespace Magitek.Models.Ninja
         public int ShadowFangRefresh { get; set; }
 
         [Setting]
+        [DefaultValue(12)]
+        public int HutonRefreshTimer { get; set; }
+
+        [Setting]
         [DefaultValue(5000)]
         public int ShadowFangMinimumHealth { get; set; }
 

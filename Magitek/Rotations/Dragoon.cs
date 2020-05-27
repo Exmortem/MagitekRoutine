@@ -207,7 +207,7 @@ namespace Magitek.Rotations
             if (await SingleTarget.WheelingThrust()) return true;
             if (await SingleTarget.FangAndClaw()) return true;
 
-            if (DragoonSettings.Instance.Aoe && Utilities.Routines.Dragoon.EnemiesInView >= DragoonSettings.Instance.AoeEnemies)
+            if (DragoonSettings.Instance.Aoe && Core.Me.CurrentTarget.EnemiesNearby(8).Count() >= DragoonSettings.Instance.AoeEnemies)
             {
                 if (await Aoe.CoethanTorment()) return true;
                 if (await Aoe.SonicThrust()) return true;
