@@ -5,6 +5,7 @@ namespace Magitek.Utilities
     internal static class Auras
     {
         public const int
+            Stun = 2,
             Raise = 148,
             BattleVoice = 141,
             Swiftcast = 167,
@@ -211,11 +212,12 @@ namespace Magitek.Utilities
             EverlastingFlight = 2030,
             Acceleration = 1238,
             Divination = 2034,
-            Embolden = 2282,
+            Embolden = 1239,
             MeditationSAM = 2176,
             OffGuard = 1717,
             Bleeding = 1714,
-            Boost = 1716;
+            Boost = 1716,
+            Temperance = 1872;
 
         private const int
             Invincibility0 = 981,

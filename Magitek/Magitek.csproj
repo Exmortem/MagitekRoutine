@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Converters\BooleanConverterT.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToOpaqueConverter.cs" />
     <Compile Include="Converters\ConditionAddConverter.cs" />
     <Compile Include="Converters\ConditionRemoveConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="Models\BitBucket\MetaData.cs" />
     <Compile Include="Models\BitBucket\ReportedBy.cs" />
     <Compile Include="Models\BlackMage\BlackMageSettings.cs" />
+    <Compile Include="Models\CombatMessageModel.cs" />
     <Compile Include="Models\Gunbreaker\GunbreakerSettings.cs" />
     <Compile Include="Models\DarkKnight\DarkKnightSettings.cs" />
     <Compile Include="Models\Dragoon\DragoonSettings.cs" />
@@ -408,12 +410,18 @@
     <Compile Include="Utilities\Collections\ImmutableCollectionBase.cs" />
     <Compile Include="Utilities\Collections\ObservableCollectionViewModel.cs" />
     <Compile Include="Utilities\Combat.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageManager.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageStrategy.cs" />
+    <Compile Include="Utilities\CombatMessages\ICombatMessageStrategy.cs" />
     <Compile Include="Utilities\MagitekActionResourceManager.cs" />
     <Compile Include="Utilities\Managers\EnmityManager.cs" />
-    <Compile Include="Utilities\OverlayManager.cs" />
+    <Compile Include="Utilities\Overlays\CombatMessageUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\MainOverlayUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\OverlayManager.cs" />
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
     <Compile Include="Utilities\Routines\BlueMage.cs" />
+    <Compile Include="Utilities\StunTracker.cs" />
     <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />
     <Compile Include="Utilities\Duty.cs" />
@@ -452,6 +460,7 @@
     <Compile Include="ViewModels\GambitsViewModel.cs" />
     <Compile Include="ViewModels\InterruptsAndStuns.cs" />
     <Compile Include="ViewModels\MagitekApi.cs" />
+    <Compile Include="ViewModels\CombatMessageOverlayViewModel.cs" />
     <Compile Include="ViewModels\MainOverlayViewModel.cs" />
     <Compile Include="ViewModels\OpenersBrowser.cs" />
     <Compile Include="ViewModels\OpenersViewModel.cs" />
@@ -607,6 +616,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Machinist\Utilities.xaml.cs">
       <DependentUpon>Utilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CombatMessageOverlay.xaml.cs">
+      <DependentUpon>CombatMessageOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\MainSettingsOverlay.xaml.cs">
       <DependentUpon>MainSettingsOverlay.xaml</DependentUpon>
@@ -1081,6 +1093,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\CombatMessageOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\MainSettingsOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1268,6 +1284,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Monk\ArowNoneHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowDownHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowSidesHighlighted.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

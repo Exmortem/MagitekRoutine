@@ -138,7 +138,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
+            //Only stop doing damage when in party
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
             if (Globals.InParty)
@@ -146,8 +147,8 @@ namespace Magitek.Rotations
                 if (!WhiteMageSettings.Instance.DoDamage)
                     return true;
 
-                //if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
-                //return true;
+                if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
+                return false;
             }
 
             if (BotManager.Current.IsAutonomous)

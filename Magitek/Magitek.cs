@@ -26,7 +26,9 @@ using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using Magitek.Utilities.CombatMessages;
 using Magitek.Utilities.Managers;
+using Magitek.Utilities.Overlays;
 using Magitek.ViewModels;
 using Magitek.Views;
 using System;
@@ -67,6 +69,7 @@ namespace Magitek
             });
 
             TogglesManager.LoadTogglesForCurrentJob();
+            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
             Logger.WriteInfo("Initialized");
         }
 
@@ -82,13 +85,16 @@ namespace Magitek
             // Apply the gambits we have
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.ApplyOpeners();
-            StartMainOverlay();
+            OverlayManager.StartMainOverlay();
+            OverlayManager.StartCombatMessageOverlay();
+            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
             HookBehaviors();
         }
 
         public void OnStop(BotBase bot)
         {
-            StopMainOverlay();
+            OverlayManager.StopMainOverlay();
+            OverlayManager.StopCombatMessageOverlay();
             TogglesViewModel.Instance.SaveToggles();
         }
 
@@ -115,6 +121,7 @@ namespace Magitek
                 HookBehaviors();
                 DispelManager.Reset();
                 InterruptsAndStunsManager.Reset();
+                CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
                 //TankBusterManager.ResetHealers();
                 //TankBusterManager.ResetTanks();
             }
@@ -200,7 +207,9 @@ namespace Magitek
 
                 _saveFormTime = DateTime.Now.AddSeconds(60);
             }
-        }
+
+            CombatMessageManager.UpdateDisplayedMessage();
+       }
 
         public void Shutdown()
         {
@@ -248,7 +257,7 @@ namespace Magitek
 
             Form.Show();
 
-            StartMainOverlay();
+            OverlayManager.StartMainOverlay();
         }
 
         private static SettingsWindow _form;
@@ -265,19 +274,6 @@ namespace Magitek
                 };
                 return _form;
             }
-        }
-
-        public static void StartMainOverlay()
-        {
-            if (!BaseSettings.Instance.UseOverlay)
-                return;
-
-            OverlayManager.StartMainOverlay();
-        }
-
-        public static void StopMainOverlay()
-        {
-            OverlayManager.StopMainOverlay();
         }
 
         #region Behavior Composites

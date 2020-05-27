@@ -61,25 +61,6 @@
             </Grid>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Toast Messages for Positionals" IsChecked="{Binding MonkSettings.UsePositionalToasts, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-            </Grid>
-        </controls:SettingsBlock>
-
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>

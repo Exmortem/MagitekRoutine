@@ -32,6 +32,10 @@ namespace Magitek.Models.RedMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool SwiftcastScatter { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Acceleration { get; set; }
 
         [Setting]
@@ -55,12 +59,20 @@ namespace Magitek.Models.RedMage
         public bool Fleche { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool MeleeComboBossesOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Moulinet { get; set; }
 
         [Setting]
         [DefaultValue(2)]
         public int MoulinetEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(40)]
+        public int EmboldenFinisherPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]

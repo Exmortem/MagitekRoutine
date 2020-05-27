@@ -25,6 +25,9 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Ruin2)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Swiftcast))
+                return false;
+
             if (!MovementManager.IsMoving)
                 return false;
 

@@ -36,7 +36,7 @@ namespace Magitek.Logic.Ninja
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
 
-            if (HutonTimer.TotalMilliseconds < 8000)
+            if (HutonTimer.TotalSeconds < NinjaSettings.Instance.HutonRefreshTimer)
                 return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
 
             if (!Core.Me.HasAura(Auras.TrueNorth))

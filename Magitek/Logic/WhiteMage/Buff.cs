@@ -44,7 +44,7 @@ namespace Magitek.Logic.WhiteMage
 
             if (WhiteMageSettings.Instance.DontBuffIfYouHaveOneAlready)
             {
-                if (Core.Me.HasAura(Auras.DivineSeal))
+                if (Core.Me.HasAura(Auras.Temperance))
                     return false;
             }
 
@@ -75,7 +75,7 @@ namespace Magitek.Logic.WhiteMage
             {
                 if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.PresenceOfMindHealthPercent)
                     return false;
-                if (Casting.LastSpell != Spells.Dia || Casting.LastSpell != Spells.Regen || Casting.LastSpell != Spells.AfflatusMisery || Casting.LastSpell != Spells.AfflatusRapture || Casting.LastSpell != Spells.AfflatusSolace)
+                if (Casting.LastSpell != Spells.Aero || Casting.LastSpell != Spells.Aero2 || Casting.LastSpell != Spells.Dia || Casting.LastSpell != Spells.Regen || Casting.LastSpell != Spells.AfflatusMisery || Casting.LastSpell != Spells.AfflatusRapture || Casting.LastSpell != Spells.AfflatusSolace)
                     return false;
                 return await Spells.PresenceofMind.Cast(Core.Me);
             }
@@ -95,7 +95,7 @@ namespace Magitek.Logic.WhiteMage
             if (Core.Me.CurrentManaPercent > WhiteMageSettings.Instance.AssizeManaPercent)
                 return false;
 
-            if (Core.Me.HasAura(Auras.ShroudOfSaints))
+            if (Core.Me.HasAura(Auras.LucidDreaming))
                 return false;
 
             return await Spells.Assize.Cast(Core.Me);

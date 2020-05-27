@@ -44,7 +44,7 @@ namespace Magitek.Logic.WhiteMage
                 return false;
             if (ActionResourceManager.WhiteMage.BloodLily < 3)
                 return false;
-            if (!MovementManager.IsMoving)
+            if (!BotManager.Current.IsAutonomous && !MovementManager.IsMoving)
                 return false;
             return await Spells.AfflatusMisery.Cast(Core.Me.CurrentTarget);
         }

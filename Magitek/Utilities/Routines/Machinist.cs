@@ -9,11 +9,10 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Machinist
     {
-        public static int AnimationLock = 700;
         public static bool IsInWeaveingWindow => ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero
                                                 ? Weaving.GetCurrentWeavingCounter() < 1 && HeatedSplitShot.Cooldown != TimeSpan.Zero
                                                 : Weaving.GetCurrentWeavingCounter() < 2 && HeatedSplitShot.Cooldown != TimeSpan.Zero
-                                                                            && HeatedSplitShot.Cooldown.TotalMilliseconds > AnimationLock + 50 + MachinistSettings.Instance.UserLatencyOffset;
+                                                                            && HeatedSplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + 50 + MachinistSettings.Instance.UserLatencyOffset;
 
 
         /*

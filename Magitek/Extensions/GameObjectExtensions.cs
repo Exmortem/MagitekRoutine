@@ -285,14 +285,13 @@ namespace Magitek.Extensions
             return c.IsDps() ? 80 : 0;
         }
 
-        public static bool InView(this GameObject target)
+        //This method return the heading from the player to the target object in radians.
+        //A circle has 2*Pi radians, so an angle of 90 degrees would be Pi/2, and an angle
+        //of 30 degrees would be Pi/6, etc.
+        //It returns the absolute value, so targets to the left and right both return
+        //positive values. A target directly in front would return 0.
+        public static float RadiansFromPlayerHeading(this GameObject target)
         {
-            if (target == null)
-                return false;
-
-            if (target == Core.Me)
-                return true;
-
             var playerLocation = Core.Me.Location;
             var playerHeading = Core.Me.Heading;
             var targetLocation = target.Location;
@@ -302,7 +301,19 @@ namespace Magitek.Extensions
             {
                 d = Math.Abs(d - 2 * (float)Math.PI);
             }
-            return d < 0.78539f;
+
+            return d;
+        }
+
+        public static bool InView(this GameObject target)
+        {
+            if (target == null)
+                return false;
+
+            if (target == Core.Me)
+                return true;
+
+            return target.RadiansFromPlayerHeading() < 0.78539f; //This is Pi/4 radians, or 45 degrees left or right
         }
 
         private static readonly List<ClassJobType> Tanks = new List<ClassJobType>()

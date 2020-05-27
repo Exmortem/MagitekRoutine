@@ -3,9 +3,11 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Roles;
 using Magitek.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -69,6 +71,13 @@ namespace Magitek.Logic.Roles
             if (!settings.UseInterrupt)
                 return false;
 
+            //The amount of time before our interrupt will go off
+            int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
+                                           + Globals.AnimationLockMs
+                                           + Casting.SpellCastHistory.LastOrDefault()?.AnimationLockRemainingMs ?? 0;
+
+            IEnumerable<BattleCharacter> castingEnemies;
+            BattleCharacter stunTarget;
             BattleCharacter interruptTarget;
 
             switch (settings.Strategy)
@@ -77,27 +86,45 @@ namespace Magitek.Logic.Roles
                     return false;
 
                 case InterruptStrategy.InterruptOnlyBosses:
-                    interruptTarget = GameObjectManager.Attackers.FirstOrDefault(r =>
-                        r.IsBoss() && r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
+                    castingEnemies = GameObjectManager.Attackers.Where(r =>    r.IsBoss()
+                                                                            && r.InView()
+                                                                            && r.IsCasting
+                                                                            && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
+                                                                .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
 
-                    if (interruptTarget == null)
+                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
+
+                    if (stunTarget == null)
                         return false;
 
-                    if (await Spells.LowBlow.Cast(interruptTarget))
+                    if (await Spells.LowBlow.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
                         return true;
+                    }
+
+                    interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
 
                     return await Spells.Interject.Cast(interruptTarget);
 
-
                 case InterruptStrategy.AlwaysInterrupt:
-                    interruptTarget =
-                        Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
+                    castingEnemies = Combat.Enemies.Where(r =>    r.InView() 
+                                                               && r.IsCasting
+                                                               && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
+                                                   .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
 
-                    if (interruptTarget == null)
+                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
+
+                    if (stunTarget == null)
                         return false;
 
-                    if (await Spells.LowBlow.Cast(interruptTarget))
+                    if (await Spells.LowBlow.Cast(stunTarget))
+                    {
+                        StunTracker.RecordAttemptedStun(stunTarget);
                         return true;
+                    }
+
+                    interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
 
                     return await Spells.Interject.Cast(interruptTarget);
 

@@ -5,29 +5,8 @@ using Magitek.Models.Account;
 using Magitek.Views.UserControls;
 using System.Windows;
 
-namespace Magitek.Utilities
+namespace Magitek.Utilities.Overlays
 {
-    internal static class OverlayManager
-    {
-        private static readonly MainOverlayUiComponent MainSettingsOverlay = new MainOverlayUiComponent();
-
-        public static void StartMainOverlay()
-        {
-            if (!Core.OverlayManager.IsActive)
-                return;
-
-            Core.OverlayManager.AddUIComponent(MainSettingsOverlay);
-        }
-
-        public static void StopMainOverlay()
-        {
-            if (!Core.OverlayManager.IsActive)
-                return;
-
-            Core.OverlayManager.RemoveUIComponent(MainSettingsOverlay);
-        }
-    }
-
     internal class MainOverlayUiComponent : OverlayUIComponent
     {
         public MainOverlayUiComponent() : base(true) { }
