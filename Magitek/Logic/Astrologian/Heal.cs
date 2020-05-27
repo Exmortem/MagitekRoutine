@@ -193,10 +193,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CelestialOpposition)
                 return false;
 
-            if (Spells.CelestialOpposition.Cooldown != TimeSpan.Zero)
-                return false;
-
-
             if (Core.Me.HasAura(Auras.Lightspeed))
                 return false;
 
