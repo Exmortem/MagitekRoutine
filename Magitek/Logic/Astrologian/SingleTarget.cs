@@ -16,8 +16,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Malefic)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
@@ -30,8 +30,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (!AstrologianSettings.Instance.CombustMultipleTargets)
                 return false;
@@ -69,8 +69,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.UseTTDForCombust)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             //Also this
             if (Combat.CurrentTargetCombatTimeLeft <= AstrologianSettings.Instance.DontCombustIfEnemyDyingWithin)

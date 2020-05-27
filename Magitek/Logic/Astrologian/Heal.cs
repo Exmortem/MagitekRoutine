@@ -21,8 +21,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Benefic)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (Globals.InParty)
             {
@@ -90,8 +90,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Benefic2)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             var shouldBenefic2WithEnhancedBenefic2 = AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2 &&
                 Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost;
@@ -210,8 +210,8 @@ namespace Magitek.Logic.Astrologian
             if (Spells.CelestialOpposition.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (Core.Me.HasAura(Auras.Lightspeed))
                 return false;
@@ -277,8 +277,8 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.Helios)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.HeliosMinManaPercent) return false;
 
@@ -292,8 +292,8 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> AspectedHelios()
         {
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (Core.Me.Sect())
@@ -309,8 +309,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
@@ -335,8 +335,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.NocturnalHelios)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
@@ -563,8 +563,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Ascend)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
 
             if (!Globals.InParty)
                 return false;
