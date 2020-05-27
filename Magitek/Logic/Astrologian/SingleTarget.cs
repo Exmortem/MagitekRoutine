@@ -24,7 +24,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-
             if (!AstrologianSettings.Instance.CombustMultipleTargets)
                 return false;
 
