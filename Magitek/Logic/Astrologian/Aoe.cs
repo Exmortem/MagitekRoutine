@@ -14,9 +14,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Gravity)
                 return false;
 
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
-
             if (Core.Me.CurrentTarget == null)
                 return false;
 

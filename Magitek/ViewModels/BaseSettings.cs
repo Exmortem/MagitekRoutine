@@ -20,7 +20,7 @@ using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
-using Magitek.Utilities;
+using Magitek.Utilities.Overlays;
 using Magitek.Views;
 using PropertyChanged;
 using System.Windows.Input;
@@ -38,13 +38,22 @@ namespace Magitek.ViewModels
             Magitek.Form.ShowModal(new SettingsModal());
         });
 
-        public ICommand ResetOverlayPosition => new DelegateCommand(() =>
+        public ICommand ResetOverlayPositions => new DelegateCommand(() =>
         {
-            Models.Account.BaseSettings.Instance.OverlayPosX = 60;
-            Models.Account.BaseSettings.Instance.OverlayPosY = 60;
+            Models.Account.BaseSettings.ResetOverlayPositions();
 
-            OverlayManager.StopMainOverlay();
-            OverlayManager.StartMainOverlay();
+            OverlayManager.RestartMainOverlay();
+            OverlayManager.RestartCombatMessageOverlay();
+        });
+
+        public ICommand RestartOverlay => new DelegateCommand(() =>
+        {
+            OverlayManager.RestartMainOverlay();
+        });
+
+        public ICommand RestartCombatMessageOverlay => new DelegateCommand(() =>
+        {
+           OverlayManager.RestartCombatMessageOverlay();
         });
 
         public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12 };

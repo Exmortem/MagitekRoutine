@@ -355,17 +355,22 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Engagement.Cast(Core.Me.CurrentTarget);
         }
 
-        private static bool ReadyForCombo()
+        public static bool ReadyForCombo()
         {
             return ReadyForCombo(BlackMana, WhiteMana);
         }
 
-        private static bool ReadyForCombo(int bm, int wm)
+        public static bool ReadyForCombo(int bm, int wm)
         {
             return (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
                    || (Core.Me.ClassLevel < 50 && (bm >= 55 && wm >= 55))
                    || (bm >= 80 && wm >= 80);
         }
+
+        public static bool ReadyForManaficationComboSoon =>
+               Core.Me.ClassLevel >= Spells.Manafication.LevelAcquired
+            && WhiteMana + 9 >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+            && BlackMana + 9 >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana;
 
         public static async Task<bool> CorpsACorps()
         {
