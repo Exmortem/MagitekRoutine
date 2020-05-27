@@ -149,25 +149,25 @@ namespace Magitek.Rotations
                                           "",
                                           () => !Core.Me.InCombat));
 
-            //Second priority: Melee combo is ready
+            //Second priority (tie): Bootshine
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "Bootshine: Get behind Enemy",
                                           () => Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.HasAura(Auras.LeadenFist) && !Core.Me.HasAura(Auras.PerfectBalance)));
 
-            //Third priority (tie): Melee combo will be ready soon
+            //Second priority (tie): TwinSnakes
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "TwinSnakes: Side of Enemy",
                                           () => Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100) && !Core.Me.HasAura(Auras.PerfectBalance)));
 
-            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
+            //Second priority (tie): TrueStrike
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "TrueStrike: Get behind Enemy",
                                           () => Core.Me.HasAura(Auras.RaptorForm) && Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance)));
 
-            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
+            //Second priority (tie): DragonKick
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "DragonKick: Side of Enemy",

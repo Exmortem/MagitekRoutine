@@ -482,6 +482,9 @@ namespace Magitek.Logic.RedMage
 
         public static async Task<bool> Reprise()
         {
+            if (!RedMageSettings.Instance.UseReprise)
+                return false;
+
             if (BlackMana < 5 || WhiteMana < 5)
                 return false;
 
