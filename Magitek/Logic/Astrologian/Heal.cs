@@ -498,7 +498,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Ascend)
                 return false;
 
-          if (!Globals.InParty)
+            if (!Globals.InParty)
                 return false;
 
             if (Core.Me.CurrentMana < Spells.Ascend.Cost)
