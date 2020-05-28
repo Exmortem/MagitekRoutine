@@ -12,6 +12,26 @@ namespace Magitek.Logic
 {
     internal static class InterruptAndStunLogic
     {
+        //SpellData.Range is incorrect for a lot of spells - these values were verified manually
+        private static Dictionary<SpellData, double> rangeDict = new Dictionary<SpellData, double>()
+        {
+            { Spells.LowBlow,    3.4 },
+            { Spells.Interject,  3.4 },
+            { Spells.ShieldBash, 3.4 },
+            { Spells.LegSweep,   3.4 },
+            { Spells.HeadGraze,  25 }
+        };
+
+        //TODO: Verify the rest of these
+        private static Dictionary<SpellData, int> animationLockDict = new Dictionary<SpellData, int>()
+        {
+            { Spells.LowBlow,    700 }, //Verified
+            { Spells.Interject,  700 }, //Verified
+            { Spells.ShieldBash, 550 }, //Verified
+            { Spells.LegSweep,   700 }, //Just a guess
+            { Spells.HeadGraze,  700 }  //Just a guess
+        };
+
         public static async Task<bool> DoStunAndInterrupt(IEnumerable<SpellData> stuns, IEnumerable<SpellData> interrupts, InterruptStrategy strategy)
         {
             IEnumerable<BattleCharacter> castingEnemies;
@@ -32,20 +52,33 @@ namespace Magitek.Logic
                     castingEnemies = castingEnemies.Where(e => e == Core.Me.CurrentTarget);
                 }
 
-                //The amount of time before our interrupt will go off
-                int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
-                                               + Globals.AnimationLockMs
-                                               + Casting.SpellCastHistory.LastOrDefault()?.AnimationLockRemainingMs ?? 0;
-
-                castingEnemies = castingEnemies.Where(r =>    r.InView()
-                                                           && r.IsCasting
-                                                           && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
+                castingEnemies = castingEnemies.Where(r => r.InView() && r.IsCasting)
                                                .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
             }
 
             foreach (SpellData stun in stuns)
             {
-                BattleCharacter stunTarget = castingEnemies.FirstOrDefault(enemy => StunTracker.IsStunnable(enemy) && enemy.Distance(Core.Me) <= stun.Range + Core.Me.CombatReach + enemy.CombatReach);
+                int spellAnimationLockMs = Globals.AnimationLockMs;
+                if (animationLockDict.ContainsKey(stun))
+                {
+                    spellAnimationLockMs = animationLockDict[stun];
+                }
+
+                //The amount of time before our spell will take effect
+                int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
+                                               + spellAnimationLockMs
+                                               + Casting.SpellCastHistory.FirstOrDefault()?.AnimationLockRemainingMs ?? 0;
+
+                //Default to the reported range if we don't have a more accurate range in our dictionary
+                double stunRange = stun.Range;
+                if (rangeDict.ContainsKey(stun))
+                {
+                    stunRange = rangeDict[stun];
+                }
+
+                BattleCharacter stunTarget = castingEnemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
+                                                                                    && StunTracker.IsStunnable(enemy)
+                                                                                    && enemy.Distance(Core.Me) <= stunRange + Core.Me.CombatReach + enemy.CombatReach);
 
                 if (stunTarget == null)
                 {
@@ -61,7 +94,27 @@ namespace Magitek.Logic
 
             foreach (SpellData interrupt in interrupts)
             {
-                BattleCharacter interruptTarget = castingEnemies.FirstOrDefault(enemy => enemy.SpellCastInfo.Interruptible && enemy.Distance(Core.Me) <= interrupt.Range + Core.Me.CombatReach + enemy.CombatReach);
+                int spellAnimationLockMs = Globals.AnimationLockMs;
+                if (animationLockDict.ContainsKey(interrupt))
+                {
+                    spellAnimationLockMs = animationLockDict[interrupt];
+                }
+
+                //The amount of time before our spell will take effect
+                int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
+                                               + spellAnimationLockMs
+                                               + Casting.SpellCastHistory.FirstOrDefault()?.AnimationLockRemainingMs ?? 0;
+
+                //Default to the reported range if we don't have a more accurate range in our dictionary
+                double interruptRange = interrupt.Range;
+                if (rangeDict.ContainsKey(interrupt))
+                {
+                    interruptRange = rangeDict[interrupt];
+                }
+
+                BattleCharacter interruptTarget = castingEnemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
+                                                                                         && enemy.SpellCastInfo.Interruptible
+                                                                                         && enemy.Distance(Core.Me) <= interruptRange + Core.Me.CombatReach + enemy.CombatReach);
 
                 if (interruptTarget == null)
                 {

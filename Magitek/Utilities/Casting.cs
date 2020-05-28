@@ -228,7 +228,8 @@ namespace Magitek.Utilities
             SpellCastHistory.Insert(0, new SpellCastHistoryItem { Spell = LastSpell,
                                                                   SpellTarget = SpellTarget,
                                                                   TimeCastUtc = LastSpellTimeFinishedUtc,
-                                                                  TimeStartedUtc = LastSpellTimeFinishedUtc.Subtract(TimeSpan.FromMilliseconds(CastingTime.ElapsedMilliseconds)) });
+                                                                  TimeStartedUtc = LastSpellTimeFinishedUtc.Subtract(TimeSpan.FromMilliseconds(CastingTime.ElapsedMilliseconds)),
+                                                                  DelayMs = CastingTime.ElapsedMilliseconds - SpellCastTime.TotalMilliseconds });
 
             if (BaseSettings.Instance.DebugSpellCastHistory)
                 Application.Current.Dispatcher.Invoke(delegate { Debug.Instance.SpellCastHistory = new List<SpellCastHistoryItem>(SpellCastHistory); });
@@ -278,12 +279,13 @@ namespace Magitek.Utilities
         public GameObject SpellTarget { get; set; }
         public DateTime TimeCastUtc { get; set; }
         public DateTime TimeStartedUtc { get; set; }
+        public double DelayMs { get; set; }
 
         public int AnimationLockRemainingMs
         {
             get
             {
-                double timeSinceStartMs = DateTime.UtcNow.Subtract(TimeStartedUtc).TotalMilliseconds;
+                double timeSinceStartMs = DateTime.UtcNow.Subtract(TimeStartedUtc).TotalMilliseconds - DelayMs;
                 return timeSinceStartMs > Globals.AnimationLockMs ? 0 : Globals.AnimationLockMs - (int)timeSinceStartMs;
             }
         }
