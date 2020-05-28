@@ -1,9 +1,6 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
-using Magitek.Models.Account;
 using Magitek.Models.Roles;
 using Magitek.Utilities;
 using System;
@@ -66,71 +63,25 @@ namespace Magitek.Logic.Roles
             return await spell.CastAura(target, aura);
         }
 
-        public static async Task<bool> Interrupt<T>(T settings) where T : TankSettings
+        //If the calling class has stuns or interrupts beyond the default tank abilities (e.g.,
+        //Paladin has Shield Bash in addition to Low Blow and Interject), pass them in the
+        //extraStuns and extraInterrupts parameters
+        public static async Task<bool> Interrupt(TankSettings settings, IEnumerable<SpellData> extraStuns = null, IEnumerable<SpellData> extraInterrupts = null)
         {
-            if (!settings.UseInterrupt)
-                return false;
+            List<SpellData> stuns = new List<SpellData>() { Spells.LowBlow };
+            List<SpellData> interrupts = new List<SpellData>() { Spells.Interject };
 
-            //The amount of time before our interrupt will go off
-            int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
-                                           + Globals.AnimationLockMs
-                                           + Casting.SpellCastHistory.LastOrDefault()?.AnimationLockRemainingMs ?? 0;
-
-            IEnumerable<BattleCharacter> castingEnemies;
-            BattleCharacter stunTarget;
-            BattleCharacter interruptTarget;
-
-            switch (settings.Strategy)
+            if (extraStuns != null)
             {
-                case InterruptStrategy.NeverInterrupt:
-                    return false;
-
-                case InterruptStrategy.InterruptOnlyBosses:
-                    castingEnemies = GameObjectManager.Attackers.Where(r =>    r.IsBoss()
-                                                                            && r.InView()
-                                                                            && r.IsCasting
-                                                                            && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
-                                                                .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
-
-                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
-
-                    if (stunTarget == null)
-                        return false;
-
-                    if (await Spells.LowBlow.Cast(stunTarget))
-                    {
-                        StunTracker.RecordAttemptedStun(stunTarget);
-                        return true;
-                    }
-
-                    interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
-
-                    return await Spells.Interject.Cast(interruptTarget);
-
-                case InterruptStrategy.AlwaysInterrupt:
-                    castingEnemies = Combat.Enemies.Where(r =>    r.InView() 
-                                                               && r.IsCasting
-                                                               && r.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast)
-                                                   .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
-
-                    stunTarget = castingEnemies.FirstOrDefault(r => StunTracker.IsStunnable(r));
-
-                    if (stunTarget == null)
-                        return false;
-
-                    if (await Spells.LowBlow.Cast(stunTarget))
-                    {
-                        StunTracker.RecordAttemptedStun(stunTarget);
-                        return true;
-                    }
-
-                    interruptTarget = castingEnemies.FirstOrDefault(r => r.SpellCastInfo.Interruptible);
-
-                    return await Spells.Interject.Cast(interruptTarget);
-
-                default:
-                    return false;
+                stuns.AddRange(extraStuns);
             }
+
+            if (extraInterrupts != null)
+            {
+                interrupts.AddRange(extraInterrupts);
+            }
+
+            return await InterruptAndStunLogic.DoStunAndInterrupt(stuns, interrupts, settings.Strategy);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using ff14bot;
+﻿using System.Collections.Generic;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Roles;
 using Magitek.Toggles;
@@ -69,43 +69,22 @@ namespace Magitek.Logic.Roles
             return await Spells.Feint.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Interrupt<T>(T settings) where T : PhysicalDpsSettings
+        public static async Task<bool> Interrupt(PhysicalDpsSettings settings)
         {
-            BattleCharacter interruptTarget;
+            List<SpellData> stuns = new List<SpellData>();
+            List<SpellData> interrupts = new List<SpellData>();
 
-            switch (settings.Strategy)
+            if (Core.Me.IsMeleeDps())
             {
-                case InterruptStrategy.NeverInterrupt:
-                    return false;
-
-                case InterruptStrategy.InterruptOnlyBosses:
-                    interruptTarget = GameObjectManager.Attackers.FirstOrDefault(r =>
-                        r.IsBoss() && r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
-
-                    if (interruptTarget == null)
-                        return false;
-
-                    if (Core.Me.IsRangedDps())
-                        return await Spells.HeadGraze.Cast(interruptTarget);
-
-                    return await Spells.LegSweep.Cast(interruptTarget);
-
-
-                case InterruptStrategy.AlwaysInterrupt:
-                    interruptTarget =
-                        Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
-
-                    if (interruptTarget == null)
-                        return false;
-
-                    if (Core.Me.IsRangedDps())
-                        return await Spells.HeadGraze.Cast(interruptTarget);
-
-                    return await Spells.LegSweep.Cast(interruptTarget);
-
-                default:
-                    return false;
+                stuns.Add(Spells.LegSweep);
             }
+
+            if (Core.Me.IsRangedDps())
+            {
+                interrupts.Add(Spells.HeadGraze);
+            }
+
+            return await InterruptAndStunLogic.DoStunAndInterrupt(stuns, interrupts, settings.Strategy);
         }
 
         public static async Task<bool> Peloton<T>(T settings) where T : PhysicalDpsSettings

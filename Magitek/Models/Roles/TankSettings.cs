@@ -43,14 +43,6 @@ namespace Magitek.Models.Roles
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseInterject { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseInterrupt { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseRampart { get; set; }
 
         [Setting]
@@ -66,7 +58,7 @@ namespace Magitek.Models.Roles
         public int ReprisalHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(InterruptStrategy.AlwaysInterrupt)]
+        [DefaultValue(InterruptStrategy.Always)]
         public InterruptStrategy Strategy { get; set; }
     }
 }

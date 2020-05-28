@@ -70,10 +70,6 @@ namespace Magitek.Models.Dragoon
         public bool DragonfireDive { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool Stun { get; set; }
-
-        [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 

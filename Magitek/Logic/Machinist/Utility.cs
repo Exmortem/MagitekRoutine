@@ -24,23 +24,5 @@ namespace Magitek.Logic.Machinist
 
         }
 
-        public static async Task<bool> HeadGraze()
-        {
-
-            if (!MachinistSettings.Instance.UseHeadGraze)
-                return false;
-
-            BattleCharacter interruptTarget = null;
-
-            interruptTarget = MachinistSettings.Instance.OnlyInterruptCurrentTarget ?
-                Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible)
-                : Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
-
-            if (interruptTarget == null)
-                return false;
-
-            return await Spells.HeadGraze.Cast(interruptTarget);
-
-        }
     }
 }

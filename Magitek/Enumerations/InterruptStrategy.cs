@@ -2,8 +2,9 @@
 {
     public enum InterruptStrategy
     {
-        NeverInterrupt,
-        InterruptOnlyBosses,
-        AlwaysInterrupt,
+        Never,
+        BossesOnly,
+        Always,
+        CurrentTargetOnly,
     }
 }
