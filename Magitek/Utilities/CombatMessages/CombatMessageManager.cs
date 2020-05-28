@@ -52,7 +52,7 @@ namespace Magitek.Utilities.CombatMessages
         //See Rotations.RedMage.RegisterCombatMessages() for an example. For details on how the message strategies
         //work, see ICombatMessageStrategy
         //
-        public static void RegisterMessageStrategiesFoClass(ClassJobType currentClass)
+        public static void RegisterMessageStrategiesForClass(ClassJobType currentClass)
         {
             if (mCurrentClass == currentClass)
             {
