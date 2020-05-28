@@ -247,10 +247,22 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (BlackMana > WhiteMana)
-                return false;
+            if (!Core.Me.HasAura(Auras.VerstoneReady))
+            {
+                if (Math.Min(BlackMana + 9, 100) - WhiteMana > 30)
+                {
+                    return false;
+                }
+            }
             else
-                return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+            {
+                if (BlackMana > WhiteMana)
+                {
+                    return false;
+                }
+            }
+
+            return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verstone()
@@ -261,10 +273,22 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (BlackMana < WhiteMana)
-                return false;
+            if (!Core.Me.HasAura(Auras.VerfireReady))
+            {
+                if (Math.Min(WhiteMana + 9, 100) - BlackMana > 30)
+                {
+                    return false;
+                }
+            }
             else
-                return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+            {
+                if (WhiteMana > BlackMana)
+                {
+                    return false;
+                }
+            }
+
+            return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verflare()
@@ -362,7 +386,7 @@ namespace Magitek.Logic.RedMage
 
         public static bool ReadyForCombo(int bm, int wm)
         {
-            return (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
+            return    (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
                    || (Core.Me.ClassLevel < 50 && (bm >= 55 && wm >= 55))
                    || (bm >= 80 && wm >= 80);
         }
