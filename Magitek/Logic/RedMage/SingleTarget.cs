@@ -480,6 +480,8 @@ namespace Magitek.Logic.RedMage
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 
+        private const double RepriseRange = 25.0;
+
         public static async Task<bool> Reprise()
         {
             if (!RedMageSettings.Instance.UseReprise)
@@ -494,7 +496,7 @@ namespace Magitek.Logic.RedMage
             if (ComboInProgress)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Reprise.Range + Core.Me.CurrentTarget.CombatReach + Core.Me.CombatReach)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > RepriseRange + Core.Me.CurrentTarget.CombatReach + Core.Me.CombatReach)
                 return false;
 
             if (!Combat.Enemies.Any(e => e.IsBoss()))
