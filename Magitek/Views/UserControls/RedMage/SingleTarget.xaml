@@ -29,6 +29,12 @@
                 <CheckBox Content="Use Swiftcast on Verthunder/Veraero" IsChecked="{Binding RedMageSettings.SwiftcastVerthunderVeraero, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Reprise during movement in boss fights" IsChecked="{Binding RedMageSettings.UseReprise, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
     </StackPanel>
 </UserControl>
 

@@ -167,6 +167,10 @@ namespace Magitek.Models.RedMage
         public bool SwiftcastVerthunderVeraero { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseReprise { get; set; }
+
+        [Setting]
         [DefaultValue(RedMageOpenerStrategy.AlwaysUseOpener)]
         public RedMageOpenerStrategy RedMageOpenerStrategy { get; set; }
 
