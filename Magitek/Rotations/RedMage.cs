@@ -120,7 +120,8 @@ namespace Magitek.Rotations
             if (await SingleTarget.Veraero()) return true;
             if (await SingleTarget.Verthunder()) return true;
             if (await Buff.Acceleration()) return true;
-            return await SingleTarget.Jolt();
+            if (await SingleTarget.Jolt()) return true;
+            return await SingleTarget.Reprise();
         }
 
         public static async Task<bool> PvP()

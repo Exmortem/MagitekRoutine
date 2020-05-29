@@ -247,10 +247,22 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (BlackMana > WhiteMana)
-                return false;
+            if (!Core.Me.HasAura(Auras.VerstoneReady))
+            {
+                if (Math.Min(BlackMana + 9, 100) - WhiteMana > 30)
+                {
+                    return false;
+                }
+            }
             else
-                return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+            {
+                if (BlackMana > WhiteMana)
+                {
+                    return false;
+                }
+            }
+
+            return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verstone()
@@ -261,10 +273,22 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
-            if (BlackMana < WhiteMana)
-                return false;
+            if (!Core.Me.HasAura(Auras.VerfireReady))
+            {
+                if (Math.Min(WhiteMana + 9, 100) - BlackMana > 30)
+                {
+                    return false;
+                }
+            }
             else
-                return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+            {
+                if (WhiteMana > BlackMana)
+                {
+                    return false;
+                }
+            }
+
+            return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Verflare()
@@ -362,7 +386,7 @@ namespace Magitek.Logic.RedMage
 
         public static bool ReadyForCombo(int bm, int wm)
         {
-            return (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
+            return    (Core.Me.ClassLevel < 35 && (bm >= 30 && wm >= 30))
                    || (Core.Me.ClassLevel < 50 && (bm >= 55 && wm >= 55))
                    || (bm >= 80 && wm >= 80);
         }
@@ -480,26 +504,29 @@ namespace Magitek.Logic.RedMage
             return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
         }
 
-        //TODO: We should probably be using Reprise - The Balance says to use it when moving around, as long as we don't delay our next Manafication
+        private const double RepriseRange = 25.0;
+
         public static async Task<bool> Reprise()
         {
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 26 + Core.Me.CurrentTarget.CombatReach)
+            if (!RedMageSettings.Instance.UseReprise)
                 return false;
 
-            if (Core.Me.ClassLevel > 76)
+            if (BlackMana < 5 || WhiteMana < 5)
                 return false;
 
             if (!MovementManager.IsMoving)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Dualcast) || !Core.Me.HasAura(Auras.Swiftcast))
+            if (ComboInProgress)
                 return false;
 
-            if (BlackMana < 5 || WhiteMana < 5)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > RepriseRange + Core.Me.CurrentTarget.CombatReach + Core.Me.CombatReach)
+                return false;
+
+            if (!Combat.Enemies.Any(e => e.IsBoss()))
                 return false;
 
             return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
         }
     }
 }
-

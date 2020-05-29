@@ -111,7 +111,7 @@ namespace Magitek.Rotations
                 if (await Utility.Troubadour()) return true;
                 if (await PhysicalDps.ArmsLength(BardSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
-                if (await Utility.HeadGraze()) return true;
+                if (await PhysicalDps.Interrupt(BardSettings.Instance)) return true;
 
                 // Damage
                 if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;

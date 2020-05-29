@@ -8,6 +8,7 @@ using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Rotations
 {
@@ -79,8 +80,7 @@ namespace Magitek.Rotations
             if (!Core.Me.HasAura(Auras.PassageOfArms))
             {
                 if (await Buff.Oath()) return true;
-                if (await Tank.Interrupt(PaladinSettings.Instance)) return true;
-                if (await SingleTarget.ShieldBash()) return true;
+                if (await SingleTarget.Interrupt()) return true;
 
                 if (Utilities.Routines.Paladin.OnGcd)
                 {
@@ -108,6 +108,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Atonement()) return true;
 
 
+                //TODO: Paladin rotation gets stuck after RiotBlade at level 59
                 if (ActionManager.LastSpell == Spells.RiotBlade && Core.Me.ClassLevel > 25 && Core.Me.ClassLevel < 60)
                 {
                     return await Spells.RageofHalone.Cast(Core.Me.CurrentTarget);

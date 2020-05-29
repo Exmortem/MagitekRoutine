@@ -23,12 +23,12 @@ namespace Magitek.Logic.Paladin
                     PaladinSettings.Instance.UseDefensives = PaladinSettings.Instance.SwordDefensive;
                     PaladinSettings.Instance.UseClemency = PaladinSettings.Instance.SwordClemency;
                     PaladinSettings.Instance.UseProvoke = PaladinSettings.Instance.SwordProvoke;
-                    PaladinSettings.Instance.UseInterject = PaladinSettings.Instance.SwordInterrupt;
                     PaladinSettings.Instance.ShieldBash = PaladinSettings.Instance.SwordShieldBash;
                     PaladinSettings.Instance.UseCover = PaladinSettings.Instance.SwordCover;
                     PaladinSettings.Instance.ShieldLobToPullExtraEnemies = PaladinSettings.Instance.SwordPullExtra;
                     PaladinSettings.Instance.ShieldLobLostAggro = PaladinSettings.Instance.SwordPullExtra;
                     PaladinSettings.Instance.Requiescat = PaladinSettings.Instance.SwordRequiecast;
+                    PaladinSettings.Instance.Strategy = PaladinSettings.Instance.SwordStrategy;
                 }
 
                 return await Spells.IronWill.Cast(Core.Me);
@@ -42,12 +42,12 @@ namespace Magitek.Logic.Paladin
                     PaladinSettings.Instance.UseDefensives = PaladinSettings.Instance.ShieldDefensive;
                     PaladinSettings.Instance.UseClemency = PaladinSettings.Instance.ShieldClemency;
                     PaladinSettings.Instance.UseProvoke = PaladinSettings.Instance.ShieldProvoke;
-                    PaladinSettings.Instance.UseInterject = PaladinSettings.Instance.ShieldInterrupt;
                     PaladinSettings.Instance.ShieldBash = PaladinSettings.Instance.ShieldShieldBash;
                     PaladinSettings.Instance.UseCover = PaladinSettings.Instance.ShieldCover;
                     PaladinSettings.Instance.ShieldLobToPullExtraEnemies = PaladinSettings.Instance.ShieldPullExtra;
                     PaladinSettings.Instance.ShieldLobLostAggro = PaladinSettings.Instance.ShieldPullExtra;
                     PaladinSettings.Instance.Requiescat = PaladinSettings.Instance.ShieldRequiecast;
+                    PaladinSettings.Instance.Strategy = PaladinSettings.Instance.ShieldStrategy;
                 }
 
                 return await Spells.IronWill.Cast(Core.Me);

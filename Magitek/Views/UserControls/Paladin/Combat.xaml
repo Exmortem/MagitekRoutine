@@ -116,15 +116,13 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Margin="0,3,0,0" Content="Use Stun" IsChecked="{Binding PaladinSettings.UseInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="24,3,0,0" Content="Stun with Shield Bash" IsChecked="{Binding PaladinSettings.ShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Use Interrupt" IsChecked="{Binding PaladinSettings.UseInterject, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Interrupt and Stun Strategy:" />
                     <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding PaladinSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                 </StackPanel>
+                <CheckBox Margin="0,3,0,0" Content="Use Shield Bash" IsChecked="{Binding PaladinSettings.ShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

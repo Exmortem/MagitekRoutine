@@ -108,6 +108,7 @@ namespace Magitek.Rotations
             if (Utilities.Routines.Dancer.OnGcd)
             {
                 //Only cast spells that are instant/off gcd
+                if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await Buff.PreTechnicalDevilment()) return true;
                 if (await Aoe.FanDance3()) return true;
                 if (await Aoe.FanDance2()) return true;

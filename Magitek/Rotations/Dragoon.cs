@@ -162,6 +162,7 @@ namespace Magitek.Rotations
             }
             #endregion
 
+            if (await PhysicalDps.Interrupt(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(DragoonSettings.Instance)) return true;
 

@@ -1,13 +1,25 @@
 ﻿<UserControl x:Class="Magitek.Views.UserControls.Paladin.TankSwap"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
              d:DesignHeight="400"
              d:DesignWidth="500"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:InterruptStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
@@ -21,67 +33,75 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <Image Source="https://ffxiv.gamerescape.com/w/images/thumb/e/ee/Sword_Oath_Icon.png/48px-Sword_Oath_Icon.png" Width="20"></Image>
-            <TextBox Margin="5,0,0,0" Background="{DynamicResource ClassSelectorBackground}" FontWeight="Black" Foreground="White" BorderThickness="0" BorderBrush="Black">Sword Oath</TextBox>
-             </StackPanel>
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,1,0,0" Orientation="Horizontal">
+                    <Image Margin="1,0,5,0" Source="https://ffxiv.gamerescape.com/w/images/thumb/e/ee/Sword_Oath_Icon.png/48px-Sword_Oath_Icon.png" Width="20"></Image>
+                    <TextBox Background="{DynamicResource ClassSelectorBackground}" FontWeight="Black" Foreground="White" BorderThickness="0" BorderBrush="Black">Sword Oath</TextBox>
+                </StackPanel>
+
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Use Defensives" IsChecked="{Binding PaladinSettings.SwordDefensive, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Content="Use Clemency" IsChecked="{Binding PaladinSettings.SwordClemency, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="2" Content="Use Provoke" IsChecked="{Binding PaladinSettings.SwordProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <CheckBox Grid.Row="2" Grid.Column="0" Content="Use Shield Bash" IsChecked="{Binding PaladinSettings.SwordShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Grid.Column="1" Content="Use Cover" IsChecked="{Binding PaladinSettings.SwordCover, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Grid.Column="2" Content="Pull Extra" IsChecked="{Binding PaladinSettings.SwordPullExtra, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <CheckBox Grid.Row="3" Grid.Column="0" Content="ShieldLob Aggro" IsChecked="{Binding PaladinSettings.SwordShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="3" Grid.Column="1" Content="Requiescat" IsChecked="{Binding PaladinSettings.SwordRequiecast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,3,0" VerticalAlignment="Center" Style="{DynamicResource TextBlockDefault}" Text="Interrupt and Stun Strategy:" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding PaladinSettings.SwordStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+            </Grid>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Defensives" IsChecked="{Binding PaladinSettings.SwordDefensive, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,3,0,0" Content="Use Clemency" IsChecked="{Binding PaladinSettings.SwordClemency, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,3,0,0" Content="Use Provoke" IsChecked="{Binding PaladinSettings.SwordProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row ="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,1,0,0" Orientation="Horizontal">
+                    <Image Margin="1,0,5,0" Source="https://ffxiv.gamerescape.com/w/images/thumb/4/43/Shield_Oath_Icon.png/48px-Shield_Oath_Icon.png" Width="20"></Image>
+                    <TextBox Background="{DynamicResource ClassSelectorBackground}" FontWeight="Black" Foreground="White" BorderThickness="0" BorderBrush="Black">Shield Oath</TextBox>
+                </StackPanel>
 
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Interrupt" IsChecked="{Binding PaladinSettings.SwordInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="30,3,0,0" Content="Use Shield Bash" IsChecked="{Binding PaladinSettings.SwordShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="13,3,0,0" Content="Use Cover" IsChecked="{Binding PaladinSettings.SwordCover, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="15,3,0,0" Content="Pull Extra" IsChecked="{Binding PaladinSettings.SwordPullExtra, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Margin="0,3,0,0" Content="ShieldLob Aggro" IsChecked="{Binding PaladinSettings.SwordShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="12,3,0,0" Content="Requiescat" IsChecked="{Binding PaladinSettings.SwordRequiecast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Use Defensives" IsChecked="{Binding PaladinSettings.ShieldDefensive, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Content="Use Clemency" IsChecked="{Binding PaladinSettings.ShieldClemency, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Grid.Column="2" Content="Use Provoke" IsChecked="{Binding PaladinSettings.ShieldProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-        <controls:SettingsBlock Margin="0,30,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <Image Source="https://ffxiv.gamerescape.com/w/images/thumb/4/43/Shield_Oath_Icon.png/48px-Shield_Oath_Icon.png" Width="20"></Image>
-                <TextBox Margin="5,0,0,0" Background="{DynamicResource ClassSelectorBackground}" FontWeight="Black" Foreground="White" BorderThickness="0" BorderBrush="Black">Shield Oath</TextBox>
-            </StackPanel>
-        </controls:SettingsBlock>
+                <CheckBox Grid.Row="2" Grid.Column="0" Content="Use Shield Bash" IsChecked="{Binding PaladinSettings.ShieldShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Grid.Column="1" Content="Use Cover" IsChecked="{Binding PaladinSettings.ShieldCover, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Grid.Column="2" Content="Pull Extra" IsChecked="{Binding PaladinSettings.ShieldPullExtra, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Defensives" IsChecked="{Binding PaladinSettings.ShieldDefensive, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,3,0,0" Content="Use Clemency" IsChecked="{Binding PaladinSettings.ShieldClemency, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,3,0,0" Content="Use Provoke" IsChecked="{Binding PaladinSettings.ShieldProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
+                <CheckBox Grid.Row="3" Grid.Column="0" Content="ShieldLob Aggro" IsChecked="{Binding PaladinSettings.ShieldShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="3" Grid.Column="1" Content="Requiescat" IsChecked="{Binding PaladinSettings.ShieldRequiecast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Interrupt" IsChecked="{Binding PaladinSettings.ShieldInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="30,3,0,0" Content="Use Shield Bash" IsChecked="{Binding PaladinSettings.ShieldShieldBash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="13,3,0,0" Content="Use Cover" IsChecked="{Binding PaladinSettings.ShieldCover, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="15,3,0,0" Content="Pull Extra" IsChecked="{Binding PaladinSettings.ShieldPullExtra, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,3,0" VerticalAlignment="Center" Style="{DynamicResource TextBlockDefault}" Text="Interrupt and Stun Strategy:" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding PaladinSettings.ShieldStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+            </Grid>
         </controls:SettingsBlock>
-        <controls:SettingsBlock Margin="0,0,0,1" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Margin="0,3,0,0" Content="ShieldLob Aggro" IsChecked="{Binding PaladinSettings.ShieldShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="12,3,0,0" Content="Requiescat" IsChecked="{Binding PaladinSettings.ShieldRequiecast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-
 
     </StackPanel>
 

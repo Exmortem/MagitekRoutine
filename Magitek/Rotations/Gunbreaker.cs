@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Gunbreaker;
+using Magitek.Logic.Roles;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace Magitek.Rotations
         {
             return false;
         }
+
         public static async Task<bool> Combat()
         {
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -72,8 +74,8 @@ namespace Magitek.Rotations
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
             }
 
+            if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             if (await SingleTarget.RoughDivide()) return true;
-
 
             if (Utilities.Routines.Gunbreaker.OnGcd)
             {

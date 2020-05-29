@@ -40,20 +40,10 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <CheckBox Grid.Row="0" Content="Use Interrupt " IsChecked="{Binding WarriorSettings.UseInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-                    <StackPanel Margin="0,5,0,0" Grid.Row="1" Orientation="Horizontal">
-                        <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Interrupt Strategy:" />
-                        <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding WarriorSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-                    </StackPanel>
-                </Grid>
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="0,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Interrupt and Stun Strategy:" />
+                <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding WarriorSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
             </StackPanel>
         </controls:SettingsBlock>
 

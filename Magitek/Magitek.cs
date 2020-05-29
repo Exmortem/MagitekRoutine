@@ -69,7 +69,7 @@ namespace Magitek
             });
 
             TogglesManager.LoadTogglesForCurrentJob();
-            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
+            CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
             Logger.WriteInfo("Initialized");
         }
 
@@ -87,7 +87,7 @@ namespace Magitek
             OpenersViewModel.Instance.ApplyOpeners();
             OverlayManager.StartMainOverlay();
             OverlayManager.StartCombatMessageOverlay();
-            CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
+            CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
             HookBehaviors();
         }
 
@@ -121,7 +121,7 @@ namespace Magitek
                 HookBehaviors();
                 DispelManager.Reset();
                 InterruptsAndStunsManager.Reset();
-                CombatMessageManager.RegisterMessageStrategiesFoClass(Core.Me.CurrentJob);
+                CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
                 //TankBusterManager.ResetHealers();
                 //TankBusterManager.ResetTanks();
             }

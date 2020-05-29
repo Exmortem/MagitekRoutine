@@ -241,6 +241,7 @@
     <Compile Include="Logic\Dragoon\Jumps.cs" />
     <Compile Include="Logic\Dragoon\SingleTarget.cs" />
     <Compile Include="Logic\GambitLogic.cs" />
+    <Compile Include="Logic\InterruptLogic.cs" />
     <Compile Include="Logic\Machinist\Utility.cs" />
     <Compile Include="Logic\Machinist\MultiTarget.cs" />
     <Compile Include="Logic\Machinist\Cooldowns.cs" />

@@ -28,25 +28,6 @@ namespace Magitek.Logic.Bard
 
         }
 
-        public static async Task<bool> HeadGraze()
-        {
-
-            if (!BardSettings.Instance.UseHeadGraze)
-                return false;
-
-            BattleCharacter interruptTarget = null;
-
-            interruptTarget = BardSettings.Instance.OnlyInterruptCurrentTarget ?
-                Combat.Enemies.FirstOrDefault(r => r.InView() && r == Core.Me.CurrentTarget && r.IsCasting && r.SpellCastInfo.Interruptible)
-                : Combat.Enemies.FirstOrDefault(r => r.InView() && r.IsCasting && r.SpellCastInfo.Interruptible);
-
-            if (interruptTarget == null)
-                return false;
-
-            return await Spells.HeadGraze.Cast(interruptTarget);
-
-        }
-
         public static async Task<bool> RepellingShot()
         {
             if (!BardSettings.Instance.RepellingShot)
