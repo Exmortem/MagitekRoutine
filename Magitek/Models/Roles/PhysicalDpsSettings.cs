@@ -24,7 +24,7 @@ namespace Magitek.Models.Roles
         public float SecondWindHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(InterruptStrategy.Always)]
+        [DefaultValue(InterruptStrategy.AnyEnemy)]
         public InterruptStrategy Strategy { get; set; }
 
         [Setting]

@@ -58,7 +58,7 @@ namespace Magitek.Models.Roles
         public int ReprisalHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(InterruptStrategy.Always)]
+        [DefaultValue(InterruptStrategy.AnyEnemy)]
         public InterruptStrategy Strategy { get; set; }
     }
 }

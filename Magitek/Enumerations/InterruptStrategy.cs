@@ -4,7 +4,7 @@
     {
         Never,
         BossesOnly,
-        Always,
+        AnyEnemy,
         CurrentTargetOnly,
     }
 }

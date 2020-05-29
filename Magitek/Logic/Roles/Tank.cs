@@ -81,7 +81,7 @@ namespace Magitek.Logic.Roles
                 interrupts.AddRange(extraInterrupts);
             }
 
-            return await InterruptAndStunLogic.DoStunAndInterrupt(stuns, interrupts, settings.Strategy);
+            return await InterruptAndStunLogic.StunOrInterrupt(stuns, interrupts, settings.Strategy);
         }
     }
 }

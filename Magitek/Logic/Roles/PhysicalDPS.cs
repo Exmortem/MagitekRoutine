@@ -84,7 +84,7 @@ namespace Magitek.Logic.Roles
                 interrupts.Add(Spells.HeadGraze);
             }
 
-            return await InterruptAndStunLogic.DoStunAndInterrupt(stuns, interrupts, settings.Strategy);
+            return await InterruptAndStunLogic.StunOrInterrupt(stuns, interrupts, settings.Strategy);
         }
 
         public static async Task<bool> Peloton<T>(T settings) where T : PhysicalDpsSettings

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
@@ -32,7 +33,10 @@ namespace Magitek.Logic
             { Spells.HeadGraze,  700 }  //Just a guess
         };
 
-        public static async Task<bool> DoStunAndInterrupt(IEnumerable<SpellData> stuns, IEnumerable<SpellData> interrupts, InterruptStrategy strategy)
+        //Try to stun or interrupt an enemy per the given strategy
+        //Potential targets are sorted by the amount of time left before their spell goes off. The one with the smallest amount of time left
+        //that's still enough for the stun or interrupt to go off is chosen.
+        public static async Task<bool> StunOrInterrupt(IEnumerable<SpellData> stuns, IEnumerable<SpellData> interrupts, InterruptStrategy strategy)
         {
             IEnumerable<BattleCharacter> castingEnemies;
 
@@ -56,78 +60,67 @@ namespace Magitek.Logic
                                                .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
             }
 
-            foreach (SpellData stun in stuns)
+            if (await DoStuns(castingEnemies, stuns)) return true;
+            return await DoInterrupts(castingEnemies, interrupts);
+        }
+
+        //Try to stun an enemy and record the results
+        private static async Task<bool> DoStuns(IEnumerable<BattleCharacter> enemies, IEnumerable<SpellData> stuns)
+        {
+            BattleCharacter target = await SelectTargetAndCastSpell(enemies, stuns, (enemy) => StunTracker.IsStunnable(enemy));
+            if (target != null)
             {
-                int spellAnimationLockMs = Globals.AnimationLockMs;
-                if (animationLockDict.ContainsKey(stun))
-                {
-                    spellAnimationLockMs = animationLockDict[stun];
-                }
-
-                //The amount of time before our spell will take effect
-                int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
-                                               + spellAnimationLockMs
-                                               + Casting.SpellCastHistory.FirstOrDefault()?.AnimationLockRemainingMs ?? 0;
-
-                //Default to the reported range if we don't have a more accurate range in our dictionary
-                double stunRange = stun.Range;
-                if (rangeDict.ContainsKey(stun))
-                {
-                    stunRange = rangeDict[stun];
-                }
-
-                BattleCharacter stunTarget = castingEnemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
-                                                                                    && StunTracker.IsStunnable(enemy)
-                                                                                    && enemy.Distance(Core.Me) <= stunRange + Core.Me.CombatReach + enemy.CombatReach);
-
-                if (stunTarget == null)
-                {
-                    continue;
-                }
-
-                if (await stun.Cast(stunTarget))
-                {
-                    StunTracker.RecordAttemptedStun(stunTarget);
-                    return true;
-                }
+                StunTracker.RecordAttemptedStun(target);
+                return true;
             }
-
-            foreach (SpellData interrupt in interrupts)
-            {
-                int spellAnimationLockMs = Globals.AnimationLockMs;
-                if (animationLockDict.ContainsKey(interrupt))
-                {
-                    spellAnimationLockMs = animationLockDict[interrupt];
-                }
-
-                //The amount of time before our spell will take effect
-                int minimumMsLeftOnEnemyCast =   BaseSettings.Instance.UserLatencyOffset
-                                               + spellAnimationLockMs
-                                               + Casting.SpellCastHistory.FirstOrDefault()?.AnimationLockRemainingMs ?? 0;
-
-                //Default to the reported range if we don't have a more accurate range in our dictionary
-                double interruptRange = interrupt.Range;
-                if (rangeDict.ContainsKey(interrupt))
-                {
-                    interruptRange = rangeDict[interrupt];
-                }
-
-                BattleCharacter interruptTarget = castingEnemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
-                                                                                         && enemy.SpellCastInfo.Interruptible
-                                                                                         && enemy.Distance(Core.Me) <= interruptRange + Core.Me.CombatReach + enemy.CombatReach);
-
-                if (interruptTarget == null)
-                {
-                    continue;
-                }
-
-                if (await interrupt.Cast(interruptTarget))
-                {
-                    return true;
-                }
-            }
-
             return false;
+        }
+
+        //Try to interrupt an enemy
+        private static async Task<bool> DoInterrupts(IEnumerable<BattleCharacter> enemies, IEnumerable<SpellData> interrupts)
+        {
+            return await SelectTargetAndCastSpell(enemies, interrupts, (enemy) => enemy.SpellCastInfo.Interruptible) != null ? true : false;
+        }
+
+
+        private static async Task<BattleCharacter> SelectTargetAndCastSpell(IEnumerable<BattleCharacter> enemies, IEnumerable<SpellData> spells, Func<BattleCharacter, bool> validateEnemy)
+        {
+            foreach (SpellData spell in spells)
+            {
+                int spellAnimationLockMs = Globals.AnimationLockMs;
+                if (animationLockDict.ContainsKey(spell))
+                {
+                    spellAnimationLockMs = animationLockDict[spell];
+                }
+
+                //The amount of time before our spell will take effect
+                int minimumMsLeftOnEnemyCast = BaseSettings.Instance.UserLatencyOffset
+                                               + spellAnimationLockMs
+                                               + Casting.SpellCastHistory.FirstOrDefault()?.AnimationLockRemainingMs ?? 0;
+
+                //Default to the reported range if we don't have a more accurate range in our dictionary
+                double interruptRange = spell.Range;
+                if (rangeDict.ContainsKey(spell))
+                {
+                    interruptRange = rangeDict[spell];
+                }
+
+                BattleCharacter target = enemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
+                                                                         && validateEnemy(enemy)
+                                                                         && enemy.Distance(Core.Me) <= interruptRange + Core.Me.CombatReach + enemy.CombatReach);
+
+                if (target == null)
+                {
+                    continue;
+                }
+
+                if (await spell.Cast(target))
+                {
+                    return target;
+                }
+            }
+
+            return null;
         }
     }
 }
