@@ -87,11 +87,10 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-
-            if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
-
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
+
+            if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
 
             //if (Core.Me.HasAura(Auras.TenChiJin))
             //{

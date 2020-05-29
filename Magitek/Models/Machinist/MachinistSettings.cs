@@ -134,14 +134,6 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool ForceTactician { get; internal set; }
 
-        [Setting]
-        [DefaultValue(false)]
-        public bool UseHeadGraze { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool OnlyInterruptCurrentTarget { get; set; }
-
         #endregion
 
 

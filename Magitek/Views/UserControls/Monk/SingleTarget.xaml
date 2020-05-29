@@ -4,10 +4,22 @@
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="400"
              d:DesignWidth="500"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:InterruptStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
@@ -142,6 +154,13 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Shoulder Tackle" IsChecked="{Binding MonkSettings.UseShoulderTackle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="0,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Stun Strategy:" />
+                <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding MonkSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
             </StackPanel>
         </controls:SettingsBlock>
     </StackPanel>

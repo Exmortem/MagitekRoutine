@@ -160,9 +160,11 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Manafication.Cast(Core.Me);
         }
 
+        public const double MoulinetRange = 8.0;
+
         private static bool InMoulinetRange(GameObject target)
         {
-            return target != null && target.InView() && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + Spells.Moulinet.Range;
+            return target != null && target.InView() && target.Distance(Core.Me) <= target.CombatReach + Core.Me.CombatReach + MoulinetRange;
         }
 
         public static async Task<bool> Moulinet()

@@ -1,13 +1,13 @@
-using ff14bot.Helpers;
 using Magitek.Enumerations;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
+using Magitek.Models.Roles;
 
 namespace Magitek.Models.Samurai
 {
     [AddINotifyPropertyChangedInterface]
-    public class SamuraiSettings : JsonSettings, IRoutineSettings
+    public class SamuraiSettings : PhysicalDpsSettings, IRoutineSettings
     {
         public SamuraiSettings() : base(CharacterSettingsDirectory + "/Magitek/Samurai/SamuraiSettings.json") { }
 

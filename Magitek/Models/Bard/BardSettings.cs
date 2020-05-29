@@ -261,14 +261,6 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(false)]
-        public bool UseHeadGraze { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool OnlyInterruptCurrentTarget { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
         public bool RepellingShot { get; set; }
 
         [Setting]

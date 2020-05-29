@@ -104,6 +104,7 @@ namespace Magitek.Rotations
             {
                 if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
                 {
+                    if (await PhysicalDps.Interrupt(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Feint(MonkSettings.Instance)) return true;
