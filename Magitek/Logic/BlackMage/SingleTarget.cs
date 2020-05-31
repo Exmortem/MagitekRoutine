@@ -24,15 +24,6 @@ namespace Magitek.Logic.BlackMage
                 && ActionResourceManager.BlackMage.UmbralStacks == 3)
                 return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
-            if (Casting.LastSpell == Spells.Despair
-                && Spells.Triplecast.Cooldown != TimeSpan.Zero)
-                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
-
-            if (Casting.LastSpell == Spells.Fire4
-                && Spells.Triplecast.Cooldown == TimeSpan.Zero
-                && Spells.ManaFont.Cooldown == TimeSpan.Zero)
-                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
-
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
@@ -47,7 +38,7 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder3)
             {
                 //We don't have max mana
-                if (Core.Me.CurrentMana < 10000)
+                if (Core.Me.CurrentMana < 10000 && Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 5000))   
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
             return false;
@@ -185,7 +176,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
-            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 3500))
+            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 4000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             // Refresh thunder if it's about to run out
