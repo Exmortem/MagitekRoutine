@@ -641,10 +641,7 @@ namespace Magitek.Logic.Astrologian
                         }
                     break;
             }
-
             return false;
-
         }
-
     }
 }
