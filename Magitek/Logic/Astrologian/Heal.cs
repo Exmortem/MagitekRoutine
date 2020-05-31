@@ -193,6 +193,12 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CelestialOpposition)
                 return false;
 
+            if (Spells.CelestialOpposition.Cooldown != TimeSpan.Zero)
+                return false;
+
+            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
+            //    return false;
+
             if (Casting.LastSpell == Spells.Helios)
                 return false;
 
@@ -635,10 +641,7 @@ namespace Magitek.Logic.Astrologian
                         }
                     break;
             }
-
             return false;
-
         }
-
     }
 }
