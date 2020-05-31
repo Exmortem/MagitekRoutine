@@ -15,25 +15,10 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
-            if (Spells.Triplecast.Cooldown != TimeSpan.Zero)
+            if (Spells.Triplecast.Cooldown.Milliseconds > 0)
                 return false;
 
-            if (Core.Me.CombatTimeLeft() < 30)
-                return false;
-
-            if (MovementManager.IsMoving
-                && Core.Me.InCombat)
-            {
-                if (Spells.Swiftcast.Cooldown == TimeSpan.Zero)
-                    return await Spells.Swiftcast.Cast(Core.Me);
-
-                return await Spells.Triplecast.Cast(Core.Me);
-            }
-
-            
-
-            if (Casting.LastSpell == Spells.Xenoglossy
-                && Spells.Triplecast.Cooldown == TimeSpan.Zero)
+            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
@@ -66,13 +51,8 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Sharpcast()
         {
-            if (!BlackMageSettings.Instance.Sharpcast
-                && Spells.Sharpcast.Cooldown != TimeSpan.Zero)
+            if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
-
-            if (Core.Me.CombatTimeLeft() < 30)
-                return false;
-
             // If we used something that opens the GCD
 
             if (Casting.LastSpell == Spells.Fire3
@@ -87,12 +67,6 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> LeyLines()
         {
             if (!BlackMageSettings.Instance.LeyLines)
-                return false;
-
-            if (Spells.LeyLines.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Core.Me.CombatTimeLeft() < 30)
                 return false;
 
             if (BlackMageSettings.Instance.LeyLinesBossOnly
@@ -110,7 +84,8 @@ namespace Magitek.Logic.BlackMage
 
             // Do not Ley Lines if we don't have any umbral hearts (roundabout check to see if we're at the begining of astral)
             if (Casting.LastSpell == Spells.Fire3
-                && ActionResourceManager.BlackMage.UmbralHearts == 3)
+                && ActionResourceManager.BlackMage.UmbralHearts == 3 
+                || Core.Me.HasAura(Auras.Triplecast))
                 // Fire 3 is always used at the start of Astral
                 return await Spells.LeyLines.Cast(Core.Me);
             // If we used something that opens the GCD
@@ -135,24 +110,6 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> ManaFont()
         {
-            if (Spells.ManaFont.Cooldown != TimeSpan.Zero)
-                return false;
-
-            //If we have mana, don't cast
-            if (Core.Me.CurrentMana != 0)
-                return false;
-
-            if (Core.Me.CombatTimeLeft() < 30)
-                return false;
-
-            if (Casting.LastSpell == Spells.Despair
-                && Spells.Triplecast.Cooldown != TimeSpan.Zero)
-                return await Spells.ManaFont.Cast(Core.Me);
-
-            if (Casting.LastSpell == Spells.Xenoglossy
-                && Spells.Triplecast.Cooldown != TimeSpan.Zero)
-                return await Spells.ManaFont.Cast(Core.Me);
-
             if (Casting.LastSpell == Spells.Fire3
                 && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
                 return await Spells.ManaFont.Cast(Core.Me);
