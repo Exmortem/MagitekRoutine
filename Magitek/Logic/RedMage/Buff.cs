@@ -30,6 +30,7 @@ namespace Magitek.Logic.RedMage
 				return await Spells.Acceleration.Cast(Core.Me);
         }
 
+        //TODO: Should this be weaved?
         public static async Task<bool> Embolden()
         {
             if (!RedMageSettings.Instance.Embolden)
@@ -38,10 +39,11 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 58)
                 return false;
 
-            //Wait until after Zwerchhau so it's still at max power for Scorch
-            if (ActionManager.LastSpell != Spells.Zwerchhau)
+            //Save it for boss fights or the AoE combo if user has selected the bosses-only option
+            //Note: Using this for the AoE combo is handled by Aoe.Embolden()
+            if (RedMageSettings.Instance.MeleeComboBossesOnly && !Combat.Enemies.Any(e => e.IsBoss()))
                 return false;
-			
+
 			else
 				return await Spells.Embolden.Cast(Core.Me);
         }

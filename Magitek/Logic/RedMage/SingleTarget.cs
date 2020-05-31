@@ -372,9 +372,6 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Engagement)
                 return false;
 
-            if (BlackMana > 24 && WhiteMana > 24)
-                return false;
-
             else
                 return await Spells.Engagement.Cast(Core.Me.CurrentTarget);
         }
