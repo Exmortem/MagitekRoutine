@@ -213,9 +213,6 @@ namespace Magitek.Logic.Astrologian
             //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
             //    return false;
 
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (Casting.LastSpell == Spells.Helios)
                 return false;
 
