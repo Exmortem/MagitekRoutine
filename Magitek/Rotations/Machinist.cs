@@ -98,7 +98,7 @@ namespace Magitek.Rotations
             if (await Utility.Tactician()) return true;
             if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
-            if (await Utility.HeadGraze()) return true;
+            if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
             if (Weaving.GetCurrentWeavingCounter() < 2)
             {

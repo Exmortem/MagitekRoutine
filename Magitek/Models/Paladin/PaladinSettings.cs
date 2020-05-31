@@ -242,10 +242,6 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(false)]
-        public bool SwordInterrupt { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
         public bool SwordShieldBash { get; set; }
 
         [Setting]
@@ -265,6 +261,10 @@ namespace Magitek.Models.Paladin
         public bool SwordRequiecast { get; set; }
 
         [Setting]
+        [DefaultValue(InterruptStrategy.Never)]
+        public InterruptStrategy SwordStrategy { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool ShieldDefensive { get; set; }
 
@@ -275,10 +275,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(false)]
         public bool ShieldProvoke { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldInterrupt { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -299,6 +295,10 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(false)]
         public bool ShieldRequiecast { get; set; }
+
+        [Setting]
+        [DefaultValue(InterruptStrategy.Never)]
+        public InterruptStrategy ShieldStrategy { get; set; }
 
         #endregion
 

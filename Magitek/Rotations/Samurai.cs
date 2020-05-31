@@ -2,7 +2,9 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
+using Magitek.Logic.Roles;
 using Magitek.Logic.Samurai;
+using Magitek.Models.Samurai;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,6 +90,7 @@ namespace Magitek.Rotations
             if (Utilities.Routines.Samurai.OnGcd)
             {
                 //Only cast spells that are instant/off gcd
+                if (await PhysicalDps.Interrupt(SamuraiSettings.Instance)) return true;
                 if (await SingleTarget.MidareSetsugekka()) return true;
                 if (await Aoe.TenkaGoken()) return true;
                 if (await SingleTarget.Higanbana()) return true;
