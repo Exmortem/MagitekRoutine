@@ -21,9 +21,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Benefic)
                 return false;
 
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
-
             if (Globals.InParty)
             {
                 foreach (var ally in Group.CastableAlliesWithin30)
@@ -90,9 +87,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Benefic2)
                 return false;
 
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
-
             var shouldBenefic2WithEnhancedBenefic2 = AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2 &&
                 Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost;
 
@@ -139,12 +133,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CelestialIntersection)
                 return false;
 
-            if (Spells.CelestialIntersection.Cooldown != TimeSpan.Zero)
-                return false;
-
             if (!Globals.PartyInCombat)
                 return false;
-
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name) && r.CurrentHealth > 0 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
@@ -166,10 +156,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> EssentialDignity()
         {
             if (!AstrologianSettings.Instance.EssentialDignity)
-                return false;
-
-            if (Spells.EssentialDignity.Cooldown != TimeSpan.Zero
-                && Spells.EssentialDignity.Charges == 0)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -237,9 +223,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
 
-            if (Spells.Horoscope.Cooldown != TimeSpan.Zero)
-                return false;
-
             if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
@@ -253,9 +236,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> HoroscopePop()
         {
             if (AstrologianSettings.Instance.Horoscope)
-                return false;
-
-            if (Spells.Horoscope.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!Core.Me.HasAura(Auras.HoroscopeHelios))
@@ -274,9 +254,6 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.Helios)
                 return false;
 
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
-
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.HeliosMinManaPercent) return false;
 
             var heliosCount = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Helios.Radius && r.CurrentHealthPercent <= AstrologianSettings.Instance.HeliosHealthPercent);
@@ -289,9 +266,6 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> AspectedHelios()
         {
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
-
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (Core.Me.Sect())
             {
@@ -305,9 +279,6 @@ namespace Magitek.Logic.Astrologian
         {
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
-
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
 
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
@@ -332,9 +303,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.NocturnalHelios)
                 return false;
 
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
-
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
 
@@ -355,9 +323,6 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> AspectedBenefic()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (Core.Me.Sect())
             {
@@ -369,9 +334,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> NocturnalBenefic()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.NocturnalBenefic)
                 return false;
 
@@ -409,9 +371,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> NocturnalBeneficTanks()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.NocturnalBeneficOnTanks)
                 return false;
 
@@ -427,9 +386,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> NocturnalBeneficHealers()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.NocturnalBeneficOnHealers)
                 return false;
 
@@ -445,9 +401,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> NocturnalBeneficDps()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.NocturnalBeneficOnDps)
                 return false;
 
@@ -463,9 +416,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> DiurnalBenefic()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.DiurnalBenefic)
                 return false;
 
@@ -503,9 +453,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> DiurnalBeneficTanks()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.DiurnalBeneficOnTanks)
                 return false;
 
@@ -521,9 +468,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> DiurnalBeneficHealers()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.DiurnalBeneficOnHealers)
                 return false;
 
@@ -539,9 +483,6 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> DiurnalBeneficDps()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
             if (!AstrologianSettings.Instance.DiurnalBeneficOnDps)
                 return false;
 
@@ -559,9 +500,6 @@ namespace Magitek.Logic.Astrologian
         {
             if (!AstrologianSettings.Instance.Ascend)
                 return false;
-
-            //if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-            //    return false;
 
             if (!Globals.InParty)
                 return false;
@@ -636,15 +574,6 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> CollectiveUnconscious()
         {
-            if (Core.Me.HasAura(Auras.Lightspeed))
-                return false;
-
-            if (Spells.CollectiveUnconscious.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.SleeveDraw) > 0)
-                return false;
-
             if (!AstrologianSettings.Instance.CollectiveUnconscious)
                 return false;
 
@@ -660,10 +589,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> EarthlyStar()
         {
             if (!ActionManager.HasSpell(Spells.EarthlyStar.Id)) return false;
-
-            if (Spells.EarthlyStar.Cooldown != TimeSpan.Zero
-                && Spells.StellarDetonation.Cooldown != TimeSpan.Zero)
-                return false;
 
             if (!Core.Me.InCombat) return false;
 

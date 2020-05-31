@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
@@ -5,9 +6,12 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.RedMage;
+using Magitek.Models;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using Magitek.Utilities.CombatMessages;
 using RedMageRoutines = Magitek.Utilities.Routines.RedMage;
+using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Rotations
 {
@@ -78,10 +82,6 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (SpellQueueLogic.SpellQueue.Any()) if (await SpellQueueLogic.SpellQueueMethod()) return true;
-
-            if (await Buff.Embolden()) return true;
-            if (await Buff.Manafication()) return true;
             if (await Buff.LucidDreaming()) return true;
 
             if (RedMageRoutines.CanWeave)
@@ -92,11 +92,16 @@ namespace Magitek.Rotations
 
             if (RedMageSettings.Instance.UseAoe)
             {
+                if (await Aoe.Embolden()) return true;
+                if (await Aoe.Manafication()) return true;
                 if (await Aoe.Moulinet()) return true;
                 if (await Aoe.Scatter()) return true;
                 if (await Aoe.Veraero2()) return true;
                 if (await Aoe.Verthunder2()) return true;
             }
+
+            if (await Buff.Embolden()) return true;
+            if (await Buff.Manafication()) return true;
 
             if (await SingleTarget.CorpsACorps()) return true;
 
@@ -121,6 +126,42 @@ namespace Magitek.Rotations
         public static async Task<bool> PvP()
         {
             return false;
+        }
+
+        public static void RegisterCombatMessages()
+        {
+            Func<bool> bossPresenceOk = () => !RedMageSettings.Instance.MeleeComboBossesOnly || Utilities.Combat.Enemies.Any(e => e.IsBoss());
+
+            //Highest priority: Don't show anything if we're not in combat
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(100,
+                                          "",
+                                          () => !Core.Me.InCombat));
+
+            //Second priority: Melee combo is ready
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "Combo Ready!",
+                                          () =>    SingleTarget.ReadyForCombo()
+                                                && bossPresenceOk()));
+
+            //Third priority (tie): Melee combo will be ready soon
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Combo Soon",
+                                          () =>    SingleTarget.ReadyForCombo(BlackMana + 9, WhiteMana + 9)
+                                                && !SingleTarget.ComboInProgress
+                                                && bossPresenceOk()));
+
+            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Combo Soon",
+                                          () =>    SingleTarget.ReadyForManaficationComboSoon
+                                                && !SingleTarget.ComboInProgress
+                                                && bossPresenceOk()
+                                                && RedMageSettings.Instance.Manafication
+                                                && Spells.Manafication.Cooldown.TotalMilliseconds <= 5000));
         }
     }
 }

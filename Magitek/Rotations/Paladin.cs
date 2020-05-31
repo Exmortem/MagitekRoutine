@@ -43,24 +43,25 @@ namespace Magitek.Rotations
 
             return await Combat();
         }
+
         public static async Task<bool> Heal()
         {
             if (Core.Me.IsMounted)
                 return true;
 
-
-
             if (await GambitLogic.Gambit()) return true;
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
-
             return await Logic.Paladin.Heal.Clemency();
         }
+
         public static async Task<bool> CombatBuff()
         {
             return false;
         }
+
+        //TODO: We should be using Reprisal in here somewhere
         public static async Task<bool> Combat()
         {
             //if (await Defensive.TankBusters()) return true;
@@ -78,6 +79,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasAura(Auras.PassageOfArms))
             {
                 if (await Buff.Oath()) return true;
+                if (await Tank.Interrupt(PaladinSettings.Instance)) return true;
+                if (await SingleTarget.ShieldBash()) return true;
 
                 if (Utilities.Routines.Paladin.OnGcd)
                 {
@@ -88,7 +91,6 @@ namespace Magitek.Rotations
                     if (await Buff.DivineVeil()) return true;
                     if (await SingleTarget.Requiescat()) return true;
                     if (await Buff.FightOrFlight()) return true;
-                    if (await SingleTarget.Interject()) return true;
                     if (!Utilities.Routines.Paladin.OGCDHold)
                     {
                         if (await SingleTarget.SpiritsWithin()) return true;
@@ -98,7 +100,6 @@ namespace Magitek.Rotations
                     if (await Buff.Sheltron()) return true;
                 }
 
-                if (await SingleTarget.ShieldBash()) return true;
                 if (await SingleTarget.ShieldLobLostAggro()) return true;
                 if (await Aoe.Confiteor()) return true;
                 if (await Aoe.HolyCircle()) return true;
