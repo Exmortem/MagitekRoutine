@@ -360,6 +360,9 @@ namespace Magitek.Logic.RedMage
             if (!ComboInProgress)
                 return false;
 
+            if (!RedMageRoutines.CanWeave)
+                return false;
+
             else
                 return await Spells.Displacement.Cast(Core.Me.CurrentTarget);
         }
@@ -370,6 +373,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (!RedMageSettings.Instance.Engagement)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             else

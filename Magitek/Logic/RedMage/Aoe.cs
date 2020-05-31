@@ -85,8 +85,6 @@ namespace Magitek.Logic.RedMage
         private static int EnemiesInMoulinetArcWithEnoughHealth => Combat.Enemies.Count(r =>    WouldBeHitByMoulinet(r)
                                                                                              && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent);
 
-        //TODO: Should we be trying to weave this?
-        //TODO: Should we only use this if the pack has a certain amount of health left?
         public static async Task<bool> Embolden()
         {
             if (!RedMageSettings.Instance.UseMelee)
@@ -96,6 +94,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Embolden.LevelAcquired)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             //We only use this in conjunction with Moulinet
@@ -130,7 +131,6 @@ namespace Magitek.Logic.RedMage
             return false;
         }
 
-        //TODO: Should we be trying to weave this?
         //TODO: Should we only use this if the pack has a certain amount of health left?
         public static async Task<bool> Manafication()
         {
@@ -141,6 +141,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Manafication.LevelAcquired)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             //We only use this in conjunction with Moulinet

@@ -30,13 +30,15 @@ namespace Magitek.Logic.RedMage
 				return await Spells.Acceleration.Cast(Core.Me);
         }
 
-        //TODO: Should this be weaved?
         public static async Task<bool> Embolden()
         {
             if (!RedMageSettings.Instance.Embolden)
                 return false;
 
             if (Core.Me.ClassLevel < 58)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             //Save it for boss fights or the AoE combo if user has selected the bosses-only option
@@ -56,6 +58,9 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.InCombat)
                 return false;
 
+            if (!RedMageRoutines.CanWeave)
+                return false;
+
             if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
 			
@@ -66,6 +71,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Manafication()
         {
             if (!RedMageSettings.Instance.Manafication)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             //Don't start the combo until we've used up Dualcast
