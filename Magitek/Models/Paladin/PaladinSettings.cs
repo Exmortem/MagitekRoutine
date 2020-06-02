@@ -176,11 +176,11 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
-        public bool InterventionOnNearbyPartyMemberOnlyRampartOrSentinel { get; set; }
+        public bool InterventionPartyAlwaysWOCD { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool InterventionOnNearbyPartyMemberAlwaysWithRampartOrSentinel { get; set; }
+        public bool InterventionPartyAlwaysWithCD { get; set; }
 
         [Setting]
         [DefaultValue(true)]

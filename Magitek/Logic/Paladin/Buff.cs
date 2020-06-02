@@ -232,7 +232,7 @@ namespace Magitek.Logic.Paladin
             if (Spells.Intervention.Cooldown > TimeSpan.Zero)
                 return false;
 
-            if (PaladinSettings.Instance.InterventionOnNearbyPartyMemberAlwaysWithRampartOrSentinel)
+            if (PaladinSettings.Instance.InterventionPartyAlwaysWithCD)
             {
                 if (Core.Me.HasAura(Auras.Sentinel) || Core.Me.HasAura(Auras.Rampart))
                 {
@@ -246,7 +246,7 @@ namespace Magitek.Logic.Paladin
 
             }
 
-            if (PaladinSettings.Instance.InterventionOnNearbyPartyMemberOnlyRampartOrSentinel)
+            if (PaladinSettings.Instance.InterventionPartyAlwaysWOCD)
             {
                 if (!Core.Me.HasAura(Auras.Sentinel) && !Core.Me.HasAura(Auras.Rampart))
                     return false;
