@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Debug = Magitek.ViewModels.Debug;
+using BlmRotation = Magitek.Rotations.BlackMage;
 
 namespace Magitek.Utilities
 {
@@ -217,7 +218,7 @@ namespace Magitek.Utilities
             {
                 Debug.Instance.CastingTime = CastingTime.ElapsedMilliseconds.ToString();
             }
-
+            BlmRotation.smTransition();
             // Within 500 milliseconds we're gonna assume the spell went off
             LastSpell = CastingSpell;
             Debug.Instance.LastSpell = LastSpell;

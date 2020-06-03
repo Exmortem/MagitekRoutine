@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
+using ff14bot;
 
 namespace Magitek.Utilities.Routines.StateMachine
 {
@@ -7,6 +9,13 @@ namespace Magitek.Utilities.Routines.StateMachine
     {
         private Dictionary<T, State<T>> mStateDict;
         private T mCurrentState;
+        private T mNextState;
+
+        public void Transition()
+        {
+            Logger.WriteInfo($"STATE TRANSITION: {mCurrentState} -> {mNextState}");
+            mCurrentState = mNextState;
+        }
 
         public async Task<bool> Pulse()
         {
@@ -15,9 +24,8 @@ namespace Magitek.Utilities.Routines.StateMachine
             {
                 if (await st.TryDoAction())
                 {
-                    Logger.WriteInfo($"STATE TRANSITION: {mCurrentState} -> {st.NextState}");
-                    mCurrentState = st.NextState;
-                    return true;
+                    mNextState = st.NextState;
+                    return true; 
                 }
             }
 
