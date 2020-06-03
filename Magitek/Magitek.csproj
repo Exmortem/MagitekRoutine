@@ -225,6 +225,8 @@
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\State.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateMachine.cs" />
     <Compile Include="Logic\CustomOpenerLogic.cs" />
     <Compile Include="Logic\Dancer\Dances.cs" />
     <Compile Include="Logic\Gunbreaker\Aoe.cs" />
@@ -422,6 +424,7 @@
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
     <Compile Include="Utilities\Routines\BlueMage.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateTransition.cs" />
     <Compile Include="Utilities\StunTracker.cs" />
     <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />

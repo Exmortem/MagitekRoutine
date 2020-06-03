@@ -69,6 +69,9 @@ namespace Magitek.Logic.BlackMage
                 }
                 if (Core.Me.ClassLevel >= 68)
                 {
+                    if (ActionResourceManager.BlackMage.AstralStacks < 3)
+                        return false;
+
                     if (Casting.LastSpell == Spells.Fire3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
