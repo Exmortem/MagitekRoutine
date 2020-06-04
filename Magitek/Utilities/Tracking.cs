@@ -4,6 +4,7 @@ using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Debugging;
+using Magitek.Rotations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -169,6 +170,8 @@ namespace Magitek.Utilities
             Debug.Instance.Enemies = new ObservableCollection<EnemyInfo>(EnemyInfos);
 
             StunTracker.Update(Combat.Enemies);
+            if (!Core.Me.InCombat)
+                BlackMage.ResetStateMachine();
         }
 
         private static void UpdateCurrentPosition()

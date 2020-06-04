@@ -11,6 +11,8 @@ namespace Magitek.Utilities.Routines.StateMachine
 
         public void SetState(T state)
         {
+            if (state.ToString() != mCurrentState.ToString())
+                Logger.WriteInfo("Resetting State Machine");
             mCurrentState = state;
             mNextState = state;
         }
