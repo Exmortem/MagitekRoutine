@@ -9,6 +9,12 @@ namespace Magitek.Utilities.Routines.StateMachine
         private T mCurrentState;
         private T mNextState;
 
+        public void SetState(T state)
+        {
+            mCurrentState = state;
+            mNextState = state;
+        }
+        
         public async Task<bool> Pulse()
         {
             if (Casting.LastSpellSucceeded)
