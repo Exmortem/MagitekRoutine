@@ -13,6 +13,10 @@ namespace Magitek.Utilities.Routines.StateMachine
         {
             if (Casting.LastSpellSucceeded)
             {
+                if (mNextState.ToString() != mCurrentState.ToString())
+                {
+                    Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
+                }
                 mCurrentState = mNextState;
             }
 
@@ -24,6 +28,10 @@ namespace Magitek.Utilities.Routines.StateMachine
                     mNextState = st.NextState;
                     if (st.ImmediateTransition)
                     {
+                        if (mNextState.ToString() != mCurrentState.ToString())
+                        {
+                            Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
+                        }
                         mCurrentState = mNextState;
                     }
                     return true; 
