@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Magitek.Utilities.Routines.StateMachine
+namespace Magitek.Utilities.Routines
 {
     public delegate bool ActionTest();
     public delegate Task<bool> ActionExecution();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Magitek.Utilities.Routines.StateMachine
+namespace Magitek.Utilities.Routines
 {
     public class State<T>
     {

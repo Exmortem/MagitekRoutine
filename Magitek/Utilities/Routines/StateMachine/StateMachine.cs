@@ -1,30 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Magitek.Utilities.Routines.StateMachine
+namespace Magitek.Utilities.Routines
 {
-    public class StateMachine<T>
+    public class StateMachine<T> : IStateMachine where T : IComparable
     {
         private Dictionary<T, State<T>> mStateDict;
         private T mCurrentState;
         private T mNextState;
+        private T mDefaultState;
 
-        public void SetState(T state)
+        public void ResetToDefaultState()
         {
-            if (state.ToString() != mCurrentState.ToString())
-                Logger.WriteInfo("Resetting State Machine");
-            mCurrentState = state;
-            mNextState = state;
+            Logger.WriteInfo("Resetting State Machine");
+            mCurrentState = mDefaultState;
+            mNextState = mDefaultState;
         }
-        
+
+        private void LogStateChange(T current, T next)
+        {
+            if (current.CompareTo(next) != 0)
+            {
+                Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
+            }
+        }
+
         public async Task<bool> Pulse()
         {
             if (Casting.LastSpellSucceeded)
             {
-                if (mNextState.ToString() != mCurrentState.ToString())
-                {
-                    Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
-                }
+                LogStateChange(mCurrentState, mNextState);
                 mCurrentState = mNextState;
             }
 
@@ -36,10 +42,7 @@ namespace Magitek.Utilities.Routines.StateMachine
                     mNextState = st.NextState;
                     if (st.ImmediateTransition)
                     {
-                        if (mNextState.ToString() != mCurrentState.ToString())
-                        {
-                            Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
-                        }
+                        LogStateChange(mCurrentState, mNextState);
                         mCurrentState = mNextState;
                         return await Pulse();
                     }
@@ -50,9 +53,10 @@ namespace Magitek.Utilities.Routines.StateMachine
             return false;
         }
 
-        public StateMachine(T startState, Dictionary<T, State<T>> stateDict)
+        public StateMachine(T defaultState, Dictionary<T, State<T>> stateDict)
         {
-            mCurrentState = startState;
+            mDefaultState = defaultState;
+            mCurrentState = defaultState;
             mStateDict = stateDict;
         }
     }

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Buddy.Coroutines;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.BlackMage;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
-using Magitek.Utilities.Routines.StateMachine;
+using Magitek.Utilities.Routines;
 using CombatUtil = Magitek.Utilities.Combat;
 using Auras = Magitek.Utilities.Auras;
-using Buddy.Coroutines;
 
 namespace Magitek.Rotations
 {
@@ -57,11 +57,6 @@ namespace Magitek.Rotations
             return await spell.Cast(target);
         }
         #endregion
-
-        public static void ResetStateMachine()
-        {
-            mStateMachine.SetState(BlmStateIds.Start);
-        }
 
         private static StateMachine<BlmStateIds> mStateMachine;
 
@@ -364,6 +359,7 @@ namespace Magitek.Rotations
                                 new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Transpose, Core.Me), BlmStateIds.TransposeSucceeded)
                             })
                     }});
+            StateMachineManager.RegisterStateMachine(mStateMachine);
         }
 
         public static async Task<bool> Rest()
