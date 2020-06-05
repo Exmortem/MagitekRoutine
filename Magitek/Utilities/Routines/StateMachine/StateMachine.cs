@@ -41,6 +41,7 @@ namespace Magitek.Utilities.Routines.StateMachine
                             Logger.WriteInfo($"State transition: {mCurrentState} -> {mNextState}");
                         }
                         mCurrentState = mNextState;
+                        return await Pulse();
                     }
                     return true; 
                 }

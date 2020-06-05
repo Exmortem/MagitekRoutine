@@ -170,9 +170,16 @@ namespace Magitek.Utilities
             Debug.Instance.Enemies = new ObservableCollection<EnemyInfo>(EnemyInfos);
 
             StunTracker.Update(Combat.Enemies);
-            if (!Core.Me.InCombat)
+            if (Core.Me.InCombat)
+                mWasInCombat = true;
+            if (!Core.Me.InCombat && mWasInCombat)
+            {
                 BlackMage.ResetStateMachine();
+                mWasInCombat = false;
+            }                
         }
+        
+        private static bool mWasInCombat;
 
         private static void UpdateCurrentPosition()
         {
