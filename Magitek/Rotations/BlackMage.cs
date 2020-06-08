@@ -14,6 +14,7 @@ using Magitek.Utilities;
 using Magitek.Utilities.Routines;
 using CombatUtil = Magitek.Utilities.Combat;
 using Auras = Magitek.Utilities.Auras;
+using Magitek.Models.Account;
 
 namespace Magitek.Rotations
 {
@@ -23,9 +24,9 @@ namespace Magitek.Rotations
         SingleTarget,
         AoE,
         FreezeSucceeded,
-        ThunderSucceeded,
+        AoEThunderSucceeded,
         TriplecastSucceeded,
-        Fire3Succeeded,
+        AoEFire3Succeeded,
         Fire3SucceededAvoidSwiftcast,
         InitialFlareSucceeded,
         InitialFlareSucceededAvoidSwiftcast,
@@ -38,7 +39,26 @@ namespace Magitek.Rotations
         Blizzard2Spam,
         Blizzard2SpamNoThunder,
         Fire2Spam,
-        Fire2SpamNoThunder
+        Fire2SpamNoThunder,
+        Blizzard3Succeeded,
+        STThunderSucceeded,
+        Blizzard4Succeeded,
+        STFire3Succeeded,
+        Fire4Spam,
+        FirstFire4Succeeded,
+        SecondFire4Succeeded,
+        ThirdFire4Succeeded,
+        DespairSucceeded,
+        BeginRecovery,
+        Recovery,
+        RecoveryNoThunder,
+        LowLevelSTRotation,
+        LowLevelSTRotationNoThunder,
+        Blizzard,
+        MidLevelSTRotation,
+        MidLevelSTRotationNoThunder,
+        FireSpam,
+        MidLevelRecovery
     }
     
     public static class BlackMage
@@ -60,12 +80,16 @@ namespace Magitek.Rotations
 
         private static StateMachine<BlmStateIds> mStateMachine;
 
-        private static async Task<bool> SwiftcastAndPause()
+        //TODO What to do if when synced target spell can be cast but swiftcast cannot
+        private static async Task<bool> Swiftcast(SpellData spell, GameObject target)
         {
+            if (spell.LevelAcquired > ForcedSyncClassLevel)
+                return false;
             if (await ForcedSyncCast(Spells.Swiftcast, Core.Me))
             {
-                await Coroutine.Wait(300, () => false);
-                return true;
+                await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
+                await Coroutine.Wait(2000, () => ActionManager.CanCast(spell, target));
+                return await spell.Cast(target);
             }
             return false;
         }
@@ -117,10 +141,25 @@ namespace Magitek.Rotations
 
         private static async Task<bool> CastThunder(GameObject target)
         {
-            if (await ForcedSyncCast(Spells.Thunder4, target))
-                return true;
+            if (AoEMode)
+            {
+                if (await ForcedSyncCast(Spells.Thunder4, target))
+                    return true;
 
-            return await ForcedSyncCast(Spells.Thunder2, target);
+                return await ForcedSyncCast(Spells.Thunder2, target);
+            }
+            else
+            {
+                if (await ForcedSyncCast(Spells.Thunder3, target))
+                    return true;
+
+                return await ForcedSyncCast(Spells.Thunder, target);
+            }           
+        }
+
+        private static bool OnGCD()
+        {
+            return Spells.Fire4.Cooldown > TimeSpan.Zero;
         }
 
         private static async Task<bool> NoOp()
@@ -140,31 +179,219 @@ namespace Magitek.Rotations
                             new List<StateTransition<BlmStateIds>>()
                             {
                                 new StateTransition<BlmStateIds>(() => AoEMode, () => NoOp(), BlmStateIds.AoE,          true),
-                                new StateTransition<BlmStateIds>(() => true,    () => NoOp(), BlmStateIds.SingleTarget, true),                                
+                                new StateTransition<BlmStateIds>(() => true,    () => NoOp(), BlmStateIds.SingleTarget, true),
                             })
                     },
+
+
+                    
+                    //TODO Add new states to jump into based on stacks
                     {
                         BlmStateIds.SingleTarget,
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
-                                new StateTransition<BlmStateIds>(() => AoEMode, () => NoOp(),               BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => true,    () => SingleTargetCombat(), BlmStateIds.SingleTarget)
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                                                                                                                                                     () => NoOp(),                                                  BlmStateIds.Start,               true),                                
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 40,                                                                                                                                                                   () => NoOp(),                                                  BlmStateIds.LowLevelSTRotation,  true),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 40 && ForcedSyncClassLevel < 60,                                                                                                                                     () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.MidLevelSTRotation),
+                                new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.UmbralStacks == 3 && CanCastAnother(Spells.Blizzard4, 1600, 150),                                                                                            () => ForcedSyncCast(Spells.Blizzard4, Core.Me.CurrentTarget), BlmStateIds.Blizzard4Succeeded),
+                                new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.AstralStacks == 3 && CanCastAnother(Spells.Fire4, (int)Spells.Blizzard3.AdjustedSpellCostBlm(), Spells.Blizzard3.AdjustedCastTime.TotalMilliseconds + 150),  () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget),     BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                                                                                                        () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.Blizzard3Succeeded),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Blizzard3.AdjustedSpellCostBlm() && ActionResourceManager.BlackMage.AstralStacks > 0,                                                                           () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.SingleTarget)
                             })
                     },
+                    {
+                        BlmStateIds.LowLevelSTRotation,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                                                                      () => NoOp(),                                                  BlmStateIds.Start,                        true),                               
+                                new StateTransition<BlmStateIds>(() => !HasMyAura(Core.Me.CurrentTarget, Auras.Thunder) && CanCastAnother(Spells.Blizzard, 0, 0),                    () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.LowLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                                                                          () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.LowLevelSTRotation),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire.AdjustedSpellCostBlm() && ActionResourceManager.BlackMage.AstralStacks > 0, () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.Blizzard),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire.AdjustedSpellCostBlm(),                                                     () => ForcedSyncCast(Spells.Blizzard, Core.Me.CurrentTarget),  BlmStateIds.Blizzard),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                         () => ForcedSyncCast(Spells.Fire, Core.Me.CurrentTarget),      BlmStateIds.LowLevelSTRotation)
+                            })
+                    },
+                    {
+                        BlmStateIds.LowLevelSTRotationNoThunder,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                                                                      () => NoOp(),                                                  BlmStateIds.Start,                        true),                                
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                                                                          () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.LowLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire.AdjustedSpellCostBlm() && ActionResourceManager.BlackMage.AstralStacks > 0, () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.Blizzard),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire.AdjustedSpellCostBlm(),                                                     () => ForcedSyncCast(Spells.Blizzard, Core.Me.CurrentTarget),  BlmStateIds.Blizzard),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                         () => ForcedSyncCast(Spells.Fire, Core.Me.CurrentTarget),      BlmStateIds.LowLevelSTRotationNoThunder)
+                            })
+                    },
+                    {
+                        BlmStateIds.Blizzard,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                                  BlmStateIds.Start,               true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Blizzard),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana >= 9600,         () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.LowLevelSTRotation),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 9600,          () => ForcedSyncCast(Spells.Blizzard, Core.Me.CurrentTarget),  BlmStateIds.Blizzard),
+                            })
+                    },
+                    {
+                        BlmStateIds.MidLevelSTRotation,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                                                                      () => NoOp(),                                                  BlmStateIds.Start,                        true),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 45 && !HasMyAura(Core.Me.CurrentTarget, Auras.Thunder),                                () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.MidLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 45 && !HasMyAura(Core.Me.CurrentTarget, Auras.Thunder3),                              () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.MidLevelSTRotationNoThunder),                                
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                                                                          () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.MidLevelSTRotation),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire.AdjustedSpellCostBlm() && ActionResourceManager.BlackMage.AstralStacks > 0, () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.MidLevelRecovery),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Fire3.AdjustedSpellCostBlm(),                                                    () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.MidLevelRecovery),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                         () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget),     BlmStateIds.FireSpam)
+                            })
+                    },
+                    {
+                        BlmStateIds.MidLevelSTRotationNoThunder,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                               BlmStateIds.Start,                       true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                   BlmStateIds.MidLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget),  BlmStateIds.FireSpam)
+                            })
+                    },
+                    {
+                        BlmStateIds.FireSpam,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                       () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                           () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.MidLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.FireStarter),                            () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget),     BlmStateIds.FireSpam),
+                                new StateTransition<BlmStateIds>(() => CanCastAnother(Spells.Fire, 800, 150),                         () => ForcedSyncCast(Spells.Fire, Core.Me.CurrentTarget),      BlmStateIds.FireSpam),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < Spells.Blizzard3.AdjustedSpellCostBlm() && ActionResourceManager.BlackMage.AstralStacks > 0, () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.MidLevelRecovery),
+                                new StateTransition<BlmStateIds>(() => true,                                                          () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.MidLevelSTRotation)
+                            })
+                    },
+                    //TODO Usually spams too many blizzards
+                    {
+                        BlmStateIds.MidLevelRecovery,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.MidLevelSTRotationNoThunder),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.MidLevelSTRotation)
+                            })
+                    },
+                    {
+                        BlmStateIds.Blizzard3Succeeded,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                             BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),              () => ForcedSyncCast(Spells.Enochian, Core.Me),           BlmStateIds.Blizzard3Succeeded),
+                                //new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),        BlmStateIds.Blizzard3Succeeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Sharpcast, Core.Me),          BlmStateIds.Blizzard3Succeeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Xenoglossy, Core.Me.CurrentTarget), BlmStateIds.Blizzard3Succeeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.STThunderSucceeded)
+                            })
+                    },
+                    //TODO Need to recover from this state if Blizzard 4 not possible
+                    {
+                        BlmStateIds.STThunderSucceeded,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),              () => ForcedSyncCast(Spells.Enochian, Core.Me),                BlmStateIds.STThunderSucceeded),
+                                //new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                    BlmStateIds.STThunderSucceeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Blizzard4, Core.Me.CurrentTarget), BlmStateIds.Blizzard4Succeeded)
+                            })
+                    },
+                    {
+                        BlmStateIds.Blizzard4Succeeded,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                              BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),               () => ForcedSyncCast(Spells.Enochian, Core.Me),            BlmStateIds.Blizzard4Succeeded),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),               () => NoOp(),   BlmStateIds.BeginRecovery, true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud) && ActionResourceManager.BlackMage.StackTimer >= Spells.Thunder3.AdjustedCooldown + Spells.Fire3.AdjustedCastTime + TimeSpan.FromMilliseconds(BaseSettings.Instance.UserLatencyOffset), () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.Blizzard4Succeeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.Fire4Spam)
+                            })
+                    },
+                    {
+                        BlmStateIds.Fire4Spam,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                                                                                                                        () => NoOp(),                                                  BlmStateIds.Start,             true),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),                                                                                                                         () => ForcedSyncCast(Spells.Enochian, Core.Me),                BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),                                                                                                                         () => NoOp(),                                                  BlmStateIds.BeginRecovery,     true),
+                                new StateTransition<BlmStateIds>(() => CanCastAnother(Spells.Fire4, (int)Spells.Fire.AdjustedSpellCostBlm(), Spells.Fire.AdjustedCastTime.TotalMilliseconds + 1500),                   () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget),     BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.FireStarter),                                                                                                             () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget),     BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana >= (int)Spells.Fire.AdjustedSpellCostBlm() + (int)Spells.Fire4.AdjustedSpellCostBlm(),                                      () => ForcedSyncCast(Spells.Fire, Core.Me.CurrentTarget),      BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 72 && CanCastAnother(Spells.Fire4, 800, Spells.Despair.AdjustedCastTime.TotalMilliseconds + 1500),                      () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget),     BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 72 && CanCastAnother(Spells.Fire4, 800, Spells.Blizzard3.AdjustedCastTime.TotalMilliseconds + 150),                      () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget),     BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => CanCastAnother(Spells.Despair, 0, BaseSettings.Instance.UserLatencyOffset),                                                                     () => ForcedSyncCast(Spells.Despair, Core.Me.CurrentTarget),   BlmStateIds.DespairSucceeded),
+                                new StateTransition<BlmStateIds>(() => CanCastAnother(Spells.Fire, 800, BaseSettings.Instance.UserLatencyOffset),                                                                      () => ForcedSyncCast(Spells.Fire, Core.Me.CurrentTarget),      BlmStateIds.Fire4Spam),
+                                new StateTransition<BlmStateIds>(() => Spells.Fire.AdjustedCastTime > ActionResourceManager.BlackMage.StackTimer + TimeSpan.FromMilliseconds(BaseSettings.Instance.UserLatencyOffset), () => ForcedSyncCast(Spells.Transpose, Core.Me),               BlmStateIds.BeginRecovery),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                                                           () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.Blizzard3Succeeded)
+                            })
+                    },
+                    {
+                        BlmStateIds.DespairSucceeded,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.DespairSucceeded),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Blizzard3, Core.Me.CurrentTarget), BlmStateIds.Blizzard3Succeeded)
+                            })
+                    },
+                    {
+                        //TODO: Need to do something while enochian is on cooldown (lower level rotation)?
+                        BlmStateIds.BeginRecovery,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,       () => NoOp(),               BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => true,          () => ForcedSyncCast(Spells.LucidDreaming, Core.Me),        BlmStateIds.BeginRecovery),
+                                new StateTransition<BlmStateIds>(() => true,          () => Swiftcast(Spells.Freeze, Core.Me.CurrentTarget),      BlmStateIds.Recovery),
+                                new StateTransition<BlmStateIds>(() => true,          () => ForcedSyncCast(Spells.Freeze, Core.Me.CurrentTarget), BlmStateIds.Recovery)
+                            })
+                    },
+                    {
+                        BlmStateIds.Recovery,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {
+                                new StateTransition<BlmStateIds>(() => AoEMode,                                           () => NoOp(),                                              BlmStateIds.Start,     true),                                
+                                new StateTransition<BlmStateIds>(() => !HasMyAura(Core.Me.CurrentTarget, Auras.Thunder3), () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.Recovery),                             
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),               () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.Recovery),
+                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),                            () => ForcedSyncCast(Spells.Enochian, Core.Me),            BlmStateIds.Recovery),
+                                new StateTransition<BlmStateIds>(() => true,                                              () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.Fire4Spam)
+                            })
+                    },
+                    
+
+                    //TODO Add new states to jump based on stacks
                     {
                         BlmStateIds.AoE,
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
-                                new StateTransition<BlmStateIds>(() => !AoEMode,                                                 () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => !AoEMode,                                                 () => NoOp(),                                                  BlmStateIds.Start,                true),
                                 new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                      () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.AoE),
-                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 35 && Core.Me.CurrentMana >= 3400, () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Fire2SpamNoThunder),
-                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 35 && Core.Me.CurrentMana >= 1200, () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Blizzard2SpamNoThunder),
+                                //new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 26 && Core.Me.CurrentMana >= 3400, () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Fire2SpamNoThunder),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 35 && CanCastAnother(Spells.Fire2, 1200, 100), () => ForcedSyncCast(Spells.Thunder2, Core.Me.CurrentTarget),   BlmStateIds.Fire2SpamNoThunder),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 35 && ActionResourceManager.BlackMage.AstralStacks > 0, () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.Blizzard2Spam),
                                 new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 35,                                () => ForcedSyncCast(Spells.Blizzard2, Core.Me.CurrentTarget), BlmStateIds.Blizzard2Spam),
                                 new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 50 && Core.Me.CurrentMana >= 1400, () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.FreezeSpamNoThunder),
                                 new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel < 50,                                () => ForcedSyncCast(Spells.Freeze, Core.Me.CurrentTarget),    BlmStateIds.FreezeSpam),
-                                new StateTransition<BlmStateIds>(() => true,                                                     () => ForcedSyncCast(Spells.Freeze, Core.Me.CurrentTarget),    BlmStateIds.FreezeSucceeded),
+                                //new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.UmbralHearts > 0,         () => ForcedSyncCast(Spells.Freeze, Core.Me.CurrentTarget),    BlmStateIds.FreezeSucceeded),
+                                new StateTransition<BlmStateIds>(() => true,                                                     () => ForcedSyncCast(Spells.Freeze, Core.Me.CurrentTarget),    BlmStateIds.FreezeSucceeded),                                
                                 new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.AstralStacks > 0,         () => ForcedSyncCast(Spells.Transpose, Core.Me),               BlmStateIds.AoE),                                 
                             })
                     },
@@ -173,11 +400,10 @@ namespace Magitek.Rotations
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
-                                new StateTransition<BlmStateIds>(() => !AoEMode,                            () => NoOp(),                                                  BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Blizzard2Spam),
-                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana >= 9000,         () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.Fire2Spam),
-                                new StateTransition<BlmStateIds>(() => SpamSpell(Spells.Blizzard2),         () => ForcedSyncCast(Spells.Blizzard2, Core.Me.CurrentTarget), BlmStateIds.Blizzard2Spam),
-                                new StateTransition<BlmStateIds>(() => true,                                () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Blizzard2SpamNoThunder)
+                                new StateTransition<BlmStateIds>(() => !AoEMode,                                          () => NoOp(),                                                  BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),               () => CastThunder(Core.Me.CurrentTarget),                      BlmStateIds.Blizzard2Spam),
+                                new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana >= 9000 && ActionResourceManager.BlackMage.UmbralStacks > 0,  () => ForcedSyncCast(Spells.Transpose, Core.Me.CurrentTarget), BlmStateIds.Fire2Spam),
+                                new StateTransition<BlmStateIds>(() => SpamSpell(Spells.Blizzard2),                       () => ForcedSyncCast(Spells.Blizzard2, Core.Me.CurrentTarget), BlmStateIds.Blizzard2Spam)
                             })
                     },
                     {
@@ -241,14 +467,15 @@ namespace Magitek.Rotations
                             new List<StateTransition<BlmStateIds>>()
                             {
                                 new StateTransition<BlmStateIds>(() => !AoEMode,                                              () => NoOp(),                                             BlmStateIds.Start, true),
+                                //TODO Is enochian needed here (we are using it only for damage buff)
                                 new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),                                () => ForcedSyncCast(Spells.Enochian, Core.Me),           BlmStateIds.FreezeSucceeded),
                                 //TODO: Should we sharpcast before every thundercloud proc?
                                 new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud) && !CanCastFoul(), () => ForcedSyncCast(Spells.Sharpcast, Core.Me),          BlmStateIds.FreezeSucceeded),
-                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud) && !CanCastFoul(), () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.ThunderSucceeded),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud) && !CanCastFoul(), () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.AoEThunderSucceeded),
                                 new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 800,                             () => ForcedSyncCast(Spells.Transpose, Core.Me),          BlmStateIds.TransposeSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                                  () => ForcedSyncCast(Spells.Foul, Core.Me.CurrentTarget), BlmStateIds.FreezeSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                                  () => ForcedSyncCast(Spells.Sharpcast, Core.Me),          BlmStateIds.FreezeSucceeded),
-                                new StateTransition<BlmStateIds>(() => true,                                                  () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.ThunderSucceeded)
+                                new StateTransition<BlmStateIds>(() => true,                                                  () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.AoEThunderSucceeded)
                             })
                     },                    
                     {
@@ -262,15 +489,15 @@ namespace Magitek.Rotations
                             })
                     },
                     {
-                        BlmStateIds.ThunderSucceeded,
+                        BlmStateIds.AoEThunderSucceeded,
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
                                 new StateTransition<BlmStateIds>(() => !AoEMode,                            () => NoOp(),                                              BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.ThunderSucceeded),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.AoEThunderSucceeded),
                                 new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 2000,          () => ForcedSyncCast(Spells.Transpose, Core.Me),           BlmStateIds.TransposeSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Triplecast, Core.Me),          BlmStateIds.TriplecastSucceeded),                                
-                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.Fire3Succeeded)
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.AoEFire3Succeeded)
                             })
                     },
                     {
@@ -278,19 +505,19 @@ namespace Magitek.Rotations
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
-                                new StateTransition<BlmStateIds>(() => !AoEMode,                                          () => NoOp(),                                              BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.AstralStacks < 3,  () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.Fire3SucceededAvoidSwiftcast)                                
+                                new StateTransition<BlmStateIds>(() => !AoEMode,     () => NoOp(),                                              BlmStateIds.Start, true),
+                                new StateTransition<BlmStateIds>(() => true,         () => ForcedSyncCast(Spells.Fire3, Core.Me.CurrentTarget), BlmStateIds.Fire3SucceededAvoidSwiftcast)                                
                             })
                     },
                     {
-                        BlmStateIds.Fire3Succeeded,
+                        BlmStateIds.AoEFire3Succeeded,
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
                                 new StateTransition<BlmStateIds>(() => !AoEMode,                                                                                                                  () => NoOp(),                                              BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                                                                                       () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.Fire3Succeeded),
+                                new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),                                                                                       () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.AoEFire3Succeeded),
                                 new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 800,                                                                                                 () => ForcedSyncCast(Spells.Transpose, Core.Me),           BlmStateIds.TransposeSucceeded),
-                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 68,                                                                                                () => SwiftcastAndPause(),                                 BlmStateIds.Fire3SucceededAvoidSwiftcast),
+                                new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 68,                                                                                                () => Swiftcast(Spells.Flare, Core.Me.CurrentTarget),      BlmStateIds.InitialFlareSucceeded),
                                 new StateTransition<BlmStateIds>(() => ForcedSyncClassLevel >= 68,                                                                                                () => ForcedSyncCast(Spells.Flare, Core.Me.CurrentTarget), BlmStateIds.InitialFlareSucceeded),
                                 new StateTransition<BlmStateIds>(() => EnemiesNearTarget < 5 && Core.Me.CurrentMana >= Spells.Fire4.AdjustedSpellCostBlm() + 800,                                 () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget), BlmStateIds.FireUntilLowMana),
                                 new StateTransition<BlmStateIds>(() => (EnemiesNearTarget >= 5 || ForcedSyncClassLevel < 60) && Core.Me.CurrentMana >= Spells.Fire2.AdjustedSpellCostBlm() + 800, () => ForcedSyncCast(Spells.Fire2, Core.Me.CurrentTarget), BlmStateIds.FireUntilLowMana),
@@ -307,8 +534,7 @@ namespace Magitek.Rotations
                                 new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 800,                                                                                                                                                              () => ForcedSyncCast(Spells.Transpose, Core.Me),           BlmStateIds.TransposeSucceeded),
                                 new StateTransition<BlmStateIds>(() => EnemiesNearTarget < 5 && CanCastAnother(Spells.Fire4, 800, Spells.Flare.AdjustedCastTime.TotalMilliseconds),                                                                            () => ForcedSyncCast(Spells.Fire4, Core.Me.CurrentTarget), BlmStateIds.FireUntilLowMana),
                                 new StateTransition<BlmStateIds>(() => (EnemiesNearTarget >= 5 || ForcedSyncClassLevel < 60) && CanCastAnother(Spells.Fire2, 800, Spells.Flare.AdjustedCastTime.TotalMilliseconds),                                            () => ForcedSyncCast(Spells.Fire2, Core.Me.CurrentTarget), BlmStateIds.FireUntilLowMana),
-                                new StateTransition<BlmStateIds>(() => EnemiesNearTarget < 5 && !CanCastAnother(Spells.Fire4, 800, Spells.Flare.AdjustedCastTime.TotalMilliseconds),                                                                           () => SwiftcastAndPause(),                                 BlmStateIds.InitialFlareSucceededAvoidSwiftcast),
-                                new StateTransition<BlmStateIds>(() => (EnemiesNearTarget >= 5 || ForcedSyncClassLevel < 60) && !CanCastAnother(Spells.Fire2, 800, Spells.Flare.AdjustedCastTime.TotalMilliseconds),                                           () => SwiftcastAndPause(),                                 BlmStateIds.InitialFlareSucceededAvoidSwiftcast),
+                                new StateTransition<BlmStateIds>(() => true,                                                                                                                                                                                   () => Swiftcast(Spells.Flare, Core.Me.CurrentTarget),      BlmStateIds.FinalFlareSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                                                                                                                                                                   () => ForcedSyncCast(Spells.Flare, Core.Me.CurrentTarget), BlmStateIds.FinalFlareSucceeded)
                             })
                     },
@@ -331,7 +557,7 @@ namespace Magitek.Rotations
                                 new StateTransition<BlmStateIds>(() => !AoEMode,                                          () => NoOp(),                                              BlmStateIds.Start, true),
                                 new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud),               () => CastThunder(Core.Me.CurrentTarget),                  BlmStateIds.InitialFlareSucceeded),
                                 new StateTransition<BlmStateIds>(() => Core.Me.CurrentMana < 800 && ManaFontDelayElapsed, () => ForcedSyncCast(Spells.Transpose, Core.Me),           BlmStateIds.TransposeSucceeded),
-                                new StateTransition<BlmStateIds>(() => true,                                              () => SwiftcastAndPause(),                                 BlmStateIds.InitialFlareSucceededAvoidSwiftcast),
+                                new StateTransition<BlmStateIds>(() => true,                                              () => Swiftcast(Spells.Flare, Core.Me.CurrentTarget),      BlmStateIds.FinalFlareSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                              () => ForcedSyncCast(Spells.Flare, Core.Me.CurrentTarget), BlmStateIds.FinalFlareSucceeded)
 
                             })
@@ -427,8 +653,8 @@ namespace Magitek.Rotations
             return false;
         }
 
-        public static bool AoEMode => BlackMageSettings.Instance.UseAoe && EnemiesNearTarget >= BlackMageSettings.Instance.AoeEnemies && ForcedSyncClassLevel >= 18;
-
+        public static bool AoEMode => BlackMageSettings.Instance.UseAoe && EnemiesNearTarget >= BlackMageSettings.Instance.AoeEnemies && ForcedSyncClassLevel >= 18;       
+        
         public static int EnemiesNearTarget => CombatUtil.Enemies.Where(e => e.Distance(Core.Me.CurrentTarget) <= 5 + e.CombatReach).Count();
 
         public static async Task<bool> Combat()
