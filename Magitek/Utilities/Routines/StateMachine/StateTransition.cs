@@ -5,21 +5,28 @@ namespace Magitek.Utilities.Routines
     public delegate bool ActionTest();
     public delegate Task<bool> ActionExecution();
 
+    public enum TransitionType
+    {
+        Immediate,
+        Delayed,
+        AfterSpell
+    }
+
     public class StateTransition<T>
     {
         private ActionTest ShouldExecuteAction;
         private ActionExecution ExecuteAction;
         public T NextState { get; private set; }
-        public bool ImmediateTransition { get; private set; }
+        public TransitionType TransitionType { get; private set; }
 
-        public StateTransition(ActionTest shouldExecute, ActionExecution execute, T nextState) : this(shouldExecute, execute, nextState, false) { }
+        public StateTransition(ActionTest shouldExecute, ActionExecution execute, T nextState) : this(shouldExecute, execute, nextState, TransitionType.AfterSpell) { }
 
-        public StateTransition(ActionTest shouldExecute, ActionExecution execute, T nextState, bool immediateTransition)
+        public StateTransition(ActionTest shouldExecute, ActionExecution execute, T nextState, TransitionType transitionType)
         {
             ShouldExecuteAction = shouldExecute;
             ExecuteAction = execute;
             NextState = nextState;
-            ImmediateTransition = immediateTransition;
+            TransitionType = transitionType;
         }
 
         public async Task<bool> TryDoAction()

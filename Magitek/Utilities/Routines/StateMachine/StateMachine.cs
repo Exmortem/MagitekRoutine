@@ -10,6 +10,7 @@ namespace Magitek.Utilities.Routines
         private T mCurrentState;
         private T mNextState;
         private T mDefaultState;
+        private TransitionType mTransitionType;
 
         public void ResetToDefaultState()
         {
@@ -28,7 +29,12 @@ namespace Magitek.Utilities.Routines
 
         public async Task<bool> Pulse()
         {
-            if (Casting.LastSpellSucceeded)
+            if (mTransitionType == TransitionType.AfterSpell && Casting.LastSpellSucceeded)
+            {
+                LogStateChange(mCurrentState, mNextState);
+                mCurrentState = mNextState;
+            }
+            else if (mTransitionType == TransitionType.Delayed)
             {
                 LogStateChange(mCurrentState, mNextState);
                 mCurrentState = mNextState;
@@ -40,7 +46,8 @@ namespace Magitek.Utilities.Routines
                 if (await st.TryDoAction())
                 {
                     mNextState = st.NextState;
-                    if (st.ImmediateTransition)
+                    mTransitionType = st.TransitionType;
+                    if (st.TransitionType == TransitionType.Immediate)
                     {
                         LogStateChange(mCurrentState, mNextState);
                         mCurrentState = mNextState;
