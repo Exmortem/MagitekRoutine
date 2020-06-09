@@ -58,7 +58,8 @@ namespace Magitek.Rotations
         MidLevelSTRotation,
         MidLevelSTRotationNoThunder,
         FireSpam,
-        MidLevelRecovery
+        MidLevelRecovery,
+        CastLeyLines
     }
     
     public static class BlackMage
@@ -93,7 +94,14 @@ namespace Magitek.Rotations
             }
             return false;
         }
-        
+
+        private static async Task<bool> LeyLines()
+        {
+            await Coroutine.Wait(150, () => false);
+
+            return await ForcedSyncCast(Spells.LeyLines, Core.Me);
+        }
+
         private static bool TimeSince(SpellData spell, int minimumMs)
         {
             SpellCastHistoryItem mf = Casting.SpellCastHistory.FirstOrDefault(s => s.Spell == spell);
@@ -294,18 +302,26 @@ namespace Magitek.Rotations
                                 //new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),        BlmStateIds.Blizzard3Succeeded),
                                 new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Sharpcast, Core.Me),          BlmStateIds.Blizzard3Succeeded),
                                 new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Xenoglossy, Core.Me.CurrentTarget), BlmStateIds.Blizzard3Succeeded),
-                                new StateTransition<BlmStateIds>(() => true,                                () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.STThunderSucceeded)
+                                new StateTransition<BlmStateIds>(() => true,                                () => CastThunder(Core.Me.CurrentTarget),                 BlmStateIds.CastLeyLines)
                             })
                     },
+                    {
+                        BlmStateIds.CastLeyLines,
+                        new State<BlmStateIds>(
+                            new List<StateTransition<BlmStateIds>>()
+                            {                                
+                                new StateTransition<BlmStateIds>(() => true,                                () => LeyLines(), BlmStateIds.CastLeyLines),
+                                new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Blizzard4, Core.Me.CurrentTarget),                 BlmStateIds.Blizzard4Succeeded)
+                            })
+                    },         
                     //TODO Need to recover from this state if Blizzard 4 not possible
                     {
                         BlmStateIds.STThunderSucceeded,
                         new State<BlmStateIds>(
                             new List<StateTransition<BlmStateIds>>()
                             {
-                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                                  BlmStateIds.Start, true),
-                                new StateTransition<BlmStateIds>(() => !Core.Me.HasEnochian(),              () => ForcedSyncCast(Spells.Enochian, Core.Me),                BlmStateIds.STThunderSucceeded),
-                                //new StateTransition<BlmStateIds>(() => Core.Me.HasAura(Auras.ThunderCloud), () => CastThunder(Core.Me.CurrentTarget),                    BlmStateIds.STThunderSucceeded),
+                                new StateTransition<BlmStateIds>(() => AoEMode,                             () => NoOp(),                                   BlmStateIds.STThunderSucceeded),                                
+                                new StateTransition<BlmStateIds>(() => ActionResourceManager.BlackMage.StackTimer < Spells.Blizzard4.AdjustedCastTime +Spells.Fire3.AdjustedCastTime + TimeSpan.FromMilliseconds(300),  () => ForcedSyncCast(Spells.UmbralSoul, Core.Me), BlmStateIds.STThunderSucceeded),
                                 new StateTransition<BlmStateIds>(() => true,                                () => ForcedSyncCast(Spells.Blizzard4, Core.Me.CurrentTarget), BlmStateIds.Blizzard4Succeeded)
                             })
                     },
