@@ -8,7 +8,7 @@ namespace Magitek.Utilities.Routines
     public enum TransitionType
     {
         Immediate,
-        Delayed,
+        NextPulse,
         AfterSpell
     }
 

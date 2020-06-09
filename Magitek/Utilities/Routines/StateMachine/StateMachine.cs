@@ -34,7 +34,7 @@ namespace Magitek.Utilities.Routines
                 LogStateChange(mCurrentState, mNextState);
                 mCurrentState = mNextState;
             }
-            else if (mTransitionType == TransitionType.Delayed)
+            else if (mTransitionType == TransitionType.NextPulse)
             {
                 LogStateChange(mCurrentState, mNextState);
                 mCurrentState = mNextState;
