@@ -71,6 +71,9 @@ namespace Magitek.Rotations
 
     public static class RedMage
     {
+        public const int AoeTargets = 3;
+        public const double BurstHealth = 40;
+
         private static StateMachine<RdmStateIds> mStateMachine;
 
         private static int Cap(int mana) => Math.Min(100, mana);
@@ -112,11 +115,14 @@ namespace Magitek.Rotations
 
         private static int TargetMana => ManaficationUp && (BlackMana <= 40 || WhiteMana <= 40) ? 40 : 80;
 
-        private static bool AoeMode => NumEnemiesWithinOf(5, Core.Me.CurrentTarget) >= 3;
+        private static bool AoeMode => NumEnemiesWithinOf(5, Core.Me.CurrentTarget) >= AoeTargets;
 
-        private static bool EmboldenBurstReadySoon => Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
-        private static bool DoEmboldenBurst => BlackMana == 100 && WhiteMana == 100 && MoulinetUseful(3, 40);
-        private static bool DoMoulinet => MoulinetUseful(3, 40);
+        private static bool EmboldenReadySoon => Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
+        private static bool DoEmboldenBurst => ((BlackMana == 100 && WhiteMana == 100) || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp)  || Core.Me.HasAura(Auras.Manafication)) && CanDoBurst;
+        private static bool DoManaficationBurst => BlackMana >= 50 && WhiteMana >= 50 && BlackMana <= 65 && WhiteMana <= 65 && CanDoBurst;
+        //We can do he burst if we'll hit 3 or more enemies with Moulinet
+        private static bool CanDoBurst => EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
+                                                                                                       && r.CurrentHealthPercent >= BurstHealth) >= AoeTargets;
 
         private static bool InMoulinetArc(GameObject target)
         {
@@ -125,10 +131,6 @@ namespace Magitek.Rotations
 
             return target.RadiansFromPlayerHeading() < 1.361f; //Translated from radians, this is ~78 degrees left or right;
         }
-        private static bool MoulinetUseful(int numEnemies, double healthPct) =>
-               EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
-                                                                            && r.CurrentHealthPercent >= healthPct)
-            >= numEnemies;
 
         static RedMage()
         {
@@ -136,8 +138,10 @@ namespace Magitek.Rotations
             List<uint> mBothProcsAndDualcast = new List<uint>() { Auras.VerfireReady, Auras.VerstoneReady, Auras.Dualcast };
             List<uint> mVerstoneAndDualcast = new List<uint>() { Auras.VerstoneReady, Auras.Dualcast };
             List<uint> mVerfireAndDualcast = new List<uint>() { Auras.VerfireReady, Auras.Dualcast };
+            List<uint> mManaficationAndEmbolden = new List<uint>() { Auras.Manafication, Auras.Embolden };
 
-            //TODO: Improve AoE
+            //TODO: Use embolden during AoE at low mana if it would sit for a really long time waiting for us to build up mana - need to take Manafication into account, because we might not be sitting for as long as we think we would if that will go off
+            //TODO: Lower level AoE rotations
             //TODO: Incorporate all of the settings to enable/disable various skills & spells
             //TODO: Check what happens if spells acquired through class quests are missing even if you're high enough level that the rotation expects them
             //TODO: If you're less than level 70, go right into the combo - don't bother trying to balance it. Maybe if you're 68 or 69 and you can balance it for black?
@@ -163,10 +167,10 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => !AoeMode,                                                   () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Dualcast),                            () => SmUtil.SyncedCast(Spells.Scatter, Core.Me.CurrentTarget),     RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Embolden),                            () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => CapLoss(10,3) > 0 && DoMoulinet && !EmboldenBurstReadySoon, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => Core.Me.HasAnyAura(mManaficationAndEmbolden) && CanDoBurst, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => CapLoss(10,3) > 0 && CanDoBurst && !EmboldenReadySoon,      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                     () => SmUtil.SyncedCast(Spells.Veraero2, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => CapLoss(3,10) > 0 && DoMoulinet && !EmboldenBurstReadySoon, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => CapLoss(3,10) > 0 && CanDoBurst && !EmboldenReadySoon,      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => true,                                                       () => SmUtil.SyncedCast(Spells.Verthunder2, Core.Me.CurrentTarget), RdmStateIds.Aoe),
                             })
                     },
@@ -175,13 +179,14 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => !AoeMode,        () => SmUtil.NoOp(),                                                RdmStateIds.FishForProcsFirstWeave, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 1400,  () => SmUtil.NoOp(),                                                RdmStateIds.AoeSecondWeave,         TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => DoEmboldenBurst, () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),    RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget), RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.AoeSecondWeave)
+                                new StateTransition<RdmStateIds>(() => !AoeMode,            () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 1400,      () => SmUtil.NoOp(),                                                 RdmStateIds.AoeSecondWeave,         TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => DoEmboldenBurst,     () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),     RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => DoManaficationBurst, () => SmUtil.SyncedCast(Spells.Manafication, Core.Me.CurrentTarget), RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget),  RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.AoeSecondWeave)
                             })
                     },
                     {
@@ -189,12 +194,13 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,   () => SmUtil.NoOp(),                                                RdmStateIds.Aoe, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => DoEmboldenBurst, () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget), RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.Aoe)
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,       () => SmUtil.NoOp(),                                                 RdmStateIds.Aoe, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => DoEmboldenBurst,     () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),     RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => DoManaficationBurst, () => SmUtil.SyncedCast(Spells.Manafication, Core.Me.CurrentTarget), RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget),  RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Aoe)
                             })
                     },
                     //TODO: We should probably have swiftcast in here
