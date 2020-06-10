@@ -105,8 +105,7 @@ namespace Magitek.Rotations
             return CombatUtil.Enemies.Where(e => target.Distance(e) <= distance + e.CombatReach);
         }
 
-        //private static int AoeTargets => EnemiesWithinOf(5, Core.Me.CurrentTarget).Count();
-        private static int AoeTargets => 4;
+        private static int AoeTargets => EnemiesWithinOf(5, Core.Me.CurrentTarget).Count();
 
         //TODO: Will we ever be in single target mode with more than 2 targets? If not, this can be simplified.
         private static bool UseScatterSt()
@@ -245,8 +244,6 @@ namespace Magitek.Rotations
             List<uint> mVerstoneAndDualcast = new List<uint>() { Auras.VerstoneReady, Auras.Dualcast };
             List<uint> mVerfireAndDualcast = new List<uint>() { Auras.VerfireReady, Auras.Dualcast };
             List<uint> mManaficationAndEmbolden = new List<uint>() { Auras.Manafication, Auras.Embolden };
-
-            SmUtil.SetSyncedLevel(61);
 
             //TODO: Use embolden during AoE at low mana if it would sit for a really long time waiting for us to build up mana - need to take Manafication into account, because we might not be sitting for as long as we think we would if that will go off
             //TODO: Lower level AoE rotations
