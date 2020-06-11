@@ -158,10 +158,10 @@ namespace Magitek.Rotations
 
         private static bool AoeMode => AoeTargets >= MinAoeTargets;
 
-        private static bool EmboldenReadySoon => Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
+        private static bool EmboldenReadySoon => SmUtil.SyncedLevel >= Spells.Embolden.LevelAcquired && Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
         private static bool DoEmboldenBurst => ((BlackMana == 100 && WhiteMana == 100) || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp)  || Core.Me.HasAura(Auras.Manafication)) && CanDoBurst;
         private static bool DoManaficationBurst => BlackMana >= 50 && WhiteMana >= 50 && BlackMana <= 65 && WhiteMana <= 65 && CanDoBurst;
-        //We can do he burst if we'll hit 3 or more enemies with Moulinet
+        //We can do the burst if we'll hit 3 or more enemies with Moulinet
         private static bool CanDoBurst => EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
                                                                                                        && r.CurrentHealthPercent >= MinBurstHealth) >= MinAoeTargets;
 
@@ -178,16 +178,14 @@ namespace Magitek.Rotations
 
         private static bool ShouldVerfireAoe()
         {
-            if (WhiteMana < BlackMana)
+            if (WhiteMana < BlackMana || !Core.Me.HasAura(Auras.VerfireReady))
                 return false;
-
             return UseProcInAoe();
         }
         private static bool ShouldVerstoneAoe()
         {
-            if (BlackMana < WhiteMana)
+            if (BlackMana < WhiteMana || !Core.Me.HasAura(Auras.VerstoneReady))
                 return false;
-
             return UseProcInAoe();
         }
         //TODO: Will we ever be in AoE mode with fewer than 3 targets? If not, this can be simplified
@@ -270,17 +268,19 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                   () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe(),                                      () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                         () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),     RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Dualcast),                            () => SmUtil.SyncedCast(Spells.Scatter, Core.Me.CurrentTarget),     RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => Core.Me.HasAnyAura(mManaficationAndEmbolden) && CanDoBurst, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => CapLoss(10,3) > 0 && CanDoBurst && !EmboldenReadySoon,      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe(),                                        () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                     () => SmUtil.SyncedCast(Spells.Veraero2, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => CapLoss(3,10) > 0 && CanDoBurst && !EmboldenReadySoon,      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe(),                                         () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),     RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => true,                                                       () => SmUtil.SyncedCast(Spells.Verthunder2, Core.Me.CurrentTarget), RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                                        () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe(),                                                           () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                                              () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),     RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Dualcast),                                                 () => SmUtil.SyncedCast(Spells.Scatter, Core.Me.CurrentTarget),     RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Core.Me.HasAnyAura(mManaficationAndEmbolden) && CanDoBurst,                      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe() && CapLoss(12,3) > 0 && CanDoBurst && !EmboldenReadySoon,    () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe(),                                                             () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana && CapLoss(10,3) > 0 && CanDoBurst && !EmboldenReadySoon, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                                          () => SmUtil.SyncedCast(Spells.Veraero2, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe() && CapLoss(3,12) > 0 && CanDoBurst && !EmboldenReadySoon,     () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe(),                                                              () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),     RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => CapLoss(3,10) > 0 && CanDoBurst && !EmboldenReadySoon,                           () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => true,                                                                            () => SmUtil.SyncedCast(Spells.Verthunder2, Core.Me.CurrentTarget), RdmStateIds.Aoe),
                             })
                     },
                     {
