@@ -171,7 +171,7 @@ namespace Magitek.Rotations
 
         private static int TargetMana => ManaficationUp && (BlackMana <= 40 || WhiteMana <= 40) ? 40 : 80;
 
-        private static bool AoeMode => AoeTargets >= MinAoeTargets;
+        private static bool AoeMode => AoeTargets >= MinAoeTargets && SmUtil.SyncedLevel >= Spells.Verthunder2.LevelAcquired;
 
         private static bool EmboldenReadySoon => SmUtil.SyncedLevel >= Spells.Embolden.LevelAcquired && Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
         private static bool DoEmboldenBurst => ((BlackMana == 100 && WhiteMana == 100) || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp)  || HasAura(Auras.Manafication)) && CanDoBurst;
@@ -272,6 +272,8 @@ namespace Magitek.Rotations
             List<uint> mVerfireAndDualcast = new List<uint>() { Auras.VerfireReady, Auras.Dualcast };
             List<uint> mManaficationAndEmbolden = new List<uint>() { Auras.Manafication, Auras.Embolden };
 
+            //TODO: At levels below Moulinet, when in AoE, should we do the combo instead? Remember combo is faster (1.5s), so it's effective potency is 2/3 higher than reported
+            //      Also remember that betwee 18 and 21, we'd need to balance between Verthunder 2 and Veraero (no Veraero 2 until 22)
             //TODO: Use embolden during AoE at low mana if it would sit for a really long time waiting for us to build up mana - need to take Manafication into account, because we might not be sitting for as long as we think we would if that will go off
             //TODO: Lower level AoE rotations
             //TODO: Incorporate all of the settings to enable/disable various skills & spells
