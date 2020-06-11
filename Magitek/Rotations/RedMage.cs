@@ -240,7 +240,8 @@ namespace Magitek.Rotations
             }
         }
 
-        private static bool ReadyForComboNoRedoublement => BlackMana >= 55 && WhiteMana >= 55 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired;
+        private static bool ReadyForComboNoRedoublement => BlackMana >= 55 && WhiteMana >= 55 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired;
+        private static bool ReadyForComboNoZwerchhau => BlackMana >= 30 && WhiteMana >= 30 && SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired;
 
         private static bool ShouldUseAcceleration =>
                SmUtil.SyncedLevel >= Spells.Acceleration.LevelAcquired
@@ -358,6 +359,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAllAuras(mVerfireAndDualcast),             () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerfireUpDualcast,       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Dualcast),                      () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                             () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                             () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                          () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAllAuras(mBothProcs),                      () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.VerstoneReady),                 () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
@@ -495,6 +497,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAllAuras(mVerfireAndDualcast),              () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerfireUpDualcast,       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Dualcast),                       () => SmUtil.NoOp(), RdmStateIds.EschewFishingNeitherProcUpDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                              () => SmUtil.NoOp(), RdmStateIds.Moving,                               TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                              () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                        TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                           () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                        TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAllAuras(mBothProcs),                       () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpNoDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.VerstoneReady),                  () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpNoDualcast,    TransitionType.Immediate),
@@ -638,6 +641,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.Manafication),                       () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ShouldUseAcceleration && !Core.Me.HasAllAuras(mBothProcs), () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                                  () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                                  () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                               () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAllAuras(mBothProcs),                           () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => Core.Me.HasAura(Auras.VerstoneReady),                      () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
