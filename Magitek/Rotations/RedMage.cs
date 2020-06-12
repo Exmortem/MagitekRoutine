@@ -87,18 +87,6 @@ namespace Magitek.Rotations
         private const int GcdBufferMs = 350;
         private static double GcdLeft => Math.Max(Spells.Riposte.Cooldown.TotalMilliseconds - GcdBufferMs, 0);
 
-        private static Stopwatch mComboTimer = new Stopwatch();
-        private static async Task<bool> CastComboSpell(SpellData spell, GameObject target)
-        {
-            if (await SmUtil.SyncedCast(spell, target))
-            {
-                mComboTimer.Restart();
-                return true;
-            }
-            return false;
-        }
-        private static bool ComboUp => mComboTimer.ElapsedMilliseconds <= 15000;
-
         private static bool OutsideComboRange => Core.Me.CurrentTarget == null ? false : Core.Me.Distance(Core.Me.CurrentTarget) > 3.4 + Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach;
 
         private static IEnumerable<GameObject> EnemiesWithinOf(double distance, GameObject target)
@@ -293,9 +281,9 @@ namespace Magitek.Rotations
             List<uint> mManaficationAndEmbolden = new List<uint>() { Auras.Manafication, Auras.Embolden };
 
             //TODO: Incorporate all of the settings to enable/disable various skills & spells
-            //TODO: If some other spell is cast in the middle of the combo, (especially reprise), it tries to finish. Either using un-combo melee, or hardcasting verthunder/veraero/jolt ii
             //TODO: Don't use acceleration right before manafication
             //TODO: Smart targeting (remember, contre sixte has a longer range)
+            //TODO: Don't cast verstone or verfire if proc will expire before it's done (it interrupts the cast)
             //TODO: Use embolden during AoE at low mana if it would sit for a really long time waiting for us to build up mana - need to take Manafication into account, because we might not be sitting for as long as we think we would if that will go off
             //TODO: What if we're moving during AoE? Need an AoeMoving state. It should probably try to swiftcast stuff and also use enchanted moulinet
             //TODO: If you're less than level 70, go right into the combo - don't bother trying to balance it. Maybe if you're 68 or 69 and you can balance it for black?
@@ -916,7 +904,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                    () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.ReadyForCombo),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.ReadyForCombo),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                      () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.ReadyForCombo),
-                                new StateTransition<RdmStateIds>(() => UseRiposte,                                          () => CastComboSpell(Spells.Riposte, Core.Me.CurrentTarget),        RdmStateIds.Zwerchhau),
+                                new StateTransition<RdmStateIds>(() => UseRiposte,                                          () => SmUtil.SyncedCast(Spells.Riposte, Core.Me.CurrentTarget),     RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => UseRiposte && (!OutsideComboRange || GcdLeft >= 50), () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse),
                                 //We're too far away, so keep casting. First check if the lower mana has a proc. If so, use it
                                 new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana,                               () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsForCombo),
@@ -937,7 +925,7 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                    () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !ComboUp,                                            () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                    () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                   () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Zwerchhau),
@@ -945,7 +933,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                    () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                      () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Zwerchhau),
-                                new StateTransition<RdmStateIds>(() => true,                                                () => CastComboSpell(Spells.Zwerchhau, Core.Me.CurrentTarget),       RdmStateIds.Redoublement)
+                                new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.SyncedCast(Spells.Zwerchhau, Core.Me.CurrentTarget),    RdmStateIds.Redoublement)
                             })
                     },
                     {
@@ -955,7 +943,7 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired, () => SmUtil.NoOp(),                                                  RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                       () => SmUtil.NoOp(),                                                  RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !ComboUp,                                               () => SmUtil.NoOp(),                                                  RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                       () => SmUtil.NoOp(),                                                  RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                      () => SmUtil.NoOp(),                                                  RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                         () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                    RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),        RdmStateIds.Redoublement),
@@ -963,7 +951,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                       () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),   RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                        () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),    RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                         () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),               RdmStateIds.Redoublement),
-                                new StateTransition<RdmStateIds>(() => true,                                                   () => CastComboSpell(Spells.Redoublement, Core.Me.CurrentTarget),     RdmStateIds.VerflareOrVerholy)
+                                new StateTransition<RdmStateIds>(() => true,                                                   () => SmUtil.SyncedCast(Spells.Redoublement, Core.Me.CurrentTarget),  RdmStateIds.VerflareOrVerholy)
                             })
                     },
                     {
@@ -972,7 +960,7 @@ namespace Magitek.Rotations
                             new List<StateTransition<RdmStateIds>>()
                             { 
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Verflare.LevelAcquired,                                             () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !ComboUp,                                                                                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                                                               () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ShouldUseAcceleration && !HasAllAuras(mBothProcs),                            () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                                                                 () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                                                                    () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.VerflareOrVerholy),
@@ -981,11 +969,11 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && UseDisplacement,                                                             () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                                                                () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                                                                 () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && !HasAura(Auras.VerstoneReady),                                         () => CastComboSpell(Spells.Verholy, Core.Me.CurrentTarget),         RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && !HasAura(Auras.VerfireReady),                                          () => CastComboSpell(Spells.Verflare, Core.Me.CurrentTarget),        RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => (!HasAura(Auras.VerstoneReady) && WhiteMana+21 <= BlackMana+30) || BlackMana+21 > WhiteMana+30, () => CastComboSpell(Spells.Verholy, Core.Me.CurrentTarget),         RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && !HasAura(Auras.VerstoneReady),                                         () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && !HasAura(Auras.VerfireReady),                                          () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => (!HasAura(Auras.VerstoneReady) && WhiteMana+21 <= BlackMana+30) || BlackMana+21 > WhiteMana+30, () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
                                 //It's important that verflare is last, because if we'd like to cast verholy but we don't have it yet, we'll fall through to here, and we need to cast verflare to get out of this state
-                                new StateTransition<RdmStateIds>(() => true,                                                                                           () => CastComboSpell(Spells.Verflare, Core.Me.CurrentTarget),        RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                           () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
                             })
                     },
                     {
@@ -994,7 +982,7 @@ namespace Magitek.Rotations
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Scorch.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !ComboUp,                                         () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                   () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                      () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                   () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget),  RdmStateIds.Scorch),
