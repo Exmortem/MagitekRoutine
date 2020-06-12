@@ -767,12 +767,14 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,   () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsForCombo, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget),  RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,   () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => true,            () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.PrepareProcsForCombo)
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                                             () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsForCombo, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.PrepareProcsForCombo),
+                                //If mana's equal and no procs are up, we can swiftcast to get to the combo
+                                new StateTransition<RdmStateIds>(() => WhiteMana == BlackMana && SwiftcastReady && !HasAnyAura(mBothProcs) && CapLoss(11,0) <= 8, () => SmUtil.Swiftcast(Spells.Veraero, Core.Me),                     RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                      () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                      () => SmUtil.SyncedCast(Spells.ContreSixte, Core.Me.CurrentTarget),  RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => UseEngagement,                                                                             () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                      () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.PrepareProcsForCombo)
                             })
                     },
                     {
