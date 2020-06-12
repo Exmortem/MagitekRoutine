@@ -23,6 +23,7 @@ namespace Magitek.Rotations
     public enum RdmStateIds
     {
         Start,
+        RiposteAtMost,
         Moving,
         MovingSwiftcast,
         FishForProcsUntil60Mana,
@@ -305,8 +306,18 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => AoeMode, () => SmUtil.NoOp(), RdmStateIds.Aoe,                     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => true,    () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate)
+                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel == 1, () => SmUtil.NoOp(), RdmStateIds.RiposteAtMost,           TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => AoeMode,                 () => SmUtil.NoOp(), RdmStateIds.Aoe,                     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => true,                    () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate)
+                            })
+                    },
+                    {
+                        RdmStateIds.RiposteAtMost,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => true, () => SmUtil.SyncedCast(Spells.Riposte, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => true, () => SmUtil.NoOp(),                                            RdmStateIds.Start, TransitionType.NextPulse)
                             })
                     },
                     //TODO: What if we're moving during AoE? Need an AoeMoving state. It should probably try to swiftcast stuff and also use enchanted moulinet
@@ -497,9 +508,10 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                               () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Verthunder.LevelAcquired, () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
                     {
