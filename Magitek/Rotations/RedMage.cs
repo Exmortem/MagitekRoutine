@@ -111,10 +111,8 @@ namespace Magitek.Rotations
         }
         private static BattleCharacter BestAoeTarget => BestTarget(25, 5);
         private static BattleCharacter BestContreSixteTarget => BestTarget(25, 6);
-        //private static int AoeTargets => EnemiesWithinOf(5, BestTarget(25, 5)).Count();
-        private static int AoeTargets => 3;
-        //private static int ContreSixteTargets => EnemiesWithinOf(6, BestTarget(25, 6)).Count();
-        private static int ContreSixteTargets => AoeTargets;
+        private static int AoeTargets => EnemiesWithinOf(5, BestTarget(25, 5)).Count();
+        private static int ContreSixteTargets => EnemiesWithinOf(6, BestTarget(25, 6)).Count();
 
         private static Dictionary<uint, int> AuraLevelsAcquiredDict = new Dictionary<uint, int>()
         {
@@ -315,6 +313,7 @@ namespace Magitek.Rotations
             //TODO: If you're less than level 70, go right into the combo - don't bother trying to balance it. Maybe if you're 68 or 69 and you can balance it for black?
             //TODO: At levels below Moulinet, when in AoE, should we do the combo instead? Remember combo is faster (1.5s), so it's effective potency is 2/3 higher than reported
             //      Also remember that betwee 18 and 21, we'd need to balance between Verthunder 2 and Veraero (no Veraero 2 until 22)
+            //TODO: Clean up the code
             mStateMachine = new StateMachine<RdmStateIds>(
                 RdmStateIds.Start,
                 new Dictionary<RdmStateIds, State<RdmStateIds>>()
