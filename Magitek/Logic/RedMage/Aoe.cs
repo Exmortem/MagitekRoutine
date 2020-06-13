@@ -57,9 +57,6 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.UseContreSixte)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 6 + r.CombatReach) < RedMageSettings.Instance.ContreSixteEnemies)
-                return false;
-
             if (Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
@@ -224,7 +221,7 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Ver2)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < RedMageSettings.Instance.Ver2Enemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < 3)
                 return false;
 
             else
@@ -240,7 +237,7 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Ver2)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < RedMageSettings.Instance.Ver2Enemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < 3)
                 return false;
 
             else
