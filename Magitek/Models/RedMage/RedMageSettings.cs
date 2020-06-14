@@ -96,6 +96,10 @@ namespace Magitek.Models.RedMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseSmartTargeting { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
 
         [Setting]

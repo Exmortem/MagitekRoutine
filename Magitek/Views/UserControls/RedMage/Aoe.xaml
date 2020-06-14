@@ -84,6 +84,7 @@
                         </TextBlock.Opacity>
                     </TextBlock>
                 </StackPanel>
+                <CheckBox Margin="0,10,0,0" Content="Automatically choose best AoE target" IsChecked="{Binding RedMageSettings.UseSmartTargeting, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
     </StackPanel>

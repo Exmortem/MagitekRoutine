@@ -101,6 +101,9 @@ namespace Magitek.Rotations
 
         private static BattleCharacter BestTarget(double spellRange, double spellRadius)
         {
+            if (!RedMageSettings.Instance.UseSmartTargeting)
+                return Core.Me.CurrentTarget as BattleCharacter;
+
             if (Core.Me.CurrentTarget == null || Core.Me.CurrentTarget == Core.Me || !Core.Me.CurrentTarget.InView())
                 return null;
 
