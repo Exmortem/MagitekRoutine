@@ -76,7 +76,7 @@ namespace Magitek.Rotations
 
     public static class RedMage
     {
-        public const int MinTargetsForAoeMode = 3;
+        public const int    MinTargetsForAoeMode = 3;
         public const double MinAoeBurstStartHealth = 40;
         public const int    MinAoeBurstStartEnemies = 3;
         public const int    MinAoeBurstContinueEnemies = 3; //According to The Balance, melee combo is better against 2 enemies
@@ -89,7 +89,7 @@ namespace Magitek.Rotations
         private const int GcdBufferMs = 350;
         private static double GcdLeft => Math.Max(Spells.Riposte.Cooldown.TotalMilliseconds - GcdBufferMs, 0);
 
-        private static bool OutsideComboRange => Core.Me.CurrentTarget == null ? false : Core.Me.Distance(Core.Me.CurrentTarget) > 3.4 + Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach;
+        private static bool OutsideComboRange => (Core.Me.CurrentTarget == null || Core.Me.CurrentTarget == Core.Me) ? false : Core.Me.Distance(Core.Me.CurrentTarget) > 3.4 + Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach;
 
         private static IEnumerable<GameObject> EnemiesWithinOf(double distance, GameObject target)
         {
@@ -131,7 +131,7 @@ namespace Magitek.Rotations
 
         private static bool UseScatterSt()
         {
-            if (!RedMageSettings.Instance.UseAoe)
+            if (!UseScatter)
                 return false;
 
             if (!HasAura(Auras.Dualcast))
@@ -220,6 +220,8 @@ namespace Magitek.Rotations
         private static bool UseContreSixte => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.UseContreSixte;
         private static bool UseReprise => RedMageSettings.Instance.UseReprise && CombatUtil.Enemies.Any(e => e.IsBoss());
         private static bool UseVer2 => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Ver2;
+        private static bool UseScatter => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Scatter;
+        private static bool SwiftcastScatter => UseScatter && RedMageSettings.Instance.SwiftcastScatter;
 
         private static bool ShouldVerfireAoe()
         {
@@ -272,6 +274,9 @@ namespace Magitek.Rotations
             if (!HasAura(Auras.Dualcast))
                 return false;
 
+            if (!UseScatter)
+                return true;
+
             if (SmUtil.SyncedLevel >= Spells.Impact.LevelAcquired)
             {
                 return AoeTargets <= 1;
@@ -297,7 +302,7 @@ namespace Magitek.Rotations
                 || (BlackMana > WhiteMana && !HasAura(Auras.VerfireReady) && HasAura(Auras.VerstoneReady) && BlackMana - WhiteMana <= 9));
 
         private static bool SwiftcastReadySt => RedMageSettings.Instance.SwiftcastVerthunderVeraero && SwiftcastUp;
-        private static bool SwiftcastReadyAoe => RedMageSettings.Instance.SwiftcastScatter && SwiftcastUp;
+        private static bool SwiftcastReadyAoe => SwiftcastScatter && SwiftcastUp;
         private static bool SwiftcastUp => SmUtil.SyncedLevel >= Spells.Swiftcast.LevelAcquired && Spells.Swiftcast.Cooldown == TimeSpan.Zero;
 
         static RedMage()
@@ -350,7 +355,7 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => !AoeMode,                                                                                                () => SmUtil.NoOp(),                                               RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe(),                                                                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.AoeFirstWeave),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                                                                      () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Dualcast),                                                                                 () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => UseScatter && HasAura(Auras.Dualcast),                                                                   () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
                                 //Continue a moulinet burst if we've started one
                                 new StateTransition<RdmStateIds>(() => HasAnyAura(mManaficationAndEmbolden) && EnoughEnemiesToMoulinet,                                         () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
                                 //Cast moulinet if we'd otherwise cast verstone, but doing so would overcap mana
@@ -383,7 +388,8 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe() && CapLoss(11,0) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,    () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                                                          () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
                                 new StateTransition<RdmStateIds>(() => CapLoss(3,3) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,                           () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.Swiftcast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => UseScatter,                                                                                  () => SmUtil.Swiftcast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,    TransitionType.NextPulse)
                             })
                     },
                     {
@@ -962,7 +968,8 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired, () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
+                                //We need to give the action manager time to notice there's a combo going, otherwise we sometimes leave this state immediately
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 50 && ActionManager.ComboTimeLeft == 0,    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                   () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700,                                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.Zwerchhau),
@@ -1035,8 +1042,8 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Dualcast), () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget), RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                    () => SmUtil.NoOp(),                                    RdmStateIds.Start, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => UseScatter && HasAura(Auras.Dualcast), () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget), RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                    RdmStateIds.Start, TransitionType.NextPulse)
                             })
                     },
                 });

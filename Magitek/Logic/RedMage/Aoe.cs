@@ -21,7 +21,7 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Scatter)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < RedMageSettings.Instance.ScatterEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me?.CurrentTarget) <= 5 + r.CombatReach) < 2)
                 return false;
 
             if (!Core.Me.HasAura(Auras.Dualcast))

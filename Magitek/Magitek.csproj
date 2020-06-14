@@ -120,8 +120,11 @@
     <Compile Include="Controls\TogglesSettings.xaml.cs">
       <DependentUpon>TogglesSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\MultiBooleanAndConverterT.cs" />
     <Compile Include="Converters\BooleanConverterT.cs" />
     <Compile Include="Converters\BooleanToHalfOpaqueConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToBooleanConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToHalfOpaqueConverter .cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToOpaqueConverter.cs" />
     <Compile Include="Converters\ConditionAddConverter.cs" />

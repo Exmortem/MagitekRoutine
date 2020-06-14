@@ -27,10 +27,6 @@ namespace Magitek.Models.RedMage
         public bool Scatter { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int ScatterEnemies { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool SwiftcastScatter { get; set; }
 

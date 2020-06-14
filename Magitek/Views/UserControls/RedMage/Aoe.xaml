@@ -8,6 +8,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:BooleanToHalfOpaqueConverter x:Key="BooleanToHalfOpaqueConverter" />
+            <converters:MultiBooleanAndToHalfOpaqueConverter x:Key="MultiBooleanAndToHalfOpaqueConverter" />
+            <converters:MultiBooleanAndToBooleanConverter x:Key="MultiBooleanAndToBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -19,23 +21,24 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Vertical">
-                <CheckBox                   Content="Use Area Of Effect Abilities"   IsChecked="{Binding RedMageSettings.UseAoe, Mode=TwoWay}"         Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="21,5,0,0" Content="Use Veraero II / Verthunder II" IsChecked="{Binding RedMageSettings.Ver2, Mode=TwoWay}"           Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
-                <CheckBox Margin="21,6,0,0" Content="Use Contre Sixte"               IsChecked="{Binding RedMageSettings.UseContreSixte, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                <CheckBox Content="Scatter When There Are " IsChecked="{Binding RedMageSettings.Scatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.ScatterEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="24,0,5,5" Orientation="Horizontal">
-                <CheckBox Content="Swiftcast Scatter" IsChecked="{Binding RedMageSettings.SwiftcastScatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox                   Content="Use Area Of Effect Abilities"   IsChecked="{Binding RedMageSettings.UseAoe, Mode=TwoWay}"           Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="21,5,0,0" Content="Use Veraero II / Verthunder II" IsChecked="{Binding RedMageSettings.Ver2, Mode=TwoWay}"             Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
+                <CheckBox Margin="21,5,0,0" Content="Use Scatter"                    IsChecked="{Binding RedMageSettings.Scatter, Mode=TwoWay}"          Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
+                <CheckBox Margin="42,5,0,0" Content="Swiftcast Scatter"              IsChecked="{Binding RedMageSettings.SwiftcastScatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}">
+                    <CheckBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiBooleanAndToBooleanConverter}" Mode="OneWay">
+                            <Binding Path="RedMageSettings.UseAoe"/>
+                            <Binding Path="RedMageSettings.Scatter"/>
+                        </MultiBinding>
+                    </CheckBox.IsEnabled>
+                    <CheckBox.Opacity>
+                        <MultiBinding Converter="{StaticResource MultiBooleanAndToHalfOpaqueConverter}" Mode="OneWay">
+                            <Binding Path="RedMageSettings.UseAoe"/>
+                            <Binding Path="RedMageSettings.Scatter"/>
+                        </MultiBinding>
+                    </CheckBox.Opacity>
+                </CheckBox>
+                <CheckBox Margin="21,5,0,0" Content="Use Contre Sixte"               IsChecked="{Binding RedMageSettings.UseContreSixte, Mode=TwoWay}"   Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
             </StackPanel>
         </controls:SettingsBlock>
 
