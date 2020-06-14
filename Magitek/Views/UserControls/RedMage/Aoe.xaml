@@ -22,6 +22,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Vertical">
                 <CheckBox                   Content="Use Area Of Effect Abilities"   IsChecked="{Binding RedMageSettings.UseAoe, Mode=TwoWay}"           Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="21,5,0,0" Content="Use Contre Sixte"               IsChecked="{Binding RedMageSettings.UseContreSixte, Mode=TwoWay}"   Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
                 <CheckBox Margin="21,5,0,0" Content="Use Veraero II / Verthunder II" IsChecked="{Binding RedMageSettings.Ver2, Mode=TwoWay}"             Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
                 <CheckBox Margin="21,5,0,0" Content="Use Scatter"                    IsChecked="{Binding RedMageSettings.Scatter, Mode=TwoWay}"          Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
                 <CheckBox Margin="42,5,0,0" Content="Swiftcast Scatter"              IsChecked="{Binding RedMageSettings.SwiftcastScatter, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}">
@@ -38,26 +39,53 @@
                         </MultiBinding>
                     </CheckBox.Opacity>
                 </CheckBox>
-                <CheckBox Margin="21,5,0,0" Content="Use Contre Sixte"               IsChecked="{Binding RedMageSettings.UseContreSixte, Mode=TwoWay}"   Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
+                <CheckBox Margin="21,5,0,0" Content="Use Moulinet"                   IsChecked="{Binding RedMageSettings.Moulinet, Mode=TwoWay}"         Style="{DynamicResource CheckBoxFlat}" IsEnabled="{Binding RedMageSettings.UseAoe, Mode=OneWay}" Opacity="{Binding RedMageSettings.UseAoe, Converter={StaticResource BooleanToHalfOpaqueConverter}, Mode=OneWay}" />
+                <StackPanel Margin="42,5,0,0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Enemy health at least ">
+                        <TextBlock.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToBooleanConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </TextBlock.IsEnabled>
+                        <TextBlock.Opacity>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToHalfOpaqueConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </TextBlock.Opacity>
+                    </TextBlock>
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.EmboldenFinisherPercent, Mode=TwoWay}">
+                        <controls:Numeric.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToBooleanConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </controls:Numeric.IsEnabled>
+                        <controls:Numeric.Opacity>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToHalfOpaqueConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </controls:Numeric.Opacity>
+                    </controls:Numeric>
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" % for Moulinet finisher">
+                        <TextBlock.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToBooleanConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </TextBlock.IsEnabled>
+                        <TextBlock.Opacity>
+                            <MultiBinding Converter="{StaticResource MultiBooleanAndToHalfOpaqueConverter}" Mode="OneWay">
+                                <Binding Path="RedMageSettings.UseAoe"/>
+                                <Binding Path="RedMageSettings.Moulinet"/>
+                            </MultiBinding>
+                        </TextBlock.Opacity>
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Moulinet When There Are " IsChecked="{Binding RedMageSettings.Moulinet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.MoulinetEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Enemy Health at Least " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.EmboldenFinisherPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Percent for Embolden+Moulinet Finisher" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
 
 </UserControl>

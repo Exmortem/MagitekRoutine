@@ -97,7 +97,7 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //We only use this in conjunction with Moulinet
-            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
+            if (EnemiesInMoulinetArc < 3)
                 return false;
 
             //We only use this if enough enemies have enough health
@@ -144,7 +144,7 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             //We only use this in conjunction with Moulinet
-            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
+            if (EnemiesInMoulinetArc < 3)
                 return false;
 
             //We only use this if enough enemies have enough health
@@ -188,7 +188,7 @@ namespace Magitek.Logic.RedMage
             if (!InMoulinetRange(Core.Me.CurrentTarget))
                 return false;
 
-            if (EnemiesInMoulinetArc < RedMageSettings.Instance.MoulinetEnemies)
+            if (EnemiesInMoulinetArc < 3)
                 return false;
 
             if (   EnemiesInMoulinetArc >= 3

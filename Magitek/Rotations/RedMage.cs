@@ -76,10 +76,9 @@ namespace Magitek.Rotations
 
     public static class RedMage
     {
-        public const int    MinTargetsForAoeMode = 3;
-        public const double MinAoeBurstStartHealth = 40;
-        public const int    MinAoeBurstStartEnemies = 3;
-        public const int    MinAoeBurstContinueEnemies = 3; //According to The Balance, melee combo is better against 2 enemies
+        public const int MinTargetsForAoeMode = 3;
+        public const int MinAoeBurstStartEnemies = 3;
+        public const int MinAoeBurstContinueEnemies = 3; //According to The Balance, melee combo is better against 2 enemies
 
         private static StateMachine<RdmStateIds> mStateMachine;
 
@@ -193,10 +192,14 @@ namespace Magitek.Rotations
         private static bool DoEmboldenBurst => ((BlackMana == 100 && WhiteMana == 100) || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp)  || HasAura(Auras.Manafication)) && EnoughEnemiesToStartBurst;
         private static bool DoManaficationBurst => BlackMana >= 50 && WhiteMana >= 50 && BlackMana <= 65 && WhiteMana <= 65 && EnoughEnemiesToStartBurst;
         //We can start the burst if we'll hit enough enemies with Moulinet, and they all have enough health to make it worth it
-        private static bool EnoughEnemiesToStartBurst => EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
-                                                                                                       && r.CurrentHealthPercent >= MinAoeBurstStartHealth) >= MinAoeBurstStartEnemies;
+        private static bool EnoughEnemiesToStartBurst => 
+               UseMoulinet
+            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
+                                                                            && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent) >= MinAoeBurstStartEnemies;
         //We can continue the burst as long as there are enough enemies remaining (we no longer care about health)
-        private static bool EnoughEnemiesToMoulinet => EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r => InMoulinetArc(r)) >= MinAoeBurstContinueEnemies;
+        private static bool EnoughEnemiesToMoulinet =>
+               UseMoulinet
+            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r => InMoulinetArc(r)) >= MinAoeBurstContinueEnemies;
 
         private static bool InMoulinetArc(GameObject target)
         {
@@ -222,6 +225,7 @@ namespace Magitek.Rotations
         private static bool UseVer2 => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Ver2;
         private static bool UseScatter => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Scatter;
         private static bool SwiftcastScatter => UseScatter && RedMageSettings.Instance.SwiftcastScatter;
+        private static bool UseMoulinet => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Moulinet;
 
         private static bool ShouldVerfireAoe()
         {
