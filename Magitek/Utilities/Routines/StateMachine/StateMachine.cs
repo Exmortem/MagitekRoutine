@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Magitek.Utilities.Routines
 {
+    //This class can be used to implement combat rotations.
+    //See StateTransition.cs for details on how the state machine operates.
+    //See Logic/RedMage/StateMachine.cs for an example implementation
     public class StateMachine<T> : IStateMachine where T : IComparable
     {
         private Dictionary<T, State<T>> mStateDict;

@@ -229,6 +229,8 @@
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
+    <Compile Include="Logic\RedMage\CombatMessages.cs" />
+    <Compile Include="Logic\RedMage\StateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
     <Compile Include="Utilities\Routines\StateMachine\State.cs" />
@@ -271,10 +273,7 @@
     <Compile Include="Logic\Paladin\Heal.cs" />
     <Compile Include="Logic\Paladin\Pvp.cs" />
     <Compile Include="Logic\Paladin\SingleTarget.cs" />
-    <Compile Include="Logic\RedMage\Aoe.cs" />
-    <Compile Include="Logic\RedMage\Buff.cs" />
     <Compile Include="Logic\RedMage\Heal.cs" />
-    <Compile Include="Logic\RedMage\SingleTarget.cs" />
     <Compile Include="Logic\Roles\MagicDps.cs" />
     <Compile Include="Logic\Roles\PhysicalDps.cs" />
     <Compile Include="Logic\Roles\Tank.cs" />
