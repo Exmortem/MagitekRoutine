@@ -24,43 +24,45 @@ namespace Magitek.Rotations
     {
         Start,
         RiposteAtMost,
-        Moving,
-        MovingSwiftcast,
+        Aoe,
+        AoeSwiftcast,
+        AoeFirstWeave,
+        AoeSecondWeave,
         FishForProcsUntil60Mana,
         FishForProcsSwiftcast,
         FishForProcsFirstWeave,
         FishForProcsSecondWeave,
         FishForProcsNeitherProcUpDualcast,
         FishForProcsNeitherProcUpNoDualcast,
-        FishForProcsBothProcsUpDualcast,
-        FishForProcsBothProcsUpNoDualcast,
         FishForProcsVerstoneUpDualcast,
         FishForProcsVerstoneUpNoDualcast,
         FishForProcsVerfireUpDualcast,
         FishForProcsVerfireUpNoDualcast,
+        FishForProcsBothProcsUpDualcast,
+        FishForProcsBothProcsUpNoDualcast,
         EschewFishingUntil80Mana,
         EschewFishingSwiftcast,
         EschewFishingFirstWeave,
         EschewFishingSecondWeave,
         EschewFishingNeitherProcUpDualcast,
         EschewFishingNeitherProcUpNoDualcast,
-        EschewFishingBothProcsUpDualcast,
-        EschewFishingBothProcsUpNoDualcast,
         EschewFishingVerstoneUpDualcast,
         EschewFishingVerstoneUpNoDualcast,
         EschewFishingVerfireUpDualcast,
         EschewFishingVerfireUpNoDualcast,
+        EschewFishingBothProcsUpDualcast,
+        EschewFishingBothProcsUpNoDualcast,
         PrepareProcsForCombo,
         PrepareProcsFirstWeave,
         PrepareProcsSecondWeave,
         PrepareProcsNeitherProcUpNoDualcast,
         PrepareProcsNeitherProcUpDualcast,
-        PrepareProcsBothProcsUpNoDualcast,
-        PrepareProcsBothProcsUpDualcast,
         PrepareProcsVerstoneUpDualcast,
         PrepareProcsVerstoneUpNoDualcast,
         PrepareProcsVerfireUpDualcast,
         PrepareProcsVerfireUpNoDualcast,
+        PrepareProcsBothProcsUpNoDualcast,
+        PrepareProcsBothProcsUpDualcast,
         OverwriteProc,
         ReadyForCombo,
         Zwerchhau,
@@ -68,37 +70,200 @@ namespace Magitek.Rotations
         VerflareOrVerholy,
         Scorch,
         SingleTargetScatter,
-        Aoe,
-        AoeSwiftcast,
-        AoeFirstWeave,
-        AoeSecondWeave
+        Moving,
+        MovingSwiftcast
     }
 
+    //TODO: Add docs explain all this
+    //TODO: Fix spacing on all multi-line boolean expressions
+    //TODO: Document SM stuff and write an explanation of how to use it
     public static class RedMage
     {
-        public const int MinTargetsForAoeMode = 3;
-        public const int MinAoeBurstStartEnemies = 3;
-        public const int MinAoeBurstContinueEnemies = 3; //According to The Balance, melee combo is better against 2 enemies
-
         private static StateMachine<RdmStateIds> mStateMachine;
 
+        #region Constants
+        //TODO: Document these and organize them for maximum understandability
+        private const int GcdBufferMs = 350;
+
+        private const int EnhancedContreSixteLevelAcquired = 78;
+        private const int EnhancedJoltLevelAcquired = 62;
+
+        private const int ManaForFullCombo = 80;
+        private const int ManaForZwerchhauCombo = 55;
+        private const int ManaForRiposteOnly = 30;
+        private const int MinManaToStartManaficationAoeBurst = 50;
+        private const int MaxManaToStartManaficationAoeBurst = 65;
+
+        private const double MeleeRange = 3.4;
+        private const double LimitedCorpsACorpsRange = 2;
+        private const double GenericAoeSpellRange = 25;
+        private const double GenericAoeSpellRadius = 5;
+        private const double ContreSixteRadius = 6;
+        private const double MoulinetRadius = 8;
+        private const float MoulinetArc = 1.361f; //Translated from radians, this is ~78 degrees left or right of player heading
+
+        private const int EmboldenSoonTime = 7500; //Used to decide whether to do a single moulinet to avoid overcapping, or wait (up to this amount of time) for embolden to come up
+        private const int MaxAccelCooldownToBeReadyForCombo = 7000; //How soon accel must be up when we start a combo to be able to use it before Verflare/Verholy
+        private const int MaxManaficationCooldownToBeReadyForCombo = 7000; //Used to determine if manafication will be up by the time we get to the target mana levels
+
+        private const int MinTargetsForAoeMode = 3;
+        private const int MinAoeBurstStartEnemies = 3;
+        private const int MinMoulinetEnemies = 3; //According to The Balance, melee combo is better against 2 enemies
+
+        private const int MinTargetsToHardcastAoeDuringStPhaseBeforeJolt2Acquired = 2;
+
+        private const int MinTargetsToUseScatterInStPhaseWithImpact = 2;
+        private const int MinTargetsToUseScatterInStPhaseWithEnhancedJoltWithoutImpact = 4;
+        private const int MinTargetsToUseScatterInStPhaseWithoutEnhancedJolt = 3;
+
+        private const int MaxTargetsToUseStProcInAoePhaseWithEnhancedContreSixte = 2;
+        private const int MaxTargetsToUseStProcInAoePhaseWithEnhancedJoltWithoutEnhancedContreSixte = 3;
+        private const int MaxTargetsToUseStProcInAoePhaseWithoutEnhancedJolt = 2;
+
+        private const int MaxTargetsToDualcastStInAoePhaseWithImpact = 1;
+        private const int MaxTargetsToDualcastStInAoePhaseWithEnhancedJoltWithoutImpact = 3;
+        private const int MaxTargetsToDualcastStInAoePhaseWithoutEnhancedJolt = 2;
+        #endregion
+
+        #region General status
         private static int Cap(int mana) => Math.Min(100, mana);
         private static int CapLoss(int moreWhite, int moreBlack) => (WhiteMana + BlackMana + moreWhite + moreBlack) - (Cap(WhiteMana + moreWhite) + Cap(BlackMana + moreBlack));
 
-        private const int GcdBufferMs = 350;
         private static double GcdLeft => Math.Max(Spells.Riposte.Cooldown.TotalMilliseconds - GcdBufferMs, 0);
+        #endregion
 
-        private static bool OutsideComboRange => (Core.Me.CurrentTarget == null || Core.Me.CurrentTarget == Core.Me) ? false : Core.Me.Distance(Core.Me.CurrentTarget) > 3.4 + Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach;
+        #region Skill status
+        private static bool Ver2Enabled => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Ver2;
 
-        private static IEnumerable<GameObject> EnemiesWithinOf(double distance, GameObject target)
+        private static bool ScatterEnabled => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Scatter;
+        private static bool SwiftcastScatter => ScatterEnabled && RedMageSettings.Instance.SwiftcastScatter;
+
+        private static bool UseMoulinet => MoulinetEnabled && MoulinetTargets.Count(r => InMoulinetArc(r)) >= MinMoulinetEnemies;
+        private static bool BurnMoulinet => UseMoulinet && !EmboldenReadySoon;
+        private static bool MoulinetEnabled => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Moulinet;
+
+        private static bool UseReprise => RedMageSettings.Instance.UseReprise && CombatUtil.Enemies.Any(e => e.IsBoss());
+
+        private static bool FlecheEnabled => RedMageSettings.Instance.Fleche;
+
+        private static bool ContreSixteEnabled => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.UseContreSixte;
+
+        private static bool UseCorpsACorps => RedMageSettings.Instance.UseMelee
+                                              && RedMageSettings.Instance.CorpsACorps
+                                              && (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
+                                                  || (Core.Me.CurrentTarget != null
+                                                      && Core.Me.CurrentTarget.Distance(Core.Me) <= LimitedCorpsACorpsRange + Core.Me.CurrentTarget.CombatReach));
+
+        private static bool EngagementEnabled => RedMageSettings.Instance.UseMelee && RedMageSettings.Instance.Engagement;
+
+        private static bool DisplacementEnabled => RedMageSettings.Instance.UseMelee && RedMageSettings.Instance.Displacement;
+
+        private static bool UseLucidDreaming => RedMageSettings.Instance.LucidDreaming && Core.Me.CurrentManaPercent < RedMageSettings.Instance.LucidDreamingManaPercent;
+
+        private static bool UseAccelerationInAoe => RedMageSettings.Instance.Acceleration && DualcastStInAoe() && CastStProcInAoe();
+
+        private static bool EmboldenEnabled => RedMageSettings.Instance.Embolden;
+        private static bool EmboldenReadySoon => EmboldenEnabled && SmUtil.SyncedLevel >= Spells.Embolden.LevelAcquired && Spells.Embolden.Cooldown.TotalMilliseconds <= EmboldenSoonTime;
+
+        private static bool ManaficationEnabled => RedMageSettings.Instance.Manafication;
+        private static bool ManaficationUpIn(int ms) =>
+               ManaficationEnabled
+            && SmUtil.SyncedLevel >= Spells.Manafication.LevelAcquired
+            && ActionManager.HasSpell(Spells.Manafication.Id)
+            && Spells.Manafication.Cooldown.TotalDays <= ms;
+        private static bool ManaficationUp => ManaficationUpIn(0);
+
+        private static bool SwiftcastReadySt => RedMageSettings.Instance.SwiftcastVerthunderVeraero && SwiftcastUp;
+        private static bool SwiftcastReadyAoe => SwiftcastScatter && SwiftcastUp;
+        private static bool SwiftcastUp => SmUtil.SyncedLevel >= Spells.Swiftcast.LevelAcquired && Spells.Swiftcast.Cooldown == TimeSpan.Zero;
+        #endregion
+
+        #region Aoe/Single Target determination
+        private static bool AoeMode => RedMageSettings.Instance.UseAoe && AoeTargetCount >= MinTargetsForAoeMode && SmUtil.SyncedLevel >= Spells.Verthunder2.LevelAcquired;
+
+        private static bool ShouldVerthunder2St => BlackMana <= WhiteMana ? HardcastAoeInSt() : false;
+        private static bool ShouldVeraero2St => WhiteMana <= BlackMana ? HardcastAoeInSt() : false;
+        private static bool HardcastAoeInSt()
         {
-            if (target == null)
-            {
-                return new List<GameObject>();
-            }
-            return CombatUtil.Enemies.Where(e => target.Distance(e) <= distance + e.CombatReach);
+            if (!Ver2Enabled)
+                return false;
+
+            if (SmUtil.SyncedLevel < Spells.Jolt2.LevelAcquired)
+                return AoeTargetCount >= MinTargetsToHardcastAoeDuringStPhaseBeforeJolt2Acquired;
+
+            return false;
         }
 
+        private static bool ScatterInSt()
+        {
+            if (!ScatterEnabled || !MeHasAura(Auras.Dualcast))
+                return false;
+
+            if (SmUtil.SyncedLevel >= Spells.Impact.LevelAcquired)
+            {
+                return AoeTargetCount >= MinTargetsToUseScatterInStPhaseWithImpact;
+            }
+            else if (SmUtil.SyncedLevel >= EnhancedJoltLevelAcquired) //Enhanced Jolt raises Verthunder and Veraero to 370 potency @ 62
+            {
+                return AoeTargetCount >= MinTargetsToUseScatterInStPhaseWithEnhancedJoltWithoutImpact;
+            }
+            else if (SmUtil.SyncedLevel >= Spells.Scatter.LevelAcquired)
+            {
+                return AoeTargetCount >= MinTargetsToUseScatterInStPhaseWithoutEnhancedJolt;
+            }
+
+            return false;
+        }
+
+        private static bool ShouldVerfireAoe => (WhiteMana < BlackMana || !MeHasAura(Auras.VerfireReady)) ? false : CastStProcInAoe();
+        private static bool ShouldVerstoneAoe => (BlackMana < WhiteMana || !MeHasAura(Auras.VerstoneReady)) ? false : CastStProcInAoe();
+        private static bool CastStProcInAoe()
+        {
+            //If user has disabled Veraero II and Verthunder II, use the procs if available
+            if (!Ver2Enabled)
+                return true;
+
+            if (SmUtil.SyncedLevel >= EnhancedContreSixteLevelAcquired) //Enhanced Contre Sixte trait raises Verthunder2 and Veraero2 from 100 to 120 potency @ 78
+            {
+                return AoeTargetCount <= MaxTargetsToUseStProcInAoePhaseWithEnhancedContreSixte;
+            }
+            else if (SmUtil.SyncedLevel >= EnhancedJoltLevelAcquired) //Enhanced Jolt raises Verfire and Verstone to 300 potency @ 62
+            {
+                return AoeTargetCount <= MaxTargetsToUseStProcInAoePhaseWithEnhancedJoltWithoutEnhancedContreSixte;
+            }
+            else
+            {
+                return AoeTargetCount <= MaxTargetsToUseStProcInAoePhaseWithoutEnhancedJolt;
+            }
+        }
+
+        private static bool ShouldVerthunderAoe => (MeHasAura(Auras.Dualcast) && (BlackMana <= WhiteMana || (MeHasAura(Auras.VerstoneReady) && !MeHasAura(Auras.VerfireReady)))) ? DualcastStInAoe() : false;
+        private static bool ShouldVeraeroAoe => (MeHasAura(Auras.Dualcast) && (WhiteMana <= BlackMana || (MeHasAura(Auras.VerfireReady) && !MeHasAura(Auras.VerstoneReady)))) ? DualcastStInAoe() : false;
+        private static bool DualcastStInAoe()
+        {
+            if (!ScatterEnabled)
+                return true;
+
+            if (SmUtil.SyncedLevel >= Spells.Impact.LevelAcquired)
+            {
+                return AoeTargetCount <= MaxTargetsToDualcastStInAoePhaseWithImpact;
+            }
+            else if (SmUtil.SyncedLevel >= EnhancedJoltLevelAcquired) //Enhanced Jolt raises Verthunder and Veraero to 370 potency @ 62
+            {
+                return AoeTargetCount <= MaxTargetsToDualcastStInAoePhaseWithEnhancedJoltWithoutImpact;
+            }
+            else
+            {
+                return AoeTargetCount <= MaxTargetsToDualcastStInAoePhaseWithoutEnhancedJolt;
+            }
+        }
+        #endregion
+
+        #region Targeting
+        private static bool OutsideComboRange => (Core.Me.CurrentTarget == null || Core.Me.CurrentTarget == Core.Me) ? false : Core.Me.Distance(Core.Me.CurrentTarget) > MeleeRange + Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach;
+
+        private static BattleCharacter BestAoeTarget => BestTarget(GenericAoeSpellRange, GenericAoeSpellRadius);
+        private static BattleCharacter BestContreSixteTarget => BestTarget(GenericAoeSpellRange, ContreSixteRadius);
         private static BattleCharacter BestTarget(double spellRange, double spellRadius)
         {
             if (!RedMageSettings.Instance.UseSmartTargeting)
@@ -113,10 +278,92 @@ namespace Magitek.Rotations
                                      .ThenByDescending(t => t.CurrentHealthPercent)
                                      .FirstOrDefault();
         }
-        private static BattleCharacter BestAoeTarget => BestTarget(25, 5);
-        private static BattleCharacter BestContreSixteTarget => BestTarget(25, 6);
-        private static int AoeTargets => EnemiesWithinOf(5, BestTarget(25, 5)).Count();
 
+        private static IEnumerable<GameObject> EnemiesWithinOf(double distance, GameObject target)
+        {
+            if (target == null)
+            {
+                return new List<GameObject>();
+            }
+            return CombatUtil.Enemies.Where(e => target.Distance(e) <= distance + e.CombatReach);
+        }
+        private static int AoeTargetCount => EnemiesWithinOf(GenericAoeSpellRadius, BestAoeTarget).Count();
+        #endregion
+
+        #region Combo
+        //TODO: Make sure these all belong here
+        private static bool CanComboCurrentTargetSt => !RedMageSettings.Instance.MeleeComboBossesOnly || (Core.Me.CurrentTarget != null && Core.Me.CurrentTarget.IsBoss());
+        private static bool CanComboSomeEnemySt => !RedMageSettings.Instance.MeleeComboBossesOnly || CombatUtil.Enemies.Any(e => e.IsBoss());
+        private static bool UseRiposte => RedMageSettings.Instance.UseMelee && CanComboCurrentTargetSt;
+
+        private static bool ReadyForComboNoRedoublement => BlackMana >= ManaForZwerchhauCombo && WhiteMana >= ManaForZwerchhauCombo && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired;
+        private static bool ReadyForComboNoZwerchhau => BlackMana >= ManaForRiposteOnly && WhiteMana >= ManaForRiposteOnly && SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired;
+
+        private static int ComboTargetMana =>
+               ManaficationUpIn(2500)
+            && (BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+                || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana) ? RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana : ManaForFullCombo;
+
+        private static bool UseManaficationSt =>
+               ManaficationEnabled
+            && CanComboSomeEnemySt
+            && WithinManaOfManafication(0)
+            && WhiteMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana
+            && BlackMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana;
+        private static bool WithinManaOfManafication(int distance) => WithinManaOf(RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana, distance);
+        private static bool WithinManaOf(int distance, int manaLevel) => WhiteMana >= manaLevel - distance && BlackMana >= manaLevel - distance;
+
+        private static bool UseAccelerationInCombo =>
+               RedMageSettings.Instance.Acceleration
+            && SmUtil.SyncedLevel >= Spells.Acceleration.LevelAcquired
+            && Spells.Acceleration.Cooldown.TotalMilliseconds <= MaxAccelCooldownToBeReadyForCombo
+            && (WhiteMana == BlackMana
+                || (WhiteMana > BlackMana && !MeHasAura(Auras.VerstoneReady) && MeHasAura(Auras.VerfireReady) && WhiteMana - BlackMana <= 9) ///More than 9 apart will overcap mana
+                || (BlackMana > WhiteMana && !MeHasAura(Auras.VerfireReady) && MeHasAura(Auras.VerstoneReady) && BlackMana - WhiteMana <= 9));
+        //Avoid Acceleration if we'll be casting Manafication soon
+        private static bool AvoidAccelerationSt =>
+               !RedMageSettings.Instance.Acceleration
+            || (ManaficationEnabled
+                && SmUtil.SyncedLevel >= Spells.Manafication.LevelAcquired
+                && ActionManager.HasSpell(Spells.Manafication.Id)
+                && Spells.Manafication.Cooldown.TotalMilliseconds <= MaxManaficationCooldownToBeReadyForCombo
+                && (BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                && WithinManaOfManafication(10));
+        #endregion
+
+        #region AoE finisher
+        private static bool DoEmboldenBurst =>
+               EmboldenEnabled
+            && (   (BlackMana == 100 && WhiteMana == 100) //Embolden, 5 moulinet
+                || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp) //Embolden, 2 moulinet, Manafication, 5 moulinet
+                || MeHasAura(Auras.Manafication)) //Manafication, 5 moulinet
+            && CanStartBurst;
+
+        private static bool DoManaficationBurst =>
+               ManaficationEnabled
+            && BlackMana >= MinManaToStartManaficationAoeBurst
+            && WhiteMana >= MinManaToStartManaficationAoeBurst
+            && BlackMana <= MaxManaToStartManaficationAoeBurst
+            && WhiteMana <= MaxManaToStartManaficationAoeBurst
+            && CanStartBurst;
+
+        //We can start the burst if we'll hit enough enemies with Moulinet and they all have enough health to make it worth it
+        private static bool CanStartBurst =>
+            MoulinetEnabled && MoulinetTargets.Count(r =>    InMoulinetArc(r)
+                                                          && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent) >= MinAoeBurstStartEnemies;
+
+        private static IEnumerable<GameObject> MoulinetTargets => EnemiesWithinOf(MoulinetRadius + Core.Me.CombatReach, Core.Me);
+
+        private static bool InMoulinetArc(GameObject target)
+        {
+            if (target == null)
+                return false;
+
+            return target.RadiansFromPlayerHeading() < MoulinetArc;
+        }
+        #endregion
+
+        #region Aura level sync
         private static Dictionary<uint, int> AuraLevelsAcquiredDict = new Dictionary<uint, int>()
         {
             { Auras.Dualcast,      1 },
@@ -127,223 +374,10 @@ namespace Magitek.Rotations
         };
 
         //These methods pevent the state machine from seeing that we have an aura that we shouldn't have yet at the synced level
-        private static bool HasAura(uint aura) => SmUtil.SyncedLevel < AuraLevelsAcquiredDict[aura] ? false : Core.Me.HasAura(aura);
-        private static bool HasAnyAura(List<uint> auras) => Core.Me.HasAnyAura(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
-        private static bool HasAllAuras(List<uint> auras) => auras.Any(a => SmUtil.SyncedLevel < AuraLevelsAcquiredDict[a]) ? false : Core.Me.HasAllAuras(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
-
-        private static bool UseScatterSt()
-        {
-            if (!UseScatter)
-                return false;
-
-            if (!HasAura(Auras.Dualcast))
-                return false;
-
-            if (SmUtil.SyncedLevel >= Spells.Impact.LevelAcquired)
-            {
-                return AoeTargets >= 2;
-            }
-            else if (SmUtil.SyncedLevel >= Spells.Jolt2.LevelAcquired)
-            {
-                return AoeTargets >= 4;
-            }
-            else if (SmUtil.SyncedLevel >= Spells.Scatter.LevelAcquired)
-            {
-                return AoeTargets >= 3;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private static bool ShouldVerthunder2St()
-        {
-            if (BlackMana <= WhiteMana)
-                return HardcastAoeInSt();
-
-            return false;
-        }
-        private static bool ShouldVeraero2St()
-        {
-            if (WhiteMana <= BlackMana)
-                return HardcastAoeInSt();
-
-            return false;
-        }
-        private static bool HardcastAoeInSt()
-        {
-            if (!UseVer2)
-                return false;
-
-            if (SmUtil.SyncedLevel < Spells.Jolt2.LevelAcquired)
-                return AoeTargets >= 2;
-
-            return false;
-        }
-
-        private static bool ManaficationUp =>
-               UseManafication
-            && SmUtil.SyncedLevel >= Spells.Manafication.LevelAcquired
-            && ActionManager.HasSpell(Spells.Manafication.Id)
-            && Spells.Manafication.Cooldown == TimeSpan.Zero;
-        private static bool UseManaficationSt =>
-               UseManafication
-            && (!RedMageSettings.Instance.MeleeComboBossesOnly || BossIsPresent)
-            && WithinManaOfManafication(0)
-            && WhiteMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana
-            && BlackMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana;
-        private static bool WithinManaOfManafication(int distance) =>
-               WhiteMana >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana - distance
-            && BlackMana >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana - distance;
-
-        private static int ComboTargetMana =>
-               ManaficationUp
-            && (   BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
-                || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana) ? RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana : 80;
-
-        private static bool AoeMode => RedMageSettings.Instance.UseAoe && AoeTargets >= MinTargetsForAoeMode && SmUtil.SyncedLevel >= Spells.Verthunder2.LevelAcquired;
-
-        private static bool EmboldenReadySoon => UseEmbolden && SmUtil.SyncedLevel >= Spells.Embolden.LevelAcquired && Spells.Embolden.Cooldown.TotalMilliseconds <= 7500;
-        private static bool DoEmboldenBurst =>
-               UseEmbolden
-            && EnoughEnemiesToStartBurst
-            && ((   BlackMana == 100 && WhiteMana == 100)
-                || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp)
-                || HasAura(Auras.Manafication));
-        private static bool DoManaficationBurst => UseManafication && BlackMana >= 50 && WhiteMana >= 50 && BlackMana <= 65 && WhiteMana <= 65 && EnoughEnemiesToStartBurst;
-        //We can start the burst if we'll hit enough enemies with Moulinet and they all have enough health to make it worth it
-        private static bool EnoughEnemiesToStartBurst => 
-               UseMoulinet
-            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
-                                                                            && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent) >= MinAoeBurstStartEnemies;
-        //We can continue the burst as long as there are enough enemies remaining (we no longer care about health)
-        private static bool EnoughEnemiesToMoulinet =>
-               UseMoulinet
-            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r => InMoulinetArc(r)) >= MinAoeBurstContinueEnemies;
-
-        private static bool InMoulinetArc(GameObject target)
-        {
-            if (target == null)
-                return false;
-
-            return target.RadiansFromPlayerHeading() < 1.361f; //Translated from radians, this is ~78 degrees left or right;
-        }
-
-        private static bool UseCorpsACorps =>    RedMageSettings.Instance.UseMelee
-                                              && RedMageSettings.Instance.CorpsACorps 
-                                              && (   !RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
-                                                  || (   Core.Me.CurrentTarget != null
-                                                      && Core.Me.CurrentTarget.Distance(Core.Me) <= 2 + Core.Me.CurrentTarget.CombatReach));
-        private static bool UseEngagement => RedMageSettings.Instance.UseMelee && RedMageSettings.Instance.Engagement;
-        private static bool UseDisplacement => RedMageSettings.Instance.UseMelee && RedMageSettings.Instance.Displacement;
-        private static bool CurrentTargetIsBoss => Core.Me.CurrentTarget != null && Core.Me.CurrentTarget.IsBoss();
-        private static bool BossIsPresent => CombatUtil.Enemies.Any(e => e.IsBoss());
-        private static bool UseRiposte => RedMageSettings.Instance.UseMelee && (!RedMageSettings.Instance.MeleeComboBossesOnly || CurrentTargetIsBoss);
-        private static bool UseFleche => RedMageSettings.Instance.Fleche;
-        private static bool UseContreSixte => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.UseContreSixte;
-        private static bool UseReprise => RedMageSettings.Instance.UseReprise && CombatUtil.Enemies.Any(e => e.IsBoss());
-        private static bool UseVer2 => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Ver2;
-        private static bool UseScatter => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Scatter;
-        private static bool SwiftcastScatter => UseScatter && RedMageSettings.Instance.SwiftcastScatter;
-        private static bool UseMoulinet => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.Moulinet;
-        private static bool UseEmbolden => RedMageSettings.Instance.Embolden;
-        private static bool UseManafication => RedMageSettings.Instance.Manafication;
-        private static bool UseLucidDreaming => RedMageSettings.Instance.LucidDreaming && Core.Me.CurrentManaPercent < RedMageSettings.Instance.LucidDreamingManaPercent;
-
-        private static bool ShouldVerfireAoe()
-        {
-            if (WhiteMana < BlackMana || !HasAura(Auras.VerfireReady))
-                return false;
-            return UseProcInAoe();
-        }
-        private static bool ShouldVerstoneAoe()
-        {
-            if (BlackMana < WhiteMana || !HasAura(Auras.VerstoneReady))
-                return false;
-            return UseProcInAoe();
-        }
-        private static bool UseProcInAoe()
-        {
-            //If user has disabled Veraero II and Verthunder II, use the procs if available
-            if (!UseVer2)
-                return true;
-
-            if (SmUtil.SyncedLevel >= 78) //Enhanced Contre Sixte trait raises Verthunder2 and Veraero2 from 100 to 120 potency @ 78
-            {
-                return AoeTargets <= 2;
-            }
-            else if (SmUtil.SyncedLevel >= Spells.Jolt2.LevelAcquired)
-            {
-                return AoeTargets <= 3;
-            }
-            else
-            {
-                return AoeTargets <= 2;
-            }
-        }
-
-        private static bool ShouldVerthunderAoe()
-        {
-            if (BlackMana <= WhiteMana || (HasAura(Auras.VerstoneReady) && !HasAura(Auras.VerfireReady)))
-                return UseStDualcastInAoe();
-
-            return false;
-        }
-        private static bool ShouldVeraeroAoe()
-        {
-            if (WhiteMana <= BlackMana || (HasAura(Auras.VerfireReady) && !HasAura(Auras.VerstoneReady)))
-                return UseStDualcastInAoe();
-
-            return false;
-        }
-        private static bool UseStDualcastInAoe()
-        {
-            if (!HasAura(Auras.Dualcast))
-                return false;
-
-            if (!UseScatter)
-                return true;
-
-            if (SmUtil.SyncedLevel >= Spells.Impact.LevelAcquired)
-            {
-                return AoeTargets <= 1;
-            }
-            else if (SmUtil.SyncedLevel >= Spells.Jolt2.LevelAcquired)
-            {
-                return AoeTargets <= 3;
-            }
-            else
-            {
-                return AoeTargets <= 2;
-            }
-        }
-
-        private static bool ReadyForComboNoRedoublement => BlackMana >= 55 && WhiteMana >= 55 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired;
-        private static bool ReadyForComboNoZwerchhau => BlackMana >= 30 && WhiteMana >= 30 && SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired;
-
-        private static bool UseAccelerationInCombo =>
-               RedMageSettings.Instance.Acceleration
-            && SmUtil.SyncedLevel >= Spells.Acceleration.LevelAcquired
-            && Spells.Acceleration.Cooldown.TotalMilliseconds <= 7000
-            && (   WhiteMana == BlackMana
-                || (WhiteMana > BlackMana && !HasAura(Auras.VerstoneReady) && HasAura(Auras.VerfireReady) && WhiteMana - BlackMana <= 9)
-                || (BlackMana > WhiteMana && !HasAura(Auras.VerfireReady) && HasAura(Auras.VerstoneReady) && BlackMana - WhiteMana <= 9));
-        //Avoid Acceleration if we'll be casting Manafication soon
-        private static bool AvoidAccelerationSt =>
-               !RedMageSettings.Instance.Acceleration
-            || (   UseManafication
-                && SmUtil.SyncedLevel >= Spells.Manafication.LevelAcquired
-                && ActionManager.HasSpell(Spells.Manafication.Id)
-                && Spells.Manafication.Cooldown.TotalMilliseconds <= 7000
-                && (BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
-                && WithinManaOfManafication(10));
-        private static bool UseAccelerationInAoe => RedMageSettings.Instance.Acceleration && UseStDualcastInAoe() && UseProcInAoe();
-
-
-        private static bool SwiftcastReadySt => RedMageSettings.Instance.SwiftcastVerthunderVeraero && SwiftcastUp;
-        private static bool SwiftcastReadyAoe => SwiftcastScatter && SwiftcastUp;
-        private static bool SwiftcastUp => SmUtil.SyncedLevel >= Spells.Swiftcast.LevelAcquired && Spells.Swiftcast.Cooldown == TimeSpan.Zero;
+        private static bool MeHasAura(uint aura) => SmUtil.SyncedLevel < AuraLevelsAcquiredDict[aura] ? false : Core.Me.HasAura(aura);
+        private static bool MeHasAnyAura(List<uint> auras) => Core.Me.HasAnyAura(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
+        private static bool MeHasAllAuras(List<uint> auras) => auras.Any(a => SmUtil.SyncedLevel < AuraLevelsAcquiredDict[a]) ? false : Core.Me.HasAllAuras(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
+        #endregion
 
         static RedMage()
         {
@@ -352,9 +386,8 @@ namespace Magitek.Rotations
             List<uint> mVerstoneAndDualcast = new List<uint>() { Auras.VerstoneReady, Auras.Dualcast };
             List<uint> mVerfireAndDualcast = new List<uint>() { Auras.VerfireReady, Auras.Dualcast };
             List<uint> mManaficationAndEmbolden = new List<uint>() { Auras.Manafication, Auras.Embolden };
-
-            //TODO: Fix overlay messages
-            //TODO: Clean up the code
+            
+            //Potential improvements:
             //TODO: Don't cast verstone or verfire if proc will expire before it's done (it interrupts the cast)
             //TODO: Use embolden during AoE at low mana if it would sit for a really long time waiting for us to build up mana - need to take Manafication into account, because we might not be sitting for as long as we think we would if that will go off
             //TODO: What if we're moving during AoE? Need an AoeMoving state. It should probably try to swiftcast stuff and also use enchanted moulinet
@@ -389,26 +422,26 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                                                                () => SmUtil.NoOp(),                                               RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe(),                                                                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                                                                      () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => UseScatter && HasAura(Auras.Dualcast),                                                                   () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                                   () => SmUtil.NoOp(),                                               RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe,                                                        () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe,                                                           () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ScatterEnabled && MeHasAura(Auras.Dualcast),                                () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
                                 //Continue a moulinet burst if we've started one
-                                new StateTransition<RdmStateIds>(() => HasAnyAura(mManaficationAndEmbolden) && EnoughEnemiesToMoulinet,                                         () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => MeHasAnyAura(mManaficationAndEmbolden) && UseMoulinet,                      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
                                 //Cast moulinet if we'd otherwise cast verstone, but doing so would overcap mana
-                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe() && CapLoss(12,3) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,               () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe(),                                                                                     () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),   RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe && CapLoss(12,3) > 0 && BurnMoulinet,                     () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVerstoneAoe,                                                          () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),   RdmStateIds.Aoe),
                                 //Cast moulinet if we'd otherwise cast veraero2, but doing so would overcap mana
-                                new StateTransition<RdmStateIds>(() => UseVer2 && WhiteMana <= BlackMana && CapLoss(10,3) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => UseVer2 && WhiteMana <= BlackMana,                                                                       () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),           RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => Ver2Enabled && WhiteMana <= BlackMana && CapLoss(10,3) > 0 && BurnMoulinet, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Ver2Enabled && WhiteMana <= BlackMana,                                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),           RdmStateIds.Aoe),
                                 //Cast moulinet if we'd otherwise cast verfire, but doing so would overcap mana
-                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe() && CapLoss(3,12) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,                () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe(),                                                                                      () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe && CapLoss(3,12) > 0 && BurnMoulinet,                      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVerfireAoe,                                                           () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),    RdmStateIds.Aoe),
                                 //Cast moulinet if we'd otherwise cast verthunder2, but doing so would overcap mana
-                                new StateTransition<RdmStateIds>(() => CapLoss(3,10) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,                                      () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => UseVer2,                                                                                                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),        RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => Ver2Enabled && CapLoss(3,10) > 0 && BurnMoulinet,                           () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),   RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Ver2Enabled,                                                                () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),        RdmStateIds.Aoe),
                                 //User disabled veraero2/verthunder2, no procs are up, and we gotta do something, so Jolt it is
-                                new StateTransition<RdmStateIds>(() => !UseVer2,                                                                                                () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),       RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => !Ver2Enabled,                                                               () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),       RdmStateIds.Aoe),
                             })
                     },
                     {
@@ -416,17 +449,17 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                                                    () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !SwiftcastReadyAoe,                                                                          () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                                               () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAnyAura(mManaficationAndEmbolden) && EnoughEnemiesToMoulinet,                             () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe() && CapLoss(0,11) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe(),                                                                       () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe() && CapLoss(11,0) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,    () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe(),                                                                          () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => CapLoss(3,3) > 0 && EnoughEnemiesToMoulinet && !EmboldenReadySoon,                           () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => UseScatter,                                                                                  () => SmUtil.Swiftcast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,    TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => !AoeMode,                                                 () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !SwiftcastReadyAoe,                                       () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                            () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAnyAura(mManaficationAndEmbolden) && UseMoulinet,    () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe && CapLoss(0,11) > 0 && BurnMoulinet, () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunderAoe,                                      () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe && CapLoss(11,0) > 0 && BurnMoulinet,    () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraeroAoe,                                         () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => CapLoss(3,3) > 0 && BurnMoulinet,                         () => SmUtil.SyncedCast(Spells.Moulinet, Core.Me.CurrentTarget),  RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => ScatterEnabled,                                           () => SmUtil.Swiftcast(Spells.Scatter, BestAoeTarget),            RdmStateIds.AoeFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                     () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,    TransitionType.NextPulse)
                             })
                     },
                     {
@@ -438,11 +471,11 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,       () => SmUtil.NoOp(),                                                 RdmStateIds.AoeSecondWeave,         TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => DoEmboldenBurst,      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),     RdmStateIds.AoeSecondWeave),
                                 new StateTransition<RdmStateIds>(() => DoManaficationBurst,  () => SmUtil.SyncedCast(Spells.Manafication, Core.Me.CurrentTarget), RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,       () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseFleche,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,   () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,        () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.AoeSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,       () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.AoeSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseDisplacement,      () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,        () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.AoeSecondWeave),
+                                new StateTransition<RdmStateIds>(() => DisplacementEnabled,  () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,    () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.AoeSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseAccelerationInAoe, () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me.CurrentTarget), RdmStateIds.AoeSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,     () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.AoeSecondWeave)
                             })
@@ -455,50 +488,13 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 700,        () => SmUtil.NoOp(),                                                 RdmStateIds.Aoe,          TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => DoEmboldenBurst,      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me.CurrentTarget),     RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => DoManaficationBurst,  () => SmUtil.SyncedCast(Spells.Manafication, Core.Me.CurrentTarget), RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,       () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => UseFleche,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,   () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,        () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => SwiftcastReadyAoe,    () => SmUtil.NoOp(),                                                 RdmStateIds.AoeSwiftcast, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,       () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Aoe),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,        () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Aoe),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,    () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => UseAccelerationInAoe, () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.Aoe),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,     () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Aoe)
-                            })
-                    },
-                    {
-                        RdmStateIds.Moving,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && GcdLeft <= 1400 && SwiftcastReadySt, () => SmUtil.NoOp(),                                                 RdmStateIds.MovingSwiftcast, TransitionType.NextPulse),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                           () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                      () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                      () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && UseDisplacement,                    () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                       () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                    () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 50 && UseReprise,                            () => SmUtil.SyncedCast(Spells.Reprise, Core.Me.CurrentTarget),      RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 50 && SwiftcastReadySt,                      () => SmUtil.NoOp(),                                                 RdmStateIds.MovingSwiftcast, TransitionType.NextPulse),
-                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseFleche,                             () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseContreSixte,                        () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseCorpsACorps,                        () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseDisplacement,                       () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseEngagement,                         () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => true,                                                  () => SmUtil.NoOp(),                                                 RdmStateIds.Start,           TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.MovingSwiftcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                                                              () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse),
-                                new StateTransition<RdmStateIds>(() => !HasAnyAura(mBothProcs) && WhiteMana <= BlackMana,                                                               () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => !HasAnyAura(mBothProcs) && BlackMana <= WhiteMana,                                                               () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !HasAura(Auras.VerstoneReady) && Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !HasAura(Auras.VerfireReady) && Cap(BlackMana+11) <= Cap(WhiteMana+30),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                                                                          () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana,                                                                                          () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => true,                                                                                                            () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse)
                             })
                     },
                     {
@@ -506,21 +502,21 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => AoeMode,                                              () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60,                   () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ManaficationUp && WithinManaOfManafication(20),       () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseScatterSt(),                                       () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcsAndDualcast),                   () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerstoneAndDualcast),                    () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpDualcast,      TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerfireAndDualcast),                     () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerfireUpDualcast,       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Dualcast),                              () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpDualcast,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                             () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                          () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                             () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcs),                              () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerfireReady),                          () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerfireUpNoDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerstoneReady),                         () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpNoDualcast, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => AoeMode,                                        () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60,             () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ManaficationUp && WithinManaOfManafication(20), () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ScatterInSt(),                                  () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),           () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),            () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpDualcast,      TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerfireAndDualcast),             () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerfireUpDualcast,       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.Dualcast),                      () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                       () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                    () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                       () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcs),                      () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerfireReady),                  () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerfireUpNoDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerstoneReady),                 () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => true,                                           () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpNoDualcast, TransitionType.Immediate),
                             })
                     },
                     {
@@ -528,17 +524,17 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => AoeMode,                                                                 () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,                     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                      () => SmUtil.NoOp(),                                              RdmStateIds.PrepareProcsForCombo,    TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !SwiftcastReadySt,                                                       () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                           () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                                                () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,           TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                                             () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,           TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !HasAura(Auras.VerstoneReady) && WhiteMana <= BlackMana,                 () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => !HasAura(Auras.VerfireReady) && BlackMana <= WhiteMana,                  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => !HasAura(Auras.VerstoneReady) && Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => !HasAura(Auras.VerfireReady) && Cap(BlackMana+11) <= Cap(WhiteMana+30),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                                                    () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => AoeMode,                                                                   () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,                     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                        () => SmUtil.NoOp(),                                              RdmStateIds.PrepareProcsForCombo,    TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !SwiftcastReadySt,                                                         () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                             () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                                                  () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,           TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                                               () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,           TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.VerstoneReady) && WhiteMana <= BlackMana,                 () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.VerfireReady) && BlackMana <= WhiteMana,                  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.VerstoneReady) && Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.VerfireReady) && Cap(BlackMana+11) <= Cap(WhiteMana+30),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                                      () => SmUtil.NoOp(),                                              RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
                     {
@@ -548,13 +544,13 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                     () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsSecondWeave, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,                        () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,                    () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => !AvoidAccelerationSt,               () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me.CurrentTarget), RdmStateIds.FishForProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseFleche,                          () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,                     () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.FishForProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,                      () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,                 () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.FishForProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,                     () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.FishForProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseDisplacement,                    () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,                      () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.FishForProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => DisplacementEnabled,                () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,                  () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.FishForProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                   () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.FishForProcsSecondWeave)
                             })
                     },
@@ -564,13 +560,13 @@ namespace Magitek.Rotations
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 700,        () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsUntil60Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,          () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => !AvoidAccelerationSt, () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => UseFleche,            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,       () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,        () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,   () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => SwiftcastReadySt,     () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsSwiftcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,       () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,        () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,    () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,     () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.FishForProcsUntil60Mana)
                             })
                     },
@@ -590,10 +586,54 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),     RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(), () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),  RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                  () => SmUtil.NoOp(),                                         RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),     RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St, () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),  RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.NoOp(),                                         RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.FishForProcsVerstoneUpDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.FishForProcsVerstoneUpNoDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.FishForProcsVerfireUpDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.FishForProcsVerfireUpNoDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
                     {
@@ -617,50 +657,6 @@ namespace Magitek.Rotations
                             })
                     },
                     {
-                        RdmStateIds.FishForProcsVerstoneUpDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.FishForProcsVerstoneUpNoDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),                    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(),                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.FishForProcsVerfireUpDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.FishForProcsVerfireUpNoDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),                    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(),                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsUntil60Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
                         RdmStateIds.EschewFishingUntil80Mana,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
@@ -669,17 +665,17 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                    () => SmUtil.NoOp(), RdmStateIds.PrepareProcsForCombo,                 TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => (BlackMana < 60 || WhiteMana < 60) && !ManaficationUp, () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => BlackMana < 20 || WhiteMana < 20,                      () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseScatterSt(),                                        () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcsAndDualcast),                    () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerstoneAndDualcast),                     () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpDualcast,      TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerfireAndDualcast),                      () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerfireUpDualcast,       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Dualcast),                               () => SmUtil.NoOp(), RdmStateIds.EschewFishingNeitherProcUpDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ScatterInSt(),                                         () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                  TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),                  () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),                   () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpDualcast,      TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerfireAndDualcast),                    () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerfireUpDualcast,       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.Dualcast),                             () => SmUtil.NoOp(), RdmStateIds.EschewFishingNeitherProcUpDualcast,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                              () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                        TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                           () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                        TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                              () => SmUtil.NoOp(), RdmStateIds.Moving,                               TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcs),                               () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpNoDualcast,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerfireReady),                           () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerfireUpNoDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerstoneReady),                          () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpNoDualcast,    TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcs),                             () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpNoDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerfireReady),                         () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerfireUpNoDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerstoneReady),                        () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpNoDualcast,    TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => true,                                                  () => SmUtil.NoOp(), RdmStateIds.EschewFishingNeitherProcUpNoDualcast, TransitionType.Immediate)
                             })
                     },
@@ -688,15 +684,15 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => AoeMode,                                           () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,                      TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                () => SmUtil.NoOp(),                                              RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !SwiftcastReadySt,                                 () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                     () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                          () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                       () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !HasAnyAura(mBothProcs) && WhiteMana <= BlackMana, () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => !HasAnyAura(mBothProcs) && BlackMana <= WhiteMana, () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                              () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => AoeMode,                                             () => SmUtil.NoOp(),                                              RdmStateIds.Aoe,                      TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                  () => SmUtil.NoOp(),                                              RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !SwiftcastReadySt,                                   () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                       () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                            () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                         () => SmUtil.NoOp(),                                              RdmStateIds.ReadyForCombo,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && WhiteMana <= BlackMana, () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && BlackMana <= WhiteMana, () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.NoOp(),                                              RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
                     {
@@ -709,12 +705,12 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => BlackMana < 20 || WhiteMana < 20,                      () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                                        () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingSecondWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => UseManaficationSt,                                     () => SmUtil.SyncedCast(Spells.Manafication, Core.Me),               RdmStateIds.EschewFishingSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,                                           () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.EschewFishingSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseFleche,                                             () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.EschewFishingSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,                                        () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.EschewFishingSecondWeave),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,                                       () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.EschewFishingSecondWeave),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,                                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.EschewFishingSecondWeave),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,                                    () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.EschewFishingSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,                                        () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.EschewFishingSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseDisplacement,                                       () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,                                         () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.EschewFishingSecondWeave),
+                                new StateTransition<RdmStateIds>(() => DisplacementEnabled,                                   () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,                                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.EschewFishingSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                      () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.EschewFishingSecondWeave)
                             })
                     },
@@ -723,15 +719,15 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,     () => SmUtil.NoOp(),                                                RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseManaficationSt, () => SmUtil.SyncedCast(Spells.Manafication, Core.Me),              RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,       () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseFleche,         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,    () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => SwiftcastReadySt,  () => SmUtil.NoOp(),                                                RdmStateIds.EschewFishingSwiftcast,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseCorpsACorps,    () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => UseLucidDreaming,  () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,      () => SmUtil.NoOp(),                                                RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => UseManaficationSt,  () => SmUtil.SyncedCast(Spells.Manafication, Core.Me),              RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,    () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,      () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled, () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => SwiftcastReadySt,   () => SmUtil.NoOp(),                                                RdmStateIds.EschewFishingSwiftcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => UseCorpsACorps,     () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,  () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => UseLucidDreaming,   () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.EschewFishingUntil80Mana),
                             })
                     },
                     {
@@ -751,10 +747,54 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),     RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(), () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),  RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                  () => SmUtil.NoOp(),                                         RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),     RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St, () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),  RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                () => SmUtil.NoOp(),                                         RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.EschewFishingVerstoneUpDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.EschewFishingVerstoneUpNoDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.EschewFishingVerfireUpDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.EschewFishingVerfireUpNoDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
                     {
@@ -778,71 +818,27 @@ namespace Magitek.Rotations
                             })
                     },
                     {
-                        RdmStateIds.EschewFishingVerstoneUpDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.EschewFishingVerstoneUpNoDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),                    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(),                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.EschewFishingVerfireUpDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.EschewFishingVerfireUpNoDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),                    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(),                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingUntil80Mana),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
-                            })
-                    },
-                    {
                         RdmStateIds.PrepareProcsForCombo,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => AoeMode,                                            () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80,                   () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseScatterSt(),                                     () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcsAndDualcast),                 () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerstoneAndDualcast),                  () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpDualcast,      TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mVerfireAndDualcast),                   () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerfireUpDualcast,       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Dualcast),                            () => SmUtil.NoOp(), RdmStateIds.PrepareProcsNeitherProcUpDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => AoeMode,                                              () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80,                     () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ScatterInSt(),                                        () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),                 () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),                  () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpDualcast,      TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerfireAndDualcast),                   () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerfireUpDualcast,       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.Dualcast),                            () => SmUtil.NoOp(), RdmStateIds.PrepareProcsNeitherProcUpDualcast,   TransitionType.Immediate),
                                 //If manafication is up, go right to the combo so we don't drop the buff before we cast Scorch
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.Manafication),                        () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseAccelerationInCombo && !HasAllAuras(mBothProcs), () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                           () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                        () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                           () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAllAuras(mBothProcs),                            () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerfireReady),                        () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerfireUpNoDualcast,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerstoneReady),                       () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => true,                                               () => SmUtil.NoOp(), RdmStateIds.PrepareProcsNeitherProcUpNoDualcast, TransitionType.Immediate)
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.Manafication),                        () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => UseAccelerationInCombo && !MeHasAllAuras(mBothProcs), () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoZwerchhau,                             () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ReadyForComboNoRedoublement,                          () => SmUtil.NoOp(), RdmStateIds.ReadyForCombo,                       TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MovementManager.IsMoving,                             () => SmUtil.NoOp(), RdmStateIds.Moving,                              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcs),                            () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpNoDualcast,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerfireReady),                        () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerfireUpNoDualcast,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerstoneReady),                       () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpNoDualcast,    TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.NoOp(), RdmStateIds.PrepareProcsNeitherProcUpNoDualcast, TransitionType.Immediate)
                             })
                     },
                     {
@@ -852,12 +848,12 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                   () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsSecondWeave, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.PrepareProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseFleche,                        () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.PrepareProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,                   () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.PrepareProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,                  () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.PrepareProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,                    () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.PrepareProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,               () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.PrepareProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseCorpsACorps,                   () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.PrepareProcsSecondWeave),
-                                new StateTransition<RdmStateIds>(() => UseDisplacement,                  () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,                    () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.PrepareProcsSecondWeave),
+                                new StateTransition<RdmStateIds>(() => DisplacementEnabled,              () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,                () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.PrepareProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                 () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.PrepareProcsSecondWeave)
                             })
                     },
@@ -866,15 +862,15 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                                               () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsForCombo, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => UseEmbolden,                                                                                 () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                                                 () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsForCombo, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => EmboldenEnabled,                                                                               () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.PrepareProcsForCombo),
                                 //If mana's equal and no procs are up, we can swiftcast to get to the combo
-                                new StateTransition<RdmStateIds>(() => WhiteMana == BlackMana && SwiftcastReadySt && !HasAnyAura(mBothProcs) && CapLoss(11,0) <= 8, () => SmUtil.Swiftcast(Spells.Veraero, Core.Me),                    RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseFleche,                                                                                   () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseContreSixte,                                                                              () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseCorpsACorps,                                                                              () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseEngagement,                                                                               () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                                                            () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.PrepareProcsForCombo)
+                                new StateTransition<RdmStateIds>(() => WhiteMana == BlackMana && SwiftcastReadySt && !MeHasAnyAura(mBothProcs) && CapLoss(11,0) <= 8, () => SmUtil.Swiftcast(Spells.Veraero, Core.Me),                    RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => FlecheEnabled,                                                                                 () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => ContreSixteEnabled,                                                                            () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => UseCorpsACorps,                                                                                () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => EngagementEnabled,                                                                             () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                                                              () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.PrepareProcsForCombo)
                             })
                     },
                     {
@@ -898,38 +894,6 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => BlackMana == WhiteMana && CapLoss(3, 14) <= 8, () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
                                 new StateTransition<RdmStateIds>(() => true,                                          () => SmUtil.NoOp(),                                         RdmStateIds.ReadyForCombo,        TransitionType.Immediate)
-                            })
-                    },
-                    {
-                        RdmStateIds.PrepareProcsBothProcsUpDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
-                            })
-                    },
-                    {
-                        RdmStateIds.PrepareProcsBothProcsUpNoDualcast,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana && CapLoss(11, 9) <= 8 && Cap(WhiteMana+11) + Cap(BlackMana+9) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),  RdmStateIds.OverwriteProc),
-                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+9) + Cap(BlackMana+11) < 200,                           () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.OverwriteProc),
-                                new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.NoOp(),                                             RdmStateIds.ReadyForCombo, TransitionType.Immediate)
-                            })
-                    },
-                    {
-                        RdmStateIds.OverwriteProc,
-                        new State<RdmStateIds>(
-                            new List<StateTransition<RdmStateIds>>()
-                            {
-                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80, () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !HasAura(Auras.Dualcast),         () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => !HasAnyAura(mBothProcs),          () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerstoneReady),     () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => HasAura(Auras.VerfireReady),      () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
                             })
                     },
                     {
@@ -973,16 +937,48 @@ namespace Magitek.Rotations
                             })
                     },
                     {
+                        RdmStateIds.PrepareProcsBothProcsUpDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.PrepareProcsBothProcsUpNoDualcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana && CapLoss(11, 9) <= 8 && Cap(WhiteMana+11) + Cap(BlackMana+9) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),  RdmStateIds.OverwriteProc),
+                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+9) + Cap(BlackMana+11) < 200,                           () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.OverwriteProc),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.NoOp(),                                             RdmStateIds.ReadyForCombo, TransitionType.Immediate)
+                            })
+                    },
+                    {
+                        RdmStateIds.OverwriteProc,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80, () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.Dualcast),       () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs),        () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerstoneReady),   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerfireReady),    () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
+                            })
+                    },
+                    {
                         RdmStateIds.ReadyForCombo,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => AoeMode,                                             () => SmUtil.NoOp(),                                                RdmStateIds.Aoe,                  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEmbolden,                       () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.ReadyForCombo),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.ReadyForCombo),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                    () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.ReadyForCombo),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                   () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.ReadyForCombo),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                     () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.ReadyForCombo),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.ReadyForCombo),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                    () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.ReadyForCombo),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.ReadyForCombo),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,                 () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.ReadyForCombo),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                  () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.ReadyForCombo),
                                 new StateTransition<RdmStateIds>(() => UseRiposte,                                          () => SmUtil.SyncedCast(Spells.Riposte, Core.Me.CurrentTarget),     RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => UseRiposte && (!OutsideComboRange || GcdLeft >= 50), () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse),
@@ -993,8 +989,8 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsForCombo),
                                 new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),     RdmStateIds.PrepareProcsForCombo),
                                 //Then cast Jolt (or an AoE that's more efficient)
-                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St(),                                  () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),            RdmStateIds.PrepareProcsForCombo),
-                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St(),                               () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),         RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                                    () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),            RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                                 () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),         RdmStateIds.PrepareProcsForCombo),
                                 new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),        RdmStateIds.PrepareProcsForCombo),
                             })
                     },
@@ -1008,11 +1004,11 @@ namespace Magitek.Rotations
                                 //We need to give the action manager time to notice there's a combo going, otherwise we sometimes leave this state immediately
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 50 && ActionManager.ComboTimeLeft == 0,    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                   () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEmbolden,                       () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.Zwerchhau),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.Zwerchhau),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                    () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.Zwerchhau),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                   () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                  RdmStateIds.Zwerchhau),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                     () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),      RdmStateIds.Zwerchhau),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget), RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                    () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget), RdmStateIds.Zwerchhau),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.Zwerchhau),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,                 () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),  RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                  () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.Zwerchhau),
                                 new StateTransition<RdmStateIds>(() => true,                                                () => SmUtil.SyncedCast(Spells.Zwerchhau, Core.Me.CurrentTarget),   RdmStateIds.Redoublement)
                             })
@@ -1026,11 +1022,11 @@ namespace Magitek.Rotations
                                 new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                      () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEmbolden,                          () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Redoublement),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                            () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Redoublement),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                       () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Redoublement),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Redoublement),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                        () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Redoublement),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                   () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                       () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Redoublement),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                        () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Redoublement),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,                    () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                     () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Redoublement),
                                 new StateTransition<RdmStateIds>(() => true,                                                   () => SmUtil.SyncedCast(Spells.Redoublement, Core.Me.CurrentTarget), RdmStateIds.VerflareOrVerholy)
                             })
@@ -1040,21 +1036,21 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             { 
-                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Verflare.LevelAcquired,                                             () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                                                               () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseAccelerationInCombo && !HasAllAuras(mBothProcs),                           () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEmbolden,                                                                  () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                                                                    () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                                                               () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                                                               () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && UseDisplacement,                                                             () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                                                                () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                                                             () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.VerflareOrVerholy),
-                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && !HasAura(Auras.VerstoneReady),                                         () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && !HasAura(Auras.VerfireReady),                                          () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => (!HasAura(Auras.VerstoneReady) && WhiteMana+21 <= BlackMana+30) || BlackMana+21 > WhiteMana+30, () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Verflare.LevelAcquired,                                               () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                                                                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseAccelerationInCombo && !MeHasAllAuras(mBothProcs),                           () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                                                                () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                                                                  () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                                                             () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                                                                 () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && DisplacementEnabled,                                                           () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,                                                              () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                                                               () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.VerflareOrVerholy),
+                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && !MeHasAura(Auras.VerstoneReady),                                         () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && !MeHasAura(Auras.VerfireReady),                                          () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => (!MeHasAura(Auras.VerstoneReady) && WhiteMana+21 <= BlackMana+30) || BlackMana+21 > WhiteMana+30, () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
                                 //It's important that verflare is last, because if we'd like to cast verholy but we don't have it yet, we'll fall through to here, and we need to cast verflare to get out of this state
-                                new StateTransition<RdmStateIds>(() => true,                                                                                           () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                             () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
                             })
                     },
                     {
@@ -1064,12 +1060,12 @@ namespace Magitek.Rotations
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Scorch.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEmbolden,                    () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseFleche,                      () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseContreSixte,                 () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                  () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,             () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                 () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && UseDisplacement,               () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseEngagement,                  () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && DisplacementEnabled,           () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,              () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,               () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => true,                                             () => SmUtil.SyncedCast(Spells.Scorch, Core.Me.CurrentTarget),       RdmStateIds.Start)
                             })
@@ -1079,10 +1075,47 @@ namespace Magitek.Rotations
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => UseScatter && HasAura(Auras.Dualcast), () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget), RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                    RdmStateIds.Start, TransitionType.NextPulse)
+                                new StateTransition<RdmStateIds>(() => ScatterEnabled && MeHasAura(Auras.Dualcast), () => SmUtil.SyncedCast(Spells.Scatter, BestAoeTarget), RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => true,                                        () => SmUtil.NoOp(),                                    RdmStateIds.Start, TransitionType.NextPulse)
                             })
                     },
+                    {
+                        RdmStateIds.Moving,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && GcdLeft <= 1400 && SwiftcastReadySt, () => SmUtil.NoOp(),                                                 RdmStateIds.MovingSwiftcast, TransitionType.NextPulse),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                       () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                  () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                      () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && DisplacementEnabled,                () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,                   () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                    () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 50 && UseReprise,                            () => SmUtil.SyncedCast(Spells.Reprise, Core.Me.CurrentTarget),      RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft < 50 && SwiftcastReadySt,                      () => SmUtil.NoOp(),                                                 RdmStateIds.MovingSwiftcast, TransitionType.NextPulse),
+                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && FlecheEnabled,                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && ContreSixteEnabled,                    () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && UseCorpsACorps,                        () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && DisplacementEnabled,                   () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => GcdLeft == 0 && EngagementEnabled,                     () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => true,                                                  () => SmUtil.NoOp(),                                                 RdmStateIds.Start,           TransitionType.NextPulse)
+                            })
+                    },
+                    {
+                        RdmStateIds.MovingSwiftcast,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                                                                () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse),
+                                new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && WhiteMana <= BlackMana,                                                               () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && BlackMana <= WhiteMana,                                                               () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !MeHasAura(Auras.VerstoneReady) && Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !MeHasAura(Auras.VerfireReady) && Cap(BlackMana+11) <= Cap(WhiteMana+30),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                                                                            () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana,                                                                                            () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => true,                                                                                                              () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse)
+                            })
+                    }
                 });
             StateMachineManager.RegisterStateMachine(mStateMachine);
         }
@@ -1203,7 +1236,7 @@ namespace Magitek.Rotations
 
         public static void RegisterCombatMessages()
         {
-            Func<bool> bossPresenceOk = () => !RedMageSettings.Instance.MeleeComboBossesOnly || Utilities.Combat.Enemies.Any(e => e.IsBoss());
+            Func<bool> bossPresenceOk = () => CanComboSomeEnemySt && !AoeMode;
 
             //Highest priority: Don't show anything if we're not in combat
             CombatMessageManager.RegisterMessageStrategy(
@@ -1215,26 +1248,15 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "Combo Ready!",
-                                          () =>    SingleTarget.ReadyForCombo()
-                                                && bossPresenceOk()));
+                                          () =>    mStateMachine.CurrentState == RdmStateIds.ReadyForCombo
+                                                && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired));
 
-            //Third priority (tie): Melee combo will be ready soon
+            //Third priority:
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () =>    SingleTarget.ReadyForCombo(BlackMana + 9, WhiteMana + 9)
-                                                && !SingleTarget.ComboInProgress
+                                          () =>    WithinManaOf(15, ComboTargetMana)
                                                 && bossPresenceOk()));
-
-            //Third priority (tie): Melee combo will be ready soon, but based on different conditions
-            CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
-                                          "Combo Soon",
-                                          () =>    SingleTarget.ReadyForManaficationComboSoon
-                                                && !SingleTarget.ComboInProgress
-                                                && bossPresenceOk()
-                                                && RedMageSettings.Instance.Manafication
-                                                && Spells.Manafication.Cooldown.TotalMilliseconds <= 5000));
         }
     }
 }
