@@ -9,6 +9,8 @@ namespace Magitek.Utilities.Routines
     //See Logic/RedMage/StateMachine.cs for an example implementation
     public class StateMachine<T> : IStateMachine where T : IComparable
     {
+        private const bool mDoLogging = false;
+
         private Dictionary<T, State<T>> mStateDict;
         private T mNextState;
         private T mDefaultState;
@@ -18,14 +20,17 @@ namespace Magitek.Utilities.Routines
 
         public void ResetToDefaultState()
         {
-            Logger.WriteInfo("Resetting State Machine");
+            if (mDoLogging)
+            {
+                Logger.WriteInfo("Resetting State Machine");
+            }
             CurrentState = mDefaultState;
             mNextState = mDefaultState;
         }
 
         private void LogStateChange(T current, T next)
         {
-            if (current.CompareTo(next) != 0)
+            if (mDoLogging && current.CompareTo(next) != 0)
             {
                 Logger.WriteInfo($"State transition: {CurrentState} -> {mNextState}");
             }
