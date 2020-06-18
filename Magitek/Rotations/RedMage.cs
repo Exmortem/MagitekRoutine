@@ -9,14 +9,12 @@ using Magitek.Utilities.Routines;
 
 namespace Magitek.Rotations
 {
+
     public static class RedMage
     {
-        private static StateMachine<RdmStateIds> mStateMachine;
-
         static RedMage()
         {
-            mStateMachine = StateMachine.GetStateMachine();
-            StateMachineManager.RegisterStateMachine(mStateMachine);
+            StateMachineManager.RegisterStateMachine(RdmStateMachine.StateMachine);
         }
 
         public static async Task<bool> Rest()
@@ -84,7 +82,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            return await mStateMachine.Pulse();
+            return await RdmStateMachine.StateMachine.Pulse();
         }
 
         public static async Task<bool> PvP()
@@ -94,7 +92,7 @@ namespace Magitek.Rotations
 
         public static void RegisterCombatMessages()
         {
-            CombatMessages.RegisterCombatMessages(mStateMachine);
+            CombatMessages.RegisterCombatMessages(RdmStateMachine.StateMachine);
         }
     }
 }

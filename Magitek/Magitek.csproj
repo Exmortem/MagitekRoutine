@@ -230,7 +230,7 @@
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
-    <Compile Include="Logic\RedMage\StateMachine.cs" />
+    <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
     <Compile Include="Utilities\Routines\StateMachine\State.cs" />
