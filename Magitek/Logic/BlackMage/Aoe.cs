@@ -49,10 +49,10 @@ namespace Magitek.Logic.BlackMage
                 {
                     if (Core.Me.CurrentMana <= 3000)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
-                    
+
                     if (Core.Me.CurrentMana < 800)
                         return await Spells.Transpose.Cast(Core.Me);
-                    
+
                     return false;
                 }
                 if (Core.Me.ClassLevel >= 60
@@ -61,7 +61,7 @@ namespace Magitek.Logic.BlackMage
                 {
                     if (Core.Me.CurrentMana < 2400)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
-                    
+
                     if (Core.Me.CurrentMana < 800)
                         return await Spells.Transpose.Cast(Core.Me);
 
@@ -69,9 +69,6 @@ namespace Magitek.Logic.BlackMage
                 }
                 if (Core.Me.ClassLevel >= 68)
                 {
-                    if (ActionResourceManager.BlackMage.AstralStacks < 3)
-                        return false;
-
                     if (Casting.LastSpell == Spells.Fire3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
@@ -80,7 +77,7 @@ namespace Magitek.Logic.BlackMage
 
                     if (Core.Me.CurrentMana < 800)
                         return await Spells.Transpose.Cast(Core.Me);
-                    
+
                     return false;
                 }
                 return false;
@@ -120,7 +117,7 @@ namespace Magitek.Logic.BlackMage
             //Only cast in Umbral 3
             if (ActionResourceManager.BlackMage.AstralStacks > 0)
                 return false;
-            
+
             //If we don't need to refresh Thunder, skip
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 4500))
                 return false;
@@ -143,7 +140,7 @@ namespace Magitek.Logic.BlackMage
                         || Casting.LastSpell == Spells.Blizzard2
                         || Casting.LastSpell == Spells.Freeze)
                         return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
-            
+
             if (Core.Me.ClassLevel < 72)
                 if (Casting.LastSpell != Spells.Thunder4)
                 {
@@ -152,13 +149,13 @@ namespace Magitek.Logic.BlackMage
                         || Casting.LastSpell == Spells.Freeze)
                         return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
                 }
-            
+
             if (Core.Me.ClassLevel >= 72)
                 if (Casting.LastSpell != Spells.Thunder4)
                     if (Casting.LastSpell == Spells.Freeze
                         || Casting.LastSpell == Spells.Foul)
                         return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
-            
+
             return false;
         }
 
@@ -179,7 +176,7 @@ namespace Magitek.Logic.BlackMage
 
                 if (Core.Me.CurrentMana >= 3800)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
-                                
+
                 return await Spells.Transpose.Cast(Core.Me);
             }
             return false;
