@@ -24,6 +24,7 @@ namespace Magitek.Utilities
         public static bool CastingHeal;
         public static SpellData CastingSpell;
         public static SpellData LastSpell;
+        public static bool LastSpellSucceeded;
         public static DateTime LastSpellTimeFinishedUtc;
         public static GameObject LastSpellTarget;
         public static GameObject SpellTarget;
@@ -210,6 +211,7 @@ namespace Magitek.Utilities
                 CastingHeal = false;
                 //CastingTankBuster = false;
                 CastingGambit = false;
+                LastSpellSucceeded = false;
                 return;
             }
 
@@ -217,9 +219,9 @@ namespace Magitek.Utilities
             {
                 Debug.Instance.CastingTime = CastingTime.ElapsedMilliseconds.ToString();
             }
-
             // Within 500 milliseconds we're gonna assume the spell went off
             LastSpell = CastingSpell;
+            LastSpellSucceeded = true;
             Debug.Instance.LastSpell = LastSpell;
             LastSpellTimeFinishedUtc = DateTime.UtcNow;
             LastSpellTarget = SpellTarget;

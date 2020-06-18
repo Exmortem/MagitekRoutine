@@ -27,10 +27,6 @@ namespace Magitek.Models.RedMage
         public bool Scatter { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int ScatterEnemies { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool SwiftcastScatter { get; set; }
 
@@ -67,11 +63,7 @@ namespace Magitek.Models.RedMage
         public bool Moulinet { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int MoulinetEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(40)]
+        [DefaultValue(30)]
         public int EmboldenFinisherPercent { get; set; }
 
         [Setting]
@@ -79,16 +71,8 @@ namespace Magitek.Models.RedMage
         public bool UseContreSixte { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
-        public int ContreSixteEnemies { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Ver2 { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int Ver2Enemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -109,6 +93,10 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(60)]
         public int ManaficationMaximumBlackAndWhiteMana { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSmartTargeting { get; set; }
 
         [Setting]
         [DefaultValue(true)]
