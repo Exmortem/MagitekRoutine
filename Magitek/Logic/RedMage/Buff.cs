@@ -38,10 +38,14 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < 58)
                 return false;
 
-            //Wait until after Zwerchhau so it's still at max power for Scorch
-            if (ActionManager.LastSpell != Spells.Zwerchhau)
+            if (!RedMageRoutines.CanWeave)
                 return false;
-			
+
+            //Save it for boss fights or the AoE combo if user has selected the bosses-only option
+            //Note: Using this for the AoE combo is handled by Aoe.Embolden()
+            if (RedMageSettings.Instance.MeleeComboBossesOnly && !Combat.Enemies.Any(e => e.IsBoss()))
+                return false;
+
 			else
 				return await Spells.Embolden.Cast(Core.Me);
         }
@@ -54,6 +58,9 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.InCombat)
                 return false;
 
+            if (!RedMageRoutines.CanWeave)
+                return false;
+
             if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
 			
@@ -64,6 +71,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Manafication()
         {
             if (!RedMageSettings.Instance.Manafication)
+                return false;
+
+            if (!RedMageRoutines.CanWeave)
                 return false;
 
             //Don't start the combo until we've used up Dualcast
