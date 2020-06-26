@@ -349,7 +349,7 @@ namespace Magitek.Logic.Ninja
             if (Spells.ShadowFang.Cooldown.TotalMilliseconds < 5000)
                 return false;
 
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1500)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
                 return false;
 
             if (Casting.LastSpell == Spells.Raiton)

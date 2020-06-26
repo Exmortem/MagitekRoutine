@@ -54,13 +54,8 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
                 return false;
 
-            if (Core.Me.HasAura(Auras.NascentChaos))
-                return false;
-
-            if (Combat.CombatTotalTimeLeft < 12)
-                return false;
             //Only use Inner Release after we have Storm's Eye
-            if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
+            if ((!Core.Me.HasAura(Auras.StormsEye, true, 12000) && (Casting.LastSpell != Spells.StormsEye)))
                 return false;
             // We're assuming IR is usable from here
             // If we're on GCD with more than 800 milliseconds left
@@ -86,6 +81,8 @@ namespace Magitek.Logic.Warrior
             if (Spells.Berserk.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
+                return false;
             return await Spells.Berserk.Cast(Core.Me);
         }
 
@@ -94,10 +91,8 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 
-            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
-                return false;
             //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
-            if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Cooldown > TimeSpan.Zero)
+            if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Charges >= 1  && Spells.Infuriate.Cooldown.TotalMilliseconds > 4000)
                 return false;
             if (Casting.LastSpell == Spells.InnerRelease)
                 return false;
@@ -105,10 +100,19 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
                 return false;
             //If we are lv 72+ and Inner Release comes off CD in 10 or less seconds don't use Infuriate
-            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.Seconds < 10)
+            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalSeconds < 3)
                 return false;
-            //Buff Check Logic here
 
+            if (Core.Me.ClassLevel > 72 && Spells.Infuriate.Charges > 0 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 6000)
+                return await Spells.Infuriate.Cast(Core.Me);
+
+            //Dump Gauge with FC if needed first
+            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
+            {
+                if (await Spells.FellCleave.Cast(Core.Me.CurrentTarget))
+                    return true;
+                return await Spells.Infuriate.Cast(Core.Me);
+            }
             return await Spells.Infuriate.Cast(Core.Me);
         }
     }

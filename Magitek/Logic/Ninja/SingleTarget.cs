@@ -145,22 +145,14 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Casting.LastSpell == Spells.Bunshin)
-                return false;
+                return false;       
 
-            if (Casting.LastSpell == Spells.TrickAttack)
-                return false;
-
-            if (Casting.LastSpell == Spells.ShadowFang)
+            if (Casting.LastSpell == Spells.Assassinate)
                 return false;
 
             if (Casting.LastSpell == Spells.Kassatsu)
                 return false;
 
-            if (Casting.LastSpell == Spells.Assassinate)
-                return false;
-
-            if (Casting.LastSpell == Spells.DreamWithinaDream)
-                return false;
 
             //if (Spells.Ten.Charges >= 1 && Spells.Ten.Cooldown.TotalMilliseconds <= 15000)
             //    return true;
@@ -172,6 +164,9 @@ namespace Magitek.Logic.Ninja
                 return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
 
             if (NinkiGauge < 50)
+                return false;
+
+            if (NinkiGauge < 81 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000)
                 return false;
 
             if (Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds)
@@ -246,7 +241,7 @@ namespace Magitek.Logic.Ninja
                 //Logger.Write("Calc:" + calc);
 
                 //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
-                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 > 70)
+                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 > 90)
                     canwesafelycastthis = 1;
 
                 if (canwesafelycastthis == 1)
