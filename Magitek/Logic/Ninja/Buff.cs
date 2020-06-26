@@ -3,6 +3,7 @@ using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using static ff14bot.Managers.ActionResourceManager.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
@@ -43,7 +44,7 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseBunshin)
                 return false;
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 450)
                 return false;
             return await Spells.Bunshin.Cast(Core.Me);
         }
@@ -69,7 +70,10 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.Seconds < 30 && Spells.TenChiJin.Cooldown.Seconds < 15 || !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
+            if (NinkiGauge > 50)
+                return false;
+
+            if (Spells.TrickAttack.Cooldown.Seconds < 30)
                 return false;
 
             return await Spells.Meisui.Cast(Core.Me);

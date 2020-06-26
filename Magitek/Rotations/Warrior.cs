@@ -72,7 +72,9 @@ namespace Magitek.Rotations
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 800 + BaseSettings.Instance.UserLatencyOffset)
+            if (await SingleTarget.Upheaval()) return true;
+            
+            if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 800)
             {
                 //if (await Defensive.ExecuteTankBusters()) return true;
                 if (await Defensive.Defensives()) return true;
@@ -80,8 +82,7 @@ namespace Magitek.Rotations
                 if (await Buff.InnerRelease()) return true;
                 if (await Buff.Infuriate()) return true;
                 if (await Buff.Equilibrium()) return true;
-                if (await SingleTarget.Onslaught()) return true;
-                if (await SingleTarget.Upheaval()) return true;
+                if (await SingleTarget.Onslaught()) return true;  
             }
 
             if (WarriorSettings.Instance.UseDefiance)
@@ -90,13 +91,16 @@ namespace Magitek.Rotations
                 if (await SingleTarget.TomahawkOnLostAggro()) return true;
             }
 
-            if (await Aoe.SteelCyclone()) return true;
-            if (await Aoe.Decimate()) return true;
-            if (await Aoe.InnerReleaseDecimateSpam()) return true;
-            if (await Aoe.Overpower()) return true;
-            if (await SingleTarget.InnerBeast()) return true;
-            if (await SingleTarget.FellCleave()) return true;
-            if (await SingleTarget.InnerReleaseFellCleaveSpam()) return true;
+            if (Core.Me.HasAura(Auras.StormsEye, true, 2000))
+            {   
+                if (await Aoe.SteelCyclone()) return true;
+                if (await Aoe.Decimate()) return true;
+                if (await Aoe.InnerReleaseDecimateSpam()) return true;
+                if (await Aoe.Overpower()) return true;
+                if (await SingleTarget.InnerBeast()) return true;
+                if (await SingleTarget.FellCleave()) return true;
+                if (await SingleTarget.InnerReleaseFellCleaveSpam()) return true;
+            }
 
             // Main Rotation Part
 

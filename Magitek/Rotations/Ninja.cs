@@ -138,7 +138,7 @@ namespace Magitek.Rotations
             //    }
             //}
             if (Ninjutsu.ForceRaiton()) return true;
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > 850)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > 650)
             {
                 //Utility Force Toggle
                 if (await PhysicalDps.ArmsLength(NinjaSettings.Instance)) return true;
