@@ -74,6 +74,9 @@ namespace Magitek.Logic.Warrior
             if (Spells.HeavySwing.Cooldown.TotalMilliseconds < 600)
                 return false;
 
+            if (Spells.Upheaval.Cooldown.TotalMilliseconds > 0)
+                return false;
+
             if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds > 25000)
                 upheavalReplaced = 0; 
 
