@@ -89,7 +89,7 @@ namespace Magitek.Logic.Warrior
             // If we have Inner Release & CD for it is 25s or less, don't cast upheaval
             if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 25000)
             {
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) >= 3 + r.CombatReach) < 1)
                 {
                     upheavalReplaced = 1;
                     if (await Spells.Onslaught.Cast(Core.Me.CurrentTarget))
