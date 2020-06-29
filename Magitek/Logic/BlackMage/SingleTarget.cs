@@ -253,7 +253,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasEnochian())
                 return false;
 
-            return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+    
 
 
         }
