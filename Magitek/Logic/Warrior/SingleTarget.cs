@@ -77,7 +77,7 @@ namespace Magitek.Logic.Warrior
             if (Spells.Upheaval.Cooldown.TotalMilliseconds > 0)
                 return false;
 
-            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds > 25000)
+            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds > 24000)
                 upheavalReplaced = 0; 
 
             if (!Core.Me.HasAura(Auras.StormsEye))
@@ -86,10 +86,13 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseUpheaval)
                 return false;
 
+            if (upheavalReplaced != 0)
+                return false;
+
             // If we have Inner Release & CD for it is 25s or less, don't cast upheaval
-            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 25000)
+            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 24000)
             {
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) >= 3 + r.CombatReach) < 1)
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= r.CombatReach) < 1)
                 {
                     upheavalReplaced = 1;
                     if (await Spells.Onslaught.Cast(Core.Me.CurrentTarget))
@@ -98,8 +101,7 @@ namespace Magitek.Logic.Warrior
                 
                 return false;
             }
-            if (upheavalReplaced != 0)
-                return false;
+           
 
             if (Casting.LastSpell == Spells.InnerRelease)
                 return false;
