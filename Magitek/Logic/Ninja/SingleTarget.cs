@@ -166,7 +166,7 @@ namespace Magitek.Logic.Ninja
             if (NinkiGauge < 50)
                 return false;
 
-            if (NinkiGauge < 81 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000)
+            if (NinkiGauge < 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000)
                 return false;
 
             if (Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds)

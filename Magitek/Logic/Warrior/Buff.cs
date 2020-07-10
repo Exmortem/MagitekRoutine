@@ -88,6 +88,7 @@ namespace Magitek.Logic.Warrior
 
         internal static async Task<bool> Infuriate()
         {
+            int useInfuriate = 0;
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 
@@ -99,15 +100,15 @@ namespace Magitek.Logic.Warrior
             //If we are in Inner Release and lv 72+, don't use Infuriate
             if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
                 return false;
-            //If we are lv 72+ and Inner Release comes off CD in 10 or less seconds don't use Infuriate
+            //If we are lv 72+ and Inner Release comes off CD in 3 or less seconds don't use Infuriate
             if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalSeconds < 3)
                 return false;
 
             if (Core.Me.ClassLevel > 72 && Spells.Infuriate.Charges > 0 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 6000)
-                return await Spells.Infuriate.Cast(Core.Me);
+                useInfuriate = 1;
 
             //Dump Gauge with FC if needed first
-            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
+            if (useInfuriate == 0 && ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
             {
                 if (await Spells.FellCleave.Cast(Core.Me.CurrentTarget))
                     return true;

@@ -252,10 +252,7 @@ namespace Magitek.Logic.BlackMage
 
             if (Core.Me.HasEnochian())
                 return false;
-
-    
             return false;
-
         }
 
     }
