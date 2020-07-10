@@ -254,7 +254,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
     
-
+            return false;
 
         }
 
