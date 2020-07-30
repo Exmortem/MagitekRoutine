@@ -166,8 +166,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await SingleTarget.AfflatusMisery()) return true;
             if (await SingleTarget.Dots()) return true;
+            if (await SingleTarget.AfflatusMisery()) return true;
             return await SingleTarget.Stone();
         }
 

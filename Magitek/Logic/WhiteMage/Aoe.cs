@@ -48,7 +48,7 @@ namespace Magitek.Logic.WhiteMage
             if (WhiteMageSettings.Instance.AssizeHealOnly)
                 return false;
 
-            if (WhiteMageSettings.Instance.AssizeOnlyBelow90Mana && Core.Me.CurrentManaPercent >= 90)
+            if (WhiteMageSettings.Instance.AssizeOnlyBelow90Mana && Core.Me.CurrentManaPercent >= 95)
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= (8 + r.CombatReach)) < 1)
