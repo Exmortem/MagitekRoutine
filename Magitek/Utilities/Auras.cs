@@ -91,7 +91,7 @@ namespace Magitek.Utilities
             ShadowWall = 747,
             SaltedEarth = 749,
             Darkside = 751,
-            Reprisal = 753,
+            Reprisal = 1193,
             LivingDead = 810,
             DragonKick = 98,
             TwinSnakes = 101,

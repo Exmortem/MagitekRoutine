@@ -120,7 +120,11 @@
     <Compile Include="Controls\TogglesSettings.xaml.cs">
       <DependentUpon>TogglesSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\MultiBooleanAndConverterT.cs" />
     <Compile Include="Converters\BooleanConverterT.cs" />
+    <Compile Include="Converters\BooleanToHalfOpaqueConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToBooleanConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToHalfOpaqueConverter .cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToOpaqueConverter.cs" />
     <Compile Include="Converters\ConditionAddConverter.cs" />
@@ -225,6 +229,12 @@
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
+    <Compile Include="Logic\RedMage\CombatMessages.cs" />
+    <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\State.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateMachine.cs" />
     <Compile Include="Logic\CustomOpenerLogic.cs" />
     <Compile Include="Logic\Dancer\Dances.cs" />
     <Compile Include="Logic\Gunbreaker\Aoe.cs" />
@@ -263,10 +273,7 @@
     <Compile Include="Logic\Paladin\Heal.cs" />
     <Compile Include="Logic\Paladin\Pvp.cs" />
     <Compile Include="Logic\Paladin\SingleTarget.cs" />
-    <Compile Include="Logic\RedMage\Aoe.cs" />
-    <Compile Include="Logic\RedMage\Buff.cs" />
     <Compile Include="Logic\RedMage\Heal.cs" />
-    <Compile Include="Logic\RedMage\SingleTarget.cs" />
     <Compile Include="Logic\Roles\MagicDps.cs" />
     <Compile Include="Logic\Roles\PhysicalDps.cs" />
     <Compile Include="Logic\Roles\Tank.cs" />
@@ -422,6 +429,8 @@
     <Compile Include="Utilities\Routines\Dancer.cs" />
     <Compile Include="Utilities\Routines\Gunbreaker.cs" />
     <Compile Include="Utilities\Routines\BlueMage.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateMachineManager.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateTransition.cs" />
     <Compile Include="Utilities\StunTracker.cs" />
     <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />

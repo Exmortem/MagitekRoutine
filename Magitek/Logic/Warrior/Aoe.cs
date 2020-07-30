@@ -21,7 +21,7 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
                 return false;
 
-            if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+            if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50 && Core.Me.HasAura(Auras.StormsEye, true, 7000))
                 return await Spells.ChaoticCyclone.Cast(Core.Me);
 
             return await Spells.SteelCyclone.Cast(Core.Me);
@@ -33,7 +33,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50 && Core.Me.HasAura(Auras.StormsEye, true, 7000))
                 return false;
 
             if (Core.Me.HasAura(Auras.NascentChaos) && Core.Me.ClassLevel < 80)

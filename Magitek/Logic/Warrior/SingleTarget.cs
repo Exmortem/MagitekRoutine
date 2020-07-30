@@ -66,31 +66,45 @@ namespace Magitek.Logic.Warrior
             return true;
         }
 
+        
         internal static async Task<bool> Upheaval()
         {
-            if (Core.Me.CurrentTarget == null)
+            int upheavalReplaced = 1;
+
+            if (Spells.HeavySwing.Cooldown.TotalMilliseconds < 600)
                 return false;
+
+            if (Spells.Upheaval.Cooldown.TotalMilliseconds > 0)
+                return false;
+
+            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds > 24000)
+                upheavalReplaced = 0; 
 
             if (!Core.Me.HasAura(Auras.StormsEye))
-                return false;
-
-            if (Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
             if (!WarriorSettings.Instance.UseUpheaval)
                 return false;
 
-            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
-                return false;
-
-            if (Core.Me.HasAura(Auras.NascentChaos))
+            if (upheavalReplaced != 0)
                 return false;
 
             // If we have Inner Release & CD for it is 25s or less, don't cast upheaval
-            if (ActionManager.HasSpell(Spells.InnerRelease.Id) && Spells.InnerRelease.Cooldown.TotalMilliseconds < 25000)
+            if (Core.Me.ClassLevel >= 70 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 24000)
             {
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= r.CombatReach) < 1)
+                {
+                    upheavalReplaced = 1;
+                    if (await Spells.Onslaught.Cast(Core.Me.CurrentTarget))
+                        return true;
+                }
+                
                 return false;
             }
+           
+
+            if (Casting.LastSpell == Spells.InnerRelease)
+                return false;
 
             return await Spells.Upheaval.Cast(Core.Me.CurrentTarget);
         }
@@ -152,13 +166,14 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             // If we have Inner Release
-            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
+            if (Core.Me.ClassLevel > 70)
             {
                 // If Inner Release as 10 seconds or less left on cooldown
-                if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
+                if (Spells.InnerRelease.Cooldown.TotalMilliseconds < 10000)
                 {
+                    int refreshTime = 19000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds; 
                     // If we don't have Storm's Eye aura for at least 10 seconds + Inner Release cooldown time
-                    if (!Core.Me.HasAura(Auras.StormsEye, true, 10000 + Spells.InnerRelease.Cooldown.Milliseconds))
+                    if (!Core.Me.HasAura(Auras.StormsEye, true, refreshTime))
                     {
                         // Use Storm's Eye
                         return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
@@ -166,7 +181,7 @@ namespace Magitek.Logic.Warrior
                 }
             }
 
-            if (Core.Me.HasAura(Auras.StormsEye, true, 9000))
+            if (Core.Me.HasAura(Auras.StormsEye, true, 7000))
                 return false;
 
             return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
@@ -196,23 +211,14 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseOnslaught)
                 return false;
 
-            if (Core.Me.HasAura(Auras.InnerRelease))
+            if (!Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
-            if (ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 20)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
                 return false;
 
-            if (Core.Me.HasAura(Auras.NascentChaos))
+            if (Casting.LastSpell == Spells.InnerRelease)
                 return false;
-
-            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
-            {
-                // If Inner Release as 10 seconds or less left on cooldown
-                if (Spells.InnerRelease.Cooldown.Milliseconds <= 10000)
-                {//Don't cast Onslaught
-                    return false;
-                }
-            }
 
             return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
         }

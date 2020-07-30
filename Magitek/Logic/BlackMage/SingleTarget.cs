@@ -167,7 +167,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
 
-            if (MovementManager.IsMoving && Core.Me.HasAura(Auras.ThunderCloud))
+            if (Core.Me.HasAura(Auras.Sharpcast) && !Core.Me.HasAura(Auras.Sharpcast, true, 5000))
             {
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
             }
@@ -175,12 +175,12 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Thunder3)
                 return false;
 
-            // If we have thunder cloud, but we don't have at least 2 seconds of it left, use the proc
-            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 4000))
+            // If we have thunder cloud, but we don't have at least 5 seconds of it left, use the proc
+            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 5000))
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500)
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500) 
                 && Casting.LastSpell != Spells.Thunder3)
                 await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
@@ -249,8 +249,11 @@ namespace Magitek.Logic.BlackMage
 
                 return await Spells.Transpose.Cast(Core.Me);
             }
-            return false;
 
+            if (Core.Me.HasEnochian())
+                return false;
+            return false;
         }
+
     }
 }

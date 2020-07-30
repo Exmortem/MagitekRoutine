@@ -40,6 +40,9 @@ namespace Magitek.Logic.Samurai
             if (!Core.Me.CurrentTarget.InView())
                 return false;
 
+            if (!Core.Me.HasAura(Auras.Jinpu))
+                return false;
+
             return await Spells.HissatsuGuren.Cast(Core.Me.CurrentTarget);
         }
 
@@ -376,7 +379,7 @@ namespace Magitek.Logic.Samurai
             //If < 62 the only way to gain kenki is by completing combos
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Setsu) && Core.Me.ClassLevel > 62)
                 return false;
-            if (Utilities.Routines.Samurai.SenCount != 2)
+            if (Core.Me.ClassLevel == 80 && Utilities.Routines.Samurai.SenCount != 2)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Hakaze && !Core.Me.HasAura(Auras.MeikyoShisui))
