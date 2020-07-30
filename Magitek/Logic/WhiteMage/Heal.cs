@@ -261,6 +261,9 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.Medica)
                 return false;
 
+            if (Casting.LastSpell == Spells.Medica2)
+                return false;
+
             if (Casting.LastSpell == Spells.Assize)
                 return false;
 
