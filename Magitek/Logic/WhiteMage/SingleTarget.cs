@@ -103,7 +103,7 @@ namespace Magitek.Logic.WhiteMage
             {
                 if (Core.Me.CurrentTarget.HasAura(Auras.Dia, true, WhiteMageSettings.Instance.DotRefreshSeconds * 1000))
                     return false;
-                if (Spells.Assize.Cooldown.TotalMilliseconds < 9000 && Spells.Assize.Cooldown.TotalMilliseconds > 1)
+                if (Core.Me.ClassLevel >= 72 && Spells.Assize.Cooldown.TotalMilliseconds < 4000 && Spells.Assize.Cooldown.TotalMilliseconds > 0)
                     return false;
                 return await Spells.Dia.CastAura(Core.Me.CurrentTarget, Auras.Dia, true, WhiteMageSettings.Instance.DotRefreshSeconds * 1000);
             }

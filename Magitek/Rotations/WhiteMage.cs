@@ -115,7 +115,7 @@ namespace Magitek.Rotations
 
             if (Globals.InParty)
             {
-                if (await Logic.WhiteMage.Heal.AssizeHeal()) return true;
+               // if (await Logic.WhiteMage.Heal.AssizeHeal()) return true;
                 if (await Logic.WhiteMage.Heal.Benediction()) return true;
                 if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;

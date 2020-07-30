@@ -50,11 +50,10 @@ namespace Magitek.Logic.WhiteMage
             if (WhiteMageSettings.Instance.AssizeOnlyBelow90Mana && Core.Me.CurrentManaPercent >= 90)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= (8 + r.CombatReach)) < WhiteMageSettings.Instance.AssizeEnemies)
+            if (Core.Me.CurrentTarget == null)
                 return false;
-            if (Casting.LastSpell == Spells.Dia || Casting.LastSpell == Spells.Aero || Casting.LastSpell == Spells.Aero2)
-                return await Spells.Assize.Cast(Core.Me);
-            if (Core.Me.ClassLevel >= 72 && !Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 5500))
+            
+            if (Core.Me.ClassLevel >= 72 && !Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 6000))
                 return false;
             return await Spells.Assize.Cast(Core.Me);
         }
