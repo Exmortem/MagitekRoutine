@@ -338,9 +338,6 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.Medica2)
                 return false;
 
-            if (Casting.LastSpell == Spells.Medica)
-                return false;
-
             if (Group.CastableAlliesWithin30.Count(CanMedica2) < WhiteMageSettings.Instance.Medica2Allies)
                 return false;
 
