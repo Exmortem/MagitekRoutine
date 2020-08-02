@@ -203,7 +203,7 @@ namespace Magitek.Utilities
             CastingTime.Stop();
 
             // Did we successfully cast?
-            if (buffer > 800)
+            if (buffer > 300)
             {
                 NeedAura = false;
                 UseRefreshTime = false;
