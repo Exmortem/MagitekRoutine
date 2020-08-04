@@ -62,6 +62,11 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Dots()
         {
+            if (Combat.IsMoving(Core.Me) && Core.Me.ClassLevel < 56 || Combat.IsMoving(Core.Me) && WhiteMageSettings.Instance.Dotwhilemoving)
+            {
+                return await Spells.Dia.Cast(Core.Me.CurrentTarget);
+            }
+
             if (WhiteMageSettings.Instance.UseTimeTillDeathForDots)
             {
                 var combatTimeLeft = Core.Me.CurrentTarget.CombatTimeLeft();

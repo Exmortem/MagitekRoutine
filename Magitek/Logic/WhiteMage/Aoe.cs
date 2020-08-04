@@ -38,6 +38,7 @@ namespace Magitek.Logic.WhiteMage
         {
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
+
             if (Spells.Assize.Cooldown.TotalMilliseconds > 1)
                 return false;
 
@@ -47,7 +48,10 @@ namespace Magitek.Logic.WhiteMage
             if (WhiteMageSettings.Instance.AssizeHealOnly)
                 return false;
 
-            if (WhiteMageSettings.Instance.AssizeOnlyBelow90Mana && Core.Me.CurrentManaPercent >= 90)
+            if (WhiteMageSettings.Instance.AssizeOnlyBelow90Mana && Core.Me.CurrentManaPercent >= 95)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= (8 + r.CombatReach)) < 1)
                 return false;
 
             if (Core.Me.CurrentTarget == null)
@@ -55,6 +59,7 @@ namespace Magitek.Logic.WhiteMage
             
             if (Core.Me.ClassLevel >= 72 && !Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 6000))
                 return false;
+
             return await Spells.Assize.Cast(Core.Me);
         }
     }

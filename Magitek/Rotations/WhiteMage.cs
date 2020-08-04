@@ -52,7 +52,7 @@ namespace Magitek.Rotations
             if (Core.Me.InCombat)
                 return false;
 
-            return await Combat();
+            return await Heal();
         }
 
         public static async Task<bool> Heal()
@@ -128,7 +128,8 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
             if (await SingleTarget.FluidAura()) return true;
-            return await Logic.WhiteMage.Heal.Regen();
+            if (await Logic.WhiteMage.Heal.Regen()) return true;
+            return await Combat();
         }
 
         public static async Task<bool> CombatBuff()
@@ -165,8 +166,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await SingleTarget.AfflatusMisery()) return true;
             if (await SingleTarget.Dots()) return true;
+            if (await SingleTarget.AfflatusMisery()) return true;
             return await SingleTarget.Stone();
         }
 

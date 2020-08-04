@@ -127,6 +127,11 @@ namespace Magitek.Rotations
 
             if (ActionManager.LastSpell == Spells.Hakaze)
             {
+                if(Core.Me.ClassLevel < 18)
+                {
+                    if (await SingleTarget.Jinpu()) return true;
+                }
+
                 var hasKa = ActionResourceManager.Samurai.Sen.HasFlag(ActionResourceManager.Samurai.Iaijutsu.Ka);
                 var hasGetsu = ActionResourceManager.Samurai.Sen.HasFlag(ActionResourceManager.Samurai.Iaijutsu.Getsu);
                 var hasSetsu = ActionResourceManager.Samurai.Sen.HasFlag(ActionResourceManager.Samurai.Iaijutsu.Setsu);

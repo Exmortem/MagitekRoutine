@@ -371,6 +371,10 @@ namespace Magitek.Models.WhiteMage
         public int DontDotIfEnemyDyingWithin { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool Dotwhilemoving { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool IgnoreAlliance { get; set; }
 

@@ -103,6 +103,10 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> ThinAir(bool preAir)
         {
+
+            if (!Core.Me.InCombat)
+                return false;
+
             if (!WhiteMageSettings.Instance.ThinAir)
                 return false;
 
