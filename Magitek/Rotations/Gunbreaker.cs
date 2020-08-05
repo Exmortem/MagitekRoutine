@@ -92,23 +92,37 @@ namespace Magitek.Rotations
                 if (GunbreakerSettings.Instance.UseAoe)
                     if (await Aoe.BowShock()) return true;
             }
+            
+            
+            
+                if (GunbreakerSettings.Instance.UseAoe)
+                {
+                    if (await Aoe.FatedCircle()) return true;
+                    if (await Aoe.DemonSlaughter()) return true;
+                    if (await Aoe.DemonSlice()) return true;
+                }
 
-            if (GunbreakerSettings.Instance.UseAoe)
-            {
-                if (await Aoe.FatedCircle()) return true;
-                if (await Aoe.DemonSlaughter()) return true;
-                if (await Aoe.DemonSlice()) return true;
-            }
+                if (await SingleTarget.GnashingFang()) return true;
+                if (await SingleTarget.SonicBreak()) return true;
+                if (await SingleTarget.LightningShot()) return true;
+                if (await SingleTarget.WickedTalon()) return true;
+                if (await SingleTarget.SavageClaw()) return true;
+                if (await SingleTarget.SolidBarrel()) return true;
+                if (await SingleTarget.BrutalShell()) return true;
+                if (await SingleTarget.BurstStrike()) return true;
+            
+                if (Core.Me.HasAura(Auras.ReadytoRip))
+                    return await Spells.JugularRip.Cast(Core.Me.CurrentTarget);
+                if (Core.Me.HasAura(Auras.ReadytoTear))
+                    return await Spells.AbdomenTear.Cast(Core.Me.CurrentTarget);
+                if (Core.Me.HasAura(Auras.ReadytoGouge))
+                    return await Spells.EyeGouge.Cast(Core.Me.CurrentTarget);
 
-            if (await SingleTarget.GnashingFang()) return true;
-            if (await SingleTarget.SonicBreak()) return true;
-            if (await SingleTarget.LightningShot()) return true;
-            if (await SingleTarget.WickedTalon()) return true;
-            if (await SingleTarget.SavageClaw()) return true;
-            if (await SingleTarget.SolidBarrel()) return true;
-            if (await SingleTarget.BrutalShell()) return true;
-            if (await SingleTarget.BurstStrike()) return true;
+
             return await SingleTarget.KeenEdge();
+            
+
+
         }
         public static async Task<bool> PvP()
         {

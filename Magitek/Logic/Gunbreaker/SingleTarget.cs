@@ -13,6 +13,9 @@ namespace Magitek.Logic.Gunbreaker
     {
         public static async Task<bool> KeenEdge()
         {
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false; 
+
             return await Spells.KeenEdge.Cast(Core.Me.CurrentTarget);
         }
 
@@ -20,7 +23,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (ActionManager.LastSpell != Spells.KeenEdge)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
 
             return await Spells.BrutalShell.Cast(Core.Me.CurrentTarget);
         }
@@ -29,7 +33,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (ActionManager.LastSpell != Spells.BrutalShell)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             if (Cartridge == 2)
                 return false;
 
@@ -40,7 +45,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Cartridge == 0)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             if (!GunbreakerSettings.Instance.UseAmmoCombo)
                 return false;
 
@@ -54,7 +60,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (SecondaryComboStage != 1)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false; 
             return await Spells.SavageClaw.Cast(Core.Me.CurrentTarget);
         }
 
@@ -62,7 +69,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (SecondaryComboStage != 2)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             return await Spells.WickedTalon.Cast(Core.Me.CurrentTarget);
         }
 
@@ -70,7 +78,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!Core.Player.HasAura(Auras.NoMercy))
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             return await Spells.SonicBreak.Cast(Core.Me.CurrentTarget);
         }
 
@@ -104,13 +113,16 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Cartridge == 0)
                 return false;
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             //Save your bullet for Gnashin
+            if (Core.Me.ClassLevel > 75 && Spells.Bloodfest.Cooldown.TotalMilliseconds < 5100)
+                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
             if (!Core.Player.HasAura(Auras.NoMercy) && Spells.GnashingFang.Cooldown.TotalMilliseconds < 10000 && Cartridge != 2)
                 return false;
             if (Spells.NoMercy.Cooldown.TotalMilliseconds < 3000)
                 return false;
-            if (Core.Me.ClassLevel > 75 && Spells.Bloodfest.Cooldown.TotalMilliseconds < 5100)
-                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
+            
             if (Core.Player.HasAura(Auras.NoMercy) && Cartridge != 0 && Spells.GnashingFang.Cooldown.TotalMilliseconds > 0)
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
             if (Cartridge == 2)

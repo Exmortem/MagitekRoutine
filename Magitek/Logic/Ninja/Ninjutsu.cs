@@ -220,6 +220,9 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 35)
                 return false;
 
+            if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, true, 2500))
+                return false;
+
             if (!ActionManager.CanCast(Spells.Chi, null))
                 return false;
 
@@ -274,7 +277,10 @@ namespace Magitek.Logic.Ninja
 
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000 && !NinjaSettings.Instance.UseForceNinjutsu)
                 return false;
-
+           
+            if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, true, 2500))
+                return false;
+           
             if (!ActionManager.HasSpell(Spells.Chi.Id))
                 return false;
 

@@ -88,9 +88,10 @@ namespace Magitek.Logic.Warrior
 
         internal static async Task<bool> Infuriate()
         {
-            int useInfuriate = 0;
+            int useInfuriate = 1;
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
+
 
             //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
             if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Charges >= 1  && Spells.Infuriate.Cooldown.TotalMilliseconds > 4000)
@@ -104,16 +105,10 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalSeconds < 3)
                 return false;
 
-            if (Core.Me.ClassLevel > 72 && Spells.Infuriate.Charges > 0 && Spells.InnerRelease.Cooldown.TotalMilliseconds < 6000)
-                useInfuriate = 1;
-
             //Dump Gauge with FC if needed first
-            if (useInfuriate == 0 && ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
-            {
-                if (await Spells.FellCleave.Cast(Core.Me.CurrentTarget))
-                    return true;
-                return await Spells.Infuriate.Cast(Core.Me);
-            }
+            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
+                return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
+           
             return await Spells.Infuriate.Cast(Core.Me);
         }
     }
