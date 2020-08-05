@@ -542,8 +542,8 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.DarkKnight:
                 //    return await Rotations.DarkKnight.PvP();    
 
-                case ClassJobType.Astrologian:
-                    return await Rotations.Astrologian.PvP();
+                //case ClassJobType.Astrologian:
+                  //  return await Rotations.Astrologian.PvP();
 
                 //case ClassJobType.Samurai:
                 //    return await Rotations.Samurai.PvP();
