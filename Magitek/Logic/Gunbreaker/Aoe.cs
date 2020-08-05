@@ -15,7 +15,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceEnemies)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             return await Spells.DemonSlice.Cast(Core.Me);
         }
 
@@ -23,7 +24,8 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (ActionManager.LastSpell != Spells.DemonSlice)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 1)
                 return false;
 
@@ -40,9 +42,10 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
 
-            if (Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 && Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
                 return await Spells.BowShock.Cast(Core.Me);
-
+            else
+                return await Spells.BowShock.Cast(Core.Me);
             return false;
         }
 
@@ -50,9 +53,13 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (Cartridge == 0)
                 return false;
-
+            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+                return false;
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 2 && Spells.GnashingFang.Cooldown.TotalMilliseconds < 7800 && Cartridge == 1)
+                return false; 
 
             return await Spells.FatedCircle.Cast(Core.Me);
         }
