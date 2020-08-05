@@ -181,7 +181,7 @@ namespace Magitek.Logic.Warrior
                 }
             }
 
-            if (Core.Me.HasAura(Auras.StormsEye, true, 7000))
+            if (Core.Me.HasAura(Auras.StormsEye, true, 6500))
                 return false;
 
             return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
