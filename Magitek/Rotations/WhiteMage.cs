@@ -109,9 +109,6 @@ namespace Magitek.Rotations
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.AssizeForMana()) return true;
             if (await Buff.PresenceOfMind()) return true;
-            if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
-            if (await Logic.WhiteMage.Heal.AfflatusSolace()) return true;
-            if (await Logic.WhiteMage.Heal.Cure3()) return true;
 
             if (Globals.InParty)
             {
@@ -124,6 +121,10 @@ namespace Magitek.Rotations
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;
                 if (await Logic.WhiteMage.Heal.Asylum()) return true;
             }
+
+            if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
+            if (await Logic.WhiteMage.Heal.AfflatusSolace()) return true;
+            if (await Logic.WhiteMage.Heal.Cure3()) return true;
 
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
