@@ -116,9 +116,9 @@ namespace Magitek.Rotations
                 if (await Logic.WhiteMage.Heal.Benediction()) return true;
                 if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
-                if (await Logic.WhiteMage.Heal.Medica()) return true;
-                if (await Logic.WhiteMage.Heal.Medica2()) return true;
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;
+                if (await Logic.WhiteMage.Heal.Medica2()) return true;
+                if (await Logic.WhiteMage.Heal.Medica()) return true;
                 if (await Logic.WhiteMage.Heal.Asylum()) return true;
             }
 
