@@ -24,6 +24,9 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DevilmentWithTechnicalStep)
                 return false;
 
+            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                return false;
+
             if (DancerSettings.Instance.DevilmentWithFlourish && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(52))
                 return false;
 

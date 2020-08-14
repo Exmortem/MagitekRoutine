@@ -118,6 +118,14 @@ namespace Magitek.Models.Dancer
         public bool DancePartnerChocobo { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool DontDotIfCurrentTargetIsDyingSoon { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int DontDotIfCurrentTargetIsDyingWithinXSeconds { get; set; }
+
+        [Setting]
         [DefaultValue(DancePartnerStrategy.ClosestDps)]
         public DancePartnerStrategy SelectedStrategy { get; set; }
 

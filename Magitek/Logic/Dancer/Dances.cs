@@ -122,6 +122,9 @@ namespace Magitek.Logic.Dancer
             if (!Core.Me.HasAura(Auras.StandardFinish))
                 return false;
 
+            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+                return false;
+
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
                 return false;
 
@@ -137,6 +140,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (!Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
+            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             //if (Core.Me.CurrentTarget.Distance(Core.Me) > 40)

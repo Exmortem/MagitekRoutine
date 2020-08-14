@@ -51,6 +51,8 @@
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
+        
+        
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">

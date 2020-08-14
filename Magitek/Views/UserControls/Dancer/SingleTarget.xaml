@@ -41,6 +41,14 @@
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+            <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+            </StackPanel>
+        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
