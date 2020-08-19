@@ -630,6 +630,7 @@ namespace Magitek.Utilities
         public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300); 
         public static readonly SpellData Bristle = DataManager.GetSpellData(11393);
         public static readonly SpellData SongOfTorment = DataManager.GetSpellData(11386);
+        public static readonly SpellData WaterCannon = DataManager.GetSpellData(11385);
         #region PVP
         public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
         public static readonly SpellData Muse = DataManager.GetSpellData(1583);

@@ -80,21 +80,23 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
+            if (!Models.BlueMage.BlueMageSettings.Instance.OnlyWaterCannon)
+            { 
+                if (await Buff.OffGuard()) return true;
+                if (await SingleTarget.Surpanakha()) return true;
+                if (await SingleTarget.SongOfTorment()) return true;
+                if (Utilities.Routines.BlueMage.OnGcd)
+                {
+                    if (await SingleTarget.Eruption()) return true;
+                    if (await SingleTarget.GlassDance()) return true;
+                    if (await SingleTarget.ShockStrike()) return true;
+                    if (await SingleTarget.Quasar()) return true;
+                }
 
-            if (await Buff.OffGuard()) return true;
-            if (await SingleTarget.Surpanakha()) return true;
-            if (await SingleTarget.SongOfTorment()) return true;
-            if (Utilities.Routines.BlueMage.OnGcd)
-            {                      
-                if (await SingleTarget.Eruption()) return true;
-                if (await SingleTarget.GlassDance()) return true;
-                if (await SingleTarget.ShockStrike()) return true;
-                if (await SingleTarget.Quasar()) return true;
+                if (await SingleTarget.SharpKnife()) return true;
+                return await SingleTarget.AbyssalTransfixion();
             }
-
-            if (await SingleTarget.SharpKnife()) return true;
-
-            return await SingleTarget.AbyssalTransfixion();
+        return await SingleTarget.WaterCannon();
         }
         public static async Task<bool> PvP()
         {

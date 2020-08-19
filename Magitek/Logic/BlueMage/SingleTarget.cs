@@ -54,6 +54,11 @@ namespace Magitek.Logic.BlueMage
             return await Spells.Quasar.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> WaterCannon()
+        {
+            return await Spells.WaterCannon.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> ShockStrike()
         {
             return await Spells.ShockStrike.Cast(Core.Me.CurrentTarget);
