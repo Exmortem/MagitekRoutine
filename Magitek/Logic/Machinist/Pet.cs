@@ -36,14 +36,12 @@ namespace Magitek.Logic.Machinist
                 if (Casting.LastSpell == Spells.Wildfire)
                     return false;
 
-                // Do not understand the reason behind
-                /*
-                   if (Spells.Wildfire.Cooldown.Seconds < 11)
-                    return false;
-                */
                 if (Spells.Wildfire.Cooldown.Seconds > 110)
                     return false;
             }
+
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 5000)
+                return false;
 
             return await MachinistGlobals.RookQueenPet.Cast(Core.Me);
         }
@@ -53,10 +51,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRookQueenOverdrive)
                 return false;
 
-            if (Core.Me.Distance2D(Core.Me.CurrentTarget) > 30)
-                return false;
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 5000)
+                return await MachinistGlobals.RookQueenOverdrive.Cast(Core.Me.CurrentTarget);
 
-            return await MachinistGlobals.RookQueenOverdrive.Cast(Core.Me.CurrentTarget);
+            return false;
         }
     }
 }
