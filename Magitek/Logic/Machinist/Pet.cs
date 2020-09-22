@@ -51,7 +51,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRookQueenOverdrive)
                 return false;
 
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 5000)
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 2000 && Core.Me.CurrentTarget.CurrentHealthPercent < 2)
                 return await MachinistGlobals.RookQueenOverdrive.Cast(Core.Me.CurrentTarget);
 
             return false;
