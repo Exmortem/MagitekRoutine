@@ -25,17 +25,20 @@ namespace Magitek.Logic.Machinist
 
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
-
-            if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds != 0)
-                return false;
-
+		
             if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Wildfire.Cooldown.TotalMilliseconds > 6000)
+                return false;
+			
+			if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 6000)
                 return false;
 
             if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 8000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.2f && Spells.Ricochet.Charges < 1.2f)
                 return await Spells.BarrelStabilizer.Cast(Core.Me);
 
-            if (ActionResourceManager.Machinist.Heat < 50 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000 || ActionResourceManager.Machinist.Heat < 50 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
+            if (ActionResourceManager.Machinist.Heat < 50 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
+                return false;
+			
+			if (ActionResourceManager.Machinist.Heat < 50 && Spells.HotAirAnchor.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
                 return false;
 
             Logger.Write($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
