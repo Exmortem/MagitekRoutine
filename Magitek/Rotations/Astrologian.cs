@@ -41,8 +41,9 @@ namespace Magitek.Rotations
             if (Core.Me.ClassLevel >= Spells.NocturnalSect.LevelAcquired)
                 return await Buff.Sect();
 
-            // If not, use dinural
-            return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
+            return false;
+            //// If not, use dinural
+            //return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
         }
 
         public static async Task<bool> Pull()
