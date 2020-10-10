@@ -332,6 +332,14 @@ namespace Magitek.Utilities
         public static readonly SpellData Detonator = DataManager.GetSpellData(16766);
         public static readonly SpellData Tactician = DataManager.GetSpellData(16889);
         public static readonly SpellData Hypercharge = DataManager.GetSpellData(17209);
+
+        public static readonly SpellData PVPDrill = DataManager.GetSpellData(17749);
+        public static readonly SpellData PVPRicochet = DataManager.GetSpellData(17753);
+        public static readonly SpellData PVPGaussRound = DataManager.GetSpellData(18933);
+        public static readonly SpellData PVPHypercharge = DataManager.GetSpellData(17754);
+        public static readonly SpellData PVPWildfire = DataManager.GetSpellData(8855);
+        public static readonly SpellData PVPAirAnchor = DataManager.GetSpellData(17750);
+        public static readonly SpellData PVPSpreadShot = DataManager.GetSpellData(18932);
         #endregion
 
         // MNK
@@ -664,6 +672,8 @@ namespace Magitek.Utilities
         public static readonly SpellData TheWanderersMinuetPvp = DataManager.GetSpellData(8843);
         public static readonly SpellData ArmysPaeonPvp = DataManager.GetSpellData(8844);
         public static readonly SpellData TroubadourPvp = DataManager.GetSpellData(10023);
+
+        public static readonly SpellData PVPMCH123 = DataManager.GetSpellData(17749);
 
         //WHM
         public static readonly SpellData Purify = DataManager.GetSpellData(1584);
