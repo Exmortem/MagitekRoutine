@@ -102,24 +102,24 @@ namespace Magitek.Extensions
                     return false;
             }
 
-            if (Core.Me.OnPvpMap())
-            {
-                if (Core.Me.IsCasting && Core.Me.CastingSpellId == spell.Id)
-                    return false;
+            //if (Core.Me.OnPvpMap())
+            //{
+            //    if (Core.Me.IsCasting && Core.Me.CastingSpellId == spell.Id)
+            //        return false;
 
-                if (spell != Spells.PvpPlayDrawn)
-                {
-                    if (target.Distance() > spell.Range)
-                        return false;
+            //    if (spell != Spells.PvpPlayDrawn)
+            //    {
+            //        if (target.Distance() > spell.Range)
+            //            return false;
 
-                    if (spell != Spells.PvpPlayDrawn && spell.Cooldown != TimeSpan.Zero)
-                        return false;
-                }
-                else
-                {
-                    if (target.Distance() > 30) return false;
-                }
-            }
+            //        if (spell != Spells.PvpPlayDrawn && spell.Cooldown != TimeSpan.Zero)
+            //            return false;
+            //    }
+            //    else
+            //    {
+            //        if (target.Distance() > 30) return false;
+            //    }
+            //}
 
             return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
         }

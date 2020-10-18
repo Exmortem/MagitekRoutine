@@ -176,6 +176,9 @@ namespace Magitek.Logic.Scholar
             if (!Globals.InParty)
                 return false;
 
+            if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 100)
+                return false;
+
             if (!ScholarSettings.Instance.EmergencyTactics || !ScholarSettings.Instance.EmergencyTacticsAdloquium)
                 return false;
 
@@ -211,6 +214,10 @@ namespace Magitek.Logic.Scholar
 
             async Task<bool> CastEmergencyTacticsAdlo(Character unit)
             {
+
+                if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 1)
+                    return false;
+
                 if (!await Spells.EmergencyTactics.Cast(Core.Me))
                     return false;
 
