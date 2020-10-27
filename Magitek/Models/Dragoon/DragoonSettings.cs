@@ -34,6 +34,10 @@ namespace Magitek.Models.Dragoon
         public bool BattleLitany { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ForceDragonSight { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Geirskogul { get; set; }
 

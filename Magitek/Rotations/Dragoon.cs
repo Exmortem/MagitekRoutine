@@ -170,6 +170,8 @@ namespace Magitek.Rotations
 
             if (Utilities.Routines.Dragoon.OnGcd && !_usedJumpDuringGcd)
             {
+
+                if (await Buff.ForceDragonSight()) return true;
                 if (await Jumps.MirageDive())
                 {
                     _usedJumpDuringGcd = true;

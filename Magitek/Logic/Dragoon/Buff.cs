@@ -5,6 +5,7 @@ using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Dragoon;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
 using System.Collections.Generic;
@@ -137,6 +138,17 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
+        }
+
+        public static async Task<bool> ForceDragonSight()
+        {
+            if (!DragoonSettings.Instance.ForceDragonSight)
+                return false;
+
+            if (!await DragonSight()) return false;
+            DragoonSettings.Instance.ForceDragonSight = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
 
         private static int GetWeight(Character c)
