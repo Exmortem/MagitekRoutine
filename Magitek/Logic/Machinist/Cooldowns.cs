@@ -40,7 +40,7 @@ namespace Magitek.Logic.Machinist
                 if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
                     return false;
 
-			    if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
+                if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
                     return false;
             }
             Logger.Write($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
