@@ -18,9 +18,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Core.Me.ClassLevel > 58)
+            if (Core.Me.ClassLevel >= 58)
             {
-                if (Spells.Drill.Cooldown.TotalMilliseconds < 100)
+                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 100)
                     return false;
 
                 if (Casting.LastSpell == Spells.Hypercharge)

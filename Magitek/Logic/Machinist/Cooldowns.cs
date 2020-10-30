@@ -35,12 +35,14 @@ namespace Magitek.Logic.Machinist
             if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 8000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.2f && Spells.Ricochet.Charges < 1.2f)
                 return await Spells.BarrelStabilizer.Cast(Core.Me);
 
-            if (ActionResourceManager.Machinist.Heat < 50 && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
-                return false;
-			
-			if (ActionResourceManager.Machinist.Heat < 50 && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
-                return false;
+            if (ActionResourceManager.Machinist.Heat < 50)
+            {
+                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
+                    return false;
 
+			    if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000 && Spells.Wildfire.Cooldown.TotalMilliseconds < 4000)
+                    return false;
+            }
             Logger.Write($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
 
             return await Spells.BarrelStabilizer.Cast(Core.Me);
@@ -56,11 +58,13 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat < 50)
                 return false;
 
-            if (Spells.Drill.Cooldown.TotalMilliseconds < 8000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000)
                 return false;
-            
-            //Logger.WriteInfo($@"Ricco: {Spells.Ricochet.Charges} | GaussRound: {Spells.GaussRound.Charges}");
 
+            if (MachinistSettings.Instance.UseHotAirAnchor && MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
+                return false;
+
+            //Logger.WriteInfo($@"Ricco: {Spells.Ricochet.Charges} | GaussRound: {Spells.GaussRound.Charges}");
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
                 return false;
 
@@ -73,7 +77,6 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel > 45)
             {
-                //Logger.WriteInfo($@"Inside HC Level Check");
                 //Logger.WriteInfo($@"Wildifre CD: {Spells.Wildfire.Cooldown.TotalMilliseconds}");
                 if (Spells.Wildfire.Cooldown.TotalMilliseconds > 25000)
                     return await Spells.Hypercharge.Cast(Core.Me);
@@ -95,7 +98,10 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
-            if (Spells.Drill.Cooldown.TotalMilliseconds < 9000 || MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 9000)
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 9000)
+                return false;
+
+            if (MachinistSettings.Instance.UseHotAirAnchor && MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 9000)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
@@ -122,17 +128,16 @@ namespace Magitek.Logic.Machinist
                     return false;
             }
 
-            if (Core.Me.ClassLevel > 58 && Core.Me.ClassLevel < 76)
+            if (Core.Me.ClassLevel >= 58 && Core.Me.ClassLevel < 76)
             {
-                if (Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown >= MachinistGlobals.HeatedSplitShot.Cooldown)
+                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
                     return false;
             }
 
             if (Core.Me.ClassLevel >= 76)
             {
-                //If Drill Cooldown isn't up & Drill Cooldown is longer than GCD, don't use Reassemble
-                if ((Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) &&
-                    (Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds))
+                if ( (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
                     return false;
             }
 
