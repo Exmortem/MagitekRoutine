@@ -99,9 +99,9 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Wildfire)
                 return false;
 
-            if (Core.Me.ClassLevel > 45)
+            if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.Wildfire.Cooldown.Seconds < 2)
+                if (Spells.Ricochet.Charges < 1.5f && Spells.Wildfire.Cooldown.Seconds < 2)
                     return false;
 
                 // Do not run Rico if an hypercharge is almost ready and not enough charges available for Rico and Gauss

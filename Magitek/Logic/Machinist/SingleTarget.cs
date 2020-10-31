@@ -18,9 +18,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
-            if (Core.Me.ClassLevel > 58)
+            if (Core.Me.ClassLevel >= 58)
             {
-                if (Spells.Drill.Cooldown.TotalMilliseconds < 100)
+                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 100)
                     return false;
 
                 if (Casting.LastSpell == Spells.Hypercharge)
@@ -119,9 +119,9 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Wildfire)
                 return false;
 
-            if (Core.Me.ClassLevel > 45)
+            if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.Wildfire.Cooldown.Seconds < 2)
+                if (Spells.GaussRound.Charges < 1.5f && Spells.Wildfire.Cooldown.Seconds < 2)
                     return false;
 
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
@@ -131,10 +131,6 @@ namespace Magitek.Logic.Machinist
                         return false;
                 }
             }
-
-            /*add some mor precise logic for pooling/dumping
-            if (Spells.GaussRound.Charges < 1.8f)
-                return false;*/
 
             return await Spells.GaussRound.Cast(Core.Me.CurrentTarget);
         }

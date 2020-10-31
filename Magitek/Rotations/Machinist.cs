@@ -129,10 +129,9 @@ namespace Magitek.Rotations
             if (await MultiTarget.SpreadShot()) return true;
 
             //Default Combo
-
-            if(Core.Me.ClassLevel > 58)
+            if(Core.Me.ClassLevel >= 58)
             {
-                if (Spells.Drill.Cooldown.TotalMilliseconds > 100)
+                if (!MachinistSettings.Instance.UseDrill || (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds > 100) )
                 {
                     if (await SingleTarget.HeatedCleanShot()) return true;
                     if (await SingleTarget.HeatedSlugShot()) return true;
