@@ -20,7 +20,7 @@ namespace Magitek.Utilities
 
             try
             {
-                Core.Memory.Write(Core.Memory.Read<IntPtr>(Core.Memory.Process.MainModule.BaseAddress + 0x1D0AC20) + 0x11c, BaseSettings.Instance.ZoomHack ? 200f : 20f);
+                Core.Memory.Write(Core.Memory.Read<IntPtr>(Core.Memory.Process.MainModule.BaseAddress + 0x1D8A070) + 0x11c, BaseSettings.Instance.ZoomHack ? 200f : 20f);
                 _isEnabled = BaseSettings.Instance.ZoomHack;
             }
             catch (Exception)
