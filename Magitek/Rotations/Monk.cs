@@ -60,7 +60,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> CombatBuff()
         {
-            if (await Buff.FormShiftOOC()) return true;
+            //if (await Buff.FormShiftOOC()) return true;
             return await Buff.Meditate();
         }
         public static async Task<bool> Combat()
