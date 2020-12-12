@@ -29,7 +29,7 @@ namespace Magitek.Rotations
 
             if (await Buff.FistsOf()) return true;
             if (await Buff.Meditate()) return true;
-            if (await Buff.FormShiftOOC()) return true;
+            //if (await Buff.FormShiftOOC()) return true;
 
             return false;
         }
