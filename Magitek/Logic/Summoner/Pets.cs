@@ -25,6 +25,14 @@ namespace Magitek.Logic.Summoner
             {
                 case SummonerPets.None:
                     return false;
+                case SummonerPets.EmeraldCarbuncle:
+                    if (Core.Me.ClassLevel < 30)
+                        return await Spells.Summon.Cast(Core.Me);
+                    return false;
+                case SummonerPets.TopazCarbuncle:
+                    if (Core.Me.ClassLevel < 30)
+                        return await Spells.Summon2.Cast(Core.Me);
+                    return false;
                 case SummonerPets.Ifrit:
                     return await Spells.Summon3.Cast(Core.Me);
                 case SummonerPets.Titan:
