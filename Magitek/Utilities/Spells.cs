@@ -366,6 +366,7 @@ namespace Magitek.Utilities
         public static readonly SpellData FormShift = DataManager.GetSpellData(4262);
         public static readonly SpellData FourPointFury = DataManager.GetSpellData(16473);
         public static readonly SpellData Enlightenment = DataManager.GetSpellData(16474);
+        public static readonly SpellData TornadoKick = DataManager.GetSpellData(3543);
         #endregion
 
         // NIN

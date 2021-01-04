@@ -155,7 +155,7 @@ namespace Magitek.Models.Monk
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseElixerField { get; set; }
+        public bool UseElixirField { get; set; }
 
         [Setting]
         [DefaultValue(1)]
@@ -164,6 +164,10 @@ namespace Magitek.Models.Monk
         [Setting]
         [DefaultValue(true)]
         public bool UseTheForbiddenChakra { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseTornadoKick { get; set; }
 
         [Setting]
         [DefaultValue(false)]

@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using System;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
@@ -97,20 +98,29 @@ namespace Magitek.Logic.Monk
             return await Spells.PerfectBalance.Cast(Core.Me);
         }
 
-        public static async Task<bool> RiddleOfFire()
-        {
-            if (!MonkSettings.Instance.UseRiddleOfFire)
-                return false;
-
-            return await Spells.RiddleofFire.Cast(Core.Me);
-        }
-
         public static async Task<bool> RiddleOfEarth()
         {
             if (!MonkSettings.Instance.UseRiddleOfEarth)
                 return false;
 
+            if (Core.Me.HasAura(Auras.RiddleOfEarth))
+                return false;
+
+            if (Casting.LastSpell == Spells.RiddleofEarth || Casting.LastSpell == Spells.TrueNorth)
+                return false;
+            
             return await Spells.RiddleofEarth.Cast(Core.Me);
+        }
+
+        public static async Task<bool> RiddleOfFire() 
+        {
+            if (!MonkSettings.Instance.UseRiddleOfFire)
+                return false;
+
+            if (Core.Me.HasMyAura(Auras.Brotherhood))
+                return false;
+
+            return await Spells.RiddleofFire.Cast(Core.Me);
         }
 
         public static async Task<bool> Brotherhood()
@@ -120,6 +130,9 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseBrotherhood)
                 return false;
 
+            if (MonkSettings.Instance.UseRiddleOfFire && Spells.RiddleofFire.Cooldown.TotalMilliseconds == 0)
+                return false;
+            
             return await Spells.Brotherhood.Cast(Core.Me);
         }
 
@@ -180,7 +193,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 52)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.InCombat)
+            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist))
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FormShift.Cast(Core.Me);

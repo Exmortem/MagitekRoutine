@@ -9,7 +9,6 @@ using Magitek.Models.Monk;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -27,8 +26,8 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
-            if (await Buff.FistsOf()) return true;
-            if (await Buff.Meditate()) return true;
+            if (Core.Me.HasTarget && Core.Me.CanAttack && await Buff.FistsOf()) return true;
+            if (Core.Me.CanAttack && await Buff.Meditate()) return true;
             //if (await Buff.FormShiftOOC()) return true;
 
             return false;
@@ -108,7 +107,9 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Feint(MonkSettings.Instance)) return true;
+                    if (await Buff.RiddleOfFire()) return true;
                     if (await Buff.Brotherhood()) return true;
+                    if (await SingleTarget.TornadoKick()) return true;
                     if (await Aoe.Enlightenment()) return true;
                     if (await SingleTarget.TheForbiddenChakra()) return true;
                     if (await SingleTarget.ShoulderTackle()) return true;
@@ -117,14 +118,24 @@ namespace Magitek.Rotations
                     {
                         if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
                     }
-                    if (await Buff.RiddleOfFire()) return true;
-                    if (await Buff.RiddleOfEarth()) return true;
-                    if (await SingleTarget.ElixerField()) return true;
+                    if (!Core.Me.HasAura(Auras.TrueNorth)) 
+                    {
+                        if (await Buff.RiddleOfEarth()) return true;
+                    }
+                    //if (await Buff.RiddleOfFire()) return true;
+                    //if (await Buff.Brotherhood()) return true;
+                    //if (await SingleTarget.TornadoKick()) return true;
+
+                    //if (await Buff.RiddleOfEarth()) return true;
+                    if (await SingleTarget.ElixirField()) return true;
                 }
-                if (await SingleTarget.PerfectBalanceRoT()) return true;
                 if (await Aoe.Rockbreaker()) return true;
                 if (await Aoe.FourPointStrike()) return true;
                 if (await Aoe.ArmOfDestroyer()) return true;
+                if (await SingleTarget.PerfectBalanceRoT()) return true;
+                //if (await Aoe.Rockbreaker()) return true;
+                //if (await Aoe.FourPointStrike()) return true;
+                //if (await Aoe.ArmOfDestroyer()) return true;
                 if (await SingleTarget.Demolish()) return true;
                 if (await SingleTarget.SnapPunch()) return true;
                 if (await SingleTarget.TwinSnakes()) return true;
@@ -133,8 +144,8 @@ namespace Magitek.Rotations
                 if (await SingleTarget.DragonKick()) return true;
                 return await Buff.FormShiftIC();
             }
-            else
-                return false;
+
+            return false;
         }
         public static async Task<bool> PvP()
         {
@@ -154,25 +165,25 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "Bootshine: Get behind Enemy",
-                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.HasAura(Auras.LeadenFist) && !Core.Me.HasAura(Auras.PerfectBalance)));
+                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.HasAura(Auras.LeadenFist) && !Core.Me.HasAura(Auras.PerfectBalance) && !Core.Me.HasAura(Auras.TrueNorth) && !Core.Me.HasAura(Auras.RiddleOfEarth)));
 
             //Second priority (tie): TwinSnakes
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "TwinSnakes: Side of Enemy",
-                                          () => Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100) && !Core.Me.HasAura(Auras.PerfectBalance)));
+                                          () => Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100) && !Core.Me.HasAura(Auras.PerfectBalance) && !Core.Me.HasAura(Auras.TrueNorth) && !Core.Me.HasAura(Auras.RiddleOfEarth)));
 
             //Second priority (tie): TrueStrike
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "TrueStrike: Get behind Enemy",
-                                          () => Core.Me.HasAura(Auras.RaptorForm) && Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance)));
+                                          () => Core.Me.HasAura(Auras.RaptorForm) && Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance) && !Core.Me.HasAura(Auras.TrueNorth) && !Core.Me.HasAura(Auras.RiddleOfEarth)));
 
             //Second priority (tie): DragonKick
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "DragonKick: Side of Enemy",
-                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && !Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance)));
+                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && !Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000) && !Core.Me.HasAura(Auras.PerfectBalance) && !Core.Me.HasAura(Auras.TrueNorth) && !Core.Me.HasAura(Auras.RiddleOfEarth)));
 
         }
     }
