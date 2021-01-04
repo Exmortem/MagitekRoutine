@@ -155,7 +155,7 @@ namespace Magitek.Models.Monk
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseElixirField { get; set; }
+        public bool UseElixerField { get; set; }
 
         [Setting]
         [DefaultValue(1)]
@@ -172,5 +172,9 @@ namespace Magitek.Models.Monk
         [Setting]
         [DefaultValue(false)]
         public bool UsePositionalToasts { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool HidePositionalToastsWithTn { get; set; }
     }
 }
