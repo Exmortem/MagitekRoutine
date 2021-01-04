@@ -43,6 +43,10 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
+        public bool Nastrond { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool LifeSurge { get; set; }
 
         [Setting]
