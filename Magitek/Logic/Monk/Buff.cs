@@ -74,8 +74,10 @@ namespace Magitek.Logic.Monk
             if (Casting.LastSpell == Spells.TrueNorth || Casting.LastSpell == Spells.RiddleofEarth)
                 return false;
 
-            if (await PhysicalDps.TrueNorth(MonkSettings.Instance)) return true;
-            if (await Spells.RiddleofEarth.Cast(Core.Me)) return true;
+            if (MonkSettings.Instance.UseTrueNorth && await PhysicalDps.TrueNorth(MonkSettings.Instance))
+                return true;
+            if (MonkSettings.Instance.UseRiddleOfEarth && await Spells.RiddleofEarth.Cast(Core.Me))
+                return true;
 
             return false;
         }
