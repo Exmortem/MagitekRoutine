@@ -47,7 +47,9 @@ namespace Magitek.Utilities
                 {
                     foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
                     {
-                        if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
+                        //if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
+                        //TODO: This is a temporary fix for wrong PlayerIcon Enum: 15 = Viewing_Cutscene
+                        if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == (PlayerIcon)15)
                             continue;
 
                         if (BaseSettings.Instance.PartyMemberAuraHistory)
@@ -91,7 +93,9 @@ namespace Magitek.Utilities
                     Logger.WriteInfo($@"[Debug] PartyManager {ally.Name} is a valid Party Member in PartyManager.");
                 }
 
-                if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
+                //if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
+                //TODO: This is a temporary fix for wrong PlayerIcon Enum: 15 = Viewing_Cutscene
+                if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == (PlayerIcon)15)
                     continue;
 
                 if (BaseSettings.Instance.PartyMemberAuraHistory)
