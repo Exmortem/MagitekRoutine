@@ -1,12 +1,11 @@
-﻿using System;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
-using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Account;
+using ff14bot.Objects;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Monk
 {
@@ -146,15 +145,18 @@ namespace Magitek.Logic.Monk
         {
             // Off GCD
 
-            if (!MonkSettings.Instance.UseElixirField)
+            if (!MonkSettings.Instance.UseElixerField)
                 return false;
 
-            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 25 && r.InCombat);
-            var cosCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
+            //var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 25 && r.InCombat);
+            //var cosCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
 
-            var canCoS = cosCount >= enemyCount || cosCount > 2;
+            //var canCoS = cosCount >= enemyCount || cosCount > 2;
 
-            if (!canCoS)
+            //if (!canCoS)
+            //    return false;
+
+            if (Core.Me.CurrentTarget is BattleCharacter target && !target.WithinSpellRange(5))
                 return false;
 
             if (Spells.ElixirField.Cooldown.Seconds != 0)
@@ -165,26 +167,22 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> PerfectBalanceRoT()
         {
-            if (Core.Me.HasAura(Auras.PerfectBalance))
-            {
-                //if (ActionResourceManager.Monk.Timer.Seconds <= 6)
-                //    return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.HasAura(Auras.PerfectBalance))
+                return false;
+            
+            if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
+                return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
 
-                if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
-                    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000) && Casting.LastSpell != Spells.Demolish)
+                return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
 
-                if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000) && Casting.LastSpell != Spells.Demolish)
-                    return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.HasAura(Auras.LeadenFist))
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-                if (Core.Me.HasAura(Auras.LeadenFist))
-                    return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+            if(!ActionManager.HasSpell(Spells.DragonKick.Id))
+                return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
 
-                if(!ActionManager.HasSpell(Spells.DragonKick.Id))
-                    return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
-
-                return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
-            }
-            return false;
+            return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
         }
 
     }
