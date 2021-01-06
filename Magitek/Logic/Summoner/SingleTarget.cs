@@ -120,7 +120,7 @@ namespace Magitek.Logic.Summoner
         {
             if (!SummonerSettings.Instance.Bio) return false;
 
-            if (Core.Me.ClassLevel < 53)
+            if (Core.Me.ClassLevel < 2)
                 return false;
 
             if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
@@ -129,8 +129,10 @@ namespace Magitek.Logic.Summoner
             if (Casting.LastSpell == Spells.TriDisaster)
                 return false;
 
-            return !Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.DotRefreshSeconds * 1000)
-                   && await Spells.SmnBio.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.DotRefreshSeconds * 1000))
+                return false;
+
+            return await Spells.SmnBio.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Miasma()
@@ -140,7 +142,7 @@ namespace Magitek.Logic.Summoner
             if (MovementManager.IsMoving) return false;
             var refresh = SummonerSettings.Instance.DotRefreshSeconds * 1000;
 
-            if (Core.Me.ClassLevel < 53)
+            if (Core.Me.ClassLevel < 6)
                 return false;
 
             if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
