@@ -89,13 +89,10 @@ namespace Magitek.Utilities.Routines
             if (Casting.CastingSpell == Spells.Succor)
                 return false;
 
-            if (Core.Me.HasMyAura(Auras.EmergencyTactics))
+            if (Core.Me.HasMyAura(Auras.EmergencyTactics) && Casting.CastingSpell == Spells.Physick)
             {
-                if (Casting.CastingSpell != Spells.Succor && Casting.CastingSpell != Spells.Adloquium) 
-                {
-                    Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
-                    return true;
-                }
+                Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
+                return true;
             }
             if (ScholarSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= ScholarSettings.Instance.InterruptHealingPercent)
             {
