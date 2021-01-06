@@ -176,7 +176,7 @@ namespace Magitek.Logic.Scholar
             if (!Globals.InParty)
                 return false;
 
-            if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 100)
+            if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 100 && !Core.Me.HasMyAura(Auras.EmergencyTactics))
                 return false;
 
             if (!ScholarSettings.Instance.EmergencyTactics || !ScholarSettings.Instance.EmergencyTacticsAdloquium)
@@ -191,13 +191,16 @@ namespace Magitek.Logic.Scholar
 
             bool CanEmergencyTacticsAdlo(Character unit)
             {
+                if (unit == null)
+                    return false;
+
                 if (unit.HasAura(Auras.Exogitation))
                     return false;
 
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent)
                     return false;
 
-                if (Casting.LastSpellTarget.ObjectId == unit.ObjectId)
+                if (Casting.LastSpellTarget?.ObjectId == unit.ObjectId)
                 {
                     if (Casting.LastSpell == Spells.Lustrate || Casting.LastSpell == Spells.Excogitation)
                         return false;
@@ -228,7 +231,7 @@ namespace Magitek.Logic.Scholar
                     if (MovementManager.IsMoving)
                         await Coroutine.Yield();
 
-                    if (await Spells.Adloquium.Heal(emergencyTacticsAdloTarget, false))
+                    if (await Spells.Adloquium.Heal(unit, false))
                         return true;
 
                     await Coroutine.Yield();
