@@ -539,7 +539,7 @@ namespace Magitek.Logic.WhiteMage
                     if (afflatusSolaceTankTarget == null)
                         return false;
 
-                    if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTankTarget)
+                    if ((Casting.LastSpell == Spells.Tetragrammaton || Casting.LastSpell == Spells.Benediction) && Casting.LastSpellTarget == afflatusSolaceTankTarget)
                         return false;
 
                     return await Spells.AfflatusSolace.Heal(afflatusSolaceTankTarget, false);
@@ -550,7 +550,7 @@ namespace Magitek.Logic.WhiteMage
                 if (afflatusSolaceTarget == null)
                     return false;
 
-                if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTarget)
+                if ((Casting.LastSpell == Spells.Tetragrammaton || Casting.LastSpell == Spells.Benediction) && Casting.LastSpellTarget == afflatusSolaceTarget)
                     return false;
 
                 return await Spells.AfflatusSolace.Heal(afflatusSolaceTarget, false);
