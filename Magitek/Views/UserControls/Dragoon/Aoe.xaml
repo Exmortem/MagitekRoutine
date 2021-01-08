@@ -27,8 +27,9 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
+            <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Geirskogul" IsChecked="{Binding DragoonSettings.Geirskogul, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="20,0,0,0" Content="Nastrond" IsChecked="{Binding DragoonSettings.Nastrond, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

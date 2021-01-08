@@ -111,6 +111,9 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseTheBlackestNight)
                 return false;
 
+            if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.TheBlackestNightHealth)
+                return false;
+
             if (!ActionManager.HasSpell(Spells.TheBlackestNight.Id))
                 return false;
 

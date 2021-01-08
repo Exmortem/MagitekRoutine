@@ -207,7 +207,7 @@ namespace Magitek.Utilities
             DarkMissionary = 1894,
             Delirium = 1972,
             PassageOfArms = 1175,
-            RiddleOfEarth = 2008,
+            RiddleOfEarth = 1179,
             Anatman = 1862,
             EverlastingFlight = 2030,
             Acceleration = 1238,
@@ -217,7 +217,9 @@ namespace Magitek.Utilities
             OffGuard = 1717,
             Bleeding = 1714,
             Boost = 1716,
-            Temperance = 1872;
+            Temperance = 1872,
+            FormlessFist = 2513,
+            RiddleOfFire = 1181;
 
         private const int
             Invincibility0 = 981,
