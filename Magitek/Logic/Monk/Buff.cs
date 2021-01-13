@@ -174,10 +174,16 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShiftIC()
         {
-            if (Core.Me.ClassLevel < 52)
+            if (Core.Me.ClassLevel < 50)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist))
+            if (Core.Me.InCombat || !ActionManager.HasSpell(Spells.FormShift.Id) || !MonkSettings.Instance.UseAutoFormShift) {
+                if (ActionManager.HasSpell(Spells.DragonKick.Id))
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+            }
+            
+            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist) || !MonkSettings.Instance.UseAutoFormShift)
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FormShift.Cast(Core.Me);
