@@ -177,13 +177,13 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 50)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.InCombat || !ActionManager.HasSpell(Spells.FormShift.Id)) {
+            if (Core.Me.InCombat || !ActionManager.HasSpell(Spells.FormShift.Id) || !MonkSettings.Instance.UseAutoFormShift) {
                 if (ActionManager.HasSpell(Spells.DragonKick.Id))
                     return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
             }
             
-            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist))
+            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist) || !MonkSettings.Instance.UseAutoFormShift)
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FormShift.Cast(Core.Me);
