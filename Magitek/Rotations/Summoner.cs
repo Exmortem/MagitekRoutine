@@ -111,6 +111,7 @@ namespace Magitek.Rotations
             if (await Pets.Summon()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await SingleTarget.Enkindle()) return true;
+            if (await Buff.Aetherpact()) return true;
 
             if (await Aoe.Painflare()) return true;
             if (await SingleTarget.Fester()) return true;
