@@ -9,8 +9,14 @@ namespace Magitek.Logic.Dragoon
 {
     internal static class Aoe
     {
-        public static async Task<bool> Nastrond()
+        public static async Task<bool> Nastrond() 
         {
+            if (!DragoonSettings.Instance.Geirskogul)
+                return false;
+
+            if (!DragoonSettings.Instance.Nastrond)
+                return false;
+
             return await Spells.Nastrond.Cast(Core.Me.CurrentTarget);
         }
 
