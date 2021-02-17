@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using System.Linq;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
@@ -120,7 +121,7 @@ namespace Magitek.Rotations
                 if (await Logic.Scholar.Heal.SacredSoil()) return true;
             }
 
-            if (await Logic.Scholar.Heal.EmergencyTacticsAdlo()) return true;
+            //if (await Logic.Scholar.Heal.EmergencyTacticsAdlo()) return true;
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
@@ -135,6 +136,9 @@ namespace Magitek.Rotations
                     return true;
 
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
+                    return true;
+
+                if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
                     return true;
             }
 

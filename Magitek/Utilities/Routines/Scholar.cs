@@ -70,7 +70,7 @@ namespace Magitek.Utilities.Routines
                 return !Group.CastableAlliesWithin15.All(r => r.HasAura(Auras.Galvanize));
             }
         }*/
-
+        
         public static bool NeedToInterruptCast()
         {
             /*if (Casting.CastingTankBuster)
@@ -81,19 +81,20 @@ namespace Magitek.Utilities.Routines
                 Logger.Error($@"Stopped Cast: Unit Died");
                 return true;
             }
-
+            
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
 
-            if (Casting.CastingSpell == Spells.Succor)
+            if (Casting.CastingSpell == Spells.Succor || Casting.CastingSpell == Spells.Adloquium)
                 return false;
 
-            if (Core.Me.HasAura(Auras.EmergencyTactics))
-            {
-                Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
-                return true;
-            }
+            //if (Core.Me.HasMyAura(Auras.EmergencyTactics) 
+            //    && (Casting.CastingSpell != Spells.Succor || Casting.CastingSpell != Spells.Adloquium)) {
+            //    Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
+            //    return true;
+            //}
+
             if (ScholarSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= ScholarSettings.Instance.InterruptHealingPercent)
             {
                 Logger.Error($@"Stopped Healing: Target's Health Too High");
