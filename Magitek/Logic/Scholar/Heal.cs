@@ -121,7 +121,7 @@ namespace Magitek.Logic.Scholar
                 if (adloTarget == null)
                     return false;
 
-                if (adloTarget.CurrentHealthPercent < ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                if (adloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
                     await Buff.EmergencyTactics();
                 }
 
@@ -155,7 +155,7 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.AdloquiumHpPercent || Core.Me.HasAura(Auras.Galvanize))
                 return false;
 
-            if (Core.Me.CurrentHealthPercent < ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+            if (Core.Me.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
                 await Buff.EmergencyTactics();
             }
             
