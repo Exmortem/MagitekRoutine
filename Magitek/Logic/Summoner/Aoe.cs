@@ -25,11 +25,14 @@ namespace Magitek.Logic.Summoner
             var targetsWithoutBio = targets.Where(x => !x.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)).ToList();
             var targetsWithoutMiasma = targets.Where(x => !x.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)).ToList();
 
-            if (targetsWithoutBio.Count + targetsWithoutMiasma.Count < 1) return false;
-            if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
+            if (targetsWithoutBio.Count + targetsWithoutMiasma.Count < 1)                
+               return false;
+
+            // What, why?
+            /*if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
                 if (!ActionResourceManager.Summoner.DreadwyrmTrance)
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;
+                        return true;*/
             return await Spells.Bane.Cast(Core.Me.CurrentTarget);
         }
 

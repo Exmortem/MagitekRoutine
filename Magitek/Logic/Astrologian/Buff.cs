@@ -48,7 +48,8 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> SwiftCastAspectedHelios()
         {
-            if (!await Swiftcast()) return false;
+            if (!await Swiftcast())
+                return false;
 
             while (Core.Me.HasAura(Auras.Swiftcast))
             {
@@ -80,7 +81,8 @@ namespace Magitek.Logic.Astrologian
 
             //I Can't get this to work for some reason.
             //Let's try it now that lightspeed is also under CombatBuffs
-            if (!MovementManager.IsMoving && !AstrologianSettings.Instance.LightspeedWhileMoving)
+            if (!MovementManager.IsMoving
+                && !AstrologianSettings.Instance.LightspeedWhileMoving)
                 return false;
 
             if (Globals.InParty)
@@ -122,7 +124,8 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             GameObject target = AstrologianSettings.Instance.SynastryTankOnly
-                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.SynastryHealthPercent && r.IsTank())
+                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.SynastryHealthPercent
+                && r.IsTank())
                 : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.SynastryHealthPercent);
 
             if (target == null)
@@ -136,7 +139,9 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.NeutralSect)
                 return false;
 
-            var neutral = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
+            var neutral = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0
+            && r.Distance(Core.Me) <= 15
+            && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
 
             if (neutral < AstrologianSettings.Instance.NeutralSectAllies)
                 return false;

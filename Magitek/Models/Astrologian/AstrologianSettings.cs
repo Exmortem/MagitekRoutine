@@ -515,6 +515,10 @@ namespace Magitek.Models.Astrologian
         public bool Divination { get; set; }
 
         [Setting]
+        [DefaultValue(2)]
+        public int DivinationAllies { get; set; }
+
+        [Setting]
         [DefaultValue(25)]
         public int DontPlayWhenCombatTimeIsLessThan { get; set; }
 
