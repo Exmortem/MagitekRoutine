@@ -33,7 +33,7 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.HasAura(Auras.StraighterShot))
                 return false;
 
-            if (Core.Me.ClassLevel < 70)
+            if (Core.Me.ClassLevel < 70 || !ActionManager.HasSpell(Spells.RefulgentArrow.Id))
                 return await Spells.StraightShot.Cast(Core.Me.CurrentTarget);
 
             return await Spells.RefulgentArrow.Cast(Core.Me.CurrentTarget);
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Bard
                 return false;
 
 
-            if (Core.Me.ClassLevel < 70)
+            if (Core.Me.ClassLevel < 70 || !ActionManager.HasSpell(Spells.RefulgentArrow.Id))
                 if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
                     return true;
 

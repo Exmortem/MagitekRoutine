@@ -72,20 +72,15 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="3">
+            <StackPanel Margin="3" Orientation="Horizontal">
                 <CheckBox Content="True North" IsChecked="{Binding MonkSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="20,0,0,0" Content="Hide Positional Toasts while active" IsChecked="{Binding MonkSettings.HidePositionalToastsWithTn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="3">
                 <CheckBox Content="Auto Meditate on downtime" IsChecked="{Binding MonkSettings.UseAutoMeditate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="3">
-                <CheckBox Content= "Auto FormShift to maintain GL on downtime" IsChecked="{Binding MonkSettings.UseAutoFormShift, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -98,7 +93,7 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
+            <StackPanel Margin="3" Orientation="Horizontal">
                 <CheckBox Content="Second Wind When Below " IsChecked="{Binding MonkSettings.UseSecondWind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.SecondWindHpPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />

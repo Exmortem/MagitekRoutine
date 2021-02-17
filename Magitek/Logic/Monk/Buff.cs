@@ -6,6 +6,7 @@ using Magitek.Models.Monk;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Logic.Roles;
 
 namespace Magitek.Logic.Monk
 {
@@ -13,54 +14,17 @@ namespace Magitek.Logic.Monk
     {
         public static async Task<bool> FistsOf()
         {
-
-            if (!Core.Me.InCombat && ActionResourceManager.Monk.GreasedLightning <= 3)
+            switch (MonkSettings.Instance.SelectedFist)
             {
-                switch (MonkSettings.Instance.SelectedFist)
-                {
-                    case MonkFists.Fire when !Core.Me.HasAura(Auras.FistsofFire):
-                        return await Spells.FistsOfFire.Cast(Core.Me);//
-
-                    case MonkFists.Wind when !Core.Me.HasAura(Auras.FistsofWind):
-                        return await Spells.FistsOfWind.Cast(Core.Me);
-
-                    case MonkFists.Earth when !Core.Me.HasAura(Auras.FistsofEarth):
-                        return await Spells.FistsOfEarth.Cast(Core.Me);
-                    default:
-                        return false;
-                }
-            }
-
-
-            if (!Core.Me.HasAura(Auras.FistsofFire) && !Core.Me.HasAura(Auras.FistsofWind) && !Core.Me.HasAura(Auras.FistsofEarth) && Core.Me.InCombat)
-            {
-                switch (MonkSettings.Instance.SelectedFist)
-                {
-                    case MonkFists.Fire when !Core.Me.HasAura(Auras.FistsofFire):
-                        return await Spells.FistsOfFire.Cast(Core.Me);//
-
-                    case MonkFists.Wind when !Core.Me.HasAura(Auras.FistsofWind):
-                        return await Spells.FistsOfWind.Cast(Core.Me);
-
-                    case MonkFists.Earth when !Core.Me.HasAura(Auras.FistsofEarth):
-                        return await Spells.FistsOfEarth.Cast(Core.Me);
-                    default:
-                        return false;
-                }
-            }
-
-            if (Core.Me.HasAura(Auras.FistsofFire) && ActionResourceManager.Monk.GreasedLightning >= 3 && Core.Me.ClassLevel >= 76)
-            {
-                if (Casting.LastSpell == Spells.TwinSnakes || Casting.LastSpell == Spells.TrueStrike || Casting.LastSpell == Spells.FourPointFury)
+                case MonkFists.Fire when !Core.Me.HasAura(Auras.FistsofFire):
+                    return await Spells.FistsOfFire.Cast(Core.Me);
+                case MonkFists.Wind when !Core.Me.HasAura(Auras.FistsofWind):
                     return await Spells.FistsOfWind.Cast(Core.Me);
-                else
+                case MonkFists.Earth when !Core.Me.HasAura(Auras.FistsofEarth):
+                    return await Spells.FistsOfEarth.Cast(Core.Me);
+                default:
                     return false;
             }
-
-            if (Core.Me.HasAura(Auras.FistsofWind) && ActionResourceManager.Monk.GreasedLightning < 3)
-                return await Spells.FistsOfFire.Cast(Core.Me);
-
-            return false;
         }
 
         public static async Task<bool> Meditate()
@@ -97,20 +61,50 @@ namespace Magitek.Logic.Monk
             return await Spells.PerfectBalance.Cast(Core.Me);
         }
 
-        public static async Task<bool> RiddleOfFire()
+        public static async Task<bool> TrueNorthRiddleOfEarth() {
+            if (!MonkSettings.Instance.UseTrueNorth && !MonkSettings.Instance.UseRiddleOfEarth)
+                return false;
+
+            if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (Core.Me.HasAura(Auras.RiddleOfEarth) || Core.Me.HasAura(Auras.TrueNorth))
+                return false;
+
+            if (Casting.LastSpell == Spells.TrueNorth || Casting.LastSpell == Spells.RiddleofEarth)
+                return false;
+
+            if (MonkSettings.Instance.UseTrueNorth && await PhysicalDps.TrueNorth(MonkSettings.Instance))
+                return true;
+            if (MonkSettings.Instance.UseRiddleOfEarth && await Spells.RiddleofEarth.Cast(Core.Me))
+                return true;
+
+            return false;
+        }
+
+        //public static async Task<bool> RiddleOfEarth()
+        //{
+        //    if (!MonkSettings.Instance.UseRiddleOfEarth)
+        //        return false;
+
+        //    if (Core.Me.HasAura(Auras.RiddleOfEarth))
+        //        return false;
+
+        //    if (Casting.LastSpell == Spells.RiddleofEarth || Casting.LastSpell == Spells.TrueNorth)
+        //        return false;
+            
+        //    return await Spells.RiddleofEarth.Cast(Core.Me);
+        //}
+
+        public static async Task<bool> RiddleOfFire() 
         {
             if (!MonkSettings.Instance.UseRiddleOfFire)
                 return false;
 
-            return await Spells.RiddleofFire.Cast(Core.Me);
-        }
-
-        public static async Task<bool> RiddleOfEarth()
-        {
-            if (!MonkSettings.Instance.UseRiddleOfEarth)
+            if (Core.Me.HasMyAura(Auras.Brotherhood))
                 return false;
 
-            return await Spells.RiddleofEarth.Cast(Core.Me);
+            return await Spells.RiddleofFire.Cast(Core.Me);
         }
 
         public static async Task<bool> Brotherhood()
@@ -120,6 +114,9 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseBrotherhood)
                 return false;
 
+            if (MonkSettings.Instance.UseRiddleOfFire && Spells.RiddleofFire.Cooldown.TotalMilliseconds == 0)
+                return false;
+            
             return await Spells.Brotherhood.Cast(Core.Me);
         }
 
@@ -177,10 +174,16 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShiftIC()
         {
-            if (Core.Me.ClassLevel < 52)
+            if (Core.Me.ClassLevel < 50)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.InCombat)
+            if (Core.Me.InCombat || !ActionManager.HasSpell(Spells.FormShift.Id) || !MonkSettings.Instance.UseAutoFormShift) {
+                if (ActionManager.HasSpell(Spells.DragonKick.Id))
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+            }
+            
+            if (Core.Me.InCombat || Core.Me.HasAura(Auras.FormlessFist) || !MonkSettings.Instance.UseAutoFormShift)
                 return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FormShift.Cast(Core.Me);
