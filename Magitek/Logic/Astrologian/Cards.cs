@@ -24,7 +24,8 @@ namespace Magitek.Logic.Astrologian
             var cardDrawn = Arcana != AstrologianCard.None;
 
             if (!cardDrawn)
-                if (ActionManager.CanCast(Spells.Draw, Core.Me) && AstrologianSettings.Instance.UseDraw)
+                if (ActionManager.CanCast(Spells.Draw, Core.Me)
+                    && AstrologianSettings.Instance.UseDraw)
                     if (await Spells.Draw.Cast(Core.Me))
                         await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
 
@@ -34,7 +35,8 @@ namespace Magitek.Logic.Astrologian
             if (AstrologianSettings.Instance.UseReDraw)
             {
                 if (DivinationSeals.Any(c => c == 0))
-                    if (Spells.Redraw.Charges > 1)
+                    // See if this fixes the thing 
+                    if (Spells.Redraw.Charges >= 1)
                     {
                         switch (Arcana)
                         {
@@ -210,11 +212,11 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.Any(c => c == 0))
                 return false;
 
-            // Added check to see if more than 2 people are around
+            // Added check to see if more than configured allies are around
 
             var divinationTargets = Group.CastableAlliesWithin15.Count(r => r.IsAlive);
 
-            if (divinationTargets >= 2)
+            if (divinationTargets >= AstrologianSettings.Instance.DivinationAllies)
                 return await Spells.Divination.CastAura(Core.Me, Auras.Divination);
 
             return false;

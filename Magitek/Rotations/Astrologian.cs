@@ -41,9 +41,12 @@ namespace Magitek.Rotations
             if (Core.Me.ClassLevel >= Spells.NocturnalSect.LevelAcquired)
                 return await Buff.Sect();
 
+            // Add redundancy for sect if noct is not available
+            if ((Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired)
+                && (Core.Me.ClassLevel >= Spells.DiurnalSect.LevelAcquired))
+                return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
+
             return false;
-            //// If not, use dinural
-            //return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
         }
 
         public static async Task<bool> Pull()
@@ -78,17 +81,16 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return false;
 
-            if (await Casting.TrackSpellCast()) return true;
+            if (await Casting.TrackSpellCast())
+                return true;
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
 
-            if (await GambitLogic.Gambit()) return true;
+            if (await GambitLogic.Gambit())
+                return true;
 
             if (Globals.PartyInCombat && Globals.InParty)
-            {
-                //    if (await TankBusters.Execute()) return true;
-            }
 
             if (await Logic.Astrologian.Heal.Ascend()) return true;
             if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
@@ -144,11 +146,14 @@ namespace Magitek.Rotations
                 if (!AstrologianSettings.Instance.DoDamage)
                     return true;
 
-                if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.MinimumManaPercentToDoDamage && Core.Target.CombatTimeLeft() > AstrologianSettings.Instance.DoDamageIfTimeLeftLessThan)
+                if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.MinimumManaPercentToDoDamage
+                    && Core.Target.CombatTimeLeft() > AstrologianSettings.Instance.DoDamageIfTimeLeftLessThan)
                     return true;
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction && !Core.Me.CurrentTarget.InView()) return false;
+            if (!GameSettingsManager.FaceTargetOnAction
+                && !Core.Me.CurrentTarget.InView())
+                return false;
 
             if (BotManager.Current.IsAutonomous)
             {
@@ -158,7 +163,8 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+            if (!Core.Me.HasTarget
+                || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
             if (Globals.OnPvpMap)
