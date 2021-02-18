@@ -89,17 +89,31 @@ namespace Magitek.Utilities.Routines
             if (Casting.CastingSpell == Spells.Succor || Casting.CastingSpell == Spells.Adloquium)
                 return false;
 
-            //if (Core.Me.HasMyAura(Auras.EmergencyTactics) 
-            //    && (Casting.CastingSpell != Spells.Succor || Casting.CastingSpell != Spells.Adloquium)) {
-            //    Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
-            //    return true;
-            //}
-
             if (ScholarSettings.Instance.InterruptHealing && Casting.DoHealthChecks && Casting.SpellTarget?.CurrentHealthPercent >= ScholarSettings.Instance.InterruptHealingPercent)
             {
                 Logger.Error($@"Stopped Healing: Target's Health Too High");
                 return true;
             }
+
+            if (ScholarSettings.Instance.StopCastingIfBelowHealthPercent && Globals.InParty) {
+                if (Casting.CastingSpell == Spells.Broil ||
+                    Casting.CastingSpell == Spells.Broil2 ||
+                    Casting.CastingSpell == Spells.Broil3 ||
+                    Casting.CastingSpell == Spells.Ruin
+                    ) {
+                    if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent)) {
+                        Logger.Error($@"Stopped Cast: Ally below {ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent}% Health");
+                        return true;
+                    }
+                }
+            }
+
+            //if (ScholarSettings.Instance.SlowcastRes) {
+            //    if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.CurrentHealth > 1) {
+            //        Logger.Error($@"Stopped Cast: Target is not Dead");
+            //        return true;
+            //    }
+            //}
 
             /*if (!ScholarSettings.Instance.UseTankBusters || !ScholarSettings.Instance.PrioritizeTankBusters)
                 return false;*/

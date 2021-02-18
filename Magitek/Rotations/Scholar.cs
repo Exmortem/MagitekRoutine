@@ -121,7 +121,6 @@ namespace Magitek.Rotations
                 if (await Logic.Scholar.Heal.SacredSoil()) return true;
             }
 
-            //if (await Logic.Scholar.Heal.EmergencyTacticsAdlo()) return true;
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
