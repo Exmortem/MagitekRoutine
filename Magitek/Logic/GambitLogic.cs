@@ -41,7 +41,7 @@ namespace Magitek.Logic
                             ForbiddenGambits.Remove(gambit.Key);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // Ignore that shit
                 }
@@ -70,19 +70,15 @@ namespace Magitek.Logic
                 if (!currentGambitExecutionStatus)
                     continue;
 
-                if (currentGambitExecutionStatus)
-                {
-                    Logger.WriteInfo($"Executed Gambit: {currentGambit.Title}");
+                Logger.WriteInfo($"Executed Gambit: {currentGambit.Title}");
 
-                    // make the current gambit forbidden if it has a timer
-                    if (currentGambit.PreventSameActionForTheNextMilliseconds > 0)
-                    {
-                        var timeExpired = DateTime.Now.AddMilliseconds(currentGambit.PreventSameActionForTheNextMilliseconds);
-                        ForbiddenGambits.Add(currentGambit.Id, timeExpired);
-                    }
+                // make the current gambit forbidden if it has a timer
+                if (currentGambit.PreventSameActionForTheNextMilliseconds > 0) {
+                    var timeExpired = DateTime.Now.AddMilliseconds(currentGambit.PreventSameActionForTheNextMilliseconds);
+                    ForbiddenGambits.Add(currentGambit.Id, timeExpired);
                 }
 
-                if (currentGambitExecutionStatus && currentGambit.HasChain)
+                if (currentGambit.HasChain)
                 {
                     // Start Chain
                     Logger.WriteInfo($"Starting Gambit Chain: {currentGambit.Title}");
@@ -142,13 +138,8 @@ namespace Magitek.Logic
                     }
                 }
 
-                if (currentGambitExecutionStatus)
-                {
-                    GambitQueue = new Queue<Gambit>(StaticGambitQueue);
-                    return true;
-                }
-
-                await Coroutine.Yield();
+                GambitQueue = new Queue<Gambit>(StaticGambitQueue);
+                return true;
             }
 
             return false;
@@ -173,7 +164,7 @@ namespace Magitek.Logic
                             ForbiddenGambits.Remove(gambit.Key);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // Ignore that shit
                 }
@@ -232,7 +223,7 @@ namespace Magitek.Logic
                             ForbiddenGambits.Remove(gambit.Key);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // Ignore that shit
                 }

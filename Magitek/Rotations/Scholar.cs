@@ -137,9 +137,6 @@ namespace Magitek.Rotations
 
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
                     return true;
-
-                //if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
-                //    return true;
             }
 
             return await Combat();
@@ -175,6 +172,9 @@ namespace Magitek.Rotations
                     return true;
 
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
+                    return true;
+
+                if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
                     return true;
             }
 
