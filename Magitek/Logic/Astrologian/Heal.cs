@@ -684,6 +684,9 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft < 15)
                 return false;
 
+            if (Spells.EarthlyStar.Cooldown != TimeSpan.Zero)
+                return false;
+
             var earthlyStarLocation = Utilities.Routines.Astrologian.EarthlyStarLocation;
 
             var earthlyStarTargets = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).ToList();
