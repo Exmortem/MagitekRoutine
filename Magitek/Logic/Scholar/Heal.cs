@@ -449,7 +449,7 @@ namespace Magitek.Logic.Scholar
                 if (ScholarSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero) {
                     if (await Buff.Swiftcast()) {
                         while (Core.Me.HasAura(Auras.Swiftcast)) {
-                            if (await Spells.Resurrection.Cast(deadTarget))
+                            if (await Spells.Resurrection.CastAura(deadTarget, Auras.Raise))
                                 return true;
                             await Coroutine.Yield();
                         }
@@ -458,8 +458,11 @@ namespace Magitek.Logic.Scholar
             }
 
             if (Globals.PartyInCombat && ScholarSettings.Instance.SlowcastRes || !Globals.PartyInCombat && ScholarSettings.Instance.ResOutOfCombat) {
-                if (Casting.LastSpell == Spells.Resurrection && Casting.LastSpellTarget == deadTarget && Casting.LastSpellSucceeded)
-                    return false;
+                //delay casting raise on the same target in case they are already in the resurrect animation and the buff is gone for some reason
+                //but this shouldn't be needed outside of Trust NPCs
+                //if(Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Resurrection && s.SpellTarget == deadTarget))
+                //    return false;
+                
                 return await Spells.Resurrection.CastAura(deadTarget, Auras.Raise);
             }
             
