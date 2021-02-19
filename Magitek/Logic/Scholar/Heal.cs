@@ -105,7 +105,7 @@ namespace Magitek.Logic.Scholar
                     if (tankAdloTarget == null)
                         return false;
 
-                    if (tankAdloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                    if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && tankAdloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
                         await Buff.EmergencyTactics();
                     }
 
@@ -119,7 +119,7 @@ namespace Magitek.Logic.Scholar
                 if (adloTarget == null)
                     return false;
 
-                if (adloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && adloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
                     await Buff.EmergencyTactics();
                 }
 
@@ -153,7 +153,7 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.AdloquiumHpPercent || Core.Me.HasAura(Auras.Galvanize))
                 return false;
 
-            if (Core.Me.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+            if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && Core.Me.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
                 await Buff.EmergencyTactics();
             }
             
@@ -198,7 +198,7 @@ namespace Magitek.Logic.Scholar
             if (!needSuccor)
                 return false;
 
-            if (ScholarSettings.Instance.EmergencyTacticsSuccor) {
+            if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsSuccor) {
                 if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsSuccorHealthPercent) >= ScholarSettings.Instance.SuccorNeedHealing) {
                     await Buff.EmergencyTactics();
                 }
