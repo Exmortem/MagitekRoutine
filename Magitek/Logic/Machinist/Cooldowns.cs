@@ -25,6 +25,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                return false;
+
             if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 6000)
                 return false;
 

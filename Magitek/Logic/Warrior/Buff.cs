@@ -88,7 +88,6 @@ namespace Magitek.Logic.Warrior
 
         internal static async Task<bool> Infuriate()
         {
-            int useInfuriate = 1;
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 

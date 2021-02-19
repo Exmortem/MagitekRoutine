@@ -242,7 +242,7 @@ namespace Magitek.ViewModels
                 {
                     Status = JsonConvert.DeserializeObject<MagitekApiResult>(contributorResponseContent).Description;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Logger.Error("Couldn't Deserialize Magitek API Result");
                     return;
@@ -258,7 +258,7 @@ namespace Magitek.ViewModels
             {
                 contributor = JsonConvert.DeserializeObject<MagitekContributor>(contributorResponseContent);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Logger.Error("Couldn't Deserialize Magitek Contributor Object");
                 return;

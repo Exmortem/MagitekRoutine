@@ -18,7 +18,7 @@ namespace Magitek.Converters
                 var gambit = (Gambit)values[1];
                 return new Tuple<GambitGroup, Gambit>(gambitGroup, gambit);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // catching and doing nothing with an exception here because for whatever reason WPF decides
                 // to go through every converter on every ICommand action causing exceptions on some of the commands. 

@@ -75,12 +75,12 @@ namespace Magitek.Logic.Scholar
             if (Spells.EmergencyTactics.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics))
-            {
-                return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.EmergencyTactics, true, 10000));
-            }
-
-            return false;
+            return await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics);
+            //if (await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics))
+            //{
+            //    return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.EmergencyTactics, true, 10000));
+            //}
+            //return false;
         }
 
         public static async Task<bool> Aetherflow()
@@ -165,7 +165,7 @@ namespace Magitek.Logic.Scholar
 
                     var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasTarget && r.TargetGameObject.IsTank());
 
-                    if (chainStrategemsTarget == null)
+                    if (chainStrategemsTarget == null || !chainStrategemsTarget.ThoroughCanAttack())
                         return false;
                     if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
                         if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
@@ -178,7 +178,7 @@ namespace Magitek.Logic.Scholar
 
                     var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasTarget && r.TargetGameObject.IsTank());
 
-                    if (chainStrategemsBossTarget == null)
+                    if (chainStrategemsBossTarget == null || !chainStrategemsBossTarget.ThoroughCanAttack())
                         return false;
                     if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
                         if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))

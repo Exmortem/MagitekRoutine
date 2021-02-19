@@ -65,9 +65,12 @@ namespace Magitek.Models.Scholar
         [DefaultValue(true)]
         public bool InterruptHealing { get; set; }
 
+        [Setting] 
+        [DefaultValue(true)] 
+        public bool SwiftcastRes { get; set; }
+
         [Setting]
         [DefaultValue(true)]
-
         public bool ResOutOfCombat { get; set; }
 
         [Setting]
@@ -93,10 +96,6 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(false)]
         public bool ForceSeraph { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool SwiftcastRes { get; set; }
 
         [Setting]
         [DefaultValue(true)]
