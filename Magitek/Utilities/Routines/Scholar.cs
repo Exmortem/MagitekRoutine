@@ -89,7 +89,9 @@ namespace Magitek.Utilities.Routines
             if (Casting.CastingSpell == Spells.Succor)
                 return false;
 
-            if (Core.Me.HasAura(Auras.EmergencyTactics))
+            if (Core.Me.HasAura(Auras.EmergencyTactics)
+                // We want to allow one of these two to cast, otherwise it will just interrupt cast forever
+                && (Casting.CastingSpell != Spells.Succor || Casting.CastingSpell != Spells.Adloquium))
             {
                 Logger.Error($@"Stopped Healing: Need to use Emergency Tactics");
                 return true;
