@@ -44,9 +44,8 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 && Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
                 return await Spells.BowShock.Cast(Core.Me);
-            else
-                return await Spells.BowShock.Cast(Core.Me);
-            return false;
+
+            return await Spells.BowShock.Cast(Core.Me);
         }
 
         public static async Task<bool> FatedCircle()

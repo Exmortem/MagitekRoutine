@@ -479,7 +479,7 @@ namespace Magitek.ViewModels
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //  
             }

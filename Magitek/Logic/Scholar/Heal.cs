@@ -82,13 +82,11 @@ namespace Magitek.Logic.Scholar
                 return await Spells.Physick.Heal(physickTarget);
 
             }
-            else
-            {
-                if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.PhysickHpPercent)
-                    return false;
 
-                return await Spells.Physick.Heal(Core.Me);
-            }
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.PhysickHpPercent)
+                return false;
+
+            return await Spells.Physick.Heal(Core.Me);
         }
 
         public static async Task<bool> Adloquium()
@@ -107,6 +105,10 @@ namespace Magitek.Logic.Scholar
                     if (tankAdloTarget == null)
                         return false;
 
+                    if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && tankAdloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                        await Buff.EmergencyTactics();
+                    }
+
                     await UseRecitation();
 
                     return await Spells.Adloquium.HealAura(tankAdloTarget, Auras.Galvanize, false);
@@ -117,12 +119,18 @@ namespace Magitek.Logic.Scholar
                 if (adloTarget == null)
                     return false;
 
+                if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && adloTarget.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                    await Buff.EmergencyTactics();
+                }
+
                 await UseRecitation();
 
                 return await Spells.Adloquium.HealAura(adloTarget, Auras.Galvanize);
 
-                bool CanAdlo(Character unit)
-                {
+                bool CanAdlo(Character unit) {
+                    if (unit == null) 
+                        return false;
+
                     if (unit.CurrentHealthPercent > ScholarSettings.Instance.AdloquiumHpPercent)
                         return false;
 
@@ -145,6 +153,10 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.AdloquiumHpPercent || Core.Me.HasAura(Auras.Galvanize))
                 return false;
 
+            if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsAdloquium && Core.Me.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent) {
+                await Buff.EmergencyTactics();
+            }
+            
             return await Spells.Adloquium.HealAura(Core.Me, Auras.Galvanize);
 
             async Task UseRecitation()
@@ -168,76 +180,6 @@ namespace Magitek.Logic.Scholar
             }
         }
 
-        public static async Task<bool> EmergencyTacticsAdlo()
-        {
-            if (!ScholarSettings.Instance.EmergencyTacticsAdloquium)
-                return false;
-
-            if (!Globals.InParty)
-                return false;
-
-            if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 100)
-                return false;
-
-            if (!ScholarSettings.Instance.EmergencyTactics || !ScholarSettings.Instance.EmergencyTacticsAdloquium)
-                return false;
-
-            var emergencyTacticsAdloTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanEmergencyTacticsAdlo);
-
-            if (emergencyTacticsAdloTarget == null)
-                return false;
-
-            return await CastEmergencyTacticsAdlo(emergencyTacticsAdloTarget);
-
-            bool CanEmergencyTacticsAdlo(Character unit)
-            {
-                if (unit.HasAura(Auras.Exogitation))
-                    return false;
-
-                if (unit.CurrentHealthPercent > ScholarSettings.Instance.EmergencyTacticsAdloquiumHealthPercent)
-                    return false;
-
-                if (Casting.LastSpellTarget.ObjectId == unit.ObjectId)
-                {
-                    if (Casting.LastSpell == Spells.Lustrate || Casting.LastSpell == Spells.Excogitation)
-                        return false;
-                }
-
-                if (!ScholarSettings.Instance.AdloquiumOnlyHealer && !ScholarSettings.Instance.AdloquiumOnlyTank)
-                    return true;
-
-                if (ScholarSettings.Instance.AdloquiumOnlyHealer && unit.IsHealer())
-                    return true;
-
-                return ScholarSettings.Instance.AdloquiumOnlyTank && unit.IsTank();
-            }
-
-            async Task<bool> CastEmergencyTacticsAdlo(Character unit)
-            {
-
-                if (Spells.EmergencyTactics.Cooldown.TotalMilliseconds > 1)
-                    return false;
-
-                if (!await Spells.EmergencyTactics.Cast(Core.Me))
-                    return false;
-
-                await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EmergencyTactics));
-
-                while (Core.Me.HasAura(Auras.EmergencyTactics))
-                {
-                    if (MovementManager.IsMoving)
-                        await Coroutine.Yield();
-
-                    if (await Spells.Adloquium.Heal(emergencyTacticsAdloTarget, false))
-                        return true;
-
-                    await Coroutine.Yield();
-                }
-
-                return false;
-            }
-        }
-
         public static async Task<bool> Succor()
         {
             if (!ScholarSettings.Instance.Succor)
@@ -245,14 +187,6 @@ namespace Magitek.Logic.Scholar
 
             if (Casting.LastSpell == Spells.Indomitability)
                 return false;
-
-            if (ScholarSettings.Instance.EmergencyTacticsSuccor)
-            {
-                if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsSuccorHealthPercent) >= ScholarSettings.Instance.SuccorNeedHealing)
-                {
-                    if (await EmergencyTacticsSuccor()) return true;
-                }
-            }
 
             if (Casting.LastSpell == Spells.Succor)
                 return false;
@@ -264,6 +198,12 @@ namespace Magitek.Logic.Scholar
             if (!needSuccor)
                 return false;
 
+            if (ScholarSettings.Instance.EmergencyTactics && ScholarSettings.Instance.EmergencyTacticsSuccor) {
+                if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsSuccorHealthPercent) >= ScholarSettings.Instance.SuccorNeedHealing) {
+                    await Buff.EmergencyTactics();
+                }
+            }
+
             if (await Spells.Succor.Heal(Core.Me))
             {
                 return await Coroutine.Wait(4000, () => Casting.LastSpell == Spells.Succor || MovementManager.IsMoving);
@@ -271,33 +211,7 @@ namespace Magitek.Logic.Scholar
 
             return false;
         }
-
-        private static async Task<bool> EmergencyTacticsSuccor()
-        {
-            if (!ScholarSettings.Instance.EmergencyTactics || !ScholarSettings.Instance.EmergencyTacticsSuccor)
-                return false;
-
-            if (MovementManager.IsMoving)
-                return false;
-
-            if (!await Buff.EmergencyTactics())
-                return false;
-
-            while (Core.Me.HasAura(Auras.EmergencyTactics))
-            {
-                // We did a movement check earlier, but the player may have started moving at this point
-                // We don't want to waste the Emergency Tactics aura, so we wait until the player stops moving
-                if (MovementManager.IsMoving)
-                {
-                    await Coroutine.Yield();
-                }
-
-                if (await Spells.Succor.Heal(Core.Me, false)) return true;
-                await Coroutine.Yield();
-            }
-            return false;
-        }
-
+        
         public static async Task<bool> Excogitation()
         {
             if (!ScholarSettings.Instance.Excogitation)
@@ -330,13 +244,16 @@ namespace Magitek.Logic.Scholar
 
             bool CanExcogitation(Character unit)
             {
+                if (unit == null)
+                    return false;
+
                 if (unit.HasAura(Auras.Exogitation))
                     return false;
 
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.ExcogitationHpPercent)
                     return false;
 
-                if (Casting.LastSpellTarget.ObjectId == unit.ObjectId)
+                if (Casting.LastSpellTarget?.ObjectId == unit.ObjectId)
                 {
                     if (Casting.LastSpell == Spells.Lustrate || Casting.LastSpell == Spells.Excogitation)
                         return false;
@@ -407,15 +324,17 @@ namespace Magitek.Logic.Scholar
 
             return await Spells.Lustrate.Cast(Core.Me);
 
-            bool CanLustrate(Character unit)
-            {
+            bool CanLustrate(Character unit) {
+                if (unit == null) 
+                    return false;
+
                 if (unit.HasAura(Auras.Exogitation))
                     return false;
 
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.LustrateHpPercent)
                     return false;
 
-                if (Casting.LastSpellTarget.ObjectId == unit.ObjectId)
+                if (Casting.LastSpellTarget?.ObjectId == unit.ObjectId)
                 {
                     if (Casting.LastSpell == Spells.Lustrate || Casting.LastSpell == Spells.Excogitation)
                         return false;
@@ -523,37 +442,31 @@ namespace Magitek.Logic.Scholar
             if (deadTarget == null)
                 return false;
 
-            if (!deadTarget.IsVisible)
+            if (!deadTarget.IsVisible || !deadTarget.IsTargetable)
                 return false;
-
-            if (!deadTarget.IsTargetable)
-                return false;
-
-            if (Globals.PartyInCombat)
-            {
-                if (!ScholarSettings.Instance.SwiftcastRes)
-                    return false;
-
-                if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
-                    return false;
-
-                if (await Buff.Swiftcast())
-                {
-                    while (Core.Me.HasAura(Auras.Swiftcast))
-                    {
-                        if (await Spells.Resurrection.Cast(deadTarget)) return true;
-                        await Coroutine.Yield();
+            
+            if (Globals.PartyInCombat) {
+                if (ScholarSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero) {
+                    if (await Buff.Swiftcast()) {
+                        while (Core.Me.HasAura(Auras.Swiftcast)) {
+                            if (await Spells.Resurrection.CastAura(deadTarget, Auras.Raise))
+                                return true;
+                            await Coroutine.Yield();
+                        }
                     }
                 }
             }
 
-            if (!ScholarSettings.Instance.SlowcastRes && Globals.PartyInCombat)
-                return false;
-
-            if (!ScholarSettings.Instance.ResOutOfCombat)
-                return false;
-
-            return await Spells.Resurrection.CastAura(deadTarget, Auras.Raise);
+            if (Globals.PartyInCombat && ScholarSettings.Instance.SlowcastRes || !Globals.PartyInCombat && ScholarSettings.Instance.ResOutOfCombat) {
+                //delay casting raise on the same target in case they are already in the resurrect animation and the buff is gone for some reason
+                //but this shouldn't be needed outside of Trust NPCs
+                //if(Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Resurrection && s.SpellTarget == deadTarget))
+                //    return false;
+                
+                return await Spells.Resurrection.CastAura(deadTarget, Auras.Raise);
+            }
+            
+            return false;
         }
 
         public static async Task<bool> WhisperingDawn()
@@ -585,8 +498,10 @@ namespace Magitek.Logic.Scholar
 
             return await Spells.WhisperingDawn.Cast(Core.Me);
 
-            bool CanWhisperingDawn(Character unit)
-            {
+            bool CanWhisperingDawn(Character unit) {
+                if (unit == null)
+                    return false;
+
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.WhisperingDawnHealthPercent)
                     return false;
 
@@ -623,8 +538,9 @@ namespace Magitek.Logic.Scholar
 
             return await Spells.FeyIllumination.Cast(Core.Me);
 
-            bool CanFeyIllumination(Character unit)
-            {
+            bool CanFeyIllumination(Character unit) {
+                if (unit == null)
+                    return false;
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyIlluminationHpPercent)
                     return false;
 
@@ -666,6 +582,8 @@ namespace Magitek.Logic.Scholar
 
             bool CanFeyBlessing(Character unit)
             {
+                if (unit == null)
+                    return false;
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyBlessingHpPercent)
                     return false;
 
@@ -704,6 +622,8 @@ namespace Magitek.Logic.Scholar
 
             bool CanSummonSeraph(Character unit)
             {
+                if (unit == null)
+                    return false;
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
                     return false;
 
@@ -741,6 +661,9 @@ namespace Magitek.Logic.Scholar
 
             bool CanConsolation(Character unit)
             {
+                if (unit == null)
+                    return false;
+
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
                     return false;
 

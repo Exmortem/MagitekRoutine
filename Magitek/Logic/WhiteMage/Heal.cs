@@ -375,7 +375,7 @@ namespace Magitek.Logic.WhiteMage
             if (regenTarget == null)
                 return false;
 
-            return await Spells.Regen.Cast(regenTarget);
+            return await Spells.Regen.HealAura(regenTarget, Auras.Regen);
         }
 
         private static async Task<bool> RegenTanks()
@@ -393,7 +393,7 @@ namespace Magitek.Logic.WhiteMage
             if (!MovementManager.IsMoving && WhiteMageSettings.Instance.OnlyRegenWhileMoving)
                 return false;
 
-            return await Spells.Regen.Cast(regenTarget);
+            return await Spells.Regen.HealAura(regenTarget, Auras.Regen);
         }
 
         private static async Task<bool> RegenDps()
@@ -408,7 +408,7 @@ namespace Magitek.Logic.WhiteMage
             if (regenTarget == null)
                 return false;
 
-            return await Spells.Regen.Cast(regenTarget);
+            return await Spells.Regen.HealAura(regenTarget, Auras.Regen);
         }
 
         public static async Task<bool> Regen()
@@ -433,7 +433,7 @@ namespace Magitek.Logic.WhiteMage
                 if (!WhiteMageSettings.Instance.RegenKeepUpOnHealers && Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.RegenHealthPercent)
                     return false;
 
-                return await Spells.Regen.Cast(Core.Me);
+                return await Spells.Regen.HealAura(Core.Me, Auras.Regen);
             }
         }
 
@@ -488,7 +488,7 @@ namespace Magitek.Logic.WhiteMage
 
                     while (Core.Me.HasAura(Auras.Swiftcast))
                     {
-                        if (await Spells.Raise.Cast(deadTarget)) return true;
+                        if (await Spells.Raise.HealAura(deadTarget, Auras.Raise)) return true;
                         await Coroutine.Yield();
                     }
                 }
@@ -539,7 +539,7 @@ namespace Magitek.Logic.WhiteMage
                     if (afflatusSolaceTankTarget == null)
                         return false;
 
-                    if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTankTarget)
+                    if ((Casting.LastSpell == Spells.Tetragrammaton || Casting.LastSpell == Spells.Benediction) && Casting.LastSpellTarget == afflatusSolaceTankTarget)
                         return false;
 
                     return await Spells.AfflatusSolace.Heal(afflatusSolaceTankTarget, false);
@@ -550,7 +550,7 @@ namespace Magitek.Logic.WhiteMage
                 if (afflatusSolaceTarget == null)
                     return false;
 
-                if (Casting.LastSpell == Spells.Tetragrammaton && Casting.LastSpellTarget == afflatusSolaceTarget)
+                if ((Casting.LastSpell == Spells.Tetragrammaton || Casting.LastSpell == Spells.Benediction) && Casting.LastSpellTarget == afflatusSolaceTarget)
                     return false;
 
                 return await Spells.AfflatusSolace.Heal(afflatusSolaceTarget, false);
@@ -569,7 +569,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceMedica)
                 return false;
 
-            if (!await Spells.Medica.Cast(Core.Me)) return false;
+            if (!await Spells.Medica.Heal(Core.Me)) return false;
             WhiteMageSettings.Instance.ForceMedica = false;
             TogglesManager.ResetToggles();
             return true;
@@ -580,7 +580,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceMedicaII)
                 return false;
 
-            if (!await Spells.Medica2.Cast(Core.Me)) return false;
+            if (!await Spells.Medica2.HealAura(Core.Me, Auras.Medica2)) return false;
             WhiteMageSettings.Instance.ForceMedicaII = false;
             TogglesManager.ResetToggles();
             return true;
@@ -591,7 +591,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceAfflatusSolace)
                 return false;
 
-            if (!await Spells.AfflatusSolace.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.AfflatusSolace.Heal(Core.Me.CurrentTarget, false)) return false;
             WhiteMageSettings.Instance.ForceAfflatusSolace = false;
             TogglesManager.ResetToggles();
             return true;
@@ -602,7 +602,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceAfflatusRapture)
                 return false;
 
-            if (!await Spells.AfflatusRapture.Cast(Core.Me)) return false;
+            if (!await Spells.AfflatusRapture.Heal(Core.Me, false)) return false;
             WhiteMageSettings.Instance.ForceAfflatusRapture = false;
             TogglesManager.ResetToggles();
             return true;
@@ -613,7 +613,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceCureII)
                 return false;
 
-            if (!await Spells.Cure2.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.Cure2.Heal(Core.Me.CurrentTarget, false)) return false;
             WhiteMageSettings.Instance.ForceCureII = false;
             TogglesManager.ResetToggles();
             return true;
@@ -624,7 +624,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceCureIII)
                 return false;
 
-            if (!await Spells.Cure3.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.Cure3.Heal(Core.Me.CurrentTarget, false)) return false;
             WhiteMageSettings.Instance.ForceCureIII = false;
             TogglesManager.ResetToggles();
             return true;
@@ -635,7 +635,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceBenediction)
                 return false;
 
-            if (!await Spells.Benediction.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.Benediction.Heal(Core.Me.CurrentTarget, false)) return false;
             WhiteMageSettings.Instance.ForceBenediction = false;
             TogglesManager.ResetToggles();
             return true;
@@ -646,7 +646,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceRegen)
                 return false;
 
-            if (!await Spells.Regen.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.Regen.HealAura(Core.Me.CurrentTarget, Auras.Regen)) return false;
             WhiteMageSettings.Instance.ForceRegen = false;
             TogglesManager.ResetToggles();
             return true;
@@ -657,7 +657,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.ForceTetra)
                 return false;
 
-            if (!await Spells.Tetragrammaton.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.Tetragrammaton.Heal(Core.Me.CurrentTarget)) return false;
             WhiteMageSettings.Instance.ForceTetra = false;
             TogglesManager.ResetToggles();
             return true;

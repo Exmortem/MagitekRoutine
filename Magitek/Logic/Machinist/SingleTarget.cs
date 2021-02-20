@@ -99,11 +99,11 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HeatBlast()
         {
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
-
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
+            
+            if (Casting.LastSpell == Spells.Hypercharge)
+                return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
 
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
         }
