@@ -9,6 +9,7 @@ using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
@@ -70,16 +71,24 @@ namespace Magitek.Logic.Scholar
             TogglesManager.ResetToggles();
             return true;
         }
-        public static async Task<bool> EmergencyTactics()
-        {
+        public static async Task<bool> EmergencyTactics([CallerMemberName] string caller = null) {
+            if (!ScholarSettings.Instance.EmergencyTactics)
+                return false;
+
             if (Spells.EmergencyTactics.Cooldown != TimeSpan.Zero)
                 return false;
 
-            return await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics);
-            //if (await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics))
-            //{
-            //    return await Coroutine.Wait(15000, () => Core.Me.HasAura(Auras.EmergencyTactics, true, 10000));
+            Logger.Error($"EmergencyTactics from {caller}");
+
+            if (!await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics))
+                return false;
+
+            return await Coroutine.Wait(1500, () => Core.Me.HasAura(Auras.EmergencyTactics) && ActionManager.CanCast(Spells.Adloquium.Id, Core.Me));
+
+            //if (await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics)) {
+            //    return await Coroutine.Wait(1700, () => Core.Me.HasAura(Auras.EmergencyTactics, true));
             //}
+
             //return false;
         }
 
@@ -92,9 +101,9 @@ namespace Magitek.Logic.Scholar
                 return false;
             if (Spells.Aetherflow.Cooldown.TotalMilliseconds > 1500)
                 return false;
-            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                    return true;
+            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+            //        return true;
             return await Spells.Aetherflow.Cast(Core.Me);
 
 
@@ -114,9 +123,9 @@ namespace Magitek.Logic.Scholar
 
             if (deploymentTacticsTarget == null)
                 return false;
-            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                    return true;
+            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+            //        return true;
             return await Spells.DeploymentTactics.Cast(deploymentTacticsTarget);
         }
 
@@ -135,9 +144,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             //force ruin 2 cast to open GCD 
-            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                    return true;
+            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+            //        return true;
             return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
@@ -167,9 +176,9 @@ namespace Magitek.Logic.Scholar
 
                     if (chainStrategemsTarget == null || !chainStrategemsTarget.ThoroughCanAttack())
                         return false;
-                    if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                        if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                            return true;
+                    //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+                    //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+                    //        return true;
                     return await Spells.ChainStrategem.Cast(chainStrategemsTarget);
 
                 case ChainStrategemStrategemStrategy.OnlyBosses:
@@ -180,9 +189,9 @@ namespace Magitek.Logic.Scholar
 
                     if (chainStrategemsBossTarget == null || !chainStrategemsBossTarget.ThoroughCanAttack())
                         return false;
-                    if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                        if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                            return true;
+                    //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+                    //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+                    //        return true;
                     return await Spells.ChainStrategem.Cast(chainStrategemsBossTarget);
 
                 default:
@@ -219,9 +228,9 @@ namespace Magitek.Logic.Scholar
 
             if (aetherpactTarget == null)
                 return false;
-            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                    return true;
+            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+            //        return true;
             return await Spells.Aetherpact.Cast(aetherpactTarget);
 
             bool CanAetherpact(GameObject unit)
