@@ -5,7 +5,6 @@ using Magitek.Logic;
 using Magitek.Logic.Astrologian;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -42,9 +41,9 @@ namespace Magitek.Rotations
                 return await Buff.Sect();
 
             // Add redundancy for sect if noct is not available
-            if ((Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired)
-                && (Core.Me.ClassLevel >= Spells.DiurnalSect.LevelAcquired))
-                return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
+            if (Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired
+                && Core.Me.ClassLevel >= Spells.DiurnalSect.LevelAcquired)
+                return await Buff.DiurnalSect();
 
             return false;
         }
@@ -89,8 +88,6 @@ namespace Magitek.Rotations
 
             if (await GambitLogic.Gambit())
                 return true;
-
-            if (Globals.PartyInCombat && Globals.InParty)
 
             if (await Logic.Astrologian.Heal.Ascend()) return true;
             if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
