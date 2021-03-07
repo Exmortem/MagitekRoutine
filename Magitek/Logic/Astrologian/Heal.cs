@@ -670,7 +670,8 @@ namespace Magitek.Logic.Astrologian
                 AstrologianSettings.Instance.CollectiveUnconsciousAllies)
                 return false;
 
-            return await Spells.CollectiveUnconscious.CastAura(Core.Me, Auras.WheelOfFortune);
+            return await Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.WheelOfFortune, false);
+            //return await Spells.CollectiveUnconscious.CastAura(Core.Me, Auras.WheelOfFortune);
         }
 
         public static async Task<bool> EarthlyStar()
