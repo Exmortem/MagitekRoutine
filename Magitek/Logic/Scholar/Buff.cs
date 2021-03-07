@@ -9,7 +9,6 @@ using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
@@ -71,14 +70,12 @@ namespace Magitek.Logic.Scholar
             TogglesManager.ResetToggles();
             return true;
         }
-        public static async Task<bool> EmergencyTactics([CallerMemberName] string caller = null) {
+        public static async Task<bool> EmergencyTactics() {
             if (!ScholarSettings.Instance.EmergencyTactics)
                 return false;
 
             if (Spells.EmergencyTactics.Cooldown != TimeSpan.Zero)
                 return false;
-
-            Logger.Error($"EmergencyTactics from {caller}");
 
             if (!await Spells.EmergencyTactics.CastAura(Core.Me, Auras.EmergencyTactics))
                 return false;
