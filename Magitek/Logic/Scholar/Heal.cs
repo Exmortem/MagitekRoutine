@@ -200,6 +200,8 @@ namespace Magitek.Logic.Scholar
                     return;
                 if (!ScholarSettings.Instance.RecitationWithAdlo)
                     return;
+                if (Spells.Recitation.Cooldown != TimeSpan.Zero)
+                    return;
                 if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
                     return;
                 if (!await Spells.Recitation.Cast(Core.Me))
@@ -266,6 +268,9 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.HasAetherflow())
                 return false;
 
+            if (Spells.Excogitation.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (Globals.InParty)
             {
                 var excogitationTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanExcogitation);
@@ -275,7 +280,7 @@ namespace Magitek.Logic.Scholar
 
                 await UseRecitation();
 
-                return await Spells.Excogitation.CastAura(excogitationTarget, Auras.Excogitation);
+                return await Spells.Excogitation.Cast(excogitationTarget);
             }
 
             if (Core.Me.HasAura(Auras.Excogitation))
@@ -286,7 +291,7 @@ namespace Magitek.Logic.Scholar
 
             await UseRecitation();
 
-            return await Spells.Excogitation.CastAura(Core.Me, Auras.Excogitation);
+            return await Spells.Excogitation.Cast(Core.Me);
 
             bool CanExcogitation(Character unit)
             {
@@ -320,7 +325,8 @@ namespace Magitek.Logic.Scholar
 
                 if (!ScholarSettings.Instance.RecitationWithExcog)
                     return;
-
+                if (Spells.Recitation.Cooldown != TimeSpan.Zero)
+                    return;
                 if (ScholarSettings.Instance.RecitationOnlyNoAetherflow && Core.Me.HasAetherflow())
                     return;
 
@@ -343,6 +349,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (!Core.Me.HasAetherflow())
+                return false;
+
+            if (Spells.Lustrate.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) > ScholarSettings.Instance.IndomitabilityNeedHealing)
@@ -424,6 +433,9 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.HasAetherflow())
                 return false;
 
+            if (Spells.Indomitability.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) < ScholarSettings.Instance.IndomitabilityNeedHealing)
                 return false;
 
@@ -462,6 +474,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (!Core.Me.HasAetherflow())
+                return false;
+
+            if (Spells.SacredSoil.Cooldown != TimeSpan.Zero)
                 return false;
 
             var sacredSoilTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => PartyManager.VisibleMembers.Count(x => x.BattleCharacter.CurrentHealthPercent < ScholarSettings.Instance.SacredSoilHpPercent
@@ -526,6 +541,9 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (Spells.WhisperingDawn.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (Globals.InParty)
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
@@ -566,6 +584,9 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (Spells.FeyIllumination.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (Globals.InParty)
             {
                 var canFeyIlluminationTargets = Group.CastableAlliesWithin30.Where(CanFeyIllumination).ToList();
@@ -603,6 +624,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (Spells.FeyBlessing.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (ActionResourceManager.Scholar.FaerieGauge < ScholarSettings.Instance.FeyBlessingMinimumFairieGauge)
