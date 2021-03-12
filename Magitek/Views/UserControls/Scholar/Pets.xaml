@@ -53,7 +53,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Whispering Dawn When " />
                     <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.WhisperingDawnNeedHealing, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below " />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.WhisperingDawnHealthPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
@@ -70,7 +70,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Fey Blessing When " />
                     <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyBlessingNeedHealing, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below " />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.FeyBlessingHpPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
@@ -87,7 +87,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Fey Illumination When " />
                     <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.FeyIlluminationNeedHealing, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below " />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.FeyIlluminationHpPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
@@ -102,16 +102,36 @@
                 <CheckBox Content="Summon Seraph" IsChecked="{Binding ScholarSettings.SummonSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Summon Seraph When Nearby Players are below " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.SummonSeraphHpPercent, Mode=TwoWay}" />
+                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Summon Seraph When " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.SummonSeraphNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Nearby Allies Are Below " />
+                   <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.SummonSeraphHpPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
+                <StackPanel Margin="25,5,5,5">
+                 <CheckBox Content="Consolation" IsChecked="{Binding ScholarSettings.Consolation, Mode=TwoWay}"
+                           Style="{DynamicResource CheckBoxFlat}" />
 
-            </StackPanel>
-        </controls:SettingsBlock>
+                 <StackPanel Orientation="Horizontal">
+                  <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Consolation When " />
+                  <controls:Numeric MaxValue="30" MinValue="1"
+                                    Value="{Binding ScholarSettings.ConsolationNeedHealing, Mode=TwoWay}" />
+                  <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Nearby Allies Are Below " />
+                  <controls:Numeric MaxValue="100" MinValue="1"
+                                    Value="{Binding ScholarSettings.ConsolationHpPercent, Mode=TwoWay}" />
+                  <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                 </StackPanel>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
+                 <CheckBox Content="Use Only If Cast Will Capture The Tank"
+                           IsChecked="{Binding ScholarSettings.ConsolationOnlyWithTank, Mode=TwoWay}"
+                           Style="{DynamicResource CheckBoxFlat}" />
+
+                </StackPanel>
+   </StackPanel>
+  </controls:SettingsBlock>
+
+     <!--<controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+   <StackPanel Margin="5">
                 <CheckBox Content="Consolation" IsChecked="{Binding ScholarSettings.Consolation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
                 <StackPanel Orientation="Horizontal">
@@ -125,7 +145,7 @@
                 <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.ConsolationOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
             </StackPanel>
-        </controls:SettingsBlock>
+        </controls:SettingsBlock>-->
 
     </StackPanel>
 </UserControl>

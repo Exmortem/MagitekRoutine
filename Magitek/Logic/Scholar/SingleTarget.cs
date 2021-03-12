@@ -42,12 +42,27 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.BioMultipleTargets)
                 return false;
 
+            if (Combat.Enemies.Count(HasMyBio) >= ScholarSettings.Instance.BioTargetLimit)
+                return false;
+
             var bioTarget = Combat.Enemies.FirstOrDefault(NeedsBio);
 
             if (bioTarget == null)
                 return false;
 
             return await Spells.Bio.Cast(bioTarget);
+
+            bool HasMyBio(BattleCharacter unit) {
+                if (unit == null) return false;
+
+                if (Core.Me.ClassLevel < 26)
+                    return unit.HasAura(Auras.Bio, true, ScholarSettings.Instance.BioRefreshSeconds * 1000);
+
+                if (Core.Me.ClassLevel < 72)
+                    return unit.HasAura(Auras.Bio2, true, ScholarSettings.Instance.BioRefreshSeconds * 1000);
+
+                return unit.HasAura(Auras.Biolysis, true, ScholarSettings.Instance.BioRefreshSeconds * 1000);
+            }
 
             bool NeedsBio(BattleCharacter unit)
             {
@@ -62,7 +77,7 @@ namespace Magitek.Logic.Scholar
 
                 return !unit.HasAura(Auras.Biolysis, true, ScholarSettings.Instance.BioRefreshSeconds * 1000);
             }
-
+            
             bool CanBio(GameObject unit)
             {
                 if (!ScholarSettings.Instance.BioUseTimeTillDeath)
@@ -89,23 +104,27 @@ namespace Magitek.Logic.Scholar
             Auras.Bio2,
             Auras.Biolysis
         };
+
         public static async Task<bool> EnergyDrain2()
         {
             if (!ScholarSettings.Instance.EnergyDrain)
                 return false;
 
-            if (!Core.Me.HasAetherflow())
+            if (Core.Me.CurrentManaPercent > ScholarSettings.Instance.EnergyDrainManaPercent)
                 return false;
 
+            if (!Core.Me.HasAetherflow())
+                return false;
+            
             if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 9000)
                 return false;
             if (ActionResourceManager.Scholar.Aetherflow == 2 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 6000)
                 return false;
             if (ActionResourceManager.Scholar.Aetherflow == 1 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 3000)
                 return false;
-            if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-                if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-                    return true;
+            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
+            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
+            //        return true;
             return await Spells.EnergyDrain2.Cast(Core.Me.CurrentTarget);
         }
     }

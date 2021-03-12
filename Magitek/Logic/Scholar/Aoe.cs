@@ -14,7 +14,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.ArtOfWar)
                 return false;
 
-            if (Core.Me.EnemiesNearby(6).Count() < ScholarSettings.Instance.ArtOfWarEnemies)
+            if (Core.Me.EnemiesNearby(5).Count() < ScholarSettings.Instance.ArtOfWarEnemies)
                 return false;
 
             return await Spells.ArtOfWar.Cast(Core.Me);

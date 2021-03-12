@@ -205,7 +205,7 @@ namespace Magitek.Logic.Astrologian
             return false;
         }
 
-        private static async Task<bool> DiurnalSect()
+        public static async Task<bool> DiurnalSect()
         {
             if (Core.Me.HasAura(Auras.DiurnalSect))
                 return false;

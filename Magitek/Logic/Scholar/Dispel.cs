@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
@@ -17,16 +16,12 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Dispel || !ActionManager.HasSpell(Spells.Esuna.Id))
                 return false;
 
-            if (Globals.InParty)
+            if (Globals.InParty) 
             {
-                if (await CheckParty()) return true;
-            }
-            else
-            {
-                if (await CheckSelf()) return true;
+                return await CheckParty();
             }
 
-            return await CheckPet();
+            return await CheckSelf();
         }
 
         private static async Task<bool> CheckParty()
@@ -46,11 +41,11 @@ namespace Magitek.Logic.Scholar
             if (ScholarSettings.Instance.DispelOnlyAbove && Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth))
                 return false;
 
-            dispelTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.HasAnyDispellableAura());
+            dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura()).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
 
             if (dispelTarget == null)
                 return false;
-
+            
             return await Spells.Esuna.Cast(dispelTarget);
         }
 
@@ -71,57 +66,6 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             return await Spells.Esuna.Cast(Core.Me);
-        }
-
-        private static async Task<bool> CheckPet()
-        {
-            if (!ScholarSettings.Instance.DispelPet)
-                return false;
-
-            if (Core.Me.Pet == null)
-                return false;
-
-            var petAsCharacter = Core.Me.Pet as Character;
-
-            // Check if we're in a party since we can be in both with a pet
-            if (Globals.InParty)
-            {
-                if (petAsCharacter.NeedsDispel(true))
-                {
-                    return await Spells.Esuna.Cast(petAsCharacter);
-                }
-
-                if (!ScholarSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
-                    return false;
-
-                // Check if anyone in our party needs a heal first
-                if (ScholarSettings.Instance.DispelOnlyAbove && Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth))
-                    return false;
-
-                if (!petAsCharacter.HasAnyDispellableAura())
-                    return false;
-
-                return await Spells.Esuna.Cast(petAsCharacter);
-            }
-            else
-            {
-                if (petAsCharacter.NeedsDispel(true))
-                {
-                    return await Spells.Esuna.Cast(petAsCharacter);
-                }
-
-                if (!ScholarSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
-                    return false;
-
-                // Check if we need to be healed first
-                if (Core.Me.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth)
-                    return false;
-
-                if (!petAsCharacter.HasAnyDispellableAura())
-                    return false;
-
-                return await Spells.Esuna.Cast(petAsCharacter);
-            }
         }
     }
 }
