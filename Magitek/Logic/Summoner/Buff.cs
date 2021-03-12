@@ -4,6 +4,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
+using System;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.Summoner
@@ -53,6 +54,9 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> Aetherpact()
         {
             if (Core.Me.ClassLevel < 64) return false;
+
+            if (Spells.SmnAetherpact.Cooldown != TimeSpan.Zero)
+                return false;
             /*if (Casting.LastSpell != Spells.Bio
                 || Casting.LastSpell != Spells.Ruin2
                 || Casting.LastSpell != Spells.EgiAssault
@@ -60,7 +64,7 @@ namespace Magitek.Logic.Summoner
                 if (!ActionResourceManager.Summoner.DreadwyrmTrance)
                     if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
                         return true;*/
-            return await Spells.Aetherpact.Cast(Core.Me);
+            return await Spells.SmnAetherpact.Cast(Core.Me);
         }
 
         public static async Task<bool> Swiftcast()
