@@ -25,7 +25,7 @@ namespace Magitek.Logic.BlackMage
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
             //Only use in Umbral 3
-            if (ActionResourceManager.BlackMage.AstralStacks == 3)
+            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
 
             //If we have Umbral hearts, Freeze has gone off
@@ -115,7 +115,7 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Thunder4()
         {
             //Only cast in Umbral 3
-            if (ActionResourceManager.BlackMage.AstralStacks > 0)
+            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
 
             //If we don't need to refresh Thunder, skip
