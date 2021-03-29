@@ -35,6 +35,7 @@ namespace Magitek.Logic.Astrologian
             if (AstrologianSettings.Instance.UseReDraw)
             {
                 if (DivinationSeals.Any(c => c == 0))
+                {
                     // See if this fixes the thing 
                     if (Spells.Redraw.Charges >= 1)
                     {
@@ -83,9 +84,7 @@ namespace Magitek.Logic.Astrologian
                                 break;
                         }
                     }
-                //Redundant case for if 0 redraw but seal matches
-                if (Spells.Redraw.Charges == 0)
-                {
+                    //Redundant case for if 0 redraw but seal matches
                     switch (Arcana)
                     {
                         //Solar Seal
@@ -101,7 +100,6 @@ namespace Magitek.Logic.Astrologian
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
                                 return await RangedDpsOrHealer(false);
                             break;
-
                         //Lunar Seal
                         case AstrologianCard.Arrow:
                             if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
@@ -115,7 +113,6 @@ namespace Magitek.Logic.Astrologian
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
                                 return await RangedDpsOrHealer(false);
                             break;
-
                         //Celestial Seal
                         case AstrologianCard.Spear:
                             if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
@@ -130,57 +127,88 @@ namespace Magitek.Logic.Astrologian
                                 return await RangedDpsOrHealer(false);
                             break;
                     }
-                }
-                if (Globals.InParty)
-                {
+                    // Minor Arcana
                     switch (Arcana)
                     {
                         //Solar Seal
                         case AstrologianCard.Balance:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
-                                return await MeleeDpsOrTank(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await MeleeDpsOrTank(false);
+                                return await MeleeDpsOrTank(true);
                             break;
                         case AstrologianCard.Bole:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
-                                return await RangedDpsOrHealer(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await RangedDpsOrHealer(false);
+                                return await RangedDpsOrHealer(true);
                             break;
-
                         //Lunar Seal
                         case AstrologianCard.Arrow:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
-                                return await MeleeDpsOrTank(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await MeleeDpsOrTank(false);
+                                return await MeleeDpsOrTank(true);
                             break;
                         case AstrologianCard.Ewer:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
-                                return await RangedDpsOrHealer(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await RangedDpsOrHealer(false);
+                                return await RangedDpsOrHealer(true);
                             break;
-
                         //Celestial Seal
                         case AstrologianCard.Spear:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
-                                return await MeleeDpsOrTank(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await MeleeDpsOrTank(false);
+                                return await MeleeDpsOrTank(true);
                             break;
                         case AstrologianCard.Spire:
-                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
-                                return await RangedDpsOrHealer(true);
                             if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
-                                return await RangedDpsOrHealer(false);
+                                return await RangedDpsOrHealer(true);
                             break;
                     }
-                }
+                }            
                 return false;
             }
+            // Regular case if no redraw is enabled
+            if (Globals.InParty)
+                {
+                    switch (Arcana)
+                    {
+                        //Solar Seal
+                        case AstrologianCard.Balance:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
+                                return await MeleeDpsOrTank(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await MeleeDpsOrTank(false);
+                            break;
+                        case AstrologianCard.Bole:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Solar_Seal))
+                                return await RangedDpsOrHealer(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await RangedDpsOrHealer(false);
+                            break;
 
+                        //Lunar Seal
+                        case AstrologianCard.Arrow:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
+                                return await MeleeDpsOrTank(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await MeleeDpsOrTank(false);
+                            break;
+                        case AstrologianCard.Ewer:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Lunar_Seal))
+                                return await RangedDpsOrHealer(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await RangedDpsOrHealer(false);
+                            break;
+
+                        //Celestial Seal
+                        case AstrologianCard.Spear:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
+                                return await MeleeDpsOrTank(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await MeleeDpsOrTank(false);
+                            break;
+                        case AstrologianCard.Spire:
+                            if (DivinationSeals.Any(c => c == AstrologianSeal.Celestial_Seal))
+                                return await RangedDpsOrHealer(true);
+                            if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                                return await RangedDpsOrHealer(false);
+                            break;
+                    }
+                }
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
