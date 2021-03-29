@@ -25,8 +25,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            /*
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
+            */
 
             if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 6000)
                 return false;
@@ -71,10 +73,10 @@ namespace Magitek.Logic.Machinist
                     return false;
             }
 
-            if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000)
+            if (Core.Me.ClassLevel >= 58 && ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 8000)
+            if (Core.Me.ClassLevel >= 76 && ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
@@ -95,10 +97,10 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
-            if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 9000)
+            if (Core.Me.ClassLevel >= 58 && ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 9000)
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && MachinistGlobals.HotAirAnchor.Cooldown.TotalMilliseconds < 9000)
+            if (Core.Me.ClassLevel >= 76 && ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 9000)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
@@ -127,14 +129,14 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel >= 58 && Core.Me.ClassLevel < 76)
             {
-                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                if (ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
                     return false;
             }
 
             if (Core.Me.ClassLevel >= 76)
             {
-                if ( (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
-                    && (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
+                if ( (ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
                     return false;
             }
 
