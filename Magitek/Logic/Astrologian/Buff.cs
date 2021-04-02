@@ -236,7 +236,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (DivinationSeals.Count() < 2)
+            if (DivinationSeals.Count(c => c == 0) != 1)
                 return false;
 
             return await Spells.SleeveDraw.Cast(Core.Me);
