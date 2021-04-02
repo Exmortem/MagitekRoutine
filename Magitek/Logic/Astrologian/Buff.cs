@@ -211,11 +211,17 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.HasAura(Auras.DiurnalSect))
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.AspectedBenefic.LevelAcquired)
+                return false;
+
             return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
         }
 
         private static async Task<bool> NocturnalSect()
         {
+            if (Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired)
+                return false;
+
             if (Core.Me.HasAura(Auras.NocturnalSect))
                 return false;
 
