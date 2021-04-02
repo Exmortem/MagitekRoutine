@@ -239,13 +239,18 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(c => c == 0))
                 return false;
 
+            var cardDrawn = Arcana != AstrologianCard.None;
+
+            if (cardDrawn)
+                return false;
+
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (DivinationSeals.Count(c => c == 0) != 1)
-                return false;
+            if (DivinationSeals.Count(c => c == 0) == 1)
+                return await Spells.SleeveDraw.Cast(Core.Me);
 
-            return await Spells.SleeveDraw.Cast(Core.Me);
+            return false;
         }
     }
 }
