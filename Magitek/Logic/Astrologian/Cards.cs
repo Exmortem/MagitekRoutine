@@ -245,7 +245,7 @@ namespace Magitek.Logic.Astrologian
                 // Action changed to LordofCrowns from MinorArcana
                 return await Spells.LordofCrowns.Cast(ally.FirstOrDefault());
 
-            return false;
+            return await Spells.Play.Cast(Core.Me);
         }
 
         private static async Task<bool> RangedDpsOrHealer(bool minor)
@@ -256,7 +256,7 @@ namespace Magitek.Logic.Astrologian
                 // Action changed to Lady of Crowns from MinorArcana
                 return await Spells.LadyofCrowns.Cast(ally.FirstOrDefault());
 
-            return false;
+            return await Spells.Play.Cast(Core.Me);
         }
 
         private static int GetWeight(Character c)
