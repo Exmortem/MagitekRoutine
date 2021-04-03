@@ -12,6 +12,9 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Triplecast()
         {
+            if (Core.Me.ClassLevel < Spells.Triplecast.LevelAcquired)
+                return false;
+
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
@@ -30,7 +33,7 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Enochian()
         {
             //First, check if we can even cast Enochian
-            if (Core.Me.ClassLevel < 56)
+            if (Core.Me.ClassLevel < Spells.Enochian.LevelAcquired)
                 return false;
 
             //Then, if we have it, we don't need to cast it again
@@ -51,6 +54,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Sharpcast()
         {
+            if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
+                return false;
+
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
             // If we used something that opens the GCD
@@ -66,6 +72,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> LeyLines()
         {
+            if (Core.Me.ClassLevel < Spells.LeyLines.LevelAcquired)
+                return false;
+
             if (!BlackMageSettings.Instance.LeyLines)
                 return false;
 
@@ -98,6 +107,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> UmbralSoul()
         {
+            if (Core.Me.ClassLevel < Spells.UmbralSoul.LevelAcquired)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -110,6 +122,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> ManaFont()
         {
+            if (Core.Me.ClassLevel < Spells.ManaFont.LevelAcquired)
+                return false;
+
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
                 return false;
 

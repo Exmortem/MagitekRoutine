@@ -13,6 +13,9 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Xenoglossy()
         {
+            if (Core.Me.ClassLevel < Spells.Xenoglossy.LevelAcquired)
+                return false;
+
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
 
@@ -46,6 +49,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Despair()
         {
+            if (Core.Me.ClassLevel < Spells.Despair.LevelAcquired)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -100,6 +106,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire4()
         {
+            if (Core.Me.ClassLevel < Spells.Fire4.LevelAcquired)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -120,6 +129,8 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire3()
         {
+            if (Core.Me.ClassLevel < Spells.Fire3.LevelAcquired)
+                return false;
 
             // Use if we're in Umbral and we have 3 hearts and have max mp
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
@@ -195,6 +206,9 @@ namespace Magitek.Logic.BlackMage
             if (!Core.Me.HasEnochian())
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Blizzard4.LevelAcquired)
+                return false;
+
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -214,6 +228,9 @@ namespace Magitek.Logic.BlackMage
         {
 
             if (Casting.LastSpell == Spells.Blizzard3)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Blizzard3.LevelAcquired)
                 return false;
 
             // If we have no umbral or astral stacks, cast 
