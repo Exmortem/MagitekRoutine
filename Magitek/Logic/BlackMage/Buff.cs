@@ -110,6 +110,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> ManaFont()
         {
+            if (!BlackMageSettings.Instance.ConvertAfterFire3)
+                return false;
+
             if (Casting.LastSpell == Spells.Fire3
                 && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
                 return await Spells.ManaFont.Cast(Core.Me);

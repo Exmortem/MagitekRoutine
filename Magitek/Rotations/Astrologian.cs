@@ -92,6 +92,7 @@ namespace Magitek.Rotations
             if (await Logic.Astrologian.Heal.Ascend()) return true;
             if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
             if (await Dispel.Execute()) return true;
+            if (await Buff.SleeveDraw()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Lightspeed()) return true;
             if (await Buff.Synastry()) return true;

@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using static ff14bot.Managers.ActionResourceManager.Astrologian;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -219,6 +220,26 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.NocturnalSect.CastAura(Core.Me, Auras.NocturnalSect);
+        }
+
+        public static async Task<bool> SleeveDraw()
+        {
+            if (Core.Me.ClassLevel < Spells.SleeveDraw.LevelAcquired)
+                return false;
+
+            if (Spells.SleeveDraw.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (DivinationSeals.All(c => c == 0))
+                return false;
+
+            if (!AstrologianSettings.Instance.Play)
+                return false;
+
+            if (DivinationSeals.Count(c => c == 0) != 1)
+                return false;
+
+            return await Spells.SleeveDraw.Cast(Core.Me);
         }
     }
 }
