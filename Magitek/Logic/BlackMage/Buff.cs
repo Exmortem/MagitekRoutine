@@ -134,7 +134,23 @@ namespace Magitek.Logic.BlackMage
 
             return false;
         }
+        public static async Task<bool> Transpose()
+        {
+            if (Core.Me.ClassLevel < Spells.Transpose.LevelAcquired)
+                return false;
 
+            if (Core.Me.ClassLevel < 40
+                && Core.Me.CurrentMana < 1600
+                && ActionResourceManager.BlackMage.AstralStacks > 0)
+                return await Spells.Transpose.Cast(Core.Me);
+
+            if (Core.Me.ClassLevel < 40
+                && Core.Me.CurrentMana == 10000
+                && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return await Spells.Transpose.Cast(Core.Me);
+
+            return false;
+        }
 
     }
 

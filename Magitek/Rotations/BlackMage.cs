@@ -103,7 +103,7 @@ namespace Magitek.Rotations
             if (await Buff.ManaFont()) return true;
             if (await Buff.LeyLines()) return true;
             if (await Buff.UmbralSoul()) return true;
-
+            if (await Buff.Transpose()) return true;
 
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
 

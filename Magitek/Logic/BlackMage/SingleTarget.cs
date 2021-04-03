@@ -72,15 +72,11 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire()
         {
             //Low level logic
-            if (Core.Me.ClassLevel < 40)
-            {
-                if (Core.Me.CurrentMana > 1600)
+            if (Core.Me.ClassLevel < 40
+                && Core.Me.CurrentMana > 1600
+                && ActionResourceManager.BlackMage.UmbralStacks < 1 )
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
                 
-                return await Spells.Transpose.Cast(Core.Me);
-            }
-                
-
             if (Core.Me.CurrentMana < 1600)
                 return false;
             //test for no enochian
@@ -131,6 +127,13 @@ namespace Magitek.Logic.BlackMage
         {
             if (Core.Me.ClassLevel < Spells.Fire3.LevelAcquired)
                 return false;
+
+            //Level 40-59 logic
+            if (Core.Me.ClassLevel >= 40 
+                && Core.Me.ClassLevel <= 59
+                && ActionResourceManager.BlackMage.UmbralStacks == 3
+                && Core.Me.CurrentMana == 10000)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             // Use if we're in Umbral and we have 3 hearts and have max mp
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
@@ -264,7 +267,7 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralStacks > 0)
                     return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
-                return await Spells.Transpose.Cast(Core.Me);
+                return false;
             }
 
             if (Core.Me.HasEnochian())
