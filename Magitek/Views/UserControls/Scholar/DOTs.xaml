@@ -35,8 +35,16 @@
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left On Bio" />
                     </StackPanel>
 
-                    <CheckBox Grid.Row="1" Content="Bio Multiple Targets" IsChecked="{Binding ScholarSettings.BioMultipleTargets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </Grid>
+                 <StackPanel Grid.Row="1" Orientation="Horizontal">
+                  <CheckBox Content="Bio up to "
+                            IsChecked="{Binding ScholarSettings.BioMultipleTargets, Mode=TwoWay}"
+                            Style="{DynamicResource CheckBoxFlat}" />
+                  <controls:Numeric MaxValue="100" MinValue="1"
+                                    Value="{Binding ScholarSettings.BioTargetLimit, Mode=TwoWay}" />
+                  <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets" />
+     </StackPanel>
+                    
+    </Grid>
 
             </Grid>
         </controls:SettingsBlock>

@@ -101,7 +101,7 @@ namespace Magitek.Utilities.Routines
                     Casting.CastingSpell == Spells.Broil3 ||
                     Casting.CastingSpell == Spells.Ruin
                     ) {
-                    if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealth > 0 && c.IsAlive && c.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent)) {
+                    if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent && c.IsAlive)) {
                         Logger.Error($@"Stopped Cast: Ally below {ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent}% Health");
                         return true;
                     }

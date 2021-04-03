@@ -289,6 +289,10 @@ namespace Magitek.Models.Scholar
         [DefaultValue(5)]
         public int BioDontIfEnemyDyingWithinSeconds { get; set; }
 
+        [Setting] 
+        [DefaultValue(5)]
+        public int BioTargetLimit { get; set; }
+
         [Setting]
         [DefaultValue(true)]
         public bool RuinBroil { get; set; }
@@ -386,6 +390,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(65.0f)]
         public float SummonSeraphHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int SummonSeraphNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
