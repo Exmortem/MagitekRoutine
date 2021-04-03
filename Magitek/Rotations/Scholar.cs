@@ -60,6 +60,7 @@ namespace Magitek.Rotations
                 return true;
 
             if (await Casting.TrackSpellCast()) return true;
+            
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
@@ -67,7 +68,7 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
 
             if (CustomOpenerLogic.InOpener) return false;
-
+            
             if (await Logic.Scholar.Heal.Resurrection()) return true;
 
             // Scalebound Extreme Rathalos
@@ -77,16 +78,12 @@ namespace Magitek.Rotations
             }
 
             #region Pre-Healing Stuff
-            if (Globals.PartyInCombat && Globals.InParty)
-            {
-                // if (await TankBusters.Execute()) return true;
-            }
 
             if (await Logic.Scholar.Heal.ForceWhispDawn()) return true;
             if (await Logic.Scholar.Heal.ForceAdlo()) return true;
             if (await Logic.Scholar.Heal.ForceIndom()) return true;
             if (await Logic.Scholar.Heal.ForceExcog()) return true;
-
+            
             if (await Buff.Aetherflow()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Dispel.Execute()) return true;
@@ -117,10 +114,12 @@ namespace Magitek.Rotations
             if (Globals.InParty)
             {
                 if (await Logic.Scholar.Heal.Indomitability()) return true;
+                if (await Logic.Scholar.Heal.EmergencyTacticsSuccor()) return true;
                 if (await Logic.Scholar.Heal.Succor()) return true;
                 if (await Logic.Scholar.Heal.SacredSoil()) return true;
             }
 
+            if (await Logic.Scholar.Heal.EmergencyTacticsAdloquium()) return true;
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
@@ -173,7 +172,7 @@ namespace Magitek.Rotations
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
                     return true;
 
-                if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
+                if (Group.CastableAlliesWithin30.Any(c => c.IsAlive && c.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
                     return true;
             }
 

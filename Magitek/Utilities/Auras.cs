@@ -143,7 +143,7 @@ namespace Magitek.Utilities
             SeraphicVeil = 1917,
             DiveReady = 1243,
             BlackestNight = 1178,
-            Exogitation = 1220,
+            Excogitation = 1220,
             DivineBenison = 1218,
             DivineBenison2 = 1404,
             Peloton = 1199,
