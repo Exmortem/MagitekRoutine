@@ -158,7 +158,38 @@ namespace Magitek.Logic.Astrologian
                                 return await RangedDpsOrHealer(true);
                             break;
                     }
-                }            
+                }
+                // Minor Arcana if seals are full
+                switch (Arcana)
+                {
+                    //Solar Seal
+                    case AstrologianCard.Balance:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await MeleeDpsOrTank(true);
+                        break;
+                    case AstrologianCard.Bole:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await RangedDpsOrHealer(true);
+                        break;
+                    //Lunar Seal
+                    case AstrologianCard.Arrow:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await MeleeDpsOrTank(true);
+                        break;
+                    case AstrologianCard.Ewer:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await RangedDpsOrHealer(true);
+                        break;
+                    //Celestial Seal
+                    case AstrologianCard.Spear:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await MeleeDpsOrTank(true);
+                        break;
+                    case AstrologianCard.Spire:
+                        if (Core.Me.InCombat && AstrologianSettings.Instance.Play)
+                            return await RangedDpsOrHealer(true);
+                        break;
+                }
                 return false;
             }
             // Regular case if no redraw is enabled
