@@ -211,11 +211,17 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.HasAura(Auras.DiurnalSect))
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.AspectedBenefic.LevelAcquired)
+                return false;
+
             return await Spells.DiurnalSect.CastAura(Core.Me, Auras.DiurnalSect);
         }
 
         private static async Task<bool> NocturnalSect()
         {
+            if (Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired)
+                return false;
+
             if (Core.Me.HasAura(Auras.NocturnalSect))
                 return false;
 
@@ -233,13 +239,18 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(c => c == 0))
                 return false;
 
+            var cardDrawn = Arcana != AstrologianCard.None;
+
+            if (cardDrawn)
+                return false;
+
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (DivinationSeals.Count(c => c == 0) != 1)
-                return false;
+            if (DivinationSeals.Count(c => c == 0) == 1)
+                return await Spells.SleeveDraw.Cast(Core.Me);
 
-            return await Spells.SleeveDraw.Cast(Core.Me);
+            return false;
         }
     }
 }

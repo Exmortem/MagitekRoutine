@@ -41,6 +41,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Flare()
         {
+            if (Core.Me.ClassLevel < Spells.Flare.LevelAcquired)
+                return false;
+
             if (Core.Me.ClassLevel < 72)
             {
                 if (Core.Me.ClassLevel >= 50
@@ -161,6 +164,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire2()
         {
+            if (Core.Me.ClassLevel < Spells.Fire2.LevelAcquired)
+                return false;
+
             if (Core.Me.ClassLevel > 35
                 && Core.Me.ClassLevel < 50)
                 return false;
@@ -200,6 +206,9 @@ namespace Magitek.Logic.BlackMage
         }
         public static async Task<bool> Fire4()
         {
+            if (Core.Me.ClassLevel < Spells.Fire4.LevelAcquired)
+                return false;
+
             if (Core.Me.ClassLevel < 60)
                 return false;
 

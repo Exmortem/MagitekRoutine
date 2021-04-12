@@ -13,6 +13,9 @@ namespace Magitek.Logic.BlackMage
     {
         public static async Task<bool> Xenoglossy()
         {
+            if (Core.Me.ClassLevel < Spells.Xenoglossy.LevelAcquired)
+                return false;
+
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
 
@@ -46,6 +49,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Despair()
         {
+            if (Core.Me.ClassLevel < Spells.Despair.LevelAcquired)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -66,15 +72,11 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire()
         {
             //Low level logic
-            if (Core.Me.ClassLevel < 40)
-            {
-                if (Core.Me.CurrentMana > 1600)
+            if (Core.Me.ClassLevel < 40
+                && Core.Me.CurrentMana > 1600
+                && ActionResourceManager.BlackMage.UmbralStacks < 1 )
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
                 
-                return await Spells.Transpose.Cast(Core.Me);
-            }
-                
-
             if (Core.Me.CurrentMana < 1600)
                 return false;
             //test for no enochian
@@ -100,6 +102,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire4()
         {
+            if (Core.Me.ClassLevel < Spells.Fire4.LevelAcquired)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -120,6 +125,15 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Fire3()
         {
+            if (Core.Me.ClassLevel < Spells.Fire3.LevelAcquired)
+                return false;
+
+            //Level 40-59 logic
+            if (Core.Me.ClassLevel >= 40 
+                && Core.Me.ClassLevel <= 59
+                && ActionResourceManager.BlackMage.UmbralStacks == 3
+                && Core.Me.CurrentMana == 10000)
+                return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             // Use if we're in Umbral and we have 3 hearts and have max mp
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
@@ -195,6 +209,9 @@ namespace Magitek.Logic.BlackMage
             if (!Core.Me.HasEnochian())
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Blizzard4.LevelAcquired)
+                return false;
+
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -214,6 +231,9 @@ namespace Magitek.Logic.BlackMage
         {
 
             if (Casting.LastSpell == Spells.Blizzard3)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Blizzard3.LevelAcquired)
                 return false;
 
             // If we have no umbral or astral stacks, cast 
@@ -247,7 +267,7 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralStacks > 0)
                     return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
-                return await Spells.Transpose.Cast(Core.Me);
+                return false;
             }
 
             if (Core.Me.HasEnochian())
