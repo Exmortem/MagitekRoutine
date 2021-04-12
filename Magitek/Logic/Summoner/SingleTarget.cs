@@ -154,7 +154,9 @@ namespace Magitek.Logic.Summoner
             //if (Core.Me.ClassLevel < 53)
             //    return false;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds <= 5000)
+            // Added check for level to see if we can even use Tri-D
+            if (Core.Me.ClassLevel >= Spells.TriDisaster.LevelAcquired
+                && Spells.TriDisaster.Cooldown.TotalMilliseconds <= 5000)
                 return false;
 
             if (Casting.LastSpell == Spells.TriDisaster)
@@ -185,9 +187,10 @@ namespace Magitek.Logic.Summoner
             // Again, why?
             //if (Core.Me.ClassLevel < 53)
             //    return false;
-            
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
+            // Added check for level to see if we can even use Tri-D
+            if (Core.Me.ClassLevel >= Spells.TriDisaster.LevelAcquired
+                && Spells.TriDisaster.Cooldown.TotalMilliseconds < 5000)
                 return false;
 
             if (Casting.LastSpell == Spells.Miasma3
