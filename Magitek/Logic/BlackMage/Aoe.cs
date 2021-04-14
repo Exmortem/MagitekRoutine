@@ -167,6 +167,16 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Fire2.LevelAcquired)
                 return false;
 
+            //Low-level logic
+            if (Core.Me.ClassLevel >= 18
+                && Core.Me.ClassLevel < 35)
+            {
+                if (Core.Me.CurrentMana >= 3800)
+                    return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
+                return await Spells.Transpose.Cast(Core.Me);
+            }
+                
+
             if (Core.Me.ClassLevel > 35
                 && Core.Me.ClassLevel < 50)
                 return false;
