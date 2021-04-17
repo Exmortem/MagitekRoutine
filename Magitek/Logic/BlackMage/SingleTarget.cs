@@ -75,6 +75,10 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana > 1600)
             {
+                if (Casting.LastSpell == Spells.Transpose
+                    && Core.Me.CurrentMana != 10000)
+                    return false;
+
                 //If UmbralStacks was == 1 then it would cast fire and leave us with 0 stacks
                 if (ActionResourceManager.BlackMage.UmbralStacks < 1 )
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
@@ -142,6 +146,11 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3
                     && Core.Me.CurrentMana == 10000)
                     return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+
+                if (ActionResourceManager.BlackMage.UmbralStacks == 0
+                    && ActionResourceManager.BlackMage.AstralStacks == 0)
+                    return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+
                 if (Core.Me.HasAura(Auras.FireStarter))
                     return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
             }

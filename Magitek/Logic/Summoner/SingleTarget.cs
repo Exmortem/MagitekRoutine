@@ -417,7 +417,8 @@ namespace Magitek.Logic.Summoner
             if (!ActionResourceManager.Summoner.DreadwyrmTrance)
                 return false;
 
-            if (ActionResourceManager.Summoner.Timer.Seconds > 8)
+            //Try to allow time for ruin
+            if (Spells.Trance.Cooldown.TotalSeconds > 43)
                 return false;
 
             //if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
