@@ -141,15 +141,15 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> Bio()
         {
-            if (!SummonerSettings.Instance.Bio)
-                return false;
-
-          if (Combat.CurrentTargetCombatTimeLeft <= 5)
-            return false;
-            
             if (Core.Me.ClassLevel < 2)
                 return false;
 
+            if (!SummonerSettings.Instance.Bio)
+                return false;
+            
+            if (Combat.CurrentTargetCombatTimeLeft <= 5)
+                return false;
+            
             // Why tho?
             //if (Core.Me.ClassLevel < 53)
             //    return false;
@@ -170,6 +170,9 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> Miasma()
         {
+            if (Core.Me.ClassLevel < 6)
+                return false;
+
             if (!SummonerSettings.Instance.Miasma)
                 return false;
 
@@ -179,9 +182,6 @@ namespace Magitek.Logic.Summoner
             if (Combat.CurrentTargetCombatTimeLeft <= 5)
               return false;
           
-            if (Core.Me.ClassLevel < 6)
-                return false;
-
             var refresh = SummonerSettings.Instance.DotRefreshSeconds * 1000;
 
             // Again, why?
@@ -215,6 +215,9 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault()
         {
+            if (Core.Me.ClassLevel < Spells.EgiAssault.LevelAcquired)
+                return false;
+
             if (!SummonerSettings.Instance.EgiAssault1)
                 return false;
             
@@ -299,6 +302,8 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> EgiAssault2()
         {
+            if (Core.Me.ClassLevel < Spells.EgiAssault2.LevelAcquired)
+                return false;
 
             if (Spells.EgiAssault2.Charges == 0
                 && Spells.EgiAssault2.Cooldown.TotalMilliseconds > 1000)
