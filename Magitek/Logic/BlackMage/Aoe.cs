@@ -4,6 +4,7 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
+using Magitek.Models.BlackMage;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -202,6 +203,10 @@ namespace Magitek.Logic.BlackMage
         {
             if (Core.Me.ClassLevel > 35)
                 return false;
+
+            //Check to see if enemies nearby before doing blizzard2
+            if (Core.Me.EnemiesNearby(10).Count() < BlackMageSettings.Instance.AoeEnemies)
+                return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.BlackMage.UmbralStacks > 0)
             {
