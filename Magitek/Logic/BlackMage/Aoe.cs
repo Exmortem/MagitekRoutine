@@ -203,15 +203,14 @@ namespace Magitek.Logic.BlackMage
         {
             if (Core.Me.ClassLevel > 35)
                 return false;
-
-            //Check to see if enemies nearby before doing blizzard2
-            if (Core.Me.EnemiesNearby(10).Count() < BlackMageSettings.Instance.AoeEnemies)
-                return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
-
+            
             if (ActionResourceManager.BlackMage.UmbralStacks > 0)
             {
                 if (Core.Me.CurrentMana < 10000)
                 {
+                    //Check to see if enemies nearby before doing blizzard2
+                    if (Core.Me.EnemiesNearby(10).Count() < BlackMageSettings.Instance.AoeEnemies)
+                        return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
                     return await Spells.Blizzard2.Cast(Core.Me);
                 }
                 return await Spells.Transpose.Cast(Core.Me);
