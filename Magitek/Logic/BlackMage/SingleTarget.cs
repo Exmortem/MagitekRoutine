@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using Magitek.Models.BlackMage;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -180,6 +181,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder3()
         {
+            if (!BlackMageSettings.Instance.ThunderSingle)
+                return false;
+
             //Low level logic
             if (Core.Me.ClassLevel < 40)
             {

@@ -118,6 +118,9 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Thunder4()
         {
+            if (!BlackMageSettings.Instance.ThunderSingle)
+                return false;
+
             //Only cast in Umbral 3
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
