@@ -18,7 +18,7 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
-            if (Spells.Triplecast.Cooldown.Milliseconds > 0)
+            if (Spells.Triplecast.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3)
@@ -57,6 +57,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
                 return false;
 
+            if (Spells.Sharpcast.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
             // If we used something that opens the GCD
@@ -73,6 +76,9 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> LeyLines()
         {
             if (Core.Me.ClassLevel < Spells.LeyLines.LevelAcquired)
+                return false;
+
+            if (Spells.LeyLines.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!BlackMageSettings.Instance.LeyLines)
@@ -110,6 +116,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.UmbralSoul.LevelAcquired)
                 return false;
 
+            if (Spells.UmbralSoul.Cooldown != TimeSpan.Zero)
+                return false;
+
             if (!Core.Me.HasEnochian())
                 return false;
 
@@ -123,6 +132,9 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> ManaFont()
         {
             if (Core.Me.ClassLevel < Spells.ManaFont.LevelAcquired)
+                return false;
+
+            if (Spells.ManaFont.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
@@ -139,12 +151,15 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Transpose.LevelAcquired)
                 return false;
 
-            if (Core.Me.ClassLevel < 40
+            if (Spells.Transpose.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.ClassLevel < 72
                 && Core.Me.CurrentMana < 1600
                 && ActionResourceManager.BlackMage.AstralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
-            if (Core.Me.ClassLevel < 40
+            if (Core.Me.ClassLevel < 72
                 && Core.Me.CurrentMana == 10000
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
