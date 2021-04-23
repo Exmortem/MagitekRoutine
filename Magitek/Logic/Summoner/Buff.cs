@@ -16,6 +16,10 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.ClassLevel < 58)
                 return false;
 
+            if (!SummonerSettings.Instance.DreadwyrmTrance
+                || !SummonerSettings.Instance.FirebirdTrance)
+                return false;
+
             if (ActionResourceManager.Arcanist.AetherAttunement == 2)
                 return false;
 
@@ -54,6 +58,9 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> Aetherpact()
         {
             if (Core.Me.ClassLevel < 64) return false;
+
+            if (!SummonerSettings.Instance.Aetherpact)
+                return false;
 
             if (Spells.SmnAetherpact.Cooldown != TimeSpan.Zero)
                 return false;
