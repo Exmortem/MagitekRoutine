@@ -76,7 +76,8 @@ namespace Magitek.Logic.BlackMage
                     if (Casting.LastSpell == Spells.Fire3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
-                    if (Core.Me.CurrentMana >= 800)
+                    if (Core.Me.CurrentMana >= 800
+                        && ActionResourceManager.BlackMage.AstralStacks == 3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
                     if (Core.Me.CurrentMana < 800)

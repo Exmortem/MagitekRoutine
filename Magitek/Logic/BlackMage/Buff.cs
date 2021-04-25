@@ -154,12 +154,12 @@ namespace Magitek.Logic.BlackMage
             if (Spells.Transpose.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.ClassLevel < 72
+            if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana < 1600
                 && ActionResourceManager.BlackMage.AstralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
-            if (Core.Me.ClassLevel < 72
+            if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana == 10000
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
