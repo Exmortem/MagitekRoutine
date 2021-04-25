@@ -108,14 +108,16 @@ namespace Magitek.Rotations
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
 
             {
-                if (await Aoe.Flare()) return true;
-                if (await Aoe.Blizzard2()) return true;
+                //Umbral
                 if (await Aoe.Freeze()) return true;
+                if (await Aoe.Blizzard2()) return true;
                 if (await Aoe.Foul()) return true;
-                if (await Aoe.Fire2()) return true;
                 if (await Aoe.Thunder4()) return true;
+                //Astral
+                if (await Aoe.Fire2()) return true;
                 if (await Aoe.Fire3()) return true;
                 if (await Aoe.Fire4()) return true;
+                if (await Aoe.Flare()) return true;
             }
 
             if (await SingleTarget.Blizzard4()) return true;

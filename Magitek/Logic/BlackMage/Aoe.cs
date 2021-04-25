@@ -76,7 +76,8 @@ namespace Magitek.Logic.BlackMage
                     if (Casting.LastSpell == Spells.Fire3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
-                    if (Core.Me.CurrentMana >= 800)
+                    if (Core.Me.CurrentMana >= 800
+                        && ActionResourceManager.BlackMage.AstralStacks == 3)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
                     if (Core.Me.CurrentMana < 800)
@@ -120,6 +121,10 @@ namespace Magitek.Logic.BlackMage
         {
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
+
+            //Cast any time thundercloud procs
+            if (Core.Me.HasAura(Auras.ThunderCloud))
+                return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
 
             //Only cast in Umbral 3
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
