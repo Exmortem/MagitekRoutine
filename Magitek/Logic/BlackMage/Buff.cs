@@ -140,6 +140,9 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
                 return false;
 
+            if (Core.Me.CurrentMana >= 7000)
+                return false;
+
             if (Casting.LastSpell == Spells.Fire3
                 && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
                 return await Spells.ManaFont.Cast(Core.Me);
