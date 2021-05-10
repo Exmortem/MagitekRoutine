@@ -184,6 +184,11 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
 
+            // Try to keep from double-casting thunder
+            if (Casting.LastSpell == Spells.Thunder
+                || Casting.LastSpell == Spells.Thunder3)
+                return false;
+
             //Low level logic
             if (Core.Me.ClassLevel < 40)
             {
