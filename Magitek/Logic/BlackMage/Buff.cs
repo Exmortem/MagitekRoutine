@@ -126,6 +126,10 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks != 1)
                 return false;
 
+            if (!Core.Me.InCombat
+                && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return await Spells.UmbralSoul.Cast(Core.Me);
+
             return await Spells.UmbralSoul.Cast(Core.Me);
         }
 
@@ -138,6 +142,9 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
+                return false;
+
+            if (Core.Me.CurrentMana >= 7000)
                 return false;
 
             if (Casting.LastSpell == Spells.Fire3
@@ -162,6 +169,10 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana == 10000
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return await Spells.Transpose.Cast(Core.Me);
+
+            if (!Core.Me.InCombat 
+                && ActionResourceManager.BlackMage.AstralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
             return false;

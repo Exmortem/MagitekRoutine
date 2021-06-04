@@ -36,6 +36,10 @@ namespace Magitek.Rotations
                 }
             }
 
+            //Try to keep stacks outside combat
+            if (await Buff.UmbralSoul()) return true;
+            if (await Buff.Transpose()) return true;
+
             return false;
         }
 

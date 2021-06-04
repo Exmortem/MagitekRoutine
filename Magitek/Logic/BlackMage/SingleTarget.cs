@@ -94,6 +94,14 @@ namespace Magitek.Logic.BlackMage
                 && Core.Me.CurrentMana > 800
                 && !Core.Me.HasAura(Auras.FireStarter))
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+
+            //Just in case enochian drops off, fill with fire
+            if (Core.Me.ClassLevel > Spells.Enochian.LevelAcquired
+                && !Core.Me.HasEnochian()
+                && Spells.Enochian.Cooldown != TimeSpan.Zero
+                && Core.Me.CurrentMana > 800)
+                return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+
             //only use in astral fire
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
@@ -182,6 +190,11 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Thunder3()
         {
             if (!BlackMageSettings.Instance.ThunderSingle)
+                return false;
+
+            // Try to keep from double-casting thunder
+            if (Casting.LastSpell == Spells.Thunder
+                || Casting.LastSpell == Spells.Thunder3)
                 return false;
 
             //Low level logic
