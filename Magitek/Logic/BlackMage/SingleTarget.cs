@@ -95,13 +95,6 @@ namespace Magitek.Logic.BlackMage
                 && !Core.Me.HasAura(Auras.FireStarter))
                 return await Spells.Fire.Cast(Core.Me.CurrentTarget);
 
-            //Just in case enochian drops off, fill with fire
-            if (Core.Me.ClassLevel > Spells.Enochian.LevelAcquired
-                && !Core.Me.HasEnochian()
-                && Spells.Enochian.Cooldown != TimeSpan.Zero
-                && Core.Me.CurrentMana > 800)
-                return await Spells.Fire.Cast(Core.Me.CurrentTarget);
-
             //only use in astral fire
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
