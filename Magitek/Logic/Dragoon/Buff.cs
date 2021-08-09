@@ -134,10 +134,19 @@ namespace Magitek.Logic.Dragoon
                     break;
             }
 
-            if (allyList == null)
-                return false;
+            if (DragoonSettings.Instance.SmartDragonSight)
+            {
+                if (allyList == null && Globals.InParty || !Globals.InParty)
+                    return await Spells.DragonSight.Cast(Core.Me);
+            }
+            else
+            {
+                if (allyList == null)
+                    return false;
+            }
 
             return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
+
         }
 
         public static async Task<bool> ForceDragonSight()
