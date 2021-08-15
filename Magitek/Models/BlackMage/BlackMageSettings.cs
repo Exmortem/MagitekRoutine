@@ -14,6 +14,10 @@ namespace Magitek.Models.BlackMage
         public static BlackMageSettings Instance { get; set; } = new BlackMageSettings();
 
         [Setting]
+        [DefaultValue(70.0f)]
+        public float RestHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(BuffStrategy.Always)]
         public BuffStrategy BuffStrategy { get; set; }
 

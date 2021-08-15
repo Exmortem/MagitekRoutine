@@ -66,8 +66,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-
-
             return await GambitLogic.Gambit();
         }
 

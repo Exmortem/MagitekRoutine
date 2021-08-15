@@ -41,8 +41,6 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
-
-
             if (Core.Me.IsMounted)
                 return true;
 
