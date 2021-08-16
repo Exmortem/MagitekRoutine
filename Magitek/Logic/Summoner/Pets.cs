@@ -5,6 +5,7 @@ using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using ff14bot.Enums;
 
 namespace Magitek.Logic.Summoner
 {
@@ -21,24 +22,40 @@ namespace Magitek.Logic.Summoner
 
             if ((int)PetManager.ActivePetType == (int)SummonerSettings.Instance.SelectedPet) return false;
 
+            if (Core.Me.ClassLevel < 30 || Core.Me.CurrentJob == ClassJobType.Arcanist)
+            {
+                switch (SummonerSettings.Instance.SelectedPet)
+                {
+                    case SummonerPets.None:
+                        return false;
+                    case SummonerPets.EmeraldCarbuncle: 
+                        return await Spells.Summon.Cast(Core.Me);
+                    case SummonerPets.TopazCarbuncle:
+                        return await Spells.Summon2.Cast(Core.Me);
+                    default:
+                        if(PetManager.ActivePetType != PetType.None)
+                            return false;
+                        else
+                            return await Spells.Summon.Cast(Core.Me);
+                }
+            }
+
             switch (SummonerSettings.Instance.SelectedPet)
             {
                 case SummonerPets.None:
                     return false;
                 case SummonerPets.EmeraldCarbuncle:
-                    if (Core.Me.ClassLevel < 30)
-                        return await Spells.Summon.Cast(Core.Me);
-                    return false;
-                case SummonerPets.TopazCarbuncle:
-                    if (Core.Me.ClassLevel < 30)
-                        return await Spells.Summon2.Cast(Core.Me);
-                    return false;
-                case SummonerPets.Ifrit:
-                    return await Spells.Summon3.Cast(Core.Me);
-                case SummonerPets.Titan:
-                    return await Spells.Summon2.Cast(Core.Me);
                 case SummonerPets.Garuda:
                     return await Spells.Summon.Cast(Core.Me);
+                case SummonerPets.TopazCarbuncle:
+                case SummonerPets.Titan:
+                    return await Spells.Summon2.Cast(Core.Me);
+                case SummonerPets.Ifrit:
+                    if (Core.Me.ClassLevel < 30 || Core.Me.CurrentJob == ClassJobType.Arcanist)
+                        return await Spells.Summon.Cast(Core.Me);
+                    return await Spells.Summon3.Cast(Core.Me);
+
+                    
                 default:
                     return false;
             }
