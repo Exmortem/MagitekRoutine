@@ -40,24 +40,32 @@ namespace Magitek.Logic
         {
             IEnumerable<BattleCharacter> castingEnemies;
 
-            if (strategy == InterruptStrategy.Never)
+            switch (strategy)
             {
-                castingEnemies = new List<BattleCharacter>();
-            }
-            else
-            {
-                castingEnemies = Combat.Enemies;
-                if (strategy == InterruptStrategy.BossesOnly)
-                {
+                case InterruptStrategy.Never:
+                    castingEnemies = new List<BattleCharacter>();
+                    break;
+                case InterruptStrategy.BossesOnly:
+                    castingEnemies = Combat.Enemies;
                     castingEnemies = castingEnemies.Where(e => e.IsBoss());
-                }
-                else if (strategy == InterruptStrategy.CurrentTargetOnly)
-                {
+                    break;
+                case InterruptStrategy.ExceptBoss:
+                    castingEnemies = Combat.Enemies;
+                    castingEnemies = castingEnemies.Where(r => r.InView() && r.IsCasting && !r.IsBoss())
+                        .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
+                    break;
+                case InterruptStrategy.CurrentTargetOnly:
+                    castingEnemies = Combat.Enemies;
                     castingEnemies = castingEnemies.Where(e => e == Core.Me.CurrentTarget);
-                }
-
-                castingEnemies = castingEnemies.Where(r => r.InView() && r.IsCasting)
-                                               .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
+                    break;
+                case InterruptStrategy.AnyEnemy:
+                    castingEnemies = Combat.Enemies;
+                    castingEnemies = castingEnemies.Where(r => r.InView() && r.IsCasting)
+                        .OrderBy(r => r.SpellCastInfo.RemainingCastTime);
+                    break;
+                default:
+                    castingEnemies = new List<BattleCharacter>();
+                    break;
             }
 
             if (await DoStuns(castingEnemies, stuns)) return true;
