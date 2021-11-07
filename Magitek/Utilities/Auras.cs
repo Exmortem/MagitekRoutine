@@ -219,7 +219,13 @@ namespace Magitek.Utilities
             Boost = 1716,
             Temperance = 1872,
             FormlessFist = 2513,
-            RiddleOfFire = 1181;
+            RiddleOfFire = 1181,
+            WaxingNocturne = 1718,
+            WaningNocturne = 1727,
+            PeculiarLight = 1721,
+            PhantomFlurry = 2502,
+            Harmonized = 2118,
+            Tingle = 2492;
 
         private const int
             Invincibility0 = 981,

@@ -25,7 +25,7 @@
         xmlns:whitemage="clr-namespace:Magitek.Views.UserControls.WhiteMage"
         xmlns:gunbreaker="clr-namespace:Magitek.Views.UserControls.Gunbreaker"
         Width="900"
-        Height="520"
+        Height="600"
         AllowsTransparency="True"
         Background="Transparent"
         Left="{Binding GeneralSettings.SettingsWindowPosX, Mode=TwoWay}"
