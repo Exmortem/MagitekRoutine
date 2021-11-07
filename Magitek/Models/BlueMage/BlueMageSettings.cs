@@ -20,5 +20,21 @@ namespace Magitek.Models.BlueMage
         [Setting]
         [DefaultValue(false)]
         public bool OnlyWaterCannon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseMoonFlute { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSonicBoom { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseJKick { get; set; }
+
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float LucidDreamingManaPercent { get; set; }
     }
 }

@@ -85,7 +85,7 @@
                             CornerRadius="2"
                             IsHitTestVisible="True">
                         <Viewbox>
-                            <Canvas Width="652.533" Height="555.067" Clip="F1 M 0,0L 652.533,0L 652.533,555.067L 0,555.067L 0,0">
+                            <Canvas Width="652.533" Height="565.067" Clip="F1 M 0,0L 652.533,0L 652.533,555.067L 0,555.067L 0,0">
                                 <Path Name="Icon"
                                       Canvas.Left="0"
                                       Canvas.Top="85.6001"
