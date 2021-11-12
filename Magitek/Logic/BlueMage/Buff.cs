@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System;
 using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using Magitek.Models.BlueMage;
@@ -54,7 +55,7 @@ namespace Magitek.Logic.BlueMage
             if (Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
-            if (!Utilities.Routines.BlueMage.IsMoonFluteWindowReady)
+            if (BlueMageSettings.Instance.UseMoonFlute && ActionManager.HasSpell(Spells.MoonFlute.Id) && !Utilities.Routines.BlueMage.IsMoonFluteWindowReady)
                 return false;
 
             return await Spells.Whistle.Cast(Core.Me);
@@ -89,6 +90,9 @@ namespace Magitek.Logic.BlueMage
 
         public static async Task<bool> MoonFlute()
         {
+            if (!ActionManager.HasSpell(Spells.MoonFlute.Id))
+                return false;
+            
             if (!BlueMageSettings.Instance.UseMoonFlute)
                 return false;
 

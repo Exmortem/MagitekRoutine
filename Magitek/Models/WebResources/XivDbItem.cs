@@ -30,6 +30,7 @@ namespace Magitek.Models.WebResources
         public bool Dragoon { get; set; }
         public bool Monk { get; set; }
         public bool Ninja { get; set; }
+        public bool BlueMage { get; set; }
 
         public ScholarTbStrategies ScholarTbStrategy { get; set; } = ScholarTbStrategies.None;
         public WhiteMageTbStrategies WhiteMageTbStrategy { get; set; } = WhiteMageTbStrategies.None;

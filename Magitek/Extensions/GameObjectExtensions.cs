@@ -210,6 +210,12 @@ namespace Magitek.Extensions
             return gameObject != null && RangedDps.Contains(gameObject.CurrentJob);
         }
 
+        public static bool IsBlueMage(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && ClassJobType.BlueMage.Equals(gameObject.CurrentJob);
+        }
+
         public static bool IsRangedDpsCard(this GameObject unit)
         {
             var gameObject = unit as Character;

@@ -31,7 +31,7 @@ namespace Magitek.Logic.Scholar
             if (castingTarget == null)
                 return false;
 
-            var castingInfo = castingTarget.SpellCastInfo;
+            var castingInfo = Combat.Enemies.FirstOrDefault(r => r.IsCasting).SpellCastInfo;
             /*
             if (!TankBusterManager.AdloquiumList.ContainsKey(castingInfo.ActionId))
                 return false;

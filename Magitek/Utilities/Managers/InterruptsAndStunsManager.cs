@@ -66,6 +66,10 @@ namespace Magitek.Utilities.Managers
                         if (action.DarkKnight) { AddAction(action.Id, action.Stun, action.Interrupt, action.HighPriority); }
                         continue;
 
+                    case ClassJobType.BlueMage:
+                        if (action.BlueMage) { AddAction(action.Id, action.Stun, action.Interrupt, action.HighPriority); }
+                        continue;
+
                     default: continue;
                 }
             }

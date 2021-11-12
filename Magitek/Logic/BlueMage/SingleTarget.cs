@@ -12,7 +12,7 @@ namespace Magitek.Logic.BlueMage
         /*******************************      PHYSIC      *******************************/
         public static async Task<bool> TripleTrident()
         {
-            if (Utilities.Routines.BlueMage.IsMoonFluteWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
+            if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
             if (Core.Me.HasAura(Auras.Boost))
@@ -65,12 +65,12 @@ namespace Magitek.Logic.BlueMage
 
         public static async Task<bool> TheRoseOfDestruction()
         {
-            if (Utilities.Routines.BlueMage.IsMoonFluteWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
+            if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
             if (Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds <= 2000)
             {
-                if (!Utilities.Routines.BlueMage.IsMoonFluteWindowReady && !Core.Me.HasAura(Auras.Boost) && !Core.Me.HasAura(Auras.Harmonized))
+                if (!Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.Boost) && !Core.Me.HasAura(Auras.Harmonized))
                     return await Spells.Bristle.Cast(Core.Me);
 
                 return await Spells.TheRoseOfDestruction.Cast(Core.Me.CurrentTarget);
@@ -82,7 +82,7 @@ namespace Magitek.Logic.BlueMage
         {
             if (Spells.MatraMagic.Cooldown.TotalMilliseconds <= 2000)
             {
-                if (!Utilities.Routines.BlueMage.IsMoonFluteWindowReady && !Core.Me.HasAura(Auras.Boost) && !Core.Me.HasAura(Auras.Harmonized))
+                if (!Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.Boost) && !Core.Me.HasAura(Auras.Harmonized))
                     return await Spells.Bristle.Cast(Core.Me);
 
                 return await Spells.MatraMagic.Cast(Core.Me.CurrentTarget);
