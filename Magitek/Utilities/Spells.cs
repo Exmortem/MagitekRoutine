@@ -128,7 +128,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Despair = DataManager.GetSpellData(16505);
         public static readonly SpellData UmbralSoul = DataManager.GetSpellData(16506);
         public static readonly SpellData Xenoglossy = DataManager.GetSpellData(16507);
-        public static readonly SpellData Blizzard2 = DataManager.GetSpellData(146);
+        public static readonly SpellData Blizzard2 = DataManager.GetSpellData(25793);
         public static readonly SpellData HighFireII = DataManager.GetSpellData(25794);
         public static readonly SpellData HighBlizzardII = DataManager.GetSpellData(25795);
         public static readonly SpellData Amplifier = DataManager.GetSpellData(25796);
