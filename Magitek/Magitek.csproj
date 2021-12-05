@@ -541,6 +541,9 @@
     <Compile Include="Views\UserControls\BlackMage\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\BlackMage\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\BlackMage\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
@@ -986,6 +989,10 @@
     <Page Include="Views\UserControls\BlackMage\Buffs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\BlackMage\SingleTarget.xaml">
       <SubType>Designer</SubType>

@@ -10,7 +10,7 @@
 
     <Canvas>
 
-        <Grid Height="400" Panel.ZIndex="1">
+        <Grid Height="550" Panel.ZIndex="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition />

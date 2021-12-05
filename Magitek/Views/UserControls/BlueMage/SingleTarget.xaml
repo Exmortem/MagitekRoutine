@@ -10,59 +10,7 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Enpi" IsChecked="{Binding BlueMageSettings.Enpi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
         
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hissatsu: Seigan" IsChecked="{Binding BlueMageSettings.HissatsuSeigan, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Refresh Higanbana When There Are " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding BlueMageSettings.HiganbanaRefreshTime, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
-
-            </StackPanel>
-                <CheckBox Content="Only with Jinpu" IsChecked="{Binding BlueMageSettings.HiganbanaOnlyWithJinpu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hissatsu Senei Only with Jinpu" IsChecked="{Binding BlueMageSettings.HissatsuSeneiOnlyWithJinpu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Reserve " />
-                    <controls:Numeric MaxValue="100" MinValue="0" Value="{Binding BlueMageSettings.ReservedKenki, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Kenki for Manual Spells (Gyoten/Yaten)" />
-
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel>
-                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use oGCD abilities with more than " />
-                <controls:Numeric MaxValue="2500" MinValue="1" Value="{Binding BlueMageSettings.UseOffGCDAbilitiesWithMoreThanXMSLeft, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" ms left" />
-            </StackPanel>
-                <StackPanel Margin="5,0,0,0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="~500-1000ms to attempt to double weave, 1000+ to only single weave" FontSize="8" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
 
     </StackPanel>
 </UserControl>

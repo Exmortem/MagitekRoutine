@@ -63,6 +63,11 @@
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content=" Try Smart Dragon Sight ( Party / Solo )" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
         <Grid Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
