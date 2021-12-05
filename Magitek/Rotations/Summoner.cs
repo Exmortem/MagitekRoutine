@@ -41,7 +41,7 @@ namespace Magitek.Rotations
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
                 }
 
-                return await Spells.SmnBio.CastAura(Core.Me.CurrentTarget, Auras.Bio);
+                return await Spells.Ruin.Cast(Core.Me.CurrentTarget);
             }
 
             return await Combat();
@@ -102,7 +102,6 @@ namespace Magitek.Rotations
             //if (await SingleTarget.Ruin4MaxStacks()) return true;
 
 
-            if (await Aoe.Bane()) return true;
             if (await Buff.DreadwyrmTrance()) return true;
             if (await SingleTarget.EnkindleBahamut()) return true;
             if (await Pets.SummonBahamut()) return true;
@@ -111,17 +110,12 @@ namespace Magitek.Rotations
             if (await Pets.Summon()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await SingleTarget.Enkindle()) return true;
-            if (await Buff.Aetherpact()) return true;
 
             if (await Aoe.Painflare()) return true;
             if (await SingleTarget.Fester()) return true;
             if (await Aoe.EnergySiphon()) return true;
             if (await SingleTarget.EnergyDrain()) return true;
 
-            if (await SingleTarget.Miasma()) return true;
-            if (await SingleTarget.Bio()) return true;
-            if (await SingleTarget.EgiAssault2()) return true;
-            if (await SingleTarget.EgiAssault()) return true;
             if (await Aoe.Outburst()) return true;
             if (await SingleTarget.Ruin4()) return true;
             return await SingleTarget.Ruin();

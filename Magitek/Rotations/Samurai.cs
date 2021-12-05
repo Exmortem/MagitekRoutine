@@ -98,7 +98,6 @@ namespace Magitek.Rotations
                 if (await Aoe.HissatsuKyuten()) return true;
                 if (await Aoe.HissatsuGuren()) return true;
                 if (await SingleTarget.HissatsuSenei()) return true;
-                if (await SingleTarget.HissatsuSeigan()) return true;
                 if (await SingleTarget.HissatsuShinten()) return true;
                 if (await SingleTarget.HissatsuGuren()) return true;
                 if (await Buff.Ikishoten()) return true;

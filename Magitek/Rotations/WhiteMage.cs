@@ -129,7 +129,6 @@ namespace Magitek.Rotations
 
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
-            if (await SingleTarget.FluidAura()) return true;
             if (await Logic.WhiteMage.Heal.Regen()) return true;
             return await Combat();
         }
