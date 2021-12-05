@@ -24,7 +24,6 @@ namespace Magitek.Rotations
         {
             await Casting.CheckForSuccessfulCast();
             
-            if (await Buff.FistsOf()) return true;
             if (await Buff.Meditate()) return true;
             //if (await Buff.FormShiftOOC()) return true;
 
@@ -85,7 +84,6 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-            if (await Buff.FistsOf()) return true;
 
             if (await Buff.Meditate()) return true;
 
@@ -111,7 +109,6 @@ namespace Magitek.Rotations
                     if (await SingleTarget.TornadoKick()) return true;
                     if (await Aoe.Enlightenment()) return true;
                     if (await SingleTarget.TheForbiddenChakra()) return true;
-                    if (await SingleTarget.ShoulderTackle()) return true;
                     if (await Buff.PerfectBalance()) return true;
                     if (await Buff.TrueNorthRiddleOfEarth()) return true;
                     //if (await Buff.RiddleOfFire()) return true;

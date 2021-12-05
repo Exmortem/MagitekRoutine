@@ -164,7 +164,6 @@ namespace Magitek.Rotations
                 if (await Buff.Kassatsu()) return true;
                 if (await SingleTarget.DreamWithinADream()) return true;
             }
-            if (await SingleTarget.ShadowFang()) return true;
 
             //Ninjutsu
             if (NinjutsuCheck())

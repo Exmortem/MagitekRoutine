@@ -13,7 +13,6 @@ namespace Magitek.Utilities.Routines
 
         public static uint[] BioAuras = { Auras.Bio, Auras.Bio2, Auras.Bio3 };
         public static uint[] MiasmaAuras = { Auras.Miasma, Auras.Miasma3 };
-        public static uint[] MiasmaSpellIds = { Spells.Miasma.Id, Spells.Miasma3.Id };
         public static HashSet<int> DemiSummonIds = new HashSet<int> { 10, 14 };
 
         public static bool NeedToInterruptCast()
@@ -31,12 +30,6 @@ namespace Magitek.Utilities.Routines
             if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.CurrentHealth > 1)
             {
                 Logger.Error("Stopped Resurrection: Unit is now alive");
-                return true;
-            }
-
-            if (MiasmaSpellIds.Contains(Casting.CastingSpell.Id) && Casting.SpellTarget.HasAnyAura(MiasmaAuras, true, SummonerSettings.Instance.DotRefreshSeconds * 1000))
-            {
-                Logger.Error(@"Cancelling Miasma. Target already has it from us.");
                 return true;
             }
 

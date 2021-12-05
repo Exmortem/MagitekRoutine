@@ -36,15 +36,6 @@ namespace Magitek.Rotations
                 && AstrologianSettings.Instance.UseDraw)
                 await Spells.Draw.Cast(Core.Me);
 
-            // Check to see if both sects can be used
-            if (Core.Me.ClassLevel >= Spells.NocturnalSect.LevelAcquired)
-                return await Buff.Sect();
-
-            // Add redundancy for sect if noct is not available
-            if (Core.Me.ClassLevel < Spells.NocturnalSect.LevelAcquired
-                && Core.Me.ClassLevel >= Spells.DiurnalSect.LevelAcquired)
-                return await Buff.DiurnalSect();
-
             return false;
         }
 
@@ -92,7 +83,6 @@ namespace Magitek.Rotations
             if (await Logic.Astrologian.Heal.Ascend()) return true;
             if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
             if (await Dispel.Execute()) return true;
-            if (await Buff.SleeveDraw()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Lightspeed()) return true;
             if (await Buff.Synastry()) return true;

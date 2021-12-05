@@ -102,20 +102,6 @@ namespace Magitek.Logic.Monk
             return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> ShoulderTackle()
-        {
-            // Off GCD
-
-            if (!MonkSettings.Instance.UseShoulderTackle)
-                return false;
-
-            if (Core.Player.HasAura(Auras.Brotherhood) || Core.Player.HasAura(Auras.FistsofFire))
-                return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
-            if (Spells.ShoulderTackle.Cooldown.TotalMilliseconds < 1000)
-                return await Spells.ShoulderTackle.Cast(Core.Me.CurrentTarget);
-            return false;
-
-        }
         public static async Task<bool> TheForbiddenChakra()
         {
             // Off GCD
