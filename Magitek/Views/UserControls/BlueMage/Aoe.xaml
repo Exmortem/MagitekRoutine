@@ -10,78 +10,7 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Fuga Combo When There Are " IsChecked="{Binding BlueMageSettings.AoeCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlueMageSettings.AoeComboEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </Grid>
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Apply Jinpu/Shifu beforehand" IsChecked="{Binding BlueMageSettings.OnlyAoeComboWithJinpuShifu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Tenka Goken When There Are " IsChecked="{Binding BlueMageSettings.TenkaGoken, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlueMageSettings.TenkaGokenEnemies, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                </Grid>
-
-                <CheckBox Margin="0,3,0,0" Content="Only With Kaiten " IsChecked="{Binding BlueMageSettings.OnlyUseTenkaGokenWithKaiten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Hissatsu: Kyuten When There Are " IsChecked="{Binding BlueMageSettings.HissatsuKyuten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlueMageSettings.HissatsuKyutenEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </Grid>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Hissatsu: Guren When There Are " IsChecked="{Binding BlueMageSettings.HissatsuGuren, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlueMageSettings.HissatsuGurenEnemies, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                </Grid>
-                <CheckBox Margin="0,3,0,0" Content="Only With Jinpu " IsChecked="{Binding BlueMageSettings.HissatsuGurenOnlyWithJinpu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Cone Based Calculation for relevant AoE checks " IsChecked="{Binding BlueMageSettings.UseConeBasedAoECalculationMethod, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock FontSize="8" Margin="20,0,0,0">If disabled, uses simple enemy distance checks instead</TextBlock>
-            </StackPanel>
-        </controls:SettingsBlock>
+        
 
     </StackPanel>
 </UserControl>

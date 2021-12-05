@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewModels="clr-namespace:Magitek.ViewModels"
         Width="900"
-        Height="520"
+        Height="600"
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="NoResize"

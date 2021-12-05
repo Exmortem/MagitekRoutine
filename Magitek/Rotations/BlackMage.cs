@@ -15,7 +15,7 @@ namespace Magitek.Rotations
     {
         public static async Task<bool> Rest()
         {
-            return false;
+            return Core.Me.CurrentHealthPercent < BlackMageSettings.Instance.RestHealthPercent;
         }
 
         public static async Task<bool> PreCombatBuff()

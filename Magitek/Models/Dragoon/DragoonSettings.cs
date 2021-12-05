@@ -109,6 +109,10 @@ namespace Magitek.Models.Dragoon
         [DefaultValue(DragonSightStrategy.ClosestDps)]
         public DragonSightStrategy SelectedStrategy { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool SmartDragonSight { get; set; }
+
         #region Eye Weights
         [Setting]
         [DefaultValue(1)]
