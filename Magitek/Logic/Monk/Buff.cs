@@ -12,21 +12,6 @@ namespace Magitek.Logic.Monk
 {
     internal static class Buff
     {
-        public static async Task<bool> FistsOf()
-        {
-            switch (MonkSettings.Instance.SelectedFist)
-            {
-                case MonkFists.Fire when !Core.Me.HasAura(Auras.FistsofFire):
-                    return await Spells.FistsOfFire.Cast(Core.Me);
-                case MonkFists.Wind when !Core.Me.HasAura(Auras.FistsofWind):
-                    return await Spells.FistsOfWind.Cast(Core.Me);
-                case MonkFists.Earth when !Core.Me.HasAura(Auras.FistsofEarth):
-                    return await Spells.FistsOfEarth.Cast(Core.Me);
-                default:
-                    return false;
-            }
-        }
-
         public static async Task<bool> Meditate()
         {
             if (Core.Me.ClassLevel < 54)

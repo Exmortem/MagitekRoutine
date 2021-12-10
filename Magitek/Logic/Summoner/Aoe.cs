@@ -10,31 +10,6 @@ namespace Magitek.Logic.Summoner
 {
     internal static class Aoe
     {
-        public static async Task<bool> Bane()
-        {
-            if (Core.Me.ClassLevel < 30) return false;
-
-            if (!Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)) return false;
-
-            if (!Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)) return false;
-
-            var targets = Core.Me.CurrentTarget.EnemiesNearby(8).ToList();
-
-            if (targets.Count < 2) return false;
-
-            var targetsWithoutBio = targets.Where(x => !x.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)).ToList();
-            var targetsWithoutMiasma = targets.Where(x => !x.HasAnyAura(Utilities.Routines.Summoner.MiasmaAuras, true, SummonerSettings.Instance.BaneSecondsOnDots * 1000)).ToList();
-
-            if (targetsWithoutBio.Count + targetsWithoutMiasma.Count < 1)                
-               return false;
-
-            // What, why?
-            /*if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;*/
-            return await Spells.Bane.Cast(Core.Me.CurrentTarget);
-        }
 
         public static async Task<bool> EnergySiphon()
         {

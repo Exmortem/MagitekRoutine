@@ -55,24 +55,6 @@ namespace Magitek.Logic.Summoner
             return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
-        public static async Task<bool> Aetherpact()
-        {
-            if (Core.Me.ClassLevel < 64) return false;
-
-            if (!SummonerSettings.Instance.Aetherpact)
-                return false;
-
-            if (Spells.SmnAetherpact.Cooldown != TimeSpan.Zero)
-                return false;
-            /*if (Casting.LastSpell != Spells.Bio
-                || Casting.LastSpell != Spells.Ruin2
-                || Casting.LastSpell != Spells.EgiAssault
-                || Casting.LastSpell != Spells.EgiAssault2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;*/
-            return await Spells.SmnAetherpact.Cast(Core.Me);
-        }
 
         public static async Task<bool> Swiftcast()
         {

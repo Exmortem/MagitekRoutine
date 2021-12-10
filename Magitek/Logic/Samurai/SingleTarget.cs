@@ -69,32 +69,6 @@ namespace Magitek.Logic.Samurai
             return await Spells.HissatsuSenei.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> HissatsuSeigan()
-        {
-            if (SamuraiSettings.Instance.HissatsuSeigan == false)
-                return false;
-
-            if (Core.Me.ClassLevel < 66)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.EyesOpen))
-                return false;
-
-            if (ActionResourceManager.Samurai.Kenki < (15 + SamuraiSettings.Instance.ReservedKenki))
-                return false;
-
-            if (Utilities.Routines.Samurai.SenCount == 1 && !Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime * 1000))
-                return false;
-
-            if (Utilities.Routines.Samurai.SenCount >= 2 && ActionResourceManager.Samurai.Kenki < (45 + SamuraiSettings.Instance.ReservedKenki))
-                return false;
-
-            //Prevent using seigan here to stop double weaves
-            if (Utilities.Routines.Samurai.SenCount == 3 && ActionResourceManager.Samurai.Kenki <= 90)
-                return false;
-
-            return await Spells.HissatsuSeigan.Cast(Core.Me.CurrentTarget);
-        }
 
         public static async Task<bool> Shoha()
         {

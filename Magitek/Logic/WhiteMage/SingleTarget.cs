@@ -20,21 +20,6 @@ namespace Magitek.Logic.WhiteMage
             return await Spells.Stone.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> FluidAura()
-        {
-            if (!WhiteMageSettings.Instance.DoDamage)
-                return false;
-
-            if (!WhiteMageSettings.Instance.FluidAura)
-                return false;
-
-            var enemy = GameObjectManager.Attackers.FirstOrDefault(r => r.TargetGameObject == Core.Me && Core.Me.Distance(r) < 7);
-
-            if (enemy == null)
-                return false;
-
-            return await Spells.FluidAura.Cast(enemy);
-        }
 
         public static async Task<bool> AfflatusMisery()
         {
