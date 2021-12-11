@@ -44,8 +44,11 @@ namespace Magitek.Rotations
             //Dispell Party if necessary
             if (await Dispel.Exuviation()) return true;
 
-            //Heal himself if necessary
-            if (await Logic.BlueMage.Heal.Cure()) return true;
+            //Self Heal if necessary
+            if (await Logic.BlueMage.Heal.SelfCure()) return true;
+
+            //Raise if necessary
+            if (await Logic.BlueMage.Heal.AngelWhisper()) return true;
 
             return await GambitLogic.Gambit();
         }
@@ -94,11 +97,11 @@ namespace Magitek.Rotations
             if (await MagicDps.Interrupt(BlueMageSettings.Instance)) return true;
 
             //Manage PhantomFlury 
-            if (Casting.LastSpell == Spells.PhantomFlurry)
-            {
-                ff14bot.Objects.Aura waxingNocturne = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.WaxingNocturne && x.CasterId == Core.Player.ObjectId);
-                ff14bot.Objects.Aura phantomFlurry = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.PhantomFlurry && x.CasterId == Core.Player.ObjectId);
+            ff14bot.Objects.Aura waxingNocturne = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.WaxingNocturne && x.CasterId == Core.Player.ObjectId);
+            ff14bot.Objects.Aura phantomFlurry = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.PhantomFlurry && x.CasterId == Core.Player.ObjectId);
 
+            if (Core.Me.InCombat && BlueMageSettings.Instance.UsePhantomFlurry && Casting.LastSpell == Spells.PhantomFlurry)
+            {    
                 if (Core.Me.HasAura(Auras.WaxingNocturne) && waxingNocturne.TimespanLeft.TotalMilliseconds <= 1000)
                     return await Aoe.PhantomFlurryEnd();
 

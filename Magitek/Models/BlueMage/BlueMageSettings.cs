@@ -37,6 +37,10 @@ namespace Magitek.Models.BlueMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool UsePhantomFlurry { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UsePrimalSkills { get; set; }
 
         [Setting]
@@ -54,6 +58,10 @@ namespace Magitek.Models.BlueMage
         [Setting]
         [DefaultValue(70.0f)]
         public float SelfCureHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Raise { get; set; }
 
     }
 }

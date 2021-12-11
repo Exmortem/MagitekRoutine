@@ -115,7 +115,7 @@ namespace Magitek.Logic.BlueMage
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
                 return false;
 
-            if (Core.Me.CurrentManaPercent < BlueMageSettings.Instance.LucidDreamingManaPercent)
+            if (Core.Me.CurrentManaPercent > BlueMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
 
             if (Core.Me.HasAura(Auras.WaxingNocturne))
@@ -127,13 +127,15 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> Swiftcast()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false;
-
+                return false; 
+            
             if (BlueMageSettings.Instance.UseMoonFlute && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
-            if (Spells.MatraMagic.Cooldown.TotalMilliseconds > 1000 && Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds > 1000
-                && Spells.TripleTrident.Cooldown.TotalMilliseconds > 1000)
+            if (Spells.MatraMagic.Cooldown.TotalMilliseconds > 1000 
+                && Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds > 1000
+                && Spells.TripleTrident.Cooldown.TotalMilliseconds > 1000 
+                && Spells.AngelWhisper.Cooldown.TotalMilliseconds > 1000)
                 return false;
 
             return await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast);
