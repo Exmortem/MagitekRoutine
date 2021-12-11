@@ -75,6 +75,7 @@ namespace Magitek.Utilities
             StraighterShot = 122,
             VenomousBite = 124,
             RagingStrikes = 125,
+            RadiantFinal = 2722,
             Barrage = 128,
             Windbite = 129,
             Foresight = 83,

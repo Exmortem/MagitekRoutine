@@ -125,6 +125,7 @@ namespace Magitek.Rotations
             if (await MultiTarget.BioBlaster()) return true;
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
+            if (await MultiTarget.ChainSaw()) return true;
             if (await MultiTarget.Flamethrower()) return true;
             if (await MultiTarget.SpreadShot()) return true;
 
