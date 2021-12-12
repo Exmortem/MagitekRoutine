@@ -40,7 +40,7 @@ namespace Magitek.Rotations
             if (!cardDrawn && AstrologianSettings.Instance.UseDraw)
                 if (await Spells.Draw.Cast(Core.Me))
                     await Coroutine.Wait(750, () => ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None);
-
+ 
             return false;
         }
 

@@ -236,6 +236,8 @@
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
+    <Compile Include="Logic\BlueMage\Dispel.cs" />
+    <Compile Include="Logic\BlueMage\Heal.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
@@ -545,6 +547,9 @@
     </Compile>
     <Compile Include="Views\UserControls\BlackMage\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bugs\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
@@ -996,6 +1001,10 @@
     <Page Include="Views\UserControls\BlackMage\SingleTarget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\Utilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Bugs\Debug.xaml">
       <SubType>Designer</SubType>

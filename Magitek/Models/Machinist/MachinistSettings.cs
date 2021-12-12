@@ -32,6 +32,10 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseChainSaw { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseHeatBlast { get; set; }
 
         [Setting]

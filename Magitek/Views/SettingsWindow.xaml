@@ -936,6 +936,9 @@
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <blueMage:Buffs />
                         </TabItem>
+                        <TabItem Header="Utilities" Style="{DynamicResource MainTabUtilities}">
+                            <blueMage:Utilities />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

@@ -26,7 +26,7 @@ namespace Magitek.Logic.Machinist
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
                 return false;
 
-            return await Spells.SpreadShot.Cast(Core.Me.CurrentTarget);
+            return await MachinistGlobals.Scattergun.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> BioBlaster()
@@ -113,6 +113,26 @@ namespace Magitek.Logic.Machinist
             }
 
             return await Spells.Ricochet.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> ChainSaw()
+        {
+            if (!MachinistSettings.Instance.UseChainSaw)
+                return false;
+
+            if (Core.Me.ClassLevel < 90)
+                return false;
+
+            if (Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            if (Core.Me.HasAura(Auras.WildfireBuff))
+                return false;
+
+            if (ActionResourceManager.Machinist.Battery >= 80)
+                return false;
+
+            return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
         }
 
     }

@@ -59,7 +59,9 @@ namespace Magitek.Utilities.Routines
                                                     ? Spells.RookOverdrive
                                                     : Spells.QueenOverdrive;
 
-
+        public static SpellData Scattergun => Core.Me.ClassLevel < 82
+                                                    ? Spells.SpreadShot
+                                                    : Spells.Scattergun;
 
     }
 }

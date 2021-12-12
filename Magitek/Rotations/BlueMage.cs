@@ -2,10 +2,12 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
+using Magitek.Logic.BlueMage;
+using Magitek.Logic.Roles;
+using Magitek.Models.BlueMage;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Logic.BlueMage;
 
 
 namespace Magitek.Rotations
@@ -36,10 +38,17 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
+
+            //Dispell Party if necessary
+            if (await Dispel.Exuviation()) return true;
+
+            //Self Heal if necessary
+            if (await Logic.BlueMage.Heal.SelfCure()) return true;
+
+            //Raise if necessary
+            if (await Logic.BlueMage.Heal.AngelWhisper()) return true;
 
             return await GambitLogic.Gambit();
         }
@@ -51,10 +60,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
-                return false;
-
-            if (await GambitLogic.Gambit()) return true;
+            if (await GambitLogic.Gambit()) 
+                return true;
 
             if (!SpellQueueLogic.SpellQueue.Any())
             {
@@ -66,32 +73,42 @@ namespace Magitek.Rotations
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
             }
 
+            // Can't attack, so just exit
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            // Can't attack, so just exit
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
-
+            // Can't attack, so just exit
             if (Core.Me.HasAura(Auras.WaningNocturne, true, 1000))
                 return false;
 
-            //Manage PhantomFlury 
-            if (Casting.LastSpell == Spells.PhantomFlurry)
-            {
-                if ((Core.Me.HasAura(Auras.WaxingNocturne, true, 1000) && Core.Me.HasAura(Auras.PhantomFlurry, true, 1000)) || !Core.Me.HasAura(Auras.PhantomFlurry))
-                {
-                    return true;
-                } else
-                {
-                    return await Aoe.PhantomFlurryEnd();
-                }
-            }
+            //Opener
+            if (await CustomOpenerLogic.Opener()) return true;
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
+            }
+
+            //Interrupt
+            if (await MagicDps.Interrupt(BlueMageSettings.Instance)) return true;
+
+            //Manage PhantomFlury 
+            ff14bot.Objects.Aura waxingNocturne = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.WaxingNocturne && x.CasterId == Core.Player.ObjectId);
+            ff14bot.Objects.Aura phantomFlurry = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.PhantomFlurry && x.CasterId == Core.Player.ObjectId);
+
+            if (Core.Me.InCombat && BlueMageSettings.Instance.UsePhantomFlurry && Casting.LastSpell == Spells.PhantomFlurry)
+            {    
+                if (Core.Me.HasAura(Auras.WaxingNocturne) && waxingNocturne.TimespanLeft.TotalMilliseconds <= 1000)
+                    return await Aoe.PhantomFlurryEnd();
+
+                if (Core.Me.HasAura(Auras.PhantomFlurry) && phantomFlurry.TimespanLeft.TotalMilliseconds <= 1000)
+                    return await Aoe.PhantomFlurryEnd();
+
+                return true;
             }
 
             //Buff should always be active
@@ -120,17 +137,20 @@ namespace Magitek.Rotations
 
                 if (Utilities.Routines.BlueMage.OnGcd && Casting.LastSpell != Spells.Surpanakha)
                 {
-                    //put oGCD here
-                    if (await Aoe.NightBloom()) return true;
-                    if (await Aoe.PhantomFlurry()) return true;
-                    if (await Aoe.ShockStrike()) return true;
-                    if (await Aoe.GlassDance()) return true;
-                    if (await Aoe.Quasar()) return true;
-                    if (await Aoe.FeatherRain()) return true;
-                    if (await Buff.LucidDreaming()) return true;
+                    if (Weaving.GetCurrentWeavingCounter() < 2)
+                    {
+                        //put oGCD here
+                        if (await Aoe.NightBloom()) return true;
+                        if (await Aoe.PhantomFlurry()) return true;
+                        if (await Aoe.ShockStrike()) return true;
+                        if (await Aoe.GlassDance()) return true;
+                        if (await Aoe.Quasar()) return true;
+                        if (await Aoe.FeatherRain()) return true;
+                        if (await Buff.LucidDreaming()) return true;
 
-                    if (await Aoe.Eruption()) return true; //FeatherRain if possible, otherwise Eruption
-                    if (await Aoe.MountainBuster()) return true; //ShockStrike if possible, otherwise MountainBuster
+                        if (await Aoe.Eruption()) return true; //FeatherRain if possible, otherwise Eruption
+                        if (await Aoe.MountainBuster()) return true; //ShockStrike if possible, otherwise MountainBuster
+                    }
                 }
 
                 if (await SingleTarget.SharpKnife()) return true; //if melee

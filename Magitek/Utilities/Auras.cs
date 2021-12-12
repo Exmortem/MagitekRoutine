@@ -78,6 +78,7 @@ namespace Magitek.Utilities
             StraighterShot = 122,
             VenomousBite = 124,
             RagingStrikes = 125,
+            RadiantFinal = 2722,
             Barrage = 128,
             Windbite = 129,
             Foresight = 83,
@@ -228,7 +229,11 @@ namespace Magitek.Utilities
             PeculiarLight = 1721,
             PhantomFlurry = 2502,
             Harmonized = 2118,
-            Tingle = 2492;
+            Tingle = 2492,
+            AetherialMimicryHealer = 2126,
+            AetherialMimicryDps = 2125,
+            AetherialMimicryTank = 2124,
+            CriticalStrikes = 1797;
 
         private const int
             Invincibility0 = 981,
