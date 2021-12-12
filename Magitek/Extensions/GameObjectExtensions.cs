@@ -248,7 +248,13 @@ namespace Magitek.Extensions
 
         public static bool HasMyRegen(this GameObject unit)
         {
-            return unit.HasAura(Auras.Regen, true) || unit.HasAura(Auras.Regen2) || unit.HasAura(Auras.AspectedBenefic, true);
+            return unit.HasAnyAura(new uint[]
+            {
+                Auras.Regen,
+                Auras.Regen2,
+                Auras.AspectedBenefic,
+                Auras.AspectedHelios
+            });
         }
 
         public static bool HealthCheck(this GameObject tar, int healthSetting, float healthSettingPercent)

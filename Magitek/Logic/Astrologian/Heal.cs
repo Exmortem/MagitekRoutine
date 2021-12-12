@@ -9,6 +9,7 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
@@ -89,6 +90,10 @@ namespace Magitek.Logic.Astrologian
 
             async Task<bool> CastBenefic(GameObject ally)
             {
+                if (AstrologianSettings.Instance.NoBeneficIfBenefic2Available)
+                    if (Core.Me.ClassLevel >= Spells.Benefic2.LevelAcquired && AstrologianSettings.Instance.Benefic2)
+                        return await Spells.Benefic2.Heal(ally);
+            
                 return await Spells.Benefic.Heal(ally);
             }
         }
@@ -150,6 +155,10 @@ namespace Magitek.Logic.Astrologian
 
             if (!Globals.PartyInCombat)
                 return false;
+
+            if (Spells.CelestialIntersection.Cooldown != TimeSpan.Zero)
+                return false;
+            
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
@@ -162,7 +171,7 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.CelestialIntersection.Heal(celestialIntersectionTank, false);
             }
 
-            var celestialIntersectionTarget = Group.CastableAlliesWithin20.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
+            var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
             && r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
 
@@ -240,6 +249,23 @@ namespace Magitek.Logic.Astrologian
 
             return await Spells.CelestialOpposition.Heal(Core.Me, false);
         }
+
+        public static async Task<bool> LadyOfCrowns()
+        {
+            if (!Core.Me.HasAura(Auras.LadyOfCrownsDrawn))
+                return false;
+
+            if (!AstrologianSettings.Instance.LadyOfCrowns)
+                return false;
+
+            if (!Globals.InParty && Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent)
+                return await Spells.CrownPlay.Heal(Core.Me);
+
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
+                return false; 
+
+            return await Spells.CrownPlay.Heal(Core.Me);
+        }
         public static async Task<bool> Horoscope()
         {
             if (!AstrologianSettings.Instance.Horoscope)
@@ -289,21 +315,7 @@ namespace Magitek.Logic.Astrologian
         }
 
         public static async Task<bool> AspectedHelios()
-        {
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (Core.Me.Sect())
-            {
-                case AstrologianSect.Nocturnal:
-                    return await NocturnalHelios();
-                case AstrologianSect.Diurnal:
-                    return await DiurnalHelios();
-                default:
-                    return false;
-            }
-        }
-
-        private static async Task<bool> DiurnalHelios()
-        {
+        {           
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
@@ -326,154 +338,8 @@ namespace Magitek.Logic.Astrologian
             return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
         }
 
-        private static async Task<bool> NocturnalHelios()
-        {
-            if (!AstrologianSettings.Instance.NocturnalHelios)
-                return false;
-
-            if (Casting.LastSpell == Spells.AspectedHelios)
-                return false;
-
-            if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.NocturnalHeliosMinManaPercent)
-                return false;
-
-            var nocturnalHeliosCount =
-                PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r => r.CurrentHealth > 0 &&
-                                                        r.Distance(Core.Me) <= Spells.AspectedHelios.Radius &&
-                                                        r.CurrentHealthPercent <=
-                                                        AstrologianSettings.Instance.NocturnalHeliosHealthPercent &&
-                                                        !r.HasAura(Auras.NocturnalField, true));
-
-            if (nocturnalHeliosCount < AstrologianSettings.Instance.NocturnalHeliosAllies)
-                return false;
-
-            return await Spells.AspectedHelios.HealAura(Core.Me, Auras.NocturnalField);
-        }
-
+        
         public static async Task<bool> AspectedBenefic()
-        {
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (Core.Me.Sect())
-            {
-                case AstrologianSect.Nocturnal:
-                    return await NocturnalBenefic();
-                case AstrologianSect.Diurnal:
-                    return await DiurnalBenefic();
-                default:
-                    return false;
-            }
-        }
-
-        private static async Task<bool> NocturnalBenefic()
-        {
-            if (!AstrologianSettings.Instance.NocturnalBenefic)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (MovementManager.IsMoving)
-            {
-                if (!AstrologianSettings.Instance.NocturnalBeneficWhileMoving)
-                    return false;
-
-                if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.NocturnalBeneficWhileMovingMinMana)
-                    return false;
-            }
-
-            if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.NocturnalBeneficMinMana)
-                return false;
-
-            if (Globals.InParty)
-            {
-                if (await NocturnalBeneficTanks())
-                    return true;
-                if (await NocturnalBeneficHealers())
-                    return true;
-                return await NocturnalBeneficDps();
-            }
-            else
-            {
-                if (Core.Me.HasAura(Auras.NocturnalField))
-                    return false;
-
-                if (!AstrologianSettings.Instance.NocturnalBeneficKeepUpOnHealers
-                    && Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.NocturnalBeneficHealthPercent)
-                    return false;
-
-                return await Spells.AspectedBenefic.HealAura(Core.Me, Auras.NocturnalField);
-            }
-        }
-
-        private static async Task<bool> NocturnalBeneficTanks()
-        {
-            if (!AstrologianSettings.Instance.NocturnalBeneficOnTanks)
-                return false;
-
-            var nocturnalBeneficTarget = AstrologianSettings.Instance.NocturnalBeneficKeepUpOnTanks ?
-                Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && !r.HasAura(Auras.NocturnalField)
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList)) :
-                Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && !r.HasAura(Auras.AspectedBenefic)
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.NocturnalBeneficHealthPercent
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList));
-
-            if (nocturnalBeneficTarget == null)
-                return false;
-
-            return await Spells.AspectedBenefic.HealAura(nocturnalBeneficTarget, Auras.NocturnalField);
-        }
-
-        private static async Task<bool> NocturnalBeneficHealers()
-        {
-            if (!AstrologianSettings.Instance.NocturnalBeneficOnHealers)
-                return false;
-
-            var nocturnalBeneficTarget = AstrologianSettings.Instance.NocturnalBeneficKeepUpOnHealers
-                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && r.IsHealer()
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList))
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && r.IsHealer()
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.NocturnalBeneficHealthPercent
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList));
-
-            if (nocturnalBeneficTarget == null)
-                return false;
-
-            return await Spells.AspectedBenefic.HealAura(nocturnalBeneficTarget, Auras.NocturnalField);
-        }
-
-        private static async Task<bool> NocturnalBeneficDps()
-        {
-            if (!AstrologianSettings.Instance.NocturnalBeneficOnDps)
-                return false;
-
-            var nocturnalBeneficTarget = AstrologianSettings.Instance.NocturnalBeneficKeepUpOnDps
-                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && !r.IsTank()
-                && !r.IsHealer()
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList))
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontNocturnalBenefic.Contains(r.Name)
-                && r.CurrentHealth > 0
-                && !r.IsTank()
-                && !r.IsHealer()
-                && !r.HasAnyAura(Utilities.Routines.Astrologian.ShieldAuraList)
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.NocturnalBeneficHealthPercent);
-
-            if (nocturnalBeneficTarget == null)
-                return false;
-
-            return await Spells.AspectedBenefic.HealAura(nocturnalBeneficTarget, Auras.NocturnalField);
-        }
-
-        private static async Task<bool> DiurnalBenefic()
         {
             if (!AstrologianSettings.Instance.DiurnalBenefic)
                 return false;
@@ -496,6 +362,8 @@ namespace Magitek.Logic.Astrologian
             if (Globals.InParty)
             {
                 if (await DiurnalBeneficTanks())
+                    return true;
+                if (await AspectHeliosInsteadOfDiurnalBenefic())
                     return true;
                 if (await DiurnalBeneficHealers())
                     return true;
@@ -534,6 +402,25 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.AspectedBenefic.HealAura(diurnalBeneficTarget, Auras.AspectedBenefic);
+        }
+
+        private static async Task<bool> AspectHeliosInsteadOfDiurnalBenefic()
+        {
+            if (!AstrologianSettings.Instance.DiurnalHelios)
+                return false;
+
+            var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6,0);
+
+            var alliesNeedingRegen = Group.CastableAlliesWithin15.Where(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)
+                && r.CurrentHealth > 0
+                && !r.HasAura(Auras.AspectedBenefic)
+                && !r.HasAura(Auras.AspectedHelios)
+                && !r.HasMyRegen()).ToList();
+
+            if (alliesNeedingRegen.Count() < heliosInsteadThreshold)
+                return false;
+
+            return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
         }
 
         private static async Task<bool> DiurnalBeneficHealers()

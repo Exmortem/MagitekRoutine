@@ -20,8 +20,7 @@ namespace Magitek.Utilities.Routines
             /*if (Casting.CastingTankBuster || Casting.SpellTarget == null)
                 return false;*/
 
-            if (ActionResourceManager.Summoner.DreadwyrmTrance &&
-                ActionResourceManager.Summoner.Timer.TotalMilliseconds <= 1000 &&
+            if (ActionResourceManager.Summoner.TranceTimer <= 1 &&
                 Core.Me.IsCasting)
             {
                 Logger.Error($"Stopped {Casting.CastingSpell.LocalizedName}: so we don't lose Deathflare");

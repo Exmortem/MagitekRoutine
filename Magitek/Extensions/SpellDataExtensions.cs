@@ -124,6 +124,18 @@ namespace Magitek.Extensions
             return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
         }
 
+        public static bool CanCast(this SpellData spell, GameObject target) {
+            
+            return ActionManager.CanCast(spell, target);
+
+        }
+
+        public static bool CanCast(this SpellData spell) {
+            
+            return CanCast(spell, Core.Me);
+            
+        }
+
         private static async Task<bool> DoAction(SpellData spell, GameObject target, uint aura = 0, bool needAura = false, bool useRefreshTime = false, int refreshTime = 0)
         {
             if (!Check(spell, target))

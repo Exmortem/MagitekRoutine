@@ -77,6 +77,7 @@ namespace Magitek.Logic.Astrologian
             if (Spells.Lightspeed.Cooldown != TimeSpan.Zero)
                 return false;
 
+            /*
             if (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LightspeedManaPercent)
                 return false;
 
@@ -100,6 +101,34 @@ namespace Magitek.Logic.Astrologian
 
                 return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
             }
+            */
+
+            //Maybe just lightspeed when a lot of people, or tank needs a lot of healing and we don't have ED
+            //TODO: Rejig settings to make sense with this change in logic
+
+            if (Spells.EssentialDignity.Charges > 0)
+                return false;
+
+            if (Globals.InParty)
+            {
+                if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >= 30))
+                    return false;
+
+                if (Spells.Horoscope.Cooldown == TimeSpan.Zero)
+                    return false;
+
+                if (Spells.CelestialOpposition.Cooldown == TimeSpan.Zero)
+                    return false;
+
+                if (Core.Me.HasAura(Auras.LadyOfCrownsDrawn) && Spells.CrownPlay.CanCast(Core.Me.CurrentTarget))
+                    return false;
+
+                if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= 60) <= (Group.CastableAlliesWithin30.Count()*.6))
+                    return false;
+            }
+
+            if (Core.Me.CurrentHealthPercent >= 40)
+                return false;
 
             return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
         }
@@ -140,8 +169,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.NeutralSect)
                 return false;
 
-            var neutral = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0
-            && r.Distance(Core.Me) <= 15
+            var neutral = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
 
             if (neutral < AstrologianSettings.Instance.NeutralSectAllies)

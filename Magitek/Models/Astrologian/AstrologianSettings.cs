@@ -40,7 +40,7 @@ namespace Magitek.Models.Astrologian
         public bool Combust { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool CombustMultipleTargets { get; set; }
 
         [Setting]
@@ -222,6 +222,22 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
+        public bool LadyOfCrowns { get; set; }
+
+        [Setting]
+        [DefaultValue(80.0f)]
+        public float LadyOfCrownsHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int LadyOfCrownsAllies { get; set;}
+
+        [Setting]
+        [DefaultValue(3)]
+        public int LordOfCrownsEnemies { get; set;}
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Horoscope { get; set; }
 
         [Setting]
@@ -359,6 +375,11 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Benefic2 { get; set; }
+
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool NoBeneficIfBenefic2Available { get; set; }
 
         [Setting]
         [DefaultValue(50.0f)]
@@ -513,6 +534,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Divination { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool AstroDyne { get; set; }
 
         [Setting]
         [DefaultValue(2)]

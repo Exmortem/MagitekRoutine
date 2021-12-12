@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using Buddy.Coroutines;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
@@ -32,10 +33,14 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
-            if (ActionResourceManager.Astrologian.Arcana == ActionResourceManager.Astrologian.AstrologianCard.None
-                && AstrologianSettings.Instance.UseDraw)
-                await Spells.Draw.Cast(Core.Me);
+            var cardDrawn = ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None 
+                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns 
+                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns;
 
+            if (!cardDrawn && AstrologianSettings.Instance.UseDraw)
+                if (await Spells.Draw.Cast(Core.Me))
+                    await Coroutine.Wait(750, () => ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None);
+ 
             return false;
         }
 
@@ -73,6 +78,7 @@ namespace Magitek.Rotations
 
             if (await Casting.TrackSpellCast())
                 return true;
+
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
@@ -95,6 +101,7 @@ namespace Magitek.Rotations
                     if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
                     if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
                     if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
+                    if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
                     if (await Logic.Astrologian.Heal.Horoscope()) return true;
                     if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
@@ -104,10 +111,11 @@ namespace Magitek.Rotations
                 }
 
                 if (await Logic.Astrologian.Heal.Benefic2()) return true;
+                if (await Logic.Astrologian.Heal.Benefic()) return true ;
                 if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
                 if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }
-            if (await Logic.Astrologian.Heal.Benefic()) return true ;
+            
             return await Combat();
         }
 
@@ -121,6 +129,7 @@ namespace Magitek.Rotations
 
             //No wonder Divination was not going off
             if (await Cards.Divination()) return true;
+            if (await Cards.AstroDyne()) return true;
             return await Cards.PlayCards();
 
         }
@@ -161,6 +170,7 @@ namespace Magitek.Rotations
                 return await Pvp.Malefic(); //Damage
             }
 
+            if (await Aoe.LordOfCrown()) return true;
             if (await Aoe.Gravity()) return true;
             if (await SingleTarget.Combust()) return true;
             if (await SingleTarget.CombustMultipleTargets()) return true;
