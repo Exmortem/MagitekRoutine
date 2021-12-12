@@ -592,6 +592,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Ruin4 = DataManager.GetSpellData(7426);
         public static readonly SpellData SummonBahamut = DataManager.GetSpellData(7427);
         public static readonly SpellData EnkindleBahamut = DataManager.GetSpellData(7429);
+        public static readonly SpellData SummonPhoenix = DataManager.GetSpellData(25831);
         public static readonly SpellData EnergyDrain = DataManager.GetSpellData(16508);
         //public static readonly SpellData EgiAssault = DataManager.GetSpellData(16509);
         public static readonly SpellData EnergySiphon = DataManager.GetSpellData(16510);

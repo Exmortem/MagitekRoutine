@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using System;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
@@ -26,9 +27,11 @@ namespace Magitek.Logic.Summoner
         {
             if (Core.Me.ClassLevel < 40) return false;
 
-            if (!Core.Me.HasAura(Auras.HellishConduit) && Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3) return false;
+            var inFireBird = Spells.SummonPhoenix.Cooldown <= TimeSpan.FromSeconds(15) && Spells.SummonPhoenix.Cooldown > TimeSpan.Zero;
 
-            if (Core.Me.HasAura(Auras.HellishConduit) && ActionResourceManager.Summoner.Timer.TotalMilliseconds < 250) return false;
+            if (!inFireBird && Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3) return false;
+
+            if (inFireBird && ActionResourceManager.Summoner.TranceTimer < 2) return false;
 
             return await Spells.Outburst.Cast(Core.Me.CurrentTarget);
         }

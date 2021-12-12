@@ -231,7 +231,7 @@ namespace Magitek.Logic.Summoner
             if (Spells.Ruin.Cooldown.TotalMilliseconds < 850 && Spells.Trance.Cooldown.TotalMilliseconds > 2000 && Spells.TriDisaster.Cooldown.TotalMilliseconds > 0)
                 return false;
 
-            if (ActionResourceManager.Summoner.DreadwyrmTrance || Core.Me.HasAura(Auras.EverlastingFlight))
+            if (ActionResourceManager.Summoner.TranceTimer > 0 || Core.Me.HasAura(Auras.EverlastingFlight))
             {
                 if (Core.Me.CurrentTarget.HasAnyAura(Utilities.Routines.Summoner.BioAuras, true, 1000))
                     return false;
@@ -270,7 +270,7 @@ namespace Magitek.Logic.Summoner
             if (!SummonerSettings.Instance.Deathflare)
                 return false;
 
-            if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (ActionResourceManager.Summoner.TranceTimer == 0)
                 return false;
 
             //Try to allow time for ruin
@@ -295,13 +295,13 @@ namespace Magitek.Logic.Summoner
             if ((int)PetManager.ActivePetType != 10 && (int)PetManager.ActivePetType != 14)
                 return false;
 
-            if ((int)PetManager.ActivePetType == 10 && !SummonerSettings.Instance.EnkindleBahamut)
+            if ((int)PetManager.ActivePetType == 10 && !SummonerSettings.Instance.EnkindleBahamut) // 10 = Bahamut?
                 return false;
 
-            if ((int)PetManager.ActivePetType == 14 && !SummonerSettings.Instance.EnkindlePhoenix)
+            if ((int)PetManager.ActivePetType == 14 && !SummonerSettings.Instance.EnkindlePhoenix) // 14 = Pheonix?
                 return false;
 
-            if (ActionResourceManager.Summoner.Timer.TotalMilliseconds > 18000)
+            if (ActionResourceManager.Summoner.TranceTimer > 18)
                 return false;
 
             /*if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2)
