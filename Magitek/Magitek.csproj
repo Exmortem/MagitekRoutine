@@ -238,8 +238,14 @@
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
+    <Compile Include="Logic\Reaper\AoE.cs" />
+    <Compile Include="Logic\Reaper\Buff.cs" />
+    <Compile Include="Logic\Reaper\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Models\Reaper\ReaperSettings.cs" />
+    <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
     <Compile Include="Utilities\Routines\StateMachine\State.cs" />
