@@ -54,7 +54,23 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Cut Army's Paeon Short When " IsChecked="{Binding BardSettings.EndArmysPaeonEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Cut Mages Ballad Short When " IsChecked="{Binding BardSettings.EndMagesBalladEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndMagesBalladEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Cut Wanderers Minuet Short When " IsChecked="{Binding BardSettings.EndWanderersMinuetEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndWanderersMinuetEarlyWithXSecondsRemaining, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
             </StackPanel>
         </controls:SettingsBlock>

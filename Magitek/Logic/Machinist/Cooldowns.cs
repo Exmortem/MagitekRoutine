@@ -123,6 +123,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
+            if (Spells.Reassemble.Charges < 1)
+                return false;
+
             //If we're in AoE logic, use Reassemble for SpreadShot
             if (MachinistSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) >= 4)
                 return await Spells.Reassemble.Cast(Core.Me);
@@ -139,7 +142,7 @@ namespace Magitek.Logic.Machinist
                     return false;
             }
 
-            if (Core.Me.ClassLevel >= 76)
+            if (Core.Me.ClassLevel >= 76 && Core.Me.ClassLevel < 90)
             {
                 if ( (ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
                     && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
