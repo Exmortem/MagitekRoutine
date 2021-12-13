@@ -20,8 +20,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (Core.Me.IsCasting)
                 return true;
 
@@ -30,13 +28,11 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
-
             //Openers.OpenerCheck();
 
             if (Core.Me.HasTarget && Core.Me.CurrentTarget.CanAttack)
-            {
                 return false;
-            }
+
 
             if (Globals.OnPvpMap)
                 return false;
@@ -114,8 +110,9 @@ namespace Magitek.Rotations
                 // Damage
                 if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
-                if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
+                if (await Cooldowns.RadiantFinale()) return true;
+                if (await Cooldowns.BattleVoice()) return true;
                 if (await Cooldowns.Barrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await Aoe.RainOfDeathDuringMagesBallard()) return true;
@@ -132,11 +129,12 @@ namespace Magitek.Rotations
             if (await DamageOverTime.SnapShotIronJawsOnCurrentTarget()) return true;
             if (await DamageOverTime.WindbiteOnCurrentTarget()) return true;
             if (await DamageOverTime.VenomousBiteOnCurrentTarget()) return true;
+            if (await Aoe.BlastArrow()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await DamageOverTime.IronJawsOnOffTarget()) return true;
             if (await DamageOverTime.WindbiteOnOffTarget()) return true;
             if (await DamageOverTime.VenomousBiteOnOffTarget()) return true;
-            if (await Aoe.QuickNock()) return true;
+            if (await Aoe.LadonsBite()) return true;
             if (await SingleTarget.StraightShot()) return true;
             return (await SingleTarget.HeavyShot());
 

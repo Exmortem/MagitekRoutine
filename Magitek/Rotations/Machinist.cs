@@ -19,13 +19,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
-
 
             return await PhysicalDps.Peloton(MachinistSettings.Instance);
         }

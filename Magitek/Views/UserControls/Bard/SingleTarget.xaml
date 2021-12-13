@@ -39,7 +39,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Delay Empyreal Arrow If Army's Paeon Ends In " IsChecked="{Binding BardSettings.DelayEmpyrealArrowUntilAPEnds, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" VerticalAlignment="Center" />
-                    <controls:Numeric MaxValue="30" MinValue="0" Value="{Binding BardSettings.DontUseEmpyrealArrowWhenSongEndsInXSeconds, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <controls:Numeric MaxValue="45" MinValue="0" Value="{Binding BardSettings.DontUseEmpyrealArrowWhenSongEndsInXSeconds, Mode=TwoWay}" VerticalAlignment="Center" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

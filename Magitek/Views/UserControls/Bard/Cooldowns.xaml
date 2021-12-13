@@ -50,7 +50,7 @@
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Delay RS Until " IsChecked="{Binding BardSettings.DelayRageingStrikesDuringWanderersMinuet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM, Mode=TwoWay}" />
+                    <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds In Wanderer's Minuet" />
                 </StackPanel>
             </StackPanel>
