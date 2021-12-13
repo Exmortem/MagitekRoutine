@@ -79,6 +79,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.ClassLevel >= 76 && ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 8000)
                 return false;
 
+            if (Core.Me.ClassLevel >= 90 && ActionManager.HasSpell(Spells.ChainSaw.Id) && MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.Cooldown.TotalMilliseconds < 8000)
+                return false;
+
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
                 return false;
 
@@ -103,6 +106,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.ClassLevel >= 76 && ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown.TotalMilliseconds < 9000)
                 return false;
 
+            if (Core.Me.ClassLevel >= 90 && ActionManager.HasSpell(Spells.ChainSaw.Id) && MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.Cooldown.TotalMilliseconds < 8000)
+                return false;
+
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
@@ -115,6 +121,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (!MachinistGlobals.IsInWeaveingWindow)
+                return false;
+
+            if (Spells.Reassemble.Charges < 1)
                 return false;
 
             //If we're in AoE logic, use Reassemble for SpreadShot
@@ -133,10 +142,18 @@ namespace Magitek.Logic.Machinist
                     return false;
             }
 
-            if (Core.Me.ClassLevel >= 76)
+            if (Core.Me.ClassLevel >= 76 && Core.Me.ClassLevel < 90)
             {
                 if ( (ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
                     && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
+                    return false;
+            }
+
+            if (Core.Me.ClassLevel >= 90)
+            {
+                if ((ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (ActionManager.HasSpell(Spells.ChainSaw.Id) && MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.Cooldown != TimeSpan.Zero && Spells.ChainSaw.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds))
                     return false;
             }
 

@@ -46,7 +46,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.DelayRageingStrikes)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
-            if ((30 - ActionResourceManager.Bard.Timer.TotalSeconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
+            if ((45 - ActionResourceManager.Bard.Timer.TotalSeconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
             return false;
@@ -58,7 +58,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBattleVoice)
                 return false;
 
-            if (!Globals.InParty)
+            if (!Core.Me.HasAura(Auras.RagingStrikes))
                 return false;
 
             return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice, false, 0, false);
@@ -96,6 +96,22 @@ namespace Magitek.Logic.Bard
 
             return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);
 
+        }
+
+        public static async Task<bool> RadiantFinale()
+        {
+            if (!BardSettings.Instance.UseRadiantFinale)
+                return false;
+
+            //Basic Strategy for Raid (Mono Target)
+            //TODO: Manage Multi Target (MB-PM-WM Strategy)
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.RagingStrikes))
+                return false;
+
+            return await Spells.RadiantFinale.CastAura(Core.Me, Auras.RadiantFinale);
         }
     }
 }

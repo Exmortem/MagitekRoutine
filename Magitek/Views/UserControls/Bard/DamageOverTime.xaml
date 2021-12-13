@@ -45,7 +45,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Our Current Target Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfCurrentTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfCurrentTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+                    <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.DontDotIfCurrentTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 
@@ -79,7 +79,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content="Do Not Use Damage Over Time Abilities If Multi-Dot Target Is Dying Within " IsChecked="{Binding BardSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding BardSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+                    <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
                 </StackPanel>
 

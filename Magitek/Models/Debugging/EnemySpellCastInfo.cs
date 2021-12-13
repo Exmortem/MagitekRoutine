@@ -53,6 +53,7 @@ namespace Magitek.Models.Debugging
                 Stun = true,
                 Interrupt = true,
                 Scholar = true,
+                BlueMage = true,
                 Bard = true,
                 Paladin = true,
                 Warrior = true,

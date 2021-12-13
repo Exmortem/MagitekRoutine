@@ -23,9 +23,6 @@ namespace Magitek.Logic.Machinist
                 if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 100)
                     return false;
 
-                if (Casting.LastSpell == Spells.Hypercharge)
-                    return false;
-
                 if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                     return false;
             }
@@ -38,9 +35,6 @@ namespace Magitek.Logic.Machinist
             if (ActionManager.LastSpell != Spells.SplitShot)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return false;
-
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
@@ -51,9 +45,6 @@ namespace Magitek.Logic.Machinist
         {
             //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
             if (ActionManager.LastSpell != Spells.SlugShot)
-                return false;
-
-            if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -70,7 +61,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
@@ -84,7 +75,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHotAirAnchor)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
@@ -98,12 +89,8 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatBlast()
         {
-
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
-            
-            if (Casting.LastSpell == Spells.Hypercharge)
-                return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
 
             return await Spells.HeatBlast.Cast(Core.Me.CurrentTarget);
         }

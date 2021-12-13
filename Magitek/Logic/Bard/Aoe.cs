@@ -1,10 +1,13 @@
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 
 namespace Magitek.Logic.Bard
 {
@@ -79,7 +82,7 @@ namespace Magitek.Logic.Bard
             return await Spells.Shadowbite.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> QuickNock()
+        public static async Task<bool> LadonsBite()
         {
             if (!BardSettings.Instance.UseQuickNock)
                 return false;
@@ -90,7 +93,56 @@ namespace Magitek.Logic.Bard
             if (Utilities.Routines.Bard.EnemiesInCone < BardSettings.Instance.QuickNockEnemiesInCone)
                 return false;
 
-            return await Spells.QuickNock.Cast(Core.Me.CurrentTarget);
+            return await BardRoutine.LadonsBite.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> BlastArrow()
+        {
+            if (!BardSettings.Instance.UseBlastArrow)
+                return false;
+
+            if (!ActionManager.HasSpell(Spells.BlastArrow.Id))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.BlastArrowReady))
+                return false;
+
+            switch (ActionResourceManager.Bard.ActiveSong)
+            {
+                case ActionResourceManager.Bard.BardSong.None:
+                    return false;
+
+                case ActionResourceManager.Bard.BardSong.MagesBallad:
+                    if (Core.Me.HasAura(Auras.BlastArrowReady, true, 3000) && Spells.Bloodletter.Cooldown == TimeSpan.Zero)
+                        return false;
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
+                    if (Core.Me.HasAura(Auras.BlastArrowReady, true, 3000) && !Core.Me.HasAura(Auras.RagingStrikes) && Spells.RagingStrikes.Cooldown == TimeSpan.Zero)
+                        return false;
+                    break;
+
+                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
+                    if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+                    {
+                        if (BardSettings.Instance.EndArmysPaeonEarly)
+                        {
+                            if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && (ActionResourceManager.Bard.Timer.TotalSeconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
+                                return false;
+                        } else
+                        {
+                            if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && ActionResourceManager.Bard.Timer.TotalSeconds < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
+                                return false;
+                        }
+                        
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            return await Spells.BlastArrow.Cast(Core.Me.CurrentTarget);
         }
     }
 }

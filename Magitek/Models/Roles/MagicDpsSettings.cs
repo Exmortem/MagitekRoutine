@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
+using Magitek.Enumerations;
 
 namespace Magitek.Models.Roles
 {
@@ -17,5 +18,10 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(60.0f)]
         public float LucidDreamingMinimumManaPercent { get; set; }
+
+
+        [Setting]
+        [DefaultValue(InterruptStrategy.AnyEnemy)]
+        public InterruptStrategy Strategy { get; set; }
     }
 }

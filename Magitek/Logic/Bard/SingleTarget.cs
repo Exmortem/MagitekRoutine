@@ -107,6 +107,9 @@ namespace Magitek.Logic.Bard
             if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
                 return false;
 
+            if (Spells.Bloodletter.Charges < 1)
+                return false;
+
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
                 return false;
 
@@ -118,6 +121,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
+                return false;
+
+            if (Spells.Bloodletter.Charges < 1)
                 return false;
 
             return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);

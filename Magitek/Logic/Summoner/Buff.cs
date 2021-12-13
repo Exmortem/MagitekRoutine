@@ -20,8 +20,8 @@ namespace Magitek.Logic.Summoner
                 || !SummonerSettings.Instance.FirebirdTrance)
                 return false;
 
-            if (ActionResourceManager.Arcanist.AetherAttunement == 2)
-                return false;
+            //if (ActionResourceManager.Arcanist.AetherAttunement == 2)
+            //    return false;
 
             if ((int)PetManager.ActivePetType == 10
                 || (int)PetManager.ActivePetType == 14)
@@ -49,7 +49,7 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.CurrentManaPercent > SummonerSettings.Instance.LucidDreamingManaPercent)
                 return false;
 
-            if (!ActionResourceManager.Summoner.DreadwyrmTrance)
+            if (ActionResourceManager.Summoner.TranceTimer == 0)
                 return false;
 
             return await Spells.LucidDreaming.Cast(Core.Me);

@@ -210,6 +210,30 @@ namespace Magitek.Extensions
             return gameObject != null && RangedDps.Contains(gameObject.CurrentJob);
         }
 
+        public static bool IsBlueMage(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && ClassJobType.BlueMage.Equals(gameObject.CurrentJob);
+        }
+
+        public static bool IsBlueMageHealer(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && ClassJobType.BlueMage.Equals(gameObject.CurrentJob) && gameObject.HasAura(Auras.AetherialMimicryHealer);
+        }
+
+        public static bool IsBlueMageTank(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && ClassJobType.BlueMage.Equals(gameObject.CurrentJob) && gameObject.HasAura(Auras.AetherialMimicryTank);
+        }
+
+        public static bool IsBlueMageDps(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && ClassJobType.BlueMage.Equals(gameObject.CurrentJob) && gameObject.HasAura(Auras.AetherialMimicryDps);
+        }
+
         public static bool IsRangedDpsCard(this GameObject unit)
         {
             var gameObject = unit as Character;
@@ -224,7 +248,13 @@ namespace Magitek.Extensions
 
         public static bool HasMyRegen(this GameObject unit)
         {
-            return unit.HasAura(Auras.Regen, true) || unit.HasAura(Auras.Regen2) || unit.HasAura(Auras.AspectedBenefic, true);
+            return unit.HasAnyAura(new uint[]
+            {
+                Auras.Regen,
+                Auras.Regen2,
+                Auras.AspectedBenefic,
+                Auras.AspectedHelios
+            });
         }
 
         public static bool HealthCheck(this GameObject tar, int healthSetting, float healthSettingPercent)
@@ -272,17 +302,17 @@ namespace Magitek.Extensions
 
         public static float GetResurrectionWeight(this GameObject c)
         {
-            if (c.IsHealer())
+            if (c.IsHealer() || c.IsBlueMageHealer())
             {
                 return 100;
             }
 
-            if (c.IsTank())
+            if (c.IsTank() || c.IsBlueMageTank())
             {
                 return 90;
             }
 
-            return c.IsDps() ? 80 : 0;
+            return (c.IsDps() || c.IsBlueMageDps()) ? 80 : 0;
         }
 
         //This method return the heading from the player to the target object in radians.

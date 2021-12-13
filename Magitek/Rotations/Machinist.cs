@@ -19,13 +19,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
-
 
             return await PhysicalDps.Peloton(MachinistSettings.Instance);
         }
@@ -125,6 +122,7 @@ namespace Magitek.Rotations
             if (await MultiTarget.BioBlaster()) return true;
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
+            if (await MultiTarget.ChainSaw()) return true;
             if (await MultiTarget.Flamethrower()) return true;
             if (await MultiTarget.SpreadShot()) return true;
 

@@ -14,7 +14,7 @@ namespace Magitek.Utilities.Managers
 
         public static void Reset()
         {
-            if (!Core.Me.IsHealer() && Core.Me.CurrentJob != ClassJobType.Bard)
+            if (!Core.Me.IsHealer() && Core.Me.CurrentJob != ClassJobType.Bard && Core.Me.CurrentJob != ClassJobType.BlueMage)
                 return;
 
             if (Dispelling.Instance == null)
@@ -36,6 +36,7 @@ namespace Magitek.Utilities.Managers
                     case ClassJobType.WhiteMage: if (dispel.WhiteMage) { AddDispel(dispel.Id, dispel.HighPriority); } continue;
                     case ClassJobType.Scholar: if (dispel.Scholar) { AddDispel(dispel.Id, dispel.HighPriority); } continue;
                     case ClassJobType.Astrologian: if (dispel.Astrologian) { AddDispel(dispel.Id, dispel.HighPriority); } continue;
+                    case ClassJobType.BlueMage: if (dispel.BlueMage) { AddDispel(dispel.Id, dispel.HighPriority); } continue;
                     default: continue;
                 }
             }

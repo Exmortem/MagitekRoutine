@@ -52,6 +52,7 @@ namespace Magitek.Models.Debugging
                 Icon = info.Icon,
                 Scholar = true,
                 Bard = true,
+                BlueMage = true,
                 Astrologian = true
             };
 

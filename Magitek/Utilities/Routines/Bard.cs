@@ -1,5 +1,6 @@
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,11 @@ namespace Magitek.Utilities.Routines
         public static List<DateTime> DoTProcEvents = new List<DateTime>();
         public static int OldSoulVoice;
         public static bool AlreadySnapped = false;
+
+
+        public static SpellData LadonsBite => Core.Me.ClassLevel < 82
+                                            ? Spells.QuickNock
+                                            : Spells.Ladonsbite;
 
         public static void RefreshVars()
         {
@@ -46,11 +52,11 @@ namespace Magitek.Utilities.Routines
 
         public static void CleanUpDoTProcList()
         {
-            //If the proc event is older than 30s then remove it, its safe to assume the dot dropped or target died
+            //If the proc event is older than 45s then remove it, its safe to assume the dot dropped or target died
             //The chances to get at least one dot proc within 30s are 99.4~% ( 1 dot 10 ticks )
             foreach (var _TickTime in DoTProcEvents.Reverse<DateTime>())
             {
-                if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 30000)) continue;
+                if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 45000)) continue;
                 DoTProcEvents.Remove(_TickTime);
             }
 
@@ -75,7 +81,7 @@ namespace Magitek.Utilities.Routines
 
             OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
 
-            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow)
+            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow || Casting.LastSpell == Spells.BlastArrow)
                 return;
 
             DateTime newProcTime = DateTime.Now;
@@ -164,6 +170,13 @@ namespace Magitek.Utilities.Routines
                 if (_auraCache.Name == "Raging Strikes")
                 {
                     _dmgIncrease *= 1.1;
+                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
+                        _isEndingSoon = true;
+                }
+
+                if (_auraCache.Name == "Radiant Finale")
+                {
+                    _dmgIncrease *= 1.06;
                     if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
                         _isEndingSoon = true;
                 }

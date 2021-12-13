@@ -97,6 +97,14 @@ namespace Magitek.Utilities
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (RotationManager.CurrentRotation)
             {
+                case ClassJobType.BlueMage:
+                    {
+                        if (BlueMage.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
+                    }
                 case ClassJobType.Scholar:
                     {
                         if (Scholar.NeedToInterruptCast())

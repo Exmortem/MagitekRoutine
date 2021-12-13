@@ -63,8 +63,11 @@ namespace Magitek.Utilities
             TheSpire3 = 1887,
             LordofCrowns = 1451,
             LordofCrowns2 = 1876,
+            LordOfCrownsDrawn = 2054,
             LadyofCrowns = 1452,
             LadyofCrowns2 = 1877,
+            LadyOfCrownsDrawn = 2055,
+            ClarifyingDraw = 2713,
             SleeveDraw = 1926,
             Disembowel = 1914,
             SharperFangandClaw = 802,
@@ -75,6 +78,7 @@ namespace Magitek.Utilities
             StraighterShot = 122,
             VenomousBite = 124,
             RagingStrikes = 125,
+            RadiantFinale = 2722,
             Barrage = 128,
             Windbite = 129,
             Foresight = 83,
@@ -211,7 +215,7 @@ namespace Magitek.Utilities
             Anatman = 1862,
             EverlastingFlight = 2030,
             Acceleration = 1238,
-            Divination = 2034,
+            Divination = 1878,
             Embolden = 1239,
             MeditationSAM = 2176,
             OffGuard = 1717,
@@ -225,7 +229,12 @@ namespace Magitek.Utilities
             PeculiarLight = 1721,
             PhantomFlurry = 2502,
             Harmonized = 2118,
-            Tingle = 2492;
+            Tingle = 2492,
+            AetherialMimicryHealer = 2126,
+            AetherialMimicryDps = 2125,
+            AetherialMimicryTank = 2124,
+            CriticalStrikes = 1797,
+            BlastArrowReady = 2692;
 
         private const int
             Invincibility0 = 981,

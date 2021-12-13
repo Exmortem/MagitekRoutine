@@ -191,6 +191,7 @@
                                     <CheckBox IsChecked="{Binding Dragoon, Mode=TwoWay}" Style="{DynamicResource DragoonToggle}" />
                                     <CheckBox IsChecked="{Binding Monk, Mode=TwoWay}" Style="{DynamicResource MonkToggle}" />
                                     <CheckBox IsChecked="{Binding Ninja, Mode=TwoWay}" Style="{DynamicResource NinjaToggle}" />
+                                    <CheckBox IsChecked="{Binding BlueMage, Mode=TwoWay}" Style="{DynamicResource BlueMageToggle}" />
 
                                 </ComboBox>
 

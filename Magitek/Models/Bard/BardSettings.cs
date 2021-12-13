@@ -160,6 +160,10 @@ namespace Magitek.Models.Bard
         public bool UseApexArrow { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseBlastArrow { get; set; }
+
+        [Setting]
         [DefaultValue(100)]
         public int UseApexArrowWithAtLeastXSoulVoice { get; set; }
 
@@ -174,6 +178,10 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(95)]
         public int UseBuffedApexArrowWithAtLeastXSoulVoice { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int DontUseBlastArrowWhenAPEndsInXSeconds { get; set; }
 
         #endregion
 
@@ -204,8 +212,25 @@ namespace Magitek.Models.Bard
         public bool EndArmysPaeonEarly { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
+        [DefaultValue(2)]
         public int EndArmysPaeonEarlyWithXSecondsRemaining { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool EndMagesBalladEarly { get; set; }
+
+        [Setting]
+        [DefaultValue(11)]
+        public int EndMagesBalladEarlyWithXSecondsRemaining { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool EndWanderersMinuetEarly { get; set; }
+        
+        [Setting]
+        [DefaultValue(2)]
+        public int EndWanderersMinuetEarlyWithXSecondsRemaining { get; set; }
+
 
         #endregion
 
@@ -250,6 +275,10 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool UseBattleVoice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRadiantFinale { get; set; }
 
         #endregion
 
