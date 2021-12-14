@@ -14,9 +14,9 @@ namespace Magitek.Models.Reaper
         public static ReaperSettings Instance { get; set; } = new ReaperSettings();
 
         #region General-Stuff
-
+        // MOve Omni Setting to General Settings
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool EnemyIsOmni { get; set; }
 
         [Setting]
@@ -54,6 +54,10 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseSoulSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBloodStalk { get; set; }
 
         #endregion
 

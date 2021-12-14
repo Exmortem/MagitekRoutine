@@ -80,6 +80,13 @@ namespace Magitek.Logic.Reaper
             return false;
         }
 
+        public static async Task<bool> BloodStalk()
+        {
+            if (!ReaperSettings.Instance.UseBloodStalk) return false;
+
+            return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> SoulSlice()
         {
             if (!ReaperSettings.Instance.UseSoulSlice) return false;
