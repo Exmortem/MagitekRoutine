@@ -69,7 +69,8 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
 
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 500)
+            //Logger.WriteInfo($@"[LastPossiblePitchPerfectDuringWM] {Utilities.Routines.Bard.GlobalDurationWanderersMinuet()} - {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()} - {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
+            if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() > 500)
                 return false;
 
             return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
@@ -90,9 +91,10 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.Repertoire == 0)
                 return false;
 
-            if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < 550)
+            //Logger.WriteInfo($@"[PitchPerfect] {Utilities.Routines.Bard.GlobalDurationWanderersMinuet()} - {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()} - {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
+            if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() < 550)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-
+                
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
                 return false;
 
@@ -152,7 +154,8 @@ namespace Magitek.Logic.Bard
                     if (ActionResourceManager.Bard.Repertoire == 3)
                         return false;
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds <= 2000 && ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                    //Logger.WriteInfo($@"[EmpyrealArrow] {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
+                    if (ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.CurrentDurationWanderersMinuet() <= 2000 && Utilities.Routines.Bard.NextTickUnderWanderersMinuet() < 0)
                         return false;
 
                     break;
@@ -160,11 +163,8 @@ namespace Magitek.Logic.Bard
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:
                     if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
                     {
-                        if (BardSettings.Instance.EndArmysPaeonEarly)
-                        {
-                            if ((ActionResourceManager.Bard.Timer.TotalSeconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.DontUseEmpyrealArrowWhenSongEndsInXSeconds)
-                                return false;
-                        }
+                        if (Utilities.Routines.Bard.CurrentDurationArmysPaeon() < BardSettings.Instance.DontUseEmpyrealArrowWhenSongEndsInXSeconds)
+                            return false;
                     }
                     break;
 

@@ -2,7 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using System;
+using Magitek.Models.Bard;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,8 +13,6 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static List<DateTime> DoTProcEvents = new List<DateTime>();
-        public static int OldSoulVoice;
         public static bool AlreadySnapped = false;
 
 
@@ -24,9 +22,6 @@ namespace Magitek.Utilities.Routines
 
         public static void RefreshVars()
         {
-            CheckForDoTProcs();
-            CleanUpDoTProcList();
-
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
@@ -50,61 +45,50 @@ namespace Magitek.Utilities.Routines
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
-        public static void CleanUpDoTProcList()
-        {
-            //If the proc event is older than 45s then remove it, its safe to assume the dot dropped or target died
-            //The chances to get at least one dot proc within 30s are 99.4~% ( 1 dot 10 ticks )
-            foreach (var _TickTime in DoTProcEvents.Reverse<DateTime>())
-            {
-                if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 45000)) continue;
-                DoTProcEvents.Remove(_TickTime);
-            }
-
-            //The More Enemies the more Proc data we need
-            if (DoTProcEvents.Count > Combat.Enemies.Count)
-                DoTProcEvents.Remove(DoTProcEvents.Last());
-        }
-
-
-        public static void CheckForDoTProcs()
-        {
-            //Doenst matter if something procs here
-            if (Combat.CombatTime.ElapsedMilliseconds < 2800)
-            {
-                OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-                DoTProcEvents.Clear();
-                return;
-            }
-
-            if (OldSoulVoice == ActionResourceManager.Bard.SoulVoice)
-                return;
-
-            OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-
-            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow || Casting.LastSpell == Spells.BlastArrow)
-                return;
-
-            DateTime newProcTime = DateTime.Now;
-
-            DoTProcEvents.Insert(0, newProcTime);
-
-        }
 
         public static double TimeUntilNextPossibleDoTTick()
         {
-            double potentialTickInXms = 999999;
+            double nextTickInXms = 0;
 
-            foreach (var dotTickTime in DoTProcEvents)
-            {
-                double _tmpTime = DateTime.Now.Subtract(dotTickTime).TotalMilliseconds;
-                if (potentialTickInXms > _tmpTime % 3000)
-                    potentialTickInXms = _tmpTime % 3000;
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None) {
+                nextTickInXms = ActionResourceManager.Bard.Timer.TotalMilliseconds % 3000;
             }
+            
+            return nextTickInXms;
+        }
 
-            if (potentialTickInXms != 999999)
-                return 3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
-            return 0;
+        public static double CurrentDurationWanderersMinuet()
+        {
+            if (BardSettings.Instance.EndWanderersMinuetEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndWanderersMinuetEarlyWithXSecondsRemaining);
 
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
+        }
+        
+        public static double NextTickUnderWanderersMinuet()
+        {
+            return CurrentDurationWanderersMinuet() - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
+        }
+
+        public static double CurrentDurationMagesBallad()
+        {
+            if (BardSettings.Instance.EndMagesBalladEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndMagesBalladEarlyWithXSecondsRemaining);
+
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
+        }
+
+        public static double NextTickUnderMagesBallad()
+        {
+            return CurrentDurationMagesBallad() - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
+        }
+
+        public static double CurrentDurationArmysPaeon()
+        {
+            if (BardSettings.Instance.EndArmysPaeonEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining);
+
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
         }
 
         public static bool CheckCurrentDamageIncrease(int _neededDmgIncrease)
