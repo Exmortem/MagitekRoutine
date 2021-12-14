@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
+using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 
 
@@ -12,7 +14,18 @@ namespace Magitek.Logic.Reaper
 {
     internal static class SingleTarget
     {
+        //Expire Check Missing
+        //Something like TTK > Current GCD 
+        public static async Task<bool> ShadowOfDeath()
+        {
+            if (!ReaperSettings.Instance.UseShadowOfDeath) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
+            if (Core.Me.CurrentTarget.HasAura(2586, true)) return false;
 
+            return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
+        }
+
+        #region SoulGaugeGenerator
         public static async Task<bool> Slice()
         {
             if (!ReaperSettings.Instance.UseSlice) return false;
@@ -46,21 +59,27 @@ namespace Magitek.Logic.Reaper
 
         }
 
-        //Expire Check Missing
-        //Something like TTK > Current GCD 
-        public static async Task<bool> ShadowOfDeath()
+        public static async Task<bool> SoulSlice()
         {
-            if (!ReaperSettings.Instance.UseShadowOfDeath) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
-            if (Core.Me.CurrentTarget.HasAura(2586,true)) return false;
+            if (!ReaperSettings.Instance.UseSoulSlice) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) return false;
 
-            return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
+            //Keep SoulSlice/SoulScythe Charges at a maximum
+            if (Spells.SoulSlice.Charges <= 1) return false;
+            if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
+
+            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
+
+            return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
         }
 
+        #endregion
+
+        #region SoulShroudGenerator
         public static async Task<bool> GibbetAndGallows()
         {
             if (!Core.Me.HasAura(2587)) return false;
-            if ( (!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni )
+            if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
             {
                 if (ReaperSettings.Instance.UseGallows)
                     return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
@@ -80,26 +99,28 @@ namespace Magitek.Logic.Reaper
             return false;
         }
 
+        #endregion
+
+        #region SoulGaugeSpender
         public static async Task<bool> BloodStalk()
         {
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
+            if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
+            if (Core.Me.HasAura(2587)) return false;
 
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> SoulSlice()
+        public static async Task<bool> Gluttony()
         {
-            if (!ReaperSettings.Instance.UseSoulSlice) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) return false;
+            if (!ReaperSettings.Instance.UseGluttony) return false;
+            if (Core.Me.HasAura(2587)) return false;
+            if ( Spells.Slice.Cooldown > new TimeSpan(Spells.Slice.AdjustedCooldown.Ticks / 2)) return false;
 
-            //Keep SoulSlice/SoulScythe Charges at a maximum
-            if (Spells.SoulSlice.Charges <= 1) return false;
-            if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
-
-            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
-
-            return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
+            return await Spells.Gluttony.Cast(Core.Me.CurrentTarget);
         }
+
+        #endregion
 
     }
 }

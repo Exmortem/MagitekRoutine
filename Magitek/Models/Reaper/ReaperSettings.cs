@@ -20,6 +20,10 @@ namespace Magitek.Models.Reaper
         public bool EnemyIsOmni { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool BurnEverything { get; set; }
+
+        [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 
@@ -58,6 +62,10 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseBloodStalk { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGluttony { get; set; }
 
         #endregion
 

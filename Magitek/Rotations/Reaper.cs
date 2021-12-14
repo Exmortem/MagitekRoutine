@@ -101,6 +101,7 @@ namespace Magitek.Rotations
             if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
+                if (await SingleTarget.Gluttony()) return true;
                 if (await SingleTarget.BloodStalk()) return true;
             }
 
