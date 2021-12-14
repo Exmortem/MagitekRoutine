@@ -16,6 +16,7 @@
         xmlns:paladin="clr-namespace:Magitek.Views.UserControls.Paladin"
         xmlns:redMage="clr-namespace:Magitek.Views.UserControls.RedMage"
         xmlns:samurai="clr-namespace:Magitek.Views.UserControls.Samurai"
+        xmlns:reaper="clr-namespace:Magitek.Views.UserControls.Reaper"
         xmlns:blueMage="clr-namespace:Magitek.Views.UserControls.BlueMage"
         xmlns:scholar="clr-namespace:Magitek.Views.UserControls.Scholar"
         xmlns:summoner="clr-namespace:Magitek.Views.UserControls.Summoner"
@@ -915,6 +916,26 @@
                         </TabItem>
                         <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
                             <customControls:SubmitSettings Routine="Samurai" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Reaper" Style="{DynamicResource TabItemReaper}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <reaper:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Reaper" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Reaper" />
                         </TabItem>
                     </TabControl>
                 </TabItem>

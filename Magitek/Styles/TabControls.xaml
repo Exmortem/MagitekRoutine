@@ -1639,6 +1639,62 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TabItemReaper" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Border Name="Background" Height="27" Background="Transparent" IsHitTestVisible="True">
+                        <Viewbox Margin="3,3">
+                            <Canvas Width="652.533" Height="555.067" Clip="F1 M 0,0L 652.533,0L 652.533,555.067L 0,555.067L 0,0">
+                                <Canvas x:Name="Layer_1" Canvas.Left="0" Canvas.Top="0" Width="800" Height="600">
+                                    <Path x:Name="Icon"
+                                          Canvas.Left="100"
+                                          Canvas.Top="60"
+                                          Width="465.333"
+                                          Height="461.333"
+                                          Data="M2790 7073 c-243 -18 -563 -99 -729 -183 -144 -73 -320 -191 -463
+                                                -310 l-36 -31 -97 245 c-52 134 -105 252 -115 261 -55 49 -61 -39 -35 -500
+                                                l13 -250 -68 -106 c-210 -326 -299 -642 -287 -1024 9 -288 68 -524 196 -789
+                                                54 -111 150 -269 183 -301 l21 -20 -8 20 c-29 79 -45 211 -46 375 -1 152 2
+                                                192 25 300 14 69 42 177 62 240 51 165 206 471 227 450 9 -8 271 -699 692
+                                                -1825 626 -1671 921 -2444 956 -2503 23 -40 167 -219 199 -247 22 -20 22 -20
+                                                37 0 13 17 14 45 9 169 l-6 148 -215 595 c-238 657 -307 854 -301 860 2 2 50
+                                                -26 107 -62 138 -88 297 -165 446 -215 199 -66 282 -80 513 -87 282 -8 394 6
+                                                639 77 l109 32 209 -125 c236 -142 342 -197 376 -197 16 0 28 9 36 27 14 30
+                                                30 343 31 584 l0 145 31 30 c49 46 147 171 212 269 115 175 223 434 268 644
+                                                26 123 37 448 20 607 -13 125 -53 287 -106 430 -221 591 -747 1041 -1374 1175
+                                                -124 26 -448 37 -608 20 -189 -20 -378 -77 -578 -175 -468 -229 -811 -616
+                                                -964 -1087 -22 -68 -46 -144 -52 -169 l-11 -45 -33 90 c-179 482 -408 1103
+                                                -412 1116 -6 21 123 131 259 222 250 167 554 281 928 349 116 21 154 23 520
+                                                23 420 0 467 -3 777 -55 790 -133 1639 -422 2688 -915 149 -70 312 -147 363
+                                                -171 50 -24 92 -39 92 -34 0 13 -139 130 -285 240 -675 505 -1726 1074 -2500
+                                                1352 -645 232 -1187 341 -1674 336 -108 -1 -216 -3 -241 -5z m1730 -1775 c201
+                                                -75 345 -164 473 -291 242 -240 361 -523 360 -857 0 -256 -66 -479 -203 -683
+                                                -60 -89 -201 -236 -290 -301 -125 -92 -311 -174 -472 -207 -89 -18 -127 -20
+                                                -278 -16 -191 5 -287 23 -435 85 -352 146 -633 483 -711 850 -22 105 -30 347
+                                                -15 453 35 239 165 491 348 672 100 99 176 156 285 212 213 111 281 125 598
+                                                122 l245 -3 95 -36z"
+                                          Fill="{DynamicResource ClassSelectorIconColor}"
+                                          Stretch="Uniform" />
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource ClassSelectorBackgroundSelected}" />
+                                <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource ClassSelectorIconColorSelected}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="TabItemBlueMage" TargetType="{x:Type TabItem}">
         <Setter Property="Template">
             <Setter.Value>

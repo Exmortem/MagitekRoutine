@@ -20,6 +20,8 @@ using Magitek.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Magitek.Models.Reaper;
+using Magitek.Rotations;
 using BaseSettings = Magitek.ViewModels.BaseSettings;
 
 namespace Magitek.Views
@@ -117,6 +119,9 @@ namespace Magitek.Views
                 case ClassJobType.Gunbreaker:
                     Gunbreaker.IsSelected = true;
                     break;
+                case ClassJobType.Reaper:
+                    Reaper.IsSelected = true;
+                    break;
                 default:
                     return;
             }
@@ -155,6 +160,7 @@ namespace Magitek.Views
             MonkSettings.Instance.Save();
             NinjaSettings.Instance.Save();
             SamuraiSettings.Instance.Save();
+            ReaperSettings.Instance.Save();
             BlueMageSettings.Instance.Save();
             BlackMageSettings.Instance.Save();
             RedMageSettings.Instance.Save();
