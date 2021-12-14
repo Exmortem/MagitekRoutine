@@ -26,7 +26,7 @@ namespace Magitek.Logic.Reaper
         {
             if (!ReaperSettings.Instance.UseWaxingSlice) return false;
             if (Utilities.Routines.Reaper.CurrentComboStage != ReaperComboStages.WaxingSlice) return false;
-            if (ActionManager.ComboTimeLeft <= 0)  return false;
+            if (ActionManager.ComboTimeLeft <= 0) return false;
 
             if (!await Spells.WaxingSlice.Cast(Core.Me.CurrentTarget)) return false;
             Utilities.Routines.Reaper.CurrentComboStage = ReaperComboStages.InfernalSlice;
@@ -55,6 +55,36 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.CurrentTarget.HasAura(2586,true)) return false;
 
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Gibbet()
+        {
+            if (!ReaperSettings.Instance.UseGibbet) return false;
+            if (!Core.Me.HasAura(2854)) return false;   //Maybe wrong AuraID, alternative 2587
+
+            return true;
+        }
+
+        public static async Task<bool> Gallows()
+        {
+            if (!ReaperSettings.Instance.UseGallows) return false;
+            if (!Core.Me.HasAura(2854)) return false;   //Maybe wrong AuraID, alternative 2587
+
+            return true;
+        }
+
+        public static async Task<bool> SoulSlice()
+        {
+            if (!ReaperSettings.Instance.UseSoulSlice) return false;
+            if (!(Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount)) return false;
+
+            //Keep SoulSlice/SoulScythe Charges at a maximum
+            if (Spells.SoulSlice.Charges <= 1) return false;
+            if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
+
+            if (Utilities.Routines.Reaper.SoulGauge > 50) return false;
+
+            return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
         }
 
     }

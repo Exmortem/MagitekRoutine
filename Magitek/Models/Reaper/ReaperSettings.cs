@@ -39,6 +39,18 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseShadowOfDeath { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGibbet { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGallows { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSoulSlice { get; set; }
+
         #endregion
 
         #region AoE-Abilities
@@ -66,6 +78,14 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(2)]
         public int WhorlOfDeathTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSoulScythe { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int SoulScytheTargetCount { get; set; }
 
         #endregion
 
