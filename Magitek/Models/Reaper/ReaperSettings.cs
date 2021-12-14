@@ -25,6 +25,18 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseWaxingSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseInfernalSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseShadowOfDeath { get; set; }
 
         #endregion

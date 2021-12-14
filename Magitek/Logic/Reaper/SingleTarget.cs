@@ -15,6 +15,7 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> Slice()
         {
+            if (!ReaperSettings.Instance.UseSlice) return false;
             if (!await Spells.Slice.Cast(Core.Me.CurrentTarget)) return false;
             Utilities.Routines.Reaper.CurrentComboStage = ReaperComboStages.WaxingSlice;
             return true;
@@ -23,6 +24,7 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> WaxingSlice()
         {
+            if (!ReaperSettings.Instance.UseWaxingSlice) return false;
             if (Utilities.Routines.Reaper.CurrentComboStage != ReaperComboStages.WaxingSlice) return false;
             if (ActionManager.ComboTimeLeft <= 0)  return false;
 
@@ -34,6 +36,7 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> InfernalSlice()
         {
+            if (!ReaperSettings.Instance.UseInfernalSlice) return false;
             if (Utilities.Routines.Reaper.CurrentComboStage != ReaperComboStages.InfernalSlice) return false;
             if (ActionManager.ComboTimeLeft <= 0) return false;
 
