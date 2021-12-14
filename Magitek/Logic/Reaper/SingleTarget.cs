@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
-using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 
 
@@ -111,13 +109,54 @@ namespace Magitek.Logic.Reaper
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Gluttony()
-        {
-            if (!ReaperSettings.Instance.UseGluttony) return false;
-            if (Core.Me.HasAura(2587)) return false;
-            if ( Spells.Slice.Cooldown > new TimeSpan(Spells.Slice.AdjustedCooldown.Ticks / 2)) return false;
+        #endregion
 
-            return await Spells.Gluttony.Cast(Core.Me.CurrentTarget);
+        #region LemureShroudSpender
+
+        public static async Task<bool> VoidAndCrossReaping()
+        {
+
+            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (!Core.Me.HasMyAura(2591))
+            {
+                return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
+            }
+            else
+            {
+                return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
+            }
+            
+
+        }
+
+        public static async Task<bool> VoidReaping()
+        {
+            if (!ReaperSettings.Instance.UseVoidReaping) return false;
+            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (ActionResourceManager.Reaper.LemureShroud != 7 && !Core.Me.HasMyAura(2590)) return false;
+
+            return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> CrossReaping()
+        {
+            if (!ReaperSettings.Instance.UseCrossReaping) return false;
+            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (!Core.Me.HasMyAura(2591)) return false;
+
+            return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
+        }
+
+        #endregion
+
+        #region VoidShroudSpender
+
+        public static async Task<bool> LemuresSlice()
+        {
+            if (!ReaperSettings.Instance.UseLemuresSlice) return false;
+            if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
+
+            return await Spells.LemuresSlice.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion

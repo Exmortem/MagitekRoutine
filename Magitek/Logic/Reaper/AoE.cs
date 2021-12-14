@@ -47,5 +47,14 @@ namespace Magitek.Logic.Reaper
             return await Spells.WhorlOfDeath.Cast(Core.Me);
         }
 
+        //Logic for Smart targeting or burst sniping maybe
+        public static async Task<bool> Communio()
+        {
+            if (!ReaperSettings.Instance.UseCommunio) return false;
+            if (ActionResourceManager.Reaper.LemureShroud > 1) return false;
+
+            return await Spells.Communio.Cast(Core.Me.CurrentTarget);
+        }
+
     }
 }

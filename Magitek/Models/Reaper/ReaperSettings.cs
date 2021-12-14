@@ -67,6 +67,18 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseGluttony { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseVoidReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCrossReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLemuresSlice { get; set; }
+
         #endregion
 
         #region AoE-Abilities
@@ -103,11 +115,17 @@ namespace Magitek.Models.Reaper
         [DefaultValue(2)]
         public int SoulScytheTargetCount { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCommunio { get; set; }
+
         #endregion
 
         #region Cooldowns
 
-
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEnshroud { get; set; }
 
         #endregion
 
