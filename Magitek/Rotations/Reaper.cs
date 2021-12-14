@@ -1,11 +1,12 @@
-﻿using ff14bot;
+﻿using System.Linq;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Reaper;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
-using Magitek.Models.Bard;
+using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Magitek.Rotations
     {
         public static async Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < BardSettings.Instance.RestHealthPercent;
+            return Core.Me.CurrentHealthPercent < ReaperSettings.Instance.RestHealthPercent;
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -37,7 +38,9 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
-            return await PhysicalDps.Peloton(BardSettings.Instance);
+            return false;
+
+            //return await PhysicalDps.Peloton(BardSettings.Instance);
         }
 
         public static async Task<bool> Pull()
@@ -80,7 +83,7 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
-            Utilities.Routines.Bard.RefreshVars();
+            Utilities.Routines.Reaper.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
@@ -102,8 +105,10 @@ namespace Magitek.Rotations
                 return false;
             }
 
+            if (await AoE.NightmareScythe()) return true;
             if (await SingleTarget.InfernalSlice()) return true;
             if (await SingleTarget.WaxingSlice()) return true;
+            if (await AoE.SpinningScythe()) return true;
             if (await SingleTarget.Slice()) return true;
 
             return true;

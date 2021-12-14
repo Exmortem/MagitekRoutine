@@ -12,7 +12,7 @@ namespace Magitek.Utilities.Routines
     internal static class Reaper
     {
         public static int EnemiesInCone;
-        public static int AoeEnemies5Yards;
+        public static int EnemiesAroundPlayer5Yards;
         public static int AoeEnemies8Yards;
         public static ReaperComboStages CurrentComboStage = ReaperComboStages.Slice;
 
@@ -29,9 +29,8 @@ namespace Magitek.Utilities.Routines
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
-            EnemiesInCone = Core.Me.EnemiesInCone(15);
-            AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
-            AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+            EnemiesInCone = Core.Me.EnemiesInCone(8);
+            EnemiesAroundPlayer5Yards = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
 
         }
 

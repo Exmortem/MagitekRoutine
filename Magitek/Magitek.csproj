@@ -695,6 +695,9 @@
     <Compile Include="Views\UserControls\Paladin\TankSwap.xaml.cs">
       <DependentUpon>TankSwap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Reaper\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\RedMage\Aoe.xaml.cs" />
     <Compile Include="Views\UserControls\RedMage\Buffs.xaml.cs" />
     <Compile Include="Views\UserControls\RedMage\Heal.xaml.cs">
@@ -1191,6 +1194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Paladin\TankSwap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\SingleTarget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
