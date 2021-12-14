@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Reaper.SingleTarget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10"/>
+</UserControl>
+

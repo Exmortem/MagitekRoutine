@@ -129,6 +129,9 @@ namespace Magitek.Utilities.CombatMessages
 
                 case ClassJobType.Dancer:
                     break;
+
+                case ClassJobType.Reaper:
+                    break;
             }
         }
     }

@@ -34,6 +34,7 @@ using Magitek.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Magitek.Models.Reaper;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -199,6 +200,7 @@ namespace Magitek
                 MonkSettings.Instance.Save();
                 NinjaSettings.Instance.Save();
                 SamuraiSettings.Instance.Save();
+                ReaperSettings.Instance.Save();
                 BlueMageSettings.Instance.Save();
                 BlackMageSettings.Instance.Save();
                 RedMageSettings.Instance.Save();

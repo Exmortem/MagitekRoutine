@@ -107,6 +107,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.Rest();
 
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.Rest();
+
                 default:
                     return false;
             }
@@ -188,6 +191,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.PreCombatBuff();
 
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.PreCombatBuff();
+
                 default:
                     return false;
             }
@@ -259,6 +265,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.Pull();
+
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.Pull();
 
                 default:
                     return false;
@@ -341,6 +350,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.Heal();
 
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.Heal();
+
                 default:
                     return false;
             }
@@ -412,6 +424,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.CombatBuff();
+
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.CombatBuff();
 
                 default:
                     return false;
@@ -487,6 +502,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Dancer:
                     return await Rotations.Dancer.Combat();
+
+                case ClassJobType.Reaper:
+                    return await Rotations.Reaper.Combat();
 
                 default:
                     return false;
