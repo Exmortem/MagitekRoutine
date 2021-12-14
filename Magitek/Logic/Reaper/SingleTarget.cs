@@ -6,7 +6,7 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
 using Magitek.Models.Reaper;
-using static ff14bot.Managers.ActionResourceManager.Reaper;
+
 
 namespace Magitek.Logic.Reaper
 {
@@ -82,7 +82,7 @@ namespace Magitek.Logic.Reaper
             if (Spells.SoulSlice.Charges <= 1) return false;
             if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
 
-            if (Utilities.Routines.Reaper.SoulGauge > 50) return false;
+            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
 
             return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
         }

@@ -16,13 +16,6 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies8Yards;
         public static ReaperComboStages CurrentComboStage = ReaperComboStages.Slice;
 
-        public static int LemureShroud = ActionResourceManager.Reaper.LemureShroud;
-        public static int ShroudGauge = ActionResourceManager.Reaper.ShroudGauge;
-        public static int SoulGauge = ActionResourceManager.Reaper.SoulGauge;
-        public static int VoidShroud = ActionResourceManager.Reaper.VoidShroud;
-
-
-
         public static void RefreshVars()
         {
 
