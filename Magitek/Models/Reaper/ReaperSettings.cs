@@ -16,6 +16,10 @@ namespace Magitek.Models.Reaper
         #region General-Stuff
 
         [Setting]
+        [DefaultValue(true)]
+        public bool EnemyIsOmni { get; set; }
+
+        [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 

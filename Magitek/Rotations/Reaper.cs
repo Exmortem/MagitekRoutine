@@ -107,7 +107,7 @@ namespace Magitek.Rotations
 
             if (await AoE.WhorlofDeath()) return true;
             if (await SingleTarget.ShadowOfDeath()) return true;
-
+            if (await SingleTarget.GibbetAndGallows()) return true;
             if (await SingleTarget.SoulSlice()) return true;
             
             if (await AoE.NightmareScythe()) return true;

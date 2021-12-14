@@ -57,20 +57,27 @@ namespace Magitek.Logic.Reaper
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Gibbet()
+        public static async Task<bool> GibbetAndGallows()
         {
-            if (!ReaperSettings.Instance.UseGibbet) return false;
-            if (!Core.Me.HasAura(2854)) return false;   //Maybe wrong AuraID, alternative 2587
-
-            return true;
-        }
-
-        public static async Task<bool> Gallows()
-        {
-            if (!ReaperSettings.Instance.UseGallows) return false;
-            if (!Core.Me.HasAura(2854)) return false;   //Maybe wrong AuraID, alternative 2587
-
-            return true;
+            if (!Core.Me.HasAura(2587)) return false;
+            if ( (!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni )
+            {
+                if (ReaperSettings.Instance.UseGallows)
+                    return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+            }
+            else if (Core.Me.CurrentTarget.IsBehind)
+            {
+                if (ReaperSettings.Instance.UseGallows)
+                    return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+            }
+            else
+            {
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+            }
+            return false;
         }
 
         public static async Task<bool> SoulSlice()
