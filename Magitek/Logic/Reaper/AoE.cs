@@ -41,7 +41,7 @@ namespace Magitek.Logic.Reaper
         {
 
             if (!ReaperSettings.Instance.UseWhorlOfDeath) return false;
-            if (!(Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount)) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
             if (!Combat.Enemies.Any(x => !x.HasMyAura(2586) && x.Distance(Core.Me) <= 5 + x.CombatReach)) return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);

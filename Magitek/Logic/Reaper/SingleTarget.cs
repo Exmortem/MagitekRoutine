@@ -51,8 +51,8 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> ShadowOfDeath()
         {
             if (!ReaperSettings.Instance.UseShadowOfDeath) return false;
-            if (!(Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)) return false;
-            if (!Core.Me.CurrentTarget.HasAura(2586,true)) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
+            if (Core.Me.CurrentTarget.HasAura(2586,true)) return false;
 
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
         }
@@ -76,7 +76,7 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> SoulSlice()
         {
             if (!ReaperSettings.Instance.UseSoulSlice) return false;
-            if (!(Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount)) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) return false;
 
             //Keep SoulSlice/SoulScythe Charges at a maximum
             if (Spells.SoulSlice.Charges <= 1) return false;
