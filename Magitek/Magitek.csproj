@@ -147,6 +147,7 @@
     <Compile Include="Converters\SpellIdToSpellData.cs" />
     <Compile Include="Enumerations\BuffStrategy.cs" />
     <Compile Include="Enumerations\ChainStrategemStrategy.cs" />
+    <Compile Include="Enumerations\ReaperComboStages.cs" />
     <Compile Include="Enumerations\DancePartnerStrategy.cs" />
     <Compile Include="Enumerations\DragonSightStrategy.cs" />
     <Compile Include="Enumerations\GameVersion.cs" />

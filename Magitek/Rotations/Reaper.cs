@@ -102,6 +102,8 @@ namespace Magitek.Rotations
                 return false;
             }
 
+            if (await SingleTarget.InfernalSlice()) return true;
+            if (await SingleTarget.WaxingSlice()) return true;
             if (await SingleTarget.Slice()) return true;
 
             return true;

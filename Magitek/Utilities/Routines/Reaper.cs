@@ -2,6 +2,7 @@
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
+        public static ReaperComboStages CurrentComboStage = ReaperComboStages.Slice;
 
         public static int LemureShroud = ActionResourceManager.Reaper.LemureShroud;
         public static int ShroudGauge = ActionResourceManager.Reaper.ShroudGauge;
