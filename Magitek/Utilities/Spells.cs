@@ -803,7 +803,7 @@ namespace Magitek.Utilities
         // RPR
         #region RPR
 
-        public static readonly SpellData Slice = DataManager.GetSpellData(24373); 
+        public static readonly SpellData Slice = DataManager.GetSpellData(24373); // [24373, Slice]
         public static readonly SpellData WaxingSlice = DataManager.GetSpellData(24374); // [24374, Waxing Slice]
         public static readonly SpellData InfernalSlice = DataManager.GetSpellData(24375); // [24375, Infernal Slice]
         public static readonly SpellData SpinningScythe = DataManager.GetSpellData(24376); // [24376, Spinning Scythe]

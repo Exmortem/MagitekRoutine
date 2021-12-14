@@ -49,6 +49,7 @@ namespace Magitek.Utilities
             List<SpellData> Lancer = new List<SpellData>();
             List<SpellData> Dragoon = new List<SpellData>();
             List<SpellData> Samurai = new List<SpellData>();
+            List<SpellData> Reaper = new List<SpellData>();
 
             //Tank
             List<SpellData> Gladiator = new List<SpellData>();
@@ -253,6 +254,14 @@ namespace Magitek.Utilities
                     continue;
                 }
 
+                //Reaper
+                if (action.Value.IsPlayerAction && (action.Value.SpellType == SpellType.Ability || action.Value.SpellType == SpellType.Spell)
+                                                && action.Value.Job == ClassJobType.Samurai)
+                {
+                    Reaper.Add(action.Value);
+                    continue;
+                }
+
                 #endregion
 
                 #region Tanks
@@ -364,6 +373,7 @@ namespace Magitek.Utilities
             NonWeaponskills.Add(ClassJobType.Lancer, Lancer.Concat(MeleeRoleAbilitys).Concat(SystemAbilitys).ToList());
             NonWeaponskills.Add(ClassJobType.Dragoon, Dragoon.Concat(MeleeRoleAbilitys).Concat(SystemAbilitys).ToList());
             NonWeaponskills.Add(ClassJobType.Samurai, Samurai.Concat(MeleeRoleAbilitys).Concat(SystemAbilitys).ToList());
+            NonWeaponskills.Add(ClassJobType.Reaper, Reaper.Concat(MeleeRoleAbilitys).Concat(SystemAbilitys).ToList());
 
             //Tanks
             NonWeaponskills.Add(ClassJobType.Gladiator, Gladiator.Concat(TankRoleAbilitys).Concat(SystemAbilitys).ToList());

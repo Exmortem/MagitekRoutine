@@ -2,7 +2,7 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
-using Magitek.Logic.Bard;
+using Magitek.Logic.Reaper;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Bard;
@@ -95,12 +95,14 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds >
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
 
                 return false;
             }
+
+            if (await SingleTarget.Slice()) return true;
 
             return true;
 

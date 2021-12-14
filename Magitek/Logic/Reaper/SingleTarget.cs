@@ -10,8 +10,13 @@ namespace Magitek.Logic.Reaper
 {
     internal static class SingleTarget
     {
-        
 
-           
+        public static async Task<bool> Slice()
+        {
+
+            return await Spells.Slice.Cast(Core.Me.CurrentTarget);
+
+        }
+
     }
 }
