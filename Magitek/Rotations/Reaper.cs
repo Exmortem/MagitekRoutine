@@ -101,13 +101,19 @@ namespace Magitek.Rotations
             if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
-
-                return false;
+                if (await Cooldown.Enshroud()) return true;
+                if (await SingleTarget.LemuresSlice()) return true;
+                if (await Cooldown.Gluttony()) return true;
+                if (await SingleTarget.BloodStalk()) return true;
             }
 
-            if (await SingleTarget.SoulSlice()) return true;
+            if (await AoE.Communio()) return true;
+            if (await SingleTarget.VoidAndCrossReaping()) return true;
             if (await AoE.WhorlofDeath()) return true;
             if (await SingleTarget.ShadowOfDeath()) return true;
+            if (await SingleTarget.GibbetAndGallows()) return true;
+            if (await SingleTarget.SoulSlice()) return true;
+            
             if (await AoE.NightmareScythe()) return true;
             if (await SingleTarget.InfernalSlice()) return true;
             if (await SingleTarget.WaxingSlice()) return true;

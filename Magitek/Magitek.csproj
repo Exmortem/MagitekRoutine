@@ -241,6 +241,7 @@
     <Compile Include="Logic\BlueMage\Heal.cs" />
     <Compile Include="Logic\Reaper\AoE.cs" />
     <Compile Include="Logic\Reaper\Buff.cs" />
+    <Compile Include="Logic\Reaper\Cooldown.cs" />
     <Compile Include="Logic\Reaper\SingleTarget.cs" />
     <Compile Include="Logic\Reaper\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
