@@ -39,13 +39,11 @@ namespace Magitek.Rotations
                 return false;
 
             return false;
-
-            //return await PhysicalDps.Peloton(BardSettings.Instance);
+            
         }
 
         public static async Task<bool> Pull()
         {
-            Utilities.Routines.Bard.RefreshVars();
 
             if (BotManager.Current.IsAutonomous)
             {
