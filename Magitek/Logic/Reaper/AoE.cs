@@ -57,7 +57,7 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(2587)) return false;
             if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
 
-            return await Spells.GrimSwathe.Cast(Core.Me);
+            return await Spells.GrimSwathe.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseGuillotine) return false;
             if (!Core.Me.HasAura(2587)) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GuillotineTargetCount) return false;
-            return await Spells.Guillotine.Cast(Core.Me);
+            return await Spells.Guillotine.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace Magitek.Logic.Reaper
             if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimReapingTargetCount) return false;
 
-            return await Spells.GrimReaping.Cast(Core.Me);
+            return await Spells.GrimReaping.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> LemuresScythe()
@@ -91,7 +91,7 @@ namespace Magitek.Logic.Reaper
             if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
 
-            return await Spells.LemuresScythe.Cast(Core.Me);
+            return await Spells.LemuresScythe.Cast(Core.Me.CurrentTarget);
         }
 
         //Logic for Smart targeting or burst sniping maybe
