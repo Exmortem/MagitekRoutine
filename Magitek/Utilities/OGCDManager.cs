@@ -120,8 +120,10 @@ namespace Magitek.Utilities
                                                          x.SpellType == SpellType.Spell)
                                                      && CombatJobs.Contains(x.Job)).ToList();
 
-            foreach (var y in DataManager.SpellCache.Values.Where(x => (x.IsPlayerAction && (x.SpellType == SpellType.Ability || x.SpellType == SpellType.Spell) && CombatJobs.Contains(x.Job))
-                                                                           || (x.Job == ClassJobType.Adventurer && x.SpellType == SpellType.System)).ToList())
+            foreach (var y in DataManager.SpellCache.Values.Where(x => (x.IsPlayerAction 
+                                                                                    && (x.SpellType == SpellType.Ability /*|| x.SpellType == SpellType.Spell*/) 
+                                                                                    && x.JobTypes.Any(CombatJobs.Contains))
+                                                                                    || (x.SpellType == SpellType.System && x.Job == ClassJobType.Adventurer)).ToList()) 
             {
             }
 
