@@ -16,6 +16,7 @@ using Magitek.Models.Ninja;
 using Magitek.Models.Paladin;
 using Magitek.Models.RedMage;
 using Magitek.Models.Samurai;
+using Magitek.Models.Reaper;
 using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
@@ -79,6 +80,7 @@ namespace Magitek.ViewModels
         public RedMageSettings RedMageSettings { get; set; } = RedMageSettings.Instance;
         public SummonerSettings SummonerSettings { get; set; } = SummonerSettings.Instance;
         public GunbreakerSettings GunbreakerSettings { get; set; } = GunbreakerSettings.Instance;
+        public ReaperSettings ReaperSettings { get; set; } = ReaperSettings.Instance;
 
         public string CurrentRoutine { get; set; }
         public string RoutineSelectedInUi { get; set; }
