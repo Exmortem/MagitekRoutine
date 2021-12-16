@@ -43,6 +43,12 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.CombatTimeLeft() <= 5)
                 return false;
 
+            if (MachinistSettings.Instance.UseBuffedRookQueen)
+            {
+                if (!Utilities.Routines.Machinist.CheckCurrentDamageIncrease(MachinistSettings.Instance.UseRookQueenWithAtLeastXBonusDamage) && ActionResourceManager.Machinist.Battery < 80)
+                    return false;
+            }
+
             return await MachinistGlobals.RookQueenPet.Cast(Core.Me);
         }
 

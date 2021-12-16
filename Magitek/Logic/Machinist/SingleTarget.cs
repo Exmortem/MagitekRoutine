@@ -103,7 +103,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if (Casting.LastSpell == Spells.Wildfire)
+            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            if (Spells.Wildfire.Cooldown == TimeSpan.Zero && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.GaussRound.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)

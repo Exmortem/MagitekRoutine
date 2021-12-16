@@ -70,13 +70,13 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseShadowBite)
                 return false;
 
+            if (!BardSettings.Instance.UseAoe)
+                return false;
+
             if (!ActionManager.HasSpell(Spells.Shadowbite.Id))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
-
-            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() <= 1)
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < BardSettings.Instance.ShadowBiteEnemies)
                 return false;
 
             return await Spells.Shadowbite.Cast(Core.Me.CurrentTarget);

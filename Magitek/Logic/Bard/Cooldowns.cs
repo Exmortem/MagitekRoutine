@@ -5,6 +5,7 @@ using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.Bard
@@ -73,23 +74,22 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBarrage)
                 return false;
 
-            //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
-            if (Core.Me.ClassLevel < 76)
+            //Dont Barrage when whe have a proc up
+            if (BardSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(5).Count() > 3)
             {
-                if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
-                    && (Casting.LastSpell == Spells.HeavyShot || Casting.LastSpell == Spells.Windbite || Casting.LastSpell == Spells.VenomousBite || Casting.LastSpell == Spells.IronJaws))
+                if (Core.Me.HasAura(Auras.ShadowBiteReady))
                     return false;
-            }
+            } 
             else
             {
+                //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
                 if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
-                    && (Casting.LastSpell == Spells.BurstShot || Casting.LastSpell == Spells.Stormbite || Casting.LastSpell == Spells.CausticBite || Casting.LastSpell == Spells.IronJaws))
+                    && (Casting.LastSpell == Utilities.Routines.Bard.BurstShot || Casting.LastSpell == Utilities.Routines.Bard.Stormbite || Casting.LastSpell == Utilities.Routines.Bard.CausticBite || Casting.LastSpell == Spells.IronJaws))
+                    return false;
+                
+                if (Core.Me.HasAura(Auras.StraighterShot))
                     return false;
             }
-
-            //Dont Barrage when whe have a proc up
-            if (Core.Me.HasAura(Auras.StraighterShot))
-                return false;
 
             if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
                 return false;

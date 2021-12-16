@@ -42,6 +42,27 @@ namespace Magitek.Extensions
             });
         }
 
+        public static bool HasAnyDpsCardAura(this Character unit)
+        {
+            return unit.HasAnyAura(new uint[] {     Auras.TheBole,
+                                                    Auras.TheBole2,
+                                                    Auras.TheBole3,
+                                                    Auras.TheEwer,
+                                                    Auras.TheEwer2,
+                                                    Auras.TheEwer3,
+                                                    Auras.TheSpire,
+                                                    Auras.TheSpire2,
+                                                    Auras.TheSpire3,
+                                                    Auras.TheArrow,
+                                                    Auras.TheArrow2,
+                                                    Auras.TheSpear,
+                                                    Auras.TheSpear2,
+                                                    Auras.TheBalance,
+                                                    Auras.TheBalance2,
+                                                    Auras.TheBalance3,
+            });
+        }
+
         public static bool HasAnyHealerRegen(this Character unit)
         {
             return unit.HasAnyAura(new uint[]

@@ -156,6 +156,14 @@ namespace Magitek.Models.Bard
         public bool UseShadowBite { get; set; }
 
         [Setting]
+        [DefaultValue(2)]
+        public int ShadowBiteEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int ShadowBiteAfterBarrageEnemies { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseApexArrow { get; set; }
 
