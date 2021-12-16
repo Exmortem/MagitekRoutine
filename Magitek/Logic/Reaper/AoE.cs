@@ -53,7 +53,7 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> GrimSwathe()
         {
             if (!ReaperSettings.Instance.UseGrimSwathe) return false;
-            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
             if (Core.Me.HasAura(2587)) return false;
             if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
 
@@ -68,7 +68,7 @@ namespace Magitek.Logic.Reaper
         {
             if (!ReaperSettings.Instance.UseGuillotine) return false;
             if (!Core.Me.HasAura(2587)) return false;
-            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GuillotineTargetCount) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GuillotineTargetCount) return false;
             return await Spells.Guillotine.Cast(Core.Me);
         }
 
@@ -79,8 +79,8 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> GrimReaping()
         {
             if (!ReaperSettings.Instance.UseGrimReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud <= 2) return false;
-            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GrimReapingTargetCount) return false;
+            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimReapingTargetCount) return false;
 
             return await Spells.GrimReaping.Cast(Core.Me);
         }
@@ -88,8 +88,8 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> LemuresScythe()
         {
             if (!ReaperSettings.Instance.UseLemuresScythe) return false;
-            if (ActionResourceManager.Reaper.VoidShroud <= 2) return false;
-            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
+            if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
 
             return await Spells.LemuresScythe.Cast(Core.Me);
         }

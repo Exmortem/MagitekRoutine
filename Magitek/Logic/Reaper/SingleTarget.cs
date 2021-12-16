@@ -119,6 +119,7 @@ namespace Magitek.Logic.Reaper
         {
 
             if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimReapingTargetCount) return false;
             if (!Core.Me.HasMyAura(2591))
             {
                 return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
