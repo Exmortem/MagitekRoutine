@@ -100,6 +100,7 @@ namespace Magitek.Rotations
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Cooldown.Enshroud()) return true;
+                if (await AoE.LemuresScythe()) return true;
                 if (await SingleTarget.LemuresSlice()) return true;
                 if (await Cooldown.Gluttony()) return true;
                 if (await AoE.GrimSwathe()) return true;
@@ -107,6 +108,7 @@ namespace Magitek.Rotations
             }
 
             if (await AoE.Communio()) return true;
+            if (await AoE.GrimReaping()) return true;
             if (await SingleTarget.VoidAndCrossReaping()) return true;
             if (await AoE.WhorlofDeath()) return true;
             if (await SingleTarget.ShadowOfDeath()) return true;

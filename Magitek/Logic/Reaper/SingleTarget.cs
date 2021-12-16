@@ -130,24 +130,6 @@ namespace Magitek.Logic.Reaper
 
         }
 
-        public static async Task<bool> VoidReaping()
-        {
-            if (!ReaperSettings.Instance.UseVoidReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (ActionResourceManager.Reaper.LemureShroud != 7 && !Core.Me.HasMyAura(2590)) return false;
-
-            return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> CrossReaping()
-        {
-            if (!ReaperSettings.Instance.UseCrossReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (!Core.Me.HasMyAura(2591)) return false;
-
-            return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
-        }
-
         #endregion
 
         #region VoidShroudSpender

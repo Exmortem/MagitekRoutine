@@ -7,7 +7,6 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
 using Magitek.Models.Reaper;
-using static ff14bot.Managers.ActionResourceManager.Reaper;
 
 namespace Magitek.Logic.Reaper
 {
@@ -75,6 +74,26 @@ namespace Magitek.Logic.Reaper
 
         #endregion
 
+        #region Enshroud
+
+        public static async Task<bool> GrimReaping()
+        {
+            if (!ReaperSettings.Instance.UseGrimReaping) return false;
+            if (ActionResourceManager.Reaper.LemureShroud <= 2) return false;
+            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GrimReapingTargetCount) return false;
+
+            return await Spells.GrimReaping.Cast(Core.Me);
+        }
+
+        public static async Task<bool> LemuresScythe()
+        {
+            if (!ReaperSettings.Instance.UseLemuresScythe) return false;
+            if (ActionResourceManager.Reaper.VoidShroud <= 2) return false;
+            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
+
+            return await Spells.LemuresScythe.Cast(Core.Me);
+        }
+
         //Logic for Smart targeting or burst sniping maybe
         public static async Task<bool> Communio()
         {
@@ -83,6 +102,8 @@ namespace Magitek.Logic.Reaper
 
             return await Spells.Communio.Cast(Core.Me.CurrentTarget);
         }
+
+        #endregion
 
     }
 }

@@ -133,6 +133,22 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseGrimReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GrimReapingTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLemuresScythe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int LemuresScytheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseCommunio { get; set; }
 
         #endregion
