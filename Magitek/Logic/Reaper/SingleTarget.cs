@@ -80,12 +80,24 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> GibbetAndGallows()
         {
             if (!Core.Me.HasAura(2587)) return false;
+            if (Core.Me.HasAura(Auras.EnhancedGibbet))
+            {
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+            }
+            else if (Core.Me.HasAura(Auras.EnhancedGallows))
+            {
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+            }
             if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
             {
                 if (ReaperSettings.Instance.UseGallows)
                     return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+
                 if (ReaperSettings.Instance.UseGibbet)
                     return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+
             }
             else if (Core.Me.CurrentTarget.IsBehind)
             {

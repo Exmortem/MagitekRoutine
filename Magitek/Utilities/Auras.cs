@@ -243,7 +243,9 @@ namespace Magitek.Utilities
             BattleLitany = 786,
             ArcaneCircle = 2599,
             SearingLight = 2703,
-            ChainStratagem = 1406;
+            ChainStratagem = 1406,
+            EnhancedGibbet = 2588,
+            EnhancedGallows = 2589;
 
         private const int
             Invincibility0 = 981,
