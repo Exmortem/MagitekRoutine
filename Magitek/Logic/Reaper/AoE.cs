@@ -13,6 +13,20 @@ namespace Magitek.Logic.Reaper
     internal static class AoE
     {
 
+        //Expire Check Missing
+        //Something like TTK > Current GCD 
+        public static async Task<bool> WhorlofDeath()
+        {
+
+            if (!ReaperSettings.Instance.UseWhorlOfDeath) return false;
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
+            if (!Combat.Enemies.Any(x => !x.HasMyAura(2586) && x.Distance(Core.Me) <= 5 + x.CombatReach)) return false;
+
+            return await Spells.WhorlOfDeath.Cast(Core.Me);
+        }
+
+        #region SoulGaugeGenerator
+
         public static async Task<bool> SpinningScythe()
         {
             if (!ReaperSettings.Instance.UseSpinningScythe) return false;
@@ -36,17 +50,23 @@ namespace Magitek.Logic.Reaper
 
         }
 
-        //Expire Check Missing
-        //Something like TTK > Current GCD 
-        public static async Task<bool> WhorlofDeath()
+        public static async Task<bool> SoulScythe()
         {
+            if (!ReaperSettings.Instance.UseSoulScythe) return false;
+            if (!ReaperSettings.Instance.UseSoulSlice 
+                || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount) 
+                return false;
 
-            if (!ReaperSettings.Instance.UseWhorlOfDeath) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
-            if (!Combat.Enemies.Any(x => !x.HasMyAura(2586) && x.Distance(Core.Me) <= 5 + x.CombatReach)) return false;
+            //Keep SoulSlice/SoulScythe Charges at a maximum
+            if (Spells.SoulScythe.Charges <= 1) return false;
+            if (Spells.SoulScythe.Cooldown > Spells.Slice.Cooldown) return false;
 
-            return await Spells.WhorlOfDeath.Cast(Core.Me);
+            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
+
+            return await Spells.SoulScythe.Cast(Core.Me);
         }
+
+        #endregion
 
         #region SoulGaugeSpender
 

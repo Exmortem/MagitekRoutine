@@ -60,7 +60,9 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> SoulSlice()
         {
             if (!ReaperSettings.Instance.UseSoulSlice) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) return false;
+            if (ReaperSettings.Instance.UseSoulScythe && 
+                Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) 
+                return false;
 
             //Keep SoulSlice/SoulScythe Charges at a maximum
             if (Spells.SoulSlice.Charges <= 1) return false;
