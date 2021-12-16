@@ -179,5 +179,74 @@ namespace Magitek.Logic.Samurai
 
             return await Spells.HissatsuKyuten.Cast(Core.Me.CurrentTarget);
         }
+
+        public static async Task<bool> Fuko()
+        {
+            if (!SamuraiSettings.Instance.Fuko)
+                return false;
+
+            if (Core.Me.ClassLevel < 86)
+                return false;
+
+            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.FukoEnemies)
+                return false;
+
+            return await Spells.Fuko.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> ShohaII()
+        {
+            if (!SamuraiSettings.Instance.ShohaII)
+                return false;
+
+            if (Core.Me.ClassLevel < 82)
+                return false;
+
+            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.ShohaIIEnemies)
+                return false;
+
+            if (ActionResourceManager.Samurai.Meditation < 3)
+                return false;
+
+            return await Spells.ShohaII.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> OgiNamikiri()
+        {
+            if (!Core.Me.HasAura(Auras.OgiReady))
+                return false;
+
+            if (!SamuraiSettings.Instance.OgiNamikiri)
+                return false;
+
+            if (Core.Me.ClassLevel < 90)
+                return false;
+
+            if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.OgiNamikiriEnemies)
+                return false;
+
+            return await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> KaeshiNamikiri()
+        {
+            if (!SamuraiSettings.Instance.KaeshiNamikiri)
+                return false;
+            
+            if (Core.Me.ClassLevel < 90)
+                return false;
+
+            if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)
+            {
+                if (Core.Me.EnemiesInCone(10) < SamuraiSettings.Instance.KaeshiNamikiriEnemies)
+                    return false;
+            }
+            else
+            {
+                if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.KaeshiNamikiriEnemies)
+                    return false;
+            }
+            return await Spells.KaeshiNamikiri.Cast(Core.Me.CurrentTarget);
+        }
     }
 }

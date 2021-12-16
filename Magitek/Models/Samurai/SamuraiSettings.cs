@@ -130,5 +130,37 @@ namespace Magitek.Models.Samurai
         [Setting]
         [DefaultValue(true)]
         public bool HissatsuSeigan { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ShohaII { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int ShohaIIEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Fuko { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int FukoEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool OgiNamikiri { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int OgiNamikiriEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KaeshiNamikiri { get; set; }
+
+        [Setting] 
+        [DefaultValue(3)] 
+        public int KaeshiNamikiriEnemies { get; set; }
     }
 }

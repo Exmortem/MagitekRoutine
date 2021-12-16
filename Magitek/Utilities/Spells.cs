@@ -537,6 +537,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ShohaII = DataManager.GetSpellData(25779);
         public static readonly SpellData Fuko = DataManager.GetSpellData(25780);
         public static readonly SpellData OgiNamikiri = DataManager.GetSpellData(25781);
+        public static readonly SpellData KaeshiNamikiri = DataManager.GetSpellData(25782);
         #endregion
 
         // SCH
