@@ -79,7 +79,7 @@ namespace Magitek.Models.Machinist
         public bool UseFlamethrower { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int FlamethrowerEnemyCount { get; set; }
 
         #endregion
@@ -109,6 +109,14 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(50)]
         public int MinBatteryForPetSummon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBuffedRookQueen { get; set; }
+        
+        [Setting]
+        [DefaultValue(10)]
+        public int UseRookQueenWithAtLeastXBonusDamage { get; set; }
 
         #endregion
 

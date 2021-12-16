@@ -20,6 +20,19 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.QuickNock
                                             : Spells.Ladonsbite;
 
+        public static SpellData Stormbite => Core.Me.ClassLevel < 64
+                                            ? Spells.Windbite
+                                            : Spells.Stormbite;
+
+        public static SpellData CausticBite => Core.Me.ClassLevel < 64
+                                            ? Spells.VenomousBite
+                                            : Spells.CausticBite;
+
+        public static SpellData BurstShot => Core.Me.ClassLevel < 76
+                                            ? Spells.HeavyShot
+                                            : Spells.BurstShot;
+
+
         public static void RefreshVars()
         {
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
@@ -91,107 +104,77 @@ namespace Magitek.Utilities.Routines
             return ActionResourceManager.Bard.Timer.TotalMilliseconds;
         }
 
-        public static bool CheckCurrentDamageIncrease(int _neededDmgIncrease)
+        public static bool CheckCurrentDamageIncrease(int neededDmgIncrease)
         {
-            double _dmgIncrease = 1;
-            bool _isEndingSoon = false;
+            double dmgIncrease = 1;
 
-            //This should be changed into some IDs
-            List<string> fivePercentBuffs = new List<string>();
-            fivePercentBuffs.Add("Technical Finish");
-            fivePercentBuffs.Add("LeftEye");
-            fivePercentBuffs.Add("Devotion");
-            fivePercentBuffs.Add("Divination");
-            fivePercentBuffs.Add("Brotherhood");
+            //From PLD
+            //From DRK
+            //From GNB
+            //From WAR
+            //From WHM
+            //From BLM
+            //From SAM
+            //From MCH
+            //From BRD
+            if (Core.Me.HasAura(Auras.RadiantFinale))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAura(Auras.BattleVoice))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.TheWanderersMinuet))
+                dmgIncrease *= 1.02;
+            if (Core.Me.HasAura(Auras.MagesBallad))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.ArmysPaeon))
+                dmgIncrease *= 1.01;
 
-            List<string> astLowCards = new List<string>();
-            astLowCards.Add("The Balance");
-            astLowCards.Add("The Arrow");
-            astLowCards.Add("The Spear");
+            //From DNC
+            if (Core.Me.HasAura(Auras.Devilment))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.TechnicalFinish))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAura(Auras.StandardFinish))
+                dmgIncrease *= 1.06;
 
-            List<string> astHighCards = new List<string>();
-            astLowCards.Add("The Bole");
-            astLowCards.Add("The Ewer");
-            astLowCards.Add("The Spire");
+            //From RDM
+            if (Core.Me.HasAura(Auras.Embolden))
+                dmgIncrease *= 1.05;
 
-            foreach (var _auraCache in Core.Me.Auras)
-            {
-                if (fivePercentBuffs.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.05;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            //From SMN
+            if (Core.Me.HasAura(Auras.SearingLight))
+                dmgIncrease *= 1.03;
 
-                if (astLowCards.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.03;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            //From MNK
+            if (Core.Me.HasAura(Auras.Brotherhood))
+                dmgIncrease *= 1.05;
 
-                if (astHighCards.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
-
-                if (_auraCache.Name == "Lord of Crowns")
-                {
-                    _dmgIncrease *= 1.04;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
-
-                if (_auraCache.Name == "Lady of Crowns")
-                {
-                    _dmgIncrease *= 1.08;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
-
-                if (_auraCache.Name == "Raging Strikes")
-                {
-                    _dmgIncrease *= 1.1;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
-
-                if (_auraCache.Name == "Radiant Finale")
-                {
-                    _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
-
-                if (_auraCache.Name == "Embolden")
-                {
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 16000)
-                        _dmgIncrease *= 1.1;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 12000)
-                        _dmgIncrease *= 1.08;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 8000)
-                        _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds >= 4000)
-                        _dmgIncrease *= 1.04;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 4000)
-                    {
-                        _dmgIncrease *= 1.1;
-                        _isEndingSoon = true;
-                    }
-                }
-            }
-
-            //Trick Attack Check
+            //From NIN
             if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
-            {
-                _dmgIncrease *= 1.1;
-                if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, false, 3000))
-                    _isEndingSoon = true;
-            }
+                dmgIncrease *= 1.1;
 
-            return _dmgIncrease >= (1 + (double)_neededDmgIncrease / 100) && _isEndingSoon;
+            //From DRG
+            if (Core.Me.HasAura(Auras.LeftEye))
+                dmgIncrease *= 1.05;
+            if (Core.Me.HasAura(Auras.BattleLitany))
+                dmgIncrease *= 1.01;
+
+            //From RPR
+            if (Core.Me.HasAura(Auras.ArcaneCircle))
+                dmgIncrease *= 1.03;
+
+            //From SCH
+            if (Core.Me.CurrentTarget.HasAura(Auras.ChainStratagem))
+                dmgIncrease *= 1.01;
+
+            //From SGE
+
+            //From AST
+            if (Core.Me.HasAura(Auras.Divination))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAnyDpsCardAura())
+                dmgIncrease *= 1.06;
+
+            return dmgIncrease >= (1 + (double)neededDmgIncrease / 100);
         }
     }
 }

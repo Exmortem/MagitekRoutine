@@ -47,6 +47,8 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseStraightShot)
                 return false;
 
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= BardSettings.Instance.ShadowBiteAfterBarrageEnemies)
+                return false;
 
             if (Core.Me.ClassLevel < 70 || !ActionManager.HasSpell(Spells.RefulgentArrow.Id))
                 if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
