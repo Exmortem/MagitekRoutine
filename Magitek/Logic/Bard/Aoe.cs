@@ -125,16 +125,8 @@ namespace Magitek.Logic.Bard
                 case ActionResourceManager.Bard.BardSong.ArmysPaeon:
                     if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
                     {
-                        if (BardSettings.Instance.EndArmysPaeonEarly)
-                        {
-                            if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && (ActionResourceManager.Bard.Timer.TotalSeconds - BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining) < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
-                                return false;
-                        } else
-                        {
-                            if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && ActionResourceManager.Bard.Timer.TotalSeconds < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
-                                return false;
-                        }
-                        
+                        if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && Utilities.Routines.Bard.CurrentDurationArmysPaeon() < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
+                            return false; 
                     }
                     break;
 
