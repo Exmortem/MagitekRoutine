@@ -88,7 +88,7 @@ namespace Magitek.Logic.Reaper
             else if (Core.Me.HasAura(Auras.EnhancedGallows))
             {
                 if (ReaperSettings.Instance.UseGibbet)
-                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+                    return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
             }
             if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
             {
