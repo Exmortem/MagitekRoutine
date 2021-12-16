@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -12,6 +13,7 @@ namespace Magitek.Logic.Reaper
 {
     internal static class AoE
     {
+
         public static async Task<bool> SpinningScythe()
         {
             if (!ReaperSettings.Instance.UseSpinningScythe) return false;
@@ -46,6 +48,32 @@ namespace Magitek.Logic.Reaper
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
         }
+
+        #region SoulGaugeSpender
+
+        public static async Task<bool> GrimSwathe()
+        {
+            if (!ReaperSettings.Instance.UseGrimSwathe) return false;
+            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
+            if (Core.Me.HasAura(2587)) return false;
+            if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
+
+            return await Spells.GrimSwathe.Cast(Core.Me);
+        }
+
+        #endregion
+
+        #region SoulShroudGenerator
+
+        public static async Task<bool> Guillotine()
+        {
+            if (!ReaperSettings.Instance.UseGuillotine) return false;
+            if (!Core.Me.HasAura(2587)) return false;
+            if (Utilities.Routines.Reaper.AoeEnemies8Yards < ReaperSettings.Instance.GuillotineTargetCount) return false;
+            return await Spells.Guillotine.Cast(Core.Me);
+        }
+
+        #endregion
 
         //Logic for Smart targeting or burst sniping maybe
         public static async Task<bool> Communio()

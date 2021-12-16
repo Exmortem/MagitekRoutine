@@ -74,6 +74,7 @@ namespace Magitek.Logic.Reaper
         #endregion
 
         #region SoulShroudGenerator
+
         public static async Task<bool> GibbetAndGallows()
         {
             if (!Core.Me.HasAura(2587)) return false;
@@ -100,6 +101,7 @@ namespace Magitek.Logic.Reaper
         #endregion
 
         #region SoulGaugeSpender
+
         public static async Task<bool> BloodStalk()
         {
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
@@ -125,7 +127,6 @@ namespace Magitek.Logic.Reaper
             {
                 return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
             }
-            
 
         }
 

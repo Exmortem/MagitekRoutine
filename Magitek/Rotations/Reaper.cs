@@ -102,6 +102,7 @@ namespace Magitek.Rotations
                 if (await Cooldown.Enshroud()) return true;
                 if (await SingleTarget.LemuresSlice()) return true;
                 if (await Cooldown.Gluttony()) return true;
+                if (await AoE.GrimSwathe()) return true;
                 if (await SingleTarget.BloodStalk()) return true;
             }
 
@@ -109,6 +110,7 @@ namespace Magitek.Rotations
             if (await SingleTarget.VoidAndCrossReaping()) return true;
             if (await AoE.WhorlofDeath()) return true;
             if (await SingleTarget.ShadowOfDeath()) return true;
+            if (await AoE.Guillotine()) return true;
             if (await SingleTarget.GibbetAndGallows()) return true;
             if (await SingleTarget.SoulSlice()) return true;
             
