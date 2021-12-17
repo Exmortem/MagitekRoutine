@@ -39,6 +39,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> NightmareScythe()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.NightmareScythe.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseNightmareScythe) return false;
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.NightmareScytheTargetCount) return false;
             if (Utilities.Routines.Reaper.CurrentComboStage != ReaperComboStages.NightmareScythe) return false;
@@ -72,6 +75,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> GrimSwathe()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.GrimSwathe.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseGrimSwathe) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
             if (Core.Me.HasAura(2587)) return false;
@@ -86,6 +92,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> Guillotine()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.Guillotine.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseGuillotine) return false;
             if (!Core.Me.HasAura(2587)) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GuillotineTargetCount) return false;
@@ -98,6 +107,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> GrimReaping()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.GrimReaping.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseGrimReaping) return false;
             if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimReapingTargetCount) return false;
@@ -107,6 +119,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> LemuresScythe()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseLemuresScythe) return false;
             if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
@@ -117,6 +132,9 @@ namespace Magitek.Logic.Reaper
         //Logic for Smart targeting or burst sniping maybe
         public static async Task<bool> Communio()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.Communio.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseCommunio) return false;
             if (ActionResourceManager.Reaper.LemureShroud > 1) return false;
 

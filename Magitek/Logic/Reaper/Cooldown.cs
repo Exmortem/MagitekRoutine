@@ -14,6 +14,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> Gluttony()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.Gluttony.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseGluttony) return false;
             if (Core.Me.HasAura(2587)) return false;
             if (Spells.Slice.Cooldown > new TimeSpan(Spells.Slice.AdjustedCooldown.Ticks / 2)) return false;
@@ -23,6 +26,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> Enshroud()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.Enshroud.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseEnshroud) return false;
             if (ActionResourceManager.Reaper.ShroudGauge < 50) return false;
 
