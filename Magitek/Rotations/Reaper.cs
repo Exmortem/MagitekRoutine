@@ -96,7 +96,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
+            if (OGCDManager.UsedOGCDs() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Cooldown.Enshroud()) return true;
