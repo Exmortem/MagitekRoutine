@@ -235,6 +235,7 @@ namespace Magitek.Utilities
             AetherialMimicryTank = 2124,
             CriticalStrikes = 1797,
             BlastArrowReady = 2692,
+            OgiReady = 2959,
             ShadowBiteReady = 3002,
             PrimalRendReady = 2624,
             ArmysPaeon = 2218,
