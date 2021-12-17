@@ -928,6 +928,9 @@
                         <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
                             <reaper:SingleTarget />
                         </TabItem>
+                        <TabItem Header="AoE " Style="{DynamicResource MainTabAoe}">
+                            <reaper:AoE />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

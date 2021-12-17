@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Reaper.AoE"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="400"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Whorl Of Death, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseWhorlOfDeath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.WhorlOfDeathTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" >
+                    <CheckBox Margin="5" Content=" Enable Spinning Scythe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseSpinningScythe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.SpinningScytheTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <CheckBox Margin="5" Content=" Enable Nightmare Scythe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseNightmareScythe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.NightmareScytheTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Soul Scythe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseSoulScythe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.SoulScytheTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Grim Swathe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseGrimSwathe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.GrimSwatheTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <CheckBox Margin="5" Content=" Enable Guillotine, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseGuillotine, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.GuillotineTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Grim Reaping, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseGrimReaping, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.GrimReapingTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <CheckBox Margin="5" Content=" Enable LemuresScythe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseLemuresScythe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.LemuresScytheTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Communio, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseCommunio, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>
+

@@ -48,7 +48,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AutoCrossbow()
         {
-            if (!MachinistSettings.Instance.UseBioBlaster)
+            if (!MachinistSettings.Instance.UseAutoCrossbow)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -96,7 +96,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            if (Casting.LastSpell == Spells.Wildfire)
+            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
+                return false;
+
+            if (Spells.Wildfire.Cooldown == TimeSpan.Zero && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.Ricochet.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
@@ -123,7 +126,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.ClassLevel < 90)
                 return false;
 
-            if (Casting.LastSpell == Spells.Hypercharge)
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))

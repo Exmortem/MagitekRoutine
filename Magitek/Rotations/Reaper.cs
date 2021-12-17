@@ -39,19 +39,17 @@ namespace Magitek.Rotations
                 return false;
 
             return false;
-
-            //return await PhysicalDps.Peloton(BardSettings.Instance);
+            
         }
 
         public static async Task<bool> Pull()
         {
-            Utilities.Routines.Bard.RefreshVars();
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -94,19 +92,29 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
+            if (OGCDManager.UsedOGCDs() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
+                if (await Cooldown.Enshroud()) return true;
+                if (await AoE.LemuresScythe()) return true;
+                if (await SingleTarget.LemuresSlice()) return true;
+                if (await Cooldown.Gluttony()) return true;
+                if (await AoE.GrimSwathe()) return true;
                 if (await SingleTarget.BloodStalk()) return true;
             }
 
+            if (await AoE.Communio()) return true;
+            if (await AoE.GrimReaping()) return true;
+            if (await SingleTarget.VoidAndCrossReaping()) return true;
             if (await AoE.WhorlofDeath()) return true;
             if (await SingleTarget.ShadowOfDeath()) return true;
+            if (await AoE.Guillotine()) return true;
             if (await SingleTarget.GibbetAndGallows()) return true;
+            if (await AoE.SoulScythe()) return true;
             if (await SingleTarget.SoulSlice()) return true;
             
             if (await AoE.NightmareScythe()) return true;

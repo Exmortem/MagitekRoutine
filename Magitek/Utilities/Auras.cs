@@ -234,7 +234,19 @@ namespace Magitek.Utilities
             AetherialMimicryDps = 2125,
             AetherialMimicryTank = 2124,
             CriticalStrikes = 1797,
-            BlastArrowReady = 2692;
+            BlastArrowReady = 2692,
+            OgiReady = 2959,
+            ShadowBiteReady = 3002,
+            PrimalRendReady = 2624,
+            ArmysPaeon = 2218,
+            MagesBallad = 2217,
+            TheWanderersMinuet  = 2216,
+            BattleLitany = 786,
+            ArcaneCircle = 2599,
+            SearingLight = 2703,
+            ChainStratagem = 1406,
+            EnhancedGibbet = 2588,
+            EnhancedGallows = 2589;
 
         private const int
             Invincibility0 = 981,

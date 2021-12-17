@@ -20,6 +20,10 @@ namespace Magitek.Models.Reaper
         public bool EnemyIsOmni { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool BurnEverything { get; set; }
+
+        [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 
@@ -59,6 +63,22 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseBloodStalk { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGluttony { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseVoidReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCrossReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLemuresSlice { get; set; }
+
         #endregion
 
         #region AoE-Abilities
@@ -68,7 +88,7 @@ namespace Magitek.Models.Reaper
         public bool UseSpinningScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int SpinningScytheTargetCount { get; set; }
 
         [Setting]
@@ -76,7 +96,7 @@ namespace Magitek.Models.Reaper
         public bool UseNightmareScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int NightmareScytheTargetCount { get; set; }
 
         [Setting]
@@ -84,7 +104,7 @@ namespace Magitek.Models.Reaper
         public bool UseWhorlOfDeath { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int WhorlOfDeathTargetCount { get; set; }
 
         [Setting]
@@ -92,14 +112,52 @@ namespace Magitek.Models.Reaper
         public bool UseSoulScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int SoulScytheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGrimSwathe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GrimSwatheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGuillotine { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GuillotineTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGrimReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GrimReapingTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLemuresScythe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int LemuresScytheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCommunio { get; set; }
 
         #endregion
 
         #region Cooldowns
 
-
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEnshroud { get; set; }
 
         #endregion
 

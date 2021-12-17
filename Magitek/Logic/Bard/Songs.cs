@@ -89,7 +89,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
+                    if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
@@ -151,7 +151,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
+                    if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
@@ -165,7 +165,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.MagesBallad:
 
-                    if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                    if (Utilities.Routines.Bard.NextTickUnderMagesBallad() > 0)
                         return false;
 
                     if (magesBallardCooldown != TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero
@@ -215,7 +215,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.WanderersMinuet:
 
-                    if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() > 400)
+                    if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() > 400)
                         return false;
 
                     if (ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds > 600)
@@ -228,7 +228,7 @@ namespace Magitek.Logic.Bard
 
                 case ActionResourceManager.Bard.BardSong.MagesBallad:
 
-                    if (Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick() < ActionResourceManager.Bard.Timer.TotalMilliseconds)
+                    if (Utilities.Routines.Bard.NextTickUnderMagesBallad() > 0)
                         return false;
 
                     if (magesBallardCooldown != TimeSpan.Zero && armysPaeonCooldown == TimeSpan.Zero && theWanderersMinuetCooldown == TimeSpan.Zero
@@ -258,7 +258,11 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000 * BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining)
+            {
+                Logger.WriteInfo($@"[Cast WanderersMinuet] Time remaining for {ActionResourceManager.Bard.ActiveSong} : {ActionResourceManager.Bard.Timer.TotalMilliseconds}");
                 return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
+            }
+                
 
 
             return false;
@@ -271,8 +275,10 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000 * BardSettings.Instance.EndWanderersMinuetEarlyWithXSecondsRemaining)
+            {
+                Logger.WriteInfo($@"[Cast MagesBallad] Time remaining for {ActionResourceManager.Bard.ActiveSong} : {ActionResourceManager.Bard.Timer.TotalMilliseconds}");
                 return await Spells.MagesBallad.Cast(Core.Me.CurrentTarget);
-
+            }
 
             return false;
         }
@@ -284,7 +290,10 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (ActionResourceManager.Bard.Timer.TotalMilliseconds < 1000 * BardSettings.Instance.EndMagesBalladEarlyWithXSecondsRemaining)
+            {
+                Logger.WriteInfo($@"[Cast ArmysPaeon] Time remaining for {ActionResourceManager.Bard.ActiveSong} : {ActionResourceManager.Bard.Timer.TotalMilliseconds}");
                 return await Spells.ArmysPaeon.Cast(Core.Me.CurrentTarget);
+            }
 
             return false;
         }
