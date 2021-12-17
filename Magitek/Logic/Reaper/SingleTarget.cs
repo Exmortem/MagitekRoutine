@@ -118,6 +118,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> BloodStalk()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.BloodStalk.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
             if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
             if (Core.Me.HasAura(2587)) return false;
@@ -131,6 +134,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> VoidAndCrossReaping()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.VoidReaping.LevelAcquired)
+                return false;
 
             if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimReapingTargetCount) return false;
@@ -151,6 +157,9 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> LemuresSlice()
         {
+            //Add level check so it doesn't hang here
+            if (Core.Me.ClassLevel < Spells.LemuresSlice.LevelAcquired)
+                return false;
             if (!ReaperSettings.Instance.UseLemuresSlice) return false;
             if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
 
