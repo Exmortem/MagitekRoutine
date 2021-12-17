@@ -25,10 +25,8 @@ namespace Magitek.Logic.Machinist
             if (!MachinistGlobals.IsInWeaveingWindow)
                 return false;
 
-            /*
-            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+            if (Spells.BarrelStabilizer.Cooldown.TotalMilliseconds > 0)
                 return false;
-            */
 
             if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 6000)
                 return false;
@@ -48,7 +46,7 @@ namespace Magitek.Logic.Machinist
                     return false;
             }
 
-            Logger.Write($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
+            Logger.WriteInfo($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
 
@@ -56,6 +54,9 @@ namespace Magitek.Logic.Machinist
         {
 
             if (!MachinistSettings.Instance.UseHypercharge)
+                return false;
+
+            if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 0)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50)
@@ -66,11 +67,12 @@ namespace Magitek.Logic.Machinist
                 if (Core.Me.HasAura(Auras.WildfireBuff, true) && Spells.Wildfire.Cooldown.TotalMilliseconds > 117200)
                     return await Spells.Hypercharge.Cast(Core.Me);
 
+                if (MachinistSettings.Instance.UseWildfire && Spells.Wildfire.Cooldown.TotalMilliseconds >= 0 && Spells.Wildfire.Cooldown.TotalMilliseconds < 25000)
+                    return false;
+                
                 if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
                     return await Spells.Hypercharge.Cast(Core.Me);
 
-                if (MachinistSettings.Instance.UseWildfire && Spells.Wildfire.Cooldown.TotalMilliseconds > 0 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 25000)
-                    return false;
             }
 
             if (Core.Me.ClassLevel >= 58 && ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 8000)
@@ -86,15 +88,19 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 800 + BaseSettings.Instance.UserLatencyOffset)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
+            Logger.WriteInfo($@"Using Hypercharge at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
             return await Spells.Hypercharge.Cast(Core.Me);
         }
         
         public static async Task<bool> Wildfire()
         {
             if (!MachinistSettings.Instance.UseWildfire)
+                return false;
+
+            if (Spells.Wildfire.Cooldown.TotalMilliseconds > 0)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
@@ -112,6 +118,14 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
+            if (Weaving.GetCurrentWeavingCounter() > 0)
+                return false;
+
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 900 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
+
+            Logger.WriteInfo($@"Using Wildfire at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
 

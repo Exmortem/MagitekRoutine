@@ -2,7 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using System;
+using Magitek.Models.Bard;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,8 +13,6 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static List<DateTime> DoTProcEvents = new List<DateTime>();
-        public static int OldSoulVoice;
         public static bool AlreadySnapped = false;
 
 
@@ -22,11 +20,21 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.QuickNock
                                             : Spells.Ladonsbite;
 
+        public static SpellData Stormbite => Core.Me.ClassLevel < 64
+                                            ? Spells.Windbite
+                                            : Spells.Stormbite;
+
+        public static SpellData CausticBite => Core.Me.ClassLevel < 64
+                                            ? Spells.VenomousBite
+                                            : Spells.CausticBite;
+
+        public static SpellData BurstShot => Core.Me.ClassLevel < 76
+                                            ? Spells.HeavyShot
+                                            : Spells.BurstShot;
+
+
         public static void RefreshVars()
         {
-            CheckForDoTProcs();
-            CleanUpDoTProcList();
-
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
@@ -50,164 +58,123 @@ namespace Magitek.Utilities.Routines
             new List<uint>() { Auras.StormBite, Auras.CausticBite } :
             new List<uint>() { Auras.Windbite, Auras.VenomousBite };
 
-        public static void CleanUpDoTProcList()
-        {
-            //If the proc event is older than 45s then remove it, its safe to assume the dot dropped or target died
-            //The chances to get at least one dot proc within 30s are 99.4~% ( 1 dot 10 ticks )
-            foreach (var _TickTime in DoTProcEvents.Reverse<DateTime>())
-            {
-                if (!(DateTime.Now.Subtract(_TickTime).TotalMilliseconds >= 45000)) continue;
-                DoTProcEvents.Remove(_TickTime);
-            }
-
-            //The More Enemies the more Proc data we need
-            if (DoTProcEvents.Count > Combat.Enemies.Count)
-                DoTProcEvents.Remove(DoTProcEvents.Last());
-        }
-
-
-        public static void CheckForDoTProcs()
-        {
-            //Doenst matter if something procs here
-            if (Combat.CombatTime.ElapsedMilliseconds < 2800)
-            {
-                OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-                DoTProcEvents.Clear();
-                return;
-            }
-
-            if (OldSoulVoice == ActionResourceManager.Bard.SoulVoice)
-                return;
-
-            OldSoulVoice = ActionResourceManager.Bard.SoulVoice;
-
-            if (Casting.LastSpell == Spells.EmpyrealArrow || Casting.LastSpell == Spells.ApexArrow || Casting.LastSpell == Spells.BlastArrow)
-                return;
-
-            DateTime newProcTime = DateTime.Now;
-
-            DoTProcEvents.Insert(0, newProcTime);
-
-        }
 
         public static double TimeUntilNextPossibleDoTTick()
         {
-            double potentialTickInXms = 999999;
+            double nextTickInXms = 0;
 
-            foreach (var dotTickTime in DoTProcEvents)
-            {
-                double _tmpTime = DateTime.Now.Subtract(dotTickTime).TotalMilliseconds;
-                if (potentialTickInXms > _tmpTime % 3000)
-                    potentialTickInXms = _tmpTime % 3000;
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None) {
+                nextTickInXms = ActionResourceManager.Bard.Timer.TotalMilliseconds % 3000;
             }
-
-            if (potentialTickInXms != 999999)
-                return 3000 - potentialTickInXms; // DateTime.Now.Subtract(dotTickTime).TotalMilliseconds % 3000 = INVERTED TIME
-            return 0;
-
+            
+            return nextTickInXms;
         }
 
-        public static bool CheckCurrentDamageIncrease(int _neededDmgIncrease)
+        public static double CurrentDurationWanderersMinuet()
         {
-            double _dmgIncrease = 1;
-            bool _isEndingSoon = false;
+            if (BardSettings.Instance.EndWanderersMinuetEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndWanderersMinuetEarlyWithXSecondsRemaining);
 
-            //This should be changed into some IDs
-            List<string> fivePercentBuffs = new List<string>();
-            fivePercentBuffs.Add("Technical Finish");
-            fivePercentBuffs.Add("LeftEye");
-            fivePercentBuffs.Add("Devotion");
-            fivePercentBuffs.Add("Divination");
-            fivePercentBuffs.Add("Brotherhood");
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
+        }
+        
+        public static double NextTickUnderWanderersMinuet()
+        {
+            return CurrentDurationWanderersMinuet() - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
+        }
 
-            List<string> astLowCards = new List<string>();
-            astLowCards.Add("The Balance");
-            astLowCards.Add("The Arrow");
-            astLowCards.Add("The Spear");
+        public static double CurrentDurationMagesBallad()
+        {
+            if (BardSettings.Instance.EndMagesBalladEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndMagesBalladEarlyWithXSecondsRemaining);
 
-            List<string> astHighCards = new List<string>();
-            astLowCards.Add("The Bole");
-            astLowCards.Add("The Ewer");
-            astLowCards.Add("The Spire");
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
+        }
 
-            foreach (var _auraCache in Core.Me.Auras)
-            {
-                if (fivePercentBuffs.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.05;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+        public static double NextTickUnderMagesBallad()
+        {
+            return CurrentDurationMagesBallad() - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();
+        }
 
-                if (astLowCards.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.03;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+        public static double CurrentDurationArmysPaeon()
+        {
+            if (BardSettings.Instance.EndArmysPaeonEarly)
+                return ActionResourceManager.Bard.Timer.TotalMilliseconds - (1000 * BardSettings.Instance.EndArmysPaeonEarlyWithXSecondsRemaining);
 
-                if (astHighCards.Contains(_auraCache.Name))
-                {
-                    _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            return ActionResourceManager.Bard.Timer.TotalMilliseconds;
+        }
 
-                if (_auraCache.Name == "Lord of Crowns")
-                {
-                    _dmgIncrease *= 1.04;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+        public static bool CheckCurrentDamageIncrease(int neededDmgIncrease)
+        {
+            double dmgIncrease = 1;
 
-                if (_auraCache.Name == "Lady of Crowns")
-                {
-                    _dmgIncrease *= 1.08;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            //From PLD
+            //From DRK
+            //From GNB
+            //From WAR
+            //From WHM
+            //From BLM
+            //From SAM
+            //From MCH
+            //From BRD
+            if (Core.Me.HasAura(Auras.RadiantFinale))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAura(Auras.BattleVoice))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.TheWanderersMinuet))
+                dmgIncrease *= 1.02;
+            if (Core.Me.HasAura(Auras.MagesBallad))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.ArmysPaeon))
+                dmgIncrease *= 1.01;
 
-                if (_auraCache.Name == "Raging Strikes")
-                {
-                    _dmgIncrease *= 1.1;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            //From DNC
+            if (Core.Me.HasAura(Auras.Devilment))
+                dmgIncrease *= 1.01;
+            if (Core.Me.HasAura(Auras.TechnicalFinish))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAura(Auras.StandardFinish))
+                dmgIncrease *= 1.06;
 
-                if (_auraCache.Name == "Radiant Finale")
-                {
-                    _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 3000)
-                        _isEndingSoon = true;
-                }
+            //From RDM
+            if (Core.Me.HasAura(Auras.Embolden))
+                dmgIncrease *= 1.05;
 
-                if (_auraCache.Name == "Embolden")
-                {
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 16000)
-                        _dmgIncrease *= 1.1;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 12000)
-                        _dmgIncrease *= 1.08;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds > 8000)
-                        _dmgIncrease *= 1.06;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds >= 4000)
-                        _dmgIncrease *= 1.04;
-                    if (_auraCache.TimespanLeft.TotalMilliseconds < 4000)
-                    {
-                        _dmgIncrease *= 1.1;
-                        _isEndingSoon = true;
-                    }
-                }
-            }
+            //From SMN
+            if (Core.Me.HasAura(Auras.SearingLight))
+                dmgIncrease *= 1.03;
 
-            //Trick Attack Check
+            //From MNK
+            if (Core.Me.HasAura(Auras.Brotherhood))
+                dmgIncrease *= 1.05;
+
+            //From NIN
             if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
-            {
-                _dmgIncrease *= 1.1;
-                if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, false, 3000))
-                    _isEndingSoon = true;
-            }
+                dmgIncrease *= 1.1;
 
-            return _dmgIncrease >= (1 + (double)_neededDmgIncrease / 100) && _isEndingSoon;
+            //From DRG
+            if (Core.Me.HasAura(Auras.LeftEye))
+                dmgIncrease *= 1.05;
+            if (Core.Me.HasAura(Auras.BattleLitany))
+                dmgIncrease *= 1.01;
+
+            //From RPR
+            if (Core.Me.HasAura(Auras.ArcaneCircle))
+                dmgIncrease *= 1.03;
+
+            //From SCH
+            if (Core.Me.CurrentTarget.HasAura(Auras.ChainStratagem))
+                dmgIncrease *= 1.01;
+
+            //From SGE
+
+            //From AST
+            if (Core.Me.HasAura(Auras.Divination))
+                dmgIncrease *= 1.06;
+            if (Core.Me.HasAnyDpsCardAura())
+                dmgIncrease *= 1.06;
+
+            return dmgIncrease >= (1 + (double)neededDmgIncrease / 100);
         }
     }
 }

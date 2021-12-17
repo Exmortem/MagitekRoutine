@@ -60,7 +60,9 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> SoulSlice()
         {
             if (!ReaperSettings.Instance.UseSoulSlice) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) return false;
+            if (ReaperSettings.Instance.UseSoulScythe && 
+                Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) 
+                return false;
 
             //Keep SoulSlice/SoulScythe Charges at a maximum
             if (Spells.SoulSlice.Charges <= 1) return false;
@@ -74,15 +76,28 @@ namespace Magitek.Logic.Reaper
         #endregion
 
         #region SoulShroudGenerator
+
         public static async Task<bool> GibbetAndGallows()
         {
             if (!Core.Me.HasAura(2587)) return false;
+            if (Core.Me.HasAura(Auras.EnhancedGibbet))
+            {
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+            }
+            else if (Core.Me.HasAura(Auras.EnhancedGallows))
+            {
+                if (ReaperSettings.Instance.UseGibbet)
+                    return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+            }
             if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
             {
                 if (ReaperSettings.Instance.UseGallows)
                     return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+
                 if (ReaperSettings.Instance.UseGibbet)
                     return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+
             }
             else if (Core.Me.CurrentTarget.IsBehind)
             {
@@ -100,6 +115,7 @@ namespace Magitek.Logic.Reaper
         #endregion
 
         #region SoulGaugeSpender
+
         public static async Task<bool> BloodStalk()
         {
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
@@ -117,6 +133,7 @@ namespace Magitek.Logic.Reaper
         {
 
             if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimReapingTargetCount) return false;
             if (!Core.Me.HasMyAura(2591))
             {
                 return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
@@ -125,26 +142,7 @@ namespace Magitek.Logic.Reaper
             {
                 return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
             }
-            
 
-        }
-
-        public static async Task<bool> VoidReaping()
-        {
-            if (!ReaperSettings.Instance.UseVoidReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (ActionResourceManager.Reaper.LemureShroud != 7 && !Core.Me.HasMyAura(2590)) return false;
-
-            return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> CrossReaping()
-        {
-            if (!ReaperSettings.Instance.UseCrossReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (!Core.Me.HasMyAura(2591)) return false;
-
-            return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion

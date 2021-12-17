@@ -88,7 +88,7 @@ namespace Magitek.Models.Reaper
         public bool UseSpinningScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int SpinningScytheTargetCount { get; set; }
 
         [Setting]
@@ -96,7 +96,7 @@ namespace Magitek.Models.Reaper
         public bool UseNightmareScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int NightmareScytheTargetCount { get; set; }
 
         [Setting]
@@ -104,7 +104,7 @@ namespace Magitek.Models.Reaper
         public bool UseWhorlOfDeath { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int WhorlOfDeathTargetCount { get; set; }
 
         [Setting]
@@ -112,8 +112,40 @@ namespace Magitek.Models.Reaper
         public bool UseSoulScythe { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int SoulScytheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGrimSwathe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GrimSwatheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGuillotine { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GuillotineTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGrimReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int GrimReapingTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLemuresScythe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int LemuresScytheTargetCount { get; set; }
 
         [Setting]
         [DefaultValue(true)]

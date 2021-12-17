@@ -812,6 +812,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ShadowOfDeath = DataManager.GetSpellData(24378); // [24378, Shadow of Death]
         public static readonly SpellData WhorlOfDeath = DataManager.GetSpellData(24379); // [24379, Whorl of Death]
         public static readonly SpellData SoulSlice = DataManager.GetSpellData(24380); // [24380, Soul Slice]
+        public static readonly SpellData SoulScythe = DataManager.GetSpellData(24381); // [24380, Soul Slice]
         public static readonly SpellData Gibbet = DataManager.GetSpellData(24382); // [24382, Gibbet]
         public static readonly SpellData Gallows = DataManager.GetSpellData(24383); // [24383, Gallows]
         public static readonly SpellData Guillotine = DataManager.GetSpellData(24384); // [24384, Guillotine]
