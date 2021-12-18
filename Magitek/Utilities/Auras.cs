@@ -246,7 +246,12 @@ namespace Magitek.Utilities
             SearingLight = 2703,
             ChainStratagem = 1406,
             EnhancedGibbet = 2588,
-            EnhancedGallows = 2589;
+            EnhancedGallows = 2589,
+
+            FlourishingSymmetry = 2693,
+            FlourshingFlow = 2694,
+            FourfoldFanDance = 2699,
+            FlourishingStarfall = 2700;
 
         private const int
             Invincibility0 = 981,
