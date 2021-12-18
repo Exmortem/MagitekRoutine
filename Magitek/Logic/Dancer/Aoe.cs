@@ -11,6 +11,24 @@ namespace Magitek.Logic.Dancer
 {
     internal static class Aoe
     {
+        public static async Task<bool> StarfallDance()
+        {
+            if (Core.Me.ClassLevel < Spells.StarfallDance.LevelAcquired)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.FlourishingStarfall)) return false;
+
+            return await Spells.StarfallDance.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> FanDance4()
+        {
+            if (Core.Me.ClassLevel < Spells.FanDanceIV.LevelAcquired)
+                return false;
+
+            return await Spells.FanDanceIV.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> FanDance3()
         {
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired)
