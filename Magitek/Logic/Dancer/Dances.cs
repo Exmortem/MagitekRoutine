@@ -14,6 +14,13 @@ namespace Magitek.Logic.Dancer
 {
     internal static class Dances
     {
+        public static async Task<bool> Tillana()
+        {
+            if (!Core.Me.HasAura(Auras.FlourishingFinish)) return false;
+
+            return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> StartStandardDance()
         {
             if (!DancerSettings.Instance.UseStandardStep)

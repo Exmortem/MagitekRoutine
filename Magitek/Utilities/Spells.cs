@@ -224,6 +224,7 @@ namespace Magitek.Utilities
         public static readonly SpellData QuadrupleTechnicalFinish = DataManager.GetSpellData(16196);
         public static readonly SpellData FanDanceIV = DataManager.GetSpellData(25791);
         public static readonly SpellData StarfallDance = DataManager.GetSpellData(25792);
+        public static readonly SpellData Tillana = DataManager.GetSpellData(25790);
         #endregion
 
         // DRG
