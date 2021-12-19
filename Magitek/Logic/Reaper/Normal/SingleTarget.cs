@@ -22,6 +22,12 @@ namespace Magitek.Logic.Reaper
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
                 return false;
 
+            if (Core.Me.HasAura(Auras.EnhancedGibbet))
+                return false;
+            
+            if (Core.Me.HasAura(Auras.EnhancedGallows))
+                return false;
+
             if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds))
                 return false;
 

@@ -31,10 +31,10 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
 
             //Openers.OpenerCheck();
+            if (await Cooldown.Soulsow()) return true;
 
             if (Core.Me.HasTarget && Core.Me.CurrentTarget.CanAttack)
                 return false;
-
 
             if (Globals.OnPvpMap)
                 return false;
@@ -103,7 +103,6 @@ namespace Magitek.Rotations
                 {
                     if (await Enshroud.AoE.LemuresScythe()) return true;
                     if (await Enshroud.SingleTarget.LemuresSlice()) return true;
-
                 }
                 if (await Enshroud.AoE.Communio()) return true;
                 if (await Enshroud.AoE.GrimReaping()) return true;
@@ -123,6 +122,7 @@ namespace Magitek.Rotations
                 }
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
+                if (await Cooldown.HarvestMoon()) return true;
                 if (await AoE.PlentifulHarvest()) return true;
                 if (await AoE.Guillotine()) return true;
                 if (await SingleTarget.GibbetAndGallows()) return true;

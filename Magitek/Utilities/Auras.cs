@@ -257,7 +257,8 @@ namespace Magitek.Utilities
             FlourshingFlow = 2694,
             FlourishingFinish = 2698,
             FourfoldFanDance = 2699,
-            FlourishingStarfall = 2700;
+            FlourishingStarfall = 2700,
+            Soulsow = 2594;
 
         private const int
             Invincibility0 = 981,

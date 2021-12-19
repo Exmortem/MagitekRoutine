@@ -157,6 +157,10 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseHarvestMoon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UsePlentifulHarvest { get; set; }
 
         #endregion

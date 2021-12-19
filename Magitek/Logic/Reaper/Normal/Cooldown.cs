@@ -44,5 +44,27 @@ namespace Magitek.Logic.Reaper
             return await Spells.ArcaneCircle.Cast(Core.Me);
         }
 
+        public static async Task<bool> Soulsow()
+        {
+            if (!ReaperSettings.Instance.UseHarvestMoon || Core.Me.ClassLevel < Spells.Soulsow.LevelAcquired)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Soulsow))
+                return false;
+
+            return await Spells.Soulsow.Cast(Core.Me);
+        }
+
+        public static async Task<bool> HarvestMoon()
+        {
+            if (!ReaperSettings.Instance.UseHarvestMoon || Core.Me.ClassLevel < Spells.HarvestMoon.LevelAcquired)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Soulsow))
+                return false;
+
+            return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget); 
+        }
+
     }
 }
