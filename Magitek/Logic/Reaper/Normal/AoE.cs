@@ -40,7 +40,7 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseHarvestMoon)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.SoulReaver))
+            if (!Core.Me.HasAura(Auras.Soulsow))
                 return false;
 
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
