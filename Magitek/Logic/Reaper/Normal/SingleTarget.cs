@@ -22,12 +22,9 @@ namespace Magitek.Logic.Reaper
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
                 return false;
 
-            if (Core.Me.HasAura(Auras.EnhancedGibbet))
+            if (Core.Me.HasAura(Auras.SoulReaver))
                 return false;
             
-            if (Core.Me.HasAura(Auras.EnhancedGallows))
-                return false;
-
             if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds))
                 return false;
 
@@ -91,7 +88,7 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> GibbetAndGallows()
         {
-            if (!Core.Me.HasAura(2587)) return false;
+            if (!Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Core.Me.HasAura(Auras.EnhancedGibbet))
             {
                 if (ReaperSettings.Instance.UseGibbet)

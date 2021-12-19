@@ -21,6 +21,9 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseWhorlOfDeath)
                 return false;
 
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount)
                 return false;
 

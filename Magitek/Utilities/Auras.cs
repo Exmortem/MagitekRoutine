@@ -261,6 +261,7 @@ namespace Magitek.Utilities
             FlourishingFinish = 2698,
             FourfoldFanDance = 2699,
             FlourishingStarfall = 2700,
+            SoulReaver = 2587,
             Soulsow = 2594;
 
         private const int
