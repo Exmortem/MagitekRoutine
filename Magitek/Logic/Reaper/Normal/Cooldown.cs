@@ -29,6 +29,8 @@ namespace Magitek.Logic.Reaper
             //Add level check so it doesn't hang here
             if (Core.Me.ClassLevel < Spells.Enshroud.LevelAcquired)
                 return false;
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
             if (!ReaperSettings.Instance.UseEnshroud) return false;
             if (ActionResourceManager.Reaper.ShroudGauge < 50) return false;
 
