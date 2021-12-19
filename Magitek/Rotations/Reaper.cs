@@ -4,6 +4,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Reaper;
+using Enshroud = Magitek.Logic.Reaper.Enshroud;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Reaper;
@@ -96,32 +97,43 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (OGCDManager.UsedOGCDs() < 2 && Spells.Slice.Cooldown.TotalMilliseconds >
-                650 + BaseSettings.Instance.UserLatencyOffset)
+            if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {
-                if (await Cooldown.Enshroud()) return true;
-                if (await AoE.LemuresScythe()) return true;
-                if (await SingleTarget.LemuresSlice()) return true;
-                if (await Cooldown.Gluttony()) return true;
-                if (await AoE.GrimSwathe()) return true;
-                if (await SingleTarget.BloodStalk()) return true;
+                if (Spells.VoidReaping.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 1)
+                {
+                    if (await Enshroud.AoE.LemuresScythe()) return true;
+                    if (await Enshroud.SingleTarget.LemuresSlice()) return true;
+
+                }
+                if (await Enshroud.AoE.Communio()) return true;
+                if (await Enshroud.AoE.GrimReaping()) return true;
+                if (await Enshroud.SingleTarget.VoidReaping()) return true;
+                if (await Enshroud.SingleTarget.CrossReaping()) return true;
+            }
+            else
+            {
+                if (Spells.Slice.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 2)
+                {
+                    if (await Cooldown.Enshroud()) return true;
+                    if (await Cooldown.Gluttony()) return true;
+                    if (await AoE.GrimSwathe()) return true;
+                    if (await SingleTarget.BloodStalk()) return true;
+                }
+                if (await AoE.WhorlofDeath()) return true;
+                if (await SingleTarget.ShadowOfDeath()) return true;
+                if (await AoE.Guillotine()) return true;
+                if (await SingleTarget.GibbetAndGallows()) return true;
+                if (await AoE.SoulScythe()) return true;
+                if (await SingleTarget.SoulSlice()) return true;
+
+                if (await AoE.NightmareScythe()) return true;
+                if (await SingleTarget.InfernalSlice()) return true;
+                if (await SingleTarget.WaxingSlice()) return true;
+                if (await AoE.SpinningScythe()) return true;
+                return await SingleTarget.Slice();
             }
 
-            if (await AoE.Communio()) return true;
-            if (await AoE.GrimReaping()) return true;
-            if (await SingleTarget.VoidAndCrossReaping()) return true;
-            if (await AoE.WhorlofDeath()) return true;
-            if (await SingleTarget.ShadowOfDeath()) return true;
-            if (await AoE.Guillotine()) return true;
-            if (await SingleTarget.GibbetAndGallows()) return true;
-            if (await AoE.SoulScythe()) return true;
-            if (await SingleTarget.SoulSlice()) return true;
-            
-            if (await AoE.NightmareScythe()) return true;
-            if (await SingleTarget.InfernalSlice()) return true;
-            if (await SingleTarget.WaxingSlice()) return true;
-            if (await AoE.SpinningScythe()) return true;
-            return await SingleTarget.Slice();
+            return false;
         }
 
         public static async Task<bool> PvP()

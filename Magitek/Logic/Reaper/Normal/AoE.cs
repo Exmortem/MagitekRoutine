@@ -18,9 +18,15 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> WhorlofDeath()
         {
 
-            if (!ReaperSettings.Instance.UseWhorlOfDeath) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
-            if (!Combat.Enemies.Any(x => !x.HasMyAura(2586) && x.Distance(Core.Me) <= 5 + x.CombatReach)) return false;
+            if (!ReaperSettings.Instance.UseWhorlOfDeath)
+                return false;
+
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
+                return false;
+
+            if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || x.HasMyAura(Auras.DeathsDesign) && x.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds)) 
+                                         && x.Distance(Core.Me) <= 5 + x.CombatReach))
+                return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
         }
@@ -99,46 +105,6 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.HasAura(2587)) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GuillotineTargetCount) return false;
             return await Spells.Guillotine.Cast(Core.Me.CurrentTarget);
-        }
-
-        #endregion
-
-        #region Enshroud
-
-        public static async Task<bool> GrimReaping()
-        {
-            //Add level check so it doesn't hang here
-            if (Core.Me.ClassLevel < Spells.GrimReaping.LevelAcquired)
-                return false;
-            if (!ReaperSettings.Instance.UseGrimReaping) return false;
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimReapingTargetCount) return false;
-
-            return await Spells.GrimReaping.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> LemuresScythe()
-        {
-            //Add level check so it doesn't hang here
-            if (Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired)
-                return false;
-            if (!ReaperSettings.Instance.UseLemuresScythe) return false;
-            if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
-            if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.LemuresScytheTargetCount) return false;
-
-            return await Spells.LemuresScythe.Cast(Core.Me.CurrentTarget);
-        }
-
-        //Logic for Smart targeting or burst sniping maybe
-        public static async Task<bool> Communio()
-        {
-            //Add level check so it doesn't hang here
-            if (Core.Me.ClassLevel < Spells.Communio.LevelAcquired)
-                return false;
-            if (!ReaperSettings.Instance.UseCommunio) return false;
-            if (ActionResourceManager.Reaper.LemureShroud > 1) return false;
-
-            return await Spells.Communio.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion

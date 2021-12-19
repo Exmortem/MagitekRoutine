@@ -16,9 +16,14 @@ namespace Magitek.Logic.Reaper
         //Something like TTK > Current GCD 
         public static async Task<bool> ShadowOfDeath()
         {
-            if (!ReaperSettings.Instance.UseShadowOfDeath) return false;
-            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount) return false;
-            if (Core.Me.CurrentTarget.HasAura(2586, true)) return false;
+            if (!ReaperSettings.Instance.UseShadowOfDeath)
+                return false;
+
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
+                return false;
+
+            if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds))
+                return false;
 
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
         }
@@ -126,44 +131,6 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(2587)) return false;
 
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
-        }
-
-        #endregion
-
-        #region LemureShroudSpender
-
-        public static async Task<bool> VoidAndCrossReaping()
-        {
-            //Add level check so it doesn't hang here
-            if (Core.Me.ClassLevel < Spells.VoidReaping.LevelAcquired)
-                return false;
-
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
-            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimReapingTargetCount) return false;
-            if (!Core.Me.HasMyAura(2591))
-            {
-                return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
-            }
-            else
-            {
-                return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
-            }
-
-        }
-
-        #endregion
-
-        #region VoidShroudSpender
-
-        public static async Task<bool> LemuresSlice()
-        {
-            //Add level check so it doesn't hang here
-            if (Core.Me.ClassLevel < Spells.LemuresSlice.LevelAcquired)
-                return false;
-            if (!ReaperSettings.Instance.UseLemuresSlice) return false;
-            if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
-
-            return await Spells.LemuresSlice.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion
