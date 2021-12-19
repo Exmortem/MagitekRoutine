@@ -45,10 +45,13 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseSoulsow)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Soulsow))
+                return false;
+
             if (Core.Me.InCombat && Core.Me.HasTarget)
                 return false;
 
-            return await Spells.Soulsow.Cast(Core.Me);
+            return await Spells.Soulsow.CastAura(Core.Me, Auras.Soulsow);
 
         }
 
