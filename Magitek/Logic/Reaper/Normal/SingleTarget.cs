@@ -14,7 +14,8 @@ namespace Magitek.Logic.Reaper
     {
         //Expire Check Missing
         //Something like TTK > Current GCD 
-        public static async Task<bool> ShadowOfDeath()
+        
+        public static async Task<bool> ShadowOfDeath(int refreshAt)
         {
             if (!ReaperSettings.Instance.UseShadowOfDeath)
                 return false;
@@ -25,7 +26,7 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.SoulReaver))
                 return false;
             
-            if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds))
+            if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, refreshAt))
                 return false;
 
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);

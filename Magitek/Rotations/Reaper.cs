@@ -121,7 +121,7 @@ namespace Magitek.Rotations
                     if (await Utility.TrueNorth()) return true;
                 }
                 if (await AoE.WhorlofDeath()) return true;
-                if (await SingleTarget.ShadowOfDeath()) return true;
+                if (await SingleTarget.ShadowOfDeath(Spells.Slice.AdjustedCooldown.Milliseconds)) return true;
                 if (await Cooldown.HarvestMoon()) return true;
                 if (await AoE.PlentifulHarvest()) return true;
                 if (await AoE.Guillotine()) return true;
@@ -130,9 +130,12 @@ namespace Magitek.Rotations
                 if (await SingleTarget.SoulSlice()) return true;
 
                 if (await AoE.NightmareScythe()) return true;
+                if (await AoE.SpinningScythe()) return true;
                 if (await SingleTarget.InfernalSlice()) return true;
                 if (await SingleTarget.WaxingSlice()) return true;
-                if (await AoE.SpinningScythe()) return true;
+                // If there is nothing else better to do, go ahead and keep Death's Design up above 30 seconds.
+                // This prevents the buff from falling off right in the middle of a Enshroud rotation.
+                if (await SingleTarget.ShadowOfDeath(30000)) return true;
                 return await SingleTarget.Slice();
             }
 
