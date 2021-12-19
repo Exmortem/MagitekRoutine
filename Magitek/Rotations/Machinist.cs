@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2)
+            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 //Pets
                 if (await Pet.RookQueen()) return true;
