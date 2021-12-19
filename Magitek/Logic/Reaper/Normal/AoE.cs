@@ -43,7 +43,7 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.HasAura(Auras.SoulReaver))
                 return false;
 
-            return Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
+            return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> WhorlofDeathIdle()

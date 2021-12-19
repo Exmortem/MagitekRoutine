@@ -702,6 +702,9 @@
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Reaper\Utility.xaml.cs">
+      <DependentUpon>Utility.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Reaper\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
@@ -1205,6 +1208,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\Utility.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
