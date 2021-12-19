@@ -28,6 +28,23 @@ namespace Magitek.Logic.Reaper
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> ShadowOfDeathIdle()
+        {
+            if (!ReaperSettings.Instance.UseShadowOfDeath)
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
+                return false;
+
+            if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, 30000 - Spells.Slice.AdjustedCooldown.Milliseconds))
+                return false;
+
+            return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
+        }
+
         #region SoulGaugeGenerator
         public static async Task<bool> Slice()
         {

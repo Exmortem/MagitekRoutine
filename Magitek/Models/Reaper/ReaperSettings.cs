@@ -159,6 +159,10 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UsePlentifulHarvest { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHarvestMoon { get; set; }
+
         #endregion
 
         #region Cooldowns
@@ -171,7 +175,9 @@ namespace Magitek.Models.Reaper
 
         #region Utility-Abilities
 
-
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSoulsow { get; set; }
 
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -32,12 +33,16 @@ namespace Magitek.Rotations
 
             //Openers.OpenerCheck();
 
+            if (await Utility.Soulsow())
+                return true;
+
             if (Core.Me.HasTarget && Core.Me.CurrentTarget.CanAttack)
                 return false;
 
 
             if (Globals.OnPvpMap)
                 return false;
+
 
             return false;
             
@@ -121,6 +126,8 @@ namespace Magitek.Rotations
                     if (await SingleTarget.BloodStalk()) return true;
                     if (await Utility.TrueNorth()) return true;
                 }
+
+                if (await Utility.Soulsow()) return true;
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
                 if (await AoE.PlentifulHarvest()) return true;
@@ -133,7 +140,10 @@ namespace Magitek.Rotations
                 if (await SingleTarget.InfernalSlice()) return true;
                 if (await SingleTarget.WaxingSlice()) return true;
                 if (await AoE.SpinningScythe()) return true;
-                return await SingleTarget.Slice();
+                if (await AoE.WhorlofDeathIdle()) return true;
+                if (await SingleTarget.ShadowOfDeathIdle()) return true;
+                if (await SingleTarget.Slice()) return true;
+                return await AoE.HarvestMoon();
             }
 
             return false;

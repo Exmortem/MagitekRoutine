@@ -21,10 +21,44 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseWhorlOfDeath)
                 return false;
 
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount)
                 return false;
 
             if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds)))
+                                         && x.Distance(Core.Me) <= 5 + x.CombatReach))
+                return false;
+
+            return await Spells.WhorlOfDeath.Cast(Core.Me);
+        }
+
+        public static async Task<bool> HarvestMoon()
+        {
+
+            if (!ReaperSettings.Instance.UseHarvestMoon)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            return Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> WhorlofDeathIdle()
+        {
+
+            if (!ReaperSettings.Instance.UseWhorlOfDeath)
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.WhorlOfDeathTargetCount)
+                return false;
+
+            if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, 30000 - Spells.Slice.AdjustedCooldown.Milliseconds)))
                                          && x.Distance(Core.Me) <= 5 + x.CombatReach))
                 return false;
 
@@ -65,12 +99,6 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseSoulSlice 
                 || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount) 
                 return false;
-
-            //Keep SoulSlice/SoulScythe Charges at a maximum
-            /*
-            if (Spells.SoulScythe.Charges <= 1) return false;
-            if (Spells.SoulScythe.Cooldown > Spells.Slice.Cooldown) return false;
-            */
 
             if (ActionResourceManager.Reaper.SoulGauge >= 50) return false;
 

@@ -39,7 +39,7 @@ namespace Magitek.Logic.Reaper.Enshroud
             if (!ReaperSettings.Instance.UseLemuresScythe || Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired) 
                 return false;
 
-            if (ActionResourceManager.Reaper.VoidShroud < 2) return false;
+            if (ActionResourceManager.Reaper.VoidShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
 
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone * 100 >= 200)
                 return await Spells.LemuresScythe.Cast(Core.Me.CurrentTarget);
@@ -52,6 +52,7 @@ namespace Magitek.Logic.Reaper.Enshroud
         {
             if (!ReaperSettings.Instance.UseCommunio || Core.Me.ClassLevel < Spells.Communio.LevelAcquired) 
                 return false;
+
             if (ActionResourceManager.Reaper.LemureShroud > 1 || (Core.Me.HasAura(Auras.Enshrouded) && !Core.Me.HasAura(Auras.Enshrouded, true, 3000)))
                 return false;
 

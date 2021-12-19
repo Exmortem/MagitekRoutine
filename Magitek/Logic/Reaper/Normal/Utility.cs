@@ -39,5 +39,18 @@ namespace Magitek.Logic.Reaper
             return false;
         }
 
+        public static async Task<bool> Soulsow()
+        {
+
+            if (!ReaperSettings.Instance.UseSoulsow)
+                return false;
+
+            if (Core.Me.InCombat && Core.Me.HasTarget)
+                return false;
+
+            return await Spells.Soulsow.Cast(Core.Me);
+
+        }
+
     }
 }
