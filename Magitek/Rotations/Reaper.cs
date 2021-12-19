@@ -114,13 +114,16 @@ namespace Magitek.Rotations
             {
                 if (Spells.Slice.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 2)
                 {
+                    if (await Cooldown.ArcaneCircle()) return true;
                     if (await Cooldown.Enshroud()) return true;
                     if (await Cooldown.Gluttony()) return true;
                     if (await AoE.GrimSwathe()) return true;
                     if (await SingleTarget.BloodStalk()) return true;
+                    if (await Utility.TrueNorth()) return true;
                 }
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
+                if (await AoE.PlentifulHarvest()) return true;
                 if (await AoE.Guillotine()) return true;
                 if (await SingleTarget.GibbetAndGallows()) return true;
                 if (await AoE.SoulScythe()) return true;

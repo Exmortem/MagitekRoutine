@@ -1,11 +1,9 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Models.Reaper;
-using static ff14bot.Managers.ActionResourceManager.Reaper;
 
 namespace Magitek.Logic.Reaper
 {
@@ -14,7 +12,29 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> TrueNorth()
         {
-            if (ReaperSettings.Instance.EnemyIsOmni) return false;
+            if (ReaperSettings.Instance.EnemyIsOmni || !ReaperSettings.Instance.UseTrueNorth) return false;
+
+            if (ActionResourceManager.Reaper.SoulGauge < 40)
+                return false;
+            if (ActionResourceManager.Reaper.ShroudGauge >= 40)
+                return false;
+
+            if (Core.Me.HasAura(Auras.EnhancedGibbet))
+            {
+                if (Core.Me.CurrentTarget.IsFlanking)
+                    return false;
+
+                return await Spells.TrueNorth.CastAura(Core.Me, Auras.TrueNorth);
+
+            }
+
+            if (Core.Me.HasAura(Auras.EnhancedGallows))
+            {
+                if (Core.Me.CurrentTarget.IsBehind)
+                    return false;
+
+                return await Spells.TrueNorth.CastAura(Core.Me, Auras.TrueNorth); ;
+            }
 
             return false;
         }

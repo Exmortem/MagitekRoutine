@@ -70,10 +70,11 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             //Keep SoulSlice/SoulScythe Charges at a maximum
+            /*
             if (Spells.SoulSlice.Charges <= 1) return false;
             if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
-
-            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
+            */
+            if (ActionResourceManager.Reaper.SoulGauge >= 50) return false;
 
             return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
         }

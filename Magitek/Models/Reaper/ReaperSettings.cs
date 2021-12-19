@@ -151,6 +151,14 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseCommunio { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseArcaneCircle { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePlentifulHarvest { get; set; }
+
         #endregion
 
         #region Cooldowns

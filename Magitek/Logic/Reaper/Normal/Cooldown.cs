@@ -35,5 +35,14 @@ namespace Magitek.Logic.Reaper
             return await Spells.Enshroud.Cast(Core.Me);
         }
 
+        public static async Task<bool> ArcaneCircle()
+        {
+            //Add level check so it doesn't hang here
+            if (!ReaperSettings.Instance.UseArcaneCircle || Core.Me.ClassLevel < Spells.ArcaneCircle.LevelAcquired)
+                return false;
+
+            return await Spells.ArcaneCircle.Cast(Core.Me);
+        }
+
     }
 }
