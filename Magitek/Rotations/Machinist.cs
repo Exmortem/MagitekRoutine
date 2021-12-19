@@ -98,7 +98,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (Weaving.GetCurrentWeavingCounter() < 2)
             {
                 //Pets
                 if (await Pet.RookQueen()) return true;
