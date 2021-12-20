@@ -17,7 +17,7 @@ namespace Magitek.Logic.Reaper.Enshroud
             if (!ReaperSettings.Instance.UseGrimReaping || Core.Me.ClassLevel < Spells.GrimReaping.LevelAcquired)
                 return false;
             
-            if (ActionResourceManager.Reaper.LemureShroud < 2) return false;
+            if (ActionResourceManager.Reaper.LemureShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
 
             if (Core.Me.HasAura(Auras.EnhancedVoidReaping) || Core.Me.HasAura(Auras.EnhancedCrossReaping))
             {

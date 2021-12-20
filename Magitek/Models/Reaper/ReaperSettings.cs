@@ -163,6 +163,10 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseHarvestMoon { get; set; }
 
+        [Setting]
+        [DefaultValue(3)]
+        public int HarvestMoonTargetCount { get; set; }
+
         #endregion
 
         #region Cooldowns

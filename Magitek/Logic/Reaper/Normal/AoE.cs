@@ -43,6 +43,15 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.HasAura(Auras.Soulsow))
                 return false;
 
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true))
+                return false;
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= ReaperSettings.Instance.HarvestMoonTargetCount)
+                return false;
+
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
         }
 
@@ -116,8 +125,9 @@ namespace Magitek.Logic.Reaper
                 return false;
             if (!ReaperSettings.Instance.UseGrimSwathe) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
-            if (Core.Me.HasAura(2587)) return false;
+            if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 
             return await Spells.GrimSwathe.Cast(Core.Me.CurrentTarget);
         }
@@ -132,7 +142,7 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.ClassLevel < Spells.Guillotine.LevelAcquired)
                 return false;
             if (!ReaperSettings.Instance.UseGuillotine) return false;
-            if (!Core.Me.HasAura(2587)) return false;
+            if (!Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GuillotineTargetCount) return false;
             return await Spells.Guillotine.Cast(Core.Me.CurrentTarget);
         }

@@ -18,8 +18,9 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.ClassLevel < Spells.Gluttony.LevelAcquired)
                 return false;
             if (!ReaperSettings.Instance.UseGluttony) return false;
-            if (Core.Me.HasAura(2587)) return false;
+            if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Spells.Slice.Cooldown > new TimeSpan(Spells.Slice.AdjustedCooldown.Ticks / 2)) return false;
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 
             return await Spells.Gluttony.Cast(Core.Me.CurrentTarget);
         }
@@ -33,6 +34,7 @@ namespace Magitek.Logic.Reaper
                 return false;
             if (!ReaperSettings.Instance.UseEnshroud) return false;
             if (ActionResourceManager.Reaper.ShroudGauge < 50) return false;
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 
             return await Spells.Enshroud.Cast(Core.Me);
         }
