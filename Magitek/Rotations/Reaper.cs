@@ -127,6 +127,7 @@ namespace Magitek.Rotations
                     if (await Utility.TrueNorth()) return true;
                 }
 
+                if (await Utility.Soulsow()) return true;
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
                 if (await AoE.HarvestMoon()) return true;
