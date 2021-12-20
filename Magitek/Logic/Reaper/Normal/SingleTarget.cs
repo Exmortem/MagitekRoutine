@@ -19,6 +19,9 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseShadowOfDeath)
                 return false;
 
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.WhorlOfDeathTargetCount)
                 return false;
 
@@ -102,7 +105,7 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> GibbetAndGallows()
         {
-            if (!Core.Me.HasAura(2587)) return false;
+            if (!Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Core.Me.HasAura(Auras.EnhancedGibbet))
             {
                 if (ReaperSettings.Instance.UseGibbet)
@@ -146,7 +149,8 @@ namespace Magitek.Logic.Reaper
                 return false;
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
             if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
-            if (Core.Me.HasAura(2587)) return false;
+            if (Core.Me.HasAura(Auras.SoulReaver)) return false;
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }

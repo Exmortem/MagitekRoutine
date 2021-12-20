@@ -127,9 +127,9 @@ namespace Magitek.Rotations
                     if (await Utility.TrueNorth()) return true;
                 }
 
-                if (await Utility.Soulsow()) return true;
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
+                if (await AoE.HarvestMoon()) return true;
                 if (await AoE.PlentifulHarvest()) return true;
                 if (await AoE.Guillotine()) return true;
                 if (await SingleTarget.GibbetAndGallows()) return true;
@@ -139,11 +139,10 @@ namespace Magitek.Rotations
                 if (await AoE.NightmareScythe()) return true;
                 if (await SingleTarget.InfernalSlice()) return true;
                 if (await SingleTarget.WaxingSlice()) return true;
-                if (await AoE.SpinningScythe()) return true;
                 if (await AoE.WhorlofDeathIdle()) return true;
+                if (await AoE.SpinningScythe()) return true;
                 if (await SingleTarget.ShadowOfDeathIdle()) return true;
-                if (await SingleTarget.Slice()) return true;
-                return await AoE.HarvestMoon();
+                return await SingleTarget.Slice();
             }
 
             return false;
