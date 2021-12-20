@@ -148,7 +148,9 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.ClassLevel < Spells.BloodStalk.LevelAcquired)
                 return false;
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
-            if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
+            if ((Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired) && 
+                (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown))) 
+                return false;
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 

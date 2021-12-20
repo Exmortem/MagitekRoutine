@@ -126,7 +126,9 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseGrimSwathe) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
-            if (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)) return false;
+            if ((Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired) &&
+                (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)))
+                return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
 
             return await Spells.GrimSwathe.Cast(Core.Me.CurrentTarget);
