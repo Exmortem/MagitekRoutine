@@ -157,5 +157,22 @@ namespace Magitek.Logic.Reaper
 
         #endregion
 
+        public static async Task<bool> HarvestMoon()
+        {
+
+            if (!ReaperSettings.Instance.UseHarvestMoon)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Soulsow))
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true))
+                return false;
+
+            return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
+        }
     }
 }

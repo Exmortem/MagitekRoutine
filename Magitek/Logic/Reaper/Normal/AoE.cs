@@ -49,6 +49,9 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true))
                 return false;
 
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= ReaperSettings.Instance.HarvestMoonTargetCount)
+                return false;
+
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
         }
 
