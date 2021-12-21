@@ -42,6 +42,10 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Flare()
         {
+            //Can't use in Umbral Ice anymore
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return false;
+
             if (Core.Me.ClassLevel < Spells.Flare.LevelAcquired)
                 return false;
 
@@ -54,34 +58,24 @@ namespace Magitek.Logic.BlackMage
                     if (Core.Me.CurrentMana <= 3000)
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
-                    if (Core.Me.CurrentMana < 800)
-                        return await Spells.Transpose.Cast(Core.Me);
-
-                    return false;
-                }
-                if (Core.Me.ClassLevel >= 60
-                    && Core.Me.ClassLevel < 68
-                    && Casting.LastSpell == Spells.Fire4)
-                {
-                    if (Core.Me.CurrentMana < 2400)
-                        return await Spells.Flare.Cast(Core.Me.CurrentTarget);
-
-                    if (Core.Me.CurrentMana < 800)
-                        return await Spells.Transpose.Cast(Core.Me);
+                    //if (Core.Me.CurrentMana < 800)
+                    //    return await Spells.Transpose.Cast(Core.Me);
 
                     return false;
                 }
                 if (Core.Me.ClassLevel >= 68)
                 {
-                    if (Casting.LastSpell == Spells.Fire3)
+                    if ((Casting.LastSpell == Spells.Fire2)
+                        && (Core.Me.CurrentMana <= 1500))
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
                     if (Core.Me.CurrentMana >= 800
-                        && ActionResourceManager.BlackMage.AstralStacks == 3)
+                        && ActionResourceManager.BlackMage.AstralStacks == 0
+                        && Core.Me.HasAura(Auras.EnhancedFlare,true))
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
-                    if (Core.Me.CurrentMana < 800)
-                        return await Spells.Transpose.Cast(Core.Me);
+                    //if (Core.Me.CurrentMana < 800)
+                    //    return await Spells.Transpose.Cast(Core.Me);
 
                     return false;
                 }
@@ -98,10 +92,14 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Freeze()
         {
             //If we don't have Freeze, how can we cast it?
-            if (Core.Me.ClassLevel < 35)
+            if (Core.Me.ClassLevel < Spells.Freeze.LevelAcquired)
                 return false;
 
-            if (Core.Me.ClassLevel >= 35
+            //Can only use in Umbral Ice
+            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
+                return false;
+
+            if (Core.Me.ClassLevel >= 40
                 && Core.Me.ClassLevel < 50)
                 return await Spells.Freeze.Cast(Core.Me.CurrentTarget);
 
@@ -182,16 +180,16 @@ namespace Magitek.Logic.BlackMage
             {
                 if (Core.Me.CurrentMana >= 3800)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
-                return await Spells.Transpose.Cast(Core.Me);
+                //return await Spells.Transpose.Cast(Core.Me);
             }
                 
 
-            if (Core.Me.ClassLevel > 35
+            /*if (Core.Me.ClassLevel > 35
                 && Core.Me.ClassLevel < 50)
                 return false;
 
             if (Core.Me.ClassLevel >= 60)
-                return false;
+                return false;*/
 
             if (Core.Me.ClassLevel >= 50
                 && Core.Me.ClassLevel < 60)
@@ -202,27 +200,25 @@ namespace Magitek.Logic.BlackMage
                 if (Core.Me.CurrentMana >= 3800)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 
-                return await Spells.Transpose.Cast(Core.Me);
+                //return await Spells.Transpose.Cast(Core.Me);
             }
+            if ((Core.Me.ClassLevel >= Spells.HighFireII.LevelAcquired)
+                && (ActionResourceManager.BlackMage.UmbralHearts > 0))
+                return await Spells.Fire2.Cast(Core.Me);
+
             return false;
         }
 
         public static async Task<bool> Blizzard2()
         {
-            if (Core.Me.ClassLevel > 35)
+            if ((Casting.LastSpell == Spells.Blizzard2)
+                || (Casting.LastSpell == Spells.HighBlizzardII))
                 return false;
-            
-            if (ActionResourceManager.BlackMage.UmbralStacks > 0)
-            {
-                if (Core.Me.CurrentMana < 10000)
-                {
-                    //Check to see if enemies nearby before doing blizzard2
-                    if (Core.Me.EnemiesNearby(10).Count() < BlackMageSettings.Instance.AoeEnemies)
-                        return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
-                    return await Spells.Blizzard2.Cast(Core.Me);
-                }
-                return await Spells.Transpose.Cast(Core.Me);
-            }
+
+            if ((Core.Me.ClassLevel >= Spells.HighBlizzardII.LevelAcquired)
+                && ((Core.Me.CurrentMana == 10000)
+                || (Core.Me.CurrentMana == 0)))
+                return await Spells.Blizzard2.Cast(Core.Me);
 
             return false;
         }

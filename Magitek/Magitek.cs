@@ -35,6 +35,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Magitek.Models.Reaper;
+using Magitek.Models.Sage;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -205,6 +206,7 @@ namespace Magitek
                 BlackMageSettings.Instance.Save();
                 RedMageSettings.Instance.Save();
                 SummonerSettings.Instance.Save();
+                SageSettings.Instance.Save();
                 #endregion
 
                 _saveFormTime = DateTime.Now.AddSeconds(60);

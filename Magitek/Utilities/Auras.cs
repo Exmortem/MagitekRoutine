@@ -246,7 +246,22 @@ namespace Magitek.Utilities
             SearingLight = 2703,
             ChainStratagem = 1406,
             EnhancedGibbet = 2588,
-            EnhancedGallows = 2589;
+            EnhancedGallows = 2589,
+            EnhancedFlare = 2960,
+            Kardion = 2871,
+            Soteria = 2610,
+            Taurochole = 2619,
+            Krasis = 2622,
+            Zoe = 2611,
+            Eukrasia = 2867,
+            EukrasianDosis = 2614,
+            EukrasianDosisII = 2615,
+            EukrasianDosisIII = 2616,
+            EukrasianDiagnosis = 2865,
+            Kerachole = 2618,
+            EukrasianPrognosis = 2866,
+            Holos = 3003;
+
 
         private const int
             Invincibility0 = 981,

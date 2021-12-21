@@ -110,6 +110,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.Rest();
 
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.Rest();
+
                 default:
                     return false;
             }
@@ -194,6 +197,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.PreCombatBuff();
 
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.PreCombatBuff();
+
                 default:
                     return false;
             }
@@ -268,6 +274,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.Pull();
+
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.Pull();
 
                 default:
                     return false;
@@ -353,6 +362,11 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.Heal();
 
+                case ClassJobType.Sage:
+                    Group.UpdateAllies(Routines.Sage.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    return await Rotations.Sage.Heal();
+
                 default:
                     return false;
             }
@@ -427,6 +441,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.CombatBuff();
+
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.CombatBuff();
 
                 default:
                     return false;
@@ -505,6 +522,9 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Reaper:
                     return await Rotations.Reaper.Combat();
+
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.Combat();
 
                 default:
                     return false;
