@@ -168,14 +168,10 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Prognosis)
                 return false;
 
-            var needPrognosis = Group.CastableAlliesWithin15.Count(r => r.IsAlive && r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent);
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < SageSettings.Instance.PrognosisNeedHealing)
+                return false;
 
-            if (await Spells.Prognosis.Heal(Core.Me))
-            {
-                return await Coroutine.Wait(2500, () => Casting.LastSpell == Spells.Prognosis || MovementManager.IsMoving);
-            }
-
-            return false;
+            return await Spells.Prognosis.Cast(Core.Me);
         }
         public static async Task<bool> EukrasianPrognosis()
         {
