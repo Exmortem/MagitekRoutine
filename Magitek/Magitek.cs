@@ -237,6 +237,7 @@ namespace Magitek
             BlackMageSettings.Instance.Save();
             RedMageSettings.Instance.Save();
             SummonerSettings.Instance.Save();
+            SageSettings.Instance.Save();
             #endregion
 
             Dispelling.Instance.Save();
