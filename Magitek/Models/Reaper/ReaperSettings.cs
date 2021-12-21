@@ -151,6 +151,22 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseCommunio { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseArcaneCircle { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePlentifulHarvest { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHarvestMoon { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int HarvestMoonTargetCount { get; set; }
+
         #endregion
 
         #region Cooldowns
@@ -163,7 +179,9 @@ namespace Magitek.Models.Reaper
 
         #region Utility-Abilities
 
-
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSoulsow { get; set; }
 
         #endregion
 

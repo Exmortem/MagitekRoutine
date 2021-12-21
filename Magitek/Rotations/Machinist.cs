@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using System.Threading.Tasks;

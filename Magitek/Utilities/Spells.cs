@@ -224,6 +224,7 @@ namespace Magitek.Utilities
         public static readonly SpellData QuadrupleTechnicalFinish = DataManager.GetSpellData(16196);
         public static readonly SpellData FanDanceIV = DataManager.GetSpellData(25791);
         public static readonly SpellData StarfallDance = DataManager.GetSpellData(25792);
+        public static readonly SpellData Tillana = DataManager.GetSpellData(25790);
         #endregion
 
         // DRG
@@ -680,7 +681,7 @@ namespace Magitek.Utilities
         public static readonly SpellData InnerRelease = DataManager.GetSpellData(7389);
         public static readonly SpellData MythrilTempest = DataManager.GetSpellData(16462);
         public static readonly SpellData InnerChaos = DataManager.GetSpellData(16465);
-        public static readonly SpellData ChaoticCyclone = DataManager.GetSpellData(16462);
+        public static readonly SpellData ChaoticCyclone = DataManager.GetSpellData(16463);
         public static readonly SpellData Bloodwhetting = DataManager.GetSpellData(25751);
         public static readonly SpellData Orogeny = DataManager.GetSpellData(25752);
         public static readonly SpellData PrimalRend = DataManager.GetSpellData(25753);

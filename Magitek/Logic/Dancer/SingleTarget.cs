@@ -22,14 +22,14 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> Fountainfall()
         {
-            if (!Core.Me.HasAura(Auras.FlourshingFountain)) return false;
+            if (!Core.Me.HasAura(Auras.FlourshingFlow) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
             return await Spells.Fountainfall.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> ReverseCascade()
         {
-            if (!Core.Me.HasAura(Auras.FlourshingCascade)) return false;
+            if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
             return await Spells.ReverseCascade.Cast(Core.Me.CurrentTarget);
         }

@@ -28,10 +28,10 @@ namespace Magitek.Logic.Machinist
             if (Spells.BarrelStabilizer.Cooldown.TotalMilliseconds > 0)
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat > 45 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 6000)
+            if (ActionResourceManager.Machinist.Heat > 40 && Spells.Wildfire.Cooldown.TotalMilliseconds <= 8000)
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Wildfire.Cooldown.TotalMilliseconds > 6000)
+            if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Wildfire.Cooldown.TotalMilliseconds > 8000)
                 return false;
 
             if (Spells.Hypercharge.Cooldown.TotalMilliseconds > 8000 && Casting.LastSpell == Spells.HeatBlast && Spells.GaussRound.Charges < 1.2f && Spells.Ricochet.Charges < 1.2f)
@@ -88,7 +88,7 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             Logger.WriteInfo($@"Using Hypercharge at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
@@ -122,7 +122,7 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 900 + BaseSettings.Instance.UserLatencyOffset)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1350 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             Logger.WriteInfo($@"Using Wildfire at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
