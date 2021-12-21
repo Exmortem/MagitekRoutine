@@ -239,11 +239,13 @@
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
-    <Compile Include="Logic\Reaper\AoE.cs" />
-    <Compile Include="Logic\Reaper\Buff.cs" />
-    <Compile Include="Logic\Reaper\Cooldown.cs" />
-    <Compile Include="Logic\Reaper\SingleTarget.cs" />
-    <Compile Include="Logic\Reaper\Utility.cs" />
+    <Compile Include="Logic\Reaper\Normal\AoE.cs" />
+    <Compile Include="Logic\Reaper\Normal\Buff.cs" />
+    <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\AoE.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
@@ -699,6 +701,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\Utility.xaml.cs">
+      <DependentUpon>Utility.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Reaper\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
@@ -1203,6 +1208,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\Utility.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

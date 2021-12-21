@@ -45,7 +45,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.InnerRelease.Id))
+            if (!ActionManager.HasSpell(Utilities.Routines.Warrior.InnerRelease.Id))
                 return false;
 
             if (Core.Me.CurrentTarget == null)
@@ -54,36 +54,21 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
                 return false;
 
-            //Only use Inner Release after we have Storm's Eye
-            if ((!Core.Me.HasAura(Auras.StormsEye, true, 12000) && (Casting.LastSpell != Spells.StormsEye)))
+            if (!Core.Me.HasAura(Auras.SurgingTempest, true, 12000))
                 return false;
-            // We're assuming IR is usable from here
-            // If we're on GCD with more than 800 milliseconds left
+
+            if (Core.Me.HasAura(Auras.NascentChaos))
+                return false;
+
+            // We're assuming IR is usable from here. If we're on GCD with more than 800 milliseconds left
             if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 800)
             {
                 // Wait until the GCD has 800 or less remaining
                 await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.TotalMilliseconds <= 800);
             }
 
-            return await Spells.InnerRelease.Cast(Core.Me);
-        }
-        internal static async Task<bool> Beserk()
-        {
-            if (!WarriorSettings.Instance.UseInnerRelease)
-                return false;
-
-            if (ActionManager.HasSpell(Spells.InnerRelease.Id))
-                return false;
-
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (Spells.Berserk.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.StormsEye, true, 12000))
-                return false;
-            return await Spells.Berserk.Cast(Core.Me);
+            //Logger.WriteInfo($@"InnerRelease Ready");
+            return await Utilities.Routines.Warrior.InnerRelease.Cast(Core.Me);
         }
 
         internal static async Task<bool> Infuriate()
@@ -91,23 +76,16 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 
-
-            //Save at least 1 Infuriate for when you want Inner Chaos  / Chaos Cyclone (I will add in a buff check for this later.)
-            if (Core.Me.ClassLevel >= 72 && Spells.Infuriate.Charges >= 1  && Spells.Infuriate.Cooldown.TotalMilliseconds > 4000)
-                return false;
             if (Casting.LastSpell == Spells.InnerRelease)
                 return false;
-            //If we are in Inner Release and lv 72+, don't use Infuriate
-            if (Core.Me.ClassLevel > 72 && Core.Me.HasAura(Auras.InnerRelease))
-                return false;
-            //If we are lv 72+ and Inner Release comes off CD in 3 or less seconds don't use Infuriate
-            if (Core.Me.ClassLevel > 72 && Spells.InnerRelease.Cooldown.TotalSeconds < 3)
+
+            if (Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
-            //Dump Gauge with FC if needed first
-            if (ActionResourceManager.Warrior.BeastGauge > WarriorSettings.Instance.UseInfuriateAtBeastGauge)
-                return await Spells.FellCleave.Cast(Core.Me.CurrentTarget);
-           
+            if (ActionResourceManager.Warrior.BeastGauge >= WarriorSettings.Instance.UseInfuriateAtBeastGauge)
+                return false;
+
+            Logger.WriteInfo($@"Infuriate Ready");
             return await Spells.Infuriate.Cast(Core.Me);
         }
     }

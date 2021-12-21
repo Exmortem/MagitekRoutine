@@ -28,6 +28,15 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Harvest Moon, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseHarvestMoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.HarvestMoonTargetCount, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal" >
                     <CheckBox Margin="5" Content=" Enable Spinning Scythe, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseSpinningScythe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.SpinningScytheTargetCount, Mode=TwoWay}"/>
@@ -73,7 +82,7 @@
                     <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.LemuresScytheTargetCount, Mode=TwoWay}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content=" Enable Communio, Target Count greater or equal to " IsChecked="{Binding ReaperSettings.UseCommunio, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Enable Communio " IsChecked="{Binding ReaperSettings.UseCommunio, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

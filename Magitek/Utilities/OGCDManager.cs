@@ -55,6 +55,14 @@ namespace Magitek.Utilities
                                                                             || (x.SpellType == SpellType.System &&
                                                                                 x.Job == ClassJobType.Adventurer)).ToList();
             RemoveFalsePositives();
+            ManualAdditions();
+        }
+
+        public static void ManualAdditions()
+        {
+
+            
+
         }
 
         public static void RemoveFalsePositives()

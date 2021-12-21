@@ -59,6 +59,7 @@
                                 <RadioButton Name="Ninja" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Ninja, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonNinja}" />
                                 <RadioButton Name="Dragoon" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Dragoon, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonDragoon}" />
                                 <RadioButton Name="Samurai" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Samurai, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSamurai}" />
+                                <RadioButton Name="Reaper" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Reaper, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonReaper}" />
                                 <RadioButton Name="BlueMage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=BlueMage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonBlueMage}" />
                             </StackPanel>
 
