@@ -262,7 +262,7 @@ namespace Magitek.Utilities
             EukrasianDiagnosis = 2865,
             Kerachole = 2618,
             EukrasianPrognosis = 2866,
-            Holos = 3003;
+            Holos = 3003,
             SurgingTempest = 2677,
             ThrillOfBattle = 87,
             Bloodwhetting = 2678,
