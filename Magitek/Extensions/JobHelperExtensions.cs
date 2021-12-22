@@ -14,6 +14,7 @@ using Magitek.Models.Paladin;
 using Magitek.Models.Reaper;
 using Magitek.Models.RedMage;
 using Magitek.Models.Samurai;
+using Magitek.Models.Sage;
 using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
@@ -80,6 +81,9 @@ namespace Magitek.Extensions
 
                 case "Reaper":
                     return ReaperSettings.Instance;
+
+                case "Sage":
+                    return SageSettings.Instance;
 
                 case "BlueMage":
                     return BlueMageSettings.Instance;

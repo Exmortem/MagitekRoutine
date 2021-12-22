@@ -365,6 +365,7 @@ namespace Magitek.Extensions
             ClassJobType.WhiteMage,
             ClassJobType.Astrologian,
             ClassJobType.BlueMage,
+            ClassJobType.Sage,
         };
 
         private static readonly List<ClassJobType> Dps = new List<ClassJobType>()

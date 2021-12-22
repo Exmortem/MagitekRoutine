@@ -541,6 +541,39 @@ namespace Magitek.Utilities
         public static readonly SpellData KaeshiNamikiri = DataManager.GetSpellData(25782);
         #endregion
 
+        // SGE
+        #region SGE
+        public static readonly SpellData Dosis = DataManager.GetSpellData(24283);
+        public static readonly SpellData Diagnosis = DataManager.GetSpellData(24284);
+        public static readonly SpellData Kardia = DataManager.GetSpellData(24285);
+        public static readonly SpellData Prognosis = DataManager.GetSpellData(24286);
+        public static readonly SpellData Egeiro = DataManager.GetSpellData(24287);
+        public static readonly SpellData Physis = DataManager.GetSpellData(24288);
+        public static readonly SpellData Phlegma = DataManager.GetSpellData(24289);
+        public static readonly SpellData Eukrasia = DataManager.GetSpellData(24290);
+        public static readonly SpellData EukrasianDiagnosis = DataManager.GetSpellData(24291);
+        public static readonly SpellData EukrasianPrognosis = DataManager.GetSpellData(24292);
+        public static readonly SpellData EukrasianDosis = DataManager.GetSpellData(24293);
+        public static readonly SpellData Soteria = DataManager.GetSpellData(24294);
+        public static readonly SpellData Druochole = DataManager.GetSpellData(24296);
+        public static readonly SpellData Dyskrasia = DataManager.GetSpellData(24297);
+        public static readonly SpellData Kerachole = DataManager.GetSpellData(24298);
+        public static readonly SpellData Ixochole = DataManager.GetSpellData(24299);
+        public static readonly SpellData Zoe = DataManager.GetSpellData(24300);
+        public static readonly SpellData Pepsis = DataManager.GetSpellData(24301);
+        public static readonly SpellData Taurochole = DataManager.GetSpellData(24303);
+        public static readonly SpellData Toxikon = DataManager.GetSpellData(24304);
+        public static readonly SpellData Haima = DataManager.GetSpellData(24305);
+        public static readonly SpellData DosisII = DataManager.GetSpellData(24306);
+        public static readonly SpellData Rhizomata = DataManager.GetSpellData(24309);
+        public static readonly SpellData Holos = DataManager.GetSpellData(24310);
+        public static readonly SpellData Panhaima = DataManager.GetSpellData(24311);
+        public static readonly SpellData DosisIII = DataManager.GetSpellData(24312);
+        public static readonly SpellData DyskrasiaII = DataManager.GetSpellData(24315);
+        public static readonly SpellData Krasis = DataManager.GetSpellData(24317);
+        public static readonly SpellData Pneuma = DataManager.GetSpellData(24318);
+        #endregion
+
         // SCH
         #region SCH
         public static readonly SpellData Aetherflow = DataManager.GetSpellData(166);
