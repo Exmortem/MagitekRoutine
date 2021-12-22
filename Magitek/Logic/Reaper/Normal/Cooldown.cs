@@ -48,6 +48,9 @@ namespace Magitek.Logic.Reaper
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < 1)
                 return false;
 
+            if (Core.Me.HasAura(Auras.ArcaneCircle))
+                return false;
+
             return await Spells.ArcaneCircle.Cast(Core.Me);
         }
 

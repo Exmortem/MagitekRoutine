@@ -29,6 +29,10 @@ namespace Magitek.Logic.Reaper
                     return false;
             }
 
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SpinningScytheTargetCount) return false;
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimSwatheTargetCount) return false;
+
+
             if (Core.Me.HasAura(Auras.EnhancedGibbet))
             {
                 if (Core.Me.CurrentTarget.IsFlanking)
