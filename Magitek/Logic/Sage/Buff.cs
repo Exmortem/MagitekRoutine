@@ -52,7 +52,14 @@ namespace Magitek.Logic.Sage
             var ally = Group.CastableAlliesWithin30.Where(a => a.IsAlive && (a.IsTank()));
 
             if (!Globals.InParty)
+            {
+                if (ChocoboManager.Summoned)
+                {
+                    return await Spells.Kardia.Cast(ChocoboManager.Object);
+                }
                 return await Spells.Kardia.Cast(Core.Me);
+            }
+                
 
             return await Spells.Kardia.CastAura(ally.FirstOrDefault(), Auras.Kardia);
         }
