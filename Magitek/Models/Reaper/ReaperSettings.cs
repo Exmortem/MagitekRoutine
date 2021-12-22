@@ -56,6 +56,18 @@ namespace Magitek.Models.Reaper
         public bool UseGallows { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HoldForPositional { get; set; }
+
+        [Setting]
+        [DefaultValue(2500)]
+        public int HoldForPositionalMaxWaitMs { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool TrueNorthWithSoulReaverOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseSoulSlice { get; set; }
 

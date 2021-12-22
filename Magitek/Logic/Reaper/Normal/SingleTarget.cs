@@ -6,7 +6,7 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
 using Magitek.Models.Reaper;
-
+using Buddy.Coroutines;
 
 namespace Magitek.Logic.Reaper
 {
@@ -109,12 +109,24 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.EnhancedGibbet))
             {
                 if (ReaperSettings.Instance.UseGibbet)
+                {
+                    if (ReaperSettings.Instance.HoldForPositional && (!Core.Me.CurrentTarget.IsFlanking && !ReaperSettings.Instance.EnemyIsOmni && !Core.Me.HasAura(Auras.TrueNorth)))
+                        if (await Utility.TrueNorth()) return true;
+                        else await Coroutine.Wait(ReaperSettings.Instance.HoldForPositionalMaxWaitMs, () => Core.Me.CurrentTarget.IsFlanking || Core.Me.HasAura(Auras.TrueNorth));
+
                     return await Spells.Gibbet.Cast(Core.Me.CurrentTarget);
+                }
             }
             else if (Core.Me.HasAura(Auras.EnhancedGallows))
             {
-                if (ReaperSettings.Instance.UseGibbet)
+                if (ReaperSettings.Instance.UseGallows)
+                {
+                    if (ReaperSettings.Instance.HoldForPositional && (!Core.Me.CurrentTarget.IsBehind && !ReaperSettings.Instance.EnemyIsOmni && !Core.Me.HasAura(Auras.TrueNorth)))
+                        if (await Utility.TrueNorth()) return true;
+                        else await Coroutine.Wait(ReaperSettings.Instance.HoldForPositionalMaxWaitMs, () => Core.Me.CurrentTarget.IsBehind || Core.Me.HasAura(Auras.TrueNorth));
+
                     return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
+                }
             }
             if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
             {
