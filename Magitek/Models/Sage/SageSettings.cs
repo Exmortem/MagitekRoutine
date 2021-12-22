@@ -140,6 +140,22 @@ namespace Magitek.Models.Sage
         public bool Zoe { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool ZoeDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeEukrasianDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoePrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeEukrasianPrognosis { get; set; }
+
+        [Setting]
         [DefaultValue(60.0f)]
         public float ZoeHealthPercent { get; set; }
 
