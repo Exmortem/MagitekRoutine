@@ -250,7 +250,7 @@ namespace Magitek.Utilities
             EnhancedGibbet = 2588,
             EnhancedGallows = 2589,
             EnhancedFlare = 2960,
-            Kardion = 2872,
+            Kardion = 2605,
             Kardia = 2604,
             Soteria = 2610,
             Taurochole = 2619,
