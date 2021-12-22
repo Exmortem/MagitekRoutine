@@ -40,7 +40,7 @@ namespace Magitek.Models.Sage
         public bool EukrasianDosis { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DotMultipleTargets { get; set; }
 
         [Setting]
