@@ -44,55 +44,7 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Diagnosis.Heal(Core.Me);
         }
-        public static async Task<bool> ZoeDiagnosis()
-        {
-            if (!SageSettings.Instance.Diagnosis || !SageSettings.Instance.ZoeDiagnosis)
-                return false;
-
-            if (Core.Me.ClassLevel < Spells.Zoe.LevelAcquired)
-                return false;
-
-            if (Spells.Zoe.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Globals.InParty)
-            {
-                var diagTarget = Group.CastableAlliesWithin30.Where(CanDiag).OrderBy(a => a.CurrentHealthPercent).FirstOrDefault();
-
-                if (diagTarget == null)
-                    return false;
-
-                if (!await Buff.Zoe())
-                    return false;
-
-                return await Spells.Diagnosis.Heal(diagTarget, false);
-            }
-
-            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.ZoeDiagnosisHealthPercent)
-                return false;
-
-            if (!await Buff.Zoe())
-                return false;
-
-            return await Spells.Diagnosis.Heal(Core.Me, false);
-
-            bool CanDiag(Character unit)
-            {
-                if (unit == null)
-                    return false;
-
-                if (unit.CurrentHealthPercent > SageSettings.Instance.ZoeDiagnosisHealthPercent)
-                    return false;
-
-                if (!SageSettings.Instance.ZoeOnlyHealer && !SageSettings.Instance.ZoeOnlyTank)
-                    return true;
-
-                if (SageSettings.Instance.ZoeOnlyHealer && unit.IsHealer())
-                    return true;
-
-                return SageSettings.Instance.ZoeOnlyTank && unit.IsTank();
-            }
-        }
+        
         public static async Task<bool> EukrasianDiagnosis()
         {
             if (!SageSettings.Instance.EukrasianDiagnosis)

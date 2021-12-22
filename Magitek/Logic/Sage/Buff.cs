@@ -220,19 +220,6 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Krasis.CastAura(target, Auras.Krasis);
         }
-        public static async Task<bool> Zoe()
-        {
-            if (!SageSettings.Instance.Zoe)
-                return false;
-
-            if (Spells.Zoe.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (!await Spells.Zoe.CastAura(Core.Me, Auras.Zoe))
-                return false;
-
-            return await Coroutine.Wait(1500, () => Core.Me.HasAura(Auras.Zoe) && ActionManager.CanCast(Spells.Diagnosis.Id, Core.Me));
-
-        }
+        
     }
 }
