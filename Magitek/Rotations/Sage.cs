@@ -31,6 +31,8 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
+            if (await Buff.Kardia()) return true;
+
             return false;
         }
 
@@ -105,9 +107,12 @@ namespace Magitek.Rotations
                     if (await Logic.Sage.Heal.Haima()) return true;
                     if (await Logic.Sage.Heal.Panhaima()) return true;
                 }
-
+                if (await Logic.Sage.Heal.ZoeDiagnosis()) return true;
+                if (await Logic.Sage.Heal.Druochole()) return true;
+                if (await Logic.Sage.Heal.Haima()) return true;
+                if (await Logic.Sage.Heal.Taurochole()) return true;
+                if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
-                if (await Logic.Sage.Heal.Prognosis()) return true;
             }
 
             return await Combat();
@@ -115,8 +120,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> CombatBuff()
         {
-            return false;
+            if (await Buff.Kardia()) return true;
 
+            return false;
         }
 
         public static async Task<bool> Combat()

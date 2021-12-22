@@ -45,9 +45,16 @@ namespace Magitek.Logic.Sage
         }
         public static async Task<bool> Kardia()
         {
+            if (Core.Me.HasAura(Auras.Kardia, true)
+                || Core.Me.HasAura(Auras.Kardion))
+                return false;
+
             var ally = Group.CastableAlliesWithin30.Where(a => a.IsAlive && (a.IsTank()));
 
-            return await Spells.Kardia.Cast(ally.FirstOrDefault());
+            if (!Globals.InParty)
+                return await Spells.Kardia.Cast(Core.Me);
+
+            return await Spells.Kardia.CastAura(ally.FirstOrDefault(), Auras.Kardia);
         }
         public static async Task<bool> Soteria()
         {

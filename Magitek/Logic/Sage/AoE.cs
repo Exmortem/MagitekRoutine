@@ -41,7 +41,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Dyskrasia.Radius) < SageSettings.Instance.AoEEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius) < SageSettings.Instance.AoEEnemies)
                 return false;
 
             return await Spells.Dyskrasia.Cast(Core.Me.CurrentTarget);
