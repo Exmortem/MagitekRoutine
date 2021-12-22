@@ -176,7 +176,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Onslaught()
         {
-            if (!WarriorSettings.Instance.UseOnslaught && !Core.Me.HasAura(Auras.InnerRelease))
+            if (!WarriorSettings.Instance.UseOnslaught || !Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) != 1)
