@@ -152,7 +152,8 @@ namespace Magitek.Rotations
                 if (await AoE.SpinningScythe()) return true;
                 if (await SingleTarget.ShadowOfDeathIdle()) return true;
                 if (await SingleTarget.Slice()) return true;
-                return await SingleTarget.HarvestMoon();
+                if (await SingleTarget.HarvestMoon()) return true;
+                return await SingleTarget.EnhancedHarpe();
             }
 
             return false;

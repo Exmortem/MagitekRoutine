@@ -188,5 +188,19 @@ namespace Magitek.Logic.Reaper
 
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
         }
+
+        public static async Task<bool> EnhancedHarpe()
+        {
+            if (!ReaperSettings.Instance.UseEnhancedHarpe)
+                return false;
+            
+            if (!Core.Me.HasAura(Auras.EnhancedHarpe))
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            return await Spells.Harpe.Cast(Core.Me.CurrentTarget);
+        }
     }
 }

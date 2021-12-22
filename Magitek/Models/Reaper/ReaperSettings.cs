@@ -176,6 +176,10 @@ namespace Magitek.Models.Reaper
         public bool UseHarvestMoon { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseEnhancedHarpe { get; set; }
+
+        [Setting]
         [DefaultValue(3)]
         public int HarvestMoonTargetCount { get; set; }
 
