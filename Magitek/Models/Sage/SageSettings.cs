@@ -211,10 +211,6 @@ namespace Magitek.Models.Sage
         public float EukrasianPrognosisMinManaPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool ZoeDiagnosis { get; set; }
-
-        [Setting]
         [DefaultValue(40.0f)]
         public float ZoeDiagnosisHealthPercent { get; set; }
 
