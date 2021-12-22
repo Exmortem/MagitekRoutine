@@ -24,7 +24,7 @@ namespace Magitek.Models.Sage
         public bool InterruptHealing { get; set; }
 
         [Setting]
-        [DefaultValue(90.0f)]
+        [DefaultValue(80.0f)]
         public float InterruptHealingHealthPercent { get; set; }
 
         [Setting]
