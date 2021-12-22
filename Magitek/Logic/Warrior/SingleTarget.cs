@@ -71,8 +71,8 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> Upheaval()
         {
             if (Core.Me.CurrentTarget == null)
-                return false; 
-            
+                return false;
+
             if (!WarriorSettings.Instance.UseUpheaval)
                 return false;
 
@@ -132,12 +132,13 @@ namespace Magitek.Logic.Warrior
                 // If Inner Release has less than 8 seconds on cooldown
                 if (Spells.InnerRelease.Cooldown.TotalMilliseconds <= 10000)
                 {
-                    int refreshTime = 20000 + (int) Spells.InnerRelease.Cooldown.TotalMilliseconds;
+                    int refreshTime = 20000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds;
                     Aura SurgingTempestAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SurgingTempest);
                     if (Core.Me.HasAura(Auras.SurgingTempest) && SurgingTempestAura.TimespanLeft.TotalMilliseconds > refreshTime)
                     {
                         return false;
-                    } else
+                    }
+                    else
                     {
                         return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
                     }
@@ -175,7 +176,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Onslaught()
         {
-            if (!WarriorSettings.Instance.UseOnslaught && !Core.Me.HasAura(Auras.InnerRelease))
+            if (!WarriorSettings.Instance.UseOnslaught || !Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) != 1)
