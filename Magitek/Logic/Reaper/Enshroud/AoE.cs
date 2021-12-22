@@ -19,16 +19,8 @@ namespace Magitek.Logic.Reaper.Enshroud
             
             if (ActionResourceManager.Reaper.LemureShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
 
-            if (Core.Me.HasAura(Auras.EnhancedVoidReaping) || Core.Me.HasAura(Auras.EnhancedCrossReaping))
-            {
-                if (Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 >= 520)
-                    return await Spells.GrimReaping.Cast(Core.Me.CurrentTarget);
-            }
-            else
-            {
-                if (Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 >= 460)
-                    return await Spells.GrimReaping.Cast(Core.Me.CurrentTarget);
-            }
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimReapingTargetCount)
+                return await Spells.GrimReaping.Cast(Core.Me.CurrentTarget);
 
             return false;
 
@@ -41,7 +33,7 @@ namespace Magitek.Logic.Reaper.Enshroud
 
             if (ActionResourceManager.Reaper.VoidShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
 
-            if (Utilities.Routines.Reaper.EnemiesIn8YardCone * 100 >= 200)
+            if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.LemuresScytheTargetCount)
                 return await Spells.LemuresScythe.Cast(Core.Me.CurrentTarget);
 
             return false;

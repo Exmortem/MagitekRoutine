@@ -90,7 +90,10 @@ namespace Magitek.Rotations
             Utilities.Routines.Reaper.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+            {
+                if (await Utility.Soulsow()) return true;
                 return false;
+            }
 
             if (await CustomOpenerLogic.Opener()) return true;
 
@@ -106,9 +109,11 @@ namespace Magitek.Rotations
             {
                 if (Spells.VoidReaping.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 1)
                 {
+                    if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
+                    if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
+                    if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
                     if (await Enshroud.AoE.LemuresScythe()) return true;
                     if (await Enshroud.SingleTarget.LemuresSlice()) return true;
-
                 }
                 if (await Enshroud.AoE.Communio()) return true;
                 if (await Enshroud.AoE.GrimReaping()) return true;
@@ -119,6 +124,9 @@ namespace Magitek.Rotations
             {
                 if (Spells.Slice.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 2)
                 {
+                    if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
+                    if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
+                    if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
                     if (await Cooldown.ArcaneCircle()) return true;
                     if (await Cooldown.Enshroud()) return true;
                     if (await Cooldown.Gluttony()) return true;
@@ -144,7 +152,8 @@ namespace Magitek.Rotations
                 if (await AoE.SpinningScythe()) return true;
                 if (await SingleTarget.ShadowOfDeathIdle()) return true;
                 if (await SingleTarget.Slice()) return true;
-                return await SingleTarget.HarvestMoon();
+                if (await SingleTarget.HarvestMoon()) return true;
+                return await SingleTarget.EnhancedHarpe();
             }
 
             return false;
