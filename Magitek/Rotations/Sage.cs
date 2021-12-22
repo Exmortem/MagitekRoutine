@@ -88,14 +88,12 @@ namespace Magitek.Rotations
             if (await Buff.Rhizomata()) return true;
             if (await Buff.Holos()) return true;
             if (await Buff.Krasis()) return true;
-            if (await Buff.Zoe()) return true;
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
                 if (Globals.InParty)
                 {
                     if (await Logic.Sage.Heal.Diagnosis()) return true;
-                    if (await Logic.Sage.Heal.ZoeDiagnosis()) return true;
                     if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                     if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
                     if (await Logic.Sage.Heal.Prognosis()) return true;
@@ -107,7 +105,6 @@ namespace Magitek.Rotations
                     if (await Logic.Sage.Heal.Haima()) return true;
                     if (await Logic.Sage.Heal.Panhaima()) return true;
                 }
-                if (await Logic.Sage.Heal.ZoeDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Druochole()) return true;
                 if (await Logic.Sage.Heal.Haima()) return true;
                 if (await Logic.Sage.Heal.Taurochole()) return true;
