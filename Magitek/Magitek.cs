@@ -185,6 +185,7 @@ namespace Magitek
 
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
+                BaseSettings.Instance.Save();
                 //TankBusters.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
 
@@ -241,6 +242,7 @@ namespace Magitek
             #endregion
 
             Dispelling.Instance.Save();
+            BaseSettings.Instance.Save();
             InterruptsAndStuns.Instance.Save();
             //TankBusters.Instance.Save();
             TogglesViewModel.Instance.SaveToggles();
