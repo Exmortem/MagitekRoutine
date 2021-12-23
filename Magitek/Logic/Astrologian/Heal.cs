@@ -409,6 +409,10 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
+            // Add check to ensure we don't double cast
+            if (Casting.LastSpell == Spells.AspectedHelios)
+                return false;
+
             var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6,0);
 
             var alliesNeedingRegen = Group.CastableAlliesWithin15.Where(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)

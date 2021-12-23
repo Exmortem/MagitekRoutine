@@ -55,9 +55,9 @@ namespace Magitek.Logic.Sage
             {
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.Cast(ChocoboManager.Object);
+                    return await Spells.Kardia.CastAura(ChocoboManager.Object,Auras.Kardia);
                 }
-                return await Spells.Kardia.Cast(Core.Me);
+                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardia);
             }
                 
 

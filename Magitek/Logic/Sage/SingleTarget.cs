@@ -65,7 +65,7 @@ namespace Magitek.Logic.Sage
                     return;
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
                     return;
-                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, Core.Me.CurrentTarget));
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, DotTarget));
             }
             return false;
             bool NeedsDot(BattleCharacter unit)
