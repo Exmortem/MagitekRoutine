@@ -70,6 +70,29 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Expedient" IsChecked="{Binding ScholarSettings.Expedient, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Expedient When " />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ScholarSettings.ExpedientNeedHealing, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Targets Are Below " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.ExpedientHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <CheckBox Grid.Column="0" Content="Protraction" IsChecked="{Binding ScholarSettings.Protraction, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding ScholarSettings.ProtractionHealthPercent, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                <CheckBox Grid.Column="3" Margin="10,1,0,1" Content="Only Tank" IsChecked="{Binding ScholarSettings.ProtractionOnlyTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">

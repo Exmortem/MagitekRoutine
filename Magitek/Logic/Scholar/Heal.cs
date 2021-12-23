@@ -544,6 +544,9 @@ namespace Magitek.Logic.Scholar
             if (Spells.WhisperingDawn.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (ScholarSettings.Instance.WhisperingDawnOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
             if (Globals.InParty)
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
@@ -587,6 +590,9 @@ namespace Magitek.Logic.Scholar
             if (Spells.FeyIllumination.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (ScholarSettings.Instance.FeyIlluminationOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
             if (Globals.InParty)
             {
                 var canFeyIlluminationTargets = Group.CastableAlliesWithin30.Where(CanFeyIllumination).ToList();
@@ -621,6 +627,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Core.Me.Pet == null)
+                return false;
+
+            if (Core.Me.Pet.EnglishName == "Seraph")
                 return false;
 
             if (!Core.Me.InCombat)
@@ -673,7 +682,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             // check if seraph is already active
-            if ((int)PetManager.ActivePetType == 15)
+            if (Core.Me.Pet.EnglishName == "Seraph")
                 return false;
 
             if (Globals.InParty)
@@ -705,6 +714,12 @@ namespace Magitek.Logic.Scholar
             if (!Core.Me.InCombat)
                 return false;
 
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
             if (Globals.InParty)
             {
                 var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
@@ -729,6 +744,9 @@ namespace Magitek.Logic.Scholar
                     return false;
 
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                    return false;
+
+                if (unit.HasAura(Auras.SeraphicVeil))
                     return false;
 
                 return unit.Distance(Core.Me.Pet) <= 20;

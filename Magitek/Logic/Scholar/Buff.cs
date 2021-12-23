@@ -20,6 +20,7 @@ namespace Magitek.Logic.Scholar
         {
             if (Core.Me.Pet != null)
                 return false;
+
             if (Core.Me.HasAura(Auras.Dissipation))
                 return false;
 
@@ -65,7 +66,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.ForceSeraph)
                 return false;
 
-            if (!await Spells.Summon3.Cast(Core.Me)) return false;
+            if (!await Spells.SummonSeraph.Cast(Core.Me)) return false;
             ScholarSettings.Instance.ForceSeraph = false;
             TogglesManager.ResetToggles();
             return true;
@@ -116,7 +117,10 @@ namespace Magitek.Logic.Scholar
             if (Spells.DeploymentTactics.Cooldown.TotalMilliseconds > 1500)
                 return false;
             // Find someone who has the right amount of allies around them based on the users settings
-            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.HasAura(Auras.Galvanize) && r.HasAura(Auras.Catalyze) && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 10) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
+            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => 
+                r.HasAura(Auras.Galvanize) 
+                && r.HasAura(Auras.Catalyze) 
+                && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
                 return false;
@@ -179,7 +183,7 @@ namespace Magitek.Logic.Scholar
                     return await Spells.ChainStrategem.Cast(chainStrategemsTarget);
 
                 case ChainStrategemStrategemStrategy.OnlyBosses:
-                    if (!Globals.InParty)
+                    if (!Globals.InParty && Core.Me.CurrentTarget.IsBoss())
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
                     var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasTarget && r.TargetGameObject.IsTank());
@@ -280,7 +284,81 @@ namespace Magitek.Logic.Scholar
 
                 return true;
             }
+        }
 
+        public static async Task<bool> Expedient()
+        {
+            if (!ScholarSettings.Instance.Expedient)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Expedient.LevelAcquired)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Spells.Expedient.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Expedience))
+                return false;
+
+            if (Globals.InParty)
+            {
+                var canExpedientTargets = Group.CastableAlliesWithin30.Where(CanExpedient).ToList();
+
+                if (canExpedientTargets.Count < ScholarSettings.Instance.ExpedientNeedHealing)
+                    return false;
+
+                return await Spells.Expedient.Cast(Core.Me);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ExpedientHealthPercent)
+                return false;
+
+            return await Spells.Expedient.Cast(Core.Me);
+
+            bool CanExpedient(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.HasAura(Auras.Expedience))
+                    return false;
+
+                if (unit.CurrentHealthPercent > ScholarSettings.Instance.ExpedientHealthPercent)
+                    return false;
+
+                return unit.Distance(Core.Me) <= 15;
+            }
+        }
+
+        public static async Task<bool> Protraction()
+        {
+            if (!ScholarSettings.Instance.Protraction)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Protraction.LevelAcquired)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Spells.Protraction.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Protraction))
+                return false;
+
+            GameObject target = ScholarSettings.Instance.ProtractionOnlyTank
+                ? Group.CastableTanks.FirstOrDefault(r => !r.HasAura(Auras.Protraction) && r.CurrentHealthPercent <= ScholarSettings.Instance.ProtractionHealthPercent
+                && r.IsTank())
+                : Group.CastableAlliesWithin30.FirstOrDefault(r => !r.HasAura(Auras.Protraction) && r.CurrentHealthPercent <= ScholarSettings.Instance.ProtractionHealthPercent);
+
+            if (target == null)
+                return false;
+
+            return await Spells.Protraction.CastAura(target, Auras.Protraction);
         }
     }
 }
