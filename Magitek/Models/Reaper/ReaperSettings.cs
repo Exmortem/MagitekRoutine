@@ -57,14 +57,6 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(false)]
-        public bool HoldForPositional { get; set; }
-
-        [Setting]
-        [DefaultValue(2500)]
-        public int HoldForPositionalMaxWaitMs { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
         public bool TrueNorthWithSoulReaverOnly { get; set; }
 
         [Setting]
@@ -158,6 +150,10 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(3)]
         public int LemuresScytheTargetCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool EfficientAoEPotencyCalculation { get; set; }
 
         [Setting]
         [DefaultValue(true)]
