@@ -54,11 +54,11 @@ namespace Magitek.Models.Gunbreaker
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseHeartofStone { get; set; }
+        public bool UseHeartofCorundum { get; set; }
 
         [Setting]
         [DefaultValue(15)]
-        public int HeartofStoneHealthPercent { get; set; }
+        public int HeartofCorundumHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -102,10 +102,10 @@ namespace Magitek.Models.Gunbreaker
 
         [Setting]
         [DefaultValue(2)]
-        public int DemonSliceEnemies { get; set; }
+        public int DemonSliceSlaughterEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
+        [DefaultValue(2)]
         public int FatedCircleEnemies { get; set; }
 
         [Setting]
@@ -134,18 +134,22 @@ namespace Magitek.Models.Gunbreaker
 
         [Setting]
         [DefaultValue(true)]
-        public bool SaveDangerZone { get; set; }
-
-        [Setting]
-        [DefaultValue(6000)]
-        public int SaveDangerZoneMseconds { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool SaveBlastingZone { get; set; }
 
         [Setting]
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseDoubleDown { get; set; }
+        
+        [Setting]
+        [DefaultValue(1)]
+        public int DoubleDownEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBurstStrike { get; set; }
     }
 }

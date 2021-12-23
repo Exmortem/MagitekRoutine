@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
@@ -13,11 +14,8 @@ namespace Magitek.Logic.Warrior
     {
         public static async Task<bool> ChaoticCyclone()
         {
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.ChaoticCyclone.Id))
-                return false;
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.ChaoticCyclone))
+                return false; 
 
             if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;
@@ -34,13 +32,10 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Decimate()
         {
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Decimate))
+                return false;
+
             if (!WarriorSettings.Instance.UseDecimate)
-                return false;
-
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Decimate.Id))
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
@@ -61,13 +56,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Overpower()
         {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Overpower.Id))
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Overpower))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
@@ -78,19 +67,13 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> MythrilTempest()
         {
-            if (Core.Me.CurrentTarget == null)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.MythrilTempest))
                 return false;
 
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.MythrilTempest.Id))
+            if (!WarriorRoutine.CanContinueComboAfter(Spells.Overpower))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.MythrilTempestMinimumEnemies)
-                return false;
-
-            if (ActionManager.LastSpell != Spells.Overpower)
                 return false;
 
             return await Spells.MythrilTempest.Cast(Core.Me.CurrentTarget);
@@ -98,13 +81,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Orogeny()
         {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Orogeny.Id))
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Orogeny))
                 return false;
 
             if (Spells.Orogeny.Cooldown.TotalMilliseconds > 0)
@@ -121,13 +98,10 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> PrimalRend()
         {
-            if (Core.Me.CurrentTarget == null)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.PrimalRend))
                 return false;
 
             if (!WarriorSettings.Instance.UsePrimalRend)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.PrimalRend.Id))
                 return false;
 
             if (!Core.Me.HasAura(Auras.PrimalRendReady))

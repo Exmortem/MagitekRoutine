@@ -54,8 +54,8 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Heart of Stone" IsChecked="{Binding GunbreakerSettings.UseHeartofStone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.HeartofStoneHealthPercent, Mode=TwoWay}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Heart of Corundum" IsChecked="{Binding GunbreakerSettings.UseHeartofCorundum, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.HeartofCorundumHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
                     <CheckBox Grid.Row="1" Grid.Column="0" Content="Reprisal" IsChecked="{Binding GunbreakerSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
