@@ -161,6 +161,14 @@ namespace Magitek.Utilities
                         }
                         break;
                     }
+                case ClassJobType.Sage:
+                    {
+                        if (Sage.NeedToInterruptCast())
+                        {
+                            await CancelCast();
+                        }
+                        break;
+                    }
             }
 
             #endregion
