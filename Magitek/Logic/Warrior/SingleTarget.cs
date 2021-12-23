@@ -113,7 +113,7 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Casting.LastSpell != Spells.Maim)
+            if (ActionManager.LastSpellId != Spells.Maim.Id)
                 return false;
 
             return await Spells.StormsPath.Cast(Core.Me.CurrentTarget);
@@ -124,7 +124,7 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Casting.LastSpell != Spells.Maim)
+            if (ActionManager.LastSpellId != Spells.Maim.Id)
                 return false;
 
             if (Core.Me.ClassLevel > 70)
@@ -157,7 +157,7 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Casting.LastSpell != Spells.HeavySwing)
+            if (ActionManager.LastSpellId != Spells.HeavySwing.Id)
                 return false;
 
             return await Spells.Maim.Cast(Core.Me.CurrentTarget);
