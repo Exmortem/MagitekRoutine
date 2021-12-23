@@ -149,6 +149,12 @@ namespace Magitek.Logic.Dancer
         {
             switch (c.CurrentJob)
             {
+                case ClassJobType.Reaper:
+                    return DancerSettings.Instance.RprPartnerWeight;
+
+                case ClassJobType.Sage:
+                    return DancerSettings.Instance.SagPartnerWeight;
+
                 case ClassJobType.Astrologian:
                     return DancerSettings.Instance.AstPartnerWeight;
 

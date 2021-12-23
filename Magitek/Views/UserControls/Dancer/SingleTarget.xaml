@@ -41,7 +41,15 @@
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-        
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Only Finish Step When In Range" IsChecked="{Binding DancerSettings.OnlyFinishStepInRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Horizontal">
             <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
