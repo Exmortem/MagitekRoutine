@@ -40,7 +40,7 @@ namespace Magitek.Models.Sage
         public bool EukrasianDosis { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DotMultipleTargets { get; set; }
 
         [Setting]
@@ -140,6 +140,22 @@ namespace Magitek.Models.Sage
         public bool Zoe { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool ZoeDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeEukrasianDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoePrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeEukrasianPrognosis { get; set; }
+
+        [Setting]
         [DefaultValue(60.0f)]
         public float ZoeHealthPercent { get; set; }
 
@@ -193,10 +209,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(30.0f)]
         public float EukrasianPrognosisMinManaPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ZoeDiagnosis { get; set; }
 
         [Setting]
         [DefaultValue(40.0f)]
