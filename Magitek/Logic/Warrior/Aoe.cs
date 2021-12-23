@@ -36,7 +36,7 @@ namespace Magitek.Logic.Warrior
         {
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;
-            
+
             if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
@@ -50,7 +50,7 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge)
-                return false;        
+                return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
                 return false;
@@ -122,6 +122,9 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> PrimalRend()
         {
             if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (!WarriorSettings.Instance.UsePrimalRend)
                 return false;
 
             if (!ActionManager.HasSpell(Spells.PrimalRend.Id))

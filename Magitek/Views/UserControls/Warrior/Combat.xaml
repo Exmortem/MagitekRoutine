@@ -28,6 +28,9 @@
                     <CheckBox Content="Use Onslaught " IsChecked="{Binding WarriorSettings.UseOnslaught, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Primal Rend " IsChecked="{Binding WarriorSettings.UsePrimalRend, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Steel Cyclone / Decimate When There Are " IsChecked="{Binding WarriorSettings.UseDecimate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.DecimateMinimumEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
