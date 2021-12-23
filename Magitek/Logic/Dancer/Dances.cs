@@ -16,26 +16,32 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Tillana()
         {
+
             if (!Core.Me.HasAura(Auras.FlourishingFinish)) return false;
+
+            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
 
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> StartStandardDance()
         {
-            if (!DancerSettings.Instance.UseStandardStep)
+            if (!DancerSettings.Instance.UseStandardStep) return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep)) return false;
+
+            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
+
+            if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000)) return false;
+
+            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep))
-                return false;
-
-            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4))
-                return false;
-
-            if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000))
-                return false;
-
-            var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower || x.Id == Auras.FlourshingWindmill));
+            var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
+                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower || 
+                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry || 
+                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall || x.Id == Auras.FlourishingFinish
+            ));
 
             if (procs.Any())
             {
@@ -132,8 +138,21 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
-                return false;
+            //if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
+            //    return false;
+
+            var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
+                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
+                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
+                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall
+            ));
+
+            if (procs.Any())
+            {
+                if (6500 + (Spells.Cascade.AdjustedCooldown.TotalMilliseconds * procs.Count()) < procs.Min(x => x.TimeLeft)) 
+                    return false;
+
+            }
 
             return await Spells.TechnicalStep.Cast(Core.Me);
         }
@@ -151,9 +170,6 @@ namespace Magitek.Logic.Dancer
 
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
-
-            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 40)
-            //    return false;
 
             Logger.Write("Starting Dance Queue-up...");
             SpellQueueLogic.SpellQueue.Clear();
@@ -189,6 +205,7 @@ namespace Magitek.Logic.Dancer
                         danceStep = Spells.QuadrupleTechnicalFinish;
                         break;
                 }
+
 
                 SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
                 {
