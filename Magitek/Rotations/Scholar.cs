@@ -81,6 +81,12 @@ namespace Magitek.Rotations
             
             await Casting.CheckForSuccessfulCast();
 
+            // Handle if Seraph is casted manually outside of the routine.
+            if (Casting.LastSpell.Id == Spells.SummonSeraph.Id)
+                Buff.SeraphCooldown = System.DateTime.Now.AddSeconds(30);
+
+            if (await Buff.SummonPet()) return true;
+
             Casting.DoHealthChecks = false;
 
             if (await GambitLogic.Gambit()) return true;
@@ -122,11 +128,11 @@ namespace Magitek.Rotations
 
             if (Core.Me.Pet != null && Core.Me.InCombat)
             {
-                if (await Logic.Scholar.Heal.SummonSeraph()) return true;
+                if (await Logic.Scholar.Buff.SummonSeraph()) return true;
                 if (await Logic.Scholar.Heal.Consolation()) return true;
-                if (await Logic.Scholar.Heal.FeyBlessing()) return true;
-                if (await Logic.Scholar.Heal.WhisperingDawn()) return true;
                 if (await Logic.Scholar.Heal.FeyIllumination()) return true;
+                if (await Logic.Scholar.Heal.WhisperingDawn()) return true;
+                if (await Logic.Scholar.Heal.FeyBlessing()) return true;
             }
 
             if (Globals.InParty)
@@ -142,8 +148,6 @@ namespace Magitek.Rotations
             if (await Logic.Scholar.Heal.EmergencyTacticsAdloquium()) return true;
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
-
-            if (await Buff.SummonPet()) return true;
 
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return true;
@@ -181,8 +185,6 @@ namespace Magitek.Rotations
 
             if (Core.Me.CurrentManaPercent <= ScholarSettings.Instance.MinimumManaPercent)
                 return false;
-
-            if (await Buff.SummonPet()) return true;
 
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return true;

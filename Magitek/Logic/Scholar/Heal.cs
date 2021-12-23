@@ -614,6 +614,7 @@ namespace Magitek.Logic.Scholar
             bool CanFeyIllumination(Character unit) {
                 if (unit == null)
                     return false;
+
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyIlluminationHpPercent)
                     return false;
 
@@ -667,42 +668,6 @@ namespace Magitek.Logic.Scholar
                     return false;
 
                 return unit.Distance(Core.Me.Pet) <= 20;
-            }
-        }
-
-        public static async Task<bool> SummonSeraph()
-        {
-            if (!ScholarSettings.Instance.SummonSeraph)
-                return false;
-
-            if (Core.Me.Pet == null)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            // check if seraph is already active
-            if (Core.Me.Pet.EnglishName == "Seraph")
-                return false;
-
-            if (Globals.InParty)
-            {
-                if (Group.CastableAlliesWithin30.Count(CanSummonSeraph) < ScholarSettings.Instance.SummonSeraphNeedHealing)
-                    return false;
-
-                return await Spells.SummonSeraph.Cast(Core.Me);
-            }
-
-            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
-                return false;
-
-            return await Spells.SummonSeraph.Cast(Core.Me);
-
-            bool CanSummonSeraph(Character unit)
-            {
-                if (unit == null)
-                    return false;
-                return unit.CurrentHealthPercent < ScholarSettings.Instance.SummonSeraphHpPercent;
             }
         }
 

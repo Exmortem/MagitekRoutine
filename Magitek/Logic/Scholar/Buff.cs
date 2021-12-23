@@ -16,6 +16,8 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Buff
     {
+        public static DateTime SeraphCooldown = DateTime.Now;
+
         public static async Task<bool> SummonPet()
         {
             if (Core.Me.Pet != null)
@@ -28,6 +30,13 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Casting.LastSpell == Spells.SummonSelene)
+                return false;
+
+            // Prevent routine recasting fairy when the game nulls the pet during Seraph transition.
+            if (Casting.LastSpell == Spells.SummonSeraph)
+                return false;
+
+            if (DateTime.Now <= SeraphCooldown)
                 return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
@@ -50,6 +59,44 @@ namespace Magitek.Logic.Scholar
             }
 
             return await Coroutine.Wait(5000, () => Core.Me.Pet != null);
+        }
+
+        public static async Task<bool> SummonSeraph()
+        {
+            if (!ScholarSettings.Instance.SummonSeraph)
+                return false;
+
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            // check if seraph is already active
+            if (Core.Me.Pet.EnglishName == "Seraph")
+                return false;
+
+            if (Globals.InParty)
+            {
+                if (Group.CastableAlliesWithin30.Count(CanSummonSeraph) < ScholarSettings.Instance.SummonSeraphNeedHealing)
+                    return false;
+
+                SeraphCooldown = DateTime.Now.AddSeconds(30);
+                return await Spells.SummonSeraph.Cast(Core.Me);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
+                return false;
+
+            SeraphCooldown = DateTime.Now.AddSeconds(30);
+            return await Spells.SummonSeraph.Cast(Core.Me);
+
+            bool CanSummonSeraph(Character unit)
+            {
+                if (unit == null)
+                    return false;
+                return unit.CurrentHealthPercent < ScholarSettings.Instance.SummonSeraphHpPercent;
+            }
         }
 
         public static async Task<bool> Swiftcast()
@@ -97,14 +144,17 @@ namespace Magitek.Logic.Scholar
 
             if (Core.Me.HasAetherflow())
                 return false;
+
             if (Spells.Aetherflow.Cooldown.TotalMilliseconds > 1500)
+            {
+                Logger.Error("Aetherflow on cooldown");
                 return false;
+            }
+                
             //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
             //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
             //        return true;
             return await Spells.Aetherflow.Cast(Core.Me);
-
-
         }
 
         public static async Task<bool> DeploymentTactics()
@@ -350,15 +400,39 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.HasAura(Auras.Protraction))
                 return false;
 
-            GameObject target = ScholarSettings.Instance.ProtractionOnlyTank
-                ? Group.CastableTanks.FirstOrDefault(r => !r.HasAura(Auras.Protraction) && r.CurrentHealthPercent <= ScholarSettings.Instance.ProtractionHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => !r.HasAura(Auras.Protraction) && r.CurrentHealthPercent <= ScholarSettings.Instance.ProtractionHealthPercent);
+            if (Globals.InParty)
+            {
+                var canProtractionTargets = Group.CastableAlliesWithin30.Where(CanProtraction).ToList();
 
-            if (target == null)
+                var protractionTarget = canProtractionTargets.FirstOrDefault();
+
+                if (protractionTarget == null)
+                    return false;
+
+                return await Spells.Protraction.CastAura(protractionTarget, Auras.Protraction);
+            }
+
+            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ProtractionHealthPercent)
                 return false;
 
-            return await Spells.Protraction.CastAura(target, Auras.Protraction);
+            return await Spells.Protraction.CastAura(Core.Me, Auras.Protraction);
+
+            bool CanProtraction(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.HasAura(Auras.Protraction))
+                    return false;
+
+                if (unit.CurrentHealthPercent > ScholarSettings.Instance.ProtractionHealthPercent)
+                    return false;
+
+                if (ScholarSettings.Instance.ProtractionOnlyTank && !unit.IsTank())
+                    return false;
+
+                return unit.Distance(Core.Me) <= 30;
+            }
         }
     }
 }
