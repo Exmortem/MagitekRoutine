@@ -41,6 +41,11 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget == null)
                 return false;
 
+            //Prioritize Toxikon over Dyskrasia
+            if (Addersting > 0 
+                && Core.Me.ClassLevel >= Spells.Toxikon.LevelAcquired)
+                return false;
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius) < SageSettings.Instance.AoEEnemies)
                 return false;
 
