@@ -84,8 +84,8 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
-        
-        
+
+
         [Setting]
         [DefaultValue(true)]
         public bool UseDecimate { get; set; }
@@ -113,6 +113,10 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(2)]
         public int OrogenyMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePrimalRend { get; set; }
 
         [Setting]
         [DefaultValue(1)]
