@@ -63,7 +63,7 @@ namespace Magitek.Logic.Dancer
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies) return false;
 
-            if (!Core.Me.HasAura(Auras.FlourshingShower)) return false;
+            if (!Core.Me.HasAura(Auras.FlourshingFlow) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
             return await Spells.Bloodshower.Cast(Core.Me);
         }
@@ -78,7 +78,7 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.CurrentTarget == null) return false;
 
-            if (!Core.Me.HasAura(Auras.FlourshingWindmill)) return false;
+            if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
             return await Spells.RisingWindmill.Cast(Core.Me);
         }

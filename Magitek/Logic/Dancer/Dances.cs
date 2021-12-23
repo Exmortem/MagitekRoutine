@@ -24,7 +24,7 @@ namespace Magitek.Logic.Dancer
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> StartStandardDance()
+        public static async Task<bool> StandardStep()
         {
             if (!DancerSettings.Instance.UseStandardStep) return false;
 
@@ -52,76 +52,8 @@ namespace Magitek.Logic.Dancer
             return await Spells.StandardStep.Cast(Core.Me);
         }
 
-        public static bool StandardStep()
-        {
-            if (Core.Me.ClassLevel < 15)
-                return false;
 
-            if (Casting.LastSpell == Spells.DoubleStandardFinish)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.StandardStep))
-                return false;
-
-            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 40)
-            //    return false;
-
-            Logger.Write("Starting Dance Queue-up...");
-
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.CancelSpellQueue = () => !Core.Me.HasAura(Auras.StandardStep);
-
-            foreach (var step in ActionResourceManager.Dancer.Steps)
-            {
-                SpellData danceStep;
-
-                Logger.Write($@"[Magitek] Dance Log {step}");
-
-                switch (step)
-                {
-                    case ActionResourceManager.Dancer.DanceStep.Finish:
-                        danceStep = Spells.DoubleStandardFinish;
-                        break;
-
-                    case ActionResourceManager.Dancer.DanceStep.Emboite:
-                        danceStep = Spells.Emboite;
-                        break;
-
-                    case ActionResourceManager.Dancer.DanceStep.Entrechat:
-                        danceStep = Spells.Entrechat;
-                        break;
-
-                    case ActionResourceManager.Dancer.DanceStep.Jete:
-                        danceStep = Spells.Jete;
-                        break;
-
-                    case ActionResourceManager.Dancer.DanceStep.Pirouette:
-                        danceStep = Spells.Pirouette;
-                        break;
-
-                    default:
-                        danceStep = Spells.DoubleStandardFinish;
-                        break;
-                }
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = danceStep,
-                    TargetSelf = true,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Jete.Cooldown == TimeSpan.Zero, Name = "Next Dance Step", WaitTime = 3000 },
-
-                });
-            }
-
-            foreach (var spell in SpellQueueLogic.SpellQueue)
-            {
-                Logger.Write($"Queueing: {spell.Spell.Name}");
-            }
-            return true;
-        }
-
-        public static async Task<bool> StartTechnicalDance()
+        public static async Task<bool> TechnicalStep()
         {
             if (!DancerSettings.Instance.UseTechnicalStep)
                 return false;
@@ -149,7 +81,7 @@ namespace Magitek.Logic.Dancer
 
             if (procs.Any())
             {
-                if (6500 + (Spells.Cascade.AdjustedCooldown.TotalMilliseconds * procs.Count()) < procs.Min(x => x.TimeLeft)) 
+                if (6500 + (Spells.Cascade.AdjustedCooldown.TotalMilliseconds * procs.Count()) < procs.Min(x => x.TimeLeft))
                     return false;
 
             }
@@ -157,70 +89,51 @@ namespace Magitek.Logic.Dancer
             return await Spells.TechnicalStep.Cast(Core.Me);
         }
 
-        public static bool TechnicalStep()
+
+
+        public static async Task<bool> DanceStep()
         {
-            if (Core.Me.ClassLevel < 15)
-                return false;
+            if (!Core.Me.HasAura(Auras.StandardStep) && !Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
-            if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish)
-                return false;
+            if (Casting.LastSpell == Spells.DoubleStandardFinish) return false;
 
-            if (!Core.Me.HasAura(Auras.TechnicalStep))
-                return false;
+            if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
-                return false;
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 40) return false;
 
-            Logger.Write("Starting Dance Queue-up...");
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.CancelSpellQueue = () => !Core.Me.HasAura(Auras.TechnicalStep);
-
-            foreach (var step in ActionResourceManager.Dancer.Steps)
+            try
             {
-                SpellData danceStep;
 
-                switch (step)
+                Logger.Write($@"[Magitek] Dance Log {ActionResourceManager.Dancer.CurrentStep}");
+                switch (ActionResourceManager.Dancer.CurrentStep)
                 {
                     case ActionResourceManager.Dancer.DanceStep.Finish:
-                        danceStep = Spells.QuadrupleTechnicalFinish;
-                        break;
+
+                        if (Core.Me.HasAura(Auras.StandardStep))
+                            return await Spells.DoubleStandardFinish.Cast(Core.Me);
+                        else
+                            return await Spells.QuadrupleTechnicalFinish.Cast(Core.Me);
 
                     case ActionResourceManager.Dancer.DanceStep.Emboite:
-                        danceStep = Spells.Emboite;
-                        break;
+                        return await Spells.Emboite.Cast(Core.Me);
 
                     case ActionResourceManager.Dancer.DanceStep.Entrechat:
-                        danceStep = Spells.Entrechat;
-                        break;
+                        return await Spells.Entrechat.Cast(Core.Me);
 
                     case ActionResourceManager.Dancer.DanceStep.Jete:
-                        danceStep = Spells.Jete;
-                        break;
+                        return await Spells.Jete.Cast(Core.Me);
 
                     case ActionResourceManager.Dancer.DanceStep.Pirouette:
-                        danceStep = Spells.Pirouette;
-                        break;
-
-                    default:
-                        danceStep = Spells.QuadrupleTechnicalFinish;
-                        break;
+                        return await Spells.Pirouette.Cast(Core.Me);
                 }
-
-
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = danceStep,
-                    TargetSelf = true,
-                    Wait = new QueueSpellWait() { Check = () => Spells.Jete.Cooldown == TimeSpan.Zero, Name = "Next Dance Step", WaitTime = 3000 },
-
-                });
             }
-
-            foreach (var spell in SpellQueueLogic.SpellQueue)
+            catch
             {
-                Logger.Write($"Queueing: {spell.Spell.Name}");
+                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error..
+                return false;
             }
-            return true;
+
+            return false;
         }
 
     }

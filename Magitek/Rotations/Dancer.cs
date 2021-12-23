@@ -98,13 +98,12 @@ namespace Magitek.Rotations
 
             if (await Buff.DancePartner()) return true;
 
-            if (await Dances.StartTechnicalDance()) return true;
-            if (Dances.TechnicalStep()) return true;
+
+            if (await Dances.StandardStep()) return true;
+            if (await Dances.TechnicalStep()) return true;
+            if (await Dances.DanceStep()) return true;
 
             if (await Dances.Tillana()) return true;
-
-            if (await Dances.StartStandardDance()) return true;
-            if (Dances.StandardStep()) return true;
 
 
             if (Utilities.Routines.Dancer.OnGcd)
