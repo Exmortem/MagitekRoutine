@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
+
 
 namespace Magitek.Logic.Paladin
 {
@@ -64,9 +66,6 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.SpiritsWithin)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent < PaladinSettings.Instance.SpiritsWithinOnlyAboveHealth)
-                return false;
-
             if (Casting.LastSpell == Spells.FightorFlight)
                 return false;
 
@@ -90,17 +89,16 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> Requiescat()
         {
-            if (!PaladinSettings.Instance.Requiescat)
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.Requiescat, Spells.Requiescat))
                 return false;
 
-            if (Core.Me.CurrentMana < 8000)
+            if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 1900)
+                || Core.Me.HasAuraCharge(Auras.SwordOath))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true,
-                1900) || Core.Me.HasAuraCharge(Auras.SwordOath))
-                return false;
-
-            if (PaladinSettings.Instance.FoFFirst && Spells.FightorFlight.Cooldown.Seconds < 8 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
+            if (PaladinSettings.Instance.FoFFirst
+                && Spells.FightorFlight.Cooldown.Seconds < 8
+                && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
                 return false;
 
             if (Core.Me.HasAura(Auras.FightOrFight, true, 3000))
@@ -111,24 +109,16 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> HolySpirit()
         {
-            if (!PaladinSettings.Instance.HolySpirit)
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.HolySpirit, Spells.HolySpirit))
                 return false;
 
-            if (Core.Me.ClassLevel < 64)
+            if (PaladinRoutine.RequiescatStackCount <= 1)
                 return false;
 
-            if (!PaladinSettings.Instance.AlwaysHolySpiritWithBuff)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Requiescat))
-                return false;
-
-            if (Core.Me.ClassLevel >= 80)
-            {
-
-                if (Core.Me.CurrentMana <= 3999)
-                    return false;
-            }
+            // TODO:optimization(wildchill)
+            // There was a mana check here, but mana is changed in endwalker for paladin magic combo
+            // to have more flexibility. We could check if you have stacks of Requiescat but not enough
+            // mana to finish the confiteor combo and early cast confiteor.
 
             return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
         }

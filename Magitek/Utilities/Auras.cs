@@ -87,6 +87,7 @@ namespace Magitek.Utilities
             Rampart = 1191,
             Sentinel = 74,
             GoringBlade = 725,
+            BladeOfValor = 2721,
             Shadowskin = 740,
             BloodWeapon = 742,
             Grit = 743,

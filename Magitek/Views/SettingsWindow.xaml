@@ -345,9 +345,6 @@
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <paladin:Defensives />
                         </TabItem>
-                        <TabItem Header="Tank Swap" Style="{DynamicResource MainTabTankSwap}">
-                            <paladin:TankSwap />
-                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

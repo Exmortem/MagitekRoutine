@@ -5,6 +5,8 @@ using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
+
 
 namespace Magitek.Logic.Paladin
 {
@@ -82,25 +84,16 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> HolyCircle()
         {
-            if (!PaladinSettings.Instance.HolyCircle)
-                return false;
-
-            if (!PaladinSettings.Instance.Requiescat)
-                return false;
-
             if (!PaladinSettings.Instance.AoE)
                 return false;
 
-            if (Core.Me.ClassLevel < 72)
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.HolyCircle, Spells.HolyCircle))
+                return false;
+
+            if (PaladinRoutine.RequiescatStackCount <= 1)
                 return false;
 
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Requiescat))
-                return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
-
-            if (Core.Me.ClassLevel == 80 && Core.Me.CurrentMana <= 4000)
                 return false;
 
             return await Spells.HolyCircle.Cast(Core.Me);
@@ -108,23 +101,19 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> Confiteor()
         {
-            if (Core.Me.ClassLevel < 80)
-                return false;
-            // This is a sanity check, when client is slow it doesn't trigger the aura quick enough the next check will just cast Confiteor away since it can't check the timer.
-            if (Core.Me.CurrentMana > 9000)
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.AoE, Spells.Confiteor))
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Requiescat)
-                return false;
+            if (ActionManager.CanCast(Spells.BladeOfFaith.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfFaith.Cast(Core.Me.CurrentTarget);
 
-            if (!Core.Me.HasAura(Auras.Requiescat, true,
-                3000))
-                return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
+            if (ActionManager.CanCast(Spells.BladeOfTruth.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfTruth.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.CurrentMana > 4000)
-                return false;
+            if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfValor.Cast(Core.Me.CurrentTarget);
 
-            if (!Core.Me.HasAura(Auras.Requiescat))
+            if (PaladinRoutine.RequiescatStackCount > 1)
                 return false;
 
             return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
