@@ -13,8 +13,12 @@ namespace Magitek.Models.Warrior
         public static WarriorSettings Instance { get; set; } = new WarriorSettings();
 
         [Setting]
-        [DefaultValue(20)]
+        [DefaultValue(50)]
         public int KeepAtLeastXBeastGauge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseInnerChaos { get; set; }
 
         #region Buffs
         [Setting]
@@ -40,12 +44,12 @@ namespace Magitek.Models.Warrior
         public int EquilibriumHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool UseRawIntuition { get; set; }
+        [DefaultValue(true)]
+        public bool UseBloodWhetting { get; set; }
 
         [Setting]
         [DefaultValue(50)]
-        public int RawIntuitionHpPercentage { get; set; }
+        public int BloodWhettingHpPercentage { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -58,6 +62,10 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(false)]
         public bool UseShakeItOff { get; set; }
+
+        [Setting]
+        [DefaultValue(70)]
+        public int ShakeItOffHpPercentage { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -79,11 +87,20 @@ namespace Magitek.Models.Warrior
         #region AoEs
         [Setting]
         [DefaultValue(true)]
+        public bool UseAoe { get; set; }
+
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseDecimate { get; set; }
 
         [Setting]
         [DefaultValue(3)]
         public int DecimateMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int ChaoticCycloneMinimumEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -92,6 +109,23 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(2)]
         public int OverpowerMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int MythrilTempestMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int OrogenyMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePrimalRend { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int PrimalRendMinimumEnemies { get; set; }
+
         #endregion
 
         #region Aggro

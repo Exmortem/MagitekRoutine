@@ -97,6 +97,7 @@ namespace Magitek.Rotations
                 if (await Buff.BloodBath()) return true;
                 if (await Aoe.HissatsuKyuten()) return true;
                 if (await Aoe.HissatsuGuren()) return true;
+                if (await Aoe.Fuko()) return true;
                 if (await SingleTarget.HissatsuSenei()) return true;
                 if (await SingleTarget.HissatsuShinten()) return true;
                 if (await SingleTarget.HissatsuGuren()) return true;
@@ -109,10 +110,13 @@ namespace Magitek.Rotations
 
             if (await SingleTarget.MidareSetsugekka()) return true;
             if (await SingleTarget.Shoha()) return true;
+            if (await Aoe.ShohaII()) return true;
             if (await Aoe.TenkaGoken()) return true;
             if (await Aoe.Oka()) return true;
             if (await Aoe.Mangetsu()) return true;
             if (await Aoe.Fuga()) return true;
+            if (await Aoe.OgiNamikiri()) return true;
+            if (await Aoe.KaeshiNamikiri()) return true;
 
             if (await SingleTarget.Higanbana()) return true;
 

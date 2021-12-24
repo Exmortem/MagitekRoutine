@@ -78,6 +78,70 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Fuko When There Are " IsChecked="{Binding SamuraiSettings.Fuko, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SamuraiSettings.FukoEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="ShohaII When There Are " IsChecked="{Binding SamuraiSettings.ShohaII, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SamuraiSettings.ShohaIIEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Ogi Namikiri When There Are " IsChecked="{Binding SamuraiSettings.OgiNamikiri, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SamuraiSettings.OgiNamikiriEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Kaeshi: Namikiri When There Are " IsChecked="{Binding SamuraiSettings.KaeshiNamikiri, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SamuraiSettings.KaeshiNamikiriEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
                 <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Cone Based Calculation for relevant AoE checks " IsChecked="{Binding SamuraiSettings.UseConeBasedAoECalculationMethod, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock FontSize="8" Margin="20,0,0,0">If disabled, uses simple enemy distance checks instead</TextBlock>
             </StackPanel>

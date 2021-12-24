@@ -73,6 +73,8 @@ namespace MagitekLoader
                     case ClassJobType.Dancer:
                     case ClassJobType.Gunbreaker:
                     case ClassJobType.BlueMage:
+                    case ClassJobType.Reaper:
+                    case ClassJobType.Sage:
                         return new[] { Core.Me.CurrentJob };
                     default:
                         return new[] { ClassJobType.Adventurer };

@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -119,10 +120,10 @@ namespace Magitek.Rotations
             if (await SingleTarget.HeatBlast()) return true;
 
             //Use On CD
+            if (await MultiTarget.ChainSaw()) return true; 
             if (await MultiTarget.BioBlaster()) return true;
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
-            if (await MultiTarget.ChainSaw()) return true;
             if (await MultiTarget.Flamethrower()) return true;
             if (await MultiTarget.SpreadShot()) return true;
 

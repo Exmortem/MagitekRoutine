@@ -98,11 +98,12 @@ namespace Magitek.Rotations
 
             if (await Buff.DancePartner()) return true;
 
-            if (await Dances.StartTechnicalDance()) return true;
-            if (Dances.TechnicalStep()) return true;
 
-            if (await Dances.StartStandardDance()) return true;
-            if (Dances.StandardStep()) return true;
+            if (await Dances.StandardStep()) return true;
+            if (await Dances.TechnicalStep()) return true;
+            if (await Dances.DanceStep()) return true;
+
+            if (await Dances.Tillana()) return true;
 
 
             if (Utilities.Routines.Dancer.OnGcd)
@@ -110,6 +111,7 @@ namespace Magitek.Rotations
                 //Only cast spells that are instant/off gcd
                 if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await Buff.PreTechnicalDevilment()) return true;
+                if (await Aoe.FanDance4()) return true;
                 if (await Aoe.FanDance3()) return true;
                 if (await Aoe.FanDance2()) return true;
                 if (await SingleTarget.FanDance()) return true;
@@ -119,6 +121,8 @@ namespace Magitek.Rotations
                 if (await Buff.Improvisation()) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
             }
+
+            if (await Aoe.StarfallDance()) return true;
 
             if (await Aoe.SaberDance()) return true;
 

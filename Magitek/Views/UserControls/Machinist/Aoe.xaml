@@ -28,17 +28,17 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0" Grid.Column="0" Margin="0,5" Content="Use AoEs (Does not Affect Ricochet)" IsChecked="{Binding MachinistSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="1" Grid.Column="0" Content="Ricochet" IsChecked="{Binding MachinistSettings.UseRicochet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Spreadshot  " IsChecked="{Binding MachinistSettings.UseSpreadShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="1" Grid.Column="0" Content="Ricochet " IsChecked="{Binding MachinistSettings.UseRicochet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Spreadshot / Scattergun " IsChecked="{Binding MachinistSettings.UseSpreadShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.SpreadShotEnemyCount, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                        <CheckBox Grid.Row="3" Grid.Column="0" Content="Auto Crossbow  " IsChecked="{Binding MachinistSettings.UseAutoCrossbow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="3" Grid.Column="0" Content="Auto Crossbow " IsChecked="{Binding MachinistSettings.UseAutoCrossbow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.AutoCrossbowEnemyCount, Mode=TwoWay}" />
                         <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                        <CheckBox Grid.Row="4" Grid.Column="0" Content="Bio Blaster When There Are  " IsChecked="{Binding MachinistSettings.UseBioBlaster, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="4" Grid.Column="0" Content="Bio Blaster " IsChecked="{Binding MachinistSettings.UseBioBlaster, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.BioBlasterEnemyCount, Mode=TwoWay}" />
                         <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                        <CheckBox Grid.Row="5" Grid.Column="0" Content="Flamethrower When There Are  " IsChecked="{Binding MachinistSettings.UseFlamethrower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="5" Grid.Column="0" Content="Flamethrower " IsChecked="{Binding MachinistSettings.UseFlamethrower, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.FlamethrowerEnemyCount, Mode=TwoWay}" />
                         <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                     </Grid>

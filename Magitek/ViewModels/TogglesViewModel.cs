@@ -15,6 +15,8 @@ using Magitek.Models.Ninja;
 using Magitek.Models.Paladin;
 using Magitek.Models.RedMage;
 using Magitek.Models.Samurai;
+using Magitek.Models.Reaper;
+using Magitek.Models.Sage;
 using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
@@ -29,6 +31,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
+
 
 namespace Magitek.ViewModels
 {
@@ -210,7 +213,6 @@ namespace Magitek.ViewModels
                     JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(RedMageSettings.Instance));
                     break;
 
-
                 case "Monk":
                     JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(MonkSettings.Instance));
                     break;
@@ -225,6 +227,14 @@ namespace Magitek.ViewModels
 
                 case "Samurai":
                     JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(SamuraiSettings.Instance));
+                    break;
+
+                case "Reaper":
+                    JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(ReaperSettings.Instance));
+                    break;
+
+                case "Sage":
+                    JobSettingsList = new List<ToggleProperty>(SettingsHandler.ExtractPropertyNamesAndTypesFromSettingsInstance(SageSettings.Instance));
                     break;
 
                 case "BlueMage":

@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="400"
+             d:DesignHeight="420.513"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -112,6 +112,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -135,8 +136,9 @@
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="SAM: " />
                         <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SamPartnerWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
-                        <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.BlmPartnerWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="RPR: " />
+                        <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.RprPartnerWeight, Mode=TwoWay}" />
+                       
                         <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
                         <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SmnPartnerWeight, Mode=TwoWay}" />
 
@@ -165,6 +167,11 @@
                         <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SchPartnerWeight, Mode=TwoWay}" />
                         <TextBlock Grid.Row="6" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="AST: " />
                         <controls:Numeric Grid.Row="6" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.AstPartnerWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="6" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="SAG: " />
+                        <controls:Numeric Grid.Row="6" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SagPartnerWeight, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
+                        <controls:Numeric Grid.Row="7" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.BlmPartnerWeight, Mode=TwoWay}" />
                     </Grid>
                 </controls:SettingsBlock>
             </Grid>

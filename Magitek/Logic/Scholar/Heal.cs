@@ -544,6 +544,9 @@ namespace Magitek.Logic.Scholar
             if (Spells.WhisperingDawn.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (ScholarSettings.Instance.WhisperingDawnOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
             if (Globals.InParty)
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
@@ -587,6 +590,9 @@ namespace Magitek.Logic.Scholar
             if (Spells.FeyIllumination.Cooldown != TimeSpan.Zero)
                 return false;
 
+            if (ScholarSettings.Instance.FeyIlluminationOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
             if (Globals.InParty)
             {
                 var canFeyIlluminationTargets = Group.CastableAlliesWithin30.Where(CanFeyIllumination).ToList();
@@ -608,6 +614,7 @@ namespace Magitek.Logic.Scholar
             bool CanFeyIllumination(Character unit) {
                 if (unit == null)
                     return false;
+
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyIlluminationHpPercent)
                     return false;
 
@@ -621,6 +628,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Core.Me.Pet == null)
+                return false;
+
+            if (Core.Me.Pet.EnglishName == "Seraph")
                 return false;
 
             if (!Core.Me.InCombat)
@@ -661,48 +671,18 @@ namespace Magitek.Logic.Scholar
             }
         }
 
-        public static async Task<bool> SummonSeraph()
-        {
-            if (!ScholarSettings.Instance.SummonSeraph)
-                return false;
-
-            if (Core.Me.Pet == null)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            // check if seraph is already active
-            if ((int)PetManager.ActivePetType == 15)
-                return false;
-
-            if (Globals.InParty)
-            {
-                if (Group.CastableAlliesWithin30.Count(CanSummonSeraph) < ScholarSettings.Instance.SummonSeraphNeedHealing)
-                    return false;
-
-                return await Spells.SummonSeraph.Cast(Core.Me);
-            }
-
-            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
-                return false;
-
-            return await Spells.SummonSeraph.Cast(Core.Me);
-
-            bool CanSummonSeraph(Character unit)
-            {
-                if (unit == null)
-                    return false;
-                return unit.CurrentHealthPercent < ScholarSettings.Instance.SummonSeraphHpPercent;
-            }
-        }
-
         public static async Task<bool> Consolation()
         {
             if (!ScholarSettings.Instance.Consolation)
                 return false;
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (Core.Me.Pet == null)
+                return false;
+
+            if (Core.Me.Pet.EnglishName != "Seraph")
                 return false;
 
             if (Globals.InParty)
@@ -729,6 +709,9 @@ namespace Magitek.Logic.Scholar
                     return false;
 
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+                    return false;
+
+                if (unit.HasAura(Auras.SeraphicVeil))
                     return false;
 
                 return unit.Distance(Core.Me.Pet) <= 20;

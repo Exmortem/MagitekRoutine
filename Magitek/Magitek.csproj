@@ -147,6 +147,7 @@
     <Compile Include="Converters\SpellIdToSpellData.cs" />
     <Compile Include="Enumerations\BuffStrategy.cs" />
     <Compile Include="Enumerations\ChainStrategemStrategy.cs" />
+    <Compile Include="Enumerations\ReaperComboStages.cs" />
     <Compile Include="Enumerations\DancePartnerStrategy.cs" />
     <Compile Include="Enumerations\DragonSightStrategy.cs" />
     <Compile Include="Enumerations\GameVersion.cs" />
@@ -238,8 +239,27 @@
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
+    <Compile Include="Logic\Reaper\Normal\AoE.cs" />
+    <Compile Include="Logic\Reaper\Normal\Buff.cs" />
+    <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\AoE.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Logic\Sage\AoE.cs" />
+    <Compile Include="Logic\Sage\Buff.cs" />
+    <Compile Include="Logic\Sage\Dispel.cs" />
+    <Compile Include="Logic\Sage\Heal.cs" />
+    <Compile Include="Logic\Sage\SingleTarget.cs" />
+    <Compile Include="Models\Reaper\ReaperSettings.cs" />
+    <Compile Include="Models\Sage\SageSettings.cs" />
+    <Compile Include="Rotations\Reaper.cs" />
+    <Compile Include="Rotations\Sage.cs" />
+    <Compile Include="Utilities\OGCDManager.cs" />
+    <Compile Include="Utilities\Routines\Reaper.cs" />
+    <Compile Include="Utilities\Routines\Sage.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
     <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
     <Compile Include="Utilities\Routines\StateMachine\State.cs" />
@@ -687,6 +707,15 @@
     <Compile Include="Views\UserControls\Paladin\TankSwap.xaml.cs">
       <DependentUpon>TankSwap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
+      <DependentUpon>AoE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\Utility.xaml.cs">
+      <DependentUpon>Utility.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\RedMage\Aoe.xaml.cs" />
     <Compile Include="Views\UserControls\RedMage\Buffs.xaml.cs" />
     <Compile Include="Views\UserControls\RedMage\Heal.xaml.cs">
@@ -701,6 +730,21 @@
     </Compile>
     <Compile Include="Views\UserControls\BlueMage\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Alliance.xaml.cs">
+      <DependentUpon>Alliance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\DispelOptions.xaml.cs">
+      <DependentUpon>DispelOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Samurai\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
@@ -1186,6 +1230,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\Reaper\AoE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\Utility.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\RedMage\Aoe.xaml" />
     <Page Include="Views\UserControls\RedMage\Buffs.xaml" />
     <Page Include="Views\UserControls\RedMage\Heal.xaml">
@@ -1202,6 +1258,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\BlueMage\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Alliance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Buffs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Combat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\DispelOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Healing.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

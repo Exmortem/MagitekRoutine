@@ -20,9 +20,9 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Row="0" Content="Royal Guard" IsChecked="{Binding GunbreakerSettings.UseRoyalGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Row="1" Content="No Mercy" IsChecked="{Binding GunbreakerSettings.UseNoMercy, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Row="2" Content="Bloodfest" IsChecked="{Binding GunbreakerSettings.UseBloodfest, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="0" Content="Royal Guard (Tank Stance)" IsChecked="{Binding GunbreakerSettings.UseRoyalGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="1" Content="No Mercy (Personal damage buff)" IsChecked="{Binding GunbreakerSettings.UseNoMercy, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="2" Content="Bloodfest (Add cartridge)" IsChecked="{Binding GunbreakerSettings.UseBloodfest, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
     </StackPanel>

@@ -1,11 +1,12 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
+using GunbreakerRoutine = Magitek.Utilities.Routines.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
 {
@@ -13,54 +14,90 @@ namespace Magitek.Logic.Gunbreaker
     {
         public static async Task<bool> DemonSlice()
         {
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceEnemies)
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.DemonSlice))
                 return false;
-            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceSlaughterEnemies)
                 return false;
-            return await Spells.DemonSlice.Cast(Core.Me);
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
+                return false;
+
+            return await Spells.DemonSlice.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> DemonSlaughter()
         {
-            if (ActionManager.LastSpell != Spells.DemonSlice)
-                return false;
-            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
-                return false;
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 1)
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.DemonSlaughter))
                 return false;
 
-            return await Spells.DemonSlaughter.Cast(Core.Me);
-        }
+            if (!GunbreakerRoutine.CanContinueComboAfter(Spells.DemonSlice))
+                return false; 
 
-        public static async Task<bool> BowShock()
-        {
-            if (!Core.Player.HasAura(Auras.NoMercy))
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
-            //Only use in the last 1/3rd of GCD window
-            if (ActionManager.LastSpell.Cooldown.TotalMilliseconds < 850)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceSlaughterEnemies)
                 return false;
 
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 && Spells.SonicBreak.Cooldown.TotalMilliseconds > 1)
-                return await Spells.BowShock.Cast(Core.Me);
-
-            return await Spells.BowShock.Cast(Core.Me);
+            return await Spells.DemonSlaughter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> FatedCircle()
         {
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.FatedCircle))
+                return false; 
+            
             if (Cartridge == 0)
                 return false;
-            if (Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge))
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
+            
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 2 && Spells.GnashingFang.Cooldown.TotalMilliseconds < 7800 && Cartridge == 1)
-                return false; 
+            if (GunbreakerRoutine.IsSpellReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+                return false;
 
-            return await Spells.FatedCircle.Cast(Core.Me);
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2 
+                && GunbreakerRoutine.IsSpellReadySoon(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+                return false;
+
+            return await Spells.FatedCircle.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> BowShock() //oGCD
+        {
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.BowShock))
+                return false;
+
+            //apply DOT on mono target if SonicBreak is not ready and SonicBreak Aura not on target
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 && !Core.Me.HasAura(Auras.NoMercy)
+                && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.SonicBreak.Cooldown == TimeSpan.Zero) )
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 1 && !Core.Me.HasAura(Auras.NoMercy))
+                return false;
+
+            return await Spells.BowShock.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> DoubleDown() //oGCD
+        {
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseDoubleDown, Spells.DoubleDown))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.NoMercy))
+                return false; 
+            
+            if (Cartridge < GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DoubleDownEnemies)
+                return false;
+
+            return await Spells.DoubleDown.Cast(Core.Me.CurrentTarget);
         }
     }
 }

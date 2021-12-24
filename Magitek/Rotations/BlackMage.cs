@@ -101,7 +101,7 @@ namespace Magitek.Rotations
             if (await CustomOpenerLogic.Opener()) return true;
 
             //DON'T CHANGE THE ORDER OF THESE
-            if (await Buff.Enochian()) return true;
+            //if (await Buff.Enochian()) return true;
             if (await Buff.Triplecast()) return true;
             if (await Buff.Sharpcast()) return true;
             if (await Buff.ManaFont()) return true;

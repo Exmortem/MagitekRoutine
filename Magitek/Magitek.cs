@@ -34,6 +34,8 @@ using Magitek.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Magitek.Models.Reaper;
+using Magitek.Models.Sage;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -183,6 +185,7 @@ namespace Magitek
 
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
+                BaseSettings.Instance.Save();
                 //TankBusters.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
 
@@ -199,10 +202,12 @@ namespace Magitek
                 MonkSettings.Instance.Save();
                 NinjaSettings.Instance.Save();
                 SamuraiSettings.Instance.Save();
+                ReaperSettings.Instance.Save();
                 BlueMageSettings.Instance.Save();
                 BlackMageSettings.Instance.Save();
                 RedMageSettings.Instance.Save();
                 SummonerSettings.Instance.Save();
+                SageSettings.Instance.Save();
                 #endregion
 
                 _saveFormTime = DateTime.Now.AddSeconds(60);
@@ -233,9 +238,11 @@ namespace Magitek
             BlackMageSettings.Instance.Save();
             RedMageSettings.Instance.Save();
             SummonerSettings.Instance.Save();
+            SageSettings.Instance.Save();
             #endregion
 
             Dispelling.Instance.Save();
+            BaseSettings.Instance.Save();
             InterruptsAndStuns.Instance.Save();
             //TankBusters.Instance.Save();
             TogglesViewModel.Instance.SaveToggles();

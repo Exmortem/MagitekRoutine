@@ -15,7 +15,9 @@
         xmlns:ninja="clr-namespace:Magitek.Views.UserControls.Ninja"
         xmlns:paladin="clr-namespace:Magitek.Views.UserControls.Paladin"
         xmlns:redMage="clr-namespace:Magitek.Views.UserControls.RedMage"
+        xmlns:sage="clr-namespace:Magitek.Views.UserControls.Sage"
         xmlns:samurai="clr-namespace:Magitek.Views.UserControls.Samurai"
+        xmlns:reaper="clr-namespace:Magitek.Views.UserControls.Reaper"
         xmlns:blueMage="clr-namespace:Magitek.Views.UserControls.BlueMage"
         xmlns:scholar="clr-namespace:Magitek.Views.UserControls.Scholar"
         xmlns:summoner="clr-namespace:Magitek.Views.UserControls.Summoner"
@@ -596,6 +598,41 @@
                     </TabControl>
                 </TabItem>
 
+                <TabItem Name="Sage" Style="{DynamicResource TabItemSage}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="High Priority Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <lists:Dispelling />
+                        </TabItem>
+                        <TabItem Header="General Dispels" Style="{DynamicResource MainTabDispelling}">
+                            <sage:DispelOptions />
+                        </TabItem>
+                        <TabItem Header="Combat " Style="{DynamicResource MainTabCombat}">
+                            <sage:Combat />
+                        </TabItem>
+                        <TabItem Header="General Healing" Style="{DynamicResource MainTabHealing}">
+                            <sage:Healing />
+                        </TabItem>
+                        <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
+                            <sage:Buffs />
+                        </TabItem>
+                        <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
+                            <sage:Alliance />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Sage" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Sage" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
                 <TabItem Name="BlackMage" Style="{DynamicResource TabItemBlackMage}">
                     <TabControl Style="{DynamicResource JobOptionsTabControl}">
                         <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
@@ -915,6 +952,32 @@
                         </TabItem>
                         <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
                             <customControls:SubmitSettings Routine="Samurai" />
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+
+                <TabItem Name="Reaper" Style="{DynamicResource TabItemReaper}">
+                    <TabControl Style="{DynamicResource JobOptionsTabControl}">
+                        <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
+                            <customControls:CurrentNews />
+                        </TabItem>
+                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                            <reaper:SingleTarget />
+                        </TabItem>
+                        <TabItem Header="AoE " Style="{DynamicResource MainTabAoe}">
+                            <reaper:AoE />
+                        </TabItem>
+                        <TabItem Header="Utilities " Style="{DynamicResource MainTabUtilities}">
+                            <reaper:Utility />
+                        </TabItem>
+                        <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
+                            <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SharedSettings Routine="Reaper" />
+                        </TabItem>
+                        <TabItem Header="Submit New Settings" Style="{DynamicResource MainTabSharedSettings}">
+                            <customControls:SubmitSettings Routine="Reaper" />
                         </TabItem>
                     </TabControl>
                 </TabItem>

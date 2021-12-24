@@ -18,6 +18,9 @@ namespace Magitek.Logic.Samurai
         {
             if (Core.Me.CurrentTarget == null) return false;
 
+            if (Core.Me.ClassLevel < 15)
+                return false;
+
             if (!SamuraiSettings.Instance.Enpi)
                 return false;
 
@@ -34,7 +37,7 @@ namespace Magitek.Logic.Samurai
 
             if (Core.Me.CurrentTarget == null) return false;
 
-            if (ActionResourceManager.Samurai.Kenki < 50)
+            if (ActionResourceManager.Samurai.Kenki < 25)
                 return false;
 
             if (!Core.Me.CurrentTarget.InView())
@@ -59,11 +62,11 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel < 72)
                 return false;
 
-            if (ActionResourceManager.Samurai.Kenki < 50)
+            if (ActionResourceManager.Samurai.Kenki < 25)
                 return false;
 
             //if we're about to refresh Higanbana or cast Midare, we need kenki for Kaiten
-            if ((!Core.Target.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime) || Utilities.Routines.Samurai.SenCount == 3) && ActionResourceManager.Samurai.Kenki < 70)
+            if ((!Core.Target.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime) || Utilities.Routines.Samurai.SenCount == 3) && ActionResourceManager.Samurai.Kenki < 50)
                 return false;
 
             return await Spells.HissatsuSenei.Cast(Core.Me.CurrentTarget);

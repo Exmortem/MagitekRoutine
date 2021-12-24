@@ -73,40 +73,50 @@
                                       Value="{Binding WarriorSettings.VengeanceHpPercentage, Mode=TwoWay}" />
                     <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Raw Intuition" IsChecked="{Binding WarriorSettings.UseRawIntuition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Raw Intuition / Bloodwhetting" IsChecked="{Binding WarriorSettings.UseBloodWhetting, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding WarriorSettings.BloodWhettingHpPercentage, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Rampart" IsChecked="{Binding WarriorSettings.UseRampart, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="3"
                                       Grid.Column="1"
                                       Margin="0,3"
                                       MaxValue="100"
                                       MinValue="1"
-                                      Value="{Binding WarriorSettings.RawIntuitionHpPercentage, Mode=TwoWay}" />
+                                      Value="{Binding WarriorSettings.RampartHpPercentage, Mode=TwoWay}" />
                     <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="5" Grid.Column="0" Content="Rampart" IsChecked="{Binding WarriorSettings.UseRampart, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="5"
-                                      Grid.Column="1"
-                                      Margin="0,3"
-                                      MaxValue="100"
-                                      MinValue="1"
-                                      Value="{Binding WarriorSettings.RampartHpPercentage, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
-                    <CheckBox Grid.Row="7" Grid.Column="0" Content="Thrill Of Battle(WIP)" IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="7"
+                    <CheckBox Grid.Row="4" Grid.Column="0" Content="Thrill Of Battle(WIP)" IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="4"
                                       Grid.Column="1"
                                       Margin="0,3"
                                       MaxValue="100"
                                       MinValue="1"
                                       Value="{Binding WarriorSettings.ThrillOfBattleHpPercentage, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="7" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-                        <StackPanel Margin="5" Orientation="Horizontal">
-                            <CheckBox Content="Use Shake It Off " IsChecked="{Binding WarriorSettings.UseShakeItOff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                            <CheckBox Content="Automatically On Any Buff (Not Implemented) " IsChecked="{Binding WarriorSettings.UseShakeItOffOnAnyBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        </StackPanel>
-                    </controls:SettingsBlock>
+                    <CheckBox Grid.Row="5" Grid.Column="0" Content="Reprisal" IsChecked="{Binding WarriorSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="5"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding WarriorSettings.ReprisalHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
+                    <CheckBox Grid.Row="6" Grid.Column="0" Content="ShakeItOff" IsChecked="{Binding WarriorSettings.UseShakeItOff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="6"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding WarriorSettings.ShakeItOffHpPercentage, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </Grid>
             </StackPanel>
         </controls:SettingsBlock>

@@ -1,94 +1,119 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
 
 namespace Magitek.Logic.Warrior
 {
     internal static class Aoe
     {
-        internal static async Task<bool> SteelCyclone()
+        public static async Task<bool> ChaoticCyclone()
         {
-            if (!WarriorSettings.Instance.UseDecimate)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.ChaoticCyclone))
+                return false; 
+
+            if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50)
+            if (!Core.Me.HasAura(Auras.SurgingTempest))
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.ChaoticCycloneMinimumEnemies)
                 return false;
 
-            if (Core.Me.HasAura(Auras.NascentChaos) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50 && Core.Me.HasAura(Auras.StormsEye, true, 7000))
-                return await Spells.ChaoticCyclone.Cast(Core.Me);
-
-            return await Spells.SteelCyclone.Cast(Core.Me);
+            return await Spells.ChaoticCyclone.Cast(Core.Me.CurrentTarget);
         }
 
 
-        internal static async Task<bool> Decimate()
+        public static async Task<bool> Decimate()
         {
-            if (!WarriorSettings.Instance.UseDecimate)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge + 50 && Core.Me.HasAura(Auras.StormsEye, true, 7000))
-                return false;
-
-            if (Core.Me.HasAura(Auras.NascentChaos) && Core.Me.ClassLevel < 80)
-            {
-                return await Spells.Decimate.Cast(Core.Me);
-            }
-
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
-                return false;
-
-            return await Spells.SteelCyclone.Cast(Core.Me);
-        }
-        public static async Task<bool> InnerReleaseDecimateSpam()
-        {
-            if (!Core.Me.HasAura(Auras.InnerRelease))
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Decimate))
                 return false;
 
             if (!WarriorSettings.Instance.UseDecimate)
                 return false;
 
+            if (!Core.Me.HasAura(Auras.SurgingTempest))
+                return false;
+
+            if (Core.Me.HasAura(Auras.NascentChaos))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge)
+                return false;
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
                 return false;
 
-            if (Casting.LastSpell == Spells.Decimate)
-            {   //If Onslaught is allowed  //If Upheaval is allowed
-                if (WarriorSettings.Instance.UseOnslaught && await Spells.Onslaught.Cast(Core.Me.CurrentTarget)) return true;
-                if (WarriorSettings.Instance.UseUpheaval && await Spells.Upheaval.Cast(Core.Me.CurrentTarget)) return true;
-            }
-
-            await Spells.SteelCyclone.Cast(Core.Me.CurrentTarget);
-
-            // Keep returning true as long as we have Inner Release
-            return true;
+            return await WarriorRoutine.Decimate.Cast(Core.Me.CurrentTarget);
         }
+
 
         public static async Task<bool> Overpower()
         {
-            if (!WarriorSettings.Instance.UseOverpower)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Overpower.Id))
-                return false;
-
-            if (Core.Me.CurrentTarget == null)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Overpower))
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.Overpower && Core.Me.ClassLevel >= 40)
-            {
-                return await Spells.MythrilTempest.Cast(Core.Me);
-            }
-
             return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> MythrilTempest()
+        {
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.MythrilTempest))
+                return false;
+
+            if (!WarriorRoutine.CanContinueComboAfter(Spells.Overpower))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.MythrilTempestMinimumEnemies)
+                return false;
+
+            return await Spells.MythrilTempest.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Orogeny()
+        {
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Orogeny))
+                return false;
+
+            if (Spells.Orogeny.Cooldown.TotalMilliseconds > 0)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.SurgingTempest))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.OrogenyMinimumEnemies)
+                return false;
+
+            return await Spells.Orogeny.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> PrimalRend()
+        {
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.PrimalRend))
+                return false;
+
+            if (!WarriorSettings.Instance.UsePrimalRend)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.PrimalRendReady))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.SurgingTempest))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.PrimalRendMinimumEnemies)
+                return false;
+
+            return await Spells.PrimalRend.Cast(Core.Me.CurrentTarget);
         }
     }
 }
