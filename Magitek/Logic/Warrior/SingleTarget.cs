@@ -1,6 +1,7 @@
-﻿using ff14bot;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
@@ -13,6 +14,10 @@ namespace Magitek.Logic.Warrior
 {
     internal static class SingleTarget
     {
+
+        /*************************************************************************************
+         *                                    Aggro
+         * ***********************************************************************************/
         public static async Task<bool> Tomahawk()
         {
             if (WarriorSettings.Instance.UseTomahawkToPullExtraEnemies && !BotManager.Current.IsAutonomous)
@@ -21,9 +26,7 @@ namespace Magitek.Logic.Warrior
                                                                                 r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.TargetGameObject != Core.Me);
 
                 if (pullTarget != null)
-                {
                     return await Spells.Tomahawk.Cast(pullTarget);
-                }
             }
 
             if (!WarriorSettings.Instance.UseTomahawk)
@@ -32,7 +35,6 @@ namespace Magitek.Logic.Warrior
                 {
                     return await Spells.Tomahawk.Cast(Core.Me.CurrentTarget);
                 }
-
                 return false;
             }
 
@@ -68,15 +70,75 @@ namespace Magitek.Logic.Warrior
             return true;
         }
 
+        /*************************************************************************************
+         *                                    Combo
+         * ***********************************************************************************/
+        public static async Task<bool> StormsPath()
+        {
+            if (!ActionManager.HasSpell(Spells.StormsPath.Id))
+                return false;
+
+            if (!WarriorRoutine.CanContinueComboAfter(Spells.Maim))
+                return false;
+
+            return await Spells.StormsPath.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> StormsEye()
+        {
+            if (!ActionManager.HasSpell(Spells.StormsEye.Id))
+                return false;
+
+            if (!WarriorRoutine.CanContinueComboAfter(Spells.Maim))
+                return false;
+
+            // If Inner Release has less than 8 seconds on cooldown
+            if (WarriorRoutine.IsSpellReadySoon(Spells.InnerRelease, 10000))
+            {
+                int refreshTime = 20000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds;
+                Aura SurgingTempestAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SurgingTempest);
+                if (Core.Me.HasAura(Auras.SurgingTempest) && SurgingTempestAura.TimespanLeft.TotalMilliseconds > refreshTime)
+                    return false;
+                else
+                    return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
+            }
+
+            //No need to refresh SurgingTempest
+            if (Core.Me.HasAura(Auras.SurgingTempest, true, 6500))
+                return false;
+
+            return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Maim()
+        {
+            if (!ActionManager.HasSpell(Spells.Maim.Id))
+                return false;
+
+            if (!WarriorRoutine.CanContinueComboAfter(Spells.HeavySwing))
+                return false;
+
+            return await Spells.Maim.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> HeavySwing()
+        {
+            if (!ActionManager.HasSpell(Spells.HeavySwing.Id))
+                return false;
+
+            if (Core.Me.HasAura(Auras.InnerRelease))
+                return false;
+
+            return await Spells.HeavySwing.Cast(Core.Me.CurrentTarget);
+        }
+
+
+        /*************************************************************************************
+         *                                    oGCD
+         * ***********************************************************************************/
         public static async Task<bool> Upheaval()
         {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (!WarriorSettings.Instance.UseUpheaval)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.Upheaval.Id))
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseUpheaval, Spells.Upheaval))
                 return false;
 
             if (Spells.Upheaval.Cooldown.TotalMilliseconds > 0)
@@ -91,9 +153,29 @@ namespace Magitek.Logic.Warrior
             return await Spells.Upheaval.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> Onslaught()
+        {
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseOnslaught, Spells.Onslaught))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.InnerRelease))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) > 1)
+                return false;
+
+            if (Weaving.GetCurrentWeavingCounter() > 0)
+                return false;
+
+            return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
+        }
+
+        /*************************************************************************************
+         *                                Special GCD
+         * ***********************************************************************************/
         public static async Task<bool> FellCleave()
         {
-            if (Core.Me.CurrentTarget == null)
+            if (!ActionManager.HasSpell(Spells.FellCleave.Id))
                 return false;
 
             if (Core.Me.HasAura(Auras.NascentChaos))
@@ -108,89 +190,9 @@ namespace Magitek.Logic.Warrior
             return await WarriorRoutine.FellCleave.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> StormsPath()
-        {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (ActionManager.LastSpellId != Spells.Maim.Id)
-                return false;
-
-            return await Spells.StormsPath.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> StormsEye()
-        {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (ActionManager.LastSpellId != Spells.Maim.Id)
-                return false;
-
-            if (Core.Me.ClassLevel > 70)
-            {
-                // If Inner Release has less than 8 seconds on cooldown
-                if (Spells.InnerRelease.Cooldown.TotalMilliseconds <= 10000)
-                {
-                    int refreshTime = 20000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds;
-                    Aura SurgingTempestAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SurgingTempest);
-                    if (Core.Me.HasAura(Auras.SurgingTempest) && SurgingTempestAura.TimespanLeft.TotalMilliseconds > refreshTime)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
-                    }
-                }
-            }
-
-            //No need to refresh SurgingTempest
-            if (Core.Me.HasAura(Auras.SurgingTempest, true, 6500))
-                return false;
-
-            return await Spells.StormsEye.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Maim()
-        {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (ActionManager.LastSpellId != Spells.HeavySwing.Id)
-                return false;
-
-            return await Spells.Maim.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> HeavySwing()
-        {
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (Core.Me.HasAura(Auras.InnerRelease))
-                return false;
-
-            return await Spells.HeavySwing.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Onslaught()
-        {
-            if (!WarriorSettings.Instance.UseOnslaught || !Core.Me.HasAura(Auras.InnerRelease))
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) != 1)
-                return false;
-
-            if (Weaving.GetCurrentWeavingCounter() > 0)
-                return false;
-
-            return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> InnerChaos()
         {
-            if (Core.Me.CurrentTarget == null)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerChaos, Spells.InnerChaos))
                 return false;
 
             if (!Core.Me.HasAura(Auras.NascentChaos))

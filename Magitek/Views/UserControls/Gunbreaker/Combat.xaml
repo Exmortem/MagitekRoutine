@@ -50,7 +50,7 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Rough Divide" IsChecked="{Binding GunbreakerSettings.UseRoughDivide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Rough Divide / Dash" IsChecked="{Binding GunbreakerSettings.UseRoughDivide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -64,14 +64,6 @@
                 <StackPanel Grid.Row="0" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Use Ammo Combo " IsChecked="{Binding GunbreakerSettings.UseAmmoCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Save Danger Zone When No Mercy Under " IsChecked="{Binding GunbreakerSettings.SaveDangerZone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <controls:Numeric Margin="0,3" MaxValue="10000" MinValue="100" Value="{Binding GunbreakerSettings.SaveDangerZoneMseconds, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Ms" />
                     </StackPanel>
                 </StackPanel>
 
@@ -100,8 +92,8 @@
 
                 <StackPanel Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice When There Are At Least " />
-                        <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.DemonSliceEnemies, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Demon Slice / Demon Slaughter When There Are At Least " />
+                        <controls:Numeric Margin="0,3" MaxValue="50" MinValue="1" Value="{Binding GunbreakerSettings.DemonSliceSlaughterEnemies, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
                     </StackPanel>
                 </StackPanel>

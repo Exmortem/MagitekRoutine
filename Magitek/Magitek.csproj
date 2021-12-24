@@ -1378,4 +1378,1410 @@
     <Error Condition="!Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
     <Error Condition="!Exists('packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props'))" />
   </Target>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props" Condition="Exists('packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props')" />
+  <Import Project="packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
+  <Import Project="packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props" Condition="Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{44929A8E-166F-4B02-98B2-619585077951}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Magitek</RootNamespace>
+    <AssemblyName>Magitek</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>C:\MagitekRelease\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ConfigureAwait, Version=3.3.1.0, Culture=neutral, PublicKeyToken=233850a516558a98, processorArchitecture=MSIL">
+      <HintPath>packages\ConfigureAwait.Fody.3.3.1\lib\net452\ConfigureAwait.dll</HintPath>
+    </Reference>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="GreyMagic, Version=1.0.41.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\GreyMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="RebornBuddy">
+      <HintPath>..\References\RebornBuddy.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BossFightLog\BossFight.cs" />
+    <Compile Include="BossFightLog\BossFightLogItem.cs" />
+    <Compile Include="Commands\AwaitableDelegateCommand.cs" />
+    <Compile Include="Commands\AwaitableDelegateCommandT.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Commands\DelegateCommandT.cs" />
+    <Compile Include="Commands\IAsyncCommand.cs" />
+    <Compile Include="Commands\IAsyncCommandT.cs" />
+    <Compile Include="Commands\IRaiseCanExecuteChanged.cs" />
+    <Compile Include="Controls\BossFightLog.xaml.cs">
+      <DependentUpon>BossFightLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CurrentNews.xaml.cs">
+      <DependentUpon>CurrentNews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GambitBrowser.xaml.cs">
+      <DependentUpon>GambitBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GambitsControl.xaml.cs">
+      <DependentUpon>GambitsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Hotkey.xaml.cs">
+      <DependentUpon>Hotkey.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\HotkeyToggles.xaml.cs">
+      <DependentUpon>HotkeyToggles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Numeric.xaml.cs">
+      <DependentUpon>Numeric.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NumericSmall.xaml.cs">
+      <DependentUpon>NumericSmall.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OpenersBrowser.xaml.cs">
+      <DependentUpon>OpenersBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OpenersControl.xaml.cs">
+      <DependentUpon>OpenersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsBlock.xaml.cs">
+      <DependentUpon>SettingsBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SharedSettings.xaml.cs">
+      <DependentUpon>SharedSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SubmitSettings.xaml.cs">
+      <DependentUpon>SubmitSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SwirlSpinner.xaml.cs">
+      <DependentUpon>SwirlSpinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TogglesSettings.xaml.cs">
+      <DependentUpon>TogglesSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\MultiBooleanAndConverterT.cs" />
+    <Compile Include="Converters\BooleanConverterT.cs" />
+    <Compile Include="Converters\BooleanToHalfOpaqueConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToBooleanConverter.cs" />
+    <Compile Include="Converters\MultiBooleanAndToHalfOpaqueConverter .cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToOpaqueConverter.cs" />
+    <Compile Include="Converters\ConditionAddConverter.cs" />
+    <Compile Include="Converters\ConditionRemoveConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\GambitConditionConverter.cs" />
+    <Compile Include="Converters\GambitActionConverter.cs" />
+    <Compile Include="Converters\GambitOrderPositionConverter.cs" />
+    <Compile Include="Converters\IconToIconUrlConverter.cs" />
+    <Compile Include="Converters\OpenerConditionAddConverter.cs" />
+    <Compile Include="Converters\OpenerConditionRemoveConverter.cs" />
+    <Compile Include="Converters\OpenerOrderPositionConverter.cs" />
+    <Compile Include="Converters\SpellIdToSpellData.cs" />
+    <Compile Include="Enumerations\BuffStrategy.cs" />
+    <Compile Include="Enumerations\ChainStrategemStrategy.cs" />
+    <Compile Include="Enumerations\ReaperComboStages.cs" />
+    <Compile Include="Enumerations\DancePartnerStrategy.cs" />
+    <Compile Include="Enumerations\DragonSightStrategy.cs" />
+    <Compile Include="Enumerations\GameVersion.cs" />
+    <Compile Include="Enumerations\InterruptStrategy.cs" />
+    <Compile Include="Enumerations\AstrologianSects.cs" />
+    <Compile Include="Enumerations\MachinistTurrets.cs" />
+    <Compile Include="Enumerations\MagitekClassJobType.cs" />
+    <Compile Include="Enumerations\MonkFists.cs" />
+    <Compile Include="Enumerations\Openers.cs" />
+    <Compile Include="Enumerations\PositionalState.cs" />
+    <Compile Include="Enumerations\ScholarPets.cs" />
+    <Compile Include="Enumerations\SongStrategy.cs" />
+    <Compile Include="Enumerations\SummonerPets.cs" />
+    <Compile Include="Enumerations\SummonerState.cs" />
+    <Compile Include="Enumerations\TankBusterStrategies.cs" />
+    <Compile Include="Enumerations\TcjMode.cs" />
+    <Compile Include="Extensions\CharacterExtensions.cs" />
+    <Compile Include="Extensions\GameObjectExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\JobHelperExtensions.cs" />
+    <Compile Include="Extensions\PetSpellDataExtensions.cs" />
+    <Compile Include="Extensions\PlayerExtensions.cs" />
+    <Compile Include="Extensions\SpellDataExtensions.cs" />
+    <Compile Include="Extensions\XivDbItemExtensions.cs" />
+    <Compile Include="Gambits\Actions\BaseCastSpellAction.cs" />
+    <Compile Include="Gambits\Actions\CastFillerOnCurrentTargetAction.cs" />
+    <Compile Include="Gambits\Actions\CastSpellOnAllyAction.cs" />
+    <Compile Include="Gambits\Actions\CastSpellOnCurrentTargetAction.cs" />
+    <Compile Include="Gambits\Actions\CastSpellOnEnemyAction.cs" />
+    <Compile Include="Gambits\Actions\CastSpellOnFriendlyNpcAction.cs" />
+    <Compile Include="Gambits\Actions\CastSpellOnSelfAction.cs" />
+    <Compile Include="Gambits\Actions\GambitAction.cs" />
+    <Compile Include="Gambits\Actions\IGambitAction.cs" />
+    <Compile Include="Gambits\Actions\NullAction.cs" />
+    <Compile Include="Gambits\Actions\PetCastAction.cs" />
+    <Compile Include="Gambits\Actions\SleepForTimeAction.cs" />
+    <Compile Include="Gambits\Actions\ToastMessageAction.cs" />
+    <Compile Include="Gambits\Actions\UseItemOnSelfAction.cs" />
+    <Compile Include="Gambits\Conditions\BardRepertoireCondition.cs" />
+    <Compile Include="Gambits\Conditions\CombatTimeCondition.cs" />
+    <Compile Include="Gambits\Conditions\DoesNotHaveAuraCondition.cs" />
+    <Compile Include="Gambits\Conditions\DragoonGaugeTimerCondition.cs" />
+    <Compile Include="Gambits\Conditions\DragoonGazeCondition.cs" />
+    <Compile Include="Gambits\Conditions\EnemiesNearbyCondition.cs" />
+    <Compile Include="Gambits\Conditions\EnemyCastingSpellCondition.cs" />
+    <Compile Include="Gambits\Conditions\HasAuraCondition.cs" />
+    <Compile Include="Gambits\Conditions\HasPetCondition.cs" />
+    <Compile Include="Gambits\Conditions\HpPercentBetweenCondition.cs" />
+    <Compile Include="Gambits\Conditions\HpPercentBelowCondition.cs" />
+    <Compile Include="Gambits\Conditions\GambitCondition.cs" />
+    <Compile Include="Gambits\Conditions\IGambitCondition.cs" />
+    <Compile Include="Gambits\Conditions\LastSpellCondition.cs" />
+    <Compile Include="Gambits\Conditions\MachinistHeatCondition.cs" />
+    <Compile Include="Gambits\Conditions\MonkChakraCondition.cs" />
+    <Compile Include="Gambits\Conditions\MonkGreasedLightningCondition.cs" />
+    <Compile Include="Gambits\Conditions\MpPercentCondition.cs" />
+    <Compile Include="Gambits\Conditions\NinjaHutonCondition.cs" />
+    <Compile Include="Gambits\Conditions\NinjaNinkiCondition.cs" />
+    <Compile Include="Gambits\Conditions\NotInInstanceCondition.cs" />
+    <Compile Include="Gambits\Conditions\PlayerDoesNotHaveAuraCondition.cs" />
+    <Compile Include="Gambits\Conditions\PlayerHasAuraBelowCondition.cs" />
+    <Compile Include="Gambits\Conditions\PlayerHasAuraCondition.cs" />
+    <Compile Include="Gambits\Conditions\InInstanceCondition.cs" />
+    <Compile Include="Gambits\Conditions\IsJobCondition.cs" />
+    <Compile Include="Gambits\Conditions\IsRoleCondition.cs" />
+    <Compile Include="Gambits\Conditions\PlayerInCombatCondition.cs" />
+    <Compile Include="Gambits\Conditions\PlayerNotInCombatCondition.cs" />
+    <Compile Include="Gambits\Conditions\SamuraiKenkiCondition.cs" />
+    <Compile Include="Gambits\Conditions\SamuraiSenCondition.cs" />
+    <Compile Include="Gambits\Conditions\SpellOffCooldownCondition.cs" />
+    <Compile Include="Gambits\Conditions\TargetIsBossCondition.cs" />
+    <Compile Include="Gambits\Conditions\TargetNameCondition.cs" />
+    <Compile Include="Gambits\Helpers\ActionHelpers.cs" />
+    <Compile Include="Gambits\Helpers\ConditionHelpers.cs" />
+    <Compile Include="Gambits\OpenerGroup.cs" />
+    <Compile Include="Gambits\SharedGambit.cs" />
+    <Compile Include="Gambits\Gambit.cs" />
+    <Compile Include="Gambits\GambitGroup.cs" />
+    <Compile Include="Gambits\SharedOpener.cs" />
+    <Compile Include="Logic\Astrologian\Cards.cs" />
+    <Compile Include="Logic\Bard\Aoe.cs" />
+    <Compile Include="Logic\Bard\Cooldowns.cs" />
+    <Compile Include="Logic\Bard\DamageOverTime.cs" />
+    <Compile Include="Logic\Bard\SingleTarget.cs" />
+    <Compile Include="Logic\Bard\Songs.cs" />
+    <Compile Include="Logic\Bard\Utility.cs" />
+    <Compile Include="Logic\BlackMage\Aoe.cs" />
+    <Compile Include="Logic\BlackMage\Buff.cs" />
+    <Compile Include="Logic\BlackMage\SingleTarget.cs" />
+    <Compile Include="Logic\BlueMage\Dispel.cs" />
+    <Compile Include="Logic\BlueMage\Heal.cs" />
+    <Compile Include="Logic\Reaper\Normal\AoE.cs" />
+    <Compile Include="Logic\Reaper\Normal\Buff.cs" />
+    <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\AoE.cs" />
+    <Compile Include="Logic\Reaper\Enshroud\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\Utility.cs" />
+    <Compile Include="Logic\RedMage\CombatMessages.cs" />
+    <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Logic\Sage\AoE.cs" />
+    <Compile Include="Logic\Sage\Buff.cs" />
+    <Compile Include="Logic\Sage\Dispel.cs" />
+    <Compile Include="Logic\Sage\Heal.cs" />
+    <Compile Include="Logic\Sage\SingleTarget.cs" />
+    <Compile Include="Models\Reaper\ReaperSettings.cs" />
+    <Compile Include="Models\Sage\SageSettings.cs" />
+    <Compile Include="Rotations\Reaper.cs" />
+    <Compile Include="Rotations\Sage.cs" />
+    <Compile Include="Utilities\OGCDManager.cs" />
+    <Compile Include="Utilities\Routines\Reaper.cs" />
+    <Compile Include="Utilities\Routines\Sage.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\SmUtil.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\State.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateMachine.cs" />
+    <Compile Include="Logic\CustomOpenerLogic.cs" />
+    <Compile Include="Logic\Dancer\Dances.cs" />
+    <Compile Include="Logic\Gunbreaker\Aoe.cs" />
+    <Compile Include="Logic\Gunbreaker\Buff.cs" />
+    <Compile Include="Logic\Gunbreaker\Heal.cs" />
+    <Compile Include="Logic\Gunbreaker\Defensive.cs" />
+    <Compile Include="Logic\Gunbreaker\SingleTarget.cs" />
+    <Compile Include="Logic\DarkKnight\Aoe.cs" />
+    <Compile Include="Logic\DarkKnight\Buff.cs" />
+    <Compile Include="Logic\DarkKnight\Defensive.cs" />
+    <Compile Include="Logic\DarkKnight\SingleTarget.cs" />
+    <Compile Include="Logic\Dragoon\Aoe.cs" />
+    <Compile Include="Logic\Dragoon\Buff.cs" />
+    <Compile Include="Logic\Dragoon\Jumps.cs" />
+    <Compile Include="Logic\Dragoon\SingleTarget.cs" />
+    <Compile Include="Logic\GambitLogic.cs" />
+    <Compile Include="Logic\InterruptLogic.cs" />
+    <Compile Include="Logic\Machinist\Utility.cs" />
+    <Compile Include="Logic\Machinist\MultiTarget.cs" />
+    <Compile Include="Logic\Machinist\Cooldowns.cs" />
+    <Compile Include="Logic\Machinist\SingleTarget.cs" />
+    <Compile Include="Logic\Machinist\Pet.cs" />
+    <Compile Include="Logic\Monk\Aoe.cs" />
+    <Compile Include="Logic\Monk\Buff.cs" />
+    <Compile Include="Logic\Monk\PositionalToast.cs" />
+    <Compile Include="Logic\Monk\SingleTarget.cs" />
+    <Compile Include="Logic\Ninja\Aoe.cs" />
+    <Compile Include="Logic\Ninja\Buff.cs" />
+    <Compile Include="Logic\Ninja\Ninjutsu.cs" />
+    <Compile Include="Logic\Ninja\SingleTarget.cs" />
+    <Compile Include="Logic\Ninja\Utility.cs" />
+    <Compile Include="Logic\OpenerLogic.cs" />
+    <Compile Include="Logic\Paladin\Aoe.cs" />
+    <Compile Include="Logic\Paladin\Buff.cs" />
+    <Compile Include="Logic\Paladin\Defensive.cs" />
+    <Compile Include="Logic\Paladin\Heal.cs" />
+    <Compile Include="Logic\Paladin\Pvp.cs" />
+    <Compile Include="Logic\Paladin\SingleTarget.cs" />
+    <Compile Include="Logic\RedMage\Heal.cs" />
+    <Compile Include="Logic\Roles\MagicDps.cs" />
+    <Compile Include="Logic\Roles\PhysicalDps.cs" />
+    <Compile Include="Logic\Roles\Tank.cs" />
+    <Compile Include="Logic\Dancer\Aoe.cs" />
+    <Compile Include="Logic\Dancer\Buff.cs" />
+    <Compile Include="Logic\Dancer\SingleTarget.cs" />
+    <Compile Include="Logic\BlueMage\Aoe.cs" />
+    <Compile Include="Logic\BlueMage\Buff.cs" />
+    <Compile Include="Logic\BlueMage\SingleTarget.cs" />
+    <Compile Include="Logic\Samurai\Aoe.cs" />
+    <Compile Include="Logic\Samurai\Buff.cs" />
+    <Compile Include="Logic\Samurai\SingleTarget.cs" />
+    <Compile Include="Logic\Scholar\Aoe.cs" />
+    <Compile Include="Logic\Scholar\Buff.cs" />
+    <Compile Include="Logic\Scholar\Dispel.cs" />
+    <Compile Include="Logic\Scholar\Heal.cs" />
+    <Compile Include="Logic\Scholar\SingleTarget.cs" />
+    <Compile Include="Logic\Scholar\TankBusters.cs" />
+    <Compile Include="Logic\Astrologian\Aoe.cs" />
+    <Compile Include="Logic\Astrologian\Buff.cs" />
+    <Compile Include="Logic\Astrologian\Dispel.cs" />
+    <Compile Include="Logic\Astrologian\Heal.cs" />
+    <Compile Include="Logic\Astrologian\SingleTarget.cs" />
+    <Compile Include="Logic\Astrologian\TankBusters.cs" />
+    <Compile Include="Logic\Astrologian\Pvp.cs" />
+    <Compile Include="Logic\Summoner\Aoe.cs" />
+    <Compile Include="Logic\Summoner\Buff.cs" />
+    <Compile Include="Logic\Summoner\Heal.cs" />
+    <Compile Include="Logic\Summoner\Pets.cs" />
+    <Compile Include="Logic\Summoner\SingleTarget.cs" />
+    <Compile Include="Logic\SpellQueueLogic.cs" />
+    <Compile Include="Logic\Warrior\Aoe.cs" />
+    <Compile Include="Logic\Warrior\Buff.cs" />
+    <Compile Include="Logic\Warrior\Defensive.cs" />
+    <Compile Include="Logic\Warrior\SingleTarget.cs" />
+    <Compile Include="Logic\WhiteMage\Aoe.cs" />
+    <Compile Include="Logic\WhiteMage\Buff.cs" />
+    <Compile Include="Logic\WhiteMage\Dispel.cs" />
+    <Compile Include="Logic\WhiteMage\Heal.cs" />
+    <Compile Include="Logic\WhiteMage\Pvp.cs" />
+    <Compile Include="Logic\WhiteMage\SingleTarget.cs" />
+    <Compile Include="Logic\WhiteMage\TankBusters.cs" />
+    <Compile Include="Magitek.cs" />
+    <Compile Include="Models\Account\AuthenticationSettings.cs" />
+    <Compile Include="Models\Account\ZoneSetting.cs" />
+    <Compile Include="Models\Account\ZoneSettingEntry.cs" />
+    <Compile Include="Models\Astrologian\AstrologianZoneSettings.cs" />
+    <Compile Include="Models\Authentication\ClientSession.cs" />
+    <Compile Include="Models\Bard\BardSettings.cs" />
+    <Compile Include="Models\Account\BaseSettings.cs" />
+    <Compile Include="Models\BitBucket\Issue.cs" />
+    <Compile Include="Models\BitBucket\Issues.cs" />
+    <Compile Include="Models\BitBucket\MetaData.cs" />
+    <Compile Include="Models\BitBucket\ReportedBy.cs" />
+    <Compile Include="Models\BlackMage\BlackMageSettings.cs" />
+    <Compile Include="Models\CombatMessageModel.cs" />
+    <Compile Include="Models\Gunbreaker\GunbreakerSettings.cs" />
+    <Compile Include="Models\DarkKnight\DarkKnightSettings.cs" />
+    <Compile Include="Models\Dragoon\DragoonSettings.cs" />
+    <Compile Include="Models\Debugging\TargetAuraInfo.cs" />
+    <Compile Include="Models\Debugging\EnemyInfo.cs" />
+    <Compile Include="Models\Debugging\EnemySpellCastInfo.cs" />
+    <Compile Include="Models\Debugging\EnemyTargetInfo.cs" />
+    <Compile Include="Models\Enmity.cs" />
+    <Compile Include="Models\GambitSettings.cs" />
+    <Compile Include="Models\IRoutineSettings.cs" />
+    <Compile Include="Models\QueueSpell\JobSpell.cs" />
+    <Compile Include="Models\Machinist\MachinistSettings.cs" />
+    <Compile Include="Models\MagitekApi\MagitekApiResult.cs" />
+    <Compile Include="Models\MagitekApi\MagitekContributor.cs" />
+    <Compile Include="Models\MagitekApi\MagitekNews.cs" />
+    <Compile Include="Models\MagitekApi\MagitekSettings.cs" />
+    <Compile Include="Models\Monk\MonkSettings.cs" />
+    <Compile Include="Models\Ninja\NinjaSettings.cs" />
+    <Compile Include="Models\QueueSpell\QueueSpellCheck.cs" />
+    <Compile Include="Models\QueueSpell\QueueSpell.cs" />
+    <Compile Include="Models\QueueSpell\QueueSpellWait.cs" />
+    <Compile Include="Models\Paladin\PaladinSettings.cs" />
+    <Compile Include="Models\RedMage\RedMageSettings.cs" />
+    <Compile Include="Models\Roles\HealerSettings.cs" />
+    <Compile Include="Models\Roles\MagicDpsSettings.cs" />
+    <Compile Include="Models\Roles\PhysicalDpsSettings.cs" />
+    <Compile Include="Models\Roles\TankSettings.cs" />
+    <Compile Include="Models\Dancer\DancerSettings.cs" />
+    <Compile Include="Models\BlueMage\BlueMageSettings.cs" />
+    <Compile Include="Models\Samurai\SamuraiSettings.cs" />
+    <Compile Include="Models\Scholar\ScholarSettings.cs" />
+    <Compile Include="Models\Summoner\SummonerSettings.cs" />
+    <Compile Include="Models\Warrior\WarriorSettings.cs" />
+    <Compile Include="Models\Astrologian\AstrologianSettings.cs" />
+    <Compile Include="Models\WhiteMage\WhiteMageSettings.cs" />
+    <Compile Include="Models\WebResources\XivDbItem.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Rotations\Astrologian.cs" />
+    <Compile Include="Rotations\BlackMage.cs" />
+    <Compile Include="Rotations\BlueMage.cs" />
+    <Compile Include="Rotations\Warrior.cs" />
+    <Compile Include="Rotations\DarkKnight.cs" />
+    <Compile Include="Rotations\Dragoon.cs" />
+    <Compile Include="Rotations\Gunbreaker.cs" />
+    <Compile Include="Rotations\Machinist.cs" />
+    <Compile Include="Rotations\Monk.cs" />
+    <Compile Include="Rotations\Ninja.cs" />
+    <Compile Include="Rotations\Paladin.cs" />
+    <Compile Include="Rotations\RedMage.cs" />
+    <Compile Include="Rotations\Samurai.cs" />
+    <Compile Include="Rotations\Scholar.cs" />
+    <Compile Include="Rotations\Summoner.cs" />
+    <Compile Include="Rotations\Dancer.cs" />
+    <Compile Include="Rotations\Bard.cs" />
+    <Compile Include="Rotations\WhiteMage.cs" />
+    <Compile Include="Toggles\SettingsHandler.cs" />
+    <Compile Include="Toggles\SettingsToggle.cs" />
+    <Compile Include="Toggles\SettingsToggleSetting.cs" />
+    <Compile Include="Toggles\SettingType.cs" />
+    <Compile Include="Toggles\ToggleProperty.cs" />
+    <Compile Include="Toggles\TogglesManager.cs" />
+    <Compile Include="Utilities\Auras.cs" />
+    <Compile Include="Utilities\Casting.cs" />
+    <Compile Include="Utilities\Chocobo.cs" />
+    <Compile Include="Utilities\Collections\ConcurrentKeyCollection.cs" />
+    <Compile Include="Utilities\Collections\ConcurrentObservableBase.cs" />
+    <Compile Include="Utilities\Collections\List.cs" />
+    <Compile Include="Utilities\Collections\ConcurrentObservableDictionary.cs" />
+    <Compile Include="Utilities\Collections\ConcurrentValueCollection.cs" />
+    <Compile Include="Utilities\Collections\DispatcherQueueProcessor.cs" />
+    <Compile Include="Utilities\Collections\DoubleLinkListIndexNode.cs" />
+    <Compile Include="Utilities\Collections\ImmutableCollection.cs" />
+    <Compile Include="Utilities\Collections\ImmutableCollectionBase.cs" />
+    <Compile Include="Utilities\Collections\ObservableCollectionViewModel.cs" />
+    <Compile Include="Utilities\Combat.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageManager.cs" />
+    <Compile Include="Utilities\CombatMessages\CombatMessageStrategy.cs" />
+    <Compile Include="Utilities\CombatMessages\ICombatMessageStrategy.cs" />
+    <Compile Include="Utilities\MagitekActionResourceManager.cs" />
+    <Compile Include="Utilities\Managers\EnmityManager.cs" />
+    <Compile Include="Utilities\Overlays\CombatMessageUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\MainOverlayUiComponent.cs" />
+    <Compile Include="Utilities\Overlays\OverlayManager.cs" />
+    <Compile Include="Utilities\Routines\Dancer.cs" />
+    <Compile Include="Utilities\Routines\Gunbreaker.cs" />
+    <Compile Include="Utilities\Routines\BlueMage.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateMachineManager.cs" />
+    <Compile Include="Utilities\Routines\StateMachine\StateTransition.cs" />
+    <Compile Include="Utilities\StunTracker.cs" />
+    <Compile Include="Utilities\Weaving.cs" />
+    <Compile Include="Utilities\ZoomHack.cs" />
+    <Compile Include="Utilities\Duty.cs" />
+    <Compile Include="Utilities\Globals.cs" />
+    <Compile Include="Utilities\Group.cs" />
+    <Compile Include="Utilities\HttpHelpers.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\Managers\DispelManager.cs" />
+    <Compile Include="Utilities\Managers\InterruptsAndStunsManager.cs" />
+    <Compile Include="Utilities\Managers\RotationManager.cs" />
+    <Compile Include="Utilities\Managers\TankBusterManager.cs" />
+    <Compile Include="Utilities\Movement.cs" />
+    <Compile Include="Utilities\Routines\Bard.cs" />
+    <Compile Include="Utilities\Routines\BlackMage.cs" />
+    <Compile Include="Utilities\Routines\DarkKnight.cs" />
+    <Compile Include="Utilities\Routines\Machinist.cs" />
+    <Compile Include="Utilities\Routines\Monk.cs" />
+    <Compile Include="Utilities\Routines\Dragoon.cs" />
+    <Compile Include="Utilities\Routines\Ninja.cs" />
+    <Compile Include="Utilities\Routines\Paladin.cs" />
+    <Compile Include="Utilities\Routines\RedMage.cs" />
+    <Compile Include="Utilities\Routines\Samurai.cs" />
+    <Compile Include="Utilities\Routines\Scholar.cs" />
+    <Compile Include="Utilities\Routines\Summoner.cs" />
+    <Compile Include="Utilities\Routines\Warrior.cs" />
+    <Compile Include="Utilities\Routines\Astrologian.cs" />
+    <Compile Include="Utilities\Routines\WhiteMage.cs" />
+    <Compile Include="Utilities\Spells.cs" />
+    <Compile Include="Utilities\Tracking.cs" />
+    <Compile Include="Utilities\XivDataHelper.cs" />
+    <Compile Include="ViewModels\BaseSettings.cs" />
+    <Compile Include="ViewModels\BossFightViewModel.cs" />
+    <Compile Include="ViewModels\Debug.cs" />
+    <Compile Include="ViewModels\Dispelling.cs" />
+    <Compile Include="ViewModels\GambitsBrowser.cs" />
+    <Compile Include="ViewModels\GambitsViewModel.cs" />
+    <Compile Include="ViewModels\InterruptsAndStuns.cs" />
+    <Compile Include="ViewModels\MagitekApi.cs" />
+    <Compile Include="ViewModels\CombatMessageOverlayViewModel.cs" />
+    <Compile Include="ViewModels\MainOverlayViewModel.cs" />
+    <Compile Include="ViewModels\OpenersBrowser.cs" />
+    <Compile Include="ViewModels\OpenersViewModel.cs" />
+    <Compile Include="ViewModels\TankBusters.cs" />
+    <Compile Include="ViewModels\TogglesViewModel.cs" />
+    <Compile Include="Views\SettingsModal.xaml.cs">
+      <DependentUpon>SettingsModal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Alliance.xaml.cs">
+      <DependentUpon>Alliance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\DispelOptions.xaml.cs">
+      <DependentUpon>DispelOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\DiurnalHealing.xaml.cs">
+      <DependentUpon>DiurnalHealing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Cards.xaml.cs">
+      <DependentUpon>Cards.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Astrologian\NocturnalHealing.xaml.cs">
+      <DependentUpon>NocturnalHealing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Cooldowns.xaml.cs">
+      <DependentUpon>Cooldowns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\DamageOverTime.xaml.cs">
+      <DependentUpon>DamageOverTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Songs.xaml.cs">
+      <DependentUpon>Songs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bard\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlackMage\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlackMage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlackMage\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlackMage\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\Debug.xaml.cs">
+      <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\EnemyAuras.xaml.cs" />
+    <Compile Include="Views\UserControls\Bugs\EnemySpellCasts.xaml.cs">
+      <DependentUpon>EnemySpellCasts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\EnemyTargets.xaml.cs">
+      <DependentUpon>EnemyTargets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\Enmity.xaml.cs">
+      <DependentUpon>Enmity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\HealingLists.xaml.cs">
+      <DependentUpon>HealingLists.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\PartyMemberAuras.xaml.cs" />
+    <Compile Include="Views\UserControls\Bugs\ReportNewIssue.xaml.cs">
+      <DependentUpon>ReportNewIssue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Bugs\SpellCastHistory.xaml.cs">
+      <DependentUpon>SpellCastHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dancer\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dancer\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dancer\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Gunbreaker\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Gunbreaker\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Gunbreaker\Defensives.xaml.cs">
+      <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\DarkKnight\Aggro.xaml.cs">
+      <DependentUpon>Aggro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\DarkKnight\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\DarkKnight\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\DarkKnight\Defensives.xaml.cs">
+      <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dragoon\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dragoon\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dragoon\Defensives.xaml.cs">
+      <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dragoon\Jumps.xaml.cs">
+      <DependentUpon>Jumps.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dragoon\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\GeneralSettings.xaml.cs">
+      <DependentUpon>GeneralSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Gunbreaker\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Lists\Dispelling.xaml.cs" />
+    <Compile Include="Views\UserControls\Lists\InterruptsAndStuns.xaml.cs" />
+    <Compile Include="Views\UserControls\Machinist\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\Turrets.xaml.cs">
+      <DependentUpon>Turrets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\Utilities.xaml.cs">
+      <DependentUpon>Utilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CombatMessageOverlay.xaml.cs">
+      <DependentUpon>CombatMessageOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\MainSettingsOverlay.xaml.cs">
+      <DependentUpon>MainSettingsOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Monk\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Monk\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Monk\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Ninja\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Ninja\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Ninja\Ninjutsu.xaml.cs">
+      <DependentUpon>Ninjutsu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Ninja\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Paladin\Aggro.xaml.cs">
+      <DependentUpon>Aggro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Paladin\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Paladin\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Paladin\Defensives.xaml.cs">
+      <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Paladin\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
+      <DependentUpon>AoE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\Utility.xaml.cs">
+      <DependentUpon>Utility.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\RedMage\Aoe.xaml.cs" />
+    <Compile Include="Views\UserControls\RedMage\Buffs.xaml.cs" />
+    <Compile Include="Views\UserControls\RedMage\Heal.xaml.cs">
+      <DependentUpon>Heal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\RedMage\SingleTarget.xaml.cs" />
+    <Compile Include="Views\UserControls\BlueMage\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlueMage\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Alliance.xaml.cs">
+      <DependentUpon>Alliance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\DispelOptions.xaml.cs">
+      <DependentUpon>DispelOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Sage\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Samurai\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Samurai\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Samurai\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Aetherpact.xaml.cs">
+      <DependentUpon>Aetherpact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Alliance.xaml.cs">
+      <DependentUpon>Alliance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\DispelOptions.xaml.cs">
+      <DependentUpon>DispelOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\DOTs.xaml.cs">
+      <DependentUpon>DOTs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Pets.xaml.cs">
+      <DependentUpon>Pets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\Aoe.xaml.cs">
+      <DependentUpon>Aoe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\Pets.xaml.cs">
+      <DependentUpon>Pets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\SingleTarget.xaml.cs">
+      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Aggro.xaml.cs">
+      <DependentUpon>Aggro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Buff.xaml.cs">
+      <DependentUpon>Buff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Defensives.xaml.cs">
+      <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Alliance.xaml.cs">
+      <DependentUpon>Alliance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Assize.xaml.cs">
+      <DependentUpon>Assize.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Buffs.xaml.cs">
+      <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\DispelOptions.xaml.cs">
+      <DependentUpon>DispelOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\WhiteMage\Regen.xaml.cs">
+      <DependentUpon>Regen.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Resources\ActionList.json" />
+    <EmbeddedResource Include="Resources\StatusList.json" />
+    <EmbeddedResource Include="Resources\BossDictionary.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\BossFightLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CurrentNews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GambitBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GambitsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Hotkey.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HotkeyToggles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Numeric.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NumericSmall.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OpenersBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OpenersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SettingsBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SharedSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SubmitSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SwirlSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TogglesSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CheckBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ComboBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\JobCheckBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Magitek.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Styles\OverlayStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\RadioButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ScrollViewers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TabControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Theme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ToggleButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Viewboxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Alliance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\DispelOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\DiurnalHealing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Cards.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\Healing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Astrologian\NocturnalHealing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Cooldowns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\DamageOverTime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Songs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\Utilities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bard\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\Utilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\Debug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\EnemyAuras.xaml" />
+    <Page Include="Views\UserControls\Bugs\EnemySpellCasts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\EnemyTargets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\Enmity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\HealingLists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\PartyMemberAuras.xaml" />
+    <Page Include="Views\UserControls\Bugs\ReportNewIssue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\SpellCastHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\Aoe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Gunbreaker\Buffs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Gunbreaker\Combat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Gunbreaker\Defensives.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\DarkKnight\Aggro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\DarkKnight\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\DarkKnight\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\DarkKnight\Defensives.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dragoon\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dragoon\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dragoon\Defensives.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dragoon\Jumps.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dragoon\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\GeneralSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Gunbreaker\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Lists\Dispelling.xaml" />
+    <Page Include="Views\UserControls\Lists\InterruptsAndStuns.xaml" />
+    <Page Include="Views\UserControls\Machinist\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\Turrets.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\Utilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\CombatMessageOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\MainSettingsOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Monk\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Monk\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Monk\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Ninja\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Ninja\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Ninja\Ninjutsu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Ninja\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Paladin\Aggro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Paladin\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Paladin\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Paladin\Defensives.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Paladin\Healing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\AoE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\Utility.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\RedMage\Aoe.xaml" />
+    <Page Include="Views\UserControls\RedMage\Buffs.xaml" />
+    <Page Include="Views\UserControls\RedMage\Heal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\RedMage\SingleTarget.xaml" />
+    <Page Include="Views\UserControls\BlueMage\Aoe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\Buffs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlueMage\SingleTarget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Alliance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Buffs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Combat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\DispelOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Samurai\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Samurai\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Samurai\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Aetherpact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Alliance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\DispelOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\DOTs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Healing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Pets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\Aoe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\Healing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\Pets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\SingleTarget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Aggro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Buff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Defensives.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Alliance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Assize.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Buffs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\DispelOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Healing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Pvp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\WhiteMage\Regen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Monk\ArowNoneHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowDownHighlighted.png" />
+    <Resource Include="Resources\Images\Monk\ArrowSidesHighlighted.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('packages\Fody.6.3.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.3.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props'))" />
+  </Target>
 </Project>

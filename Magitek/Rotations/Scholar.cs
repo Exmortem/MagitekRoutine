@@ -14,27 +14,38 @@ namespace Magitek.Rotations
     {
         public static async Task<bool> Rest()
         {
-            if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
-                return false;
+            if (ScholarSettings.Instance.PhysickOnRest)
+            {
+                if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
+                    return false;
 
-            await Spells.Physick.Heal(Core.Me);
-            return true;
+                await Spells.Physick.Heal(Core.Me);
+
+                return true;
+            }
+
+            return false;
         }
 
         public static async Task<bool> PreCombatBuff()
         {
+            if (WorldManager.InSanctuary)
+                return false;
+
+            if (Core.Me.IsMounted)
+                return false;
+
             if (Core.Me.IsCasting)
                 return true;
 
             await Casting.CheckForSuccessfulCast();
 
-            if (Core.Me.IsMounted)
+            if (Globals.OnPvpMap)
                 return false;
 
             if (CustomOpenerLogic.InOpener) return false;
 
-            if (await Buff.SummonPet()) return true;
-            return await Buff.Aetherflow();
+            return await Buff.SummonPet();
         }
 
         public static async Task<bool> Pull()
@@ -52,16 +63,29 @@ namespace Magitek.Rotations
                     return false;
             }
 
+            if (Core.Me.InCombat)
+                return false;
+
             return await Heal();
         }
         public static async Task<bool> Heal()
         {
-            if (Core.Me.IsMounted)
-                return true;
+            if (WorldManager.InSanctuary)
+                return false;
 
-            if (await Casting.TrackSpellCast()) return true;
+            if (Core.Me.IsMounted)
+                return false;
+
+            if (await Casting.TrackSpellCast()) 
+                return true;
             
             await Casting.CheckForSuccessfulCast();
+
+            // Handle if Seraph is casted manually outside of the routine.
+            if (Casting.LastSpell.Id == Spells.SummonSeraph.Id)
+                Buff.SeraphCooldown = System.DateTime.Now.AddSeconds(30);
+
+            if (await Buff.SummonPet()) return true;
 
             Casting.DoHealthChecks = false;
 
@@ -83,10 +107,10 @@ namespace Magitek.Rotations
             if (await Logic.Scholar.Heal.ForceAdlo()) return true;
             if (await Logic.Scholar.Heal.ForceIndom()) return true;
             if (await Logic.Scholar.Heal.ForceExcog()) return true;
-            
+
+            if (await Dispel.Execute()) return true;
             if (await Buff.Aetherflow()) return true;
             if (await Buff.LucidDreaming()) return true;
-            if (await Dispel.Execute()) return true;
 
             if (Globals.InParty)
             {
@@ -104,11 +128,11 @@ namespace Magitek.Rotations
 
             if (Core.Me.Pet != null && Core.Me.InCombat)
             {
-                if (await Logic.Scholar.Heal.FeyBlessing()) return true;
-                if (await Logic.Scholar.Heal.WhisperingDawn()) return true;
-                if (await Logic.Scholar.Heal.FeyIllumination()) return true;
-                if (await Logic.Scholar.Heal.SummonSeraph()) return true;
+                if (await Logic.Scholar.Buff.SummonSeraph()) return true;
                 if (await Logic.Scholar.Heal.Consolation()) return true;
+                if (await Logic.Scholar.Heal.FeyIllumination()) return true;
+                if (await Logic.Scholar.Heal.WhisperingDawn()) return true;
+                if (await Logic.Scholar.Heal.FeyBlessing()) return true;
             }
 
             if (Globals.InParty)
@@ -119,11 +143,11 @@ namespace Magitek.Rotations
                 if (await Logic.Scholar.Heal.SacredSoil()) return true;
             }
 
+            if (await Buff.Expedient()) return true;
+            if (await Buff.Protraction()) return true;
             if (await Logic.Scholar.Heal.EmergencyTacticsAdloquium()) return true;
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
-
-            if (await Buff.SummonPet()) return true;
 
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return true;
@@ -159,16 +183,14 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentManaPercent <= ScholarSettings.Instance.MinimumManaPercent)
                 return false;
 
-            if (await Buff.SummonPet()) return true;
-
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
+                return true;
+
+            if (!ScholarSettings.Instance.DoDamage)
                 return true;
 
             if (Globals.InParty)
             {
-                if (!ScholarSettings.Instance.DoDamage)
-                    return true;
-
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
                     return true;
 
