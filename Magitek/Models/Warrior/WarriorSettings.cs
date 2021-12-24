@@ -16,6 +16,10 @@ namespace Magitek.Models.Warrior
         [DefaultValue(50)]
         public int KeepAtLeastXBeastGauge { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseInnerChaos { get; set; }
+
         #region Buffs
         [Setting]
         [DefaultValue(true)]

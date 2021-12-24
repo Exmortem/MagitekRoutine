@@ -1,16 +1,21 @@
 using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
+using GunbreakerRoutine = Magitek.Utilities.Routines.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
 {
     internal static class Buff
     {
-        public static async Task<bool> RoyalGuard()
+        public static async Task<bool> RoyalGuard() //Tank stance
         {
+            if (!ActionManager.HasSpell(Spells.RoyalGuard.Id))
+                return false; 
+            
             switch (GunbreakerSettings.Instance.UseRoyalGuard)
             {
                 case true:
@@ -26,28 +31,20 @@ namespace Magitek.Logic.Gunbreaker
             return false;
         }
 
-        public static async Task<bool> NoMercy()
+        public static async Task<bool> NoMercy() // Damage Buff +20%
         {
-            if (!GunbreakerSettings.Instance.UseNoMercy)
-                return false;
-            //Use on last end of GCD
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds > 850)
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseNoMercy, Spells.NoMercy))
                 return false;
 
             return await Spells.NoMercy.Cast(Core.Me);
-
-
         }
 
-        public static async Task<bool> Bloodfest()
+        public static async Task<bool> Bloodfest() // +2 or +3 cartrige
         {
-            if (Cartridge != 0)
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBloodfest, Spells.Bloodfest))
                 return false;
-
-            if (!GunbreakerSettings.Instance.UseBloodfest)
-                return false;
-
-            if (Spells.KeenEdge.Cooldown.TotalMilliseconds < 850)
+            
+            if (Cartridge > GunbreakerRoutine.MaxCartridge - GunbreakerRoutine.AmountCartridgeFromBloodfest)
                 return false;
 
             return await Spells.Bloodfest.Cast(Core.Me.CurrentTarget);

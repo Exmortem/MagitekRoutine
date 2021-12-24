@@ -1,7 +1,7 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Extensions;
+using Magitek.Enumerations;
 using System;
 using System.Collections.Generic;
 
@@ -26,14 +26,41 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
 
-        public static bool OnGcd => Spells.HeavySwing.Cooldown > TimeSpan.FromMilliseconds(500);
+        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
+        {
+            if (!Toggle)
+                return false;
+
+            if (!ActionManager.HasSpell(Spell.Id))
+                return false;
+
+            return true;
+        }
+
+        public static bool IsSpellReadySoon(SpellData Spell, int TimeInMilliseconds)
+        {
+            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds < TimeInMilliseconds;
+        }
+
+        public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
+        {
+            if (ActionManager.ComboTimeLeft <= 0)
+                return false;
+
+            if (ActionManager.LastSpell.Id != LastSpellExecuted.Id)
+                return false;
+
+            return true;
+        }
 
         public static readonly List<uint> Defensives = new List<uint>()
         {
             Auras.Rampart,
             Auras.RawIntuition,
+            Auras.Bloodwhetting,
             Auras.Vengeance,
-            Auras.Holmgang
+            Auras.Holmgang,
+            Auras.ThrillOfBattle
         };
     }
 }

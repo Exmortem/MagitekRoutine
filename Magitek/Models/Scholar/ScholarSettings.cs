@@ -106,6 +106,10 @@ namespace Magitek.Models.Scholar
         public float PhysickHpPercent { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool PhysickOnRest { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Adloquium { get; set; }
 
@@ -220,6 +224,31 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(65.0f)]
         public float ExcogitationHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Protraction { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ProtractionOnlyTank { get; set; }
+
+        [Setting]
+        [DefaultValue(65.0f)]
+        public float ProtractionHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Expedient { get; set; }
+
+        [Setting]
+        [DefaultValue(65.0f)]
+        public float ExpedientHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int  ExpedientNeedHealing { get; set; }
+
         #endregion
 
         #region Dispelling
@@ -324,6 +353,10 @@ namespace Magitek.Models.Scholar
         public bool WhisperingDawnOnlyWithTank { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool WhisperingDawnOnlyWithSeraph { get; set; }
+
+        [Setting]
         [DefaultValue(4)]
         public int WhisperingDawnNeedHealing { get; set; }
 
@@ -346,6 +379,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(true)]
         public bool FeyIlluminationOnlyWithTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool FeyIlluminationOnlyWithSeraph { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -461,6 +498,7 @@ namespace Magitek.Models.Scholar
         [DefaultValue(false)]
         public bool HealAllianceOnlyPhysick { get; set; }
         #endregion
+
 
         public void Load(string path)
         {

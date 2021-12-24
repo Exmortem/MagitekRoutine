@@ -87,6 +87,7 @@ namespace Magitek.Utilities
             Rampart = 1191,
             Sentinel = 74,
             GoringBlade = 725,
+            BladeOfValor = 2721,
             Shadowskin = 740,
             BloodWeapon = 742,
             Grit = 743,
@@ -148,6 +149,9 @@ namespace Magitek.Utilities
             DiveReady = 1243,
             BlackestNight = 1178,
             Excogitation = 1220,
+            Protraction = 2710,
+            Expedience = 2712,
+            DesperateMeasures = 2711,
             DivineBenison = 1218,
             DivineBenison2 = 1404,
             Peloton = 1199,
@@ -278,7 +282,15 @@ namespace Magitek.Utilities
             FlourshingFlow = 2694,
             FlourishingFinish = 2698,
             FourfoldFanDance = 2699,
-            FlourishingStarfall = 2700;
+            FlourishingStarfall = 2700,
+            HeartOfCorundum = 2683,
+            CatharsisOfCorundum = 2685,
+            ClarityOfCorundum = 2684,
+            ShakeItOff = 1993,
+            ReadytoBlast = 2686,
+            SonicBreak = 1837,
+            BowShock = 1838
+            ;
 
         private const int
             Invincibility0 = 981,
