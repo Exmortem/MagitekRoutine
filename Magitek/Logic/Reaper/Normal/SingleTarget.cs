@@ -6,7 +6,7 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Enumerations;
 using Magitek.Models.Reaper;
-
+using Buddy.Coroutines;
 
 namespace Magitek.Logic.Reaper
 {
@@ -113,7 +113,7 @@ namespace Magitek.Logic.Reaper
             }
             else if (Core.Me.HasAura(Auras.EnhancedGallows))
             {
-                if (ReaperSettings.Instance.UseGibbet)
+                if (ReaperSettings.Instance.UseGallows)
                     return await Spells.Gallows.Cast(Core.Me.CurrentTarget);
             }
             if ((!Core.Me.CurrentTarget.IsBehind && !Core.Me.CurrentTarget.IsFlanking) || ReaperSettings.Instance.EnemyIsOmni)
@@ -175,6 +175,20 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> EnhancedHarpe()
+        {
+            if (!ReaperSettings.Instance.UseEnhancedHarpe)
+                return false;
+            
+            if (!Core.Me.HasAura(Auras.EnhancedHarpe))
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
+                return false;
+
+            return await Spells.Harpe.Cast(Core.Me.CurrentTarget);
         }
     }
 }

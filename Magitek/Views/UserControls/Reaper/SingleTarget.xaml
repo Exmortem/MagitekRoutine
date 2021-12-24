@@ -52,6 +52,9 @@
                     <CheckBox Margin="5" Content=" Enable Gibbet " IsChecked="{Binding ReaperSettings.UseGibbet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5" Content=" Enable Gallows " IsChecked="{Binding ReaperSettings.UseGallows, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use True North only when Soul Reaver buff is available " IsChecked="{Binding ReaperSettings.TrueNorthWithSoulReaverOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

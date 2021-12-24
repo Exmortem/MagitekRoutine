@@ -249,6 +249,7 @@ namespace Magitek.Utilities
             SoulReaver = 2587,
             EnhancedGibbet = 2588,
             EnhancedGallows = 2589,
+            EnhancedHarpe = 2845,
             EnhancedFlare = 2960,
             Kardion = 2605,
             Kardia = 2604,

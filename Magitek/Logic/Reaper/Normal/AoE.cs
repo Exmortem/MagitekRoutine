@@ -28,7 +28,7 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds)))
-                                         && x.Distance(Core.Me) <= 5 + x.CombatReach))
+                                         && x.Distance(Core.Me) <= 5 + Core.Me.CombatReach))
                 return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
@@ -68,7 +68,7 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, 30000 - Spells.Slice.AdjustedCooldown.Milliseconds)))
-                                         && x.Distance(Core.Me) <= 5 + x.CombatReach))
+                                         && x.Distance(Core.Me) <= 5 + Core.Me.CombatReach))
                 return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
@@ -157,7 +157,7 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.BloodsownCircle))
                 return false;
 
-            if (ActionResourceManager.Reaper.ShroudGauge > 50)
+            if (ActionResourceManager.Reaper.ShroudGauge >= 50)
                 return false;
             
             return await Spells.PlentifulHarvest.Cast(Core.Me.CurrentTarget);

@@ -41,8 +41,14 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> ArcaneCircle()
         {
-            //Add level check so it doesn't hang here
             if (!ReaperSettings.Instance.UseArcaneCircle || Core.Me.ClassLevel < Spells.ArcaneCircle.LevelAcquired)
+                return false;
+
+            // Prevent blowing arcane circle before reaching target.
+            if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < 1)
+                return false;
+
+            if (Core.Me.HasAura(Auras.ArcaneCircle))
                 return false;
 
             return await Spells.ArcaneCircle.Cast(Core.Me);

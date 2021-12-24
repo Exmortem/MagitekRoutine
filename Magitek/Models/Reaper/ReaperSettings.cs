@@ -56,6 +56,10 @@ namespace Magitek.Models.Reaper
         public bool UseGallows { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool TrueNorthWithSoulReaverOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseSoulSlice { get; set; }
 
@@ -149,6 +153,10 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
+        public bool EfficientAoEPotencyCalculation { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseCommunio { get; set; }
 
         [Setting]
@@ -162,6 +170,10 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseHarvestMoon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEnhancedHarpe { get; set; }
 
         [Setting]
         [DefaultValue(3)]
