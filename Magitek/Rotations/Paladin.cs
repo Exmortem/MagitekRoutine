@@ -117,7 +117,10 @@ namespace Magitek.Rotations
                 #region Last Spell RiotBlade
                 if (ActionManager.LastSpell == Spells.RiotBlade)
                 {
-                    if (Core.Me.ClassLevel >= 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
+                    if (Core.Me.ClassLevel >= 54
+                        && !Core.Me.CurrentTarget.HasAura(Auras.BladeOfValor, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000)
+                        && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000)
+                        && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
                     {
                         if (await Spells.GoringBlade.Cast(Core.Me.CurrentTarget)) return true;
                     }

@@ -468,6 +468,9 @@ namespace Magitek.Utilities
         public static readonly SpellData Confiteor = DataManager.GetSpellData(16459);
         public static readonly SpellData HolySheltron = DataManager.GetSpellData(25746);
         public static readonly SpellData Expiacion = DataManager.GetSpellData(25747);
+        public static readonly SpellData BladeOfFaith = DataManager.GetSpellData(25748);
+        public static readonly SpellData BladeOfTruth = DataManager.GetSpellData(25749);
+        public static readonly SpellData BladeOfValor = DataManager.GetSpellData(25750);
         #endregion
 
         // RDM
@@ -783,12 +786,12 @@ namespace Magitek.Utilities
         public static readonly SpellData Kaltstrahl = DataManager.GetSpellData(18299);
         public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300);
         public static readonly SpellData Chirp = DataManager.GetSpellData(18301);
-        public static readonly SpellData EerieSoundwave= DataManager.GetSpellData(18302);
+        public static readonly SpellData EerieSoundwave = DataManager.GetSpellData(18302);
         public static readonly SpellData PomCure = DataManager.GetSpellData(18303);
         public static readonly SpellData GobSkin = DataManager.GetSpellData(18304);
         public static readonly SpellData MagicHammer = DataManager.GetSpellData(18305);
         public static readonly SpellData Avail = DataManager.GetSpellData(18306);
-        public static readonly SpellData FrogLegs= DataManager.GetSpellData(18307);
+        public static readonly SpellData FrogLegs = DataManager.GetSpellData(18307);
         public static readonly SpellData SonicBoom = DataManager.GetSpellData(18308);
         public static readonly SpellData Whistle = DataManager.GetSpellData(18309);
         public static readonly SpellData WhiteKnightsTour = DataManager.GetSpellData(18310);

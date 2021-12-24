@@ -704,9 +704,6 @@
     <Compile Include="Views\UserControls\Paladin\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Paladin\TankSwap.xaml.cs">
-      <DependentUpon>TankSwap.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
     </Compile>
@@ -1225,10 +1222,6 @@
     <Page Include="Views\UserControls\Paladin\Healing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Paladin\TankSwap.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
       <Generator>MSBuild:Compile</Generator>
