@@ -180,9 +180,6 @@ namespace Magitek.Rotations
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
-            if (!Core.Me.InCombat)
-                return false;
-
             if (Core.Me.CurrentManaPercent <= ScholarSettings.Instance.MinimumManaPercent)
                 return false;
 
