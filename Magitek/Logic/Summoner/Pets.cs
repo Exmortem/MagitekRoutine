@@ -11,6 +11,14 @@ namespace Magitek.Logic.Summoner
 {
     internal static class Pets
     {
+
+        /*
+         * PetManager.ActivePetType = 23 with Carbuncle
+         * PetManager.ActivePetType = 10 with Bahamut
+         * AvailablePets includes Phoenix when SummonBahamut turns into Phoenix
+         * Summoner.ActivePet changes while you have elmental attunement. elemental attunement tells you how many abilities you can use. PetTimer is ms until it runs out.
+         *
+         */
         public static async Task<bool> Summon()
         {
             if (Core.Me.ClassLevel < 4)

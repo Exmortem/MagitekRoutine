@@ -1,3 +1,4 @@
+using System;
 using ff14bot.Managers;
 using ff14bot.Objects;
 
@@ -847,5 +848,44 @@ namespace Magitek.Utilities
         public static readonly SpellData AssizePvp = DataManager.GetSpellData(9620);
         public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
         #endregion
+    }
+
+    internal static class TankBusters
+    {
+        // EW Dungeon - Smileton
+        public static readonly SpellData Smileton_TempersFlare = GetSpellDataFromHex("6743");
+        public static readonly SpellData Smileton_HeartOnFireIV = GetSpellDataFromHex("6742");
+        public static readonly SpellData Smileton_PiercingMissile = GetSpellDataFromHex("6751");
+        
+        // EW Dungeon - TowerOfZot
+        public static readonly SpellData Zot_Bio = GetSpellDataFromHex("62A9");
+        public static readonly SpellData Zot_Bio2 = GetSpellDataFromHex("62CA");
+        public static readonly SpellData Zot_IsitvaSiddhi = GetSpellDataFromHex("62A9");
+        public static readonly SpellData Zot_IsitvaSiddhi2 = GetSpellDataFromHex("62C0");
+
+        // EW Dungeon - Vanaspati
+        public static readonly SpellData Vanaspati_LastGasp = GetSpellDataFromHex("6235");
+        public static readonly SpellData Vanaspati_TotalWreck = GetSpellDataFromHex("6242");
+        public static readonly SpellData Vanaspati_GnashingOfTeeth = GetSpellDataFromHex("6253");
+
+        // EW Dungeon - Aitiascope
+        public static readonly SpellData Aitiascope_AgleaBite = GetSpellDataFromHex("6449");
+        public static readonly SpellData Aitiascope_AnvilOfTartarus = GetSpellDataFromHex("6456");
+        public static readonly SpellData Aitiascope_AmonDarkForte = GetSpellDataFromHex("6464");
+
+        // EW Trial - Zodiark
+        public static readonly SpellData Zodiark_Ania = GetSpellDataFromHex("6B62");
+
+        // EW Trial - Hydaelyn
+        
+
+        // EW Trial - Zodiark Ex
+        public static readonly SpellData ZodiarkEx_Ania = GetSpellDataFromHex("67EF");
+
+        // EW Trial - Hydaelyn Ex
+        public static readonly SpellData HydaelynEx_MousasScorn = GetSpellDataFromHex("65C0");
+        public static readonly SpellData HydaelynEx_DichroicSpectrum = GetSpellDataFromHex("65B8");
+
+        private static SpellData GetSpellDataFromHex(string spellHex) => DataManager.GetSpellData((uint)Convert.ToInt32(spellHex, 16));
     }
 }

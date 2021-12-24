@@ -74,7 +74,7 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= 25)
                 return false;
 
-            if (Spells.Lightspeed.Cooldown != TimeSpan.Zero)
+            if (Spells.Lightspeed.Cooldown == TimeSpan.Zero)
                 return false;
 
             /*
@@ -111,7 +111,7 @@ namespace Magitek.Logic.Astrologian
 
             if (Globals.InParty)
             {
-                if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >= 30))
+                if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >= 40))
                     return false;
 
                 if (Spells.Horoscope.Cooldown == TimeSpan.Zero)

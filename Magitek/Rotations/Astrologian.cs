@@ -7,6 +7,7 @@ using Magitek.Logic.Astrologian;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using Magitek.Models.Account;
 
 namespace Magitek.Rotations
 {
@@ -91,7 +92,6 @@ namespace Magitek.Rotations
             if (await Dispel.Execute()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Lightspeed()) return true;
-            if (await Buff.Synastry()) return true;
             if (await Buff.NeutralSect()) return true;
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
@@ -107,7 +107,9 @@ namespace Magitek.Rotations
                     if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Logic.Astrologian.Heal.Helios()) return true;
+                    if (await Buff.Synastry()) return true;
                     if (await Logic.Astrologian.Heal.Benefic2()) return true;
+                    if (await Logic.Astrologian.Heal.Exaltation()) return true;
                 }
 
                 if (await Logic.Astrologian.Heal.Benefic2()) return true;
@@ -148,14 +150,18 @@ namespace Magitek.Rotations
                     return true;
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction
-                && !Core.Me.CurrentTarget.InView())
-                return false;
+            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction)
+            {
+                if (!Core.Me.CurrentTarget.InView())
+                    return false;
+
+            }
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
                 {
+                    Core.Me.CurrentTarget.Face();
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
                 }
             }

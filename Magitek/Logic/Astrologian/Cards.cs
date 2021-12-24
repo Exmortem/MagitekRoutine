@@ -139,7 +139,7 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
-            if (!Globals.InParty)
+            if (!Globals.InParty && Core.Me.InCombat)
                 return await Spells.Play.Cast(Core.Me);
 
             return false;

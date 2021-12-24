@@ -173,7 +173,8 @@ namespace Magitek.Logic.Astrologian
 
             var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
             && r.CurrentHealth > 0
-            && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent);
+            && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent
+            && !r.HasAura(Auras.CelestialIntersections));
 
             if (celestialIntersectionTarget == null)
                 return false;
@@ -219,6 +220,31 @@ namespace Magitek.Logic.Astrologian
 
                 return await Spells.EssentialDignity.Heal(Core.Me, false);
             }
+        }
+
+        public static async Task<bool> Exaltation()
+        {
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (!Globals.InParty)
+                return false;
+
+            if (Spells.Exaltation.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (!Core.Me.HasTarget)
+                return false;
+
+            var target = (Character) Core.Me.CurrentTarget;
+
+            if (!target.IsCastingTankBuster()) 
+                return false;
+
+            if (target.SpellCastInfo.CurrentCastTime >= Spells.Exaltation.AdjustedCastTime)
+                return false;
+
+            return await Spells.Exaltation.HealAura(target.TargetCharacter, Auras.Exaltation);
         }
         public static async Task<bool> CelestialOpposition()
         {
@@ -409,13 +435,14 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
-            var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6,0);
+            var heliosInsteadThreshold = PartyManager.NumMembers == 4 ? 2 : 3;
 
             var alliesNeedingRegen = Group.CastableAlliesWithin15.Where(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)
                 && r.CurrentHealth > 0
                 && !r.HasAura(Auras.AspectedBenefic)
                 && !r.HasAura(Auras.AspectedHelios)
-                && !r.HasMyRegen()).ToList();
+                && !r.HasMyRegen()
+                && r.CurrentHealthPercent <= AstrologianSettings.Instance.DiurnalBeneficHealthPercent).ToList();
 
             if (alliesNeedingRegen.Count() < heliosInsteadThreshold)
                 return false;
