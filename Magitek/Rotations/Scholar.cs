@@ -29,9 +29,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (WorldManager.InSanctuary)
-                return false;
-
             if (Core.Me.IsMounted)
                 return false;
 
@@ -45,7 +42,13 @@ namespace Magitek.Rotations
 
             if (CustomOpenerLogic.InOpener) return false;
 
-            return await Buff.SummonPet();
+            if (await Buff.SummonPet()) 
+                return true;
+
+            if (WorldManager.InSanctuary)
+                return false;
+
+            return false;
         }
 
         public static async Task<bool> Pull()
@@ -83,7 +86,7 @@ namespace Magitek.Rotations
 
             // Handle if Seraph is casted manually outside of the routine.
             if (Casting.LastSpell.Id == Spells.SummonSeraph.Id)
-                Buff.SeraphCooldown = System.DateTime.Now.AddSeconds(30);
+                Buff.FairySummonCooldown = System.DateTime.Now.AddSeconds(30);
 
             if (await Buff.SummonPet()) return true;
 
