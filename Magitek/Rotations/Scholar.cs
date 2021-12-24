@@ -19,9 +19,7 @@ namespace Magitek.Rotations
                 if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
                     return false;
 
-                await Spells.Physick.Heal(Core.Me);
-
-                return true;
+                return await Spells.Physick.Heal(Core.Me);
             }
 
             return false;
@@ -66,7 +64,7 @@ namespace Magitek.Rotations
             if (Core.Me.InCombat)
                 return false;
 
-            return await Heal();
+            return await SingleTarget.Broil();
         }
         public static async Task<bool> Heal()
         {
@@ -149,19 +147,7 @@ namespace Magitek.Rotations
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
-            if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
-                return true;
-
-            if (Globals.InParty)
-            {
-                if (!ScholarSettings.Instance.DoDamage)
-                    return true;
-
-                if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
-                    return true;
-            }
-
-            return await Combat();
+            return false;
         }
         public static async Task<bool> CombatBuff()
         {
@@ -184,18 +170,18 @@ namespace Magitek.Rotations
                 return false;
 
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
-                return true;
+                return false;
 
             if (!ScholarSettings.Instance.DoDamage)
-                return true;
+                return false;
 
             if (Globals.InParty)
             {
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
-                    return true;
+                    return false;
 
                 if (Group.CastableAlliesWithin30.Any(c => c.IsAlive && c.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
-                    return true;
+                    return false;
             }
 
             if (await Aoe.ArtOfWar()) return true;

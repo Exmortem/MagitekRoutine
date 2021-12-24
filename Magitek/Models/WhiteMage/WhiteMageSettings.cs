@@ -542,6 +542,10 @@ namespace Magitek.Models.WhiteMage
         [DefaultValue(true)]
         public bool FluidAuraPvp { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool CureOnRest { get; set; }
+
         public void Load(string path)
         {
             if (!File.Exists(path))
