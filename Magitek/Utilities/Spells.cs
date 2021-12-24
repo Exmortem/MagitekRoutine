@@ -322,6 +322,7 @@ namespace Magitek.Utilities
         public static readonly SpellData BlastingZone = DataManager.GetSpellData(16165);
         public static readonly SpellData HeartOfCorundum = DataManager.GetSpellData(25758);
         public static readonly SpellData DoubleDown = DataManager.GetSpellData(25760);
+        public static readonly SpellData Hypervelocity = DataManager.GetSpellData(25759);
         #endregion
 
         // MCH

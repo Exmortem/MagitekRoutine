@@ -281,7 +281,15 @@ namespace Magitek.Utilities
             FlourshingFlow = 2694,
             FlourishingFinish = 2698,
             FourfoldFanDance = 2699,
-            FlourishingStarfall = 2700;
+            FlourishingStarfall = 2700,
+            HeartOfCorundum = 2683,
+            CatharsisOfCorundum = 2685,
+            ClarityOfCorundum = 2684,
+            ShakeItOff = 1993,
+            ReadytoBlast = 2686,
+            SonicBreak = 1837,
+            BowShock = 1838
+            ;
 
         private const int
             Invincibility0 = 981,
