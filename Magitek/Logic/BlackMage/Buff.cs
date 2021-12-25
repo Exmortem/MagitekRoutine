@@ -18,7 +18,9 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
-            if (Spells.Triplecast.Cooldown != TimeSpan.Zero)
+            // Add check for charges with new update
+            if (Spells.Triplecast.Cooldown != TimeSpan.Zero
+                && Spells.Triplecast.Charges == 0)
                 return false;
 
             // Check to see if triplecast is already up
