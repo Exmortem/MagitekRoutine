@@ -134,7 +134,7 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Casting.LastSpell == Spells.Bunshin)
-                return false;       
+                return false;
 
             if (Casting.LastSpell == Spells.Assassinate)
                 return false;

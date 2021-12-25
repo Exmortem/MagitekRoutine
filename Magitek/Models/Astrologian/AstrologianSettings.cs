@@ -230,11 +230,11 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(1)]
-        public int LadyOfCrownsAllies { get; set;}
+        public int LadyOfCrownsAllies { get; set; }
 
         [Setting]
         [DefaultValue(3)]
-        public int LordOfCrownsEnemies { get; set;}
+        public int LordOfCrownsEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -376,7 +376,7 @@ namespace Magitek.Models.Astrologian
         [DefaultValue(true)]
         public bool Benefic2 { get; set; }
 
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool NoBeneficIfBenefic2Available { get; set; }

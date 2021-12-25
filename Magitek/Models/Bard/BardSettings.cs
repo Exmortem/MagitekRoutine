@@ -234,7 +234,7 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(true)]
         public bool EndWanderersMinuetEarly { get; set; }
-        
+
         [Setting]
         [DefaultValue(2)]
         public int EndWanderersMinuetEarlyWithXSecondsRemaining { get; set; }

@@ -18,6 +18,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="AstrologianSect" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="enums:AstrologianSect" />
@@ -116,7 +120,7 @@
                 <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Lightspeed When Under " />
                 <controls:Numeric Margin="0,4" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LightspeedManaPercent, Mode=TwoWay}" />
                 <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent " />
-                
+
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -144,7 +148,7 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-       
+
 
     </StackPanel>
 

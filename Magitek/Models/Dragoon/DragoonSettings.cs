@@ -72,7 +72,7 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(true)]
         public bool UseLifeSurge { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool DragonfireDive { get; set; }

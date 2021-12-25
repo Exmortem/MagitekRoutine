@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Buddy.Coroutines;
+﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Utilities.Routines
 {
@@ -13,9 +13,9 @@ namespace Magitek.Utilities.Routines
     public static class SmUtil
     {
         //A no-op function to use when you want to transition states without taking any action
-        public static async Task<bool> NoOp()
+        public static Task<bool> NoOp()
         {
-            return true;
+            return Task.FromResult(true);
         }
 
         #region Forced Level Sync
@@ -24,7 +24,7 @@ namespace Magitek.Utilities.Routines
         //If you also need to ignore auras that appear above a certain level, see the "Aura level sync" region in Utilities\Routines\Redmage.cs for an example of how to handle it
         public static int SyncedLevel => Math.Min(mForcedSyncLevel, (int)Core.Me.ClassLevel);
 
-        private static int mForcedSyncLevel = 80;
+        private static int mForcedSyncLevel = 90;
         public static void SetSyncedLevel(int level)
         {
             mForcedSyncLevel = level;

@@ -13,9 +13,10 @@ namespace Magitek.Rotations
 {
     public static class Dancer
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < 75 || Core.Me.CurrentManaPercent < 50;
+            var needRest = Core.Me.CurrentHealthPercent < 75 || Core.Me.CurrentManaPercent < 50;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -67,9 +68,9 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
             return false;
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -140,9 +141,9 @@ namespace Magitek.Rotations
             return await SingleTarget.Cascade();
         }
 
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

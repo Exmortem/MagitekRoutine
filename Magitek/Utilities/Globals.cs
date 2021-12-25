@@ -1,7 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using System;
 using System.Linq;
@@ -16,8 +15,6 @@ namespace Magitek.Utilities
         public static bool OnPvpMap => Core.Me.OnPvpMap();
         public static bool InActiveDuty => DutyManager.InInstance && Duty.State() == Duty.States.InProgress;
         public static GameObject HealTarget;
-        public static GameVersion Language;
-
         public static int AnimationLockMs = 700;
         public static TimeSpan AnimationLockTimespan = TimeSpan.FromMilliseconds(AnimationLockMs);
     }

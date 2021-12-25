@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Clio.Utilities;
+using ff14bot;
+using ff14bot.AClasses;
+using ff14bot.Enums;
+using ff14bot.Helpers;
+using ff14bot.Managers;
+using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using Clio.Utilities;
-using ff14bot;
-using ff14bot.AClasses;
-using ff14bot.Enums;
-using ff14bot.Helpers;
-using ICSharpCode.SharpZipLib.Zip;
-using ff14bot.Managers;
 using TreeSharp;
 using Action = TreeSharp.Action;
 
@@ -461,7 +461,7 @@ namespace MagitekLoader
 
             return true;
         }
-        
+
         private static async Task<byte[]> DownloadLatestVersion(string version)
         {
             using (var client = new HttpClient())

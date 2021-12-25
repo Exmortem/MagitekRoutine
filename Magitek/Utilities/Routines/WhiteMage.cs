@@ -87,7 +87,7 @@ namespace Magitek.Utilities.Routines
         {
             //if (Casting.CastingTankBuster)
             //    return false;
-                
+
             if (Casting.CastingSpell != Spells.Raise && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -124,7 +124,7 @@ namespace Magitek.Utilities.Routines
 
             //if (!NeedCure2TankBuster && !NeedMedicaTankBuster && !NeedMedica2TankBuster && !NeedDivineBenisonTankBuster &&!NeedAfflatusRaptureTankBuster)
             //    return false;
-            
+
             //Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
             return false;
         }
@@ -139,9 +139,9 @@ namespace Magitek.Utilities.Routines
                 {
                     //Exclude the party members - they've already been handled by Group.UpdateAllies, and we don't want them in the list twice
                     var allianceToHeal = Group.AllianceMembers.Except(PartyManager.AllMembers.Select(r => r.BattleCharacter))
-                                                              .Where(a =>    !a.CanAttack
+                                                              .Where(a => !a.CanAttack
                                                                           && !a.HasAura(Auras.MountedPvp)
-                                                                          && (   WhiteMageSettings.Instance.HealAllianceDps && a.IsDps()
+                                                                          && (WhiteMageSettings.Instance.HealAllianceDps && a.IsDps()
                                                                               || WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank()
                                                                               || WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
 

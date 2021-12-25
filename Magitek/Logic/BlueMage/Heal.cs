@@ -25,7 +25,7 @@ namespace Magitek.Logic.BlueMage
 
             if (!ActionManager.HasSpell(Spells.WhiteWind.Id))
                 return false;
-            
+
             if (Core.Me.CurrentMana < Spells.WhiteWind.Cost)
                 return false;
 

@@ -16,13 +16,13 @@ namespace Magitek.Gambits.Actions
         public string message { get; set; }
         public int displaySeconds { get; set; }
 
-        public override async Task<bool> Execute(ObservableCollection<IGambitCondition> conditions)
+        public override Task<bool> Execute(ObservableCollection<IGambitCondition> conditions)
         {
             if (string.IsNullOrEmpty(message) || string.IsNullOrWhiteSpace(message))
-                return false;
+                return Task.FromResult(false);
 
             if (conditions.Any(condition => !condition.Check(Core.Me)))
-                return false;
+                return Task.FromResult(false);
 
             Core.OverlayManager.AddToast(() => message,
                 TimeSpan.FromSeconds(displaySeconds),
@@ -30,7 +30,7 @@ namespace Magitek.Gambits.Actions
                 System.Windows.Media.Colors.Black,
                 new System.Windows.Media.FontFamily("Consolas"));
 
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

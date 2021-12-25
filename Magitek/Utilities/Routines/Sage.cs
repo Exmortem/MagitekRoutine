@@ -1,8 +1,6 @@
-﻿using Clio.Utilities;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Sage;
 using System.Collections.Generic;
@@ -96,15 +94,15 @@ namespace Magitek.Utilities.Routines
         {
             // Should we be ignoring our alliance?
             if (!SageSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
+            {
+                // Create a list of alliance members that we need to check
+                if (SageSettings.Instance.HealAllianceDps || SageSettings.Instance.HealAllianceHealers || SageSettings.Instance.HealAllianceTanks)
                 {
-                    // Create a list of alliance members that we need to check
-                    if (SageSettings.Instance.HealAllianceDps || SageSettings.Instance.HealAllianceHealers || SageSettings.Instance.HealAllianceTanks)
-                    {
-                        var allianceToHeal =
-                            Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (SageSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                             SageSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                             SageSettings.Instance.HealAllianceHealers && a.IsHealer()));
-                    
+                    var allianceToHeal =
+                        Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (SageSettings.Instance.HealAllianceDps && a.IsDps() ||
+                                                         SageSettings.Instance.HealAllianceTanks && a.IsTank() ||
+                                                         SageSettings.Instance.HealAllianceHealers && a.IsHealer()));
+
                     if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
                     {
                         AllianceDiagnosisOnly = allianceToHeal.ToList();
@@ -132,7 +130,7 @@ namespace Magitek.Utilities.Routines
                 }
                 if (SageSettings.Instance.ResAllianceDps || SageSettings.Instance.ResAllianceHealers ||
                         SageSettings.Instance.ResAllianceTanks)
-                    {
+                {
                     var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
                     (SageSettings.Instance.ResAllianceDps &&
                     a.IsDps() ||
@@ -155,5 +153,5 @@ namespace Magitek.Utilities.Routines
             Auras.EukrasianPrognosis
         };
 
-    } 
+    }
 }

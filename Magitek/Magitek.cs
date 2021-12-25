@@ -18,7 +18,9 @@ using Magitek.Models.Machinist;
 using Magitek.Models.Monk;
 using Magitek.Models.Ninja;
 using Magitek.Models.Paladin;
+using Magitek.Models.Reaper;
 using Magitek.Models.RedMage;
+using Magitek.Models.Sage;
 using Magitek.Models.Samurai;
 using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
@@ -34,8 +36,6 @@ using Magitek.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Magitek.Models.Reaper;
-using Magitek.Models.Sage;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -214,7 +214,7 @@ namespace Magitek
             }
 
             CombatMessageManager.UpdateDisplayedMessage();
-       }
+        }
 
         public void Shutdown()
         {
