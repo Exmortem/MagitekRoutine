@@ -34,7 +34,7 @@ namespace Magitek.Models.Account
             Instance.Save();
         }
 
-            [Setting]
+        [Setting]
         [DefaultValue(ModifierKeys.None)]
         public ModifierKeys UseOpenersModkey { get; set; }
 

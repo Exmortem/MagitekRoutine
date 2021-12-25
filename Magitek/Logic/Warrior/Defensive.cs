@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
-using Magitek.Logic.Roles;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using System.Linq;
@@ -46,7 +45,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Reprisal()
         {
-            if (!WarriorSettings.Instance.UseReprisal) 
+            if (!WarriorSettings.Instance.UseReprisal)
                 return false;
 
             if (!UseDefensives())

@@ -34,13 +34,13 @@ namespace Magitek.Logic.Summoner
                     return await Spells.EgiAssault2.Cast(Core.Me.CurrentTarget);
             }*/
 
-                //if (Core.Me.ClassLevel >= 38 && MovementManager.IsMoving && !ActionResourceManager.Summoner.DreadwyrmTrance && !Core.Me.HasAura(Auras.EverlastingFlight))
-                //    return await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget);
+            //if (Core.Me.ClassLevel >= 38 && MovementManager.IsMoving && !ActionResourceManager.Summoner.DreadwyrmTrance && !Core.Me.HasAura(Auras.EverlastingFlight))
+            //    return await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget);
 
-                return await Spells.SmnRuin.Cast(Core.Me.CurrentTarget);
+            return await Spells.SmnRuin.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> BahamutCheese()
+        public static Task<bool> BahamutCheese()
         {
             if (Core.Me.HasTarget)
             {
@@ -59,9 +59,9 @@ namespace Magitek.Logic.Summoner
                 SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.EnergyDrain, Wait = new QueueSpellWait() { Name = "Wait for ED", Check = () => ActionManager.CanCast(Spells.EnergyDrain, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
                 SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Swiftcast, TargetSelf = true, Wait = new QueueSpellWait() { Name = "Wait for SW", Check = () => ActionManager.CanCast(Spells.Swiftcast, null), WaitTime = 1500, EndQueueIfWaitFailed = true }, });
                 SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ruin3, Wait = new QueueSpellWait() { Name = "Wait for Ruin3", Check = () => ActionManager.CanCast(Spells.Ruin3, null), WaitTime = 3000, EndQueueIfWaitFailed = true }, });
-                return false;
+                return Task.FromResult(false);
             }
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Ruin4()
@@ -74,7 +74,7 @@ namespace Magitek.Logic.Summoner
 
             if (!Core.Me.HasAura(Auras.FurtherRuin))
                 return false;
-            
+
             if (Core.Me.CharacterAuras.GetAuraStacksById(Auras.FurtherRuin) < 4
                 && Casting.LastSpell != Spells.Ruin4)
                 if ((int)PetManager.ActivePetType == 10
@@ -190,7 +190,7 @@ namespace Magitek.Logic.Summoner
             return await Spells.EnergyDrain.Cast(Core.Me.CurrentTarget);
         }
 
-        
+
         public static async Task<bool> Enkindle()
         {
             if (Core.Me.ClassLevel < 50)

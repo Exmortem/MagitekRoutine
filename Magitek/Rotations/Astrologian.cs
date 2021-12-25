@@ -12,9 +12,9 @@ namespace Magitek.Rotations
 {
     public static class Astrologian
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -33,14 +33,14 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
-            var cardDrawn = ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None 
-                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns 
+            var cardDrawn = ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None
+                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns
                 && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns;
 
             if (!cardDrawn && AstrologianSettings.Instance.UseDraw)
                 if (await Spells.Draw.Cast(Core.Me))
                     return await Coroutine.Wait(750, () => ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None);
- 
+
             return false;
         }
 
@@ -111,7 +111,7 @@ namespace Magitek.Rotations
                 }
 
                 if (await Logic.Astrologian.Heal.Benefic2()) return true;
-                if (await Logic.Astrologian.Heal.Benefic()) return true ;
+                if (await Logic.Astrologian.Heal.Benefic()) return true;
                 if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
                 if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }

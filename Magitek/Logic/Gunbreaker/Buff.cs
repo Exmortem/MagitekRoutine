@@ -14,8 +14,8 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> RoyalGuard() //Tank stance
         {
             if (!ActionManager.HasSpell(Spells.RoyalGuard.Id))
-                return false; 
-            
+                return false;
+
             switch (GunbreakerSettings.Instance.UseRoyalGuard)
             {
                 case true:
@@ -43,7 +43,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBloodfest, Spells.Bloodfest))
                 return false;
-            
+
             if (Cartridge > GunbreakerRoutine.MaxCartridge - GunbreakerRoutine.AmountCartridgeFromBloodfest)
                 return false;
 

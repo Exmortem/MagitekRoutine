@@ -143,7 +143,7 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(true)]
         public bool UseDoubleDown { get; set; }
-        
+
         [Setting]
         [DefaultValue(1)]
         public int DoubleDownEnemies { get; set; }

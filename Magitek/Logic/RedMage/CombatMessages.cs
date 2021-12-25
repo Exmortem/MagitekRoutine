@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using Magitek.Utilities.Routines;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Magitek.Utilities.Routines.RedMage;
 
 namespace Magitek.Logic.RedMage
@@ -30,7 +30,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "Combo Ready!",
-                                          () =>    stateMachine.CurrentState == RdmStateIds.ReadyForCombo
+                                          () => stateMachine.CurrentState == RdmStateIds.ReadyForCombo
                                                 && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired
                                                 && bossPresenceOk()));
 
@@ -38,7 +38,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () =>    WithinManaOf(11, 80)
+                                          () => WithinManaOf(11, 80)
                                                 && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired
                                                 && !InMeleeCombo()
                                                 && bossPresenceOk()));
@@ -47,10 +47,10 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () =>    !WithinManaOf(0, RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
-                                                && (   (   WithinManaOf(0, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                                          () => !WithinManaOf(0, RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
+                                                && ((WithinManaOf(0, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && Spells.Manafication.Cooldown.TotalMilliseconds <= 1000)
-                                                    || (   WithinManaOf(11, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                                                    || (WithinManaOf(11, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && !WithinManaOf(0, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && Spells.Manafication.Cooldown.TotalMilliseconds <= 5000))
                                                 && ManaficationEnabled
@@ -62,7 +62,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () =>    WithinManaOf(11, 55)
+                                          () => WithinManaOf(11, 55)
                                                 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired
                                                 && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired
                                                 && !InMeleeCombo()

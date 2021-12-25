@@ -1,8 +1,8 @@
 using Magitek.Enumerations;
+using Magitek.Models.Roles;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
-using Magitek.Models.Roles;
 
 namespace Magitek.Models.Samurai
 {
@@ -159,8 +159,8 @@ namespace Magitek.Models.Samurai
         [DefaultValue(false)]
         public bool KaeshiNamikiri { get; set; }
 
-        [Setting] 
-        [DefaultValue(3)] 
+        [Setting]
+        [DefaultValue(3)]
         public int KaeshiNamikiriEnemies { get; set; }
     }
 }

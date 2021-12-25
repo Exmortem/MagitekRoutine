@@ -10,9 +10,9 @@ namespace Magitek.Rotations
 {
     public static class Sage
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -165,6 +165,6 @@ namespace Magitek.Rotations
             if (await SingleTarget.DotMultipleTargets()) return true;
             return await SingleTarget.Dosis();
         }
-            
+
     }
 }

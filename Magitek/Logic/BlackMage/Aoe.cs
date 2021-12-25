@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Utilities;
 using Magitek.Models.BlackMage;
+using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -71,7 +71,7 @@ namespace Magitek.Logic.BlackMage
 
                     if (Core.Me.CurrentMana >= 800
                         && ActionResourceManager.BlackMage.AstralStacks == 0
-                        && Core.Me.HasAura(Auras.EnhancedFlare,true))
+                        && Core.Me.HasAura(Auras.EnhancedFlare, true))
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
                     //if (Core.Me.CurrentMana < 800)
@@ -182,7 +182,7 @@ namespace Magitek.Logic.BlackMage
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
                 //return await Spells.Transpose.Cast(Core.Me);
             }
-                
+
 
             /*if (Core.Me.ClassLevel > 35
                 && Core.Me.ClassLevel < 50)

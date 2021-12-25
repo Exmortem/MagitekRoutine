@@ -232,7 +232,7 @@ namespace Magitek.Logic.Samurai
         {
             if (!SamuraiSettings.Instance.KaeshiNamikiri)
                 return false;
-            
+
             if (Core.Me.ClassLevel < 90)
                 return false;
 

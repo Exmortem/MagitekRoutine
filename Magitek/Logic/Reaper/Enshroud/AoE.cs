@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Utilities;
-using System.Threading.Tasks;
-using Magitek.Enumerations;
 using Magitek.Models.Reaper;
+using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Reaper.Enshroud
 {
@@ -16,7 +14,7 @@ namespace Magitek.Logic.Reaper.Enshroud
         {
             if (!ReaperSettings.Instance.UseGrimReaping || Core.Me.ClassLevel < Spells.GrimReaping.LevelAcquired)
                 return false;
-            
+
             if (ActionResourceManager.Reaper.LemureShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
 
             if (ReaperSettings.Instance.EfficientAoEPotencyCalculation)
@@ -44,7 +42,7 @@ namespace Magitek.Logic.Reaper.Enshroud
 
         public static async Task<bool> LemuresScythe()
         {
-            if (!ReaperSettings.Instance.UseLemuresScythe || Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired) 
+            if (!ReaperSettings.Instance.UseLemuresScythe || Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired)
                 return false;
 
             if (ActionResourceManager.Reaper.VoidShroud < 2 && Core.Me.ClassLevel >= Spells.Communio.LevelAcquired) return false;
@@ -66,7 +64,7 @@ namespace Magitek.Logic.Reaper.Enshroud
         //Logic for Smart targeting or burst sniping maybe
         public static async Task<bool> Communio()
         {
-            if (!ReaperSettings.Instance.UseCommunio || Core.Me.ClassLevel < Spells.Communio.LevelAcquired) 
+            if (!ReaperSettings.Instance.UseCommunio || Core.Me.ClassLevel < Spells.Communio.LevelAcquired)
                 return false;
 
             if (ActionResourceManager.Reaper.LemureShroud > 1 || (Core.Me.HasAura(Auras.Enshrouded) && !Core.Me.HasAura(Auras.Enshrouded, true, 3000)))

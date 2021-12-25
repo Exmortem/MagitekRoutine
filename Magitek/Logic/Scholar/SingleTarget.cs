@@ -52,7 +52,8 @@ namespace Magitek.Logic.Scholar
 
             return await Spells.Bio.Cast(bioTarget);
 
-            bool HasMyBio(BattleCharacter unit) {
+            bool HasMyBio(BattleCharacter unit)
+            {
                 if (unit == null) return false;
 
                 if (Core.Me.ClassLevel < 26)
@@ -77,7 +78,7 @@ namespace Magitek.Logic.Scholar
 
                 return !unit.HasAura(Auras.Biolysis, true, ScholarSettings.Instance.BioRefreshSeconds * 1000);
             }
-            
+
             bool CanBio(GameObject unit)
             {
                 if (!ScholarSettings.Instance.BioUseTimeTillDeath)
@@ -115,7 +116,7 @@ namespace Magitek.Logic.Scholar
 
             if (!Core.Me.HasAetherflow())
                 return false;
-            
+
             if (ActionResourceManager.Scholar.Aetherflow == 3 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 9000)
                 return false;
             if (ActionResourceManager.Scholar.Aetherflow == 2 && Spells.Aetherflow.Cooldown.TotalMilliseconds > 6000)

@@ -1,5 +1,4 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;

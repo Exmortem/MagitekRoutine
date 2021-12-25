@@ -50,7 +50,7 @@ namespace Magitek.Logic.Sage
         {
             if (!SageSettings.Instance.EukrasianDosis)
                 return false;
-            
+
             if (!SageSettings.Instance.DotMultipleTargets)
                 return false;
             var DotTarget = Combat.Enemies.FirstOrDefault(NeedsDot);
@@ -88,5 +88,5 @@ namespace Magitek.Logic.Sage
             Auras.EukrasianDosisIII
         };
     }
-    
+
 }

@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Scholar;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -40,7 +40,7 @@ namespace Magitek.Rotations
 
             if (CustomOpenerLogic.InOpener) return false;
 
-            if (await Buff.SummonPet()) 
+            if (await Buff.SummonPet())
                 return true;
 
             if (WorldManager.InSanctuary)
@@ -77,9 +77,9 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return false;
 
-            if (await Casting.TrackSpellCast()) 
+            if (await Casting.TrackSpellCast())
                 return true;
-            
+
             await Casting.CheckForSuccessfulCast();
 
             // Handle if Seraph is casted manually outside of the routine.
@@ -93,7 +93,7 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
 
             if (CustomOpenerLogic.InOpener) return false;
-            
+
             if (await Logic.Scholar.Heal.Resurrection()) return true;
 
             // Scalebound Extreme Rathalos
@@ -152,9 +152,9 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -198,9 +198,9 @@ namespace Magitek.Rotations
             if (await SingleTarget.EnergyDrain2()) return true;
             return await SingleTarget.Broil();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
-using static ff14bot.Managers.ActionResourceManager.RedMage;
 using Magitek.Utilities;
-using Auras = Magitek.Utilities.Auras;
 using Magitek.Utilities.Routines;
+using System.Collections.Generic;
+using static ff14bot.Managers.ActionResourceManager.RedMage;
 using static Magitek.Utilities.Routines.RedMage;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.RedMage
 {
