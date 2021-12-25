@@ -504,6 +504,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Engagement = DataManager.GetSpellData(16527);
         public static readonly SpellData Reprise = DataManager.GetSpellData(16528);
         public static readonly SpellData Scorch = DataManager.GetSpellData(16530);
+        public static readonly SpellData Resolution = DataManager.GetSpellData(25858);
         public static readonly SpellData VerthunderIII = DataManager.GetSpellData(25855);
         public static readonly SpellData VeraeroIII = DataManager.GetSpellData(25856);
         public static readonly SpellData MagickBarrier = DataManager.GetSpellData(25857);
