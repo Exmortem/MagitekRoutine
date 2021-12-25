@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;

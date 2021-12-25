@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using ff14bot;
 using ff14bot.Managers;

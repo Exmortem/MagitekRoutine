@@ -24,7 +24,7 @@ namespace Magitek.Utilities.Routines
         //If you also need to ignore auras that appear above a certain level, see the "Aura level sync" region in Utilities\Routines\Redmage.cs for an example of how to handle it
         public static int SyncedLevel => Math.Min(mForcedSyncLevel, (int)Core.Me.ClassLevel);
 
-        private static int mForcedSyncLevel = 80;
+        private static int mForcedSyncLevel = 90;
         public static void SetSyncedLevel(int level)
         {
             mForcedSyncLevel = level;

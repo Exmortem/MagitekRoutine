@@ -57,7 +57,7 @@ namespace Magitek.Rotations
             if (Core.Me.InCombat)
                 return false;
 
-            return await Heal();
+            return await SingleTarget.Dosis();
         }
 
         public static async Task<bool> Heal()
@@ -112,7 +112,7 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
             }
 
-            return await Combat();
+            return false;
         }
 
         public static async Task<bool> CombatBuff()
