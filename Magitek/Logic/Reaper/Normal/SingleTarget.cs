@@ -153,6 +153,8 @@ namespace Magitek.Logic.Reaper
                 return false;
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
+            if (ActionResourceManager.Reaper.ShroudGauge > 90)
+                return false;
 
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }

@@ -130,6 +130,8 @@ namespace Magitek.Logic.Reaper
                 (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)))
                 return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
+            if (ActionResourceManager.Reaper.ShroudGauge > 90)
+                return false;
 
             return await Spells.GrimSwathe.Cast(Core.Me.CurrentTarget);
         }
@@ -155,6 +157,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.HasAura(Auras.BloodsownCircle))
+                return false;
+
+            if (Core.Me.HasAura(Auras.SoulReaver))
                 return false;
 
             if (ActionResourceManager.Reaper.ShroudGauge >= 50)
