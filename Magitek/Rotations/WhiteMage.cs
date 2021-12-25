@@ -116,7 +116,7 @@ namespace Magitek.Rotations
 
             if (Globals.InParty)
             {
-               // if (await Logic.WhiteMage.Heal.AssizeHeal()) return true;
+                // if (await Logic.WhiteMage.Heal.AssizeHeal()) return true;
                 if (await Logic.WhiteMage.Heal.Benediction()) return true;
                 if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
@@ -134,13 +134,13 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
             if (await Logic.WhiteMage.Heal.Regen()) return true;
-            
+
             return false;
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()

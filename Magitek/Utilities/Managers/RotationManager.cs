@@ -550,10 +550,10 @@ namespace Magitek.Utilities.Managers
             }
         }
 
-        public override async Task<bool> PvP()
+        public override Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActiveCombatRoutine)
-                return false;
+                return Task.FromResult(false);
 
             switch (RotationManager.CurrentRotation)
             {
@@ -603,7 +603,7 @@ namespace Magitek.Utilities.Managers
                 //    return await Rotations.DarkKnight.PvP();    
 
                 //case ClassJobType.Astrologian:
-                  //  return await Rotations.Astrologian.PvP();
+                //  return await Rotations.Astrologian.PvP();
 
                 //case ClassJobType.Samurai:
                 //    return await Rotations.Samurai.PvP();
@@ -621,7 +621,7 @@ namespace Magitek.Utilities.Managers
                 //    return await Rotations.Dancer.PvP();    
 
                 default:
-                    return false;
+                    return Task.FromResult(false);
             }
         }
     }

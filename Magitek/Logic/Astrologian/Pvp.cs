@@ -251,14 +251,14 @@ namespace Magitek.Logic.Astrologian
 
         #region Cards
 
-        public static async Task<bool> Draw()
+        public static Task<bool> Draw()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
-        public static async Task<bool> Play()
+        public static Task<bool> Play()
         {
-            return false;
+            return Task.FromResult(false);
         }
         #endregion
 

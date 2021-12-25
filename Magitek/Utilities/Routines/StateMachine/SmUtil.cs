@@ -13,9 +13,9 @@ namespace Magitek.Utilities.Routines
     public static class SmUtil
     {
         //A no-op function to use when you want to transition states without taking any action
-        public static async Task<bool> NoOp()
+        public static Task<bool> NoOp()
         {
-            return true;
+            return Task.FromResult(true);
         }
 
         #region Forced Level Sync

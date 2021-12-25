@@ -22,7 +22,9 @@ namespace Magitek.Utilities.Routines
         {
             if (mDoLogging)
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 Logger.WriteInfo("Resetting State Machine");
+#pragma warning restore CS0162 // Unreachable code detected
             }
             CurrentState = mDefaultState;
             mNextState = mDefaultState;
@@ -62,7 +64,7 @@ namespace Magitek.Utilities.Routines
                         CurrentState = mNextState;
                         return await Pulse();
                     }
-                    return true; 
+                    return true;
                 }
             }
 

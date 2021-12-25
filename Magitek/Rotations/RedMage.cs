@@ -17,14 +17,14 @@ namespace Magitek.Rotations
             StateMachineManager.RegisterStateMachine(RdmStateMachine.StateMachine);
         }
 
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
         {
-            
+
 
             if (await Casting.TrackSpellCast())
                 return true;
@@ -62,9 +62,9 @@ namespace Magitek.Rotations
             return await Logic.RedMage.Heal.Vercure();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
@@ -85,9 +85,9 @@ namespace Magitek.Rotations
             return await RdmStateMachine.StateMachine.Pulse();
         }
 
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static void RegisterCombatMessages()

@@ -5,7 +5,6 @@ namespace Magitek.Utilities.Routines
 {
     internal static class DarkKnight
     {
-        public static DateTime LastUnleash;
         public static int PullUnleash;
 
         public static readonly List<uint> Defensives = new List<uint>()
