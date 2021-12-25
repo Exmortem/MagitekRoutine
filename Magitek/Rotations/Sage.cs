@@ -79,12 +79,10 @@ namespace Magitek.Rotations
                 return true;
 
             if (await Logic.Sage.Heal.Egeiro()) return true;
-            if (await Logic.Sage.Heal.Taurochole()) return true;
             if (await Dispel.Execute()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Kardia()) return true;
             if (await Buff.Soteria()) return true;
-            if (await Buff.Kerachole()) return true;
             if (await Buff.Rhizomata()) return true;
             if (await Buff.Holos()) return true;
             if (await Buff.Krasis()) return true;
@@ -93,17 +91,17 @@ namespace Magitek.Rotations
             {
                 if (Globals.InParty)
                 {
-                    if (await Logic.Sage.Heal.Diagnosis()) return true;
-                    if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
+                    if (await Logic.Sage.Heal.Panhaima()) return true;
                     if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
+                    if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
                     if (await Logic.Sage.Heal.Prognosis()) return true;
                     if (await Logic.Sage.Heal.Physis()) return true;
                     if (await Logic.Sage.Heal.Druochole()) return true;
-                    if (await Logic.Sage.Heal.Ixochole()) return true;
-                    if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Ixochole()) return true;                   
                     if (await Logic.Sage.Heal.Taurochole()) return true;
-                    if (await Logic.Sage.Heal.Haima()) return true;
-                    if (await Logic.Sage.Heal.Panhaima()) return true;
+                    if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
+                    if (await Logic.Sage.Heal.Diagnosis()) return true;
                 }
                 if (await Logic.Sage.Heal.Druochole()) return true;
                 if (await Logic.Sage.Heal.Haima()) return true;
