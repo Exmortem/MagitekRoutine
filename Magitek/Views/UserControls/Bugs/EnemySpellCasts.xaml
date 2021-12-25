@@ -4,6 +4,16 @@
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
     <StackPanel Margin="10">
 
         <CheckBox Content="Enable Tracking Of Enemy Casted Spells" IsChecked="{Binding Settings.EnemySpellCastHistory, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

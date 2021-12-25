@@ -3,6 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
