@@ -156,7 +156,7 @@ namespace Magitek.Logic.Sage
             if (Spells.Rhizomata.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Addersgall == 3)
+            if (Addersgall >= 2)
                 return false;
 
             return await Spells.Rhizomata.Cast(Core.Me);
