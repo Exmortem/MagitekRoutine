@@ -14,9 +14,10 @@ namespace Magitek.Rotations
 {
     public static class BlueMage
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < 75 || Core.Me.CurrentManaPercent < 50;
+            var needRest = Core.Me.CurrentHealthPercent < 75 || Core.Me.CurrentManaPercent < 50;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -52,15 +53,15 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
-        
-        public static async Task<bool> CombatBuff()
+
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
         {
-            if (await GambitLogic.Gambit()) 
+            if (await GambitLogic.Gambit())
                 return true;
 
             if (!SpellQueueLogic.SpellQueue.Any())
@@ -101,7 +102,7 @@ namespace Magitek.Rotations
             ff14bot.Objects.Aura phantomFlurry = Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.PhantomFlurry && x.CasterId == Core.Player.ObjectId);
 
             if (Core.Me.InCombat && BlueMageSettings.Instance.UsePhantomFlurry && Casting.LastSpell == Spells.PhantomFlurry)
-            {    
+            {
                 if (Core.Me.HasAura(Auras.WaxingNocturne) && waxingNocturne.TimespanLeft.TotalMilliseconds <= 1000)
                     return await Aoe.PhantomFlurryEnd();
 
@@ -126,7 +127,8 @@ namespace Magitek.Rotations
             //DOT should always be active
             if (await SingleTarget.SongOfTorment()) return true;
 
-            if (Casting.LastSpell != Spells.Surpanakha || (Casting.LastSpell == Spells.Surpanakha && Spells.Surpanakha.Charges < 1) ) {
+            if (Casting.LastSpell != Spells.Surpanakha || (Casting.LastSpell == Spells.Surpanakha && Spells.Surpanakha.Charges < 1))
+            {
 
                 //GCD
                 if (await Buff.Swiftcast()) return true;
@@ -157,17 +159,17 @@ namespace Magitek.Rotations
                 if (await SingleTarget.AbyssalTransfixion()) return true; //if SonicBoom deactivated
 
                 return await SingleTarget.SonicBoom();
-            } 
+            }
             else
             {
                 //Logger.WriteInfo($@"[Surpanakha] Charges = {Spells.Surpanakha.Charges}");
-                return await Aoe.Surpanakha();   
+                return await Aoe.Surpanakha();
             }
         }
 
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

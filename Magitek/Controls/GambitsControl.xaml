@@ -17,6 +17,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="GambitActionTypes" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="actions:GambitActionTypes" />
@@ -1573,7 +1577,7 @@
                                                                                                 </MultiBinding>
                                                                                             </Button.CommandParameter>
                                                                                         </Button>
-                                                                                        
+
                                                                                     </StackPanel>
 
                                                                                     <StackPanel Margin="5,0">

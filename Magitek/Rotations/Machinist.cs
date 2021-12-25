@@ -4,7 +4,6 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -13,9 +12,10 @@ namespace Magitek.Rotations
 {
     public static class Machinist
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < 75;
+            var needRest = Core.Me.CurrentHealthPercent < 75;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -58,9 +58,9 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -120,7 +120,7 @@ namespace Magitek.Rotations
             if (await SingleTarget.HeatBlast()) return true;
 
             //Use On CD
-            if (await MultiTarget.ChainSaw()) return true; 
+            if (await MultiTarget.ChainSaw()) return true;
             if (await MultiTarget.BioBlaster()) return true;
             if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
@@ -128,9 +128,9 @@ namespace Magitek.Rotations
             if (await MultiTarget.SpreadShot()) return true;
 
             //Default Combo
-            if(Core.Me.ClassLevel >= 58)
+            if (Core.Me.ClassLevel >= 58)
             {
-                if (!MachinistSettings.Instance.UseDrill || (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds > 100) )
+                if (!MachinistSettings.Instance.UseDrill || (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds > 100))
                 {
                     if (await SingleTarget.HeatedCleanShot()) return true;
                     if (await SingleTarget.HeatedSlugShot()) return true;
@@ -143,11 +143,11 @@ namespace Magitek.Rotations
             }
 
             return await SingleTarget.HeatedSplitShot();
-        
+
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

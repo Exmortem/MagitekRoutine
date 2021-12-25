@@ -1,8 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
-using System;
 using System.Collections.Generic;
 
 namespace Magitek.Utilities.Routines
@@ -26,6 +24,7 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
 
+
         public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
         {
             if (!Toggle)
@@ -35,11 +34,6 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             return true;
-        }
-
-        public static bool IsSpellReadySoon(SpellData Spell, int TimeInMilliseconds)
-        {
-            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds < TimeInMilliseconds;
         }
 
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)

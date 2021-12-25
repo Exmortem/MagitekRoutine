@@ -14,10 +14,10 @@ using Magitek.Models.Machinist;
 using Magitek.Models.Monk;
 using Magitek.Models.Ninja;
 using Magitek.Models.Paladin;
-using Magitek.Models.RedMage;
-using Magitek.Models.Samurai;
 using Magitek.Models.Reaper;
+using Magitek.Models.RedMage;
 using Magitek.Models.Sage;
+using Magitek.Models.Samurai;
 using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
@@ -55,7 +55,7 @@ namespace Magitek.ViewModels
 
         public ICommand RestartCombatMessageOverlay => new DelegateCommand(() =>
         {
-           OverlayManager.RestartCombatMessageOverlay();
+            OverlayManager.RestartCombatMessageOverlay();
         });
 
         public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12 };

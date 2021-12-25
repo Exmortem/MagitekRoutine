@@ -1,9 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using Magitek.Extensions;
-using Magitek.Models.Summoner;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Magitek.Utilities.Routines
 {

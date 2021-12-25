@@ -788,44 +788,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MainTabTankSwap" TargetType="{x:Type TabItem}">
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
-
-                    <Border Name="Background" Margin="0,0,2,0">
-                        <Grid Margin="15,3" IsHitTestVisible="True">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="15" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <Path Name="Path"
-                                  Height="12"
-                                  VerticalAlignment="Center"
-                                  Data="M10.2493858337402,0L10.8912239074707,0.525978326797485 12.76611328125,1.6831306219101 15.79811668396,2.84028291702271 19.9112968444824,3.36626124382019 19.9340553283691,3.66294813156128 19.9765224456787,4.47753047943115 19.9999904632568,5.69679021835327 19.9657516479492,7.20750951766968 19.5693130493164,10.6504554748535 18.4775371551514,13.9006252288818 17.1353416442871,15.7746257781982 15.2672100067139,17.4382095336914 12.8848571777344,18.8445644378662 9.99999904632568,19.9468822479248 7.14124441146851,18.7986812591553 4.75599098205566,17.3523540496826 2.87335777282715,15.6606369018555 1.52246236801147,13.7762660980225 0.430688947439194,10.5455112457275 0.0342501699924469,7.14531517028809 9.7915471997112E-06,5.65743160247803 0.0234772935509682,4.45809364318848 0.0659440830349922,3.6576030254364 0.088701568543911,3.36626124382019 4.27981472015381,2.84028291702271 7.48327159881592,1.6831306219101 9.52961444854736,0.525978326797485 10.2493858337402,0z"
-                                  Fill="{DynamicResource MainTabUnselected}"
-                                  Stretch="Uniform" />
-                            <ContentPresenter Grid.Column="1" Margin="5,0" VerticalAlignment="Center" ContentSource="Header" />
-
-                        </Grid>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Trigger.Setters>
-                                <Setter TargetName="Path" Property="Fill" Value="{DynamicResource MainTabSelected}" />
-                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabBackgroundSelected}" />
-                            </Trigger.Setters>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="MainTabBuffs" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">

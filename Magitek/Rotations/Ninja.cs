@@ -13,9 +13,9 @@ namespace Magitek.Rotations
 {
     public static class Ninja
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -59,9 +59,9 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -185,9 +185,9 @@ namespace Magitek.Rotations
             if (await SingleTarget.GustSlash()) return true;
             return await SingleTarget.SpinningEdge();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static bool NinjutsuCheck()

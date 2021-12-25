@@ -66,9 +66,9 @@ namespace Magitek.Rotations
             return await Logic.Summoner.Heal.Physick();
 
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -120,9 +120,9 @@ namespace Magitek.Rotations
             if (await SingleTarget.Ruin4()) return true;
             return await SingleTarget.Ruin();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Magitek.Logic.Bard
             //Logger.WriteInfo($@"[PitchPerfect] {Utilities.Routines.Bard.GlobalDurationWanderersMinuet()} - {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()} - {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
             if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() < 550)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-                
+
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
                 return false;
 

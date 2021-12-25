@@ -50,7 +50,7 @@ namespace Magitek.Logic.Sage
         {
             if (!SageSettings.Instance.EukrasianDosis)
                 return false;
-            
+
             if (!SageSettings.Instance.DotMultipleTargets)
                 return false;
 
@@ -96,5 +96,5 @@ namespace Magitek.Logic.Sage
             Auras.EukrasianDosisIII
         };
     }
-    
+
 }

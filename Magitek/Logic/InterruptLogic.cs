@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic
 {
@@ -113,7 +113,7 @@ namespace Magitek.Logic
                     interruptRange = rangeDict[spell];
                 }
 
-                BattleCharacter target = enemies.FirstOrDefault(enemy =>    enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
+                BattleCharacter target = enemies.FirstOrDefault(enemy => enemy.SpellCastInfo.RemainingCastTime.TotalMilliseconds >= minimumMsLeftOnEnemyCast
                                                                          && validateEnemy(enemy)
                                                                          && enemy.Distance(Core.Me) <= interruptRange + Core.Me.CombatReach + enemy.CombatReach);
 

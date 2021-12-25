@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Roles;
 using Magitek.Utilities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 

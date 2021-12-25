@@ -1,21 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.BlackMage;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {
     public static class BlackMage
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < BlackMageSettings.Instance.RestHealthPercent;
+            var needRest = Core.Me.CurrentHealthPercent < BlackMageSettings.Instance.RestHealthPercent;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -80,9 +81,9 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -142,9 +143,9 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

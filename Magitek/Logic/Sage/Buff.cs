@@ -8,8 +8,8 @@ using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 using static ff14bot.Managers.ActionResourceManager.Sage;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Sage
 {
@@ -55,11 +55,11 @@ namespace Magitek.Logic.Sage
             {
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.CastAura(ChocoboManager.Object,Auras.Kardia);
+                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardia);
                 }
                 return await Spells.Kardia.CastAura(Core.Me, Auras.Kardia);
             }
-                
+
 
             return await Spells.Kardia.CastAura(ally.FirstOrDefault(), Auras.Kardia);
         }
@@ -227,6 +227,6 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Krasis.CastAura(target, Auras.Krasis);
         }
-        
+
     }
 }

@@ -14,9 +14,9 @@ namespace Magitek.Rotations
 {
     public static class Gunbreaker
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -53,9 +53,9 @@ namespace Magitek.Rotations
             return await Healing.Aurora();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
@@ -88,7 +88,7 @@ namespace Magitek.Rotations
                 if (await Defensive.HeartofCorundum()) return true;
 
                 //Cooldowns - Buffs
-                if (await Buff.NoMercy()) return true; 
+                if (await Buff.NoMercy()) return true;
                 if (await Buff.Bloodfest()) return true;
 
                 //oGCD Dot/Dmg
@@ -113,14 +113,14 @@ namespace Magitek.Rotations
             //Apply DOT / Burst
             if (await Aoe.DoubleDown()) return true;
             if (await SingleTarget.SonicBreak()) return true;
-            
+
             //AOE
             if (await Aoe.FatedCircle()) return true;
             if (await Aoe.DemonSlaughter()) return true;
             if (await Aoe.DemonSlice()) return true;
 
             //Combo 2
-            if (await SingleTarget.WickedTalon()) return true; 
+            if (await SingleTarget.WickedTalon()) return true;
             if (await SingleTarget.SavageClaw()) return true;
             if (await SingleTarget.GnashingFang()) return true;
 
@@ -134,9 +134,9 @@ namespace Magitek.Rotations
 
             return await SingleTarget.KeenEdge();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

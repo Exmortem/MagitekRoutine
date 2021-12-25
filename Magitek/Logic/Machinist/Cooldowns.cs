@@ -1,12 +1,12 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
 
@@ -69,7 +69,7 @@ namespace Magitek.Logic.Machinist
 
                 if (MachinistSettings.Instance.UseWildfire && Spells.Wildfire.Cooldown.TotalMilliseconds >= 0 && Spells.Wildfire.Cooldown.TotalMilliseconds < 25000)
                     return false;
-                
+
                 if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
                     return await Spells.Hypercharge.Cast(Core.Me);
 
@@ -94,7 +94,7 @@ namespace Magitek.Logic.Machinist
             Logger.WriteInfo($@"Using Hypercharge at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
             return await Spells.Hypercharge.Cast(Core.Me);
         }
-        
+
         public static async Task<bool> Wildfire()
         {
             if (!MachinistSettings.Instance.UseWildfire)
@@ -158,8 +158,8 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel >= 76 && Core.Me.ClassLevel < 90)
             {
-                if ( (ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
-                    && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds) )
+                if ((ActionManager.HasSpell(Spells.Drill.Id) && MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown != TimeSpan.Zero && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (ActionManager.HasSpell(Spells.AirAnchor.Id) && MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.Cooldown != TimeSpan.Zero && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistGlobals.HeatedSplitShot.Cooldown.TotalMilliseconds))
                     return false;
             }
 
@@ -173,6 +173,6 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.Reassemble.Cast(Core.Me);
         }
-        
+
     }
 }

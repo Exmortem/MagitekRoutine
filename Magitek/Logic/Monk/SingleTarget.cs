@@ -1,10 +1,10 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
 using System.Threading.Tasks;
-using ff14bot.Objects;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Monk
@@ -115,7 +115,8 @@ namespace Magitek.Logic.Monk
             return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> TornadoKick() {
+        public static async Task<bool> TornadoKick()
+        {
             // Off GCD
 
             if (!MonkSettings.Instance.UseTornadoKick)
@@ -155,7 +156,7 @@ namespace Magitek.Logic.Monk
         {
             if (!Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
-            
+
             if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
                 return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
 
@@ -165,7 +166,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.HasAura(Auras.LeadenFist))
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if(!ActionManager.HasSpell(Spells.DragonKick.Id))
+            if (!ActionManager.HasSpell(Spells.DragonKick.Id))
                 return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
 
             return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);

@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Scholar;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -19,9 +19,7 @@ namespace Magitek.Rotations
                 if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
                     return false;
 
-                await Spells.Physick.Heal(Core.Me);
-
-                return true;
+                return await Spells.Physick.Heal(Core.Me);
             }
 
             return false;
@@ -29,9 +27,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (WorldManager.InSanctuary)
-                return false;
-
             if (Core.Me.IsMounted)
                 return false;
 
@@ -45,7 +40,13 @@ namespace Magitek.Rotations
 
             if (CustomOpenerLogic.InOpener) return false;
 
-            return await Buff.SummonPet();
+            if (await Buff.SummonPet())
+                return true;
+
+            if (WorldManager.InSanctuary)
+                return false;
+
+            return false;
         }
 
         public static async Task<bool> Pull()
@@ -66,7 +67,7 @@ namespace Magitek.Rotations
             if (Core.Me.InCombat)
                 return false;
 
-            return await Heal();
+            return await SingleTarget.Broil();
         }
         public static async Task<bool> Heal()
         {
@@ -76,14 +77,14 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return false;
 
-            if (await Casting.TrackSpellCast()) 
+            if (await Casting.TrackSpellCast())
                 return true;
-            
+
             await Casting.CheckForSuccessfulCast();
 
             // Handle if Seraph is casted manually outside of the routine.
-            if (Casting.LastSpell.Id == Spells.SummonSeraph.Id)
-                Buff.SeraphCooldown = System.DateTime.Now.AddSeconds(30);
+            if (System.DateTime.Now > Buff.FairySummonCooldown && Core.Me.Pet != null && Core.Me.Pet.EnglishName == "Seraph")
+                Buff.FairySummonCooldown = System.DateTime.Now.AddSeconds(30);
 
             if (await Buff.SummonPet()) return true;
 
@@ -92,7 +93,7 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
 
             if (CustomOpenerLogic.InOpener) return false;
-            
+
             if (await Logic.Scholar.Heal.Resurrection()) return true;
 
             // Scalebound Extreme Rathalos
@@ -149,23 +150,11 @@ namespace Magitek.Rotations
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
-            if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
-                return true;
-
-            if (Globals.InParty)
-            {
-                if (!ScholarSettings.Instance.DoDamage)
-                    return true;
-
-                if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
-                    return true;
-            }
-
-            return await Combat();
-        }
-        public static async Task<bool> CombatBuff()
-        {
             return false;
+        }
+        public static Task<bool> CombatBuff()
+        {
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -184,18 +173,18 @@ namespace Magitek.Rotations
                 return false;
 
             if (Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
-                return true;
+                return false;
 
             if (!ScholarSettings.Instance.DoDamage)
-                return true;
+                return false;
 
             if (Globals.InParty)
             {
                 if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.MinimumManaPercent)
-                    return true;
+                    return false;
 
                 if (Group.CastableAlliesWithin30.Any(c => c.IsAlive && c.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent))
-                    return true;
+                    return false;
             }
 
             if (await Aoe.ArtOfWar()) return true;
@@ -209,9 +198,9 @@ namespace Magitek.Rotations
             if (await SingleTarget.EnergyDrain2()) return true;
             return await SingleTarget.Broil();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }
