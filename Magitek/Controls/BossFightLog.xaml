@@ -6,9 +6,19 @@
              xmlns:local="clr-namespace:Magitek.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
 
         <TextBlock Text="404 PAGE NOT FOUND" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="70" FontFamily="Impact" />
-            
+
     </Grid>
 </UserControl>

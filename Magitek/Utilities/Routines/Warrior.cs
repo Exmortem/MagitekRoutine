@@ -26,6 +26,7 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
 
+
         public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
         {
             if (!Toggle)

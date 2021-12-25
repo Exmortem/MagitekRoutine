@@ -213,7 +213,6 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Spells.IsReadySoon(Spells.Bloodfest, 4000) && Cartridge > 0)
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
-
             
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
         }

@@ -6,6 +6,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToOpaqueConverter x:Key="BooleanToOpaqueConverter" />
         </ResourceDictionary>
     </UserControl.Resources>

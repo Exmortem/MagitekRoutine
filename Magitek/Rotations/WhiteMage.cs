@@ -14,11 +14,15 @@ namespace Magitek.Rotations
     {
         public static async Task<bool> Rest()
         {
-            if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 2)
-                return false;
+            if (WhiteMageSettings.Instance.CureOnRest)
+            {
+                if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 2)
+                    return false;
 
-            await Spells.Cure.Heal(Core.Me);
-            return true;
+                return await Spells.Cure.Heal(Core.Me);
+            }
+
+            return false;
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -52,7 +56,7 @@ namespace Magitek.Rotations
             if (Core.Me.InCombat)
                 return false;
 
-            return await Heal();
+            return await SingleTarget.Stone();
         }
 
         public static async Task<bool> Heal()
@@ -130,7 +134,8 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
             if (await Logic.WhiteMage.Heal.Regen()) return true;
-            return await Combat();
+            
+            return false;
         }
 
         public static async Task<bool> CombatBuff()
@@ -147,10 +152,10 @@ namespace Magitek.Rotations
             if (Globals.InParty)
             {
                 if (!WhiteMageSettings.Instance.DoDamage)
-                    return true;
+                    return false;
 
                 if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
-                return false;
+                    return false;
             }
 
             if (BotManager.Current.IsAutonomous)
