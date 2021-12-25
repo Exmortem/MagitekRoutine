@@ -57,6 +57,7 @@ namespace Magitek.Logic.RedMage
         Redoublement,
         VerflareOrVerholy,
         Scorch,
+        Resolution,
         SingleTargetScatter,
         Moving,
         MovingSwiftcast
@@ -794,7 +795,24 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && DisplacementEnabled,           () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,              () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,               () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => true,                                             () => SmUtil.SyncedCast(Spells.Scorch, Core.Me.CurrentTarget),       RdmStateIds.FishForProcsFirstWeave)
+                                new StateTransition<RdmStateIds>(() => true,                                             () => SmUtil.SyncedCast(Spells.Scorch, Core.Me.CurrentTarget),       RdmStateIds.Resolution)
+                            })
+                    },
+                    {
+                        RdmStateIds.Resolution,
+                        new State<RdmStateIds>(
+                            new List<StateTransition<RdmStateIds>>()
+                            {
+                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Resolution.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                  () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,             () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseCorpsACorps,                 () => SmUtil.SyncedCast(Spells.CorpsACorps, Core.Me.CurrentTarget),  RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 1500 && DisplacementEnabled,           () => SmUtil.SyncedCast(Spells.Displacement, Core.Me.CurrentTarget), RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EngagementEnabled,              () => SmUtil.SyncedCast(Spells.Engagement, Core.Me.CurrentTarget),   RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,               () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.Resolution),
+                                new StateTransition<RdmStateIds>(() => true,                                             () => SmUtil.SyncedCast(Spells.Resolution, Core.Me.CurrentTarget),   RdmStateIds.FishForProcsFirstWeave)
                             })
                     },
                     //Single target mode, dualcast up, use Scatter because there are enough targets to make it worth it (but not enough to go to AoE mode)
