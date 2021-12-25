@@ -4,16 +4,6 @@
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
-
     <StackPanel Margin="5">
 
         <CheckBox Margin="0,0,0,10" Content="Enable Healing List Debug" IsChecked="{Binding Settings.DebugHealingLists, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

@@ -13,10 +13,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="enums:InterruptStrategy" />
@@ -66,7 +62,7 @@
                         <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumHealthPercent, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                     </StackPanel>
-
+                    
                     <StackPanel Grid.Row="3" Orientation="Horizontal">
                         <CheckBox Margin="5" Content="Do Not Demolish If Our Current Target Is Dying Within " IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumTtd, Mode=TwoWay}" />
