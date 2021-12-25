@@ -85,7 +85,7 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
 
             // Handle if Seraph is casted manually outside of the routine.
-            if (Casting.LastSpell.Id == Spells.SummonSeraph.Id)
+            if (System.DateTime.Now > Buff.FairySummonCooldown && Core.Me.Pet != null && Core.Me.Pet.EnglishName == "Seraph")
                 Buff.FairySummonCooldown = System.DateTime.Now.AddSeconds(30);
 
             if (await Buff.SummonPet()) return true;
