@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Enums;
+using Magitek.Models.Account;
 using PropertyChanged;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +41,9 @@ namespace Magitek.Utilities.Managers
     {
         public override async Task<bool> Rest()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
@@ -120,6 +124,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> PreCombatBuff()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             Group.UpdateAllies();
             await Chocobo.HandleChocobo();
 
@@ -207,6 +214,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> Pull()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
@@ -285,6 +295,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> Heal()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             Group.UpdateAllies();
             await Chocobo.HandleChocobo();
 
@@ -374,6 +387,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> CombatBuff()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
@@ -452,6 +468,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> Combat()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             Group.UpdateAllies();
             await Chocobo.HandleChocobo();
 
@@ -533,6 +552,9 @@ namespace Magitek.Utilities.Managers
 
         public override async Task<bool> PvP()
         {
+            if (!BaseSettings.Instance.ActiveCombatRoutine)
+                return false;
+
             switch (RotationManager.CurrentRotation)
             {
                 //case ClassJobType.Gladiator:

@@ -12,6 +12,10 @@ namespace Magitek.Logic.Gunbreaker
 {
     internal static class Aoe
     {
+
+        /*************************************************************************************
+         *                                    Combo
+         * ***********************************************************************************/
         public static async Task<bool> DemonSlice()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.DemonSlice))
@@ -43,12 +47,15 @@ namespace Magitek.Logic.Gunbreaker
             return await Spells.DemonSlaughter.Cast(Core.Me.CurrentTarget);
         }
 
+        /*************************************************************************************
+         *                                    GCD
+         * ***********************************************************************************/
         public static async Task<bool> FatedCircle()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.FatedCircle))
                 return false; 
             
-            if (Cartridge == 0)
+            if (Cartridge < GunbreakerRoutine.RequiredCartridgeForFatedCircle)
                 return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
@@ -57,33 +64,43 @@ namespace Magitek.Logic.Gunbreaker
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
-            if (GunbreakerRoutine.IsSpellReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.IsReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2 
-                && GunbreakerRoutine.IsSpellReadySoon(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+                && Spells.IsReadySoon(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             return await Spells.FatedCircle.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> BowShock() //oGCD
+        /*************************************************************************************
+         *                                    oGCD
+         * ***********************************************************************************/
+        public static async Task<bool> BowShock()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.BowShock))
                 return false;
 
-            //apply DOT on mono target if SonicBreak is not ready and SonicBreak Aura not on target
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 && !Core.Me.HasAura(Auras.NoMercy)
-                && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.SonicBreak.Cooldown == TimeSpan.Zero) )
-                return false;
+            if (!Core.Me.HasAura(Auras.NoMercy))
+            {
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 1)
+                    return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 1 && !Core.Me.HasAura(Auras.NoMercy))
-                return false;
+                //apply DOT on single target if SonicBreak is not ready and SonicBreak Aura not on target
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 
+                    && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.IsReadySoon(Spells.SonicBreak, 15000)))
+                    return false;
+            } else
+            {
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1)
+                    return false;
+            }
 
             return await Spells.BowShock.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> DoubleDown() //oGCD
+        public static async Task<bool> DoubleDown()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseDoubleDown, Spells.DoubleDown))
                 return false;

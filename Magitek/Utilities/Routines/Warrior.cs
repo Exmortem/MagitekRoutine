@@ -26,6 +26,7 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
 
+
         public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
         {
             if (!Toggle)
@@ -35,11 +36,6 @@ namespace Magitek.Utilities.Routines
                 return false;
 
             return true;
-        }
-
-        public static bool IsSpellReadySoon(SpellData Spell, int TimeInMilliseconds)
-        {
-            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds < TimeInMilliseconds;
         }
 
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)

@@ -212,5 +212,9 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(50)]
         public int UserLatencyOffset { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ActiveCombatRoutine { get; set; }
     }
 }

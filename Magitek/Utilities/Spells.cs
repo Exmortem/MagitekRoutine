@@ -926,5 +926,10 @@ namespace Magitek.Utilities
         public static readonly SpellData AssizePvp = DataManager.GetSpellData(9620);
         public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
         #endregion
+
+        public static bool IsReadySoon(SpellData Spell, int TimeInMilliseconds)
+        {
+            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds <= TimeInMilliseconds;
+        }
     }
 }

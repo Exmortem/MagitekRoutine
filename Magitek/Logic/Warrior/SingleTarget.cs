@@ -93,7 +93,7 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             // If Inner Release has less than 8 seconds on cooldown
-            if (WarriorRoutine.IsSpellReadySoon(Spells.InnerRelease, 10000))
+            if (Spells.IsReadySoon(Spells.InnerRelease, 10000))
             {
                 int refreshTime = 20000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds;
                 Aura SurgingTempestAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SurgingTempest);
@@ -156,8 +156,8 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> Onslaught()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseOnslaught, Spells.Onslaught))
-                return false;
-
+                return false; 
+            
             if (!Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
@@ -193,7 +193,7 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> InnerChaos()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerChaos, Spells.InnerChaos))
-                return false;
+                return false; 
 
             if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;

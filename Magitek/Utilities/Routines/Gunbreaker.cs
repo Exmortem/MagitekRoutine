@@ -46,11 +46,6 @@ namespace Magitek.Utilities.Routines
             return true;
         }
 
-        public static bool IsSpellReadySoon(SpellData Spell, int TimeInMilliseconds)
-        {
-            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds < TimeInMilliseconds;
-        }
-
         public static bool IsAurasForComboActive()
         {
             return Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge) || Core.Me.HasAura(Auras.ReadytoBlast);
