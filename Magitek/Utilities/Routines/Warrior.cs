@@ -37,11 +37,6 @@ namespace Magitek.Utilities.Routines
             return true;
         }
 
-        public static bool IsSpellReadySoon(SpellData Spell, int TimeInMilliseconds)
-        {
-            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds < TimeInMilliseconds;
-        }
-
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
         {
             if (ActionManager.ComboTimeLeft <= 0)

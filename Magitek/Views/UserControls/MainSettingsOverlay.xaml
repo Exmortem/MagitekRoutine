@@ -56,12 +56,16 @@
 
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Active CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActiveCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Use Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Reset Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                     </StackPanel>
+                    
+                    
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                  
                         <Grid>
                             <Grid.Style>
                                 <Style TargetType="{x:Type Grid}">
