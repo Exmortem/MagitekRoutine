@@ -1,4 +1,4 @@
-﻿using ff14bot;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
@@ -156,8 +156,8 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> Onslaught()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseOnslaught, Spells.Onslaught))
-                return false; 
-            
+                return false;
+
             if (!Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
@@ -193,7 +193,7 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> InnerChaos()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerChaos, Spells.InnerChaos))
-                return false; 
+                return false;
 
             if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;
