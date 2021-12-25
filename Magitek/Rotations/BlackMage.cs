@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.BlackMage;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {

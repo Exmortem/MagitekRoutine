@@ -1,9 +1,7 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
-using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using System;
 using System.Linq;
@@ -38,8 +36,8 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
-                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower || 
-                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry || 
+                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
+                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
                 x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall || x.Id == Auras.FlourishingFinish
             ));
 

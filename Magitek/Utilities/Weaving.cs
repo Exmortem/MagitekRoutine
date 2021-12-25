@@ -79,17 +79,17 @@ namespace Magitek.Utilities
 
                 //Adding Physical Ranged Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                               && action.Value.JobTypes.Contains(ClassJobType.Bard) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Bard)
                                                && action.Value.JobTypes.Contains(ClassJobType.Archer)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Machinist) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Machinist)
                                                && action.Value.JobTypes.Contains(ClassJobType.Dancer))
                     PhysicalRangedRoleAbilitys.Add(action.Value);
 
                 //Adding Magic Ranged Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                               && action.Value.JobTypes.Contains(ClassJobType.Thaumaturge) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Thaumaturge)
                                                && action.Value.JobTypes.Contains(ClassJobType.BlackMage)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Arcanist) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Arcanist)
                                                && action.Value.JobTypes.Contains(ClassJobType.Summoner)
                                                && action.Value.JobTypes.Contains(ClassJobType.RedMage)
                                                && action.Value.JobTypes.Contains(ClassJobType.BlueMage))
@@ -97,30 +97,30 @@ namespace Magitek.Utilities
 
                 //Adding Melee Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                               && action.Value.JobTypes.Contains(ClassJobType.Pugilist) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Pugilist)
                                                && action.Value.JobTypes.Contains(ClassJobType.Monk)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Rogue) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Rogue)
                                                && action.Value.JobTypes.Contains(ClassJobType.Ninja)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Lancer) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Lancer)
                                                && action.Value.JobTypes.Contains(ClassJobType.Dragoon)
                                                && action.Value.JobTypes.Contains(ClassJobType.Samurai))
                     MeleeRoleAbilitys.Add(action.Value);
 
                 //Adding Tank Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                               && action.Value.JobTypes.Contains(ClassJobType.Gunbreaker) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Gunbreaker)
                                                && action.Value.JobTypes.Contains(ClassJobType.DarkKnight)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Gladiator) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Gladiator)
                                                && action.Value.JobTypes.Contains(ClassJobType.Paladin)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Marauder) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Marauder)
                                                && action.Value.JobTypes.Contains(ClassJobType.Warrior))
                     TankRoleAbilitys.Add(action.Value);
 
                 //Adding Healer Role Abilitys
                 if (action.Value.IsPlayerAction && action.Value.SpellType == SpellType.Ability
-                                               && action.Value.JobTypes.Contains(ClassJobType.Conjurer) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Conjurer)
                                                && action.Value.JobTypes.Contains(ClassJobType.WhiteMage)
-                                               && action.Value.JobTypes.Contains(ClassJobType.Scholar) 
+                                               && action.Value.JobTypes.Contains(ClassJobType.Scholar)
                                                && action.Value.JobTypes.Contains(ClassJobType.Astrologian))
                     HealerRoleAbilitys.Add(action.Value);
 

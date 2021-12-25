@@ -1,7 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using System;
 using System.Linq;

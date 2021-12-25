@@ -1,9 +1,9 @@
 using ff14bot;
 using Magitek.Extensions;
+using Magitek.Models.BlueMage;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.BlueMage;
 
 namespace Magitek.Logic.BlueMage
 {
@@ -87,7 +87,7 @@ namespace Magitek.Logic.BlueMage
 
                 return await Spells.MatraMagic.Cast(Core.Me.CurrentTarget);
             }
-            return false;            
+            return false;
         }
 
         public static async Task<bool> WaterCannon()

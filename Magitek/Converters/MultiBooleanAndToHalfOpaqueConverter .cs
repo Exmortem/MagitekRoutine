@@ -1,8 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-
-namespace Magitek.Converters
+﻿namespace Magitek.Converters
 {
     public class MultiBooleanAndToHalfOpaqueConverter : MultiBooleanAndConverter<double>
     {

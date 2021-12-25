@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Roles;
 using Magitek.Toggles;
 using Magitek.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;

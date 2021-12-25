@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -6,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
+using System.Threading.Tasks;
 
 namespace Magitek.Rotations
 {

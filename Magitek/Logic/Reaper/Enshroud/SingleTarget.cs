@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Utilities;
-using System.Threading.Tasks;
-using Magitek.Enumerations;
 using Magitek.Models.Reaper;
+using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Reaper.Enshroud
 {
@@ -68,7 +66,7 @@ namespace Magitek.Logic.Reaper.Enshroud
             if (!ReaperSettings.Instance.UseLemuresSlice || Core.Me.ClassLevel < Spells.LemuresSlice.LevelAcquired)
                 return false;
 
-            if (ActionResourceManager.Reaper.VoidShroud < 2) 
+            if (ActionResourceManager.Reaper.VoidShroud < 2)
                 return false;
 
             if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 100 < 200)

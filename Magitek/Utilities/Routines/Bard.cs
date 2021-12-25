@@ -63,10 +63,11 @@ namespace Magitek.Utilities.Routines
         {
             double nextTickInXms = 0;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None) {
+            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.None)
+            {
                 nextTickInXms = ActionResourceManager.Bard.Timer.TotalMilliseconds % 3000;
             }
-            
+
             return nextTickInXms;
         }
 
@@ -77,7 +78,7 @@ namespace Magitek.Utilities.Routines
 
             return ActionResourceManager.Bard.Timer.TotalMilliseconds;
         }
-        
+
         public static double NextTickUnderWanderersMinuet()
         {
             return CurrentDurationWanderersMinuet() - Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick();

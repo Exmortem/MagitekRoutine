@@ -73,7 +73,8 @@ namespace Magitek.Logic
                 Logger.WriteInfo($"Executed Gambit: {currentGambit.Title}");
 
                 // make the current gambit forbidden if it has a timer
-                if (currentGambit.PreventSameActionForTheNextMilliseconds > 0) {
+                if (currentGambit.PreventSameActionForTheNextMilliseconds > 0)
+                {
                     var timeExpired = DateTime.Now.AddMilliseconds(currentGambit.PreventSameActionForTheNextMilliseconds);
                     ForbiddenGambits.Add(currentGambit.Id, timeExpired);
                 }

@@ -29,7 +29,7 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.FanDanceIV.LevelAcquired) return false;
 
             if (!Core.Me.HasAura(Auras.FourfoldFanDance)) return false;
-            
+
             return await Spells.FanDanceIV.Cast(Core.Me.CurrentTarget);
         }
 
@@ -115,7 +115,7 @@ namespace Magitek.Logic.Dancer
         {
             if (!DancerSettings.Instance.UseAoe) return false;
 
-            if (!DancerSettings.Instance.Windmill)  return false;
+            if (!DancerSettings.Instance.Windmill) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.WindmillEnemies) return false;
 

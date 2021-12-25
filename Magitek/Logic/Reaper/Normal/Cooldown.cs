@@ -1,11 +1,10 @@
-using System;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Utilities;
-using System.Threading.Tasks;
-using Magitek.Enumerations;
 using Magitek.Models.Reaper;
+using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Reaper
 {

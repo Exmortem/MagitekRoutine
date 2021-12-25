@@ -262,7 +262,7 @@ namespace Magitek.Logic.Bard
                 Logger.WriteInfo($@"[Cast WanderersMinuet] Time remaining for {ActionResourceManager.Bard.ActiveSong} : {ActionResourceManager.Bard.Timer.TotalMilliseconds}");
                 return await Spells.TheWanderersMinuet.Cast(Core.Me.CurrentTarget);
             }
-                
+
 
 
             return false;

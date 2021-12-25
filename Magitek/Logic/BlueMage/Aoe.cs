@@ -1,10 +1,9 @@
 using ff14bot;
 using Magitek.Extensions;
+using Magitek.Models.BlueMage;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.BlueMage;
 
 namespace Magitek.Logic.BlueMage
 {
@@ -15,8 +14,8 @@ namespace Magitek.Logic.BlueMage
         {
             //At least 1 ennemy in 16 yalms front
             if (Core.Me.EnemiesInCone(16) < 1)
-                return false; 
-            
+                return false;
+
             if (Casting.LastSpell != Spells.Surpanakha && Spells.Surpanakha.Charges < 4)
                 return false;
 
@@ -25,7 +24,7 @@ namespace Magitek.Logic.BlueMage
 
             return await Spells.Surpanakha.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> JKick()
         {
             if (!BlueMageSettings.Instance.UsePrimalSkills)
@@ -48,9 +47,9 @@ namespace Magitek.Logic.BlueMage
             if (!BlueMageSettings.Instance.UsePrimalSkills)
                 return false;
 
-            if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne) )
-                return false; 
-            
+            if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
+                return false;
+
             return await Spells.FeatherRain.Cast(Core.Me.CurrentTarget);
         }
 
@@ -99,7 +98,7 @@ namespace Magitek.Logic.BlueMage
             //At least 1 ennemy in 12 yalm range
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) < 12 + r.CombatReach) < 1)
                 return false;
-            
+
             if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
@@ -161,8 +160,8 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> Tingle()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (Core.Me.HasAura(Auras.Tingle))
                 return false;
 
@@ -171,7 +170,7 @@ namespace Magitek.Logic.BlueMage
 
             if (Spells.TripleTrident.Cooldown.TotalMilliseconds >= 3000)
                 return false;
-            
+
             if (Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
