@@ -21,37 +21,27 @@ namespace Magitek.Logic.BlackMage
             if (Spells.Triplecast.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3)
+            // Check to see if triplecast is already up
+            if (Core.Me.HasAura(Auras.Triplecast))
+                return false;
+
+            // Do not use in Umbral
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return false;
+
+            // Why cast after bliz 3? Should only be used in AF
+            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
+            // Add new condition for AoE rotation
+            if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.HighFireII)
+                return await Spells.Triplecast.Cast(Core.Me);
+
             return false;
         }
-
-        public static async Task<bool> Enochian()
-        {
-            //First, check if we can even cast Enochian
-            if (Core.Me.ClassLevel < Spells.Enochian.LevelAcquired)
-                return false;
-
-            //Then, if we have it, we don't need to cast it again
-            if (Core.Me.HasEnochian())
-                return false;
-
-            //Obviously we can't use it if it's on cooldown
-            if (Spells.Enochian.Cooldown != TimeSpan.Zero)
-                return false;
-
-            //Enochian requires at least one Astral or Umbral stack
-            if (ActionResourceManager.BlackMage.AstralStacks == 0
-                && ActionResourceManager.BlackMage.UmbralStacks == 0)
-                return false;
-
-            return await Spells.Enochian.Cast(Core.Me);
-        }
-
         public static async Task<bool> Sharpcast()
         {
             if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
@@ -176,6 +166,22 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Transpose.Cast(Core.Me);
 
             return false;
+        }
+        public static async Task<bool> Amplifier()
+        {
+            if (Core.Me.ClassLevel < Spells.Amplifier.LevelAcquired)
+                return false;
+
+            if (Spells.Amplifier.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (ActionResourceManager.BlackMage.PolyglotCount > 0)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            return await Spells.Amplifier.Cast(Core.Me);
         }
 
     }
