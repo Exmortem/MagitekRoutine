@@ -3,7 +3,17 @@
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
-    
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
     <StackPanel Margin="5">
         <CheckBox Margin="0,0,0,3" Content="Use Cast Or Queue" IsChecked="{Binding Settings.UseCastOrQueue, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="0,0,0,3" Content="CallerMemberName When Casting (Very Spammy)" IsChecked="{Binding Settings.DebugCastingCallerMemberName, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

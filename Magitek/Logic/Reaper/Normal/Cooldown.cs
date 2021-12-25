@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
@@ -21,6 +21,8 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (Spells.Slice.Cooldown > new TimeSpan(Spells.Slice.AdjustedCooldown.Ticks / 2)) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
+            if (ActionResourceManager.Reaper.ShroudGauge > 80)
+                return false;
 
             return await Spells.Gluttony.Cast(Core.Me.CurrentTarget);
         }

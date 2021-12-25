@@ -9,6 +9,15 @@
              d:DesignWidth="500"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
@@ -48,7 +57,7 @@
                                   MinValue="1"
                                   Value="{Binding BardSettings.QuickNockEnemiesInCone, Mode=TwoWay}" />
                 <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In A Cone" />
-        
+
                 <CheckBox Grid.Row="2" Grid.Column="0" Content="Rain Of Death " IsChecked="{Binding BardSettings.UseRainOfDeath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
                 <controls:Numeric Grid.Row="2"
