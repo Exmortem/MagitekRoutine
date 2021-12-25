@@ -12,6 +12,12 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" False="Visible" True="Collapsed" />
     </UserControl.Resources>
 

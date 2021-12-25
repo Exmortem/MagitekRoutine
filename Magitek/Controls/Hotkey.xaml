@@ -9,6 +9,15 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Border Width="130" BorderThickness="0.5" CornerRadius="2">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">

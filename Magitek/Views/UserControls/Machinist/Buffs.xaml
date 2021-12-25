@@ -18,6 +18,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="BuffStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="enums:BuffStrategy" />
