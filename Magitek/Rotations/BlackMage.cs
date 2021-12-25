@@ -29,17 +29,17 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
 
 
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
+            /*if (ActionResourceManager.BlackMage.AstralStacks > 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
             {
                 if (Core.Me.CurrentManaPercent < 70 && Spells.Transpose.Cooldown == TimeSpan.Zero)
                 {
                     return await Spells.Transpose.Cast(Core.Me);
                 }
-            }
+            }*/
 
             //Try to keep stacks outside combat
             if (await Buff.UmbralSoul()) return true;
-            if (await Buff.Transpose()) return true;
+            //if (await Buff.Transpose()) return true;
 
             return false;
         }
