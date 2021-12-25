@@ -1,8 +1,8 @@
 ﻿using ff14bot.Helpers;
+using Magitek.Enumerations;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
-using Magitek.Enumerations;
 
 namespace Magitek.Models.Roles
 {

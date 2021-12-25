@@ -13,9 +13,9 @@ namespace Magitek.Rotations
 {
     public static class Warrior
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -48,9 +48,9 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -71,7 +71,7 @@ namespace Magitek.Rotations
             if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 //Defensive Buff
-                if (await Defensive.Holmgang()) return true; 
+                if (await Defensive.Holmgang()) return true;
                 if (await Buff.Equilibrium()) return true;
                 if (await Defensive.Reprisal()) return true;
                 if (await Defensive.Rampart()) return true;
@@ -85,7 +85,7 @@ namespace Magitek.Rotations
                 if (await Buff.Infuriate()) return true;
 
                 //oGCD
-                if (await Aoe.Orogeny()) return true; 
+                if (await Aoe.Orogeny()) return true;
                 if (await SingleTarget.Upheaval()) return true;
                 if (await SingleTarget.Onslaught()) return true;
             }
@@ -96,7 +96,7 @@ namespace Magitek.Rotations
 
             //Spell to spam inside Inner Release
             if (await Aoe.PrimalRend()) return true;
-            if (await Aoe.Decimate()) return true; 
+            if (await Aoe.Decimate()) return true;
             if (await SingleTarget.FellCleave()) return true;
 
             //Use On CD
@@ -112,9 +112,9 @@ namespace Magitek.Rotations
 
             return await SingleTarget.Tomahawk();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

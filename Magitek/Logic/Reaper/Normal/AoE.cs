@@ -1,12 +1,11 @@
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using ff14bot;
 using ff14bot.Managers;
-using Magitek.Extensions;
-using Magitek.Utilities;
-using System.Threading.Tasks;
 using Magitek.Enumerations;
+using Magitek.Extensions;
 using Magitek.Models.Reaper;
+using Magitek.Utilities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.Reaper
 {
@@ -105,8 +104,8 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> SoulScythe()
         {
             if (!ReaperSettings.Instance.UseSoulScythe) return false;
-            if (!ReaperSettings.Instance.UseSoulSlice 
-                || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount) 
+            if (!ReaperSettings.Instance.UseSoulSlice
+                || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount)
                 return false;
 
             if (ActionResourceManager.Reaper.SoulGauge >= 50) return false;
@@ -164,11 +163,11 @@ namespace Magitek.Logic.Reaper
 
             if (ActionResourceManager.Reaper.ShroudGauge >= 50)
                 return false;
-            
+
             return await Spells.PlentifulHarvest.Cast(Core.Me.CurrentTarget);
         }
 
         #endregion
 
-        }
+    }
 }

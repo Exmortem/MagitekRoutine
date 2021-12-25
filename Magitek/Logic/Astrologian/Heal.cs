@@ -9,7 +9,6 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
@@ -93,7 +92,7 @@ namespace Magitek.Logic.Astrologian
                 if (AstrologianSettings.Instance.NoBeneficIfBenefic2Available)
                     if (Core.Me.ClassLevel >= Spells.Benefic2.LevelAcquired && AstrologianSettings.Instance.Benefic2)
                         return await Spells.Benefic2.Heal(ally);
-            
+
                 return await Spells.Benefic.Heal(ally);
             }
         }
@@ -158,7 +157,7 @@ namespace Magitek.Logic.Astrologian
 
             if (Spells.CelestialIntersection.Cooldown != TimeSpan.Zero)
                 return false;
-            
+
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
@@ -262,7 +261,7 @@ namespace Magitek.Logic.Astrologian
                 return await Spells.CrownPlay.Heal(Core.Me);
 
             if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
-                return false; 
+                return false;
 
             return await Spells.CrownPlay.Heal(Core.Me);
         }
@@ -315,7 +314,7 @@ namespace Magitek.Logic.Astrologian
         }
 
         public static async Task<bool> AspectedHelios()
-        {           
+        {
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
@@ -338,7 +337,7 @@ namespace Magitek.Logic.Astrologian
             return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
         }
 
-        
+
         public static async Task<bool> AspectedBenefic()
         {
             if (!AstrologianSettings.Instance.DiurnalBenefic)
@@ -413,7 +412,7 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
 
-            var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6,0);
+            var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6, 0);
 
             var alliesNeedingRegen = Group.CastableAlliesWithin15.Where(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)
                 && r.CurrentHealth > 0

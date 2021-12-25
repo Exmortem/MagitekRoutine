@@ -1,5 +1,4 @@
 ﻿using ff14bot.Enums;
-using Magitek.Extensions;
 using Magitek.ViewModels;
 using System.Collections.Generic;
 using System.Linq;

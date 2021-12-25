@@ -56,7 +56,7 @@ namespace Magitek.Logic.WhiteMage
 
             if (Core.Me.CurrentTarget == null)
                 return false;
-            
+
             if (Core.Me.ClassLevel >= 72 && !Core.Me.CurrentTarget.HasAura(Auras.Dia, true, 6000))
                 return false;
 

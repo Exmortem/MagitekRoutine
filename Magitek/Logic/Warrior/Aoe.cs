@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
@@ -15,7 +14,7 @@ namespace Magitek.Logic.Warrior
         public static async Task<bool> ChaoticCyclone()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.ChaoticCyclone))
-                return false; 
+                return false;
 
             if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;

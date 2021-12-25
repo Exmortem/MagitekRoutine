@@ -124,16 +124,18 @@ namespace Magitek.Extensions
             return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
         }
 
-        public static bool CanCast(this SpellData spell, GameObject target) {
-            
+        public static bool CanCast(this SpellData spell, GameObject target)
+        {
+
             return ActionManager.CanCast(spell, target);
 
         }
 
-        public static bool CanCast(this SpellData spell) {
-            
+        public static bool CanCast(this SpellData spell)
+        {
+
             return CanCast(spell, Core.Me);
-            
+
         }
 
         private static async Task<bool> DoAction(SpellData spell, GameObject target, uint aura = 0, bool needAura = false, bool useRefreshTime = false, int refreshTime = 0)
@@ -228,6 +230,22 @@ namespace Magitek.Extensions
             Debug.Instance.RefreshTime = refreshTime;
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks if a Action/Spell was acquired and is able to be used
+        /// </summary>
+        /// <param name="spell"></param>
+        /// <returns>
+        /// True if Skill-level is below current Character-level and the associated Quest is completed
+        /// and false if Skill-level is above Character-level or the associated Quest isn't completed
+        /// </returns>
+        public static bool HasAcquired(this SpellData spell)
+        {
+            if (Core.Me.ClassLevel < spell.LevelAcquired)
+                return false;
+
+            return spell.UnlockLink == 0 || QuestLogManager.IsQuestCompleted((uint)spell.UnlockLink);
         }
 
         public static uint AdjustedSpellCostBlm(this SpellData spell)

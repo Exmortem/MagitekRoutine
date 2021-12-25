@@ -147,9 +147,9 @@ namespace Magitek.Logic.WhiteMage
                 List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 6).ToList();
                 int nearbyTargets = nearby.Count(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent);
                 long totalHealthDown = nearby.Sum(r => r.MaxHealth - r.CurrentHealth);
-                if (   nearbyTargets >= WhiteMageSettings.Instance.Cure3Allies
-                    && (   nearbyTargets > bestTargetCount
-                        || (   nearbyTargets == bestTargetCount
+                if (nearbyTargets >= WhiteMageSettings.Instance.Cure3Allies
+                    && (nearbyTargets > bestTargetCount
+                        || (nearbyTargets == bestTargetCount
                             && totalHealthDown > mostHealthDown)))
                 {
                     bestTargetCount = nearbyTargets;
@@ -280,28 +280,28 @@ namespace Magitek.Logic.WhiteMage
 
         //public static async Task<bool> AssizeHeal()
         //{
-           // if (!WhiteMageSettings.Instance.Assize)
-                //return false;
+        // if (!WhiteMageSettings.Instance.Assize)
+        //return false;
 
-           // if (!Core.Me.InCombat)
-              //  return false;
+        // if (!Core.Me.InCombat)
+        //  return false;
 
-           // if (Casting.LastSpell == Spells.Medica)
-              //  return false;
+        // if (Casting.LastSpell == Spells.Medica)
+        //  return false;
 
-           // if (Casting.LastSpell == Spells.Medica2)
-             //   return false;
+        // if (Casting.LastSpell == Spells.Medica2)
+        //   return false;
 
-           // if (Casting.LastSpell == Spells.AfflatusRapture)
-            //    return false;
+        // if (Casting.LastSpell == Spells.AfflatusRapture)
+        //    return false;
 
-           // var assizeCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AssizeHealthPercent);
+        // var assizeCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AssizeHealthPercent);
 
-           // if (assizeCount < WhiteMageSettings.Instance.AssizeAllies)
-             //   return false;
+        // if (assizeCount < WhiteMageSettings.Instance.AssizeAllies)
+        //   return false;
 
-           // return await Spells.Assize.Heal(Core.Me, false);
-      //  }
+        // return await Spells.Assize.Heal(Core.Me, false);
+        //  }
 
         public static async Task<bool> Asylum()
         {

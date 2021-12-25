@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Magitek.Utilities.Routines
+﻿namespace Magitek.Utilities.Routines
 {
     internal static class Dancer
     {

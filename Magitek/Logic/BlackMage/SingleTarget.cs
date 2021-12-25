@@ -1,12 +1,11 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.BlackMage;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
-using Magitek.Models.BlackMage;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -42,7 +41,7 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder3)
             {
                 //We don't have max mana
-                if (Core.Me.CurrentMana < 10000 && Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 5000))   
+                if (Core.Me.CurrentMana < 10000 && Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 5000))
                     return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
             }
             return false;
@@ -81,12 +80,12 @@ namespace Magitek.Logic.BlackMage
                     return false;
 
                 //If UmbralStacks was == 1 then it would cast fire and leave us with 0 stacks
-                if (ActionResourceManager.BlackMage.UmbralStacks < 1 )
+                if (ActionResourceManager.BlackMage.UmbralStacks < 1)
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
                 return false;
             }
-                
-                
+
+
             if (Core.Me.CurrentMana < 1600)
                 return false;
             //Low level logic w/firestarter
@@ -239,7 +238,7 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500) 
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500)
                 && Casting.LastSpell != Spells.Thunder3)
                 await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 

@@ -113,7 +113,7 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseBuffedRookQueen { get; set; }
-        
+
         [Setting]
         [DefaultValue(10)]
         public int UseRookQueenWithAtLeastXBonusDamage { get; set; }

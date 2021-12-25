@@ -1,10 +1,8 @@
 using ff14bot;
 using ff14bot.Managers;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
@@ -21,8 +19,8 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> LightningShot()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.LightningShotToPullAggro, Spells.LightningShot))
-                return false; 
- 
+                return false;
+
             if (!Core.Me.HasAura(Auras.RoyalGuard))
                 return false;
 
@@ -53,7 +51,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!ActionManager.HasSpell(Spells.KeenEdge.Id))
                 return false;
-            
+
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
@@ -66,8 +64,8 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!GunbreakerRoutine.CanContinueComboAfter(Spells.KeenEdge))
-                return false; 
-            
+                return false;
+
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
@@ -102,7 +100,7 @@ namespace Magitek.Logic.Gunbreaker
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
-            
+
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
@@ -121,7 +119,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
-                return false; 
+                return false;
 
             return await Spells.SavageClaw.Cast(Core.Me.CurrentTarget);
         }
@@ -130,7 +128,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!ActionManager.HasSpell(Spells.WickedTalon.Id))
                 return false;
-            
+
             if (SecondaryComboStage != 2)
                 return false;
 
@@ -202,7 +200,7 @@ namespace Magitek.Logic.Gunbreaker
             //Delay if nomercy ready soon
             if (Spells.IsReadySoon(Spells.NoMercy, 1500))
                 return false;
-            
+
             //Delay if GnashingFang ready soon
             if (Spells.IsReadySoon(Spells.GnashingFang, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
@@ -213,7 +211,7 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Spells.IsReadySoon(Spells.Bloodfest, 4000) && Cartridge > 0)
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
-            
+
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
         }
 
@@ -251,7 +249,7 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> RoughDivide() //Dash
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseRoughDivide, Spells.RoughDivide))
-                return false; 
+                return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
                 return false;

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Magitek.Utilities
 {
@@ -61,7 +58,7 @@ namespace Magitek.Utilities
         public static void ManualAdditions()
         {
 
-            
+
 
         }
 
@@ -79,7 +76,7 @@ namespace Magitek.Utilities
 
             if (Casting.SpellCastHistory.Count < 2)
                 return 0;
-            
+
             if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
                 .Contains(Casting.SpellCastHistory.ElementAt(0).Spell))
                 weavingCounter += 1;
@@ -89,7 +86,7 @@ namespace Magitek.Utilities
             if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
                 .Contains(Casting.SpellCastHistory.ElementAt(1).Spell))
                 weavingCounter += 1;
-            
+
             return weavingCounter;
         }
     }

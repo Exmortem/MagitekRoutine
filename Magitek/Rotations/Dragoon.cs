@@ -18,9 +18,10 @@ namespace Magitek.Rotations
     {
         private static readonly Stopwatch JumpGcdTimer = new Stopwatch();
 
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < DragoonSettings.Instance.RestHealthPercent;
+            var needRest = Core.Me.CurrentHealthPercent < DragoonSettings.Instance.RestHealthPercent;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -68,9 +69,9 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
             return false;
         }
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
         public static async Task<bool> Combat()
         {
@@ -223,9 +224,9 @@ namespace Magitek.Rotations
             if (await SingleTarget.VorpalThrust()) return true;
             return await SingleTarget.TrueThrust();
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

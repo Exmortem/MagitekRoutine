@@ -75,7 +75,7 @@ namespace Magitek.Logic.WhiteMage
             {
                 if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.PresenceOfMindHealthPercent)
                     return false;
-                
+
 
                 return await Spells.PresenceofMind.Cast(Core.Me);
             }

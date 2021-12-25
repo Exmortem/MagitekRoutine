@@ -2,7 +2,6 @@
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
@@ -36,7 +35,7 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!GunbreakerRoutine.CanContinueComboAfter(Spells.DemonSlice))
-                return false; 
+                return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
@@ -53,21 +52,21 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> FatedCircle()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.FatedCircle))
-                return false; 
-            
+                return false;
+
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForFatedCircle)
                 return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
-            
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
             if (Spells.IsReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2 
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2
                 && Spells.IsReadySoon(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
@@ -88,10 +87,11 @@ namespace Magitek.Logic.Gunbreaker
                     return false;
 
                 //apply DOT on single target if SonicBreak is not ready and SonicBreak Aura not on target
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1 
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1
                     && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.IsReadySoon(Spells.SonicBreak, 15000)))
                     return false;
-            } else
+            }
+            else
             {
                 if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1)
                     return false;
@@ -106,8 +106,8 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
-                return false; 
-            
+                return false;
+
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -67,7 +67,7 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Thunder3
-                || Core.Me.HasAura(Auras.Triplecast)) 
+                || Core.Me.HasAura(Auras.Triplecast))
                 return await Spells.Sharpcast.Cast(Core.Me);
 
             return false;
@@ -99,7 +99,7 @@ namespace Magitek.Logic.BlackMage
 
             // Do not Ley Lines if we don't have any umbral hearts (roundabout check to see if we're at the begining of astral)
             if (Casting.LastSpell == Spells.Fire3
-                && ActionResourceManager.BlackMage.UmbralHearts == 3 
+                && ActionResourceManager.BlackMage.UmbralHearts == 3
                 || Core.Me.HasAura(Auras.Triplecast))
                 // Fire 3 is always used at the start of Astral
                 return await Spells.LeyLines.Cast(Core.Me);
@@ -107,7 +107,7 @@ namespace Magitek.Logic.BlackMage
             // Fire3 caused this to go off at the beginning of astral anyway
             //if (Casting.LastSpell == Spells.Blizzard3)// Thunder3 only opens up the GCD if it is using Thundercloud || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy)
             //return await Spells.LeyLines.Cast(Core.Me);
-            
+
             return false;
         }
 
@@ -171,7 +171,7 @@ namespace Magitek.Logic.BlackMage
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
-            if (!Core.Me.InCombat 
+            if (!Core.Me.InCombat
                 && ActionResourceManager.BlackMage.AstralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 

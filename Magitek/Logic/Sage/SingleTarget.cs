@@ -42,21 +42,28 @@ namespace Magitek.Logic.Sage
                     return;
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
                     return;
-                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, Core.Me.CurrentTarget));
+                //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, Core.Me.CurrentTarget));
             }
-            return false;
+            return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> DotMultipleTargets()
         {
             if (!SageSettings.Instance.EukrasianDosis)
                 return false;
-            
+
             if (!SageSettings.Instance.DotMultipleTargets)
                 return false;
+
             var DotTarget = Combat.Enemies.FirstOrDefault(NeedsDot);
+
             if (DotTarget == null)
                 return false;
+
+            if (DotTarget == Core.Me.CurrentTarget)
+                return false;
+            
             await UseEukrasia();
+
             async Task UseEukrasia()
             {
                 if (!SageSettings.Instance.Eukrasia)
@@ -65,9 +72,10 @@ namespace Magitek.Logic.Sage
                     return;
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
                     return;
-                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, DotTarget));
+                //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, DotTarget));
             }
-            return false;
+            return await Spells.EukrasianDosis.Cast(DotTarget);
+            //return false;
             bool NeedsDot(BattleCharacter unit)
             {
                 if (!CanDot(unit))
@@ -88,5 +96,5 @@ namespace Magitek.Logic.Sage
             Auras.EukrasianDosisIII
         };
     }
-    
+
 }

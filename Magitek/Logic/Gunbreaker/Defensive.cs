@@ -1,5 +1,4 @@
 using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
@@ -77,7 +76,7 @@ namespace Magitek.Logic.Gunbreaker
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseCamouflage, Spells.Camouflage))
                 return false;
-            
+
             if (!UseDefensives())
                 return false;
 
@@ -118,7 +117,7 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> HeartofCorundum()
         {
             if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseHeartofCorundum, Spells.HeartOfCorundum))
-                return false; 
+                return false;
 
             if (!UseDefensives())
                 return false;
