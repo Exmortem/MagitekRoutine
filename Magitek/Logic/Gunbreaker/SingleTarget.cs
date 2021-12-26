@@ -104,7 +104,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
-            if (Spells.IsReadySoon(Spells.NoMercy, 10000))
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 10000))
                 return false;
 
             return await Spells.GnashingFang.Cast(Core.Me.CurrentTarget);
@@ -193,23 +193,23 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
             {
-                if (Spells.IsReadySoon(Spells.DoubleDown, 0) || Spells.IsReadySoon(Spells.GnashingFang, 0))
+                if (Spells.IsAvailableAndReady(Spells.DoubleDown) || Spells.IsAvailableAndReady(Spells.GnashingFang))
                     return false;
             }
 
             //Delay if nomercy ready soon
-            if (Spells.IsReadySoon(Spells.NoMercy, 1500))
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 1500))
                 return false;
 
             //Delay if GnashingFang ready soon
-            if (Spells.IsReadySoon(Spells.GnashingFang, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.GnashingFang, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             //Delay if DoubleDown ready soon
-            if (Spells.IsReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
-            if (Spells.IsReadySoon(Spells.Bloodfest, 4000) && Cartridge > 0)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Bloodfest, 4000) && Cartridge > 0)
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
 
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);

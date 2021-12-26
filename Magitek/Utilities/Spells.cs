@@ -1,5 +1,6 @@
 using ff14bot.Managers;
 using ff14bot.Objects;
+using System;
 
 namespace Magitek.Utilities
 {
@@ -927,9 +928,14 @@ namespace Magitek.Utilities
         public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
         #endregion
 
-        public static bool IsReadySoon(SpellData Spell, int TimeInMilliseconds)
+        public static bool IsAvailableAndReadyInLessThanXMs(SpellData Spell, int TimeInMilliseconds)
         {
             return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds <= TimeInMilliseconds;
+        }
+
+        public static bool IsAvailableAndReady(SpellData Spell)
+        {
+            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown == TimeSpan.Zero;
         }
     }
 }

@@ -63,11 +63,11 @@ namespace Magitek.Logic.Gunbreaker
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
-            if (Spells.IsReadySoon(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2
-                && Spells.IsReadySoon(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+                && Spells.IsAvailableAndReadyInLessThanXMs(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             return await Spells.FatedCircle.Cast(Core.Me.CurrentTarget);
@@ -88,7 +88,7 @@ namespace Magitek.Logic.Gunbreaker
 
                 //apply DOT on single target if SonicBreak is not ready and SonicBreak Aura not on target
                 if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1
-                    && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.IsReadySoon(Spells.SonicBreak, 15000)))
+                    && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.IsAvailableAndReadyInLessThanXMs(Spells.SonicBreak, 15000)))
                     return false;
             }
             else

@@ -64,6 +64,28 @@ namespace Magitek.Utilities.Routines
                                                     ? Spells.SpreadShot
                                                     : Spells.Scattergun;
 
+        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
+        {
+            if (!Toggle)
+                return false;
+
+            if (!ActionManager.HasSpell(Spell.Id))
+                return false;
+
+            return true;
+        }
+
+        public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
+        {
+            if (ActionManager.ComboTimeLeft <= 0)
+                return false;
+
+            if (ActionManager.LastSpell.Id != LastSpellExecuted.Id)
+                return false;
+
+            return true;
+        }
+
         public static bool CheckCurrentDamageIncrease(int neededDmgIncrease)
         {
             double dmgIncrease = 1;
