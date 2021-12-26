@@ -83,6 +83,12 @@ namespace Magitek.Logic.Gunbreaker
             if (!Core.Me.HasAura(Auras.NoMercy))
                 return false;
 
+            if (GunbreakerRoutine.IsAurasForComboActive())
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 1)
+                return false;
+
             return await Spells.BowShock.Cast(Core.Me.CurrentTarget);
         }
 

@@ -198,7 +198,9 @@ namespace Magitek.Logic.Gunbreaker
             }
 
             //Delay if nomercy ready soon
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 1500))
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 14000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
+                return false;
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 7000) && Cartridge < GunbreakerRoutine.MaxCartridge)
                 return false;
 
             //Delay if GnashingFang ready soon
@@ -209,7 +211,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Bloodfest, 4000) && Cartridge > 0)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Bloodfest, 2000) && Cartridge > 0)
                 return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
 
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
@@ -242,6 +244,9 @@ namespace Magitek.Logic.Gunbreaker
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
 
+            if (GunbreakerRoutine.IsAurasForComboActive())
+                return false;
+
             return await GunbreakerRoutine.BlastingZone.Cast(Core.Me.CurrentTarget);
         }
 
@@ -252,6 +257,9 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
+                return false;
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
