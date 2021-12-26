@@ -82,6 +82,7 @@ namespace Magitek.Rotations
             if (await Dispel.Execute()) return true;
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.Kardia()) return true;
+            if (await Buff.Kerachole()) return true;
             if (await Buff.Soteria()) return true;
             if (await Buff.Rhizomata()) return true;
             if (await Buff.Holos()) return true;
