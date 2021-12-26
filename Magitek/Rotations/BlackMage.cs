@@ -29,17 +29,17 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
 
 
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
+            /*if (ActionResourceManager.BlackMage.AstralStacks > 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
             {
                 if (Core.Me.CurrentManaPercent < 70 && Spells.Transpose.Cooldown == TimeSpan.Zero)
                 {
                     return await Spells.Transpose.Cast(Core.Me);
                 }
-            }
+            }*/
 
             //Try to keep stacks outside combat
             if (await Buff.UmbralSoul()) return true;
-            if (await Buff.Transpose()) return true;
+            //if (await Buff.Transpose()) return true;
 
             return false;
         }
@@ -103,12 +103,13 @@ namespace Magitek.Rotations
 
             //DON'T CHANGE THE ORDER OF THESE
             //if (await Buff.Enochian()) return true;
+            if (await Buff.Amplifier()) return true;
             if (await Buff.Triplecast()) return true;
             if (await Buff.Sharpcast()) return true;
             if (await Buff.ManaFont()) return true;
             if (await Buff.LeyLines()) return true;
             if (await Buff.UmbralSoul()) return true;
-            if (await Buff.Transpose()) return true;
+            //if (await Buff.Transpose()) return true;
 
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
 

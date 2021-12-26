@@ -289,7 +289,8 @@ namespace Magitek.Utilities
             ShakeItOff = 1993,
             ReadytoBlast = 2686,
             SonicBreak = 1837,
-            BowShock = 1838
+            BowShock = 1838,
+            DraconianFire = 1863
             ;
 
         private const int
