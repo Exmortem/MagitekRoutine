@@ -70,24 +70,24 @@ namespace Magitek.Utilities.Managers
 
         }
 
-        public static bool CanWeave(SpellData spell, int maxOGCDCount = 2)
+        public static bool CanWeave(SpellData spell, int maxWeaveCount = 2)
         {
-            //700 MS = typical animation lock
+            //700 MS = typical animation lock, with Alexander triple weave should be possible
             if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            if (Casting.SpellCastHistory.Count < maxOGCDCount)
+            if (Casting.SpellCastHistory.Count < maxWeaveCount)
                 return true;
 
             int weavingCounter = 0;
 
-            for (int i = 0; i < maxOGCDCount; i++)
+            for (int i = 0; i < maxWeaveCount; i++)
                 if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
                     weavingCounter += 1;
                 else
                     break;
 
-            return weavingCounter < maxOGCDCount;
+            return weavingCounter < maxWeaveCount;
         }
     }
 }
