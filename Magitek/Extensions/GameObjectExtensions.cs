@@ -346,7 +346,7 @@ namespace Magitek.Extensions
             return target.RadiansFromPlayerHeading() < 0.78539f; //This is Pi/4 radians, or 45 degrees left or right
         }
 
-        public static bool InCustomCone(this GameObject target, float angle)
+        public static bool InCustomRadiantCone(this GameObject target, float angle)
         {
             if (target == null)
                 return false;
@@ -357,7 +357,7 @@ namespace Magitek.Extensions
             return target.RadiansFromPlayerHeading() < angle; 
         }
 
-        public static bool InCustomCone(this GameObject target, int angle)
+        public static bool InCustomDegreeCone(this GameObject target, int angle)
         {
             if (target == null)
                 return false;
