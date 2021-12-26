@@ -71,7 +71,12 @@ namespace Magitek.Extensions
             if (!TbRef.Contains(target.TargetCharacter.CastingSpellId)) 
                 return false;
             
-            Logger.WriteInfo("TankBuster Detected!!");
+            Logger.WriteInfo("TankBuster Detected!! \n Unit: {0} \n Targeting: {1} ({2}) \n Casting {3} ({4})",
+                target.EnglishName,
+                target.TargetCharacter.Name,
+                target.CurrentJob,
+                target.SpellCastInfo.Name,
+                target.CastingSpellId);
             return true;
 
         }
@@ -81,7 +86,12 @@ namespace Magitek.Extensions
         private static void CheckAndPopulateTbRef()
         {
             if (TbRef.Any())
+            {
+                Logger.WriteInfo("TankBuster List Already Populated {0}. Example: {1}",
+                    TbRef.Count(),
+                    TbRef.FirstOrDefault());
                 return;
+            }
 
             var tblist = typeof(TankBusters)
             .GetFields(BindingFlags.Public & BindingFlags.Static)

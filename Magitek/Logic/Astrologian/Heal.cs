@@ -9,13 +9,12 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
 {
-    public class Heal
+    public static class Heal
     {
         public static async Task<bool> Benefic()
         {
@@ -441,8 +440,6 @@ namespace Magitek.Logic.Astrologian
 
             var heliosInsteadThreshold = PartyManager.NumMembers == 4 ? 2 : 3;
             
-            var heliosInsteadThreshold = Math.Round(Group.AllianceMembers.Count() * .6,0);
-
             var alliesNeedingRegen = Group.CastableAlliesWithin15.Where(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)
                 && r.CurrentHealth > 0
                 && !r.HasAura(Auras.AspectedBenefic)
@@ -450,7 +447,7 @@ namespace Magitek.Logic.Astrologian
                 && !r.HasMyRegen()
                 && r.CurrentHealthPercent <= AstrologianSettings.Instance.DiurnalBeneficHealthPercent).ToList();
 
-            if (alliesNeedingRegen.Count() < heliosInsteadThreshold)
+            if (alliesNeedingRegen.Count() <= heliosInsteadThreshold)
                 return false;
 
             return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
