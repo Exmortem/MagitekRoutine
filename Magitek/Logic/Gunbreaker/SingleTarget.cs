@@ -244,6 +244,9 @@ namespace Magitek.Logic.Gunbreaker
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
 
+            if (GunbreakerRoutine.IsAurasForComboActive())
+                return false;
+
             return await GunbreakerRoutine.BlastingZone.Cast(Core.Me.CurrentTarget);
         }
 
@@ -254,6 +257,9 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
+                return false;
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
