@@ -51,7 +51,10 @@ namespace Magitek.Logic.Gunbreaker
          * ***********************************************************************************/
         public static async Task<bool> FatedCircle()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.FatedCircle))
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseFatedCircle, Spells.FatedCircle))
+                return false;
+
+            if (!GunbreakerSettings.Instance.UseAoe)
                 return false;
 
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForFatedCircle)
@@ -59,15 +62,11 @@ namespace Magitek.Logic.Gunbreaker
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
-
+            
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
             if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) <= 2
-                && Spells.IsAvailableAndReadyInLessThanXMs(Spells.GnashingFang, 3500) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             return await Spells.FatedCircle.Cast(Core.Me.CurrentTarget);
@@ -78,24 +77,11 @@ namespace Magitek.Logic.Gunbreaker
          * ***********************************************************************************/
         public static async Task<bool> BowShock()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.BowShock))
+            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBowShock, Spells.BowShock))
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
-            {
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 1)
-                    return false;
-
-                //apply DOT on single target if SonicBreak is not ready and SonicBreak Aura not on target
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1
-                    && (Core.Me.CurrentTarget.HasAura(Auras.SonicBreak, true) || Spells.IsAvailableAndReadyInLessThanXMs(Spells.SonicBreak, 15000)))
-                    return false;
-            }
-            else
-            {
-                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) == 1)
-                    return false;
-            }
+                return false;
 
             return await Spells.BowShock.Cast(Core.Me.CurrentTarget);
         }
