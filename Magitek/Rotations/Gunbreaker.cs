@@ -87,11 +87,6 @@ namespace Magitek.Rotations
                 if (await Defensive.HeartofLight()) return true;
                 if (await Defensive.HeartofCorundum()) return true;
 
-                //oGCD
-                if (await SingleTarget.RoughDivide()) return true;
-                if (await SingleTarget.BlastingZone()) return true;
-                if (await Aoe.BowShock()) return true;
-
                 //oGCD to use with BurstStrike
                 if (await SingleTarget.Hypervelocity()) return true;
 
@@ -100,9 +95,14 @@ namespace Magitek.Rotations
                 if (await SingleTarget.AbdomenTear()) return true;
                 if (await SingleTarget.JugularRip()) return true;
 
-                //Cooldowns - Buffs
+                //oGCD - Buffs
                 if (await Buff.NoMercy()) return true;
                 if (await Buff.Bloodfest()) return true;
+
+                //oGCD - Damage
+                if (await SingleTarget.RoughDivide()) return true;
+                if (await SingleTarget.BlastingZone()) return true;
+                if (await Aoe.BowShock()) return true;
             }
 
             //Pull or get back aggro with LightningShot
