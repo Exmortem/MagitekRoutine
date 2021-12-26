@@ -294,6 +294,17 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
+                // If the lowest heal target is higher than Haima health, check to see if the user wants us to Haima the tank
+                if (SageSettings.Instance.HaimaTankForBuff && Globals.HealTarget?.CurrentHealthPercent > SageSettings.Instance.HaimaHpPercent)
+                {
+                    // Pick any tank who needs healing
+                    var tankHaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsTank());
+
+                    if (tankHaimaTarget == null)
+                        return false;
+
+                    return await Spells.Haima.Heal(tankHaimaTarget);
+                }
                 var HaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent);
 
                 if (HaimaTarget != null)
@@ -328,7 +339,31 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PanhaimaHpPercent)
                 return false;
 
+            if (Globals.InParty)
+            {
+                var CanPanhaimaTargets = Group.CastableAlliesWithin30.Where(CanPanhaima).ToList();
+
+                if (CanPanhaimaTargets.Count < SageSettings.Instance.PanhaimaNeedHealing)
+                    return false;
+
+                if (SageSettings.Instance.PanhaimaOnlyWithTank && !CanPanhaimaTargets.Any(r => r.IsTank()))
+                    return false;
+
+                return await Spells.Panhaima.Cast(Core.Me);
+            }
+
             return await Spells.Panhaima.Cast(Core.Me);
+
+            bool CanPanhaima(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.CurrentHealthPercent > SageSettings.Instance.PanhaimaHpPercent)
+                    return false;
+
+                return unit.Distance(Core.Me) <= 15;
+            }
 
         }
         public static async Task<bool> Egeiro()
