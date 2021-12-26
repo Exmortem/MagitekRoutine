@@ -76,38 +76,23 @@ namespace Magitek.Utilities.Managers
             if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            if (Casting.SpellCastHistory.Count < maxWeaveCount)
-                return true;
-
-            int weavingCounter = 0;
-
-            for (int i = 0; i < maxWeaveCount; i++)
-                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
-                    weavingCounter += 1;
-                else
-                    break;
-
-            return weavingCounter < maxWeaveCount;
+            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            
+            return maxWeaveCount > 0;
         }
 
-        public static bool IsWeaveWindow(SpellData spell, int targetwindow = 1)
+        public static bool IsWeaveWindow(SpellData spell, int targetWindow = 1, bool timeBased = false)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
             if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            if (Casting.SpellCastHistory.Count < targetwindow)
-                return false;
+            targetWindow--;
+            targetWindow -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
-            int weavingCounter = 0;
-
-            for (int i = 0; i < targetwindow; i++)
-                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
-                    weavingCounter += 1;
-                else
-                    break;
-
-            return weavingCounter + 1 == targetwindow;
+            return targetWindow == 0 || timeBased 
+                                         && spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - ( targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
         }
+
     }
 }
