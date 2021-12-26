@@ -140,7 +140,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseUpheaval, Spells.Upheaval))
                 return false;
 
-            if (Spells.Upheaval.Cooldown.TotalMilliseconds > 0)
+            if (!Spells.IsAvailableAndReady(Spells.Upheaval))
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))

@@ -31,7 +31,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Holmgang()
         {
-            if (!WarriorSettings.Instance.UseHolmgang)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseHolmgang, Spells.Holmgang))
                 return false;
 
             if (!UseDefensives())
@@ -45,7 +45,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Reprisal()
         {
-            if (!WarriorSettings.Instance.UseReprisal)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseReprisal, Spells.Reprisal))
                 return false;
 
             if (!UseDefensives())
@@ -59,7 +59,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Rampart()
         {
-            if (!WarriorSettings.Instance.UseRampart)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseRampart, Spells.Rampart))
                 return false;
 
             if (!UseDefensives())
@@ -73,7 +73,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Vengeance()
         {
-            if (!WarriorSettings.Instance.UseVengeance)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseVengeance, Spells.Vengeance))
                 return false;
 
             if (!UseDefensives())
@@ -87,7 +87,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> ShakeItOff()
         {
-            if (!WarriorSettings.Instance.UseShakeItOff)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseShakeItOff, Spells.ShakeItOff))
                 return false;
 
             if (!UseDefensives())
@@ -101,7 +101,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> ThrillOfBattle()
         {
-            if (!WarriorSettings.Instance.UseThrillOfBattle)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseThrillOfBattle, Spells.ThrillofBattle))
                 return false;
 
             if (!UseDefensives())
@@ -115,7 +115,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> BloodWhetting()
         {
-            if (!WarriorSettings.Instance.UseBloodWhetting)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseBloodWhetting, WarriorRoutine.Bloodwhetting))
                 return false;
 
             if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.BloodWhettingHpPercentage)
