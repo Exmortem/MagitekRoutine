@@ -4,8 +4,9 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
 using System.Linq;
+using Magitek.Models.Account;
 
-namespace Magitek.Utilities
+namespace Magitek.Utilities.Managers
 {
     internal static class OGCDManager
     {
@@ -49,8 +50,7 @@ namespace Magitek.Utilities
             OGCDAbilities = DataManager.SpellCache.Values.Where(x => (x.IsPlayerAction
                                                                                 && (x.SpellType == SpellType.Ability /*|| x.SpellType == SpellType.Spell*/)
                                                                                 && x.JobTypes.Any(CombatJobs.Contains))
-                                                                            || (x.SpellType == SpellType.System &&
-                                                                                x.Job == ClassJobType.Adventurer)).ToList();
+                                                                            || (x.SpellType == SpellType.System && x.Job == ClassJobType.Adventurer)).ToList();
             RemoveFalsePositives();
             ManualAdditions();
         }
@@ -70,24 +70,24 @@ namespace Magitek.Utilities
 
         }
 
-        public static int UsedOGCDs()
+        public static bool CanWeave(SpellData spell, int maxOGCDCount = 2)
         {
+            //700 MS = typical animation lock
+            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
+
+            if (Casting.SpellCastHistory.Count < maxOGCDCount)
+                return true;
+
             int weavingCounter = 0;
 
-            if (Casting.SpellCastHistory.Count < 2)
-                return 0;
+            for (int i = 0; i < maxOGCDCount; i++)
+                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
+                    weavingCounter += 1;
+                else
+                    break;
 
-            if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
-                .Contains(Casting.SpellCastHistory.ElementAt(0).Spell))
-                weavingCounter += 1;
-            else
-                return 0;
-
-            if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
-                .Contains(Casting.SpellCastHistory.ElementAt(1).Spell))
-                weavingCounter += 1;
-
-            return weavingCounter;
+            return weavingCounter < maxOGCDCount;
         }
     }
 }

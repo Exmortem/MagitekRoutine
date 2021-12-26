@@ -210,7 +210,7 @@ namespace Magitek.Models.Account
         public CompanionStance ChocoboStance { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
+        [DefaultValue(0)]
         public int UserLatencyOffset { get; set; }
 
         [Setting]
