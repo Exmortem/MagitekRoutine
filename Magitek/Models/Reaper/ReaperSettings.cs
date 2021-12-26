@@ -1,5 +1,4 @@
-﻿using Magitek.Enumerations;
-using Magitek.Models.Roles;
+﻿using Magitek.Models.Roles;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;

@@ -15,15 +15,15 @@ namespace Magitek.Rotations
 {
     public static class Monk
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> PreCombatBuff()
         {
             await Casting.CheckForSuccessfulCast();
-            
+
             if (await Buff.Meditate()) return true;
             //if (await Buff.FormShiftOOC()) return true;
 
@@ -133,9 +133,9 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static void RegisterCombatMessages()

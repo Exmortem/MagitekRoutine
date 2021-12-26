@@ -1,5 +1,4 @@
-﻿using Magitek.Enumerations;
-using Magitek.Models.Roles;
+﻿using Magitek.Models.Roles;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
@@ -98,7 +97,7 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(60.0f)]
         public float KrasisHealthPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Soteria { get; set; }
@@ -231,7 +230,7 @@ namespace Magitek.Models.Sage
         public bool EukrasianDiagnosis { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)] 
+        [DefaultValue(60.0f)]
         public float EukrasianDiagnosisHpPercent { get; set; }
 
         [Setting]

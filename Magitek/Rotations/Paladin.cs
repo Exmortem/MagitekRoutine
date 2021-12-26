@@ -14,9 +14,10 @@ namespace Magitek.Rotations
 {
     public static class Paladin
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < PaladinSettings.Instance.RestHealthPercent;
+            var needRest = Core.Me.CurrentHealthPercent < PaladinSettings.Instance.RestHealthPercent;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -57,9 +58,9 @@ namespace Magitek.Rotations
             return await Logic.Paladin.Heal.Clemency();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         //TODO: We should be using Reprisal in here somewhere
@@ -117,7 +118,10 @@ namespace Magitek.Rotations
                 #region Last Spell RiotBlade
                 if (ActionManager.LastSpell == Spells.RiotBlade)
                 {
-                    if (Core.Me.ClassLevel >= 54 && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000) && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
+                    if (Core.Me.ClassLevel >= 54
+                        && !Core.Me.CurrentTarget.HasAura(Auras.BladeOfValor, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000)
+                        && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, (PaladinSettings.Instance.RefreshGoringBlade) * 1000)
+                        && Core.Me.CurrentTarget.HealthCheck(PaladinSettings.Instance.HealthSetting, PaladinSettings.Instance.HealthSettingPercent))
                     {
                         if (await Spells.GoringBlade.Cast(Core.Me.CurrentTarget)) return true;
                     }
@@ -161,9 +165,9 @@ namespace Magitek.Rotations
                 return false;
             }
         }
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

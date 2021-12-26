@@ -243,11 +243,14 @@ namespace Magitek.Utilities
             LastSpellTarget = SpellTarget;
             Logger.WriteCast($@"Successfully Casted {LastSpell}");
 
-            SpellCastHistory.Insert(0, new SpellCastHistoryItem { Spell = LastSpell,
-                                                                  SpellTarget = SpellTarget,
-                                                                  TimeCastUtc = LastSpellTimeFinishedUtc,
-                                                                  TimeStartedUtc = LastSpellTimeFinishedUtc.Subtract(TimeSpan.FromMilliseconds(CastingTime.ElapsedMilliseconds)),
-                                                                  DelayMs = CastingTime.ElapsedMilliseconds - SpellCastTime.TotalMilliseconds });
+            SpellCastHistory.Insert(0, new SpellCastHistoryItem
+            {
+                Spell = LastSpell,
+                SpellTarget = SpellTarget,
+                TimeCastUtc = LastSpellTimeFinishedUtc,
+                TimeStartedUtc = LastSpellTimeFinishedUtc.Subtract(TimeSpan.FromMilliseconds(CastingTime.ElapsedMilliseconds)),
+                DelayMs = CastingTime.ElapsedMilliseconds - SpellCastTime.TotalMilliseconds
+            });
 
             if (BaseSettings.Instance.DebugSpellCastHistory)
                 Application.Current.Dispatcher.Invoke(delegate { Debug.Instance.SpellCastHistory = new List<SpellCastHistoryItem>(SpellCastHistory); });

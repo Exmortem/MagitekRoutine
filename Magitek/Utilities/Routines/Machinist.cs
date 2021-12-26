@@ -4,8 +4,6 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 
 namespace Magitek.Utilities.Routines
@@ -42,7 +40,7 @@ namespace Magitek.Utilities.Routines
         public static SpellData HeatedSplitShot => Core.Me.ClassLevel < 54
                                                     ? Spells.SplitShot
                                                     : Spells.HeatedSplitShot;
-        public static SpellData HeatedSlugShot => Core.Me.ClassLevel < 60 
+        public static SpellData HeatedSlugShot => Core.Me.ClassLevel < 60
                                                     ? Spells.SlugShot
                                                     : Spells.HeatedSlugShot;
 
@@ -65,6 +63,28 @@ namespace Magitek.Utilities.Routines
         public static SpellData Scattergun => Core.Me.ClassLevel < 82
                                                     ? Spells.SpreadShot
                                                     : Spells.Scattergun;
+
+        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
+        {
+            if (!Toggle)
+                return false;
+
+            if (!ActionManager.HasSpell(Spell.Id))
+                return false;
+
+            return true;
+        }
+
+        public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
+        {
+            if (ActionManager.ComboTimeLeft <= 0)
+                return false;
+
+            if (ActionManager.LastSpell.Id != LastSpellExecuted.Id)
+                return false;
+
+            return true;
+        }
 
         public static bool CheckCurrentDamageIncrease(int neededDmgIncrease)
         {
@@ -114,7 +134,7 @@ namespace Magitek.Utilities.Routines
             if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
                 dmgIncrease *= 1.1;
 
-                //From DRG
+            //From DRG
             if (Core.Me.HasAura(Auras.LeftEye))
                 dmgIncrease *= 1.05;
             if (Core.Me.HasAura(Auras.BattleLitany))

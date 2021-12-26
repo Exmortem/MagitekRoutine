@@ -13,6 +13,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="enums:InterruptStrategy" />
@@ -40,9 +44,7 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Spirits Within When Over " IsChecked="{Binding PaladinSettings.SpiritsWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.SpiritsWithinOnlyAboveHealth, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Content="Spirits Within" IsChecked="{Binding PaladinSettings.SpiritsWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
             </StackPanel>
@@ -105,14 +107,13 @@
                     <CheckBox Content="Holy Spirit" IsChecked="{Binding PaladinSettings.HolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="When Target Is Out Of Melee Range" IsChecked="{Binding PaladinSettings.HolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                <CheckBox Margin="0,3,0,0" Content="Always Holy Spirit When You Have The Requiescat Buff" IsChecked="{Binding PaladinSettings.AlwaysHolySpiritWithBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel>
-            <CheckBox Margin="5" Content="Requiescat" IsChecked="{Binding PaladinSettings.Requiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            <CheckBox Margin="5" Content="HolyCircle AoE" IsChecked="{Binding PaladinSettings.HolyCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="5" Content="Requiescat" IsChecked="{Binding PaladinSettings.Requiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="5" Content="HolyCircle AoE" IsChecked="{Binding PaladinSettings.HolyCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

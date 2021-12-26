@@ -87,6 +87,7 @@ namespace Magitek.Utilities
             Rampart = 1191,
             Sentinel = 74,
             GoringBlade = 725,
+            BladeOfValor = 2721,
             Shadowskin = 740,
             BloodWeapon = 742,
             Grit = 743,
@@ -289,6 +290,7 @@ namespace Magitek.Utilities
             ReadytoBlast = 2686,
             SonicBreak = 1837,
             BowShock = 1838,
+            DraconianFire = 1863,
             Exaltation = 2717,
             CelestialIntersections = 1887;
 

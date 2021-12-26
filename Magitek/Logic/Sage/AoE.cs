@@ -10,7 +10,7 @@ using static ff14bot.Managers.ActionResourceManager.Sage;
 namespace Magitek.Logic.Sage
 {
     internal static class AoE
-    {       
+    {
         public static async Task<bool> Phlegma()
         {
             if (!SageSettings.Instance.AoE)
@@ -42,7 +42,7 @@ namespace Magitek.Logic.Sage
                 return false;
 
             //Prioritize Toxikon over Dyskrasia
-            if (Addersting > 0 
+            if (Addersting > 0
                 && Core.Me.ClassLevel >= Spells.Toxikon.LevelAcquired)
                 return false;
 
@@ -51,7 +51,7 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Dyskrasia.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> Toxikon()
         {
             if (!SageSettings.Instance.AoE)

@@ -70,7 +70,7 @@ namespace Magitek.Utilities.Routines
                 return !Group.CastableAlliesWithin15.All(r => r.HasAura(Auras.Galvanize));
             }
         }*/
-        
+
         public static bool NeedToInterruptCast()
         {
             /*if (Casting.CastingTankBuster)
@@ -81,7 +81,7 @@ namespace Magitek.Utilities.Routines
                 Logger.Error($@"Stopped Cast: Unit Died");
                 return true;
             }
-            
+
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
@@ -95,13 +95,16 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
-            if (ScholarSettings.Instance.StopCastingIfBelowHealthPercent && Globals.InParty) {
+            if (ScholarSettings.Instance.StopCastingIfBelowHealthPercent && Globals.InParty)
+            {
                 if (Casting.CastingSpell == Spells.Broil ||
                     Casting.CastingSpell == Spells.Broil2 ||
                     Casting.CastingSpell == Spells.Broil3 ||
                     Casting.CastingSpell == Spells.Ruin
-                    ) {
-                    if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent && c.IsAlive)) {
+                    )
+                {
+                    if (Group.CastableAlliesWithin30.Any(c => c?.CurrentHealthPercent < ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent && c.IsAlive))
+                    {
                         Logger.Error($@"Stopped Cast: Ally below {ScholarSettings.Instance.DamageOnlyIfAboveHealthPercent}% Health");
                         return true;
                     }

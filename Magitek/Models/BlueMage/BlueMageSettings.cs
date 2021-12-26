@@ -1,4 +1,3 @@
-using ff14bot.Helpers;
 using Magitek.Enumerations;
 using Magitek.Models.Roles;
 using PropertyChanged;

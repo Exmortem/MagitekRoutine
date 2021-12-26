@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ff14bot.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ff14bot.Objects;
 
 namespace Magitek.Utilities
 {
@@ -135,7 +135,7 @@ namespace Magitek.Utilities
         public static void RecordAttemptedStun(BattleCharacter enemy)
         {
             //If we've already seen it before, we know whether it can be stunned, so don't bother doing it again
-            if (   !mUnstunnableEnemyIds.Contains(enemy.NpcId)
+            if (!mUnstunnableEnemyIds.Contains(enemy.NpcId)
                 && !mStunnableEnemyIds.Contains(enemy.NpcId)
                 && !mStunnableEnemies.ContainsKey(enemy)
                 && !mAttemptedStunEnemies.ContainsKey(enemy))
@@ -157,7 +157,7 @@ namespace Magitek.Utilities
             //   need to try to stun again already, or they're immune. Either way, return false
             // - If they're already stunned, return false
             //TODO: Figure out a way to prevent trying to stun immediately after an interrupt
-            if (   !mUnstunnableEnemyIds.Contains(enemy.NpcId)
+            if (!mUnstunnableEnemyIds.Contains(enemy.NpcId)
                 && (!mStunnableEnemies.ContainsKey(enemy) || !mStunnableEnemies[enemy].OnCooldown)
                 && !mAttemptedStunEnemies.ContainsKey(enemy)
                 && !enemy.HasAura(Auras.Stun))

@@ -1,11 +1,11 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Threading.Tasks;
-using ff14bot.Enums;
 
 namespace Magitek.Logic.Summoner
 {
@@ -36,12 +36,12 @@ namespace Magitek.Logic.Summoner
                 {
                     case SummonerPets.None:
                         return false;
-                    case SummonerPets.EmeraldCarbuncle: 
+                    case SummonerPets.EmeraldCarbuncle:
                         return await Spells.Summon.Cast(Core.Me);
                     case SummonerPets.TopazCarbuncle:
                         return await Spells.Summon2.Cast(Core.Me);
                     default:
-                        if(PetManager.ActivePetType != PetType.None)
+                        if (PetManager.ActivePetType != PetType.None)
                             return false;
                         else
                             return await Spells.Summon.Cast(Core.Me);
@@ -63,7 +63,7 @@ namespace Magitek.Logic.Summoner
                         return await Spells.Summon.Cast(Core.Me);
                     return await Spells.Summon3.Cast(Core.Me);
 
-                    
+
                 default:
                     return false;
             }

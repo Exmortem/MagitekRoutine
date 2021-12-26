@@ -79,14 +79,14 @@ namespace Magitek.Logic.Bard
             {
                 if (Core.Me.HasAura(Auras.ShadowBiteReady))
                     return false;
-            } 
+            }
             else
             {
                 //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
                 if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
                     && (Casting.LastSpell == Utilities.Routines.Bard.BurstShot || Casting.LastSpell == Utilities.Routines.Bard.Stormbite || Casting.LastSpell == Utilities.Routines.Bard.CausticBite || Casting.LastSpell == Spells.IronJaws))
                     return false;
-                
+
                 if (Core.Me.HasAura(Auras.StraighterShot))
                     return false;
             }

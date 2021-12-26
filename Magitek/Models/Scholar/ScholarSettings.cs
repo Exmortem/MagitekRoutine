@@ -65,8 +65,8 @@ namespace Magitek.Models.Scholar
         [DefaultValue(true)]
         public bool InterruptHealing { get; set; }
 
-        [Setting] 
-        [DefaultValue(true)] 
+        [Setting]
+        [DefaultValue(true)]
         public bool SwiftcastRes { get; set; }
 
         [Setting]
@@ -247,7 +247,7 @@ namespace Magitek.Models.Scholar
 
         [Setting]
         [DefaultValue(4)]
-        public int  ExpedientNeedHealing { get; set; }
+        public int ExpedientNeedHealing { get; set; }
 
         #endregion
 
@@ -318,7 +318,7 @@ namespace Magitek.Models.Scholar
         [DefaultValue(5)]
         public int BioDontIfEnemyDyingWithinSeconds { get; set; }
 
-        [Setting] 
+        [Setting]
         [DefaultValue(5)]
         public int BioTargetLimit { get; set; }
 

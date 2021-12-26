@@ -1,5 +1,5 @@
-﻿using PropertyChanged;
-using Magitek.Models;
+﻿using Magitek.Models;
+using PropertyChanged;
 using BaseSettingsModel = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.ViewModels

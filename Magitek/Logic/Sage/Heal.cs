@@ -8,8 +8,8 @@ using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 using static ff14bot.Managers.ActionResourceManager.Sage;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Sage
 {
@@ -44,7 +44,7 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Diagnosis.Heal(Core.Me);
         }
-        
+
         public static async Task<bool> EukrasianDiagnosis()
         {
             if (!SageSettings.Instance.EukrasianDiagnosis)
@@ -234,7 +234,7 @@ namespace Magitek.Logic.Sage
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
-                                                                     (!r.HasAura(Auras.EukrasianPrognosis) || !r.HasAura(Auras.EukrasianDiagnosis))) >= SageSettings.Instance.PepsisNeedHealing;
+                                                                     (r.HasAura(Auras.EukrasianPrognosis) || r.HasAura(Auras.EukrasianDiagnosis))) >= SageSettings.Instance.PepsisNeedHealing;
 
             if (!needPepsis)
                 return false;

@@ -9,6 +9,7 @@ using Magitek.Models.Machinist;
 using Magitek.Models.Monk;
 using Magitek.Models.Ninja;
 using Magitek.Models.Paladin;
+using Magitek.Models.Reaper;
 using Magitek.Models.RedMage;
 using Magitek.Models.Samurai;
 using Magitek.Models.Scholar;
@@ -20,8 +21,6 @@ using Magitek.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Magitek.Models.Reaper;
-using Magitek.Rotations;
 using BaseSettings = Magitek.ViewModels.BaseSettings;
 
 namespace Magitek.Views

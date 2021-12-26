@@ -3,10 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Magitek.Controls">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Border>
         <StackPanel Orientation="Horizontal">
-            
-            
+
+
             <TextBlock FontSize="9" 
                        Margin="3,0,2,0"
                        VerticalAlignment="Center"
@@ -17,9 +26,9 @@
                                       AncestorLevel=1,
                                       AncestorType={x:Type local:NumericSmall}}, 
                                       UpdateSourceTrigger=PropertyChanged}" />
-                
+
             <!-- Up/Down Arrows -->
-            
+
             <Border CornerRadius="3" Background="{DynamicResource ComboBoxBackgroundColor}">
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="NumericTextBox"
@@ -33,19 +42,19 @@
                                     AncestorType={x:Type local:NumericSmall}}, 
                                     UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Margin="0,0,5,0" VerticalAlignment="Center">
-                    <Button Margin="0,0,0,1" x:Name="ButtonIncrement"
+                    <StackPanel Margin="0,0,5,0" VerticalAlignment="Center">
+                        <Button Margin="0,0,0,1" x:Name="ButtonIncrement"
                             Style="{DynamicResource ButtonIncrementSmall}"/>
 
-                    <Button Margin="0,1,0,0" x:Name="ButtonDecrement"
+                        <Button Margin="0,1,0,0" x:Name="ButtonDecrement"
                             Style="{DynamicResource ButtonDecrementSmall}"/>
-                </StackPanel>
                     </StackPanel>
+                </StackPanel>
             </Border>
 
-            
-            
-          
+
+
+
             <TextBlock FontSize="9" 
                        Margin="3,0,0,0"
                        Foreground="Gray"

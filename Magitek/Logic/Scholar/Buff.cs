@@ -16,7 +16,8 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Buff
     {
-        public static DateTime SeraphCooldown = DateTime.Now;
+        // To prevent routine recasting fairy when the game nulls the pet during Seraph transition.
+        public static DateTime FairySummonCooldown = DateTime.Now;
 
         public static async Task<bool> SummonPet()
         {
@@ -26,17 +27,10 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.HasAura(Auras.Dissipation))
                 return false;
 
-            if (Casting.LastSpell == Spells.SummonEos)
-                return false;
-
-            if (Casting.LastSpell == Spells.SummonSelene)
-                return false;
-
-            // Prevent routine recasting fairy when the game nulls the pet during Seraph transition.
             if (Casting.LastSpell == Spells.SummonSeraph)
                 return false;
 
-            if (DateTime.Now <= SeraphCooldown)
+            if (DateTime.Now <= FairySummonCooldown)
                 return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
@@ -45,14 +39,20 @@ namespace Magitek.Logic.Scholar
                     return false;
 
                 case ScholarPets.Eos:
-                    if (!await Spells.SummonEos.Cast(Core.Me))
-                        return false;
-                    break;
+                    if (await Spells.SummonEos.Cast(Core.Me))
+                    {
+                        FairySummonCooldown = DateTime.Now.AddSeconds(10);
+                        break;
+                    }
+                    return false;
 
                 case ScholarPets.Selene:
-                    if (!await Spells.SummonSelene.Cast(Core.Me))
-                        return false;
-                    break;
+                    if (await Spells.SummonSelene.Cast(Core.Me))
+                    {
+                        FairySummonCooldown = DateTime.Now.AddSeconds(10);
+                        break;
+                    }
+                    return false;
 
                 default:
                     return false;
@@ -81,14 +81,14 @@ namespace Magitek.Logic.Scholar
                 if (Group.CastableAlliesWithin30.Count(CanSummonSeraph) < ScholarSettings.Instance.SummonSeraphNeedHealing)
                     return false;
 
-                SeraphCooldown = DateTime.Now.AddSeconds(30);
+                FairySummonCooldown = DateTime.Now.AddSeconds(30);
                 return await Spells.SummonSeraph.Cast(Core.Me);
             }
 
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.SummonSeraphHpPercent)
                 return false;
 
-            SeraphCooldown = DateTime.Now.AddSeconds(30);
+            FairySummonCooldown = DateTime.Now.AddSeconds(30);
             return await Spells.SummonSeraph.Cast(Core.Me);
 
             bool CanSummonSeraph(Character unit)
@@ -118,7 +118,8 @@ namespace Magitek.Logic.Scholar
             TogglesManager.ResetToggles();
             return true;
         }
-        public static async Task<bool> EmergencyTactics() {
+        public static async Task<bool> EmergencyTactics()
+        {
             if (!ScholarSettings.Instance.EmergencyTactics)
                 return false;
 
@@ -150,7 +151,7 @@ namespace Magitek.Logic.Scholar
                 Logger.Error("Aetherflow on cooldown");
                 return false;
             }
-                
+
             //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
             //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
             //        return true;
@@ -167,9 +168,9 @@ namespace Magitek.Logic.Scholar
             if (Spells.DeploymentTactics.Cooldown.TotalMilliseconds > 1500)
                 return false;
             // Find someone who has the right amount of allies around them based on the users settings
-            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => 
-                r.HasAura(Auras.Galvanize) 
-                && r.HasAura(Auras.Catalyze) 
+            var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
+                r.HasAura(Auras.Galvanize)
+                && r.HasAura(Auras.Catalyze)
                 && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)

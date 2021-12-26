@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using System;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Utilities;
 using Magitek.Models.BlueMage;
+using Magitek.Utilities;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.BlueMage
 {
@@ -13,8 +12,8 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> OffGuard()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (Core.Me.CurrentTarget.HasAura(Auras.OffGuard))
                 return false;
 
@@ -27,8 +26,8 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> PeculiarLight()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (Core.Me.CurrentTarget.HasAura(Auras.PeculiarLight))
                 return false;
 
@@ -38,8 +37,8 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> Whistle()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (Core.Me.HasAura(Auras.Boost))
                 return false;
 
@@ -64,8 +63,8 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> Bristle()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (Core.Me.HasAura(Auras.Boost))
                 return false;
 
@@ -81,7 +80,7 @@ namespace Magitek.Logic.BlueMage
             if (Spells.TripleTrident.Cooldown.TotalMilliseconds < 3000)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.Bleeding, true, 6000) && Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds >= 2500 
+            if (Core.Me.CurrentTarget.HasAura(Auras.Bleeding, true, 6000) && Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds >= 2500
                 && Spells.MatraMagic.Cooldown.TotalMilliseconds >= 2500 && Spells.JKick.Cooldown.TotalMilliseconds >= 2500)
                 return false;
 
@@ -92,7 +91,7 @@ namespace Magitek.Logic.BlueMage
         {
             if (!ActionManager.HasSpell(Spells.MoonFlute.Id))
                 return false;
-            
+
             if (!BlueMageSettings.Instance.UseMoonFlute)
                 return false;
 
@@ -127,14 +126,14 @@ namespace Magitek.Logic.BlueMage
         public static async Task<bool> Swiftcast()
         {
             if (Utilities.Routines.BlueMage.IsSurpanakhaInProgress)
-                return false; 
-            
+                return false;
+
             if (BlueMageSettings.Instance.UseMoonFlute && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
-            if (Spells.MatraMagic.Cooldown.TotalMilliseconds > 1000 
+            if (Spells.MatraMagic.Cooldown.TotalMilliseconds > 1000
                 && Spells.TheRoseOfDestruction.Cooldown.TotalMilliseconds > 1000
-                && Spells.TripleTrident.Cooldown.TotalMilliseconds > 1000 
+                && Spells.TripleTrident.Cooldown.TotalMilliseconds > 1000
                 && Spells.AngelWhisper.Cooldown.TotalMilliseconds > 1000)
                 return false;
 

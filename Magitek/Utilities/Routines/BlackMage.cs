@@ -38,11 +38,11 @@ namespace Magitek.Utilities.Routines
             }
             return false;
         }
-        
+
         public static readonly uint Ether = 4555;
         public static readonly uint HiEther = 4556;
         public static readonly uint XEther = 4558;
-        public static readonly uint MegaEther = 13638;        
+        public static readonly uint MegaEther = 13638;
         public static readonly uint SuperEther = 23168;
     }
 }

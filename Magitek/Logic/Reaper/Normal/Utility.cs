@@ -1,9 +1,9 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using System.Threading.Tasks;
-using Magitek.Models.Reaper;
 
 namespace Magitek.Logic.Reaper
 {
@@ -21,7 +21,8 @@ namespace Magitek.Logic.Reaper
             {
                 if (!Core.Me.HasAura(Auras.SoulReaver))
                     return false;
-            } else
+            }
+            else
             {
                 if (ActionResourceManager.Reaper.SoulGauge < 40)
                     return false;

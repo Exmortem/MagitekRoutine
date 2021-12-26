@@ -6,15 +6,15 @@ using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
+using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist
 {
     internal static class MultiTarget
     {
-        public static async Task<bool> SpreadShot()
+        public static async Task<bool> Scattergun()
         {
-            if (!MachinistSettings.Instance.UseSpreadShot)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, Spells.Scattergun))
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -26,12 +26,12 @@ namespace Magitek.Logic.Machinist
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
                 return false;
 
-            return await MachinistGlobals.Scattergun.Cast(Core.Me.CurrentTarget);
+            return await MachinistRoutine.Scattergun.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> BioBlaster()
         {
-            if (!MachinistSettings.Instance.UseBioBlaster)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseBioBlaster, Spells.Bioblaster))
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AutoCrossbow()
         {
-            if (!MachinistSettings.Instance.UseAutoCrossbow)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseAutoCrossbow, Spells.AutoCrossbow))
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -64,13 +64,19 @@ namespace Magitek.Logic.Machinist
         }
         public static async Task<bool> Flamethrower()
         {
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseFlamethrower, Spells.Flamethrower))
+                return false;
+
+            if (!MachinistSettings.Instance.UseAoe)
+                return false;
+
             if (ActionResourceManager.Machinist.Heat >= 50)
                 return false;
 
-            if (Spells.Wildfire.Cooldown.Seconds < 11)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 11000))
                 return false;
 
-            if (Spells.Reassemble.Cooldown.Seconds < 11)
+            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Reassemble, 11000))
                 return false;
 
             if (MovementManager.IsMoving)
@@ -82,33 +88,32 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.EnemiesInCone(8) < MachinistSettings.Instance.FlamethrowerEnemyCount
-                || !MachinistSettings.Instance.UseFlamethrower || !MachinistSettings.Instance.UseAoe)
+            if (Core.Me.EnemiesInCone(8) < MachinistSettings.Instance.FlamethrowerEnemyCount)
                 return false;
 
             return await Spells.Flamethrower.CastAura(Core.Me, Auras.Flamethrower);
         }
         public static async Task<bool> Ricochet()
         {
-            if (!MachinistSettings.Instance.UseRicochet)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseRicochet, Spells.Ricochet))
                 return false;
 
-            if (!MachinistGlobals.IsInWeaveingWindow)
+            if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;
 
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Spells.Wildfire.Cooldown == TimeSpan.Zero && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.Ricochet.Charges < 1.5f)
+            if (Spells.IsAvailableAndReady(Spells.Wildfire) && Spells.IsAvailableAndReady(Spells.Hypercharge) && Spells.Ricochet.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.Ricochet.Charges < 1.5f && Spells.Wildfire.Cooldown.Seconds < 2)
+                if (Spells.Ricochet.Charges < 1.5f && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 2000))
                     return false;
 
                 // Do not run Rico if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero)
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.IsAvailableAndReady(Spells.Hypercharge))
                 {
                     if (Spells.Ricochet.Charges < 1.5f && Spells.GaussRound.Charges < 0.5f)
                         return false;
@@ -120,10 +125,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> ChainSaw()
         {
-            if (!MachinistSettings.Instance.UseChainSaw)
-                return false;
-
-            if (Core.Me.ClassLevel < 90)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseChainSaw, Spells.ChainSaw))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -137,6 +139,5 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
         }
-
     }
 }

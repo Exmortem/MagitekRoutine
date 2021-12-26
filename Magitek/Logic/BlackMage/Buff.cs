@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace Magitek.Logic.BlackMage
 {
@@ -18,40 +18,32 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
-            if (Spells.Triplecast.Cooldown != TimeSpan.Zero)
+            // Add check for charges with new update
+            if (Spells.Triplecast.Cooldown != TimeSpan.Zero
+                && Spells.Triplecast.Charges == 0)
                 return false;
 
-            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3 || Casting.LastSpell == Spells.Blizzard3)
+            // Check to see if triplecast is already up
+            if (Core.Me.HasAura(Auras.Triplecast))
+                return false;
+
+            // Do not use in Umbral
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return false;
+
+            // Why cast after bliz 3? Should only be used in AF
+            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
+            // Add new condition for AoE rotation
+            if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.HighFireII)
+                return await Spells.Triplecast.Cast(Core.Me);
+
             return false;
         }
-
-        public static async Task<bool> Enochian()
-        {
-            //First, check if we can even cast Enochian
-            if (Core.Me.ClassLevel < Spells.Enochian.LevelAcquired)
-                return false;
-
-            //Then, if we have it, we don't need to cast it again
-            if (Core.Me.HasEnochian())
-                return false;
-
-            //Obviously we can't use it if it's on cooldown
-            if (Spells.Enochian.Cooldown != TimeSpan.Zero)
-                return false;
-
-            //Enochian requires at least one Astral or Umbral stack
-            if (ActionResourceManager.BlackMage.AstralStacks == 0
-                && ActionResourceManager.BlackMage.UmbralStacks == 0)
-                return false;
-
-            return await Spells.Enochian.Cast(Core.Me);
-        }
-
         public static async Task<bool> Sharpcast()
         {
             if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
@@ -67,7 +59,7 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Thunder3
-                || Core.Me.HasAura(Auras.Triplecast)) 
+                || Core.Me.HasAura(Auras.Triplecast))
                 return await Spells.Sharpcast.Cast(Core.Me);
 
             return false;
@@ -99,7 +91,7 @@ namespace Magitek.Logic.BlackMage
 
             // Do not Ley Lines if we don't have any umbral hearts (roundabout check to see if we're at the begining of astral)
             if (Casting.LastSpell == Spells.Fire3
-                && ActionResourceManager.BlackMage.UmbralHearts == 3 
+                && ActionResourceManager.BlackMage.UmbralHearts == 3
                 || Core.Me.HasAura(Auras.Triplecast))
                 // Fire 3 is always used at the start of Astral
                 return await Spells.LeyLines.Cast(Core.Me);
@@ -107,7 +99,7 @@ namespace Magitek.Logic.BlackMage
             // Fire3 caused this to go off at the beginning of astral anyway
             //if (Casting.LastSpell == Spells.Blizzard3)// Thunder3 only opens up the GCD if it is using Thundercloud || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy)
             //return await Spells.LeyLines.Cast(Core.Me);
-            
+
             return false;
         }
 
@@ -171,11 +163,27 @@ namespace Magitek.Logic.BlackMage
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
-            if (!Core.Me.InCombat 
+            if (!Core.Me.InCombat
                 && ActionResourceManager.BlackMage.AstralStacks > 0)
                 return await Spells.Transpose.Cast(Core.Me);
 
             return false;
+        }
+        public static async Task<bool> Amplifier()
+        {
+            if (Core.Me.ClassLevel < Spells.Amplifier.LevelAcquired)
+                return false;
+
+            if (Spells.Amplifier.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (ActionResourceManager.BlackMage.PolyglotCount > 0)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            return await Spells.Amplifier.Cast(Core.Me);
         }
 
     }

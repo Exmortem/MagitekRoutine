@@ -1,9 +1,6 @@
 using Buddy.Coroutines;
 using ff14bot;
-using ff14bot.Enums;
-using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
@@ -11,7 +8,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
-using static ff14bot.Managers.ActionResourceManager.Astrologian;
 
 namespace Magitek.Logic.Astrologian
 {
@@ -123,7 +119,7 @@ namespace Magitek.Logic.Astrologian
                 if (Core.Me.HasAura(Auras.LadyOfCrownsDrawn) && Spells.CrownPlay.CanCast(Core.Me.CurrentTarget))
                     return false;
 
-                if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= 60) <= (Group.CastableAlliesWithin30.Count()*.6))
+                if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= 60) <= (Group.CastableAlliesWithin30.Count() * .6))
                     return false;
             }
 
@@ -178,6 +174,6 @@ namespace Magitek.Logic.Astrologian
             return await Spells.NeutralSect.Cast(Core.Me);
         }
 
-        
+
     }
 }

@@ -23,20 +23,22 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>C:\MagitekRelease\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>c:\MagitekRelease\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -257,7 +259,7 @@
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
-    <Compile Include="Utilities\OGCDManager.cs" />
+    <Compile Include="Utilities\Managers\OGCDManager.cs" />
     <Compile Include="Utilities\Routines\Reaper.cs" />
     <Compile Include="Utilities\Routines\Sage.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
@@ -703,9 +705,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Paladin\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Paladin\TankSwap.xaml.cs">
-      <DependentUpon>TankSwap.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
@@ -1225,10 +1224,6 @@
     <Page Include="Views\UserControls\Paladin\Healing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Paladin\TankSwap.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
       <Generator>MSBuild:Compile</Generator>

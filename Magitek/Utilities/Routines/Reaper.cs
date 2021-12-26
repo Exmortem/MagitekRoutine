@@ -1,10 +1,7 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Extensions;
 using Magitek.Enumerations;
-using System;
-using System.Collections.Generic;
+using Magitek.Extensions;
 using System.Linq;
 
 namespace Magitek.Utilities.Routines

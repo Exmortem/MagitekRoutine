@@ -17,10 +17,6 @@ namespace Magitek.Models.Paladin
         public float RestHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool OathHotSwapMode { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseFightOrFlight { get; set; }
 
@@ -63,10 +59,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool HolySpirit { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AlwaysHolySpiritWithBuff { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -163,10 +155,6 @@ namespace Magitek.Models.Paladin
         public bool SpiritsWithin { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
-        public float SpiritsWithinOnlyAboveHealth { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool InterventionOnNearbyPartyMember { get; set; }
 
@@ -225,83 +213,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(PaladinOpenerStrategy.AlwaysUseOpener)]
         public PaladinOpenerStrategy PaladinOpenerStrategy { get; set; }
-
-        #region TankSwap
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordDefensive { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordClemency { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordProvoke { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordShieldBash { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordCover { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordPullExtra { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordShieldLob { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SwordRequiecast { get; set; }
-
-        [Setting]
-        [DefaultValue(InterruptStrategy.Never)]
-        public InterruptStrategy SwordStrategy { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldDefensive { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldClemency { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldProvoke { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldShieldBash { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldCover { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldPullExtra { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldShieldLob { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShieldRequiecast { get; set; }
-
-        [Setting]
-        [DefaultValue(InterruptStrategy.Never)]
-        public InterruptStrategy ShieldStrategy { get; set; }
-
-        #endregion
-
 
         #region PVP
         [Setting]

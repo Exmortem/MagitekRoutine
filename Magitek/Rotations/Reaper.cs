@@ -1,24 +1,24 @@
-﻿using System;
-using System.Linq;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Reaper;
-using Enshroud = Magitek.Logic.Reaper.Enshroud;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using Magitek.Utilities.Managers;
+using Enshroud = Magitek.Logic.Reaper.Enshroud;
 
 namespace Magitek.Rotations
 {
     public static class Reaper
     {
-        public static async Task<bool> Rest()
+        public static Task<bool> Rest()
         {
-            return Core.Me.CurrentHealthPercent < ReaperSettings.Instance.RestHealthPercent;
+            var needRest = Core.Me.CurrentHealthPercent < ReaperSettings.Instance.RestHealthPercent;
+            return Task.FromResult(needRest);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -45,7 +45,7 @@ namespace Magitek.Rotations
 
 
             return false;
-            
+
         }
 
         public static async Task<bool> Pull()
@@ -72,9 +72,9 @@ namespace Magitek.Rotations
             return await GambitLogic.Gambit();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
@@ -107,7 +107,7 @@ namespace Magitek.Rotations
 
             if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {
-                if (Spells.VoidReaping.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 1)
+                if (OGCDManager.CanWeave(Spells.VoidReaping, 1))
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
@@ -122,7 +122,7 @@ namespace Magitek.Rotations
             }
             else
             {
-                if (Spells.Slice.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset && OGCDManager.UsedOGCDs() < 2)
+                if (OGCDManager.CanWeave(Spells.Slice))
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
@@ -159,9 +159,9 @@ namespace Magitek.Rotations
             return false;
         }
 
-        public static async Task<bool> PvP()
+        public static Task<bool> PvP()
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

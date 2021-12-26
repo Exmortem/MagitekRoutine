@@ -28,8 +28,9 @@ namespace Magitek.Logic.Astrologian
             Spire
         }
 
-        public static NewAstroCards GetDrawnCard() {
-            int drawnCard = (int) Arcana;
+        public static NewAstroCards GetDrawnCard()
+        {
+            int drawnCard = (int)Arcana;
 
             if (drawnCard == 1 || drawnCard == 113 || drawnCard == 129) return NewAstroCards.Balance;
             if (drawnCard == 2 || drawnCard == 114 || drawnCard == 130) return NewAstroCards.Bole;
@@ -72,7 +73,8 @@ namespace Magitek.Logic.Astrologian
             if (!cardDrawn)
                 return false;
 
-            if (Core.Me.InCombat) {
+            if (Core.Me.InCombat)
+            {
                 if (!Core.Me.HasAnyAura(new uint[] { Auras.LadyOfCrownsDrawn, Auras.LordOfCrownsDrawn }))
                     return await Spells.MinorArcana.Cast(Core.Me);
             }
@@ -105,7 +107,7 @@ namespace Magitek.Logic.Astrologian
 
                     //Lunar Seal
                     case NewAstroCards.Arrow:
-                        if (DivinationSeals.All(seal => seal != AstrologianSeal.Lunar_Seal)) 
+                        if (DivinationSeals.All(seal => seal != AstrologianSeal.Lunar_Seal))
                         {
                             return await MeleeDpsOrTank();
                         }

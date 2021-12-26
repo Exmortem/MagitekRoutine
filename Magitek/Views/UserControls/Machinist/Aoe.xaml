@@ -8,6 +8,16 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -29,7 +39,7 @@
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0" Grid.Column="0" Margin="0,5" Content="Use AoEs (Does not Affect Ricochet)" IsChecked="{Binding MachinistSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <CheckBox Grid.Row="1" Grid.Column="0" Content="Ricochet " IsChecked="{Binding MachinistSettings.UseRicochet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Spreadshot / Scattergun " IsChecked="{Binding MachinistSettings.UseSpreadShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Spreadshot / Scattergun " IsChecked="{Binding MachinistSettings.UseScattergun, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.SpreadShotEnemyCount, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                         <CheckBox Grid.Row="3" Grid.Column="0" Content="Auto Crossbow " IsChecked="{Binding MachinistSettings.UseAutoCrossbow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

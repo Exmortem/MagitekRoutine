@@ -16,7 +16,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Dispel || !ActionManager.HasSpell(Spells.Esuna.Id))
                 return false;
 
-            if (Globals.InParty) 
+            if (Globals.InParty)
             {
                 return await CheckParty();
             }
@@ -45,7 +45,7 @@ namespace Magitek.Logic.Scholar
 
             if (dispelTarget == null)
                 return false;
-            
+
             return await Spells.Esuna.Cast(dispelTarget);
         }
 

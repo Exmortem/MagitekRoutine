@@ -126,7 +126,7 @@ namespace Magitek.Logic.Bard
                     if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
                     {
                         if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && Utilities.Routines.Bard.CurrentDurationArmysPaeon() < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
-                            return false; 
+                            return false;
                     }
                     break;
 

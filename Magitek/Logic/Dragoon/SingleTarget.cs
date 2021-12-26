@@ -14,7 +14,7 @@ namespace Magitek.Logic.Dragoon
     {
         public static async Task<bool> TrueThrust()
         {
-            if (Core.Me.HasAura(Auras.RaidenReady))
+            if (Core.Me.HasAura(Auras.DraconianFire))
                 return await Spells.RaidenThrust.Cast(Core.Me.CurrentTarget);
 
             return await Spells.TrueThrust.Cast(Core.Me.CurrentTarget);

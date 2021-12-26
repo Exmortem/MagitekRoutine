@@ -1,12 +1,10 @@
-﻿using System;
 using ff14bot;
 using ff14bot.Managers;
+using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using System.Threading.Tasks;
-using Magitek.Enumerations;
-using Magitek.Models.Reaper;
-using Buddy.Coroutines;
 
 namespace Magitek.Logic.Reaper
 {
@@ -85,8 +83,8 @@ namespace Magitek.Logic.Reaper
         public static async Task<bool> SoulSlice()
         {
             if (!ReaperSettings.Instance.UseSoulSlice) return false;
-            if (ReaperSettings.Instance.UseSoulScythe && 
-                Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount) 
+            if (ReaperSettings.Instance.UseSoulScythe &&
+                Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SoulScytheTargetCount)
                 return false;
 
             //Keep SoulSlice/SoulScythe Charges at a maximum
@@ -148,11 +146,13 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.ClassLevel < Spells.BloodStalk.LevelAcquired)
                 return false;
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
-            if ((Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired) && 
-                (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown))) 
+            if ((Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired) &&
+                (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)))
                 return false;
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
+            if (ActionResourceManager.Reaper.ShroudGauge > 90)
+                return false;
 
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }
@@ -181,7 +181,7 @@ namespace Magitek.Logic.Reaper
         {
             if (!ReaperSettings.Instance.UseEnhancedHarpe)
                 return false;
-            
+
             if (!Core.Me.HasAura(Auras.EnhancedHarpe))
                 return false;
 

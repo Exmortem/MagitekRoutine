@@ -157,7 +157,7 @@ namespace Magitek.Logic.Astrologian
 
             if (Spells.CelestialIntersection.Cooldown != TimeSpan.Zero)
                 return false;
-            
+
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)

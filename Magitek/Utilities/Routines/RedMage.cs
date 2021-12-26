@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
 namespace Magitek.Utilities.Routines
@@ -49,10 +49,10 @@ namespace Magitek.Utilities.Routines
         public static bool ContreSixteEnabled => RedMageSettings.Instance.UseAoe && RedMageSettings.Instance.UseContreSixte;
 
         //If the user has selected to use Corps-A-Corps only in melee range, make sure we're close enough
-        public static bool UseCorpsACorps =>    RedMageSettings.Instance.UseMelee
+        public static bool UseCorpsACorps => RedMageSettings.Instance.UseMelee
                                              && RedMageSettings.Instance.CorpsACorps
-                                             && (   !RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
-                                                 || (   Core.Me.CurrentTarget != null
+                                             && (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
+                                                 || (Core.Me.CurrentTarget != null
                                                      && Core.Me.CurrentTarget.Distance(Core.Me) <= 2 + Core.Me.CurrentTarget.CombatReach));
 
         public static bool EngagementEnabled => RedMageSettings.Instance.UseMelee && RedMageSettings.Instance.Engagement;
@@ -190,7 +190,7 @@ namespace Magitek.Utilities.Routines
             if (Core.Me.CurrentTarget == null || Core.Me.CurrentTarget == Core.Me || !Core.Me.CurrentTarget.InView())
                 return null;
 
-            return Combat.Enemies.Where(t =>    t.InView()
+            return Combat.Enemies.Where(t => t.InView()
                                              && t.Distance(Core.Me) <= spellRange + Core.Me.CombatReach + t.CombatReach)
                                  .OrderByDescending(t => Combat.Enemies.Where(e => e.Distance(t) <= spellRadius + e.CombatReach).Count())
                                  .ThenByDescending(t => t.CurrentHealthPercent)
@@ -221,7 +221,7 @@ namespace Magitek.Utilities.Routines
         //How much mana do we need to start a combo? This returns 80 if manafication is down, or the user's configured value for using manafication if it's up.
         public static int ComboTargetMana =>
                ManaficationUp
-            && (   BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+            && (BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
                 || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana) ? RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana : 80;
 
         public static bool UseManaficationSt =>
@@ -238,13 +238,13 @@ namespace Magitek.Utilities.Routines
                RedMageSettings.Instance.Acceleration
             && SmUtil.SyncedLevel >= Spells.Acceleration.LevelAcquired
             && Spells.Acceleration.Cooldown.TotalMilliseconds <= 3500
-            && (   WhiteMana == BlackMana
+            && (WhiteMana == BlackMana
                 || (WhiteMana > BlackMana && !MeHasAura(Auras.VerstoneReady) && MeHasAura(Auras.VerfireReady) && WhiteMana - BlackMana <= 9)
                 || (BlackMana > WhiteMana && !MeHasAura(Auras.VerfireReady) && MeHasAura(Auras.VerstoneReady) && BlackMana - WhiteMana <= 9));
         //Avoid using Acceleration if we'll be casting Manafication soon, because we'll waste it while the combo's going on
         public static bool AvoidAccelerationSt =>
                !RedMageSettings.Instance.Acceleration
-            || (   ManaficationEnabled
+            || (ManaficationEnabled
                 && SmUtil.SyncedLevel >= Spells.Manafication.LevelAcquired
                 && ActionManager.HasSpell(Spells.Manafication.Id)
                 && Spells.Manafication.Cooldown.TotalMilliseconds <= 7000
@@ -255,7 +255,7 @@ namespace Magitek.Utilities.Routines
         #region AoE finisher
         public static bool DoEmboldenBurst =>
                EmboldenEnabled
-            && (   (BlackMana == 100 && WhiteMana == 100) //Embolden, 5 moulinet
+            && ((BlackMana == 100 && WhiteMana == 100) //Embolden, 5 moulinet
                 || (BlackMana >= 90 && WhiteMana >= 90 && ManaficationUp) //Embolden, 2 moulinet, Manafication, 5 moulinet
                 || MeHasAura(Auras.Manafication)) //Manafication, 5 moulinet
             && EnoughEnemiesToStartBurst;
@@ -271,7 +271,7 @@ namespace Magitek.Utilities.Routines
         //We can start the burst if we'll hit enough enemies with Moulinet and they all have enough health to make it worth it
         public static bool EnoughEnemiesToStartBurst =>
                MoulinetEnabled
-            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r =>    InMoulinetArc(r)
+            && EnemiesWithinOf(8 + Core.Me.CombatReach, Core.Me).Count(r => InMoulinetArc(r)
                                                                             && r.CurrentHealthPercent >= RedMageSettings.Instance.EmboldenFinisherPercent) >= MinAoeBurstStartEnemies;
         public static bool InMoulinetArc(GameObject target)
         {

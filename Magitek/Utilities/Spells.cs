@@ -469,6 +469,9 @@ namespace Magitek.Utilities
         public static readonly SpellData Confiteor = DataManager.GetSpellData(16459);
         public static readonly SpellData HolySheltron = DataManager.GetSpellData(25746);
         public static readonly SpellData Expiacion = DataManager.GetSpellData(25747);
+        public static readonly SpellData BladeOfFaith = DataManager.GetSpellData(25748);
+        public static readonly SpellData BladeOfTruth = DataManager.GetSpellData(25749);
+        public static readonly SpellData BladeOfValor = DataManager.GetSpellData(25750);
         #endregion
 
         // RDM
@@ -502,6 +505,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Engagement = DataManager.GetSpellData(16527);
         public static readonly SpellData Reprise = DataManager.GetSpellData(16528);
         public static readonly SpellData Scorch = DataManager.GetSpellData(16530);
+        public static readonly SpellData Resolution = DataManager.GetSpellData(25858);
         public static readonly SpellData VerthunderIII = DataManager.GetSpellData(25855);
         public static readonly SpellData VeraeroIII = DataManager.GetSpellData(25856);
         public static readonly SpellData MagickBarrier = DataManager.GetSpellData(25857);
@@ -784,12 +788,12 @@ namespace Magitek.Utilities
         public static readonly SpellData Kaltstrahl = DataManager.GetSpellData(18299);
         public static readonly SpellData AbyssalTransfixion = DataManager.GetSpellData(18300);
         public static readonly SpellData Chirp = DataManager.GetSpellData(18301);
-        public static readonly SpellData EerieSoundwave= DataManager.GetSpellData(18302);
+        public static readonly SpellData EerieSoundwave = DataManager.GetSpellData(18302);
         public static readonly SpellData PomCure = DataManager.GetSpellData(18303);
         public static readonly SpellData GobSkin = DataManager.GetSpellData(18304);
         public static readonly SpellData MagicHammer = DataManager.GetSpellData(18305);
         public static readonly SpellData Avail = DataManager.GetSpellData(18306);
-        public static readonly SpellData FrogLegs= DataManager.GetSpellData(18307);
+        public static readonly SpellData FrogLegs = DataManager.GetSpellData(18307);
         public static readonly SpellData SonicBoom = DataManager.GetSpellData(18308);
         public static readonly SpellData Whistle = DataManager.GetSpellData(18309);
         public static readonly SpellData WhiteKnightsTour = DataManager.GetSpellData(18310);
@@ -923,6 +927,16 @@ namespace Magitek.Utilities
         public static readonly SpellData AssizePvp = DataManager.GetSpellData(9620);
         public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
         #endregion
+
+        public static bool IsAvailableAndReadyInLessThanXMs(SpellData Spell, int TimeInMilliseconds)
+        {
+            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown.TotalMilliseconds <= TimeInMilliseconds;
+        }
+
+        public static bool IsAvailableAndReady(SpellData Spell)
+        {
+            return ActionManager.HasSpell(Spell.Id) && Spell.Cooldown == TimeSpan.Zero;
+        }
     }
 
     internal static class TankBusters

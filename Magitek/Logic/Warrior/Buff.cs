@@ -4,9 +4,9 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
 
 namespace Magitek.Logic.Warrior
 {
@@ -31,8 +31,8 @@ namespace Magitek.Logic.Warrior
         }
         internal static async Task<bool> Equilibrium()
         {
-            if (!WarriorSettings.Instance.UseEquilibrium)
-                return false;
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseEquilibrium, Spells.Equilibrium))
+                return false; 
 
             if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.EquilibriumHealthPercent)
                 return false;
@@ -42,11 +42,8 @@ namespace Magitek.Logic.Warrior
         //Berserk Becomes Inner Release
         internal static async Task<bool> InnerRelease()
         {
-            if (!WarriorSettings.Instance.UseInnerRelease)
-                return false;
-
-            if (!ActionManager.HasSpell(Utilities.Routines.Warrior.InnerRelease.Id))
-                return false;
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerRelease, WarriorRoutine.InnerRelease))
+                return false; 
 
             if (Core.Me.CurrentTarget == null)
                 return false;
@@ -73,7 +70,7 @@ namespace Magitek.Logic.Warrior
 
         internal static async Task<bool> Infuriate()
         {
-            if (!WarriorSettings.Instance.UseInfuriate)
+            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInfuriate, Spells.Infuriate))
                 return false;
 
             if (Casting.LastSpell == Spells.InnerRelease)

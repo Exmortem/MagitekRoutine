@@ -41,7 +41,12 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
@@ -344,9 +349,6 @@
                         </TabItem>
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <paladin:Defensives />
-                        </TabItem>
-                        <TabItem Header="Tank Swap" Style="{DynamicResource MainTabTankSwap}">
-                            <paladin:TankSwap />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

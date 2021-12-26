@@ -34,7 +34,7 @@ namespace Magitek.Models.Account
             Instance.Save();
         }
 
-            [Setting]
+        [Setting]
         [DefaultValue(ModifierKeys.None)]
         public ModifierKeys UseOpenersModkey { get; set; }
 
@@ -210,8 +210,12 @@ namespace Magitek.Models.Account
         public CompanionStance ChocoboStance { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
+        [DefaultValue(0)]
         public int UserLatencyOffset { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ActiveCombatRoutine { get; set; }
 
         [Setting]
         [DefaultValue(false)]
