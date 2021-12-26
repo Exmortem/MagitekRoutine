@@ -89,5 +89,25 @@ namespace Magitek.Utilities.Managers
 
             return weavingCounter < maxWeaveCount;
         }
+
+        public static bool IsWeaveWindow(SpellData spell, int targetwindow = 1)
+        {
+            //700 MS = typical animation lock, with Alexander triple weave should be possible
+            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
+
+            if (Casting.SpellCastHistory.Count < targetwindow)
+                return false;
+
+            int weavingCounter = 0;
+
+            for (int i = 0; i < targetwindow; i++)
+                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
+                    weavingCounter += 1;
+                else
+                    break;
+
+            return weavingCounter + 1 == targetwindow;
+        }
     }
 }
