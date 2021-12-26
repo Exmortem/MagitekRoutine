@@ -73,18 +73,18 @@ namespace Magitek.Utilities.Managers
         public static bool CanWeave(SpellData spell, int maxWeaveCount = 2)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
-            
+
             return maxWeaveCount > 0;
         }
 
         public static bool IsWeaveWindow(SpellData spell, int targetWindow = 1, bool timeBased = false)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
             targetWindow--;
