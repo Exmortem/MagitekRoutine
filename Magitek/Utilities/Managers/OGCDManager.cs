@@ -76,7 +76,7 @@ namespace Magitek.Utilities.Managers
             if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => !OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
             return maxWeaveCount > 0;
         }
@@ -88,7 +88,7 @@ namespace Magitek.Utilities.Managers
                 return false;
 
             targetWindow--;
-            targetWindow -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            targetWindow -= Casting.SpellCastHistory.FindIndex(x => !OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
             return targetWindow == 0 || timeBased 
                                          && spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - ( targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
