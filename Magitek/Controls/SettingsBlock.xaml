@@ -5,15 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <UserControl.Style>
         <Style TargetType="{x:Type UserControl}">
             <Setter Property="Template">

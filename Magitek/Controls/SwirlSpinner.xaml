@@ -1,6 +1,5 @@
 ﻿<UserControl x:Class="Magitek.Controls.SwirlSpinner" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-
     <UserControl.Resources>
         <Storyboard x:Key="SwirlSpinner" x:Name="SwirlSpinner" RepeatBehavior="Forever">
 
