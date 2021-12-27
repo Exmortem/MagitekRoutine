@@ -136,7 +136,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;
 
-            if (Spells.Reassemble.Charges < 1)
+            // Added check for cooldown, gets stuck at lower levels otherwise.
+            if (Spells.Reassemble.Charges == 0
+                && Spells.Reassemble.Cooldown != TimeSpan.Zero)
                 return false;
 
             //If we're in AoE logic, use Reassemble for SpreadShot
