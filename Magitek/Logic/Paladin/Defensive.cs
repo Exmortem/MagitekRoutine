@@ -40,6 +40,16 @@ namespace Magitek.Logic.Paladin
                     return false;
             }
 
+            #region Reprisal
+            if (PaladinSettings.Instance.UseReprisal)
+            {
+                if (Core.Me.CurrentHealthPercent <= PaladinSettings.Instance.ReprisalHealthPercent)
+                {
+                    if (await Spells.Reprisal.CastAura(Core.Me, Auras.Reprisal)) return true;
+                }
+            }
+            #endregion
+
             #region Sentinel
             if (PaladinSettings.Instance.Sentinel)
             {
