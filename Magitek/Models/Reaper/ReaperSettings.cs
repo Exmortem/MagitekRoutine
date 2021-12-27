@@ -163,6 +163,10 @@ namespace Magitek.Models.Reaper
         public bool UseArcaneCircle { get; set; }
 
         [Setting]
+        [DefaultValue(1)]
+        public int ArcaneCircleCount { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UsePlentifulHarvest { get; set; }
 

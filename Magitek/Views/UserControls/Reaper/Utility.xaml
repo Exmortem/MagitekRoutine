@@ -38,6 +38,8 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Enable Arcane Circle " IsChecked="{Binding ReaperSettings.UseArcaneCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ReaperSettings.ArcaneCircleCount, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Players Are In Range For Buff" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
