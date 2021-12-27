@@ -237,6 +237,11 @@ namespace Magitek.Extensions
             return ActionManager.HasSpell(spell.Id);
         }
 
+        public static bool IsReady(this SpellData spell, int remainingTimeInMs = 0)
+        {
+            return spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
+        }
+
         public static uint AdjustedSpellCostBlm(this SpellData spell)
         {
             // If it's a Fire spell

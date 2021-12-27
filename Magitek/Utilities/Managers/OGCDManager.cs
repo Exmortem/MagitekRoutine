@@ -2,6 +2,7 @@
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Extensions;
 using Magitek.Models.Account;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +79,7 @@ namespace Magitek.Utilities.Managers
         public static bool CanWeave(SpellData spell, int maxWeaveCount = 2)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.IsReady(700 + BaseSettings.Instance.UserLatencyOffset))
                 return false;
 
             maxWeaveCount -= Casting.SpellCastHistory.FindIndex(
@@ -91,7 +92,7 @@ namespace Magitek.Utilities.Managers
         public static bool IsWeaveWindow(SpellData spell, int targetWindow = 1, bool timeBased = false)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.IsReady(700 + BaseSettings.Instance.UserLatencyOffset))
                 return false;
 
             targetWindow--;
@@ -99,8 +100,8 @@ namespace Magitek.Utilities.Managers
                 x => !OGCDAbilities.Where(
                     p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
-            var targetWindowIsZero = targetWindow == 0;
-            var spellFitsInWindow = spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - (targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
+            bool targetWindowIsZero = targetWindow == 0;
+            bool spellFitsInWindow = spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - (targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
             return targetWindowIsZero || (timeBased && spellFitsInWindow);
         }
 
