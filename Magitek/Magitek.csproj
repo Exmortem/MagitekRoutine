@@ -1392,11 +1392,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Monk\ArowNoneHighlighted.png" />
-    <Resource Include="Resources\Images\Monk\ArrowDownHighlighted.png" />
-    <Resource Include="Resources\Images\Monk\ArrowSidesHighlighted.png" />
+    <Resource Include="Resources\Images\General\ArowNoneHighlighted.png" />
+    <Resource Include="Resources\Images\General\ArrowDownHighlighted.png" />
+    <Resource Include="Resources\Images\General\ArrowSidesHighlighted.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\Images\Monk\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Dragoon\ChaoticSpring.png" />
+    <Resource Include="Resources\Images\Dragoon\FangAndClaw.png" />
+    <Resource Include="Resources\Images\Dragoon\WheelingThrust.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('packages\Fody.6.3.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

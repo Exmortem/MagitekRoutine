@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
+using Magitek.Utilities.CombatMessages;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -227,6 +228,41 @@ namespace Magitek.Rotations
         public static Task<bool> PvP()
         {
             return Task.FromResult(false);
+        }
+
+        public static void RegisterCombatMessages()
+        {
+
+            //Highest priority: Don't show anything if we're not in combat
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(100,
+                                          "",
+                                          () => !Core.Me.InCombat));
+
+            //Second priority: Don't show anything if positional requirements are Nulled
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "",
+                                          () => DragoonSettings.Instance.HidePositionalMessage && Core.Me.HasAura(Auras.TrueNorth)));
+
+            //Third priority : Positional
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Chaotic Spring => BEHIND !!",
+                                          "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
+                                          () => ActionManager.LastSpell == Spells.Disembowel));
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Wheeling Thrust => BEHIND !!",
+                                          "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
+                                          () => Core.Me.HasAura(Auras.EnhancedWheelingThrust)));
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Fang & Claw => SIDE !!!",
+                                          "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
+                                          () => Core.Me.HasAura(Auras.SharperFangandClaw)));
         }
     }
 }
