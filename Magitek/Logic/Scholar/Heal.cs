@@ -715,11 +715,15 @@ namespace Magitek.Logic.Scholar
                 if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
                     return false;
 
+                ConsolationCooldown = DateTime.Now.AddSeconds(5);
+
                 return await Spells.Consolation.Cast(Core.Me);
             }
 
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
                 return false;
+
+            ConsolationCooldown = DateTime.Now.AddSeconds(5);
 
             return await Spells.Consolation.Cast(Core.Me);
 
