@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.Reaper
@@ -51,6 +52,15 @@ namespace Magitek.Logic.Reaper
 
             if (Core.Me.HasAura(Auras.ArcaneCircle))
                 return false;
+
+            if (Globals.InParty)
+            {
+                var couldArcane = Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.ArcaneCircle));
+                if (couldArcane >= ReaperSettings.Instance.ArcaneCircleCount)
+                    return await Spells.ArcaneCircle.Cast(Core.Me);
+                else
+                    return false;
+            }
 
             return await Spells.ArcaneCircle.Cast(Core.Me);
         }

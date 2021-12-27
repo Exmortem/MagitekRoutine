@@ -112,6 +112,7 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
+                    if (await Cooldown.ArcaneCircle()) return true;
                     if (await Enshroud.AoE.LemuresScythe()) return true;
                     if (await Enshroud.SingleTarget.LemuresSlice()) return true;
                 }
