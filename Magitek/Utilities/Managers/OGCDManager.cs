@@ -73,26 +73,41 @@ namespace Magitek.Utilities.Managers
         public static bool CanWeave(SpellData spell, int maxWeaveCount = 2)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            if (Casting.SpellCastHistory.Count < maxWeaveCount)
+                return true;
 
-            return maxWeaveCount > 0;
+            int weavingCounter = 0;
+
+            for (int i = 0; i < maxWeaveCount; i++)
+                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
+                    weavingCounter += 1;
+                else
+                    break;
+
+            return weavingCounter < maxWeaveCount;
         }
 
-        public static bool IsWeaveWindow(SpellData spell, int targetWindow = 1, bool timeBased = false)
+        public static bool IsWeaveWindow(SpellData spell, int targetwindow = 1)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+            if (spell.Cooldown.TotalMilliseconds > 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            targetWindow--;
-            targetWindow -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            if (Casting.SpellCastHistory.Count < targetwindow)
+                return false;
 
-            return targetWindow == 0 || timeBased 
-                                         && spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - ( targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
+            int weavingCounter = 0;
+
+            for (int i = 0; i < targetwindow; i++)
+                if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob)).Contains(Casting.SpellCastHistory.ElementAt(i).Spell))
+                    weavingCounter += 1;
+                else
+                    break;
+
+            return weavingCounter + 1 == targetwindow;
         }
-
     }
 }
