@@ -80,6 +80,7 @@ namespace Magitek.Utilities.CombatMessages
 
                 case ClassJobType.Lancer:
                 case ClassJobType.Dragoon:
+                    Rotations.Dragoon.RegisterCombatMessages();
                     break;
 
                 case ClassJobType.Archer:
@@ -131,6 +132,7 @@ namespace Magitek.Utilities.CombatMessages
                     break;
 
                 case ClassJobType.Reaper:
+                    Rotations.Reaper.RegisterCombatMessages();
                     break;
             }
         }

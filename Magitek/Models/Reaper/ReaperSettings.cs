@@ -26,11 +26,15 @@ namespace Magitek.Models.Reaper
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 
-        #endregion
-
-        #region SingleTarget-Abilities
-
         [Setting]
+        [DefaultValue(false)]
+        public bool HidePositionalMessage { get; set; }
+
+    #endregion
+
+    #region SingleTarget-Abilities
+
+    [Setting]
         [DefaultValue(true)]
         public bool UseSlice { get; set; }
 
