@@ -83,7 +83,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Orogeny))
                 return false;
 
-            if (!Spells.IsAvailableAndReady(Spells.Orogeny))
+            if (!Spells.Orogeny.IsReady())
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
