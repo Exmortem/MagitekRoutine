@@ -237,7 +237,7 @@ namespace Magitek.Logic.Astrologian
 
             var target = (Character) Core.Me.CurrentTarget;
 
-            if (!target.IsCastingTankBuster()) 
+            if (!Combat.Enemies.All(x => x.IsCastingTankBuster()))
                 return false;
 
             if (target.SpellCastInfo.CurrentCastTime >= Spells.Exaltation.AdjustedCastTime)

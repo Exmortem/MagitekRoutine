@@ -66,63 +66,78 @@ namespace Magitek.Extensions
             if (Group.CastableTanks.All(x => x != target.TargetCharacter))
                 return false;
 
-            CheckAndPopulateTbRef();
-
-            if (!TbRef.Contains(target.TargetCharacter.CastingSpellId)) 
+            if (!TankBusters.Contains(target.CastingSpellId)) 
                 return false;
             
-            Logger.WriteInfo("TankBuster Detected!! \n Unit: {0} \n Targeting: {1} ({2}) \n Casting {3} ({4})",
-                target.EnglishName,
-                target.TargetCharacter.Name,
-                target.CurrentJob,
-                target.SpellCastInfo.Name,
-                target.CastingSpellId);
             return true;
 
         }
 
-        private static readonly List<uint> TbRef = new List<uint>();
+        private static readonly List<uint> TankBusters = new List<uint>() {
+            //====Endwalker Dungeons
+            
+            //Lv 81 - The Tower of Zot
+            25257, //Minduruva - Bio
+            25290, //Minduruva - Bio
+            25257, //Sanduruva - Isitva Siddhi
+            25280, //Cinduruva - Isitva Siddhi
 
-        private static void CheckAndPopulateTbRef()
-        {
-            if (TbRef.Any())
-            {
-                Logger.WriteInfo("TankBuster List Already Populated {0}. Example: {1}",
-                    TbRef.Count(),
-                    TbRef.FirstOrDefault());
-                return;
-            }
+            //Lv 83 - The Tower of Babil
+            
+            //Lv 85 - Vanaspati
+            25141, //Terminus Snatcher - Last Grasp
+            25154, //Terminus Wrecker - Total Wreck
+            25171, //Svarbhanu - Gnashing Of Teeth
 
-            var tblist = typeof(TankBusters)
-            .GetFields(BindingFlags.Public & BindingFlags.Static)
-            .Where(f => f.FieldType == typeof(SpellData))
-            .Select(buster => buster.GetValue(null))
-            .Cast<SpellData>()
-            .Select(r => r.Id)
-            .ToList();
+            //Lv 87 - Ktisis Hyperboreia
+            25182, //Lyssa - Skull Dasher
+            25743, //Ladon - Lord Scratch
 
-            TbRef.AddRange(tblist);
+            //Lv 89 - The Aitiascope
+            25686, //Rhitahtyn the Unshakable - Anvil of Tartarus
+            25700, //Amon the Undying - Dark Forte
+            
+            //Lv 90 - The Dead Ends
+            25920, //Caustic Grebuloff - Pox Flail
+            25949, //Ra-la - Pity
+            
+            //Lv 90 - Smileton
+            26434, //Face - Heart on Fire IV
+            26436, //Frameworker - Steel Beam
+            26449, //The Big Cheese - Piercing Missile
 
-            Logger.WriteInfo("TankBuster List Populated {0}",tblist.Count());
-        }
+            //Lv 90 - The Stigma Dreamscape
+            25387, //Proto-Omega - Mustard Bomb
+            25525, //Arch-Lambda - Wheel
 
-        private static readonly List<uint> TankBusterList = new List<uint>()
-        {
-            TankBusters.HydaelynEx_DichroicSpectrum.Id,
-            TankBusters.HydaelynEx_MousasScorn.Id,
-            TankBusters.Smileton_HeartOnFireIV.Id,
-            TankBusters.Smileton_PiercingMissile.Id,
-            TankBusters.Smileton_TempersFlare.Id,
-            TankBusters.Aitiascope_AgleaBite.Id,
-            TankBusters.Aitiascope_AnvilOfTartarus.Id,
-            TankBusters.Aitiascope_AmonDarkForte.Id,
-            TankBusters.Vanaspati_GnashingOfTeeth.Id,
-            TankBusters.Vanaspati_LastGasp.Id,
-            TankBusters.Vanaspati_TotalWreck.Id,
-            TankBusters.ZodiarkEx_Ania.Id,
-            TankBusters.Zodiark_Ania.Id,
-            TankBusters.Zot_Bio.Id
+
+            //====Endwalker Trials
+            //Lv 83 - The Dark Inside (Zodiark)
+            27490, //Zodiark - Ania
+
+            //Lv 89 - The Mothercrystal (Hydaelyn)
+            //Lv 90 - The Final Day (Meteion)
+
+
+            //====Endwalker Extreme Trials
+
+            //Lv 90 - The Minstrel's Ballad: Zodiark's Fall
+            26607, //Zodiark - Ania
+
+            //Lv 90 - The Minstrel's Ballad: Hydaelyn's Call
+
+            //====Endwalker Normal Raids
+
+            //Lv 90 - Asphodelos: The First Circle ()
+            //Lv 90 - Asphodelos: The Second Circle ()
+            //Lv 90 - Asphodelos: The Third Circle ()
+            //Lv 90 - Asphodelos: The Fourth Circle ()
+
+
+            //====Endwalker Savage Raids
         };
+
+        private static readonly List<uint> BigAoes = new List<uint>();
 
         public static bool HasAnyDpsCardAura(this Character unit)
         {
