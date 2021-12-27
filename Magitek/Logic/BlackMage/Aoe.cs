@@ -178,11 +178,17 @@ namespace Magitek.Logic.BlackMage
                 }
 
             if (Core.Me.ClassLevel >= 72)
+            {
                 if (Casting.LastSpell != Spells.Thunder4)
+                {
                     if (Casting.LastSpell == Spells.Freeze
                         || Casting.LastSpell == Spells.Foul)
                         return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
 
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
 
