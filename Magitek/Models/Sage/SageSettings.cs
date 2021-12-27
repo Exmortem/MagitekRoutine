@@ -315,11 +315,19 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
+        public bool HaimaTankForBuff { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Panhaima { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
         public float PanhaimaHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool PanhaimaOnlyWithTank { get; set; }
 
         [Setting]
         [DefaultValue(3)]

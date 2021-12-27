@@ -25,6 +25,17 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
+            // If we're moving in combat
+            if (Core.Me.ClassLevel >= 80 && MovementManager.IsMoving)
+            {
+                // If we don't have any procs (while in movement), cast
+                if (!Core.Me.HasAura(Auras.Swiftcast)
+                    && !Core.Me.HasAura(Auras.Triplecast)
+                    && !Core.Me.HasAura(Auras.FireStarter)
+                    && !Core.Me.HasAura(Auras.ThunderCloud))
+                    return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+            }
+
             //Only use in Umbral 3
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
@@ -66,7 +77,7 @@ namespace Magitek.Logic.BlackMage
                 if (Core.Me.ClassLevel >= 68)
                 {
                     if ((Casting.LastSpell == Spells.Fire2)
-                        && (Core.Me.CurrentMana <= 1500))
+                        && (Core.Me.CurrentMana <= 3000))
                         return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
                     if (Core.Me.CurrentMana >= 800
@@ -95,24 +106,26 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Freeze.LevelAcquired)
                 return false;
 
+            if (Casting.LastSpell == Spells.Freeze)
+                return false;
+
             //Can only use in Umbral Ice
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
 
-            if (Core.Me.ClassLevel >= 40
-                && Core.Me.ClassLevel < 50)
-                return await Spells.Freeze.Cast(Core.Me.CurrentTarget);
-
-            //If we have enhanced freeze and 1 Umbral heart, stop
-            if (Core.Me.ClassLevel >= 68
-                && ActionResourceManager.BlackMage.UmbralHearts >= 1)
+            // If we need to refresh stack timer, stop
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
 
-            //Wait until we don't have enough mp to cast Flare  
-            if (Core.Me.CurrentMana > 799)
-                return false;
+            // While in Umbral 
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+            {
+                // If we have less than 3 hearts, cast
+                if (ActionResourceManager.BlackMage.UmbralHearts < 3)
+                    return await Spells.Freeze.Cast(Core.Me.CurrentTarget);
+            }
 
-            return await Spells.Freeze.Cast(Core.Me.CurrentTarget);
+            return false;
         }
 
         public static async Task<bool> Thunder4()
@@ -120,8 +133,12 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
 
+            // Don't dot if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
+                return false;
+
             //Cast any time thundercloud procs
-            if (Core.Me.HasAura(Auras.ThunderCloud))
+                if (Core.Me.HasAura(Auras.ThunderCloud))
                 return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
 
             //Only cast in Umbral 3
@@ -161,11 +178,17 @@ namespace Magitek.Logic.BlackMage
                 }
 
             if (Core.Me.ClassLevel >= 72)
+            {
                 if (Casting.LastSpell != Spells.Thunder4)
+                {
                     if (Casting.LastSpell == Spells.Freeze
                         || Casting.LastSpell == Spells.Foul)
                         return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
 
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
 
@@ -182,30 +205,20 @@ namespace Magitek.Logic.BlackMage
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
                 //return await Spells.Transpose.Cast(Core.Me);
             }
-
-
-            /*if (Core.Me.ClassLevel > 35
-                && Core.Me.ClassLevel < 50)
-                return false;
-
-            if (Core.Me.ClassLevel >= 60)
-                return false;*/
-
-            if (Core.Me.ClassLevel >= 50
-                && Core.Me.ClassLevel < 60)
+            if (Core.Me.ClassLevel >= Spells.HighFireII.LevelAcquired)
             {
-                if (Casting.LastSpell == Spells.Fire3)
+                if (ActionResourceManager.BlackMage.UmbralHearts == 1)
+                    return false;
+
+                // Use if we're in Umbral and we have 3 hearts and have max mp
+                if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 
-                if (Core.Me.CurrentMana >= 3800)
+                if (Core.Me.CurrentMana > 3000)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 
-                //return await Spells.Transpose.Cast(Core.Me);
+                return false;
             }
-            if ((Core.Me.ClassLevel >= Spells.HighFireII.LevelAcquired)
-                && (ActionResourceManager.BlackMage.UmbralHearts > 0))
-                return await Spells.Fire2.Cast(Core.Me);
-
             return false;
         }
 
@@ -215,10 +228,16 @@ namespace Magitek.Logic.BlackMage
                 || (Casting.LastSpell == Spells.HighBlizzardII))
                 return false;
 
-            if ((Core.Me.ClassLevel >= Spells.HighBlizzardII.LevelAcquired)
-                && ((Core.Me.CurrentMana == 10000)
-                || (Core.Me.CurrentMana == 0)))
-                return await Spells.Blizzard2.Cast(Core.Me);
+            // If we have no umbral or astral stacks, cast 
+            if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
+                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+
+            // If our mana is less than 1500 while in astral
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 1500)
+                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+
+            if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
+                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
 
             return false;
         }

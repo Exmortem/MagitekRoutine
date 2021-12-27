@@ -189,6 +189,10 @@ namespace Magitek.Logic.BlackMage
                 || Casting.LastSpell == Spells.Thunder3)
                 return false;
 
+            // Don't dot if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
+                return false;
+
             //Low level logic
             if (Core.Me.ClassLevel < 40)
             {
@@ -287,10 +291,7 @@ namespace Magitek.Logic.BlackMage
             // If our mana is less than 800 while in astral
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 800)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
-            //If we're low medium level, use it at a different time
-            if (Core.Me.ClassLevel < 72 && Core.Me.CurrentMana < 1500)
-                return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
-
+            
             if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
