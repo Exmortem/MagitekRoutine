@@ -684,6 +684,10 @@ namespace Magitek.Logic.Scholar
             }
         }
 
+        // Prevent blowing the second consolation stack before seraph gets a chance to cast
+        // the first one.
+        public static DateTime ConsolationCooldown = DateTime.Now;
+
         public static async Task<bool> Consolation()
         {
             if (!ScholarSettings.Instance.Consolation)
@@ -696,6 +700,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Core.Me.Pet.EnglishName != "Seraph")
+                return false;
+
+            if (DateTime.Now <= ConsolationCooldown)
                 return false;
 
             if (Globals.InParty)
