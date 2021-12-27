@@ -18,13 +18,13 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseSplitShotCombo, MachinistRoutine.HeatedSplitShot))
                 return false;
 
-            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(200))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -41,13 +41,13 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.CanContinueComboAfter(Spells.SplitShot))
                 return false;
 
-            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(200))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -64,13 +64,13 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.CanContinueComboAfter(Spells.SlugShot))
                 return false;
 
-            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(200))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -129,16 +129,16 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Spells.IsAvailableAndReady(Spells.Wildfire) && Spells.IsAvailableAndReady(Spells.Hypercharge) && Spells.GaussRound.Charges < 1.5f)
+            if (Spells.Wildfire.IsReady() && Spells.Hypercharge.IsReady() && Spells.GaussRound.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.GaussRound.Charges < 1.5f && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 2000))
+                if (Spells.GaussRound.Charges < 1.5f && Spells.Wildfire.IsReady(2000))
                     return false;
 
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.IsAvailableAndReady(Spells.Hypercharge))
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.IsReady())
                 {
                     if (Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 0.5f)
                         return false;
