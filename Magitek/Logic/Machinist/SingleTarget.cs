@@ -16,7 +16,7 @@ namespace Magitek.Logic.Machinist
         {
             //One to disable them all
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseSplitShotCombo, MachinistRoutine.HeatedSplitShot))
-                return false; 
+                return false;
 
             if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
                 return false;
@@ -96,7 +96,7 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HotAirAnchor()
         {
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHotAirAnchor, MachinistRoutine.HotAirAnchor))
-                return false; 
+                return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;

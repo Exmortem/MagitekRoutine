@@ -1,9 +1,9 @@
 ﻿using ff14bot;
+using Magitek.Gambits.Conditions;
 using Magitek.Logic.Dancer;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Gambits.Conditions;
-using System.Collections.ObjectModel;
 
 namespace Magitek.Gambits.Actions
 {

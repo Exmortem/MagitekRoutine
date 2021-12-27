@@ -42,7 +42,7 @@ namespace Magitek.Logic.Dancer
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance ||  x.Id == Auras.FlourishingFinish
+                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
             ));
 
             if (procs.Any())

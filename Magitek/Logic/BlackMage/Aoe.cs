@@ -138,7 +138,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             //Cast any time thundercloud procs
-                if (Core.Me.HasAura(Auras.ThunderCloud))
+            if (Core.Me.HasAura(Auras.ThunderCloud))
                 return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
 
             //Only cast in Umbral 3

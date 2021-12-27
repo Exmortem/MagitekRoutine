@@ -18,7 +18,7 @@ namespace Magitek.Logic.Machinist
         {
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseBarrelStabilizer, Spells.BarrelStabilizer))
                 return false;
-            
+
             if (!Core.Me.HasTarget)
                 return false;
 
@@ -54,7 +54,7 @@ namespace Magitek.Logic.Machinist
         {
 
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHypercharge, Spells.Hypercharge))
-                return false; 
+                return false;
 
             if (!Spells.IsAvailableAndReady(Spells.Hypercharge))
                 return false;
@@ -97,7 +97,7 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> Wildfire()
         {
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseWildfire, Spells.Wildfire))
-                return false; 
+                return false;
 
             if (!Spells.IsAvailableAndReady(Spells.Wildfire))
                 return false;
@@ -131,7 +131,7 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> Reassemble()
         {
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseReassemble, Spells.Reassemble))
-                return false; 
+                return false;
 
             if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;

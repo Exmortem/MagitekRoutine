@@ -291,7 +291,7 @@ namespace Magitek.Logic.BlackMage
             // If our mana is less than 800 while in astral
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 800)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
-            
+
             if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
