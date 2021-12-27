@@ -106,7 +106,11 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
+            // When out of range of target, just hold dances until it is in range.
+            // Being in dance mode should also stop any futher routine processing as no
+            // other abilities can be cast except dances. 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
+                return true;
 
             try
             {
