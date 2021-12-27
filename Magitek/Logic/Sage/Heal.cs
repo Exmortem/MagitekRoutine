@@ -298,7 +298,7 @@ namespace Magitek.Logic.Sage
                 if (SageSettings.Instance.HaimaTankForBuff && Globals.HealTarget?.CurrentHealthPercent > SageSettings.Instance.HaimaHpPercent)
                 {
                     // Pick any tank who needs healing
-                    var tankHaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsTank());
+                    var tankHaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsTank() && r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent);
 
                     if (tankHaimaTarget == null)
                         return false;
