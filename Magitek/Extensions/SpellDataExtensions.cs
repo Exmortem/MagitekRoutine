@@ -232,20 +232,9 @@ namespace Magitek.Extensions
             return true;
         }
 
-        /// <summary>
-        /// Checks if a Action/Spell was acquired and is able to be used
-        /// </summary>
-        /// <param name="spell"></param>
-        /// <returns>
-        /// True if Skill-level is below current Character-level and the associated Quest is completed
-        /// and false if Skill-level is above Character-level or the associated Quest isn't completed
-        /// </returns>
-        public static bool HasAcquired(this SpellData spell)
+        public static bool IsKnown(this SpellData spell)
         {
-            if (Core.Me.ClassLevel < spell.LevelAcquired)
-                return false;
-
-            return spell.UnlockLink == 0 || QuestLogManager.IsQuestCompleted((uint)spell.UnlockLink);
+            return ActionManager.HasSpell(spell.Id);
         }
 
         public static uint AdjustedSpellCostBlm(this SpellData spell)
