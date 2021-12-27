@@ -62,7 +62,7 @@ namespace Magitek.Logic.Gunbreaker
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
-            
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 

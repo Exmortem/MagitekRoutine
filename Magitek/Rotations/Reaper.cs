@@ -7,8 +7,8 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
-using System.Threading.Tasks;
 using Magitek.Utilities.Managers;
+using System.Threading.Tasks;
 using Enshroud = Magitek.Logic.Reaper.Enshroud;
 
 namespace Magitek.Rotations

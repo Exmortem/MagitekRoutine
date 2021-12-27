@@ -107,11 +107,11 @@ namespace Magitek.Models.Gunbreaker
         [Setting]
         [DefaultValue(true)]
         public bool UseFatedCircle { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool UseBowShock { get; set; }
-        
+
         [Setting]
         [DefaultValue(2)]
         public int FatedCircleEnemies { get; set; }

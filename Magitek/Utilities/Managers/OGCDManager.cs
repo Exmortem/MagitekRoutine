@@ -2,9 +2,9 @@
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Models.Account;
 using System.Collections.Generic;
 using System.Linq;
-using Magitek.Models.Account;
 
 namespace Magitek.Utilities.Managers
 {
@@ -47,10 +47,15 @@ namespace Magitek.Utilities.Managers
 
         static OGCDManager()
         {
-            OGCDAbilities = DataManager.SpellCache.Values.Where(x => (x.IsPlayerAction
-                                                                                && (x.SpellType == SpellType.Ability /*|| x.SpellType == SpellType.Spell*/)
-                                                                                && x.JobTypes.Any(CombatJobs.Contains))
-                                                                            || (x.SpellType == SpellType.System && x.Job == ClassJobType.Adventurer)).ToList();
+            OGCDAbilities = DataManager.SpellCache.Values.Where(
+                x =>
+                (x.IsPlayerAction
+                    && x.SpellType == SpellType.Ability
+                    && x.JobTypes.Any(CombatJobs.Contains))
+                || (x.SpellType == SpellType.System
+                    && x.Job == ClassJobType.Adventurer))
+                .ToList();
+
             RemoveFalsePositives();
             ManualAdditions();
         }
@@ -76,7 +81,9 @@ namespace Magitek.Utilities.Managers
             if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
                 return false;
 
-            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => !OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(
+                x => !OGCDAbilities.Where(
+                    p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
             return maxWeaveCount > 0;
         }
@@ -88,10 +95,13 @@ namespace Magitek.Utilities.Managers
                 return false;
 
             targetWindow--;
-            targetWindow -= Casting.SpellCastHistory.FindIndex(x => !OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+            targetWindow -= Casting.SpellCastHistory.FindIndex(
+                x => !OGCDAbilities.Where(
+                    p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
-            return targetWindow == 0 || timeBased 
-                                         && spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - ( targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
+            var targetWindowIsZero = targetWindow == 0;
+            var spellFitsInWindow = spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - (targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
+            return targetWindowIsZero || (timeBased && spellFitsInWindow);
         }
 
     }
