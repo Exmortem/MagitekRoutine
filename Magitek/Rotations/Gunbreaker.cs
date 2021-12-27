@@ -87,14 +87,6 @@ namespace Magitek.Rotations
                 if (await Defensive.HeartofLight()) return true;
                 if (await Defensive.HeartofCorundum()) return true;
 
-                //Cooldowns - Buffs
-                if (await Buff.NoMercy()) return true;
-                if (await Buff.Bloodfest()) return true;
-
-                //oGCD Dot/Dmg
-                if (await SingleTarget.BlastingZone()) return true;
-                if (await Aoe.BowShock()) return true;
-
                 //oGCD to use with BurstStrike
                 if (await SingleTarget.Hypervelocity()) return true;
 
@@ -103,26 +95,34 @@ namespace Magitek.Rotations
                 if (await SingleTarget.AbdomenTear()) return true;
                 if (await SingleTarget.JugularRip()) return true;
 
-                //oGCD
+                //oGCD - Buffs
+                if (await Buff.NoMercy()) return true;
+                if (await Buff.Bloodfest()) return true;
+
+                //oGCD - Damage
                 if (await SingleTarget.RoughDivide()) return true;
+                if (await SingleTarget.BlastingZone()) return true;
+                if (await Aoe.BowShock()) return true;
             }
 
             //Pull or get back aggro with LightningShot
             if (await SingleTarget.LightningShot()) return true;
-
-            //Apply DOT / Burst
-            if (await Aoe.DoubleDown()) return true;
-            if (await SingleTarget.SonicBreak()) return true;
 
             //AOE
             if (await Aoe.FatedCircle()) return true;
             if (await Aoe.DemonSlaughter()) return true;
             if (await Aoe.DemonSlice()) return true;
 
-            //Combo 2
-            if (await SingleTarget.WickedTalon()) return true;
-            if (await SingleTarget.SavageClaw()) return true;
+            //Combo 2 - 1st step
             if (await SingleTarget.GnashingFang()) return true;
+
+            //Apply DOT / Burst
+            if (await Aoe.DoubleDown()) return true;
+            if (await SingleTarget.SonicBreak()) return true;
+
+            //Combo 2 - 2nd step
+            if (await SingleTarget.SavageClaw()) return true;
+            if (await SingleTarget.WickedTalon()) return true;
 
             //Combo 3
             if (await SingleTarget.BurstStrike()) return true;

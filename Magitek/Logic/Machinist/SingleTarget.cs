@@ -6,7 +6,7 @@ using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MachinistGlobals = Magitek.Utilities.Routines.Machinist;
+using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 
 namespace Magitek.Logic.Machinist
 {
@@ -15,50 +15,73 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HeatedSplitShot()
         {
             //One to disable them all
-            if (!MachinistSettings.Instance.UseSplitShotCombo)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseSplitShotCombo, MachinistRoutine.HeatedSplitShot))
+                return false; 
+
+            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
                 return false;
 
-            if (Core.Me.ClassLevel >= 58)
-            {
-                if (MachinistSettings.Instance.UseDrill && Spells.Drill.Cooldown.TotalMilliseconds < 100)
-                    return false;
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+                return false;
 
-                if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
-                    return false;
-            }
-            return await MachinistGlobals.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
+            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
+                return false;
+
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                return false;
+
+            return await MachinistRoutine.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatedSlugShot()
         {
-            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
-            if (ActionManager.LastSpell != Spells.SplitShot)
+            if (!ActionManager.HasSpell(MachinistRoutine.HeatedSlugShot.Id))
+                return false;
+
+            if (!MachinistRoutine.CanContinueComboAfter(Spells.SplitShot))
+                return false;
+
+            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
+                return false;
+
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+                return false;
+
+            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            return await MachinistGlobals.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
+            return await MachinistRoutine.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatedCleanShot()
         {
-            //Logger.WriteInfo($@"Last Spell ActionManager: {ActionManager.LastSpell} | Last Spell Cast: {Casting.LastSpell}");
-            if (ActionManager.LastSpell != Spells.SlugShot)
+            if (!ActionManager.HasSpell(MachinistRoutine.HeatedCleanShot.Id))
+                return false;
+
+            if (!MachinistRoutine.CanContinueComboAfter(Spells.SlugShot))
+                return false;
+
+            if (MachinistSettings.Instance.UseDrill && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Drill, 200))
+                return false;
+
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.IsAvailableAndReadyInLessThanXMs(Spells.AirAnchor, 200))
+                return false;
+
+            if (MachinistSettings.Instance.UseChainSaw && Spells.IsAvailableAndReadyInLessThanXMs(Spells.ChainSaw, 200))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            return await MachinistGlobals.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
+            return await MachinistRoutine.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Drill()
         {
-            if (Core.Me.ClassLevel < 59)
-                return false;
-
-            if (!MachinistSettings.Instance.UseDrill)
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseDrill, Spells.Drill))
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -72,8 +95,8 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HotAirAnchor()
         {
-            if (!MachinistSettings.Instance.UseHotAirAnchor)
-                return false;
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHotAirAnchor, MachinistRoutine.HotAirAnchor))
+                return false; 
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
@@ -84,7 +107,7 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Battery >= 80)
                 return false;
 
-            return await MachinistGlobals.HotAirAnchor.Cast(Core.Me.CurrentTarget);
+            return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HeatBlast()
@@ -100,22 +123,22 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseGaussRound)
                 return false;
 
-            if (!MachinistGlobals.IsInWeaveingWindow)
+            if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;
 
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Spells.Wildfire.Cooldown == TimeSpan.Zero && Spells.Hypercharge.Cooldown == TimeSpan.Zero && Spells.GaussRound.Charges < 1.5f)
+            if (Spells.IsAvailableAndReady(Spells.Wildfire) && Spells.IsAvailableAndReady(Spells.Hypercharge) && Spells.GaussRound.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.GaussRound.Charges < 1.5f && Spells.Wildfire.Cooldown.Seconds < 2)
+                if (Spells.GaussRound.Charges < 1.5f && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 2000))
                     return false;
 
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.Cooldown == TimeSpan.Zero)
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.IsAvailableAndReady(Spells.Hypercharge))
                 {
                     if (Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 0.5f)
                         return false;

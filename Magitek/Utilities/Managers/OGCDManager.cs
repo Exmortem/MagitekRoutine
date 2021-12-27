@@ -4,8 +4,9 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
 using System.Linq;
+using Magitek.Models.Account;
 
-namespace Magitek.Utilities
+namespace Magitek.Utilities.Managers
 {
     internal static class OGCDManager
     {
@@ -49,8 +50,7 @@ namespace Magitek.Utilities
             OGCDAbilities = DataManager.SpellCache.Values.Where(x => (x.IsPlayerAction
                                                                                 && (x.SpellType == SpellType.Ability /*|| x.SpellType == SpellType.Spell*/)
                                                                                 && x.JobTypes.Any(CombatJobs.Contains))
-                                                                            || (x.SpellType == SpellType.System &&
-                                                                                x.Job == ClassJobType.Adventurer)).ToList();
+                                                                            || (x.SpellType == SpellType.System && x.Job == ClassJobType.Adventurer)).ToList();
             RemoveFalsePositives();
             ManualAdditions();
         }
@@ -70,24 +70,29 @@ namespace Magitek.Utilities
 
         }
 
-        public static int UsedOGCDs()
+        public static bool CanWeave(SpellData spell, int maxWeaveCount = 2)
         {
-            int weavingCounter = 0;
+            //700 MS = typical animation lock, with Alexander triple weave should be possible
+            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
 
-            if (Casting.SpellCastHistory.Count < 2)
-                return 0;
+            maxWeaveCount -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
 
-            if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
-                .Contains(Casting.SpellCastHistory.ElementAt(0).Spell))
-                weavingCounter += 1;
-            else
-                return 0;
-
-            if (OGCDAbilities.Where(x => x.JobTypes.Contains(Core.Me.CurrentJob))
-                .Contains(Casting.SpellCastHistory.ElementAt(1).Spell))
-                weavingCounter += 1;
-
-            return weavingCounter;
+            return maxWeaveCount > 0;
         }
+
+        public static bool IsWeaveWindow(SpellData spell, int targetWindow = 1, bool timeBased = false)
+        {
+            //700 MS = typical animation lock, with Alexander triple weave should be possible
+            if (spell.Cooldown.TotalMilliseconds < 700 + BaseSettings.Instance.UserLatencyOffset)
+                return false;
+
+            targetWindow--;
+            targetWindow -= Casting.SpellCastHistory.FindIndex(x => OGCDAbilities.Where(p => p.JobTypes.Contains(Core.Me.CurrentJob)).Contains(x.Spell));
+
+            return targetWindow == 0 || timeBased 
+                                         && spell.Cooldown.TotalMilliseconds <= spell.AdjustedCooldown.TotalMilliseconds - ( targetWindow * 700 + BaseSettings.Instance.UserLatencyOffset);
+        }
+
     }
 }

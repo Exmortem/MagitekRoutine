@@ -52,7 +52,7 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSpreadShot { get; set; }
+        public bool UseScattergun { get; set; }
 
         [Setting]
         [DefaultValue(3)]
