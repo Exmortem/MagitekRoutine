@@ -25,10 +25,10 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;
 
-            if (!Spells.BarrelStabilizer.IsReady())
+            if (!Spells.BarrelStabilizer.IsKnownAndReady())
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat > 30 && Spells.Wildfire.IsReady(8000))
+            if (ActionResourceManager.Machinist.Heat > 30 && Spells.Wildfire.IsKnownAndReady(8000))
                 return false;
 
             if (ActionResourceManager.Machinist.Heat >= 35 && Spells.Wildfire.Cooldown.TotalMilliseconds > 8000)
@@ -39,10 +39,10 @@ namespace Magitek.Logic.Machinist
 
             if (ActionResourceManager.Machinist.Heat < 50)
             {
-                if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(8000) && MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsReady(4000))
+                if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsKnownAndReady(8000) && MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsKnownAndReady(4000))
                     return false;
 
-                if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(8000) && MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsReady(4000))
+                if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(8000) && MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsKnownAndReady(4000))
                     return false;
             }
 
@@ -56,7 +56,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHypercharge, Spells.Hypercharge))
                 return false;
 
-            if (!Spells.Hypercharge.IsReady())
+            if (!Spells.Hypercharge.IsKnownAndReady())
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50)
@@ -67,20 +67,20 @@ namespace Magitek.Logic.Machinist
                 if (Core.Me.HasAura(Auras.WildfireBuff, true) && Spells.Wildfire.Cooldown.TotalMilliseconds > 117200)
                     return await Spells.Hypercharge.Cast(Core.Me);
 
-                if (MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsReady(12000))
+                if (MachinistSettings.Instance.UseWildfire && Spells.Wildfire.IsKnownAndReady(12000))
                     return false;
 
                 if (!MachinistSettings.Instance.UseWildfire || !ActionManager.CurrentActions.Values.Contains(Spells.Wildfire))
                     return await Spells.Hypercharge.Cast(Core.Me);
             }
 
-            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(8000))
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsKnownAndReady(8000))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(8000))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(8000))
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(8000))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(8000))
                 return false;
 
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
@@ -99,19 +99,19 @@ namespace Magitek.Logic.Machinist
             if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseWildfire, Spells.Wildfire))
                 return false;
 
-            if (!Spells.Wildfire.IsReady())
+            if (!Spells.Wildfire.IsKnownAndReady())
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
                 return false;
 
-            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(9000))
+            if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsKnownAndReady(9000))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(9000))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(9000))
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(9000))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(9000))
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
@@ -153,22 +153,22 @@ namespace Magitek.Logic.Machinist
 
             if (Core.Me.ClassLevel >= 58 && Core.Me.ClassLevel < 76)
             {
-                if (MachinistSettings.Instance.UseDrill && !Spells.Drill.IsReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                if (MachinistSettings.Instance.UseDrill && !Spells.Drill.IsKnownAndReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
                     return false;
             }
 
             if (Core.Me.ClassLevel >= 76 && Core.Me.ClassLevel < 90)
             {
-                if ((MachinistSettings.Instance.UseDrill && !Spells.Drill.IsReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
-                    && (MachinistSettings.Instance.UseHotAirAnchor && !Spells.AirAnchor.IsReady() && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds))
+                if ((MachinistSettings.Instance.UseDrill && !Spells.Drill.IsKnownAndReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (MachinistSettings.Instance.UseHotAirAnchor && !Spells.AirAnchor.IsKnownAndReady() && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds))
                     return false;
             }
 
             if (Core.Me.ClassLevel >= 90)
             {
-                if ((MachinistSettings.Instance.UseDrill && !Spells.Drill.IsReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
-                    && (MachinistSettings.Instance.UseHotAirAnchor && !Spells.AirAnchor.IsReady() && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
-                    && (MachinistSettings.Instance.UseChainSaw && !Spells.ChainSaw.IsReady() && Spells.ChainSaw.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds))
+                if ((MachinistSettings.Instance.UseDrill && !Spells.Drill.IsKnownAndReady() && Spells.Drill.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (MachinistSettings.Instance.UseHotAirAnchor && !Spells.AirAnchor.IsKnownAndReady() && Spells.AirAnchor.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds)
+                    && (MachinistSettings.Instance.UseChainSaw && !Spells.ChainSaw.IsKnownAndReady() && Spells.ChainSaw.Cooldown.TotalMilliseconds - 100 >= MachinistRoutine.HeatedSplitShot.Cooldown.TotalMilliseconds))
                     return false;
             }
 
