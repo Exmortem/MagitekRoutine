@@ -323,7 +323,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
             
             if (ActionResourceManager.BlackMage.UmbralStacks > 0
-                && Casting.LastSpell == Spells.Blizzard3)
+                && Casting.LastSpell == Spells.Thunder3)
                 return await Spells.Paradox.Cast(Core.Me.CurrentTarget);
 
             return false;
