@@ -91,6 +91,14 @@ namespace Magitek.Controls
                     Gunbreaker.IsChecked = true;
                     break;
 
+                case ClassJobType.Sage:
+                    Gunbreaker.IsChecked = true;
+                    break;
+
+                case ClassJobType.Reaper:
+                    Gunbreaker.IsChecked = true;
+                    break;
+
                 default:
                     return;
             }

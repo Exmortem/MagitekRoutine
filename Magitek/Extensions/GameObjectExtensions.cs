@@ -411,6 +411,7 @@ namespace Magitek.Extensions
             ClassJobType.Summoner,
             ClassJobType.Dancer,
             ClassJobType.BlueMage,
+            ClassJobType.Reaper,
         };
 
         private static readonly List<ClassJobType> RangedDps = new List<ClassJobType>()
@@ -432,6 +433,7 @@ namespace Magitek.Extensions
             ClassJobType.Ninja,
             ClassJobType.Samurai,
             ClassJobType.BlueMage,
+            ClassJobType.Reaper,
         };
 
         private static readonly List<ClassJobType> RangedDpsCard = new List<ClassJobType>()

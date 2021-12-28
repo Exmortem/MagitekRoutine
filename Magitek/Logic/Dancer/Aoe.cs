@@ -19,6 +19,8 @@ namespace Magitek.Logic.Dancer
 
             if (!Core.Me.HasAura(Auras.FlourishingStarfall)) return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
             if (!Core.Me.CurrentTarget.InCustomDegreeCone(10)) return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.StarfallDance.Range) return false;
@@ -31,6 +33,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseAoe) return false;
 
             if (Core.Me.ClassLevel < Spells.FanDanceIV.LevelAcquired) return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
             if (!Core.Me.HasAura(Auras.FourfoldFanDance)) return false;
 
@@ -47,6 +51,8 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired) return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
 
@@ -55,6 +61,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseAoe) return false;
 
             if (!DancerSettings.Instance.FanDanceTwo) return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.FanDanceTwoEnemies) return false;
 
@@ -69,6 +77,8 @@ namespace Magitek.Logic.Dancer
 
             if (!DancerSettings.Instance.Bloodshower) return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies) return false;
 
             if (!Core.Me.HasAura(Auras.FlourshingFlow) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
@@ -81,6 +91,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseAoe) return false;
 
             if (!DancerSettings.Instance.RisingWindmill) return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.RisingWindmillEnemies) return false;
 
@@ -101,6 +113,8 @@ namespace Magitek.Logic.Dancer
 
             if (ActionResourceManager.Dancer.Esprit < DancerSettings.Instance.SaberDanceEsprit) return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < DancerSettings.Instance.SaberDanceEnemies) return false;
 
             if (DancerSettings.Instance.UseExpermentalChecks)
@@ -115,6 +129,8 @@ namespace Magitek.Logic.Dancer
 
             if (!DancerSettings.Instance.Bladeshower) return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.BladeshowerEnemies) return false;
 
             if (ActionManager.LastSpell != Spells.Windmill) return false;
@@ -127,6 +143,8 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseAoe) return false;
 
             if (!DancerSettings.Instance.Windmill) return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.WindmillEnemies) return false;
 

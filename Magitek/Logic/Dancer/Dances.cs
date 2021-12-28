@@ -14,10 +14,11 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Tillana()
         {
+            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
 
             if (!Core.Me.HasAura(Auras.FlourishingFinish)) return false;
 
-            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
 
@@ -106,20 +107,18 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            // When out of range of target, just hold dances until it is in range.
-            // Being in dance mode should also stop any futher routine processing as no
-            // other abilities can be cast except dances. 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
-                return true;
+            if (DancerSettings.Instance.UseExpermentalChecks)
+            {
+                if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
+                    return false;
+            }
 
             try
             {
-
                 Logger.Write($@"[Magitek] Dance Log {ActionResourceManager.Dancer.CurrentStep}");
                 switch (ActionResourceManager.Dancer.CurrentStep)
                 {
                     case ActionResourceManager.Dancer.DanceStep.Finish:
-
                         if (Core.Me.HasAura(Auras.StandardStep))
                             return await Spells.DoubleStandardFinish.Cast(Core.Me);
                         else
@@ -140,7 +139,7 @@ namespace Magitek.Logic.Dancer
             }
             catch
             {
-                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error..
+                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error.
                 return false;
             }
 
