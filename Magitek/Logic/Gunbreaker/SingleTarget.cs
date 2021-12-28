@@ -104,7 +104,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
-            if (Spells.NoMercy.IsReady(10000))
+            if (Spells.NoMercy.IsKnownAndReady(10000))
                 return false;
 
             return await Spells.GnashingFang.Cast(Core.Me.CurrentTarget);
@@ -193,22 +193,22 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
             {
-                if (Spells.DoubleDown.IsReady() || Spells.GnashingFang.IsReady())
+                if (Spells.DoubleDown.IsKnownAndReady() || Spells.GnashingFang.IsKnownAndReady())
                     return false;
             }
 
             //Delay if nomercy ready soon
-            if (Spells.NoMercy.IsReady(16000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
+            if (Spells.NoMercy.IsKnownAndReady(16000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
                 return false;
-            if (Spells.NoMercy.IsReady(8000) && Cartridge < GunbreakerRoutine.MaxCartridge)
+            if (Spells.NoMercy.IsKnownAndReady(8000) && Cartridge < GunbreakerRoutine.MaxCartridge)
                 return false;
 
             //Delay if GnashingFang ready soon
-            if (Spells.GnashingFang.IsReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+            if (Spells.GnashingFang.IsKnownAndReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             //Delay if DoubleDown ready soon
-            if (Spells.DoubleDown.IsReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.DoubleDown.IsKnownAndReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
