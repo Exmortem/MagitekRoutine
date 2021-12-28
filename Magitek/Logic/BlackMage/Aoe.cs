@@ -40,13 +40,15 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks != 3)
                 return false;
 
+            //If at max polyglot stacks, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && Casting.LastSpell == Spells.Flare)
+                return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+
             //If we have Umbral hearts, Freeze has gone off
             if (ActionResourceManager.BlackMage.UmbralHearts >= 1)
                 if (Casting.LastSpell != Spells.Foul)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
-
-            if (Casting.LastSpell == Spells.Transpose)
-                return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
             return false;
         }
