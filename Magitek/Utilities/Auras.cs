@@ -290,7 +290,10 @@ namespace Magitek.Utilities
             ReadytoBlast = 2686,
             SonicBreak = 1837,
             BowShock = 1838,
-            DraconianFire = 1863
+            DraconianFire = 1863,
+            PowerSurge = 2720,
+            ChaoticSpring = 2719,
+            LanceCharge = 1864
             ;
 
         private const int

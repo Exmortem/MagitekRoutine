@@ -27,8 +27,8 @@ namespace Magitek.Gambits.Actions
                 return false;
 
             // Dragon Specific for Mirage Dive tracking
-            if (SpellData == Spells.MirageDive)
-                Utilities.Routines.Dragoon.MirageDives++;
+            /*if (SpellData == Spells.MirageDive)
+                Utilities.Routines.Dragoon.MirageDives++;*/
 
             Casting.CastingGambit = true;
             return true;
