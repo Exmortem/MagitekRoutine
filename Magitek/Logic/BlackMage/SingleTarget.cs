@@ -52,9 +52,6 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Despair.LevelAcquired)
                 return false;
 
-            if (!Core.Me.HasEnochian())
-                return false;
-
             if (Casting.LastSpell == Spells.Despair)
                 return false;
 
@@ -115,9 +112,6 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire4()
         {
             if (Core.Me.ClassLevel < Spells.Fire4.LevelAcquired)
-                return false;
-
-            if (!Core.Me.HasEnochian())
                 return false;
 
             // If we need to refresh stack timer, stop
@@ -254,9 +248,6 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Blizzard4)
                 return false;
 
-            if (!Core.Me.HasEnochian())
-                return false;
-
             if (Core.Me.ClassLevel < Spells.Blizzard4.LevelAcquired)
                 return false;
 
@@ -315,8 +306,26 @@ namespace Magitek.Logic.BlackMage
                 return false;
             }
 
-            if (Core.Me.HasEnochian())
+            return false;
+        }
+        public static async Task<bool> ParadoxUmbral()
+        {
+            if (Core.Me.ClassLevel < Spells.Paradox.LevelAcquired)
                 return false;
+
+            if (ActionResourceManager.BlackMage.PolyglotStatus)
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500))
+                return false;
+
+            if (!Spells.Paradox.IsReady())
+                return false;
+            
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0
+                && Casting.LastSpell == Spells.Blizzard3)
+                return await Spells.Paradox.Cast(Core.Me.CurrentTarget);
+
             return false;
         }
 
