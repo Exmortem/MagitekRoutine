@@ -19,7 +19,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="LeftEye" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
@@ -72,21 +71,21 @@
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Dragon Sight on:" />
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Dragon Sight on:" />
                     <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource LeftEye}}" SelectedValue="{Binding DragoonSettings.SelectedStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-                </StackPanel>
+            </StackPanel>
 
                 <controls:SettingsBlock Grid.Row="1" Background="{DynamicResource ClassSelectorBackground}">
                     <Grid Margin="5">
