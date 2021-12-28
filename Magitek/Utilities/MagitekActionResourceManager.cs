@@ -6,7 +6,7 @@ namespace Magitek.Utilities
     {
         public static class BlackMage
         {
-            public static bool Enochian => ActionResourceManager.CostTypesStruct.offset_F == 1;
+            public static ushort PolyGlotTimer => ActionResourceManager.CostTypesStruct.timer;
         }
         public static class DarkKnight
         {
