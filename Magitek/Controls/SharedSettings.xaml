@@ -6,10 +6,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </UserControl.Resources>

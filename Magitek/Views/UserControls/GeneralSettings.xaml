@@ -10,15 +10,15 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="ChocoboStances" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="rbEnums:CompanionStance" />
+                    <x:Type TypeName="rbEnums:CompanionStance"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
         </ResourceDictionary>
