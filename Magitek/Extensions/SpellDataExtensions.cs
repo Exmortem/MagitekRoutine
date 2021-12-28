@@ -239,7 +239,7 @@ namespace Magitek.Extensions
 
         public static bool IsReady(this SpellData spell, int remainingTimeInMs = 0)
         {
-            return IsKnown(spell) && spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
+            return spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
         }
 
         public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 0)
