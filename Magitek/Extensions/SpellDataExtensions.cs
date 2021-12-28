@@ -242,6 +242,11 @@ namespace Magitek.Extensions
             return IsKnown(spell) && spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
         }
 
+        public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 0)
+        {
+            return spell.IsKnown() && spell.IsReady(remainingTimeInMs);
+        }
+
         public static uint AdjustedSpellCostBlm(this SpellData spell)
         {
             // If it's a Fire spell
