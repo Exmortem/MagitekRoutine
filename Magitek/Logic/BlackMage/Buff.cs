@@ -180,6 +180,10 @@ namespace Magitek.Logic.BlackMage
             if (!Core.Me.InCombat)
                 return false;
 
+            if (ActionResourceManager.BlackMage.AstralStacks == 0
+                && ActionResourceManager.BlackMage.UmbralStacks == 0)
+                return false;
+
             return await Spells.Amplifier.Cast(Core.Me);
         }
 
