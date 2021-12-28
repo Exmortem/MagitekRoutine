@@ -335,6 +335,26 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
+        public bool Pneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnlyZoePneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool PneumaHealOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float PneumaHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int PneumaNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool SwiftcastRes { get; set; }
 
         [Setting]

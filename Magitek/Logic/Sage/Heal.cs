@@ -407,5 +407,94 @@ namespace Magitek.Logic.Sage
 
             return false;
         }
+        public static async Task<bool> Pneuma()
+        {
+            if (!SageSettings.Instance.Pneuma)
+                return false;
+
+            if (SageSettings.Instance.OnlyZoePneuma)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
+                return false;
+
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var pneumaTarget = Group.CastableAlliesWithin20.Count(r => r.IsAlive &&
+                                                                     r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= SageSettings.Instance.PneumaNeedHealing;
+
+                if (!pneumaTarget)
+                    return false;
+
+                return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
+            }
+            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PneumaHpPercent)
+                return false;
+
+            return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> ZoePneuma()
+        {
+            if (!SageSettings.Instance.Pneuma)
+                return false;
+
+            if (!SageSettings.Instance.OnlyZoePneuma)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
+                return false;
+
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var pneumaTarget = Group.CastableAlliesWithin20.Count(r => r.IsAlive &&
+                                                                     r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= SageSettings.Instance.PneumaNeedHealing;
+
+                if (!pneumaTarget)
+                    return false;
+
+                await UseZoe();
+
+                return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PneumaHpPercent)
+                return false;
+
+            await UseZoe();
+            
+            return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
+            
+            async Task UseZoe()
+            {
+                if (!SageSettings.Instance.OnlyZoePneuma)
+                    return;
+                
+                if (Spells.Zoe.Cooldown != TimeSpan.Zero)
+                    return;
+
+                if (!await Spells.Zoe.Cast(Core.Me))
+                    return;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Zoe)))
+                    return;
+
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Zoe.Id, Core.Me));
+            }
+
+            
+        }
     }
 }
