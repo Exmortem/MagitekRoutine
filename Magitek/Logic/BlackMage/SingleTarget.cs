@@ -21,12 +21,17 @@ namespace Magitek.Logic.BlackMage
 
             if (Casting.LastSpell == Spells.Xenoglossy)
                 return false;
-
+            
             //If we don't have Xeno, Foul is single target
             if (Core.Me.ClassLevel < 80
                 && ActionResourceManager.BlackMage.UmbralStacks == 3)
                 return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
+            //If at 2 stacks of polyglot, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && Casting.LastSpell == Spells.Despair)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+            
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
