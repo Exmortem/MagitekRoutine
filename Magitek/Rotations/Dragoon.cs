@@ -158,38 +158,32 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(100,
                                           "",
-                                          () => !Core.Me.InCombat));
+                                          () => !Core.Me.InCombat || !Core.Me.HasTarget));
 
             //Second priority: Don't show anything if positional requirements are Nulled
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "",
-                                          () => DragoonSettings.Instance.HidePositionalMessage && Core.Me.HasAura(Auras.TrueNorth) && DragoonSettings.Instance.EnemyIsOmni));
+                                          () => DragoonSettings.Instance.HidePositionalMessage || Core.Me.HasAura(Auras.TrueNorth) || DragoonSettings.Instance.EnemyIsOmni));
 
             //Third priority : Positional
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Chaotic Spring => BEHIND !!",
                                           "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
-                                          () => !DragoonSettings.Instance.HidePositionalMessage && !Core.Me.HasAura(Auras.TrueNorth) && !DragoonSettings.Instance.EnemyIsOmni 
-                                          && !Core.Me.CurrentTarget.IsBehind 
-                                          && ActionManager.LastSpell == Spells.Disembowel));
+                                          () => !Core.Me.CurrentTarget.IsBehind && ActionManager.LastSpell == Spells.Disembowel));
 
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Wheeling Thrust => BEHIND !!",
                                           "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
-                                          () => !DragoonSettings.Instance.HidePositionalMessage && !Core.Me.HasAura(Auras.TrueNorth) && !DragoonSettings.Instance.EnemyIsOmni
-                                          && !Core.Me.CurrentTarget.IsBehind 
-                                          && Core.Me.HasAura(Auras.EnhancedWheelingThrust)));
+                                          () => !Core.Me.CurrentTarget.IsBehind && Core.Me.HasAura(Auras.EnhancedWheelingThrust)));
 
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Fang & Claw => SIDE !!!",
                                           "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
-                                          () => !DragoonSettings.Instance.HidePositionalMessage && !Core.Me.HasAura(Auras.TrueNorth) && !DragoonSettings.Instance.EnemyIsOmni 
-                                          && !Core.Me.CurrentTarget.IsFlanking 
-                                          && Core.Me.HasAura(Auras.SharperFangandClaw)));
+                                          () => !Core.Me.CurrentTarget.IsFlanking && Core.Me.HasAura(Auras.SharperFangandClaw)));
         }
     }
 }
