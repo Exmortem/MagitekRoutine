@@ -103,7 +103,6 @@ namespace Magitek.Rotations
             if (await Dances.TechnicalStep()) return true;
             if (await Dances.DanceStep()) return true;
 
-
             if (Utilities.Routines.Dancer.OnGcd)
             {
                 //Only cast spells that are instant/off gcd
