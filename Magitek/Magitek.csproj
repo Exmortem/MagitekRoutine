@@ -243,6 +243,7 @@
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
+    <Compile Include="Logic\Dragoon\Utility.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
     <Compile Include="Logic\Reaper\Normal\Buff.cs" />
     <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />

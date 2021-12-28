@@ -13,57 +13,20 @@ namespace Magitek.Models.Dragoon
 
         public static DragoonSettings Instance { get; set; } = new DragoonSettings();
 
+        #region General
         [Setting]
         [DefaultValue(false)]
         public bool HidePositionalMessage { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool EnemyIsOmni { get; set; }
+        #endregion
+
+        #region Jumps
+        [Setting]
         [DefaultValue(true)]
         public bool UseJumps { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool MirageDive { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseBuffs { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool BloodOfTheDragon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool BattleLitany { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceDragonSight { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Geirskogul { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Nastrond { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool LifeSurge { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseDragonSight { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Defensives { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Jump { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -71,43 +34,46 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(true)]
-        public bool SpineshatterDive { get; set; }
+        public bool UseHighJump { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseLifeSurge { get; set; }
+        public bool UseMirageDive { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool DragonfireDive { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float RestHealthPercent { get; set; }
+        public bool UseSpineshatterDive { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Aoe { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int AoeEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(6)]
-        public int DisembowelRefreshSeconds { get; set; }
+        public bool UseDragonfireDive { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool LanceCharge { get; set; }
+        public bool UseStardiver { get; set; }
+
+        #endregion
+
+        #region Buff
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBuffs { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Stardiver { get; set; }
+        public bool UseBattleLitany { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool TrueNorth { get; set; }
+        public bool UseLanceCharge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseDragonSight { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceDragonSight { get; set; }
 
         [Setting]
         [DefaultValue(DragonSightStrategy.ClosestDps)]
@@ -117,73 +83,122 @@ namespace Magitek.Models.Dragoon
         [DefaultValue(false)]
         public bool SmartDragonSight { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseLifeSurge { get; set; }
+
+        #endregion
+
+        #region Aoe
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int AoeEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGeirskogul { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseNastrond { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseWyrmwindThrust { get; set; }
+
+    #endregion
+
+    #region Defensives
+
+    [Setting]
+        [DefaultValue(true)]
+        public bool Defensives { get; set; }
+
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float RestHealthPercent { get; set; }
+
+        #endregion
+
         #region Eye Weights
         [Setting]
         [DefaultValue(1)]
         public int MnkEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
-        public int BlmEyeWeight { get; set; }
+        [DefaultValue(2)]
+        public int RprEyeWeight { get; set; }
 
         [Setting]
         [DefaultValue(3)]
-        public int DrgEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
         public int SamEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(6)]
-        public int MchEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(8)]
-        public int SmnEyeWeight { get; set; }
-
-        [Setting]
         [DefaultValue(5)]
-        public int BrdEyeWeight { get; set; }
+        public int DrgEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
+        [DefaultValue(6)]
         public int NinEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(9)]
-        public int RdmEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(7)]
-        public int DncEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(14)]
-        public int PldEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(13)]
-        public int WarEyeWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(12)]
-        public int DrkEyeWeight { get; set; }
+        [DefaultValue(10)]
+        public int BrdEyeWeight { get; set; }
 
         [Setting]
         [DefaultValue(11)]
+        public int MchEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(12)]
+        public int DncEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int SmnEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(21)]
+        public int RdmEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(22)]
+        public int BlmEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(30)]
         public int GnbEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(15)]
+        [DefaultValue(31)]
+        public int DrkEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(32)]
+        public int WarEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(33)]
+        public int PldEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(40)]
         public int WhmEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(16)]
+        [DefaultValue(41)]
         public int SchEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(17)]
+        [DefaultValue(42)]
+        public int SgeEyeWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(43)]
         public int AstEyeWeight { get; set; }
 
         #endregion

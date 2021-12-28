@@ -23,15 +23,15 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Jump" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.Jump, Mode=TwoWay}" />
-                <CheckBox Margin="0,3" Content="Spineshatter Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.SpineshatterDive, Mode=TwoWay}" />
-                <CheckBox Content="Dragonfire Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.DragonfireDive, Mode=TwoWay}" />
+                <CheckBox Content="Jump" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.UseHighJump, Mode=TwoWay}" />
+                <CheckBox Margin="0,3" Content="Spineshatter Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.UseSpineshatterDive, Mode=TwoWay}" />
+                <CheckBox Content="Dragonfire Dive" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.UseDragonfireDive, Mode=TwoWay}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Stardiver" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.Stardiver, Mode=TwoWay}" />
+                <CheckBox Content="Stardiver" Style="{DynamicResource CheckBoxFlat}" IsChecked="{Binding DragoonSettings.UseStardiver, Mode=TwoWay}" />
             </StackPanel>
         </controls:SettingsBlock>
 

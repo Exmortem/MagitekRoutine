@@ -38,25 +38,25 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="True North" IsChecked="{Binding DragoonSettings.TrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="True North" IsChecked="{Binding DragoonSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Lance Charge" IsChecked="{Binding DragoonSettings.LanceCharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Lance Charge" IsChecked="{Binding DragoonSettings.UseLanceCharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Battle Litany" IsChecked="{Binding DragoonSettings.BattleLitany, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Battle Litany" IsChecked="{Binding DragoonSettings.UseBattleLitany, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Life Surge" IsChecked="{Binding DragoonSettings.LifeSurge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Life Surge" IsChecked="{Binding DragoonSettings.UseLifeSurge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -67,7 +67,7 @@
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content=" Try Smart Dragon Sight ( Party / Solo )" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content=" Try Smart Dragon Sight ( Party / Solo ) - Deprecated" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
@@ -101,55 +101,69 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+                        <!-- MELEE DPS -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="MNK: " />
                         <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.MnkEyeWeight, Mode=TwoWay}" />
                         <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="DRG: " />
                         <controls:Numeric Grid.Row="1" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.DrgEyeWeight, Mode=TwoWay}" />
                         <TextBlock Grid.Row="1" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="NIN: " />
                         <controls:Numeric Grid.Row="1" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.NinEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="1" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="SAM: " />
+                        <controls:Numeric Grid.Row="1" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SamEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="1" Grid.Column="12" Style="{DynamicResource TextBlockDefault}" Text="RPR: " />
+                        <controls:Numeric Grid.Row="1" Grid.Column="13" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.RprEyeWeight, Mode=TwoWay}" />
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="SAM: " />
-                        <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SamEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
-                        <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.BlmEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
-                        <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SmnEyeWeight, Mode=TwoWay}" />
+                        <!-- PHYSICAL DPS -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="BRD: " />
+                        <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.BrdEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="MCH: " />
+                        <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.MchEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="DNC: " />
+                        <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.DncEyeWeight, Mode=TwoWay}" />
+                        
+                        <!-- MAGICAL DPS -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
+                        <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.BlmEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="3" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
+                        <controls:Numeric Grid.Row="3" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SmnEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="3" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="RDM: " />
+                        <controls:Numeric Grid.Row="3" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.RdmEyeWeight, Mode=TwoWay}" />
 
-                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="RDM: " />
-                        <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.RdmEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="3" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="BRD: " />
-                        <controls:Numeric Grid.Row="3" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.BrdEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="3" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="MCH: " />
-                        <controls:Numeric Grid.Row="3" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.MchEyeWeight, Mode=TwoWay}" />
+                        <!-- TANKS -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="PLD: " />
+                        <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.PldEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="4" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="WAR: " />
+                        <controls:Numeric Grid.Row="4" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.WarEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="4" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="DRK: " />
+                        <controls:Numeric Grid.Row="4" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.DrkEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="4" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="GNB: " />
+                        <controls:Numeric Grid.Row="4" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.GnbEyeWeight, Mode=TwoWay}" />
 
-                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="DNC: " />
-                        <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.DncEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="4" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="PLD: " />
-                        <controls:Numeric Grid.Row="4" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.PldEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="4" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="WAR: " />
-                        <controls:Numeric Grid.Row="4" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.WarEyeWeight, Mode=TwoWay}" />
-
-                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="DRK: " />
-                        <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.DrkEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="5" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="GNB: " />
-                        <controls:Numeric Grid.Row="5" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.GnbEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="5" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="WHM: " />
-                        <controls:Numeric Grid.Row="5" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.WhmEyeWeight, Mode=TwoWay}" />
-
-                        <TextBlock Grid.Row="6" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="SCH: " />
-                        <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SchEyeWeight, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="6" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="AST: " />
-                        <controls:Numeric Grid.Row="6" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.AstEyeWeight, Mode=TwoWay}" />
+                        <!-- HEALERS -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="WHM: " />
+                        <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.WhmEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="5" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="SCH: " />
+                        <controls:Numeric Grid.Row="5" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SchEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="5" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="AST: " />
+                        <controls:Numeric Grid.Row="5" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.AstEyeWeight, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="5" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="SGE: " />
+                        <controls:Numeric Grid.Row="5" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DragoonSettings.SgeEyeWeight, Mode=TwoWay}" />
                     </Grid>
                 </controls:SettingsBlock>
             </Grid>

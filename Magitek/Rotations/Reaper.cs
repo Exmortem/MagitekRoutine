@@ -171,14 +171,14 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(100,
                                           "",
-                                          () => !Core.Me.InCombat)
+                                          () => !Core.Me.InCombat || !Core.Me.HasTarget)
                 );
 
             //Second priority: Don't show anything if positional requirements are Nulled
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "",
-                                          () => ReaperSettings.Instance.HidePositionalMessage && Core.Me.HasAura(Auras.TrueNorth))
+                                          () => ReaperSettings.Instance.HidePositionalMessage || Core.Me.HasAura(Auras.TrueNorth) || ReaperSettings.Instance.EnemyIsOmni)
                 );
 
             CombatMessageManager.RegisterMessageStrategy(

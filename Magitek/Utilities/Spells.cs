@@ -254,8 +254,9 @@ namespace Magitek.Utilities
         public static readonly SpellData RaidenThrust = DataManager.GetSpellData(16479);
         public static readonly SpellData Stardiver = DataManager.GetSpellData(16480);
         public static readonly SpellData HeavensThrust = DataManager.GetSpellData(25771);
-        public static readonly SpellData ChaoricSpring = DataManager.GetSpellData(25772);
+        public static readonly SpellData ChaoticSpring = DataManager.GetSpellData(25772);
         public static readonly SpellData WyrmwindThrust = DataManager.GetSpellData(25773);
+        public static readonly SpellData DraconianFury = DataManager.GetSpellData(25770);
         #endregion
 
         // DRK
