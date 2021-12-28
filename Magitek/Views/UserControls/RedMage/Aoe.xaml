@@ -7,6 +7,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToHalfOpaqueConverter x:Key="BooleanToHalfOpaqueConverter" />
             <converters:MultiBooleanAndToHalfOpaqueConverter x:Key="MultiBooleanAndToHalfOpaqueConverter" />
             <converters:MultiBooleanAndToBooleanConverter x:Key="MultiBooleanAndToBooleanConverter" />

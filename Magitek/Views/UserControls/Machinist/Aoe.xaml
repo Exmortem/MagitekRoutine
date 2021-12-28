@@ -4,6 +4,10 @@
              xmlns:controls="clr-namespace:Magitek.Controls" 
              xmlns:viewModels="clr-namespace:Magitek.ViewModels">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>

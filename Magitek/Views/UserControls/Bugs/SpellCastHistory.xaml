@@ -7,6 +7,10 @@
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
 
 

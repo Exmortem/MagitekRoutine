@@ -16,6 +16,10 @@
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
         <StackPanel Margin="5" Orientation="Horizontal">
             <CheckBox Grid.Column="0" Content="Grit  " IsChecked="{Binding DarkKnightSettings.Grit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

@@ -4,6 +4,10 @@
         <Binding Source="{x:Static viewModels:Debug.Instance}" />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
         <CheckBox Content="Enable Tracking Of Party Member Auras" IsChecked="{Binding Settings.PartyMemberAuraHistory, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <ListBox Height="405"
