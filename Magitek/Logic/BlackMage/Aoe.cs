@@ -25,6 +25,11 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
+            //If at 2 stacks of polyglot and 5 seconds from another stack, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && MagitekActionResourceManager.BlackMage.PolyGlotTimer >= 25)
+                return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+
             // If we're moving in combat
             if (Core.Me.ClassLevel >= 80 && MovementManager.IsMoving)
             {

@@ -31,7 +31,12 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.PolyglotCount == 2
                 && Casting.LastSpell == Spells.Despair)
                 return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
-            
+
+            //If at 2 stacks of polyglot and 5 seconds from another stack, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && MagitekActionResourceManager.BlackMage.PolyGlotTimer >= 25)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+
             // If we're moving in combat
             if (MovementManager.IsMoving)
             {
