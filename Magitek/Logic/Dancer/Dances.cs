@@ -19,6 +19,8 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
+
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
 
@@ -30,6 +32,8 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
 
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
+
             if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000)) return false;
 
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
@@ -38,7 +42,7 @@ namespace Magitek.Logic.Dancer
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall || x.Id == Auras.FlourishingFinish
+                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
             ));
 
             if (procs.Any())
@@ -68,13 +72,15 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            //if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
-            //    return false;
+            if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
+                return false;
+
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall
+                x.Id == Auras.FourfoldFanDance
             ));
 
             if (procs.Any())
@@ -87,7 +93,10 @@ namespace Magitek.Logic.Dancer
             return await Spells.TechnicalStep.Cast(Core.Me);
         }
 
-
+        public static async Task<bool> DanceFinish() // Just for Gambit Readablity
+        {
+            return await DanceStep();
+        }
 
         public static async Task<bool> DanceStep()
         {
@@ -97,7 +106,11 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 40) return false;
+            // When out of range of target, just hold dances until it is in range.
+            // Being in dance mode should also stop any futher routine processing as no
+            // other abilities can be cast except dances. 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
+                return true;
 
             try
             {

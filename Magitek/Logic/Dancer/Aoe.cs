@@ -19,6 +19,10 @@ namespace Magitek.Logic.Dancer
 
             if (!Core.Me.HasAura(Auras.FlourishingStarfall)) return false;
 
+            if (!Core.Me.CurrentTarget.InCustomDegreeCone(10)) return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.StarfallDance.Range) return false;
+
             return await Spells.StarfallDance.Cast(Core.Me.CurrentTarget);
         }
 
@@ -29,6 +33,10 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.FanDanceIV.LevelAcquired) return false;
 
             if (!Core.Me.HasAura(Auras.FourfoldFanDance)) return false;
+
+            if (!Core.Me.CurrentTarget.InCustomRadiantCone(Spells.StarfallDance.Radius)) return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDanceIV.Range) return false;
 
             return await Spells.FanDanceIV.Cast(Core.Me.CurrentTarget);
         }
@@ -94,6 +102,9 @@ namespace Magitek.Logic.Dancer
             if (ActionResourceManager.Dancer.Esprit < DancerSettings.Instance.SaberDanceEsprit) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < DancerSettings.Instance.SaberDanceEnemies) return false;
+
+            if (DancerSettings.Instance.UseExpermentalChecks)
+                if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.SaberDance.Range) return false;
 
             return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
         }

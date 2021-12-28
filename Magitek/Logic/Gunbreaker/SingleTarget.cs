@@ -104,7 +104,7 @@ namespace Magitek.Logic.Gunbreaker
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 10000))
+            if (Spells.NoMercy.IsReady(10000))
                 return false;
 
             return await Spells.GnashingFang.Cast(Core.Me.CurrentTarget);
@@ -193,26 +193,23 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
             {
-                if (Spells.IsAvailableAndReady(Spells.DoubleDown) || Spells.IsAvailableAndReady(Spells.GnashingFang))
+                if (Spells.DoubleDown.IsReady() || Spells.GnashingFang.IsReady())
                     return false;
             }
 
             //Delay if nomercy ready soon
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 14000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
+            if (Spells.NoMercy.IsReady(16000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
                 return false;
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.NoMercy, 7000) && Cartridge < GunbreakerRoutine.MaxCartridge)
+            if (Spells.NoMercy.IsReady(8000) && Cartridge < GunbreakerRoutine.MaxCartridge)
                 return false;
 
             //Delay if GnashingFang ready soon
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.GnashingFang, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+            if (Spells.GnashingFang.IsReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
                 return false;
 
             //Delay if DoubleDown ready soon
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.DoubleDown.IsReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
-
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Bloodfest, 2000) && Cartridge > 0)
-                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
 
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
         }

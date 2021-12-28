@@ -62,6 +62,12 @@ namespace Magitek.Converters
                     case GambitActionTypes.PetCast:
                         action = new PetCastAction();
                         break;
+                    case GambitActionTypes.DanceFinish:
+                        action = new DanceFinish();
+                        break;
+                    case GambitActionTypes.DanceStep:
+                        action = new DanceStep();
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

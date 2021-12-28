@@ -43,6 +43,12 @@ namespace Magitek.Gambits.Helpers
                 case GambitActionTypes.PetCast:
                     newAction = new PetCastAction() { SpellName = "The Spell's Name" };
                     break;
+                case GambitActionTypes.DanceFinish:
+                    newAction = new DanceFinish();
+                    break;
+                case GambitActionTypes.DanceStep:
+                    newAction = new DanceStep();
+                    break;
                 default:
                     return;
             }

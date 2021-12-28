@@ -1900,6 +1900,18 @@
                                                                                             </StackPanel>
                                                                                         </DataTemplate>
 
+
+                                                                                        <DataTemplate DataType="{x:Type actions:DanceStep}">
+                                                                                            <StackPanel>
+
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+
+                                                                                        <DataTemplate DataType="{x:Type actions:DanceFinish}">
+                                                                                            <StackPanel>
+
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
                                                                                     </ContentPresenter.Resources>
                                                                                 </ContentPresenter>
 

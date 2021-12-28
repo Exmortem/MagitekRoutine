@@ -354,7 +354,7 @@ namespace Magitek.Extensions
             if (target == Core.Me)
                 return true;
 
-            return target.RadiansFromPlayerHeading() < angle; 
+            return target.RadiansFromPlayerHeading() < angle;
         }
 
         public static bool InCustomDegreeCone(this GameObject target, int angle)
@@ -367,7 +367,7 @@ namespace Magitek.Extensions
 
             float radians = ((float)Math.PI / 180) * angle;
 
-            return target.RadiansFromPlayerHeading() < radians; 
+            return target.RadiansFromPlayerHeading() < radians;
         }
 
 

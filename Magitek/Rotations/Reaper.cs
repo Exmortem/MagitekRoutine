@@ -4,11 +4,11 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Reaper;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
-using System.Threading.Tasks;
+using Magitek.Utilities.CombatMessages;
 using Magitek.Utilities.Managers;
+using System.Threading.Tasks;
 using Enshroud = Magitek.Logic.Reaper.Enshroud;
 
 namespace Magitek.Rotations
@@ -112,6 +112,7 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
+                    if (await Cooldown.ArcaneCircle()) return true;
                     if (await Enshroud.AoE.LemuresScythe()) return true;
                     if (await Enshroud.SingleTarget.LemuresSlice()) return true;
                 }
@@ -162,6 +163,53 @@ namespace Magitek.Rotations
         public static Task<bool> PvP()
         {
             return Task.FromResult(false);
+        }
+
+        public static void RegisterCombatMessages()
+        {
+            //Highest priority: Don't show anything if we're not in combat
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(100,
+                                          "",
+                                          () => !Core.Me.InCombat)
+                );
+
+            //Second priority: Don't show anything if positional requirements are Nulled
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(200,
+                                          "",
+                                          () => ReaperSettings.Instance.HidePositionalMessage && Core.Me.HasAura(Auras.TrueNorth))
+                );
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Gibbet => SIDE !!!",
+                                          "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
+                                          () => ReaperSettings.Instance.UseGibbet && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows))
+                );
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(300,
+                                          "Gallows => BEHIND !!!",
+                                          "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
+                                          () => ReaperSettings.Instance.UseGallows && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows))
+                );
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(310,
+                                          "Gibbet => SIDE !!!",
+                                          "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
+                                          () => ReaperSettings.Instance.UseGibbet && Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows)
+                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) )
+                );
+
+            CombatMessageManager.RegisterMessageStrategy(
+                new CombatMessageStrategy(310,
+                                          "Gallows => BEHIND !!!",
+                                          "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
+                                          () => ReaperSettings.Instance.UseGallows && Core.Me.HasAura(Auras.EnhancedGallows) && !Core.Me.HasAura(Auras.EnhancedGibbet)
+                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) )
+                );
         }
     }
 }

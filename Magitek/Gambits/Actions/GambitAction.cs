@@ -32,5 +32,7 @@ namespace Magitek.Gambits.Actions
         [Description("SLEEP")] SleepForMilliseconds,
         [Description("TOAST MESSAGE")] ToastMessage,
         [Description("PET CAST")] PetCast,
+        [Description("DANCE STEP")] DanceStep,
+        [Description("DANCE FINISH")] DanceFinish,
     }
 }

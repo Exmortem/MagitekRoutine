@@ -62,11 +62,11 @@ namespace Magitek.Logic.Gunbreaker
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
-            
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
                 return false;
 
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.DoubleDown, 4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Spells.DoubleDown.IsReady(4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
             return await Spells.FatedCircle.Cast(Core.Me.CurrentTarget);

@@ -14,6 +14,10 @@ namespace Magitek.Models.Dragoon
         public static DragoonSettings Instance { get; set; } = new DragoonSettings();
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HidePositionalMessage { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseJumps { get; set; }
 

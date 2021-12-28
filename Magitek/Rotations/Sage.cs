@@ -99,7 +99,7 @@ namespace Magitek.Rotations
                     if (await Logic.Sage.Heal.Prognosis()) return true;
                     if (await Logic.Sage.Heal.Physis()) return true;
                     if (await Logic.Sage.Heal.Druochole()) return true;
-                    if (await Logic.Sage.Heal.Ixochole()) return true;                   
+                    if (await Logic.Sage.Heal.Ixochole()) return true;
                     if (await Logic.Sage.Heal.Taurochole()) return true;
                     if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                     if (await Logic.Sage.Heal.Diagnosis()) return true;
