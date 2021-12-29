@@ -691,6 +691,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Bloodwhetting = DataManager.GetSpellData(25751);
         public static readonly SpellData Orogeny = DataManager.GetSpellData(25752);
         public static readonly SpellData PrimalRend = DataManager.GetSpellData(25753);
+        public static readonly SpellData NascentFlash = DataManager.GetSpellData(16464);
         #endregion
 
         // WHM
