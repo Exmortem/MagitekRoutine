@@ -81,45 +81,53 @@ namespace Magitek.Logic.Dragoon
             if (!ActionManager.CanCast(Spells.DragonSight, Core.Me))
                 return false;
 
+            if (!Core.Me.HasTarget)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
             IEnumerable<Character> allyList = null;
-
-            switch (DragoonSettings.Instance.SelectedStrategy)
+            if (Globals.InParty)
             {
-                case DragonSightStrategy.ClosestDps:
-                    allyList = Group.CastableAlliesWithin12.Where(a => a.IsAlive && !a.IsMe && a.IsDps()).OrderBy(DragoonRoutine.GetWeight);
-                    break;
+                switch (DragoonSettings.Instance.SelectedStrategy)
+                {
+                    case DragonSightStrategy.Self:
+                        return await Spells.DragonSight.Cast(Core.Me);
+                    
+                    case DragonSightStrategy.ClosestDps:
+                        allyList = Group.CastableAlliesWithin12.Where(a => a != null && a.IsAlive && a.IsVisible && !a.IsMe && a.IsDps()).OrderBy(DragoonRoutine.GetWeight);
+                        break;
 
-                case DragonSightStrategy.Self:
-                    return await Spells.DragonSight.Cast(Core.Me);
+                    case DragonSightStrategy.MeleeDps:
+                        allyList = Group.CastableAlliesWithin12.Where(a => a != null && a.IsAlive && a.IsVisible && !a.IsMe && a.IsMeleeDps()).OrderBy(DragoonRoutine.GetWeight);
+                        break;
 
-                case DragonSightStrategy.MeleeDps:
-                    allyList = Group.CastableAlliesWithin12.Where(a => a.IsAlive && !a.IsMe && a.IsMeleeDps()).OrderBy(DragoonRoutine.GetWeight);
-                    break;
+                    case DragonSightStrategy.RangedDps:
+                        allyList = Group.CastableAlliesWithin12.Where(a => a != null && a.IsAlive && a.IsVisible && !a.IsMe && a.IsRangedDpsCard()).OrderBy(DragoonRoutine.GetWeight);
+                        break;
 
-                case DragonSightStrategy.RangedDps:
-                    allyList = Group.CastableAlliesWithin12.Where(a => a.IsAlive && !a.IsMe && a.IsRangedDpsCard()).OrderBy(DragoonRoutine.GetWeight);
-                    break;
+                    case DragonSightStrategy.Tank:
+                        allyList = Group.CastableAlliesWithin12.Where(a => a != null && a.IsAlive && a.IsVisible && !a.IsMe && a.IsTank()).OrderBy(DragoonRoutine.GetWeight);
+                        break;
 
-                case DragonSightStrategy.Tank:
-                    allyList = Group.CastableAlliesWithin12.Where(a => a.IsAlive && !a.IsMe && a.IsTank()).OrderBy(DragoonRoutine.GetWeight);
-                    break;
+                    case DragonSightStrategy.Healer:
+                        allyList = Group.CastableAlliesWithin12.Where(a => a != null && a.IsAlive && a.IsVisible && !a.IsMe && a.IsHealer()).OrderBy(DragoonRoutine.GetWeight);
+                        break;
+                }
 
-                case DragonSightStrategy.Healer:
-                    allyList = Group.CastableAlliesWithin12.Where(a => a.IsAlive && !a.IsMe && a.IsHealer()).OrderBy(DragoonRoutine.GetWeight);
-                    break;
-            }
-
-            if (DragoonSettings.Instance.SmartDragonSight)
-            {
-                if (allyList == null && Globals.InParty || !Globals.InParty)
-                    return await Spells.DragonSight.Cast(Core.Me);
-            }
-            else
-            {
                 if (allyList == null)
-                    return false;
+                {
+                    if (DragoonSettings.Instance.UseSmartDragonSight)
+                        return await Spells.DragonSight.Cast(Core.Me);
+                    else
+                        return false;
+                }
+
+                return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
             }
-            return await Spells.DragonSight.CastAura(allyList.FirstOrDefault(), Auras.LeftEye);
+
+            return await Spells.DragonSight.Cast(Core.Me);
         }
 
         public static async Task<bool> ForceDragonSight()
