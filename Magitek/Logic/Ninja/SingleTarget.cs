@@ -54,6 +54,17 @@ namespace Magitek.Logic.Ninja
             return false;
         }
 
+        public static async Task<bool> ShadowFang()
+        {
+            if (!NinjaSettings.Instance.UseShadowFang)
+                return false;
+
+            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 45000)
+                return false;
+
+            return await Spells.ShadowFang.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> Assassinate()
         {
             if (!NinjaSettings.Instance.UseAssassinate)
