@@ -43,7 +43,7 @@
                     <CheckBox Content="Self " IsChecked="{Binding RedMageSettings.VercureSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-                <CheckBox Content="Only Use To Proc Dual Cast" IsChecked="{Binding RedMageSettings.VercureOnlyDualCast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Only Use With Dual Cast" IsChecked="{Binding RedMageSettings.VercureOnlyDualCast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
             </StackPanel>
         </controls:SettingsBlock>
