@@ -79,6 +79,7 @@ namespace Magitek.Rotations
                 if (await Defensive.ShakeItOff()) return true;
                 if (await Defensive.ThrillOfBattle()) return true;
                 if (await Defensive.BloodWhetting()) return true;
+                if (await Buff.NascentFlash()) return true;
 
                 //Cooldowns
                 if (await Buff.InnerRelease()) return true;
