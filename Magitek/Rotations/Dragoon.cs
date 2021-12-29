@@ -66,7 +66,7 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
 
-            if (!Core.Me.HasTarget)
+            if (!Core.Me.HasTarget && !Core.Me.InCombat)
                 return false;
 
             if (!Core.Me.CurrentTarget.ThoroughCanAttack())

@@ -82,6 +82,26 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(10)]
         public int HolmgangHpPercentage { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseNascentFlash { get; set; }
+
+        [Setting]
+        [DefaultValue(55)]
+        public int NascentFlashHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashTank { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashDps { get; set; }
         #endregion
 
         #region AoEs
