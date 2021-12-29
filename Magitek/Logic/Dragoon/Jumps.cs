@@ -5,6 +5,7 @@ using Magitek.Extensions;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using DragoonRoutine = Magitek.Utilities.Routines.Dragoon;
 
 namespace Magitek.Logic.Dragoon
 {
@@ -24,21 +25,33 @@ namespace Magitek.Logic.Dragoon
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
-            if (Utilities.Routines.Dragoon.Jumps.Contains(Casting.LastSpell))
+            if (DragoonRoutine.JumpsList.Contains(Casting.LastSpell))
                 return false;
 
-            if (Core.Me.ClassLevel >= 54 && Combat.CombatTime.Elapsed.Seconds < 20 && ActionResourceManager.Dragoon.Timer.Seconds == 0)
-                return false;
-
-            if (await Jump()) return true;
+            if (await HighJump()) return true;
             if (await Stardiver()) return true;
-            if (await SpineshatterDive()) return true;
-            return await DragonfireDive();
+            if (await DragonfireDive()) return true;
+            return await SpineshatterDive();
+        }
+
+
+        /***************************************************************************
+         *                                Single Target
+         * *************************************************************************/
+        public static async Task<bool> HighJump()
+        {
+            if (!DragoonSettings.Instance.UseHighJump)
+                return false;
+
+            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+                return false;
+
+            return await DragoonRoutine.HighJump.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> MirageDive()
         {
-            if (!DragoonSettings.Instance.MirageDive)
+            if (!DragoonSettings.Instance.UseMirageDive)
                 return false;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
@@ -47,68 +60,41 @@ namespace Magitek.Logic.Dragoon
             if (!Core.Me.HasAura(Auras.DiveReady))
                 return false;
 
-            // Neko: 2 things that can help. Don't mirage dive unless in Blood of the Dragon, also, don't mirage dive if at 2 eyes.
-
+            // Don't mirage dive if at 2 eyes.
             if (ActionResourceManager.Dragoon.DragonGaze == 2)
                 return false;
 
-            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 750)
-                return false;
-
-            if (await Spells.MirageDive.Cast(Core.Me.CurrentTarget))
-            {
-                Utilities.Routines.Dragoon.MirageDives++;
-
-                if (DragoonSettings.Instance.Geirskogul)
-                {
-                    if (Spells.Geirskogul.Cooldown.TotalMilliseconds < 1000)
-                    {
-                        await Coroutine.Wait(3000, () => ActionManager.CanCast(Spells.Geirskogul.Id, Core.Me.CurrentTarget));
-                        return await Spells.Geirskogul.Cast(Core.Me.CurrentTarget);
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public static async Task<bool> Jump()
-        {
-            if (!DragoonSettings.Instance.Jump)
-                return false;
-
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
-                return false;
-
-            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
-                return false;
-
-            return await Spells.Jump.Cast(Core.Me.CurrentTarget);
+            return await Spells.MirageDive.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> SpineshatterDive()
         {
-            if (!DragoonSettings.Instance.SpineshatterDive)
+            if (!DragoonSettings.Instance.UseSpineshatterDive)
                 return false;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
-            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
+            if (Spells.SpineshatterDive.Charges <= 1 && Spells.LanceCharge.IsKnownAndReady(10000))
                 return false;
 
             return await Spells.SpineshatterDive.Cast(Core.Me.CurrentTarget);
         }
 
+
+
+        /***************************************************************************
+         *                           AOE
+         * *************************************************************************/
         public static async Task<bool> DragonfireDive()
         {
-            if (!DragoonSettings.Instance.DragonfireDive)
+            if (!DragoonSettings.Instance.UseDragonfireDive)
                 return false;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
-            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
+            if (!Core.Me.HasAura(Auras.LanceCharge))
                 return false;
 
             return await Spells.DragonfireDive.Cast(Core.Me.CurrentTarget);
@@ -116,10 +102,7 @@ namespace Magitek.Logic.Dragoon
 
         public static async Task<bool> Stardiver()
         {
-            if (!DragoonSettings.Instance.Stardiver)
-                return false;
-
-            if (Spells.VorpalThrust.Cooldown.TotalMilliseconds < 1250)
+            if (!DragoonSettings.Instance.UseStardiver)
                 return false;
 
             return await Spells.Stardiver.Cast(Core.Me.CurrentTarget);

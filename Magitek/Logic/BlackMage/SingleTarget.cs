@@ -21,11 +21,21 @@ namespace Magitek.Logic.BlackMage
 
             if (Casting.LastSpell == Spells.Xenoglossy)
                 return false;
-
+            
             //If we don't have Xeno, Foul is single target
             if (Core.Me.ClassLevel < 80
                 && ActionResourceManager.BlackMage.UmbralStacks == 3)
                 return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+
+            //If at 2 stacks of polyglot, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && Casting.LastSpell == Spells.Despair)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
+
+            //If at 2 stacks of polyglot and 5 seconds from another stack, cast
+            if (ActionResourceManager.BlackMage.PolyglotCount == 2
+                && MagitekActionResourceManager.BlackMage.PolyGlotTimer <= 5000)
+                return await Spells.Xenoglossy.Cast(Core.Me.CurrentTarget);
 
             // If we're moving in combat
             if (MovementManager.IsMoving)
@@ -50,9 +60,6 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Despair()
         {
             if (Core.Me.ClassLevel < Spells.Despair.LevelAcquired)
-                return false;
-
-            if (!Core.Me.HasEnochian())
                 return false;
 
             if (Casting.LastSpell == Spells.Despair)
@@ -115,9 +122,6 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire4()
         {
             if (Core.Me.ClassLevel < Spells.Fire4.LevelAcquired)
-                return false;
-
-            if (!Core.Me.HasEnochian())
                 return false;
 
             // If we need to refresh stack timer, stop
@@ -189,6 +193,10 @@ namespace Magitek.Logic.BlackMage
                 || Casting.LastSpell == Spells.Thunder3)
                 return false;
 
+            // Don't dot if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
+                return false;
+
             //Low level logic
             if (Core.Me.ClassLevel < 40)
             {
@@ -250,9 +258,6 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Blizzard4)
                 return false;
 
-            if (!Core.Me.HasEnochian())
-                return false;
-
             if (Core.Me.ClassLevel < Spells.Blizzard4.LevelAcquired)
                 return false;
 
@@ -287,9 +292,6 @@ namespace Magitek.Logic.BlackMage
             // If our mana is less than 800 while in astral
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 800)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
-            //If we're low medium level, use it at a different time
-            if (Core.Me.ClassLevel < 72 && Core.Me.CurrentMana < 1500)
-                return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
@@ -314,8 +316,26 @@ namespace Magitek.Logic.BlackMage
                 return false;
             }
 
-            if (Core.Me.HasEnochian())
+            return false;
+        }
+        public static async Task<bool> ParadoxUmbral()
+        {
+            if (Core.Me.ClassLevel < Spells.Paradox.LevelAcquired)
                 return false;
+
+            if (ActionResourceManager.BlackMage.PolyglotStatus)
+                return false;
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500))
+                return false;
+
+            if (!Spells.Paradox.IsReady())
+                return false;
+            
+            if (ActionResourceManager.BlackMage.UmbralStacks > 0
+                && Casting.LastSpell == Spells.Thunder3)
+                return await Spells.Paradox.Cast(Core.Me.CurrentTarget);
+
             return false;
         }
 

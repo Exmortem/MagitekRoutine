@@ -68,7 +68,8 @@ namespace Magitek.Utilities
             LadyofCrowns2 = 1877,
             LadyOfCrownsDrawn = 2055,
             ClarifyingDraw = 2713,
-            SleeveDraw = 1926,
+            Exaltation = 2717,
+            CelestialIntersections = 1887,
             Disembowel = 1914,
             SharperFangandClaw = 802,
             EnhancedWheelingThrust = 803,
@@ -291,8 +292,10 @@ namespace Magitek.Utilities
             SonicBreak = 1837,
             BowShock = 1838,
             DraconianFire = 1863,
-            Exaltation = 2717,
-            CelestialIntersections = 1887;
+            PowerSurge = 2720,
+            ChaoticSpring = 2719,
+            ChaosThrust = 118,
+            LanceCharge = 1864;
 
         private const int
             Invincibility0 = 981,

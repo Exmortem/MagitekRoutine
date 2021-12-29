@@ -26,11 +26,15 @@ namespace Magitek.Models.Reaper
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
 
-        #endregion
-
-        #region SingleTarget-Abilities
-
         [Setting]
+        [DefaultValue(false)]
+        public bool HidePositionalMessage { get; set; }
+
+    #endregion
+
+    #region SingleTarget-Abilities
+
+    [Setting]
         [DefaultValue(true)]
         public bool UseSlice { get; set; }
 
@@ -161,6 +165,10 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseArcaneCircle { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int ArcaneCircleCount { get; set; }
 
         [Setting]
         [DefaultValue(true)]

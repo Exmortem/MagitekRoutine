@@ -12,24 +12,19 @@
              d:DesignWidth="500"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
 
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="AOE When There Are " IsChecked="{Binding DragoonSettings.Aoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="AOE When There Are " IsChecked="{Binding DragoonSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DragoonSettings.AoeEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" In Range" />
             </StackPanel>
@@ -37,8 +32,8 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Geirskogul" IsChecked="{Binding DragoonSettings.Geirskogul, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="20,0,0,0" Content="Nastrond" IsChecked="{Binding DragoonSettings.Nastrond, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Geirskogul" IsChecked="{Binding DragoonSettings.UseGeirskogul, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="20,0,0,0" Content="Nastrond" IsChecked="{Binding DragoonSettings.UseNastrond, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

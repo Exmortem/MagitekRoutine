@@ -16,11 +16,6 @@ namespace Magitek.Extensions
             return ActionResourceManager.Scholar.Aetherflow > 0;
         }
 
-        public static bool HasEnochian(this LocalPlayer me)
-        {
-            return MagitekActionResourceManager.BlackMage.Enochian;
-        }
-
         public static bool HasDarkArts(this LocalPlayer me)
         {
             return MagitekActionResourceManager.DarkKnight.DarkArts;

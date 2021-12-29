@@ -121,6 +121,9 @@ namespace Magitek.Views
                 case ClassJobType.Reaper:
                     Reaper.IsSelected = true;
                     break;
+                case ClassJobType.Sage:
+                    Sage.IsSelected = true;
+                    break;
                 default:
                     return;
             }

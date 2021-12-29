@@ -6,37 +6,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="400" d:DesignWidth="500" mc:Ignorable="d">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
+
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
     <StackPanel Margin="10">
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="Use Esuna To Dispel" IsChecked="{Binding AstrologianSettings.Dispel, Mode=TwoWay}"
+  <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+   <StackPanel>
+    <StackPanel Orientation="Horizontal" Margin="5">
+     <CheckBox Content="Use Esuna To Dispel" IsChecked="{Binding AstrologianSettings.Dispel, Mode=TwoWay}"
                Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="Dispel Anything That Is Removable"
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Margin="5">
+     <CheckBox Content="Dispel Anything That Is Removable"
                IsChecked="{Binding AstrologianSettings.AutomaticallyDispelAnythingThatsDispellable, Mode=TwoWay}"
                Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <CheckBox Content="Dispel Only If Nearby Players Health Is Above"
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Margin="5">
+     <CheckBox Content="Dispel Only If Nearby Players Health Is Above"
                IsChecked="{Binding AstrologianSettings.DispelOnlyAbove, Mode=TwoWay}"
                Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="5,0" Value="{Binding AstrologianSettings.DispelOnlyAboveHealth, Mode=TwoWay}" />
-                    <TextBlock Text="Percent" VerticalAlignment="Center" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
+     <controls:Numeric Margin="5,0" Value="{Binding AstrologianSettings.DispelOnlyAboveHealth, Mode=TwoWay}" />
+     <TextBlock Text="Percent" VerticalAlignment="Center" />
     </StackPanel>
+   </StackPanel>
+  </controls:SettingsBlock>
+ </StackPanel>
 </UserControl>

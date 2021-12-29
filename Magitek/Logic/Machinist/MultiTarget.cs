@@ -73,10 +73,10 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat >= 50)
                 return false;
 
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 11000))
+            if (Spells.Wildfire.IsKnownAndReady(11000))
                 return false;
 
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.Reassemble, 11000))
+            if (Spells.Reassemble.IsKnownAndReady(11000))
                 return false;
 
             if (MovementManager.IsMoving)
@@ -104,16 +104,16 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Spells.IsAvailableAndReady(Spells.Wildfire) && Spells.IsAvailableAndReady(Spells.Hypercharge) && Spells.Ricochet.Charges < 1.5f)
+            if (Spells.Wildfire.IsKnownAndReady() && Spells.Hypercharge.IsKnownAndReady() && Spells.Ricochet.Charges < 1.5f)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
             {
-                if (Spells.Ricochet.Charges < 1.5f && Spells.IsAvailableAndReadyInLessThanXMs(Spells.Wildfire, 2000))
+                if (Spells.Ricochet.Charges < 1.5f && Spells.Wildfire.IsKnownAndReady(2000))
                     return false;
 
                 // Do not run Rico if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.IsAvailableAndReady(Spells.Hypercharge))
+                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.IsKnownAndReady())
                 {
                     if (Spells.Ricochet.Charges < 1.5f && Spells.GaussRound.Charges < 0.5f)
                         return false;

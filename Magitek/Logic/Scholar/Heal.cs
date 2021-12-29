@@ -684,6 +684,10 @@ namespace Magitek.Logic.Scholar
             }
         }
 
+        // Prevent blowing the second consolation stack before seraph gets a chance to cast
+        // the first one.
+        public static DateTime ConsolationCooldown = DateTime.Now;
+
         public static async Task<bool> Consolation()
         {
             if (!ScholarSettings.Instance.Consolation)
@@ -698,6 +702,9 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.Pet.EnglishName != "Seraph")
                 return false;
 
+            if (DateTime.Now <= ConsolationCooldown)
+                return false;
+
             if (Globals.InParty)
             {
                 var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
@@ -708,11 +715,15 @@ namespace Magitek.Logic.Scholar
                 if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
                     return false;
 
+                ConsolationCooldown = DateTime.Now.AddSeconds(5);
+
                 return await Spells.Consolation.Cast(Core.Me);
             }
 
             if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
                 return false;
+
+            ConsolationCooldown = DateTime.Now.AddSeconds(5);
 
             return await Spells.Consolation.Cast(Core.Me);
 

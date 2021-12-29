@@ -19,7 +19,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="DancePartner" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
@@ -55,8 +54,8 @@
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
-
+        
+        
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -142,7 +141,7 @@
                         <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SamPartnerWeight, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="RPR: " />
                         <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.RprPartnerWeight, Mode=TwoWay}" />
-
+                       
                         <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
                         <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SmnPartnerWeight, Mode=TwoWay}" />
 

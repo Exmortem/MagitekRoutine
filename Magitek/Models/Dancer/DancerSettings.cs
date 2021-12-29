@@ -14,6 +14,10 @@ namespace Magitek.Models.Dancer
         public static DancerSettings Instance { get; set; } = new DancerSettings();
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseExpermentalChecks { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseDevilment { get; set; }
 

@@ -14,10 +14,13 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Tillana()
         {
+            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
 
             if (!Core.Me.HasAura(Auras.FlourishingFinish)) return false;
 
-            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
 
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
@@ -30,6 +33,8 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
 
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
+
             if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000)) return false;
 
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
@@ -38,7 +43,7 @@ namespace Magitek.Logic.Dancer
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall || x.Id == Auras.FlourishingFinish
+                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
             ));
 
             if (procs.Any())
@@ -68,13 +73,15 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            //if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
-            //    return false;
+            if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
+                return false;
+
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingStarfall
+                x.Id == Auras.FourfoldFanDance
             ));
 
             if (procs.Any())
@@ -87,7 +94,10 @@ namespace Magitek.Logic.Dancer
             return await Spells.TechnicalStep.Cast(Core.Me);
         }
 
-
+        public static async Task<bool> DanceFinish() // Just for Gambit Readablity
+        {
+            return await DanceStep();
+        }
 
         public static async Task<bool> DanceStep()
         {
@@ -97,16 +107,18 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 40) return false;
+            if (DancerSettings.Instance.UseExpermentalChecks)
+            {
+                if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
+                    return false;
+            }
 
             try
             {
-
                 Logger.Write($@"[Magitek] Dance Log {ActionResourceManager.Dancer.CurrentStep}");
                 switch (ActionResourceManager.Dancer.CurrentStep)
                 {
                     case ActionResourceManager.Dancer.DanceStep.Finish:
-
                         if (Core.Me.HasAura(Auras.StandardStep))
                             return await Spells.DoubleStandardFinish.Cast(Core.Me);
                         else
@@ -127,7 +139,7 @@ namespace Magitek.Logic.Dancer
             }
             catch
             {
-                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error..
+                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error.
                 return false;
             }
 

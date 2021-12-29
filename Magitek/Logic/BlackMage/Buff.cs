@@ -111,9 +111,6 @@ namespace Magitek.Logic.BlackMage
             if (Spells.UmbralSoul.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (!Core.Me.HasEnochian())
-                return false;
-
             // Do not Umbral Soul unless we have 1 umbral stack
             if (ActionResourceManager.BlackMage.UmbralStacks != 1)
                 return false;
@@ -181,6 +178,10 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (ActionResourceManager.BlackMage.AstralStacks == 0
+                && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return false;
 
             return await Spells.Amplifier.Cast(Core.Me);

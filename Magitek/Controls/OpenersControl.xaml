@@ -17,10 +17,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="GambitActionTypes" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="actions:GambitActionTypes" />
@@ -1900,6 +1896,18 @@
                                                                                             </StackPanel>
                                                                                         </DataTemplate>
 
+
+                                                                                        <DataTemplate DataType="{x:Type actions:DanceStep}">
+                                                                                            <StackPanel>
+
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+
+                                                                                        <DataTemplate DataType="{x:Type actions:DanceFinish}">
+                                                                                            <StackPanel>
+
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
                                                                                     </ContentPresenter.Resources>
                                                                                 </ContentPresenter>
 

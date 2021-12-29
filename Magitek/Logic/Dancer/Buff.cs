@@ -24,6 +24,9 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DevilmentWithTechnicalStep)
                 return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
@@ -41,6 +44,9 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DevilmentWithFlourish)
                 return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && ActionManager.HasSpell(Spells.TechnicalStep.Id) && Spells.TechnicalStep.Cooldown > TimeSpan.FromMilliseconds(1000))
                 return false;
 
@@ -53,6 +59,9 @@ namespace Magitek.Logic.Dancer
         public static async Task<bool> CuringWaltz()
         {
             if (!DancerSettings.Instance.UseCuringWaltz)
+                return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
             var cureTargets = PartyManager.AllMembers.Count(x => x.IsValid && x.BattleCharacter.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.BattleCharacter.Distance(Core.Me) < 5);
@@ -73,10 +82,13 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> Improvisation()
         {
-            if (!DancerSettings.Instance.UseImprovisation)
+            if (!DancerSettings.Instance.UseImprovisation)  
                 return false;
 
-            if (ActionResourceManager.Dancer.Esprit > 80)
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
+            if (ActionResourceManager.Dancer.Esprit > 80) 
                 return false;
 
             return await Spells.Improvisation.Cast(Core.Me);
@@ -95,6 +107,9 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAnyAura(FlourishingAuras))
                 return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
             return await Spells.Flourish.Cast(Core.Me);
         }
 
@@ -106,13 +121,11 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.ClosedPosition))
                 return false;
 
-            if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)
-            {
-                //if (!ChocoboManager.Summoned)
-                //    return false;
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
 
+            if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)
                 return await Spells.ClosedPosition.Cast(ChocoboManager.Object);
-            }
 
             IEnumerable<Character> allyList = null;
 

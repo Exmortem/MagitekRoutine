@@ -32,7 +32,7 @@ namespace Magitek.Logic.Warrior
         internal static async Task<bool> Equilibrium()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseEquilibrium, Spells.Equilibrium))
-                return false; 
+                return false;
 
             if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.EquilibriumHealthPercent)
                 return false;
@@ -43,7 +43,7 @@ namespace Magitek.Logic.Warrior
         internal static async Task<bool> InnerRelease()
         {
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerRelease, WarriorRoutine.InnerRelease))
-                return false; 
+                return false;
 
             if (Core.Me.CurrentTarget == null)
                 return false;

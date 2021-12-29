@@ -36,6 +36,7 @@ using Magitek.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
@@ -102,6 +103,27 @@ namespace Magitek
 
         private ClassJobType CurrentJob { get; set; }
         private ushort CurrentZone { get; set; }
+
+        public void SaveJobSettings()
+        {
+            ScholarSettings.Instance.Save();
+            WhiteMageSettings.Instance.Save();
+            AstrologianSettings.Instance.Save();
+            PaladinSettings.Instance.Save();
+            DarkKnightSettings.Instance.Save();
+            WarriorSettings.Instance.Save();
+            BardSettings.Instance.Save();
+            MachinistSettings.Instance.Save();
+            DragoonSettings.Instance.Save();
+            MonkSettings.Instance.Save();
+            NinjaSettings.Instance.Save();
+            SamuraiSettings.Instance.Save();
+            BlueMageSettings.Instance.Save();
+            BlackMageSettings.Instance.Save();
+            RedMageSettings.Instance.Save();
+            SummonerSettings.Instance.Save();
+            SageSettings.Instance.Save();
+        }
 
         public void Pulse()
         {
@@ -182,32 +204,18 @@ namespace Magitek
 
             if (DateTime.Now > _saveFormTime)
             {
-
+                Logger.Error("Running Save");
+                
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
                 BaseSettings.Instance.Save();
                 //TankBusters.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
-
+                
                 #region Save Settings For All Routines
-                ScholarSettings.Instance.Save();
-                WhiteMageSettings.Instance.Save();
-                AstrologianSettings.Instance.Save();
-                PaladinSettings.Instance.Save();
-                DarkKnightSettings.Instance.Save();
-                WarriorSettings.Instance.Save();
-                BardSettings.Instance.Save();
-                MachinistSettings.Instance.Save();
-                DragoonSettings.Instance.Save();
-                MonkSettings.Instance.Save();
-                NinjaSettings.Instance.Save();
-                SamuraiSettings.Instance.Save();
-                ReaperSettings.Instance.Save();
-                BlueMageSettings.Instance.Save();
-                BlackMageSettings.Instance.Save();
-                RedMageSettings.Instance.Save();
-                SummonerSettings.Instance.Save();
-                SageSettings.Instance.Save();
+
+                Task.Run(SaveJobSettings);
+
                 #endregion
 
                 _saveFormTime = DateTime.Now.AddSeconds(60);
@@ -222,23 +230,9 @@ namespace Magitek
             TreeRoot.OnStop -= OnStop;
 
             #region Save Settings For All Routines
-            ScholarSettings.Instance.Save();
-            WhiteMageSettings.Instance.Save();
-            AstrologianSettings.Instance.Save();
-            PaladinSettings.Instance.Save();
-            DarkKnightSettings.Instance.Save();
-            WarriorSettings.Instance.Save();
-            BardSettings.Instance.Save();
-            MachinistSettings.Instance.Save();
-            DragoonSettings.Instance.Save();
-            MonkSettings.Instance.Save();
-            NinjaSettings.Instance.Save();
-            SamuraiSettings.Instance.Save();
-            BlueMageSettings.Instance.Save();
-            BlackMageSettings.Instance.Save();
-            RedMageSettings.Instance.Save();
-            SummonerSettings.Instance.Save();
-            SageSettings.Instance.Save();
+
+            SaveJobSettings();
+
             #endregion
 
             Dispelling.Instance.Save();

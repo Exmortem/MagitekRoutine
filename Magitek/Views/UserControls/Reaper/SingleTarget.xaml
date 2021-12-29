@@ -11,19 +11,13 @@
              d:DesignWidth="500"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
-
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
 
     <StackPanel Margin="10">
 

@@ -92,7 +92,7 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             // If Inner Release has less than 8 seconds on cooldown
-            if (Spells.IsAvailableAndReadyInLessThanXMs(Spells.InnerRelease, 10000))
+            if (Spells.InnerRelease.IsKnownAndReady(10000))
             {
                 int refreshTime = 20000 + (int)Spells.InnerRelease.Cooldown.TotalMilliseconds;
                 Aura SurgingTempestAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SurgingTempest);
@@ -140,7 +140,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseUpheaval, Spells.Upheaval))
                 return false;
 
-            if (!Spells.IsAvailableAndReady(Spells.Upheaval))
+            if (!Spells.Upheaval.IsKnownAndReady())
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))

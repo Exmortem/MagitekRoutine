@@ -19,7 +19,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
@@ -56,9 +55,9 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+            <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+            <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -9,7 +9,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToHalfOpaqueConverter x:Key="BooleanToHalfOpaqueConverter" />
             <converters:MultiBooleanAndToHalfOpaqueConverter x:Key="MultiBooleanAndToHalfOpaqueConverter" />

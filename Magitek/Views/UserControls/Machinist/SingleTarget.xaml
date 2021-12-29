@@ -9,12 +9,7 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
     <StackPanel Margin="10">
@@ -25,7 +20,7 @@
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
             </StackPanel>
         </controls:SettingsBlock>
-
+        
         <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">

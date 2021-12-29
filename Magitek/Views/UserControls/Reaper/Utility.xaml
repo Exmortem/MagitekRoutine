@@ -11,18 +11,13 @@
              d:DesignWidth="500"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
-                <ResourceDictionary Source="/Magitek;component/Styles/Theme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
 
     <StackPanel Margin="10">
 
@@ -38,6 +33,8 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Enable Arcane Circle " IsChecked="{Binding ReaperSettings.UseArcaneCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ReaperSettings.ArcaneCircleCount, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Players Are In Range For Buff" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
