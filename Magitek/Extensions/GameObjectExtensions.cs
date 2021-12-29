@@ -168,7 +168,7 @@ namespace Magitek.Extensions
 
         public static IEnumerable<BattleCharacter> EnemiesNearby(this GameObject unit, float distance)
         {
-            return Combat.Enemies.Where(r => r.Distance(unit) <= distance);
+            return Combat.Enemies.Where(r => r.Distance(unit) <= distance + Core.Me.CombatReach + unit.CombatReach);
         }
 
         public static IEnumerable<BattleCharacter> EnemiesNearbyOoc(this GameObject unit, float distance)
