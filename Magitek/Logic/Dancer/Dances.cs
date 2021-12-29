@@ -139,7 +139,7 @@ namespace Magitek.Logic.Dancer
             }
             catch
             {
-                // This is a safty. If CurrentStep is checked and your not dancing you get a memory read error.
+                // This is a safety. If CurrentStep is checked and you're not dancing, you get a memory read error.
                 return false;
             }
 
