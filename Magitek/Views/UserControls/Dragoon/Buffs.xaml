@@ -62,12 +62,12 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content=" Use Dragon Sight" IsChecked="{Binding DragoonSettings.UseDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Dragon Sight" IsChecked="{Binding DragoonSettings.UseDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content=" Try Smart Dragon Sight ( Party / Solo ) - Deprecated" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Smart Dragon Sight ( Party / Solo )" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">

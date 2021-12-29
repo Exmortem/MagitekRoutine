@@ -138,11 +138,11 @@ namespace Magitek.Models.Dragoon
         public int SamEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(5)]
+        [DefaultValue(4)]
         public int DrgEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(6)]
+        [DefaultValue(5)]
         public int NinEyeWeight { get; set; }
 
         [Setting]
