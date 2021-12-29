@@ -121,6 +121,9 @@ namespace Magitek.Logic.Astrologian
                     }
                 }
 
+                if (Core.Me.CurrentHealthPercent < AstrologianSettings.Instance.Benefic2HealthPercent)
+                    return await Spells.Benefic2.Heal(Core.Me);
+
                 var benefic2Target = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name)
                 && r.CurrentHealth > 0
                 && r.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent);
@@ -203,14 +206,17 @@ namespace Magitek.Logic.Astrologian
                     return await Spells.EssentialDignity.Heal(tar, false);
                 }
 
-                var essentialdignitytarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontEssentialDignity.Contains(r.Name)
+                if (Core.Me.CurrentHealthPercent < AstrologianSettings.Instance.EssentialDignityHealthPercent)
+                    return await Spells.EssentialDignity.Heal(Core.Me, false);
+
+                var essentialDignityTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontEssentialDignity.Contains(r.Name)
                 && r.CurrentHealth > 0
                 && r.CurrentHealthPercent <= AstrologianSettings.Instance.EssentialDignityHealthPercent);
 
-                if (essentialdignitytarget == null)
+                if (essentialDignityTarget == null)
                     return false;
 
-                return await Spells.EssentialDignity.Heal(essentialdignitytarget);
+                return await Spells.EssentialDignity.Heal(essentialDignityTarget);
             }
             else
             {
@@ -244,6 +250,77 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.Exaltation.HealAura(target.TargetCharacter, Auras.Exaltation);
+        }
+
+        public static async Task<bool> Macrocosmos()
+        {
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (!Globals.InParty)
+                return false;
+            
+            if (!Spells.Macrocosmos.IsKnown())
+                return false;
+
+            if (Core.Me.HasMyAura(Auras.Macrocosmos))
+                return await Microcosmos(); //Determine if we should pop Macrosomos
+
+            if (!Spells.Macrocosmos.IsReady())
+                return false;
+
+            if (Group.CastableAlliesWithin20.Any(x => x.HasAura(Auras.Macrocosmos)))
+                return false;
+
+            var enemyCount = Combat.Enemies.Count();
+            if (enemyCount == 0) 
+                return false;
+            
+            var partySize = PartyManager.NumMembers;
+            var macrocosmosThreshold = partySize == 4 ? 2 : 3;
+
+            var groupHealth = PartyManager.AllMembers.Sum(x => x.MaxHealth);
+            // ReSharper disable once PossibleNullReferenceException
+            // If there's no enemies, we nope out before this
+            var mightBeBoss = enemyCount == 1 && Combat.Enemies.FirstOrDefault().MaxHealth > groupHealth;
+
+
+            if (enemyCount < partySize || !mightBeBoss)
+                return false;
+
+            if (!Combat.Enemies.Any(x =>
+                    x.IsCasting && x.SpellCastInfo.SpellData.Radius > 0 &&
+                    Group.CastableAlliesWithin20.Count(y =>
+                        y.Distance2D(y.SpellCastInfo.CastLocation) < y.SpellCastInfo.SpellData.Radius) >
+                        macrocosmosThreshold)) 
+                            return false;
+            
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            // You don't know what you're talking about...
+            if (!mightBeBoss && Group.CastableTanks.All(x =>
+                    Core.Me.Distance2D(x) <= Spells.Macrocosmos.Radius && x.CurrentHealthPercent > 30f))
+                // ReSharper disable once HeuristicUnreachableCode
+                // Again... you don't know wha tyou're talking about...
+                return false;
+
+            return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
+
+        }
+
+        public static async Task<bool> Microcosmos() {
+            if (!Group.CastableAlliesWithin30.Any(x => x.HasMyAura(Auras.Macrocosmos)))
+                return false;
+
+            if (Core.Me.HasAura(Auras.Macrocosmos, true, 10000))
+                return false;
+
+            var microcosmosThreshold = PartyManager.NumMembers == 4 ? 2 : 3;
+
+            if (Group.CastableAlliesWithin30.Count(x => x.HasMyAura(Auras.Macrocosmos) 
+                    && x.CurrentHealthPercent < 50f) <= microcosmosThreshold) return false;
+            
+            return await Spells.Microcosmos.Heal(Core.Me);
+
         }
         public static async Task<bool> CelestialOpposition()
         {

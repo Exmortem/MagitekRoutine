@@ -128,7 +128,9 @@ namespace Magitek.Extensions
 
             //====Endwalker Normal Raids
 
-            //Lv 90 - Asphodelos: The First Circle ()
+            //Lv 90 - Asphodelos: The First Circle (Erichthonios)
+            26099, //Erichthonios - Heavy Hand
+
             //Lv 90 - Asphodelos: The Second Circle ()
             //Lv 90 - Asphodelos: The Third Circle ()
             //Lv 90 - Asphodelos: The Fourth Circle ()

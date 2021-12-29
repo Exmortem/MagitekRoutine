@@ -99,6 +99,7 @@ namespace Magitek.Utilities
         public static readonly SpellData CrownPlay = DataManager.GetSpellData(25869);
         public static readonly SpellData Exaltation = DataManager.GetSpellData(25873);
         public static readonly SpellData Macrocosmos = DataManager.GetSpellData(25874);
+        public static readonly SpellData Microcosmos = DataManager.GetSpellData(25874);
         public static readonly SpellData FallMalefic = DataManager.GetSpellData(25871);
         public static readonly SpellData GravityII = DataManager.GetSpellData(25872);
         #endregion
