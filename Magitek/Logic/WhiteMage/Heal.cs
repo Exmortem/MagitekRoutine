@@ -450,6 +450,7 @@ namespace Magitek.Logic.WhiteMage
 
             var deadList = Group.DeadAllies.Where(u => !u.HasAura(Auras.Raise) &&
                                                        u.Distance(Core.Me) <= 30 &&
+                                                       u.IsVisible &&
                                                        u.InLineOfSight() &&
                                                        u.IsTargetable)
                                            .OrderByDescending(r => r.GetResurrectionWeight());
@@ -457,12 +458,6 @@ namespace Magitek.Logic.WhiteMage
             var deadTarget = deadList.FirstOrDefault();
 
             if (deadTarget == null)
-                return false;
-
-            if (!deadTarget.IsVisible)
-                return false;
-
-            if (!deadTarget.IsTargetable)
                 return false;
 
             if (Core.Me.InCombat || Globals.OnPvpMap)
