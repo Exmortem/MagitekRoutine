@@ -72,6 +72,10 @@ namespace Magitek.Logic.Dragoon
             if (!Core.Me.HasAura(Auras.PowerSurge))
                 return false;
 
+            Aura PowerSurgeAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.PowerSurge);
+            if (Core.Me.HasAura(Auras.PowerSurge) && PowerSurgeAura.TimespanLeft.TotalMilliseconds <= 6000)
+                return false;
+
             if (Spells.ChaoticSpring.IsKnown())
             {
                 if (!Core.Me.CurrentTarget.HasAura(Auras.ChaoticSpring))
