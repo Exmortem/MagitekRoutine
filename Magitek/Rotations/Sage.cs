@@ -155,6 +155,9 @@ namespace Magitek.Rotations
                 || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             if (Globals.OnPvpMap)
             {
                 return false;

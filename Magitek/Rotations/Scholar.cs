@@ -192,6 +192,9 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             if (await SingleTarget.Bio()) return true;
             if (await SingleTarget.BioMultipleTargets()) return true;
             if (await SingleTarget.Ruin2()) return true;

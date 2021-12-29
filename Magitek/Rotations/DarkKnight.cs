@@ -62,6 +62,9 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             //if (await Defensive.ExecuteTankBusters()) return true;
 
             if (BotManager.Current.IsAutonomous)

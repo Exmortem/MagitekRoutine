@@ -95,6 +95,9 @@ namespace Magitek.Rotations
                 return false;
             }
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             if (await CustomOpenerLogic.Opener()) return true;
 
             if (BotManager.Current.IsAutonomous)

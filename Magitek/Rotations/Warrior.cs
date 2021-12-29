@@ -64,6 +64,9 @@ namespace Magitek.Rotations
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
             }
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             //Utility
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;

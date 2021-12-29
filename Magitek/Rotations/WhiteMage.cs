@@ -172,6 +172,9 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
+                return false;
+
             if (await SingleTarget.Dots()) return true;
             if (await SingleTarget.AfflatusMisery()) return true;
             return await SingleTarget.Stone();
