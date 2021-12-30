@@ -6,7 +6,7 @@ using Magitek.Logic.Dancer;
 using Magitek.Logic.Roles;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
-using Magitek.Utilities.Managers;
+using DancerUtilities = Magitek.Utilities.Routines.Dancer;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -112,7 +112,7 @@ namespace Magitek.Rotations
                 //Only cast spells that are instant/off gcd
                 if (DancerSettings.Instance.EnableWeaving)
                 {
-                    if (OGCDManager.CanWeave(Spells.Cascade, 2))
+                    if (DancerUtilities.DancerGCD.CanWeave())
                     {
                         if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                         if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
