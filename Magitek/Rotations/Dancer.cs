@@ -112,7 +112,7 @@ namespace Magitek.Rotations
                 //Only cast spells that are instant/off gcd
                 if (DancerSettings.Instance.EnableWeaving)
                 {
-                    if (DancerUtilities.DancerGCD.CanWeave())
+                    if (DancerUtilities.GlobalCooldown.CanWeave())
                     {
                         if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                         if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;

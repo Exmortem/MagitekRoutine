@@ -262,7 +262,7 @@
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
-    <Compile Include="Utilities\Managers\OGCDManager.cs" />
+    <Compile Include="Utilities\WeaveWindow.cs" />
     <Compile Include="Utilities\Routines\Reaper.cs" />
     <Compile Include="Utilities\Routines\Sage.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />

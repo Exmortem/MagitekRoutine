@@ -7,17 +7,17 @@ using Magitek.Models.Account;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Magitek.Utilities.Managers
+namespace Magitek.Utilities
 {
 
-    class OgcdManager
+    class WeaveWindow
     {
 
         private SpellData _gcd;
         private ClassJobType _job;
         private List<SpellData> _ogcds;
 
-        public OgcdManager(ClassJobType job, SpellData gcd, List<SpellData> removeActions = null, List<SpellData> addActions = null)
+        public WeaveWindow(ClassJobType job, SpellData gcd, List<SpellData> removeActions = null, List<SpellData> addActions = null)
         {
             _job = job;
             _gcd = gcd;

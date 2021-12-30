@@ -107,7 +107,7 @@ namespace Magitek.Rotations
 
             if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {
-                if (ReaperUtilities.ReaperGCD.CanWeave(1))
+                if (ReaperUtilities.GlobalCooldown.CanWeave(1))
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
@@ -123,7 +123,7 @@ namespace Magitek.Rotations
             }
             else
             {
-                if (ReaperUtilities.ReaperGCD.CanWeave())
+                if (ReaperUtilities.GlobalCooldown.CanWeave())
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
