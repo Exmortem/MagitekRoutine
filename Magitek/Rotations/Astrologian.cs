@@ -94,29 +94,29 @@ namespace Magitek.Rotations
             if (await Buff.Lightspeed()) return true;
             if (await Buff.NeutralSect()) return true;
 
-            if (Globals.InActiveDuty || Core.Me.InCombat)
+            if (!Core.Me.InCombat) return false;
+            
+            if (PartyManager.NumMembers > 1)
             {
-                if (Globals.InParty)
-                {
-                    if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
-                    if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
-                    if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
-                    if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
-                    if (await Logic.Astrologian.Heal.Horoscope()) return true;
-                    if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
-                    if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
-                    if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
-                    if (await Logic.Astrologian.Heal.Helios()) return true;
-                    if (await Buff.Synastry()) return true;
-                    if (await Logic.Astrologian.Heal.Benefic2()) return true;
-                    if (await Logic.Astrologian.Heal.Exaltation()) return true;
-                }
-
+                if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+                if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
+                if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
+                if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
+                if (await Logic.Astrologian.Heal.Horoscope()) return true;
+                if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
+                if (await Logic.Astrologian.Heal.Exaltation()) return true;
+                if (await Logic.Astrologian.Heal.Macrocosmos()) return true;
+                if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
+                if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
+                if (await Logic.Astrologian.Heal.Helios()) return true;
+                if (await Buff.Synastry()) return true;
                 if (await Logic.Astrologian.Heal.Benefic2()) return true;
-                if (await Logic.Astrologian.Heal.Benefic()) return true;
-                if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
-                if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
             }
+
+            if (await Logic.Astrologian.Heal.Benefic2()) return true;
+            if (await Logic.Astrologian.Heal.Benefic()) return true;
+            if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
+            if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
 
             return false;
         }
@@ -129,7 +129,7 @@ namespace Magitek.Rotations
             if (await Buff.Synastry()) return true;
             if (await Buff.NeutralSect()) return true;
 
-            //No wonder Divination was not going off
+            
             if (await Cards.Divination()) return true;
             if (await Cards.AstroDyne()) return true;
             return await Cards.PlayCards();

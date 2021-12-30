@@ -604,6 +604,14 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(17)]
         public int AstCardWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int RprCardWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(16)]
+        public int SgeCardWeight { get; set; }
         #endregion
 
         #region PVP

@@ -27,21 +27,12 @@ namespace Magitek.Extensions
         public static bool HasAnyCardAura(this Character unit)
         {
             return unit.HasAnyAura(new uint[] { Auras.TheBalance,
-                                                        Auras.TheBalance2,
-                                                        Auras.TheBalance3,
+                                                        Auras.TheBalance,
                                                         Auras.TheBole,
-                                                        Auras.TheBole2,
-                                                        Auras.TheBole3,
                                                         Auras.TheArrow,
-                                                        Auras.TheArrow2,
                                                         Auras.TheSpear,
-                                                        Auras.TheSpear2,
                                                         Auras.TheEwer,
-                                                        Auras.TheEwer2,
-                                                        Auras.TheEwer3,
                                                         Auras.TheSpire,
-                                                        Auras.TheSpire2,
-                                                        Auras.TheSpire3,
                                                         Auras.LordofCrowns,
                                                         Auras.LordofCrowns2,
                                                         Auras.LadyofCrowns,
@@ -63,14 +54,7 @@ namespace Magitek.Extensions
             if (!target.IsNpc)
                 return false;
 
-            if (Group.CastableTanks.All(x => x != target.TargetCharacter))
-                return false;
-
-            if (!TankBusters.Contains(target.CastingSpellId)) 
-                return false;
-            
-            return true;
-
+            return Group.CastableTanks.Any(x => x == target.TargetCharacter) && TankBusters.Contains(target.CastingSpellId);
         }
 
         private static readonly List<uint> TankBusters = new List<uint>() {
@@ -138,31 +122,78 @@ namespace Magitek.Extensions
 
             //====Endwalker Savage Raids
         };
+        
+        public static bool IsCastingBigAoe(this Character target)
+        {
+            if (!Globals.InActiveDuty)
+                return false;
 
-        private static readonly List<uint> BigAoes = new List<uint>();
+            if (!Core.Me.InCombat)
+                return false;
+                
+            if (!target.IsCasting)
+                return false;
+
+            return target.IsNpc && BigAoes.Contains(target.CastingSpellId);
+        }
+
+        private static readonly List<uint> BigAoes = new List<uint>() {
+            //====Endwalker Dungeons
+            
+            //Lv 81 - The Tower of Zot
+
+            //Lv 83 - The Tower of Babil
+            
+            //Lv 85 - Vanaspati
+
+            //Lv 87 - Ktisis Hyperboreia
+
+            //Lv 89 - The Aitiascope
+            
+            //Lv 90 - The Dead Ends
+            
+            //Lv 90 - Smileton
+
+            //Lv 90 - The Stigma Dreamscape
+
+
+            //====Endwalker Trials
+            //Lv 83 - The Dark Inside (Zodiark)
+
+            //Lv 89 - The Mothercrystal (Hydaelyn)
+            //Lv 90 - The Final Day (Meteion)
+
+
+            //====Endwalker Extreme Trials
+
+            //Lv 90 - The Minstrel's Ballad: Zodiark's Fall
+
+            //Lv 90 - The Minstrel's Ballad: Hydaelyn's Call
+
+            //====Endwalker Normal Raids
+
+            //Lv 90 - Asphodelos: The First Circle (Erichthonios)
+
+            //Lv 90 - Asphodelos: The Second Circle ()
+            //Lv 90 - Asphodelos: The Third Circle ()
+            //Lv 90 - Asphodelos: The Fourth Circle ()
+
+
+            //====Endwalker Savage Raids
+        };
 
         public static bool HasAnyDpsCardAura(this Character unit)
         {
             return unit.HasAnyAura(new uint[] {     Auras.TheBole,
-                                                    Auras.TheBole2,
-                                                    Auras.TheBole3,
                                                     Auras.TheEwer,
-                                                    Auras.TheEwer2,
-                                                    Auras.TheEwer3,
                                                     Auras.TheSpire,
-                                                    Auras.TheSpire2,
-                                                    Auras.TheSpire3,
                                                     Auras.TheArrow,
-                                                    Auras.TheArrow2,
                                                     Auras.TheSpear,
-                                                    Auras.TheSpear2,
                                                     Auras.TheBalance,
-                                                    Auras.TheBalance2,
-                                                    Auras.TheBalance3,
             });
         }
 
-        public static bool HasAnyHealerRegen(this Character unit)
+        public static bool HasAnyHealerRegenOrDelayedHeal(this Character unit)
         {
             return unit.HasAnyAura(new uint[]
             {

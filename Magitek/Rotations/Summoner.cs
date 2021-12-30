@@ -58,6 +58,7 @@ namespace Magitek.Rotations
 
             if (await GambitLogic.Gambit()) return true;
             if (await Logic.Summoner.Heal.Raise()) return true;
+            //if (await Logic.Summoner.Heal.EnkindlePheonix()) return true;
             //Force Toggles:
             if (await Logic.Summoner.Heal.ForceRaise()) return true;
             if (await Logic.Summoner.Heal.ForceHardRaise()) return true;

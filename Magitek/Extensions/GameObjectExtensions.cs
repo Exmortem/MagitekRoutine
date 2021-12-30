@@ -187,11 +187,6 @@ namespace Magitek.Extensions
             return gameObject != null && Tanks.Contains(gameObject.CurrentJob);
         }
 
-        public static void test()
-        {
-
-        }
-
         public static bool IsHealer(this GameObject unit)
         {
             var gameObject = unit as Character;
@@ -303,14 +298,10 @@ namespace Magitek.Extensions
         public static float GetResurrectionWeight(this GameObject c)
         {
             if (c.IsHealer() || c.IsBlueMageHealer())
-            {
                 return 100;
-            }
 
             if (c.IsTank() || c.IsBlueMageTank())
-            {
                 return 90;
-            }
 
             return (c.IsDps() || c.IsBlueMageDps()) ? 80 : 0;
         }
