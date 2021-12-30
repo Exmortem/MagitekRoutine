@@ -146,16 +146,16 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.HasAetherflow())
                 return false;
 
-            if (Spells.Aetherflow.Cooldown.TotalMilliseconds < 1500)
-                return await Spells.Aetherflow.Cast(Core.Me);
-
-            if (Core.Me.Pet != null && Spells.Dissipation.Cooldown.TotalMilliseconds < 1500 && Casting.LastSpell == Spells.Aetherflow == false)
-                return await Spells.Dissipation.Cast(Core.Me);
+            if (Spells.Aetherflow.Cooldown.TotalMilliseconds > 1500)
+            {
+                Logger.Error("Aetherflow on cooldown");
+                return false;
+            }
 
             //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
             //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
             //        return true;
-            return false;
+            return await Spells.Aetherflow.Cast(Core.Me);
         }
 
         public static async Task<bool> DeploymentTactics()
@@ -169,8 +169,8 @@ namespace Magitek.Logic.Scholar
                 return false;
             // Find someone who has the right amount of allies around them based on the users settings
             var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
-                r.HasAura(Auras.Galvanize, true)
-                && r.HasAura(Auras.Catalyze, true)
+                r.HasAura(Auras.Galvanize)
+                && r.HasAura(Auras.Catalyze)
                 && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
@@ -224,7 +224,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty)
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsTarget == null || !chainStrategemsTarget.ThoroughCanAttack())
                         return false;
@@ -237,7 +237,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty && Core.Me.CurrentTarget.IsBoss())
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsBossTarget == null || !chainStrategemsBossTarget.ThoroughCanAttack())
                         return false;
