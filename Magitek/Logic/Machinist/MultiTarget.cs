@@ -14,7 +14,7 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> Scattergun()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, Spells.Scattergun))
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, MachinistRoutine.Scattergun))
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
