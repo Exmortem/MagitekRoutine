@@ -93,6 +93,11 @@ namespace Magitek.Logic.Paladin
             if (PaladinRoutine.RequiescatStackCount <= 1)
                 return false;
 
+            // In 6.0 PLD will cast Requiescat early because it lasts a long time. We now need
+            // to make sure we don't still have FoF up as well.
+            if (Core.Me.HasAura(Auras.FightOrFight, true))
+                return false;
+
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
                 return false;
 
@@ -113,7 +118,10 @@ namespace Magitek.Logic.Paladin
             if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
                 return await Spells.BladeOfValor.Cast(Core.Me.CurrentTarget);
 
-            if (PaladinRoutine.RequiescatStackCount > 1)
+            // We want to Confit with our last stack, but if the req buff is
+            // about to fall off, and this is our last action, use confit
+            if (PaladinRoutine.RequiescatStackCount > 1
+                && Core.Me.HasAura(Auras.Requiescat, true, 3000))
                 return false;
 
             return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
