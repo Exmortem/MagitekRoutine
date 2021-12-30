@@ -23,7 +23,7 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount)
                 return false;
 
             return await MachinistRoutine.Scattergun.Cast(Core.Me.CurrentTarget);
@@ -40,7 +40,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Reassembled))
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.BioBlasterEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.BioBlasterEnemyCount)
                 return false;
 
             return await Spells.Bioblaster.Cast(Core.Me.CurrentTarget);
@@ -57,7 +57,7 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
                 return false;
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
