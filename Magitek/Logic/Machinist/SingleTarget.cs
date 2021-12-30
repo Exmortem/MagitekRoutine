@@ -21,10 +21,10 @@ namespace Magitek.Logic.Machinist
             if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsKnownAndReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(200))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(200) && ActionResourceManager.Machinist.Battery <= 80)
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(200))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(200) && ActionResourceManager.Machinist.Battery <= 80)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -104,7 +104,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);

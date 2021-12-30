@@ -17,8 +17,8 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Spells.Hypercharge.IsKnown() && Casting.LastSpell == Spells.Hypercharge)
-                return false; 
-            
+                return false;
+
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
