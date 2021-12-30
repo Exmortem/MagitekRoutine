@@ -46,7 +46,15 @@
                 </StackPanel>
             </Grid>
         </controls:SettingsBlock>
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
 
+
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Don't Do Damage If There Are More Than " />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.StopDamageWhenMoreThanEnemies, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Combat" />
+            </StackPanel>
+        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
@@ -105,10 +113,6 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Not Use Damage Over Time Spells If Enemy Is Dying Within  " />
                 <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.DontDotIfEnemyDyingWithin, Mode=TwoWay}" />
                 <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-
-                <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Damage if Tiem Left Less Than  " />
-                <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.DoDamageIfTimeLeftLessThan, Mode=TwoWay}" />
-                <TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
             </Grid>
         </controls:SettingsBlock>
 
@@ -118,7 +122,31 @@
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.AoEEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
             </StackPanel>
+            
         </controls:SettingsBlock>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Pneuma " IsChecked="{Binding SageSettings.Pneuma, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Pneuma only to heal " IsChecked="{Binding SageSettings.PneumaHealOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.PneumaNeedHealing, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies need healing" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.PneumaHpPercent, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" HP percent" />
+            </StackPanel>
+
+        </controls:SettingsBlock>
+        <Border Grid.Row="7" Padding="5,2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="112" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Border>
 
 
     </StackPanel>
