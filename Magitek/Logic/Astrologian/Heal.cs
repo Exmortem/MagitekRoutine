@@ -505,17 +505,14 @@ namespace Magitek.Logic.Astrologian
             */
             var deadList = Group.DeadAllies.Where(u => !u.HasAura(Auras.Raise) &&
                                                        u.Distance(Core.Me) <= 30 &&
+                                                       u.IsVisible &&
                                                        u.InLineOfSight() &&
-                                                       u.IsTargetable &&
-                                                       u.IsVisible)
+                                                       u.IsTargetable)
                 .OrderByDescending(r => r.GetResurrectionWeight());
 
             var deadTarget = deadList.FirstOrDefault();
 
             if (deadTarget == null)
-                return false;
-
-            if (!deadTarget.IsTargetable)
                 return false;
 
             if (Core.Me.InCombat || Globals.OnPvpMap)
