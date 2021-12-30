@@ -90,8 +90,6 @@ namespace Magitek.Rotations
                     return true;
             }
 
-            //oGCDs
-
             //Utility
             if (await Utility.Tactician()) return true;
             if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;

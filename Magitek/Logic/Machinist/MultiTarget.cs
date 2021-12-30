@@ -134,7 +134,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
