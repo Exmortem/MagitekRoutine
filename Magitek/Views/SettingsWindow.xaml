@@ -810,6 +810,9 @@
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
+                        <TabItem Header="General " Style="{DynamicResource MainTabCombat}">
+                            <dancer:General />
+                        </TabItem>
                         <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
                             <dancer:SingleTarget />
                         </TabItem>
