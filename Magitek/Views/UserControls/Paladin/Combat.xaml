@@ -45,7 +45,15 @@
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Spirits Within" IsChecked="{Binding PaladinSettings.SpiritsWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Intervene" IsChecked="{Binding PaladinSettings.Intervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -111,7 +119,6 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel>
-                <CheckBox Margin="5" Content="Requiescat" IsChecked="{Binding PaladinSettings.Requiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Margin="5" Content="HolyCircle AoE" IsChecked="{Binding PaladinSettings.HolyCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
