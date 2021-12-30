@@ -1,5 +1,6 @@
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
@@ -43,22 +44,6 @@ namespace Magitek.Logic.Astrologian
             return await Spells.LucidDreaming.Cast(Core.Me);
         }
 
-        private static async Task<bool> SwiftCastAspectedHelios()
-        {
-            if (!await Swiftcast())
-                return false;
-
-            while (Core.Me.HasAura(Auras.Swiftcast))
-            {
-                if (await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios, false))
-                    return true;
-
-                await Coroutine.Yield();
-            }
-
-            return false;
-        }
-
         public static async Task<bool> Lightspeed()
         {
             if (!AstrologianSettings.Instance.Lightspeed)
@@ -72,35 +57,6 @@ namespace Magitek.Logic.Astrologian
 
             if (Spells.Lightspeed.Cooldown == TimeSpan.Zero)
                 return false;
-
-            /*
-            if (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LightspeedManaPercent)
-                return false;
-
-            //I Can't get this to work for some reason.
-            //Let's try it now that lightspeed is also under CombatBuffs
-            if (!MovementManager.IsMoving
-                && !AstrologianSettings.Instance.LightspeedWhileMoving)
-                return false;
-
-            if (Globals.InParty)
-            {
-                if (AstrologianSettings.Instance.LightspeedTankOnly)
-                {
-                    if (Group.CastableTanks.Any(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
-                        return false;
-
-                    return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
-                }
-                if (Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
-                    return false;
-
-                return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
-            }
-            */
-
-            //Maybe just lightspeed when a lot of people, or tank needs a lot of healing and we don't have ED
-            //TODO: Rejig settings to make sense with this change in logic
 
             if (Spells.EssentialDignity.Charges > 0)
                 return false;
@@ -116,17 +72,47 @@ namespace Magitek.Logic.Astrologian
                 if (Spells.CelestialOpposition.Cooldown == TimeSpan.Zero)
                     return false;
 
-                if (Core.Me.HasAura(Auras.LadyOfCrownsDrawn) && Spells.CrownPlay.CanCast(Core.Me.CurrentTarget))
+                if (Core.Me.HasAura(Auras.LadyOfCrownsDrawn))
                     return false;
 
-                if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= 60) <= (Group.CastableAlliesWithin30.Count() * .6))
+                var partySize = PartyManager.NumMembers;
+                var lightSpeedThreshold = partySize == 4 ? 2 : 3;
+
+                if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= 60f) < lightSpeedThreshold)
                     return false;
             }
 
-            if (Core.Me.CurrentHealthPercent >= 40)
+            if (Core.Me.CurrentHealthPercent >= 40f)
                 return false;
 
             return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
+        }
+
+        public static async Task<bool> Divination()
+        {
+            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.Divination)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Spells.Divination.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
+                return false;
+
+            if (!Combat.Enemies.All(x => x.IsTargetable))
+                return false;
+
+            // Added check to see if more than configured allies are around
+
+            var divinationTargets = Group.CastableAlliesWithin15.Count(r => r.IsAlive);
+
+            if (divinationTargets >= AstrologianSettings.Instance.DivinationAllies)
+                return await Spells.Divination.CastAura(Core.Me, Auras.Divination);
+
+            return false;
         }
 
         public static async Task<bool> Synastry()

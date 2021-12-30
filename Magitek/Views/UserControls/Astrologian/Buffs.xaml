@@ -21,89 +21,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <ObjectDataProvider x:Key="AstrologianSect" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:AstrologianSect" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-
-            <ObjectDataProvider x:Key="AstrologianSectWithOpposite" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:AstrologianSectWithOpposite" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="0,0,10,0"
-                           HorizontalAlignment="Right"
-                           Style="{DynamicResource TextBlockDefault}"
-                           Text="Sect When Only Healer:" />
-                <ComboBox Grid.Row="0"
-                          Grid.Column="1"
-                          Width="170"
-                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
-                          SelectedValue="{Binding AstrologianSettings.SectWithNoPairing, Mode=TwoWay}"
-                          Style="{DynamicResource ComboBox}" />
-
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="0,0,10,0"
-                           HorizontalAlignment="Right"
-                           Style="{DynamicResource TextBlockDefault}"
-                           Text="Sect When Paired With White Mage:" />
-                <ComboBox Grid.Row="1"
-                          Grid.Column="1"
-                          Width="170"
-                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
-                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithWhm, Mode=TwoWay}"
-                          Style="{DynamicResource ComboBox}" />
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="0,0,10,0"
-                           HorizontalAlignment="Right"
-                           Style="{DynamicResource TextBlockDefault}"
-                           Text="Sect When Paired With Scholar:" />
-                <ComboBox Grid.Row="2"
-                          Grid.Column="1"
-                          Width="170"
-                          ItemsSource="{Binding Source={StaticResource AstrologianSect}}"
-                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithSch, Mode=TwoWay}"
-                          Style="{DynamicResource ComboBox}" />
-
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="0,0,10,0"
-                           HorizontalAlignment="Right"
-                           Style="{DynamicResource TextBlockDefault}"
-                           Text="Sect When Paired With Astrologian:" />
-                <ComboBox Grid.Row="3"
-                          Grid.Column="1"
-                          Width="170"
-                          ItemsSource="{Binding Source={StaticResource AstrologianSectWithOpposite}}"
-                          SelectedValue="{Binding AstrologianSettings.SectWhenPairedWithAst, Mode=TwoWay}"
-                          Style="{DynamicResource ComboBox}" />
-
-            </Grid>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
@@ -116,7 +37,7 @@
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <!--CheckBox Margin="0,0,7,0" Content="Lightspeed While Moving" IsChecked="{Binding AstrologianSettings.LightspeedWhileMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" /-->
-                <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Lightspeed When Under " />
+                <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Lightspeed When Under " />
                 <controls:Numeric Margin="0,4" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.LightspeedManaPercent, Mode=TwoWay}" />
                 <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent " />
                 
@@ -138,16 +59,18 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,7,0" Content=" Neutral Sect at " IsChecked="{Binding AstrologianSettings.NeutralSect, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="0,0,7,0" Content="Neutral Sect at " IsChecked="{Binding AstrologianSettings.NeutralSect, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.NeutralSectHealthPercent, Mode=TwoWay}" />
                     <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
-                    <CheckBox Margin="0,0,7,0" Content="" IsChecked="{Binding AstrologianSettings.NeutralSectHealthPercent, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Tank Only " />
+                    <CheckBox Margin="0,0,7,0" Content="Tank Only" IsChecked="{Binding AstrologianSettings.NeutralSectHealthPercent, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-       
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <CheckBox Margin="5" Content="Use Divination" IsChecked="{Binding AstrologianSettings.Divination, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </controls:SettingsBlock>
+
 
     </StackPanel>
 

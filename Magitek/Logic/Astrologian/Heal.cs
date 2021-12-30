@@ -437,7 +437,29 @@ namespace Magitek.Logic.Astrologian
             if (diurnalHeliosCount < AstrologianSettings.Instance.DiurnalHeliosAllies)
                 return false;
 
+            if (diurnalHeliosCount == PartyManager.NumMembers)
+                return await SwiftCastAspectedHelios();
+
             return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
+        }
+
+        private static async Task<bool> SwiftCastAspectedHelios()
+        {
+            if (!Spells.Swiftcast.IsKnownAndReady())
+                return false;
+
+            if (!await Buff.Swiftcast())
+                return false;
+
+            while (Core.Me.HasAura(Auras.Swiftcast))
+            {
+                if (await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios, false))
+                    return true;
+
+                await Coroutine.Yield();
+            }
+
+            return false;
         }
 
         

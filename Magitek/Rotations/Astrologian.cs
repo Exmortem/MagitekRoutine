@@ -116,9 +116,7 @@ namespace Magitek.Rotations
             if (await Logic.Astrologian.Heal.Benefic2()) return true;
             if (await Logic.Astrologian.Heal.Benefic()) return true;
             if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
-            if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
-
-            return false;
+            return await Logic.Astrologian.Heal.EarthlyStar();
         }
 
         public static async Task<bool> CombatBuff()
@@ -130,7 +128,7 @@ namespace Magitek.Rotations
             if (await Buff.NeutralSect()) return true;
 
             
-            if (await Cards.Divination()) return true;
+            if (await Buff.Divination()) return true;
             if (await Cards.AstroDyne()) return true;
             return await Cards.PlayCards();
         }

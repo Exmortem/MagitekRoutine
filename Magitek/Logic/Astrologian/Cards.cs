@@ -187,32 +187,6 @@ namespace Magitek.Logic.Astrologian
 
             return false;
         }
-        public static async Task<bool> Divination()
-        {
-            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.Divination)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Spells.Divination.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
-            if (!Combat.Enemies.All(x => x.IsTargetable))
-                return false;
-
-            // Added check to see if more than configured allies are around
-
-            var divinationTargets = Group.CastableAlliesWithin15.Count(r => r.IsAlive);
-
-            if (divinationTargets >= AstrologianSettings.Instance.DivinationAllies)
-                return await Spells.Divination.CastAura(Core.Me, Auras.Divination);
-
-            return false;
-        }
 
         public static async Task<bool> AstroDyne()
         {
@@ -337,6 +311,9 @@ namespace Magitek.Logic.Astrologian
                 
                 case ClassJobType.Sage:
                     return AstrologianSettings.Instance.SgeCardWeight;
+
+                case ClassJobType.BlueMage:
+                    return AstrologianSettings.Instance.BluCardWeight;
             }
 
             return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;

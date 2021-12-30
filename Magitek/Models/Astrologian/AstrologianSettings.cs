@@ -97,22 +97,6 @@ namespace Magitek.Models.Astrologian
         public bool LightspeedTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(AstrologianSect.Nocturnal)]
-        public AstrologianSect SectWithNoPairing { get; set; }
-
-        [Setting]
-        [DefaultValue(AstrologianSect.Nocturnal)]
-        public AstrologianSect SectWhenPairedWithWhm { get; set; }
-
-        [Setting]
-        [DefaultValue(AstrologianSect.Diurnal)]
-        public AstrologianSect SectWhenPairedWithSch { get; set; }
-
-        [Setting]
-        [DefaultValue(AstrologianSectWithOpposite.Opposite)]
-        public AstrologianSectWithOpposite SectWhenPairedWithAst { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
 
@@ -507,14 +491,6 @@ namespace Magitek.Models.Astrologian
         [DefaultValue(false)]
         public bool HealAllianceOnlyBenefic { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool HealPartyMembersPets { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool HealPartyMembersPetsTitanOnly { get; set; }
-
         #endregion
 
         #region Cards
@@ -580,6 +556,9 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(9)]
         public int RdmCardWeight { get; set; }
+        [Setting]
+        [DefaultValue(10)]
+        public int BluCardWeight { get; set; }
         [Setting]
         [DefaultValue(10)]
         public int DncCardWeight { get; set; }

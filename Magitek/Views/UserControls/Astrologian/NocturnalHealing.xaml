@@ -16,7 +16,8 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
-
+    
+    <!-- 
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
@@ -82,4 +83,5 @@
         </controls:SettingsBlock>
 
     </StackPanel>
+    -->
 </UserControl>

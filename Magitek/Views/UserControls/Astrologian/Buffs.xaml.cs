@@ -11,5 +11,10 @@ namespace Magitek.Views.UserControls.Astrologian
         {
             InitializeComponent();
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
