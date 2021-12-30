@@ -39,6 +39,7 @@ namespace Magitek.Utilities
             CastableAlliesWithin30.Clear();
             CastableAlliesWithin20.Clear();
             CastableAlliesWithin15.Clear();
+            CastableAlliesWithin12.Clear();
             CastableAlliesWithin10.Clear();
 
             if (!Globals.InParty)
@@ -71,13 +72,15 @@ namespace Magitek.Utilities
                         var distance = ally.Distance(Core.Me);
 
                         if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
-                        if (distance <= 30) { CastableAlliesWithin20.Add(ally); }
+                        if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
                         if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
+                        if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
                         if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
 
                         CastableAlliesWithin30.Add(Core.Me);
                         CastableAlliesWithin20.Add(Core.Me);
                         CastableAlliesWithin15.Add(Core.Me);
+                        CastableAlliesWithin12.Add(Core.Me);
                         CastableAlliesWithin10.Add(Core.Me);
                     }
                 }

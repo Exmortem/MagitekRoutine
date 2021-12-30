@@ -87,7 +87,7 @@ namespace Magitek.Extensions
             // If we're using an autonomous bot base and we're running out of avoidance then don't cast
             if (BotManager.Current.IsAutonomous)
             {
-                if (AvoidanceManager.IsRunningOutOfAvoid)
+                if (AvoidanceManager.IsRunningOutOfAvoid && !(Core.Me.HasAura(Auras.Swiftcast) || spell.AdjustedCastTime <= TimeSpan.Zero))
                     return false;
             }
 

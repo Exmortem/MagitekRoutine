@@ -129,6 +129,10 @@ namespace Magitek.Rotations
         {
             await CombatBuff();
 
+            //Only stop doing damage when in party
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
+                return false;
+
             if (Globals.InParty)
             {
                 if (!SageSettings.Instance.DoDamage)

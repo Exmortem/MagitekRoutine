@@ -81,7 +81,7 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(false)]
-        public bool SmartDragonSight { get; set; }
+        public bool UseSmartDragonSight { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -112,9 +112,9 @@ namespace Magitek.Models.Dragoon
 
     #endregion
 
-    #region Defensives
+        #region Defensives
 
-    [Setting]
+        [Setting]
         [DefaultValue(true)]
         public bool Defensives { get; set; }
 

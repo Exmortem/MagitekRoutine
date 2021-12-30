@@ -107,7 +107,7 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
                     return false;

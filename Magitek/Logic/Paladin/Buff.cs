@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
 
 namespace Magitek.Logic.Paladin
 {
@@ -31,7 +32,46 @@ namespace Magitek.Logic.Paladin
             return false;
 
         }
+        public static async Task<bool> Requiescat()
+        {
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.Requiescat, Spells.Requiescat))
+                return false;
 
+            // In 6.0 PLD casts Req early, while FoF is still up, because the req buff lasts a long time,
+            // and early use can be beneficial in some fight lengths.
+            // The 6.0 balance standard rotation has it about 3 gcds/7.5~ seconds after FoF usage, but we
+            // expose a setting here as well in case users want to adjust this.
+            if (Core.Me.HasAura(Auras.FightOrFight, true,
+                PaladinSettings.Instance.RequiescatWithFofSecondsRemaining * 1000))
+            {
+                return false;
+            }
+
+            // If we're in an aoe situation we want to Req even if our
+            // target doesn't have goring. This is typically in dungeons.
+            var enemyCount = Combat.Enemies.Count(r =>
+                r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach);
+
+            if (Spells.FightorFlight.IsKnown()
+                && Spells.FightorFlight.Cooldown.TotalSeconds >= 1
+                && enemyCount >= PaladinSettings.Instance.TotalEclipseEnemies)
+            {
+                return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
+            }
+
+            // Even if we're doing Req first, which is non-standard, we still
+            // want to get goring up before starting req combo.
+            if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 1900))
+                return false;
+
+            if (PaladinSettings.Instance.FoFFirst
+                && Spells.FightorFlight.Cooldown.Seconds < 8
+                && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
+                return false;
+
+
+            return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
+        }
 
         public static async Task<bool> FightOrFlight()
         {
@@ -47,62 +87,30 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
+            // If we're in an aoe situation we want to FoF even if our
+            // target doesn't have goring. This is typically in dungeons.
+            var enemyCount = Combat.Enemies.Count(r =>
+                r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach);
+
+            if (enemyCount > PaladinSettings.Instance.TotalEclipseEnemies)
+            {
+                return await Spells.FightorFlight.Cast(Core.Me);
+            }
+
             if (Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 13000))
                 return false;
 
-            if (Core.Me.ClassLevel == 80)
-            {
-                if (PaladinSettings.Instance.FoFFastBlade)
-                {
-                    if (ActionManager.LastSpell != Spells.FastBlade)
-                        return false;
+            var lastSpellToCheck = (PaladinSettings.Instance.FoFFastBlade
+                ? Spells.FastBlade
+                : Spells.RiotBlade);
 
-                    if (!Core.Me.HasAuraCharge(Auras.SwordOath))
-                        return false;
+            if (ActionManager.LastSpell != lastSpellToCheck)
+                return false;
 
-                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                        return false;
+            if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
+                return false;
 
-                    return await Spells.FightorFlight.Cast(Core.Me);
-                }
-                else
-                {
-                    if (ActionManager.LastSpell != Spells.RiotBlade)
-                        return false;
-
-                    if (!Core.Me.HasAuraCharge(Auras.SwordOath))
-                        return false;
-
-                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                        return false;
-
-                    return await Spells.FightorFlight.Cast(Core.Me);
-                }
-            }
-            else
-            {
-                if (PaladinSettings.Instance.FoFFastBlade)
-                {
-                    if (ActionManager.LastSpell != Spells.FastBlade)
-                        return false;
-
-                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                        return false;
-
-                    return await Spells.FightorFlight.Cast(Core.Me);
-                }
-                else
-                {
-                    if (ActionManager.LastSpell != Spells.RiotBlade)
-                        return false;
-
-                    if (Spells.FastBlade.Cooldown.TotalMilliseconds > (650 + BaseSettings.Instance.UserLatencyOffset))
-                        return false;
-
-                    return await Spells.FightorFlight.Cast(Core.Me);
-                }
-            }
-
+            return await Spells.FightorFlight.Cast(Core.Me);
 
         }
 

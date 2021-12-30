@@ -16,6 +16,9 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseAoe)
                 return false;
 
+            if (Core.Me.HasAura(Auras.DraconianFire))
+                return false;
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 10 + x.CombatReach) < DragoonSettings.Instance.AoeEnemies)
                 return false;
 

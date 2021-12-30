@@ -352,6 +352,9 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 45000 && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
                 return false;
 
+            if (Spells.ShadowFang.Cooldown.TotalMilliseconds < 5000)
+                return false;
+
             if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
                 return false;
 

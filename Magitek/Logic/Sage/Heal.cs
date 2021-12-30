@@ -373,15 +373,15 @@ namespace Magitek.Logic.Sage
 
             var deadList = Group.DeadAllies.Where(u => u.CurrentHealth == 0 &&
                                                        !u.HasAura(Auras.Raise) &&
-                                                       u.Distance(Core.Me) <= 30)
+                                                       u.Distance(Core.Me) <= 30 &&
+                                                       u.IsVisible &&
+                                                       u.InLineOfSight() &&
+                                                       u.IsTargetable)
                 .OrderByDescending(r => r.GetResurrectionWeight());
 
             var deadTarget = deadList.FirstOrDefault();
 
             if (deadTarget == null)
-                return false;
-
-            if (!deadTarget.IsVisible || !deadTarget.IsTargetable)
                 return false;
 
             if (Globals.PartyInCombat)

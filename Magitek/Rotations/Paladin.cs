@@ -90,7 +90,7 @@ namespace Magitek.Rotations
                     if (await Defensive.Defensives()) return true;
                     if (await Buff.Intervention()) return true;
                     if (await Buff.DivineVeil()) return true;
-                    if (await SingleTarget.Requiescat()) return true;
+                    if (await Buff.Requiescat()) return true;
                     if (await Buff.FightOrFlight()) return true;
                     if (!Utilities.Routines.Paladin.OGCDHold)
                     {

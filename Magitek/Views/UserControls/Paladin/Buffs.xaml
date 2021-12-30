@@ -62,6 +62,34 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
+                <CheckBox Grid.Row="1" Grid.Column="0" Content="Requiescat with" IsChecked="{Binding PaladinSettings.Requiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Row="1"
+                                  Grid.Column="1"
+                                  Margin="0,3"
+                                  MaxValue="20"
+                                  MinValue="1"
+                                  Value="{Binding PaladinSettings.RequiescatWithFofSecondsRemaining, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" seconds left on Fight or Flight" />
+                <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text="(17 recommended for boss fights, 1 for dungeons)" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
                 <CheckBox Grid.Row="1" Grid.Column="0" Content="Divine Veil " IsChecked="{Binding PaladinSettings.DivineVeil, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric Grid.Row="1"
                                   Grid.Column="1"
@@ -111,8 +139,8 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
 
-                <CheckBox Content="Only Use Intervention With Sentinel Or Rampart" IsChecked="{Binding PaladinSettings.InterventionOnNearbyPartyMember, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Always Use Intervention With Sentinel Or Rampart" IsChecked="{Binding PaladinSettings.InterventionOnNearbyPartyMember, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Only Use Intervention on party member if Sentinel or Rampart is Active" IsChecked="{Binding PaladinSettings.InterventionPartyAlwaysWOCD, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="Use intervention on party member every time Setinel or Rampart is Active" IsChecked="{Binding PaladinSettings.InterventionPartyAlwaysWithCD, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

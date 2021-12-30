@@ -105,5 +105,22 @@ namespace Magitek.Utilities.Managers
             return targetWindowIsZero || (timeBased && spellFitsInWindow);
         }
 
+        public static bool CanWeaveLate(this SpellData spell, int ogcdPlacement = 1)
+        {
+            if (!CanWeave(spell, ogcdPlacement))
+                return false;
+
+            switch (ogcdPlacement)
+            {
+                case 1:
+                    return (Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset) * 2 > spell.Cooldown.TotalMilliseconds;
+                case 2:
+                    return (Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset) > spell.Cooldown.TotalMilliseconds;
+                default:
+                    return false;
+            }
+
+        }
+
     }
 }

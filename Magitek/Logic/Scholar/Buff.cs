@@ -169,8 +169,8 @@ namespace Magitek.Logic.Scholar
                 return false;
             // Find someone who has the right amount of allies around them based on the users settings
             var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
-                r.HasAura(Auras.Galvanize)
-                && r.HasAura(Auras.Catalyze)
+                r.HasAura(Auras.Galvanize, true)
+                && r.HasAura(Auras.Catalyze, true)
                 && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
@@ -224,7 +224,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty)
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsTarget == null || !chainStrategemsTarget.ThoroughCanAttack())
                         return false;
@@ -237,7 +237,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty && Core.Me.CurrentTarget.IsBoss())
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsBossTarget == null || !chainStrategemsBossTarget.ThoroughCanAttack())
                         return false;
