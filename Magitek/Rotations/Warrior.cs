@@ -7,6 +7,7 @@ using Magitek.Logic.Warrior;
 using Magitek.Models.Account;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
+using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -68,7 +69,7 @@ namespace Magitek.Rotations
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (WarriorRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 //Defensive Buff
                 if (await Defensive.Holmgang()) return true;

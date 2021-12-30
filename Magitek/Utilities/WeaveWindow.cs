@@ -42,8 +42,6 @@ namespace Magitek.Utilities
                 {
                     ManualAdditions(aAction);
                 }
-
-
         }
 
         public void ManualAdditions(SpellData addAction)

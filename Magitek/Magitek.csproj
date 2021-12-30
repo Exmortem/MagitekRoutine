@@ -466,7 +466,6 @@
     <Compile Include="Utilities\Routines\StateMachine\StateMachineManager.cs" />
     <Compile Include="Utilities\Routines\StateMachine\StateTransition.cs" />
     <Compile Include="Utilities\StunTracker.cs" />
-    <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />
     <Compile Include="Utilities\Duty.cs" />
     <Compile Include="Utilities\Globals.cs" />

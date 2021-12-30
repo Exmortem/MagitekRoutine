@@ -1,4 +1,5 @@
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace Magitek.Utilities.Routines
     internal static class Gunbreaker
 
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Gunbreaker, Spells.KeenEdge);
+
         public static readonly List<uint> Defensives = new List<uint>()
         {
             Auras.Camouflage,

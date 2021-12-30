@@ -1,4 +1,5 @@
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -10,6 +11,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Bard
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Bard, Spells.HeavyShot);
+
         public static int EnemiesInCone;
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;

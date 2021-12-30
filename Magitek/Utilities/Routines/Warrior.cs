@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Warrior
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Warrior, Spells.HeavySwing);
 
         public static SpellData FellCleave => Core.Me.ClassLevel < 54
                                             ? Spells.InnerBeast

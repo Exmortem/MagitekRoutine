@@ -6,6 +6,7 @@ using Magitek.Logic.Paladin;
 using Magitek.Logic.Roles;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;

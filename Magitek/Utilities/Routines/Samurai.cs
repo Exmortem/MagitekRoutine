@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Logic;
@@ -13,6 +14,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Samurai
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Samurai, Spells.Hakaze);
+
         public static bool OnGcd => Spells.Hakaze.Cooldown > TimeSpan.FromMilliseconds(SamuraiSettings.Instance.UseOffGCDAbilitiesWithMoreThanXMSLeft);
 
         public static int SenCount

@@ -117,7 +117,7 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
-            if (Weaving.GetCurrentWeavingCounter() > 0)
+            if (MachinistRoutine.GlobalCooldown.CountOGCDs() > 0)
                 return false;
 
             //Force Delay CD

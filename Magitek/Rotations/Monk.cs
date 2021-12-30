@@ -8,6 +8,7 @@ using Magitek.Models.Account;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
+using MonkRoutine = Magitek.Utilities.Routines.Monk;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -67,7 +68,7 @@ namespace Magitek.Rotations
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
             }
 
-            Utilities.Routines.Monk.RefreshVars();
+            MonkRoutine.RefreshVars();
 
             if (!SpellQueueLogic.SpellQueue.Any())
             {
@@ -98,7 +99,7 @@ namespace Magitek.Rotations
             //}
             if (!Core.Me.HasAura(Auras.Anatman) || MonkSettings.Instance.UseManualPB && Core.Me.HasAura(Auras.PerfectBalance))
             {
-                if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
+                if (MonkRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
                 {
                     if (await PhysicalDps.Interrupt(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;

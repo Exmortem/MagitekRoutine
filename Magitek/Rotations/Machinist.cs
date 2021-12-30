@@ -6,6 +6,7 @@ using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
+using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -96,7 +97,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2)
+            if (MachinistRoutine.GlobalCooldown.CountOGCDs() < 2)
             {
                 //Pets
                 if (await Pet.RookQueen()) return true;

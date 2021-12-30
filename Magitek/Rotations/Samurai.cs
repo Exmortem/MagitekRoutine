@@ -6,6 +6,7 @@ using Magitek.Logic.Roles;
 using Magitek.Logic.Samurai;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
+using SamuraiRoutine = Magitek.Utilities.Routines.Samurai;
 using System.Linq;
 using System.Threading.Tasks;
 

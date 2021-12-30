@@ -1,18 +1,22 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using System;
+using System.Collections.Generic;
 
 
 namespace Magitek.Utilities.Routines
 {
     internal static class Machinist
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Machinist, Spells.SplitShot, new List<SpellData>() { Spells.Flamethrower });
+
         public static bool IsInWeaveingWindow => ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero
-                                                ? Weaving.GetCurrentWeavingCounter() < 1 && HeatedSplitShot.Cooldown != TimeSpan.Zero
-                                                : Weaving.GetCurrentWeavingCounter() < 2 && HeatedSplitShot.Cooldown != TimeSpan.Zero
+                                                ? GlobalCooldown.CountOGCDs() < 1 && HeatedSplitShot.Cooldown != TimeSpan.Zero
+                                                : GlobalCooldown.CountOGCDs() < 2 && HeatedSplitShot.Cooldown != TimeSpan.Zero
                                                                             && HeatedSplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + 50 + MachinistSettings.Instance.UserLatencyOffset;
 
 

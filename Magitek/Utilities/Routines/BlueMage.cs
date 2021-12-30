@@ -1,12 +1,17 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Models.BlueMage;
+using System.Collections.Generic;
 
 namespace Magitek.Utilities.Routines
 {
     internal static class BlueMage
     {
         public static bool OnGcd => Spells.SonicBoom.Cooldown.TotalMilliseconds > 1;
+
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.BlueMage, Spells.SonicBoom, new List<SpellData>() { Spells.PhantomFlurry });
 
         public static bool IsSurpanakhaInProgress => Casting.LastSpell == Spells.Surpanakha && Spells.Surpanakha.Charges >= 1.0f;
 
