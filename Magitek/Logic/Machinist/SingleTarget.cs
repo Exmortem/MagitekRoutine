@@ -104,7 +104,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery >= 80)
                 return false;
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);

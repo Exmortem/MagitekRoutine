@@ -16,9 +16,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRookQueen)
                 return false;
 
-            if (Core.Me.HasAura(Auras.WildfireBuff))
-                return false;
-
+            if (Spells.Hypercharge.IsKnown() && Casting.LastSpell == Spells.Hypercharge)
+                return false; 
+            
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
@@ -26,21 +26,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionResourceManager.Machinist.Battery < MachinistSettings.Instance.MinBatteryForPetSummon)
-                return false;
-
-            if (Core.Me.ClassLevel >= 45)
-            {
-                if (Casting.LastSpell == Spells.Hypercharge)
-                    return false;
-
-                if (Casting.LastSpell == Spells.Wildfire)
-                    return false;
-
-                if (Spells.Wildfire.Cooldown.Seconds > 110)
-                    return false;
-            }
-
-            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 5)
                 return false;
 
             if (MachinistSettings.Instance.UseBuffedRookQueen)
