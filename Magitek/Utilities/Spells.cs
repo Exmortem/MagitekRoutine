@@ -406,7 +406,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Mug = DataManager.GetSpellData(2248);
         public static readonly SpellData DeathBlossom = DataManager.GetSpellData(2254);
         public static readonly SpellData AeolianEdge = DataManager.GetSpellData(2255);
-        //public static readonly SpellData ShadowFang = DataManager.GetSpellData(2257);
+        public static readonly SpellData ShadowFang = DataManager.GetSpellData(2257);
         public static readonly SpellData TrickAttack = DataManager.GetSpellData(2258);
         public static readonly SpellData Ten = DataManager.GetSpellData(2259);
         public static readonly SpellData Ninjutsu = DataManager.GetSpellData(2260);
