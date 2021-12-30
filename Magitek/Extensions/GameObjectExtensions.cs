@@ -187,11 +187,6 @@ namespace Magitek.Extensions
             return gameObject != null && Tanks.Contains(gameObject.CurrentJob);
         }
 
-        public static void test()
-        {
-
-        }
-
         public static bool IsHealer(this GameObject unit)
         {
             var gameObject = unit as Character;
