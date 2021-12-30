@@ -14,7 +14,7 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> Scattergun()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, Spells.Scattergun))
+            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, MachinistRoutine.Scattergun))
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -134,7 +134,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
