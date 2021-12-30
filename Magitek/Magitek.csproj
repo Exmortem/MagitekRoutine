@@ -599,6 +599,9 @@
     <Compile Include="Views\UserControls\Bugs\SpellCastHistory.xaml.cs">
       <DependentUpon>SpellCastHistory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Dancer\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Dancer\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
@@ -1081,6 +1084,10 @@
     <Page Include="Views\UserControls\Bugs\SpellCastHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Dancer\Aoe.xaml">
       <Generator>MSBuild:Compile</Generator>
