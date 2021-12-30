@@ -100,7 +100,7 @@ namespace Magitek.Utilities
         public bool IsWeaveWindow(int targetWindow = 1, bool timeBased = false)
         {
             //700 MS = typical animation lock, with Alexander triple weave should be possible
-            if (_gcd.IsReady(700 + BaseSettings.Instance.UserLatencyOffset))
+            if (_gcd.IsReady(Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset))
                 return false;
 
             targetWindow--;
