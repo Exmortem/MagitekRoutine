@@ -16,7 +16,7 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Buff
     {
-        // To prevent routine recasting fairy when the game nulls the pet during Seraph transition.
+        // Prevents double summoning of fairy
         public static DateTime FairySummonCooldown = DateTime.Now;
 
         public static async Task<bool> SummonPet()
@@ -31,6 +31,10 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (DateTime.Now <= FairySummonCooldown)
+                return false;
+
+            // To prevent routine recasting fairy when the game nulls the pet during Seraph transition back to fairy.
+            if (Spells.SummonSeraph.Cooldown.TotalSeconds - 90 > 0)
                 return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
