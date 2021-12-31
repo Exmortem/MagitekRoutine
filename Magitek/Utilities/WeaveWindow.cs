@@ -25,10 +25,13 @@ namespace Magitek.Utilities
             _ogcds = DataManager.SpellCache.Values.Where(
                     x =>
                         (x.IsPlayerAction
-                         && x.SpellType == SpellType.Ability
-                         && x.JobTypes.Contains(_job))
-                        || (x.SpellType == SpellType.System
-                            && x.Job == ClassJobType.Adventurer))
+                            && x.SpellType == SpellType.Ability
+                            && x.JobTypes.Contains(_job))
+                            || (x.SpellType == SpellType.System 
+                                && x.Job == ClassJobType.Adventurer)
+                        || !x.IsPlayerAction
+                            && x.SpellType == SpellType.Ability
+                            && (x.Job == _job || x.JobTypes.Length == 1 && x.JobTypes.Contains(_job)))
                 .ToList();
 
             if (removeActions != null)
