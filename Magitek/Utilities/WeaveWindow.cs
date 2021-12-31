@@ -59,8 +59,6 @@ namespace Magitek.Utilities
 
         public int CountOGCDs()
         {
-            if (_gcd.IsReady(Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset))
-                return 0;
 
             return Casting.SpellCastHistory.FindIndex(x => !_ogcds.Contains(x.Spell));
 
