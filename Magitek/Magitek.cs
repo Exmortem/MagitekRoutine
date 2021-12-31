@@ -204,8 +204,6 @@ namespace Magitek
 
             if (DateTime.Now > _saveFormTime)
             {
-                Logger.Error("Running Save");
-                
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
                 BaseSettings.Instance.Save();
