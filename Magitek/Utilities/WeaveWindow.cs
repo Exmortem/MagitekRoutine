@@ -23,16 +23,24 @@ namespace Magitek.Utilities
             _gcd = gcd;
 
             _ogcds = DataManager.SpellCache.Values.Where(
-                    x =>
-                        (x.IsPlayerAction
-                            && x.SpellType == SpellType.Ability
-                            && x.JobTypes.Contains(_job))
-                            || (x.SpellType == SpellType.System 
-                                && x.Job == ClassJobType.Adventurer)
-                        || !x.IsPlayerAction
-                            && x.SpellType == SpellType.Ability
-                            && (x.Job == _job || x.JobTypes.Length == 1 && x.JobTypes.Contains(_job)))
-                .ToList();
+                                                        x =>
+                                                            //Normal HotBar able oGCD abilities
+                                                            (x.IsPlayerAction
+                                                                && x.SpellType == SpellType.Ability
+                                                                && x.JobTypes.Contains(_job))
+                                                            //OGCDs like Nastrond, those cant be put on the HotBar
+                                                            //instead they will change another ability to perform that action
+                                                            //some of them have SpellData.Job = actual ClassJobType, but some will result in "Adventurer"
+                                                            //Those will have SpellData.Job = Adventurer and only one element in SpellData.JobTypes, which will be the according ClassJobType
+                                                            || !x.IsPlayerAction
+                                                                && x.SpellType == SpellType.Ability
+                                                                && (x.Job == _job || x.JobTypes.Length == 1 && x.JobTypes.Contains(_job))
+                                                            //System Actions like Sprint
+                                                            //will result in some false posotoves like Teleport, but is future proof if Square decides to implement another "Sprint"
+                                                            || (x.SpellType == SpellType.System
+                                                                && x.Job == ClassJobType.Adventurer)
+                                                        ).ToList();
+
 
             if (removeActions != null)
                 foreach (SpellData rAction in removeActions)
