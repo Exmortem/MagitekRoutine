@@ -36,7 +36,7 @@ namespace Magitek.Utilities
                                                                 && x.SpellType == SpellType.Ability
                                                                 && (x.Job == _job || x.JobTypes.Length == 1 && x.JobTypes.Contains(_job))
                                                             //System Actions like Sprint
-                                                            //will result in some false posotoves like Teleport, but is future proof if Square decides to implement another "Sprint"
+                                                            //will result in some false positives like Teleport, but is future proof if Square decides to implement another "Sprint"
                                                             || (x.SpellType == SpellType.System
                                                                 && x.Job == ClassJobType.Adventurer)
                                                         ).ToList();
