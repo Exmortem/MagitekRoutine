@@ -107,40 +107,19 @@ namespace Magitek.Rotations
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (Utilities.Routines.Dancer.OnGcd)
+            if (DancerRoutine.GlobalCooldown.CanWeave())
             {
-                //Only cast spells that are instant/off gcd
-                if (DancerSettings.Instance.EnableWeaving)
-                {
-                    if (DancerRoutine.GlobalCooldown.CanWeave())
-                    {
-                        if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
-                        if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
-                        if (await Buff.CuringWaltz()) return true;
-                        if (await Buff.PreTechnicalDevilment()) return true;
-                        if (await Aoe.FanDance3()) return true;
-                        if (await Aoe.FanDance2()) return true;
-                        if (await SingleTarget.FanDance()) return true;
-                        if (await Aoe.FanDance4()) return true;
-                        if (await Buff.Flourish()) return true;
-                        if (await Buff.Devilment()) return true;
-                        if (await Buff.Improvisation()) return true;
-                    }
-                }
-                else
-                {
-                    if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
-                    if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
-                    if (await Buff.CuringWaltz()) return true;
-                    if (await Buff.PreTechnicalDevilment()) return true;
-                    if (await Aoe.FanDance3()) return true;
-                    if (await Aoe.FanDance2()) return true;
-                    if (await SingleTarget.FanDance()) return true;
-                    if (await Aoe.FanDance4()) return true;
-                    if (await Buff.Flourish()) return true;
-                    if (await Buff.Devilment()) return true;
-                    if (await Buff.Improvisation()) return true;
-                }
+                if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
+                if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
+                if (await Buff.CuringWaltz()) return true;
+                if (await Buff.PreTechnicalDevilment()) return true;
+                if (await Aoe.FanDance3()) return true;
+                if (await Aoe.FanDance2()) return true;
+                if (await SingleTarget.FanDance()) return true;
+                if (await Aoe.FanDance4()) return true;
+                if (await Buff.Flourish()) return true;
+                if (await Buff.Devilment()) return true;
+                if (await Buff.Improvisation()) return true;
             }
 
             if (await Aoe.SaberDance()) return true;

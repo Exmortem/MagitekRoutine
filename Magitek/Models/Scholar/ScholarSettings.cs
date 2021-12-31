@@ -357,6 +357,10 @@ namespace Magitek.Models.Scholar
         public bool WhisperingDawnOnlyWithSeraph { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool ForceWhisperingDawnWithSeraph { get; set; }
+
+        [Setting]
         [DefaultValue(4)]
         public int WhisperingDawnNeedHealing { get; set; }
 
@@ -383,6 +387,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(false)]
         public bool FeyIlluminationOnlyWithSeraph { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ForceFeyIlluminationWithSeraph { get; set; }
 
         [Setting]
         [DefaultValue(false)]

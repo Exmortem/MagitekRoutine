@@ -558,6 +558,9 @@ namespace Magitek.Logic.Scholar
             if (ScholarSettings.Instance.WhisperingDawnOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
                 return false;
 
+            if (ScholarSettings.Instance.ForceWhisperingDawnWithSeraph && Utilities.Routines.Scholar.SeraphTimeRemaining() < 15)
+                return await Spells.WhisperingDawn.Cast(Core.Me);
+
             if (Globals.InParty)
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
@@ -604,6 +607,9 @@ namespace Magitek.Logic.Scholar
 
             if (ScholarSettings.Instance.FeyIlluminationOnlyWithSeraph && Core.Me.Pet.EnglishName != "Seraph")
                 return false;
+
+            if (ScholarSettings.Instance.ForceFeyIlluminationWithSeraph && Utilities.Routines.Scholar.SeraphTimeRemaining() < 15)
+                return await Spells.FeyIllumination.Cast(Core.Me);
 
             if (Globals.InParty)
             {
@@ -705,6 +711,9 @@ namespace Magitek.Logic.Scholar
             if (DateTime.Now <= ConsolationCooldown)
                 return false;
 
+            if (Utilities.Routines.Scholar.SeraphTimeRemaining() <= 6.5)
+                return await Spells.Consolation.Cast(Core.Me);
+
             if (Globals.InParty)
             {
                 var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
@@ -712,7 +721,7 @@ namespace Magitek.Logic.Scholar
                 if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
                     return false;
 
-                if (ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
+                if (Utilities.Routines.Scholar.SeraphTimeRemaining() >= 10 && ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))
                     return false;
 
                 ConsolationCooldown = DateTime.Now.AddSeconds(5);
@@ -720,7 +729,7 @@ namespace Magitek.Logic.Scholar
                 return await Spells.Consolation.Cast(Core.Me);
             }
 
-            if (Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
+            if (Utilities.Routines.Scholar.SeraphTimeRemaining() >= 10 && Core.Me.CurrentHealthPercent > ScholarSettings.Instance.ConsolationHpPercent)
                 return false;
 
             ConsolationCooldown = DateTime.Now.AddSeconds(5);
