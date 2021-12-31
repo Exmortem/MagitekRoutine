@@ -66,6 +66,10 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseConfiteor { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Requiescat { get; set; }
 
         [Setting]

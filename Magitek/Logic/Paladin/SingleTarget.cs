@@ -166,6 +166,29 @@ namespace Magitek.Logic.Paladin
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> Confiteor()
+        {
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.UseConfiteor, Spells.Confiteor))
+                return false;
+
+            if (ActionManager.CanCast(Spells.BladeOfFaith.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfFaith.Cast(Core.Me.CurrentTarget);
+
+            if (ActionManager.CanCast(Spells.BladeOfTruth.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfTruth.Cast(Core.Me.CurrentTarget);
+
+            if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfValor.Cast(Core.Me.CurrentTarget);
+
+            // We want to Confit with our last stack, but if the req buff is
+            // about to fall off, and this is our last action, use confit
+            if (PaladinRoutine.RequiescatStackCount > 1
+                && Core.Me.HasAura(Auras.Requiescat, true, 3000))
+                return false;
+
+            return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> Interrupt()
         {
             List<SpellData> extraStun = new List<SpellData>();
