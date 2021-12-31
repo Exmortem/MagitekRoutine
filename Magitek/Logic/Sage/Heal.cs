@@ -341,7 +341,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var CanPanhaimaTargets = Group.CastableAlliesWithin30.Where(CanPanhaima).ToList();
+                var CanPanhaimaTargets = Group.CastableAlliesWithin15.Where(CanPanhaima).ToList();
 
                 if (CanPanhaimaTargets.Count < SageSettings.Instance.PanhaimaNeedHealing)
                     return false;
