@@ -550,7 +550,7 @@ namespace Magitek.ViewModels
 
                 var testGambitGroup = new SharedGambit
                 {
-                    Id = group.Id,
+                    Id = new Random().Next(int.MaxValue),
                     Job = group.Job.ToString(),
                     Name = group.Name,
                     Description = group.Description,
