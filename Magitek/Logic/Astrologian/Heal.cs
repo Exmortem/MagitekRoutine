@@ -265,7 +265,7 @@ namespace Magitek.Logic.Astrologian
             if (!Spells.Macrocosmos.IsReady())
                 return false;
 
-             if (Group.CastableAlliesWithin20.Any(x => x.HasAura(Auras.Macrocosmos)))
+            if (Group.CastableAlliesWithin20.Any(x => x.HasAura(Auras.Macrocosmos)))
                 return false;
 
             var enemyCount = Combat.Enemies.Count();
