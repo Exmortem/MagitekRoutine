@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,10 @@ namespace Magitek.Utilities.Routines
     {
         public static List<Character> AlliancePhysickOnly = new List<Character>();
 
+        public static double SeraphTimeRemaining()
+        {
+            return Math.Max(Spells.SummonSeraph.Cooldown.TotalSeconds - 98, 0);
+        }
         /*private static bool NeedAdloquiumTankBuster
         {
             get
