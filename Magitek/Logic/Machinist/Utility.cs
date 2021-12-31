@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Magitek.Logic.Machinist
 {
-    class Utility
+    internal static class Utility
     {
         public static async Task<bool> Tactician()
         {

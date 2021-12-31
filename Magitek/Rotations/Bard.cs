@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -81,7 +82,7 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
-            Utilities.Routines.Bard.RefreshVars();
+            BardRoutine.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
@@ -96,7 +97,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds >
+            if (BardRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds >
                 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 // Utility

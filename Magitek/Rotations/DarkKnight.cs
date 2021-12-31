@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
+using DarkKnightRoutine = Magitek.Utilities.Routines.DarkKnight;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -72,7 +73,7 @@ namespace Magitek.Rotations
             if (await Buff.Grit()) return true;
             if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (DarkKnightRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
                 if (await Defensive.Execute()) return true;

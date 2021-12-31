@@ -31,6 +31,10 @@ namespace Magitek.Controls
                     Astrologian.IsChecked = true;
                     break;
 
+                case ClassJobType.Sage:
+                    Astrologian.IsChecked = true;
+                    break;
+
                 case ClassJobType.Paladin:
                     Paladin.IsChecked = true;
                     break;
@@ -43,12 +47,20 @@ namespace Magitek.Controls
                     DarkKnight.IsChecked = true;
                     break;
 
+                case ClassJobType.Gunbreaker:
+                    Gunbreaker.IsChecked = true;
+                    break;
+
                 case ClassJobType.Bard:
                     Bard.IsChecked = true;
                     break;
 
                 case ClassJobType.Machinist:
                     Machinist.IsChecked = true;
+                    break;
+
+                case ClassJobType.Dancer:
+                    Dancer.IsChecked = true;
                     break;
 
                 case ClassJobType.Summoner:
@@ -79,24 +91,12 @@ namespace Magitek.Controls
                     Samurai.IsChecked = true;
                     break;
 
-                case ClassJobType.BlueMage:
-                    BlueMage.IsChecked = true;
-                    break;
-
-                case ClassJobType.Dancer:
-                    Dancer.IsChecked = true;
-                    break;
-
-                case ClassJobType.Gunbreaker:
-                    Gunbreaker.IsChecked = true;
-                    break;
-
-                case ClassJobType.Sage:
-                    Gunbreaker.IsChecked = true;
-                    break;
-
                 case ClassJobType.Reaper:
                     Gunbreaker.IsChecked = true;
+                    break;
+
+                case ClassJobType.BlueMage:
+                    BlueMage.IsChecked = true;
                     break;
 
                 default:

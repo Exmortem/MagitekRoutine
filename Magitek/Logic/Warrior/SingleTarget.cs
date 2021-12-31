@@ -163,7 +163,7 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) > 1)
                 return false;
 
-            if (Weaving.GetCurrentWeavingCounter() > 0)
+            if (WarriorRoutine.GlobalCooldown.CountOGCDs() > 0)
                 return false;
 
             return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);

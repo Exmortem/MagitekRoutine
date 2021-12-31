@@ -67,6 +67,7 @@
                     <RadioButton Name="Astrologian" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Astrologian, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonAstrologian}" />
                     <RadioButton Name="Scholar" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Scholar, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonScholar}" />
                     <RadioButton Name="WhiteMage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=WhiteMage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonWhiteMage}" />
+                    <RadioButton Name="Sage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Sage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSage}" />
 
                     <RadioButton Name="Paladin" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Paladin, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonPaladin}" />
                     <RadioButton Name="Warrior" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Warrior, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonWarrior}" />

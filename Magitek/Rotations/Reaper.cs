@@ -7,7 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
-using Magitek.Utilities.Managers;
+using ReaperRoutine = Magitek.Utilities.Routines.Reaper;
 using System.Threading.Tasks;
 using Enshroud = Magitek.Logic.Reaper.Enshroud;
 
@@ -107,7 +107,7 @@ namespace Magitek.Rotations
 
             if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {
-                if (OGCDManager.CanWeave(Spells.VoidReaping, 1))
+                if (ReaperRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
@@ -123,7 +123,7 @@ namespace Magitek.Rotations
             }
             else
             {
-                if (OGCDManager.CanWeave(Spells.Slice))
+                if (ReaperRoutine.GlobalCooldown.CanWeave())
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;

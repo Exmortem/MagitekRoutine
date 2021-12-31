@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using GunbreakerRoutine = Magitek.Utilities.Routines.Gunbreaker;
 using System.Threading.Tasks;
 using Healing = Magitek.Logic.Gunbreaker.Heal;
 
@@ -75,7 +76,7 @@ namespace Magitek.Rotations
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             if (await Buff.RoyalGuard()) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.KeenEdge.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (GunbreakerRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.KeenEdge.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 //Defensive Buff
                 if (await Defensive.Superbolide()) return true;

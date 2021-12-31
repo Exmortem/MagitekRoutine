@@ -11,6 +11,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Dragoon
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Dragoon, Spells.TrueThrust);
+
         public static SpellData HighJump => Core.Me.ClassLevel < 74
                                             ? Spells.Jump
                                             : Spells.HighJump;

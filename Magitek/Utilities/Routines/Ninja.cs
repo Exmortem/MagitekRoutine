@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using System;
@@ -8,6 +9,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Ninja
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Ninja, Spells.SpinningEdge);
+
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
         public static int TCJState = 0;

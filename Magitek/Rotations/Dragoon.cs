@@ -109,7 +109,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(DragoonSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.TrueThrust.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (DragoonRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.TrueThrust.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;

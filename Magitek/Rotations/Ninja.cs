@@ -6,6 +6,7 @@ using Magitek.Logic.Ninja;
 using Magitek.Logic.Roles;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
 
