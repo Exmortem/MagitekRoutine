@@ -22,7 +22,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Phlegma.Radius) < SageSettings.Instance.AoEEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Phlegma.Radius + 5) < SageSettings.Instance.AoEEnemies)
                 return false;
 
             if (Spells.Phlegma.Charges == 0)
@@ -46,7 +46,7 @@ namespace Magitek.Logic.Sage
                 && Core.Me.ClassLevel >= Spells.Toxikon.LevelAcquired)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius) < SageSettings.Instance.AoEEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius + 5) < SageSettings.Instance.AoEEnemies)
                 return false;
 
             return await Spells.Dyskrasia.Cast(Core.Me.CurrentTarget);
@@ -63,7 +63,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius) < SageSettings.Instance.AoEEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + 5) < SageSettings.Instance.AoEEnemies)
                 return false;
 
             if (Addersting == 0)
