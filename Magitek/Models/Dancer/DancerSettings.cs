@@ -19,10 +19,6 @@ namespace Magitek.Models.Dancer
 
         [Setting]
         [DefaultValue(true)]
-        public bool EnableWeaving { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseDevilment { get; set; }
 
         [Setting]

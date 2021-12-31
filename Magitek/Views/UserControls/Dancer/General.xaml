@@ -26,9 +26,7 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Use Weaving" IsChecked="{Binding DancerSettings.EnableWeaving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
+            <StackPanel Margin="5"/>
         </controls:SettingsBlock>
     </StackPanel>
 </UserControl>
