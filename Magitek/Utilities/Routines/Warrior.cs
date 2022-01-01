@@ -26,18 +26,6 @@ namespace Magitek.Utilities.Routines
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
 
-
-        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
-        {
-            if (!Toggle)
-                return false;
-
-            if (!ActionManager.HasSpell(Spell.Id))
-                return false;
-
-            return true;
-        }
-
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
         {
             if (ActionManager.ComboTimeLeft <= 0)
@@ -56,6 +44,12 @@ namespace Magitek.Utilities.Routines
             Auras.Bloodwhetting,
             Auras.Vengeance,
             Auras.Holmgang,
+            Auras.ThrillOfBattle
+        };
+
+        public static readonly List<uint> Heal = new List<uint>()
+        {
+            Auras.Equilibrium,
             Auras.ThrillOfBattle
         };
     }

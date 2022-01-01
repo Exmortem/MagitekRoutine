@@ -4,7 +4,6 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Bard;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using BardRoutine = Magitek.Utilities.Routines.Bard;
@@ -22,9 +21,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (Core.Me.IsCasting)
-                return true;
-
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -35,7 +31,6 @@ namespace Magitek.Rotations
             if (Core.Me.HasTarget && Core.Me.CurrentTarget.CanAttack)
                 return false;
 
-
             if (Globals.OnPvpMap)
                 return false;
 
@@ -44,14 +39,12 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Pull()
         {
-            Utilities.Routines.Bard.RefreshVars();
+            BardRoutine.RefreshVars();
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
-                }
             }
 
             if (await Casting.TrackSpellCast())
@@ -74,9 +67,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (Core.Me.IsCasting)
-                return true;
-
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -97,8 +87,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (BardRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HeavyShot.Cooldown.TotalMilliseconds >
-                650 + BaseSettings.Instance.UserLatencyOffset)
+            if (BardRoutine.GlobalCooldown.CanWeave())
             {
                 // Utility
                 if (await Utility.RepellingShot()) return true;

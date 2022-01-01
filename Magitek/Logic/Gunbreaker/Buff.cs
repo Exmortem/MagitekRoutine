@@ -1,6 +1,6 @@
 using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -13,9 +13,6 @@ namespace Magitek.Logic.Gunbreaker
     {
         public static async Task<bool> RoyalGuard() //Tank stance
         {
-            if (!ActionManager.HasSpell(Spells.RoyalGuard.Id))
-                return false;
-
             switch (GunbreakerSettings.Instance.UseRoyalGuard)
             {
                 case true:
@@ -33,7 +30,11 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> NoMercy() // Damage Buff +20%
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseNoMercy, Spells.NoMercy))
+            if (!GunbreakerSettings.Instance.UseNoMercy)
+                return false;
+
+            //Force Delay CD
+            if (Spells.KeenEdge.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
             return await Spells.NoMercy.Cast(Core.Me);
@@ -41,7 +42,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Bloodfest() // +2 or +3 cartrige
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBloodfest, Spells.Bloodfest))
+            if (!GunbreakerSettings.Instance.UseBloodfest)
                 return false;
 
             if (Cartridge > GunbreakerRoutine.MaxCartridge - GunbreakerRoutine.AmountCartridgeFromBloodfest)

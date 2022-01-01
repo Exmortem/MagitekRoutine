@@ -16,16 +16,13 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> BarrelStabilizer()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseBarrelStabilizer, Spells.BarrelStabilizer))
+            if (!MachinistSettings.Instance.UseBarrelStabilizer)
                 return false;
 
             if (!Core.Me.HasTarget)
                 return false;
 
-            if (!MachinistRoutine.IsInWeaveingWindow)
-                return false;
-
-            if (!Spells.BarrelStabilizer.IsKnownAndReady())
+            if (!Spells.BarrelStabilizer.IsReady())
                 return false;
 
             if (ActionResourceManager.Machinist.Heat > 30 && Spells.Wildfire.IsKnownAndReady(8000))
@@ -53,13 +50,14 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> Hypercharge()
         {
 
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHypercharge, Spells.Hypercharge))
-                return false;
-
-            if (!Spells.Hypercharge.IsKnownAndReady())
+            if (!MachinistSettings.Instance.UseHypercharge)
                 return false;
 
             if (ActionResourceManager.Machinist.Heat < 50)
+                return false;
+
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
             if (Core.Me.ClassLevel >= 45)
@@ -86,20 +84,20 @@ namespace Magitek.Logic.Machinist
             if (Spells.Ricochet.Charges >= 2.5f || Spells.GaussRound.Charges >= 2.5f)
                 return false;
 
-            //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
-                return false;
-
             Logger.WriteInfo($@"Using Hypercharge at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
             return await Spells.Hypercharge.Cast(Core.Me);
         }
 
         public static async Task<bool> Wildfire()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseWildfire, Spells.Wildfire))
+            if (!MachinistSettings.Instance.UseWildfire)
                 return false;
 
-            if (!Spells.Wildfire.IsKnownAndReady())
+            if (!Spells.Wildfire.IsReady())
+                return false;
+
+            //Force Delay CD
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 200)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
@@ -117,28 +115,17 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
-            if (MachinistRoutine.GlobalCooldown.CountOGCDs() > 0)
-                return false;
-
-            //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > 1350 + BaseSettings.Instance.UserLatencyOffset)
-                return false;
-
             Logger.WriteInfo($@"Using Wildfire at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Reassemble()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseReassemble, Spells.Reassemble))
-                return false;
-
-            if (!MachinistRoutine.IsInWeaveingWindow)
+            if (!MachinistSettings.Instance.UseReassemble)
                 return false;
 
             // Added check for cooldown, gets stuck at lower levels otherwise.
-            if (Spells.Reassemble.Charges == 0
-                && Spells.Reassemble.Cooldown != TimeSpan.Zero)
+            if (Spells.Reassemble.Charges == 0 && !Spells.Reassemble.IsReady())
                 return false;
 
             //If we're in AoE logic, use Reassemble for SpreadShot
@@ -174,6 +161,5 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.Reassemble.Cast(Core.Me);
         }
-
     }
 }

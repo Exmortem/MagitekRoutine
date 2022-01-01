@@ -11,7 +11,7 @@ namespace Magitek.Logic.Dragoon
 {
     internal static class Jumps
     {
-        public static async Task<bool> Execute()
+        private static bool CheckBeforeExecuteJumps()
         {
             if (!DragoonSettings.Instance.UseJumps)
                 return false;
@@ -28,10 +28,7 @@ namespace Magitek.Logic.Dragoon
             if (DragoonRoutine.JumpsList.Contains(Casting.LastSpell))
                 return false;
 
-            if (await HighJump()) return true;
-            if (await Stardiver()) return true;
-            if (await DragonfireDive()) return true;
-            return await SpineshatterDive();
+            return true;
         }
 
 
@@ -41,6 +38,9 @@ namespace Magitek.Logic.Dragoon
         public static async Task<bool> HighJump()
         {
             if (!DragoonSettings.Instance.UseHighJump)
+                return false;
+
+            if (!CheckBeforeExecuteJumps())
                 return false;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
@@ -54,13 +54,12 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseMirageDive)
                 return false;
 
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+            if (!CheckBeforeExecuteJumps())
                 return false;
 
             if (!Core.Me.HasAura(Auras.DiveReady))
                 return false;
 
-            // Don't mirage dive if at 2 eyes.
             if (ActionResourceManager.Dragoon.DragonGaze == 2)
                 return false;
 
@@ -72,7 +71,7 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseSpineshatterDive)
                 return false;
 
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+            if (!CheckBeforeExecuteJumps())
                 return false;
 
             if (Spells.SpineshatterDive.Charges <= 1 && Spells.LanceCharge.IsKnownAndReady(10000))
@@ -91,7 +90,7 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseDragonfireDive)
                 return false;
 
-            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+            if (!CheckBeforeExecuteJumps())
                 return false;
 
             if (!Core.Me.HasAura(Auras.LanceCharge))
@@ -103,6 +102,9 @@ namespace Magitek.Logic.Dragoon
         public static async Task<bool> Stardiver()
         {
             if (!DragoonSettings.Instance.UseStardiver)
+                return false;
+
+            if (!CheckBeforeExecuteJumps())
                 return false;
 
             return await Spells.Stardiver.Cast(Core.Me.CurrentTarget);
