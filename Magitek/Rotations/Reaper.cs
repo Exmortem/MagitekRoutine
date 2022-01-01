@@ -7,7 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
-using Magitek.Utilities.Managers;
+using ReaperRoutine = Magitek.Utilities.Routines.Reaper;
 using System.Threading.Tasks;
 using Enshroud = Magitek.Logic.Reaper.Enshroud;
 
@@ -107,23 +107,21 @@ namespace Magitek.Rotations
 
             if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {
-                if (OGCDManager.CanWeave(Spells.VoidReaping, 1))
+                if (ReaperRoutine.GlobalCooldown.CanWeave(1))
                 {
-                    if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
-                    if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
-                    if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
-                    if (await Cooldown.ArcaneCircle()) return true;
                     if (await Enshroud.AoE.LemuresScythe()) return true;
                     if (await Enshroud.SingleTarget.LemuresSlice()) return true;
                 }
+
                 if (await Enshroud.AoE.Communio()) return true;
                 if (await Enshroud.AoE.GrimReaping()) return true;
                 if (await Enshroud.SingleTarget.VoidReaping()) return true;
                 if (await Enshroud.SingleTarget.CrossReaping()) return true;
+                if (await Enshroud.SingleTarget.LemuresSliceOfFWeave()) return true;
             }
             else
             {
-                if (OGCDManager.CanWeave(Spells.Slice))
+                if (ReaperRoutine.GlobalCooldown.CanWeave())
                 {
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
@@ -178,21 +176,21 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "",
-                                          () => ReaperSettings.Instance.HidePositionalMessage || Core.Me.HasAura(Auras.TrueNorth) || ReaperSettings.Instance.EnemyIsOmni)
+                                          () => ReaperSettings.Instance.HidePositionalMessage || Core.Me.HasAura(Auras.TrueNorth) || ReaperSettings.Instance.EnemyIsOmni || Core.Me.HasAura(Auras.Enshrouded))
                 );
 
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Gibbet => SIDE !!!",
                                           "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
-                                          () => ReaperSettings.Instance.UseGibbet && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows))
+                                          () => ReaperSettings.Instance.UseGibbet && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows) && Spells.TrueNorth.Charges < 1 && !Core.Me.CurrentTarget.IsFlanking)
                 );
 
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Gallows => BEHIND !!!",
                                           "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
-                                          () => ReaperSettings.Instance.UseGallows && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows))
+                                          () => ReaperSettings.Instance.UseGallows && Core.Me.HasAura(Auras.SoulReaver) && !Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows) && Spells.TrueNorth.Charges < 1 && !Core.Me.CurrentTarget.IsBehind)
                 );
 
             CombatMessageManager.RegisterMessageStrategy(
@@ -200,7 +198,7 @@ namespace Magitek.Rotations
                                           "Gibbet => SIDE !!!",
                                           "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
                                           () => ReaperSettings.Instance.UseGibbet && Core.Me.HasAura(Auras.EnhancedGibbet) && !Core.Me.HasAura(Auras.EnhancedGallows)
-                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) )
+                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) && Spells.TrueNorth.Charges < 1 && !Core.Me.CurrentTarget.IsFlanking)
                 );
 
             CombatMessageManager.RegisterMessageStrategy(
@@ -208,7 +206,7 @@ namespace Magitek.Rotations
                                           "Gallows => BEHIND !!!",
                                           "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
                                           () => ReaperSettings.Instance.UseGallows && Core.Me.HasAura(Auras.EnhancedGallows) && !Core.Me.HasAura(Auras.EnhancedGibbet)
-                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) )
+                                           && (Core.Me.HasAura(Auras.SoulReaver) || ActionResourceManager.Reaper.SoulGauge >= 40) && Spells.TrueNorth.Charges < 1 && !Core.Me.CurrentTarget.IsBehind)
                 );
         }
     }

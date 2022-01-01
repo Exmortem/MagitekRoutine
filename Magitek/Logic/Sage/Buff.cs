@@ -94,7 +94,7 @@ namespace Magitek.Logic.Sage
             if (target == null)
                 return false;
 
-            return await Spells.Soteria.CastAura(target, Auras.Soteria);
+            return await Spells.Soteria.CastAura(Core.Me, Auras.Soteria);
         }
         public static async Task<bool> Kerachole()
         {
@@ -192,7 +192,7 @@ namespace Magitek.Logic.Sage
             if (target == null)
                 return false;
 
-            return await Spells.Holos.CastAura(target, Auras.Holos);
+            return await Spells.Holos.Heal(Core.Me);
         }
         public static async Task<bool> Krasis()
         {

@@ -23,77 +23,6 @@ namespace Magitek.Utilities.Routines
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
 
-        /*private static bool NeedBenefic2TankBuster
-        {
-            get
-            {
-                var a = Combat.Enemies
-                    .FirstOrDefault(r => r.IsCasting && TankBusterManager.Benefic2List.Contains(r.CastingSpellId))
-                    ?.TargetCharacter;
-
-                if (a == null)
-                    return false;
-
-                return Casting.LastSpell != Spells.Benefic2 || Casting.LastSpellTarget != a ||
-                       DateTime.Now >= Casting.LastTankBusterTime.AddSeconds(5);
-            }
-        }
-
-        private static bool NeedHeliosTankBuster
-        {
-            get
-            {
-                if (Casting.LastSpell == Spells.Helios && Casting.LastSpellTarget == Core.Me &&
-                    DateTime.Now < Casting.LastTankBusterTime.AddSeconds(5))
-                    return false;
-
-                return Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.HeliosList.Contains(r.CastingSpellId));
-            }
-        }
-
-        private static bool NeedAspectedHeliosTankBuster
-        {
-            get
-            {
-                var enemyCasting = Combat.Enemies.Any(r => r.IsCasting &&
-                                                           TankBusterManager.AspectedHeliosList.Contains(r
-                                                               .CastingSpellId));
-
-                switch (Core.Me.Sect())
-                {
-                    case AstrologianSect.Diurnal:
-                        return enemyCasting &&
-                               Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.AspectedHelios)) <
-                               AstrologianSettings.Instance.DiurnalHeliosAllies;
-                    case AstrologianSect.Nocturnal:
-                        return enemyCasting &&
-                               Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.NocturnalField)) <
-                               AstrologianSettings.Instance.NocturnalHeliosAllies;
-                    case AstrologianSect.None:
-                        return false;
-                    default:
-                        return false;
-                }
-            }
-        }
-
-        private static bool NeedAspectedBeneficTankBuster
-        {
-            get
-            {
-                var a = Combat.Enemies
-                    .FirstOrDefault(
-                        r => r.IsCasting && TankBusterManager.AspectedBeneficList.Contains(r.CastingSpellId))
-                    ?.TargetCharacter;
-
-                if (a == null)
-                    return false;
-
-                return Casting.LastSpell != Spells.AspectedBenefic || Casting.LastSpellTarget != a ||
-                       DateTime.Now >= Casting.LastTankBusterTime.AddSeconds(5);
-            }
-        }*/
-
         public static bool NeedToInterruptCast()
         {
             /*if (Casting.CastingTankBuster)
@@ -122,18 +51,7 @@ namespace Magitek.Utilities.Routines
                 }
                 if (Casting.CastingSpell == Spells.AspectedHelios)
                 {
-                    if (Core.Me.Sect() == AstrologianSect.Nocturnal && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
-                            r.CurrentHealth > 0 &&
-                            r.Distance(Core.Me) <= Spells.AspectedHelios.Radius &&
-                            r.CurrentHealthPercent <=
-                            AstrologianSettings.Instance.NocturnalHeliosHealthPercent &&
-                            !r.HasAura(Auras.NocturnalField, true)) <
-                        AstrologianSettings.Instance.NocturnalHeliosAllies)
-                    {
-                        Logger.Error($@"Stopped Healing: Party's Health Too High");
-                        return true;
-                    }
-                    if (Core.Me.Sect() == AstrologianSect.Diurnal && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
+                    if (PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
                             r.CurrentHealth > 0 &&
                             r.Distance(Core.Me) <= Spells.AspectedHelios.Radius &&
                             r.CurrentHealthPercent <=
@@ -150,9 +68,6 @@ namespace Magitek.Utilities.Routines
                     return true;
                 }
             }
-            /*
-            if (!AstrologianSettings.Instance.UseTankBusters || !AstrologianSettings.Instance.PrioritizeTankBusters)
-                return false;*/
 
             if (AstrologianSettings.Instance.InterruptDamageToHeal && !Core.Me.HasAura(1495))
             {
@@ -181,14 +96,6 @@ namespace Magitek.Utilities.Routines
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
 
-            /*if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.TankBusterMinimumMpPercent)
-                return false;
-            
-            if (!NeedBenefic2TankBuster && !NeedHeliosTankBuster && !NeedAspectedHeliosTankBuster &&
-                !NeedAspectedBeneficTankBuster)
-                return false;
-
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
             return false;
         }
 
@@ -240,13 +147,13 @@ namespace Magitek.Utilities.Routines
                 if (AstrologianSettings.Instance.ResAllianceDps || AstrologianSettings.Instance.ResAllianceHealers ||
                     AstrologianSettings.Instance.ResAllianceTanks)
                 {
-                    var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
-                                                                         (AstrologianSettings.Instance.ResAllianceDps &&
-                                                                          a.IsDps() ||
-                                                                          AstrologianSettings.Instance
-                                                                              .ResAllianceTanks && a.IsTank() ||
-                                                                          AstrologianSettings.Instance
-                                                                              .ResAllianceHealers && a.IsDps()));
+                    var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 
+                        && (AstrologianSettings.Instance.ResAllianceDps 
+                            && a.IsDps() 
+                            || AstrologianSettings.Instance.ResAllianceTanks 
+                            && a.IsTank() 
+                            || AstrologianSettings.Instance.ResAllianceHealers 
+                            && a.IsDps()));
 
                     foreach (var ally in allianceToRes)
                     {
@@ -255,14 +162,6 @@ namespace Magitek.Utilities.Routines
                 }
             }
 
-            // Heal Pets
-            /*if (!AstrologianSettings.Instance.HealPartyMembersPets)
-                return;
-
-            var pets = AstrologianSettings.Instance.HealPartyMembersPetsTitanOnly
-                ? Group.Pets.Where(r => r.EnglishName.Contains("Titan")).ToArray()
-                : Group.Pets.ToArray();
-            Group.CastableAlliesWithin30.AddRange(pets);*/
         }
 
         public static readonly uint[] ShieldAuraList = {

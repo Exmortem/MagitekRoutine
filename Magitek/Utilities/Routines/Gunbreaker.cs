@@ -1,4 +1,5 @@
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace Magitek.Utilities.Routines
     internal static class Gunbreaker
 
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Gunbreaker, Spells.KeenEdge);
+
         public static readonly List<uint> Defensives = new List<uint>()
         {
             Auras.Camouflage,
@@ -32,17 +35,6 @@ namespace Magitek.Utilities.Routines
         public static int RequiredCartridgeForDoubleDown => 2;
         public static int RequiredCartridgeForBurstStrike => 1;
         public static int RequiredCartridgeForFatedCircle => 1;
-
-        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
-        {
-            if (!Toggle)
-                return false;
-
-            if (!ActionManager.HasSpell(Spell.Id))
-                return false;
-
-            return true;
-        }
 
         public static bool IsAurasForComboActive()
         {

@@ -16,7 +16,7 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Buff
     {
-        // To prevent routine recasting fairy when the game nulls the pet during Seraph transition.
+        // Prevents double summoning of fairy
         public static DateTime FairySummonCooldown = DateTime.Now;
 
         public static async Task<bool> SummonPet()
@@ -31,6 +31,10 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (DateTime.Now <= FairySummonCooldown)
+                return false;
+
+            // To prevent routine recasting fairy when the game nulls the pet during Seraph transition back to fairy.
+            if (Spells.SummonSeraph.Cooldown.TotalSeconds - 90 > 0)
                 return false;
 
             switch (ScholarSettings.Instance.SelectedPet)
@@ -169,8 +173,8 @@ namespace Magitek.Logic.Scholar
                 return false;
             // Find someone who has the right amount of allies around them based on the users settings
             var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
-                r.HasAura(Auras.Galvanize)
-                && r.HasAura(Auras.Catalyze)
+                r.HasAura(Auras.Galvanize, true)
+                && r.HasAura(Auras.Catalyze, true)
                 && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
@@ -224,7 +228,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty)
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsTarget == null || !chainStrategemsTarget.ThoroughCanAttack())
                         return false;
@@ -237,7 +241,7 @@ namespace Magitek.Logic.Scholar
                     if (!Globals.InParty && Core.Me.CurrentTarget.IsBoss())
                         return await Spells.ChainStrategem.Cast(Core.Me.CurrentTarget);
 
-                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasTarget && r.TargetGameObject.IsTank());
+                    var chainStrategemsBossTarget = GameObjectManager.Attackers.FirstOrDefault(r => r.Distance(Core.Me) <= 25 && r.IsBoss() && r.HasAura(Auras.ChainStratagem) == false && r.HasTarget && r.TargetGameObject.IsTank());
 
                     if (chainStrategemsBossTarget == null || !chainStrategemsBossTarget.ThoroughCanAttack())
                         return false;

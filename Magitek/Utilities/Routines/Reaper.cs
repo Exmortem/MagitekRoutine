@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
@@ -11,6 +12,7 @@ namespace Magitek.Utilities.Routines
         public static int EnemiesAroundPlayer5Yards;
         public static int EnemiesIn8YardCone;
         public static ReaperComboStages CurrentComboStage = ReaperComboStages.Slice;
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Reaper, Spells.Slice);
 
         // Reaper uses an 8x8 square in front for its "cone". So it can hit something 90* to the side 8y away.
         public static bool InReaperView(GameObject target)

@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Warrior
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Warrior, Spells.HeavySwing);
 
         public static SpellData FellCleave => Core.Me.ClassLevel < 54
                                             ? Spells.InnerBeast
@@ -23,18 +25,6 @@ namespace Magitek.Utilities.Routines
         public static SpellData Bloodwhetting => Core.Me.ClassLevel < 82
                                             ? Spells.RawIntuition
                                             : Spells.Bloodwhetting;
-
-
-        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
-        {
-            if (!Toggle)
-                return false;
-
-            if (!ActionManager.HasSpell(Spell.Id))
-                return false;
-
-            return true;
-        }
 
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
         {
@@ -54,6 +44,12 @@ namespace Magitek.Utilities.Routines
             Auras.Bloodwhetting,
             Auras.Vengeance,
             Auras.Holmgang,
+            Auras.ThrillOfBattle
+        };
+
+        public static readonly List<uint> Heal = new List<uint>()
+        {
+            Auras.Equilibrium,
             Auras.ThrillOfBattle
         };
     }

@@ -1,8 +1,6 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,16 +72,27 @@ namespace Magitek.Logic.Dragoon
             if (!Core.Me.HasAura(Auras.PowerSurge))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.ChaoticSpring))
-                return false;
-
             Aura PowerSurgeAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.PowerSurge);
             if (Core.Me.HasAura(Auras.PowerSurge) && PowerSurgeAura.TimespanLeft.TotalMilliseconds <= 6000)
                 return false;
 
-            Aura ChaoticSpringAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.ChaoticSpring);
-            if (Core.Me.CurrentTarget.HasAura(Auras.ChaoticSpring) && ChaoticSpringAura.TimespanLeft.TotalMilliseconds <= 6000)
-                return false;
+            if (Spells.ChaoticSpring.IsKnown())
+            {
+                if (!Core.Me.CurrentTarget.HasAura(Auras.ChaoticSpring))
+                    return false; 
+                
+                Aura ChaoticSpringAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.ChaoticSpring);
+                if (Core.Me.CurrentTarget.HasAura(Auras.ChaoticSpring) && ChaoticSpringAura.TimespanLeft.TotalMilliseconds <= 6000)
+                    return false;
+            } else
+            {
+                if (!Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust))
+                    return false; 
+                
+                Aura ChaosThrustAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.ChaosThrust);
+                if (Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust) && ChaosThrustAura.TimespanLeft.TotalMilliseconds <= 6000)
+                    return false;
+            }
 
             return await Spells.VorpalThrust.Cast(Core.Me.CurrentTarget);
         }

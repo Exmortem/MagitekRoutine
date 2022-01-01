@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Sage;
 using Magitek.Utilities;
@@ -13,23 +14,22 @@ namespace Magitek.Logic.Sage
     {
         public static async Task<bool> Phlegma()
         {
-            if (!SageSettings.Instance.AoE)
-                return false;
-
             if (Core.Me.ClassLevel < Spells.Phlegma.LevelAcquired)
                 return false;
 
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Phlegma.Radius + 5) < SageSettings.Instance.AoEEnemies)
-                return false;
+            // Phlegma is a great 550 potency single target attack.
+            //if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Phlegma.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies)
+            //    return false;
 
             if (Spells.Phlegma.Charges == 0)
                 return false;
 
             return await Spells.Phlegma.Cast(Core.Me.CurrentTarget);
         }
+
         public static async Task<bool> Dyskrasia()
         {
             if (!SageSettings.Instance.AoE)
@@ -46,7 +46,7 @@ namespace Magitek.Logic.Sage
                 && Core.Me.ClassLevel >= Spells.Toxikon.LevelAcquired)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius + 5) < SageSettings.Instance.AoEEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies)
                 return false;
 
             return await Spells.Dyskrasia.Cast(Core.Me.CurrentTarget);
@@ -54,7 +54,7 @@ namespace Magitek.Logic.Sage
 
         public static async Task<bool> Toxikon()
         {
-            if (!SageSettings.Instance.AoE)
+            if (!SageSettings.Instance.ToxiconWhileMoving && !SageSettings.Instance.AoE)
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Toxikon.LevelAcquired)
@@ -63,12 +63,12 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + 5) < SageSettings.Instance.AoEEnemies)
-                return false;
-
             if (Addersting == 0)
                 return false;
 
+            if (!MovementManager.IsMoving && (!SageSettings.Instance.AoE || Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies))
+                return false;
+            
             return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Pneuma()

@@ -81,7 +81,7 @@ namespace Magitek.Models.Dragoon
 
         [Setting]
         [DefaultValue(false)]
-        public bool SmartDragonSight { get; set; }
+        public bool UseSmartDragonSight { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -112,9 +112,9 @@ namespace Magitek.Models.Dragoon
 
     #endregion
 
-    #region Defensives
+        #region Defensives
 
-    [Setting]
+        [Setting]
         [DefaultValue(true)]
         public bool Defensives { get; set; }
 
@@ -138,11 +138,11 @@ namespace Magitek.Models.Dragoon
         public int SamEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(5)]
+        [DefaultValue(4)]
         public int DrgEyeWeight { get; set; }
 
         [Setting]
-        [DefaultValue(6)]
+        [DefaultValue(5)]
         public int NinEyeWeight { get; set; }
 
         [Setting]

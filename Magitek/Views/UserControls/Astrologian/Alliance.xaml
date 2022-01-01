@@ -67,18 +67,6 @@
             </Grid>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <CheckBox Grid.Row="0" Content="Heal Pets That Are In Your Party" IsChecked="{Binding AstrologianSettings.HealPartyMembersPets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Row="1" Margin="0,3" Content="Only Heal Titan" IsChecked="{Binding AstrologianSettings.HealPartyMembersPetsTitanOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </Grid>
-        </controls:SettingsBlock>
 
     </StackPanel>
 

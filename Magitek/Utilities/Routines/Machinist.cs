@@ -1,42 +1,19 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using System;
+using System.Collections.Generic;
 
 
 namespace Magitek.Utilities.Routines
 {
     internal static class Machinist
     {
-        public static bool IsInWeaveingWindow => ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero
-                                                ? Weaving.GetCurrentWeavingCounter() < 1 && HeatedSplitShot.Cooldown != TimeSpan.Zero
-                                                : Weaving.GetCurrentWeavingCounter() < 2 && HeatedSplitShot.Cooldown != TimeSpan.Zero
-                                                                            && HeatedSplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + 50 + MachinistSettings.Instance.UserLatencyOffset;
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Machinist, Spells.SplitShot, new List<SpellData>() { Spells.Flamethrower });
 
-
-        /*
-        // Export IsInWeaveingWindow in a method to help for debug if necessary
-        public static bool IsInWeaveingWindow => IsInWeaveingWindowMethod();
-        public static bool IsInWeaveingWindowMethod()
-        {
-            var heatedSplitShotCooldown = HeatedSplitShot.Cooldown;
-            var heatedSplitShotCooldownTotalMilliseconds = HeatedSplitShot.Cooldown.TotalMilliseconds;
-            var currentWeavingCounter = Weaving.GetCurrentWeavingCounter();
-
-            
-            //Logger.WriteInfo($@"heatedSplitShotCooldownTotalMilliseconds: {heatedSplitShotCooldownTotalMilliseconds}");
-            //Logger.WriteInfo($@"currentWeavingCounter: {currentWeavingCounter}");
-
-            return ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero
-                                                ? currentWeavingCounter < 1 && heatedSplitShotCooldown != TimeSpan.Zero
-                                                : currentWeavingCounter < 2 && heatedSplitShotCooldown != TimeSpan.Zero
-                                                                            && heatedSplitShotCooldownTotalMilliseconds > AnimationLock + 50 + MachinistSettings.Instance.UserLatencyOffset;
-        }
-        */
-
-        //skill upgrades
         public static SpellData HeatedSplitShot => Core.Me.ClassLevel < 54
                                                     ? Spells.SplitShot
                                                     : Spells.HeatedSplitShot;
@@ -63,17 +40,6 @@ namespace Magitek.Utilities.Routines
         public static SpellData Scattergun => Core.Me.ClassLevel < 82
                                                     ? Spells.SpreadShot
                                                     : Spells.Scattergun;
-
-        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
-        {
-            if (!Toggle)
-                return false;
-
-            if (!ActionManager.HasSpell(Spell.Id))
-                return false;
-
-            return true;
-        }
 
         public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
         {
@@ -159,6 +125,5 @@ namespace Magitek.Utilities.Routines
             Logger.WriteInfo($@"Damage Increase: {dmgIncrease}");
             return dmgIncrease >= (1 + (double)neededDmgIncrease / 100);
         }
-
     }
 }

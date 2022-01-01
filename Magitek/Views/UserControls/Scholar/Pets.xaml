@@ -63,6 +63,7 @@
 
                 <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.WhisperingDawnOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Content="Use Only With Seraph" IsChecked="{Binding ScholarSettings.WhisperingDawnOnlyWithSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Force Cast With Seraph (ignores above requirements if Seraph is summoned)" IsChecked="{Binding ScholarSettings.ForceWhisperingDawnWithSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
             </StackPanel>
         </controls:SettingsBlock>
@@ -81,6 +82,7 @@
 
                 <CheckBox Content="Use Only If Cast Will Capture The Tank" IsChecked="{Binding ScholarSettings.FeyIlluminationOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Content="Use Only With Seraph" IsChecked="{Binding ScholarSettings.FeyIlluminationOnlyWithSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Force Cast With Seraph (ignores above requirements if Seraph is summoned)" IsChecked="{Binding ScholarSettings.ForceFeyIlluminationWithSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
             </StackPanel>
         </controls:SettingsBlock>

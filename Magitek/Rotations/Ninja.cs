@@ -6,6 +6,7 @@ using Magitek.Logic.Ninja;
 using Magitek.Logic.Roles;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -150,7 +151,6 @@ namespace Magitek.Rotations
 
                 if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
 
-                //if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
                 if (await SingleTarget.TrickAttack()) return true;
                 if (await Ninjutsu.TenChiJin()) return true;
                 if (await Buff.Meisui()) return true;
@@ -163,6 +163,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Mug()) return true;
                 if (await Buff.Kassatsu()) return true;
                 if (await SingleTarget.DreamWithinADream()) return true;
+                if (await SingleTarget.ShadowFang()) return true;
             }
 
             //Ninjutsu

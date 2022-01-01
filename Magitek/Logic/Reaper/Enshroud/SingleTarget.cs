@@ -23,12 +23,12 @@ namespace Magitek.Logic.Reaper.Enshroud
 
             if (Core.Me.HasAura(Auras.EnhancedVoidReaping))
             {
-                if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 520)
+                if (!ReaperSettings.Instance.UseAoe || !ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 520)
                     return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
             }
             else
             {
-                if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 460)
+                if (!ReaperSettings.Instance.UseAoe || !ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 460)
                     return await Spells.VoidReaping.Cast(Core.Me.CurrentTarget);
             }
 
@@ -48,12 +48,12 @@ namespace Magitek.Logic.Reaper.Enshroud
 
             if (Core.Me.HasAura(Auras.EnhancedCrossReaping))
             {
-                if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 520)
+                if (!ReaperSettings.Instance.UseAoe || !ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 520)
                     return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
             }
             else
             {
-                if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 460)
+                if (!ReaperSettings.Instance.UseAoe || !ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 200 < 460)
                     return await Spells.CrossReaping.Cast(Core.Me.CurrentTarget);
             }
 
@@ -69,7 +69,20 @@ namespace Magitek.Logic.Reaper.Enshroud
             if (ActionResourceManager.Reaper.VoidShroud < 2)
                 return false;
 
-            if (!ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 100 < 200)
+            if (!ReaperSettings.Instance.UseAoe || !ReaperSettings.Instance.EfficientAoEPotencyCalculation || Utilities.Routines.Reaper.EnemiesIn8YardCone * 100 < 200)
+                return await Spells.LemuresSlice.Cast(Core.Me.CurrentTarget);
+
+            return false;
+        }
+
+        public static async Task<bool> LemuresSliceOfFWeave()
+        {
+            //Add level check so it doesn't hang here
+            if (!ReaperSettings.Instance.UseLemuresSlice || Core.Me.ClassLevel < Spells.LemuresSlice.LevelAcquired)
+                return false;
+
+            // Only use Lemures Slice off weave if resources are deadlocked
+            if (ActionResourceManager.Reaper.VoidShroud == 2 && ActionResourceManager.Reaper.LemureShroud == 1)
                 return await Spells.LemuresSlice.Cast(Core.Me.CurrentTarget);
 
             return false;

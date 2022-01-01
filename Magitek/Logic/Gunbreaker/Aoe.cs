@@ -17,7 +17,7 @@ namespace Magitek.Logic.Gunbreaker
          * ***********************************************************************************/
         public static async Task<bool> DemonSlice()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.DemonSlice))
+            if (!GunbreakerSettings.Instance.UseAoe)
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceSlaughterEnemies)
@@ -31,7 +31,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> DemonSlaughter()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAoe, Spells.DemonSlaughter))
+            if (!GunbreakerSettings.Instance.UseAoe)
                 return false;
 
             if (!GunbreakerRoutine.CanContinueComboAfter(Spells.DemonSlice))
@@ -43,6 +43,9 @@ namespace Magitek.Logic.Gunbreaker
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.DemonSliceSlaughterEnemies)
                 return false;
 
+            if (Cartridge == GunbreakerRoutine.MaxCartridge)
+                return false;
+
             return await Spells.DemonSlaughter.Cast(Core.Me.CurrentTarget);
         }
 
@@ -51,10 +54,10 @@ namespace Magitek.Logic.Gunbreaker
          * ***********************************************************************************/
         public static async Task<bool> FatedCircle()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseFatedCircle, Spells.FatedCircle))
-                return false;
-
             if (!GunbreakerSettings.Instance.UseAoe)
+                return false; 
+            
+            if (!GunbreakerSettings.Instance.UseFatedCircle)
                 return false;
 
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForFatedCircle)
@@ -63,9 +66,35 @@ namespace Magitek.Logic.Gunbreaker
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.FatedCircleEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 2)
                 return false;
 
+            if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
+            {
+                if (Spells.DoubleDown.IsKnownAndReady())
+                    return false;
+
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.PrioritizeFatedCircleOverGnashingFangEnemies)
+                {
+                    if (Spells.GnashingFang.IsKnownAndReady())
+                        return false;
+                }
+            }
+
+            //Delay if nomercy ready soon
+            if (Spells.NoMercy.IsKnownAndReady(16000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
+                return false;
+            if (Spells.NoMercy.IsKnownAndReady(8000) && Cartridge < GunbreakerRoutine.MaxCartridge)
+                return false;
+
+            //Delay if GnashingFang ready soon and there are less than GunbreakerSettings.Instance.PrioritizeFatedCircleOverGnashingFangEnemies
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < GunbreakerSettings.Instance.PrioritizeFatedCircleOverGnashingFangEnemies)
+            {
+                if (Spells.GnashingFang.IsKnownAndReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+                    return false;
+            }
+
+            //Delay if DoubleDown ready soon
             if (Spells.DoubleDown.IsKnownAndReady(4000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
                 return false;
 
@@ -77,7 +106,7 @@ namespace Magitek.Logic.Gunbreaker
          * ***********************************************************************************/
         public static async Task<bool> BowShock()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBowShock, Spells.BowShock))
+            if (!GunbreakerSettings.Instance.UseBowShock)
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
@@ -94,7 +123,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> DoubleDown()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseDoubleDown, Spells.DoubleDown))
+            if (!GunbreakerSettings.Instance.UseDoubleDown)
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))

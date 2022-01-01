@@ -93,30 +93,15 @@ namespace Magitek.Logic.Paladin
             if (PaladinRoutine.RequiescatStackCount <= 1)
                 return false;
 
+            // In 6.0 PLD will cast Requiescat early because it lasts a long time. We now need
+            // to make sure we don't still have FoF up as well.
+            if (Core.Me.HasAura(Auras.FightOrFight, true))
+                return false;
+
             if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
                 return false;
 
             return await Spells.HolyCircle.Cast(Core.Me);
-        }
-
-        public static async Task<bool> Confiteor()
-        {
-            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.AoE, Spells.Confiteor))
-                return false;
-
-            if (ActionManager.CanCast(Spells.BladeOfFaith.Id, Core.Me.CurrentTarget))
-                return await Spells.BladeOfFaith.Cast(Core.Me.CurrentTarget);
-
-            if (ActionManager.CanCast(Spells.BladeOfTruth.Id, Core.Me.CurrentTarget))
-                return await Spells.BladeOfTruth.Cast(Core.Me.CurrentTarget);
-
-            if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
-                return await Spells.BladeOfValor.Cast(Core.Me.CurrentTarget);
-
-            if (PaladinRoutine.RequiescatStackCount > 1)
-                return false;
-
-            return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
         }
     }
 }

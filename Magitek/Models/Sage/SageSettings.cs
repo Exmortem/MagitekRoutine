@@ -70,6 +70,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(20)]
         public int DoDamageIfTimeLeftLessThan { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool ToxiconWhileMoving { get; set; }
+
         #endregion
 
         #region Buffs

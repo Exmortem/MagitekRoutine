@@ -14,7 +14,7 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> Scattergun()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, Spells.Scattergun))
+            if (!MachinistSettings.Instance.UseScattergun)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -23,7 +23,7 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.SpreadShotEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount)
                 return false;
 
             return await MachinistRoutine.Scattergun.Cast(Core.Me.CurrentTarget);
@@ -31,7 +31,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BioBlaster()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseBioBlaster, Spells.Bioblaster))
+            if (!MachinistSettings.Instance.UseBioBlaster)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -40,7 +40,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Reassembled))
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.BioBlasterEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.BioBlasterEnemyCount)
                 return false;
 
             return await Spells.Bioblaster.Cast(Core.Me.CurrentTarget);
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AutoCrossbow()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseAutoCrossbow, Spells.AutoCrossbow))
+            if (!MachinistSettings.Instance.UseAutoCrossbow)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -57,14 +57,14 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 12 + r.CombatReach) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
                 return false;
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Flamethrower()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseFlamethrower, Spells.Flamethrower))
+            if (!MachinistSettings.Instance.UseFlamethrower)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -95,10 +95,7 @@ namespace Magitek.Logic.Machinist
         }
         public static async Task<bool> Ricochet()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseRicochet, Spells.Ricochet))
-                return false;
-
-            if (!MachinistRoutine.IsInWeaveingWindow)
+            if (!MachinistSettings.Instance.UseRicochet)
                 return false;
 
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
@@ -125,7 +122,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> ChainSaw()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseChainSaw, Spells.ChainSaw))
+            if (!MachinistSettings.Instance.UseChainSaw)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -134,7 +131,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);

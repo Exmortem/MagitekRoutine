@@ -141,7 +141,7 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
-            if (!Globals.InParty)
+            if (!Globals.InParty && Core.Me.InCombat)
                 return await Spells.Play.Cast(Core.Me);
 
             return false;
@@ -187,33 +187,13 @@ namespace Magitek.Logic.Astrologian
 
             return false;
         }
-        public static async Task<bool> Divination()
-        {
-            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.Divination)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Spells.Divination.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
-            // Added check to see if more than configured allies are around
-
-            var divinationTargets = Group.CastableAlliesWithin15.Count(r => r.IsAlive);
-
-            if (divinationTargets >= AstrologianSettings.Instance.DivinationAllies)
-                return await Spells.Divination.CastAura(Core.Me, Auras.Divination);
-
-            return false;
-        }
 
         public static async Task<bool> AstroDyne()
         {
             if (!Core.Me.InCombat)
+                return false;
+
+            if (!Spells.Astrodyne.IsKnownAndReady())
                 return false;
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
@@ -222,21 +202,42 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.AstroDyne)
                 return false;
 
-            if (DivinationSeals.Any(seal => seal == 0))
+            if (DivinationSeals.All(seal => seal == 0))
                 return false;
 
+            //1 = MP Regen
+
+            if (DivinationSeals.Count(seal => seal != 0) == 1 && (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LucidDreamingManaPercent || Spells.LucidDreaming.IsReady() || Core.Me.HasAura(Auras.LucidDreaming)))
+                return false;
+
+            //2 = MP Regen + Haste
+            var hasteThreshold = PartyManager.NumMembers == 4 ? 2 : 3;
+
+            if (DivinationSeals.Count(seal => seal != 0) == 2 && (Spells.EssentialDignity.Charges > 0 || Group.CastableAlliesWithin30.Count(r => r.CurrentManaPercent <= 60) <= hasteThreshold || Spells.Lightspeed.IsReady()))
+                return false;
+
+            if (Core.Me.HasAura(Auras.Lightspeed))
+                return false;
+
+            //3 = MP Regen + Haste + Dmg (or shortcut from above logic)
             return await Spells.Astrodyne.Cast(Core.Me);
         }
         private static async Task<bool> MeleeDpsOrTank()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsTank() || a.IsMeleeDps())).OrderBy(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.CurrentHealth > 0 && (a.IsTank() || a.IsMeleeDps())).OrderBy(GetWeight);
+            
+            if (ally == null)
+                return false;
 
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
 
         private static async Task<bool> RangedDpsOrHealer()
         {
-            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.IsAlive && (a.IsHealer() || a.IsRangedDpsCard())).OrderBy(GetWeight);
+            var ally = Group.CastableAlliesWithin30.Where(a => !a.HasAnyCardAura() && a.CurrentHealth > 0 && (a.IsHealer() || a.IsRangedDpsCard())).OrderBy(GetWeight);
+
+            if (ally == null)
+                return false;
 
             return await Spells.Play.Cast(ally.FirstOrDefault());
         }
@@ -304,6 +305,15 @@ namespace Magitek.Logic.Astrologian
 
                 case ClassJobType.Scholar:
                     return AstrologianSettings.Instance.SchCardWeight;
+                
+                case ClassJobType.Reaper:
+                    return AstrologianSettings.Instance.RprCardWeight;
+                
+                case ClassJobType.Sage:
+                    return AstrologianSettings.Instance.SgeCardWeight;
+
+                case ClassJobType.BlueMage:
+                    return AstrologianSettings.Instance.BluCardWeight;
             }
 
             return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;

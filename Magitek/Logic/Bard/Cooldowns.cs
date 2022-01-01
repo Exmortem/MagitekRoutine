@@ -20,11 +20,11 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseRageingStrikes)
                 return false;
 
-            if (Spells.RagingStrikes.Cooldown != TimeSpan.Zero)
+            if (!Spells.RagingStrikes.IsReady())
                 return false;
 
             if (BardSettings.Instance.DelayRageingStrikesUntilBarrageIsReady)
-                if (Spells.Barrage.Cooldown != TimeSpan.Zero)
+                if (!Spells.Barrage.IsReady())
                     return false;
 
 
@@ -67,11 +67,10 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> Barrage()
         {
-
-            if (Spells.Barrage.Cooldown != TimeSpan.Zero)
+            if (!BardSettings.Instance.UseBarrage)
                 return false;
 
-            if (!BardSettings.Instance.UseBarrage)
+            if (!Spells.Barrage.IsReady())
                 return false;
 
             //Dont Barrage when whe have a proc up

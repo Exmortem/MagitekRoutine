@@ -32,6 +32,10 @@ namespace Magitek.Controls
                     Astrologian.IsChecked = true;
                     break;
 
+                case ClassJobType.Sage:
+                    Sage.IsChecked = true;
+                    break;
+
                 case ClassJobType.Paladin:
                     Paladin.IsChecked = true;
                     break;
@@ -78,6 +82,10 @@ namespace Magitek.Controls
 
                 case ClassJobType.Samurai:
                     Samurai.IsChecked = true;
+                    break;
+
+                case ClassJobType.Reaper:
+                    Reaper.IsChecked = true;
                     break;
 
                 case ClassJobType.BlueMage:

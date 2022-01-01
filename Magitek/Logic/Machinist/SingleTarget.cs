@@ -15,16 +15,16 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> HeatedSplitShot()
         {
             //One to disable them all
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseSplitShotCombo, MachinistRoutine.HeatedSplitShot))
+            if (!MachinistSettings.Instance.UseSplitShotCombo)
                 return false;
 
             if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsKnownAndReady(200))
                 return false;
 
-            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(200))
+            if (MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsKnownAndReady(200) && ActionResourceManager.Machinist.Battery <= 80)
                 return false;
 
-            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(200))
+            if (MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsKnownAndReady(200) && ActionResourceManager.Machinist.Battery <= 80)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -35,9 +35,6 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedSlugShot()
         {
-            if (!ActionManager.HasSpell(MachinistRoutine.HeatedSlugShot.Id))
-                return false;
-
             if (!MachinistRoutine.CanContinueComboAfter(Spells.SplitShot))
                 return false;
 
@@ -58,9 +55,6 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatedCleanShot()
         {
-            if (!ActionManager.HasSpell(MachinistRoutine.HeatedCleanShot.Id))
-                return false;
-
             if (!MachinistRoutine.CanContinueComboAfter(Spells.SlugShot))
                 return false;
 
@@ -81,7 +75,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseDrill, Spells.Drill))
+            if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -95,7 +89,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HotAirAnchor()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseHotAirAnchor, MachinistRoutine.HotAirAnchor))
+            if (!MachinistSettings.Instance.UseHotAirAnchor)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -104,7 +98,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (ActionResourceManager.Machinist.Battery >= 80)
+            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);
@@ -121,9 +115,6 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> GaussRound()
         {
             if (!MachinistSettings.Instance.UseGaussRound)
-                return false;
-
-            if (!MachinistRoutine.IsInWeaveingWindow)
                 return false;
 
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)

@@ -17,7 +17,7 @@ namespace Magitek.Logic.Dancer
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= DancerSettings.Instance.FanDanceTwoEnemies) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDance.Range) return false;
@@ -31,7 +31,7 @@ namespace Magitek.Logic.Dancer
         {
             if (!Core.Me.HasAura(Auras.FlourshingFlow) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Fountainfall.Range) return false;
@@ -45,7 +45,7 @@ namespace Magitek.Logic.Dancer
         {
             if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.ReverseCascade.Range) return false;
@@ -59,7 +59,7 @@ namespace Magitek.Logic.Dancer
         {
             if (ActionManager.LastSpell != Spells.Cascade) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Fountain.Range) return false;
@@ -73,7 +73,7 @@ namespace Magitek.Logic.Dancer
         {
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Cascade.Range) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
                 if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.Cascade.Range) return false;

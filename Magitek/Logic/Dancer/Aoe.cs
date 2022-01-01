@@ -117,7 +117,7 @@ namespace Magitek.Logic.Dancer
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < DancerSettings.Instance.SaberDanceEnemies) return false;
 
-            if (DancerSettings.Instance.UseExpermentalChecks)
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
                 if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.SaberDance.Range) return false;
 
             return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);

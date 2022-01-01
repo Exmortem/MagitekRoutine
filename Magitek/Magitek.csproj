@@ -258,11 +258,12 @@
     <Compile Include="Logic\Sage\Dispel.cs" />
     <Compile Include="Logic\Sage\Heal.cs" />
     <Compile Include="Logic\Sage\SingleTarget.cs" />
+    <Compile Include="Logic\Warrior\Heal.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
-    <Compile Include="Utilities\Managers\OGCDManager.cs" />
+    <Compile Include="Utilities\WeaveWindow.cs" />
     <Compile Include="Utilities\Routines\Reaper.cs" />
     <Compile Include="Utilities\Routines\Sage.cs" />
     <Compile Include="Utilities\Routines\StateMachine\IStateMachine.cs" />
@@ -466,7 +467,6 @@
     <Compile Include="Utilities\Routines\StateMachine\StateMachineManager.cs" />
     <Compile Include="Utilities\Routines\StateMachine\StateTransition.cs" />
     <Compile Include="Utilities\StunTracker.cs" />
-    <Compile Include="Utilities\Weaving.cs" />
     <Compile Include="Utilities\ZoomHack.cs" />
     <Compile Include="Utilities\Duty.cs" />
     <Compile Include="Utilities\Globals.cs" />
@@ -598,6 +598,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Bugs\SpellCastHistory.xaml.cs">
       <DependentUpon>SpellCastHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dancer\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Dancer\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
@@ -807,6 +810,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Warrior\Defensives.xaml.cs">
       <DependentUpon>Defensives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Healing.xaml.cs">
+      <DependentUpon>Healing.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\WhiteMage\Alliance.xaml.cs">
       <DependentUpon>Alliance.xaml</DependentUpon>
@@ -1081,6 +1087,10 @@
     <Page Include="Views\UserControls\Bugs\SpellCastHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Dancer\Aoe.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1358,6 +1368,10 @@
     <Page Include="Views\UserControls\Warrior\Defensives.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\WhiteMage\Alliance.xaml">
       <SubType>Designer</SubType>

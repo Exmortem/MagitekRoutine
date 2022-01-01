@@ -73,9 +73,6 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseAoe)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.Shadowbite.Id))
-                return false;
-
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < BardSettings.Instance.ShadowBiteEnemies)
                 return false;
 
@@ -99,9 +96,6 @@ namespace Magitek.Logic.Bard
         public static async Task<bool> BlastArrow()
         {
             if (!BardSettings.Instance.UseBlastArrow)
-                return false;
-
-            if (!ActionManager.HasSpell(Spells.BlastArrow.Id))
                 return false;
 
             if (!Core.Me.HasAura(Auras.BlastArrowReady))

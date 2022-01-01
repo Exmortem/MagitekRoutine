@@ -565,11 +565,8 @@
                         <TabItem Header="General Healing" Style="{DynamicResource MainTabHealing}">
                             <astrologian:Healing />
                         </TabItem>
-                        <TabItem Header="Diurnal Healing" Style="{DynamicResource MainTabHealing}">
+                        <TabItem Header="Aspected Healing" Style="{DynamicResource MainTabHealing}">
                             <astrologian:DiurnalHealing />
-                        </TabItem>
-                        <TabItem Header="Nocturnal Healing" Style="{DynamicResource MainTabHealing}">
-                            <astrologian:NocturnalHealing />
                         </TabItem>
                         <TabItem Header="Cards" Style="{DynamicResource MainTabCards}">
                             <astrologian:Cards />
@@ -809,6 +806,9 @@
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
+                        </TabItem>
+                        <TabItem Header="General " Style="{DynamicResource MainTabCombat}">
+                            <dancer:General />
                         </TabItem>
                         <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
                             <dancer:SingleTarget />

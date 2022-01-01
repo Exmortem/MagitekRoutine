@@ -6,6 +6,7 @@ using Magitek.Logic.Dancer;
 using Magitek.Logic.Roles;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
+using DancerRoutine = Magitek.Utilities.Routines.Dancer;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -103,9 +104,11 @@ namespace Magitek.Rotations
             if (await Dances.TechnicalStep()) return true;
             if (await Dances.DanceStep()) return true;
 
-            if (Utilities.Routines.Dancer.OnGcd)
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
+            if (DancerRoutine.GlobalCooldown.CanWeave())
             {
-                //Only cast spells that are instant/off gcd
                 if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
                 if (await Buff.CuringWaltz()) return true;

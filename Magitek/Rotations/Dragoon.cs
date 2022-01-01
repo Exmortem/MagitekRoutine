@@ -4,13 +4,11 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Dragoon;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using DragoonRoutine = Magitek.Utilities.Routines.Dragoon;
 
@@ -66,7 +64,7 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
                 Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
 
-            if (!Core.Me.HasTarget)
+            if (!Core.Me.HasTarget && !Core.Me.InCombat)
                 return false;
 
             if (!Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -109,7 +107,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(DragoonSettings.Instance)) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.TrueThrust.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (DragoonRoutine.GlobalCooldown.CanWeave() && !DragoonRoutine.SingleWeaveJumpsList.Contains(Casting.LastSpell))
             {
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;
@@ -123,8 +121,15 @@ namespace Magitek.Rotations
                 //oGCD - Jump
                 if (await Aoe.WyrmwindThrust()) return true;
                 if (await Aoe.Geirskogul()) return true;
-                if (await Jumps.MirageDive()) return true;
-                if (await Jumps.Execute()) return true;
+                if (await Jumps.MirageDive()) return true; //DoubleWeave
+                
+                if (DragoonRoutine.GlobalCooldown.CanWeave(1))
+                {
+                    if (await Jumps.HighJump()) return true;  //SingleWeave
+                    if (await Jumps.DragonfireDive()) return true; //SingleWeave
+                    if (await Jumps.SpineshatterDive()) return true; //SingleWeave
+                    if (await Jumps.Stardiver()) return true; //SingleWeave
+                }
             }
 
             if (await Aoe.DraconianFury()) return true;

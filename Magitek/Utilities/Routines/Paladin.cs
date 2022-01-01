@@ -1,4 +1,5 @@
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Models.Account;
@@ -8,6 +9,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Paladin
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Paladin, Spells.FastBlade);
+
         public static readonly List<uint> Defensives = new List<uint>()
         {
             Auras.HallowedGround,

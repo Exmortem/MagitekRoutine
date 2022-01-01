@@ -16,6 +16,9 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseAoe)
                 return false;
 
+            if (Core.Me.HasAura(Auras.DraconianFire))
+                return false;
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 10 + x.CombatReach) < DragoonSettings.Instance.AoeEnemies)
                 return false;
 
@@ -45,7 +48,7 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseAoe)
                 return false;
 
-            if (!DragoonRoutine.CanContinueComboAfter(Spells.DoomSpike))
+            if (!DragoonRoutine.CanContinueComboAfter(Spells.DoomSpike) && !DragoonRoutine.CanContinueComboAfter(Spells.DraconianFury))
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 10 + x.CombatReach) < DragoonSettings.Instance.AoeEnemies)
@@ -69,9 +72,10 @@ namespace Magitek.Logic.Dragoon
         }
 
 
-        /***************************************************************************
-         *                                oGCD
-         * *************************************************************************/
+        /****************************************************************************************************
+         *                                             oGCD
+         * Below are AOE which are part of Single Target Rotation, they are not part of UseAOE Toggle
+         * **************************************************************************************************/
         public static async Task<bool> Geirskogul()
         {
             if (!DragoonSettings.Instance.UseGeirskogul)

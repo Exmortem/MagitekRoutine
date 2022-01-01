@@ -24,7 +24,7 @@ namespace Magitek.Logic.RedMage
 
             if (RedMageSettings.Instance.VercureOnlyDualCast)
             {
-                if (!Core.Me.HasAura(Auras.Dualcast))
+                if (Core.Me.HasAura(Auras.Dualcast))
                     return false;
             }
 

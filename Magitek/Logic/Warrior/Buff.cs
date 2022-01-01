@@ -1,12 +1,15 @@
 ﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
+using Auras = Magitek.Utilities.Auras;
+using Magitek.Utilities.Managers;
 
 namespace Magitek.Logic.Warrior
 {
@@ -29,20 +32,11 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.Defiance.Cast(Core.Me);
         }
-        internal static async Task<bool> Equilibrium()
-        {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseEquilibrium, Spells.Equilibrium))
-                return false;
 
-            if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.EquilibriumHealthPercent)
-                return false;
-
-            return await Spells.Equilibrium.Cast(Core.Me);
-        }
         //Berserk Becomes Inner Release
-        internal static async Task<bool> InnerRelease()
+        public static async Task<bool> InnerRelease()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerRelease, WarriorRoutine.InnerRelease))
+            if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
             if (Core.Me.CurrentTarget == null)
@@ -65,12 +59,12 @@ namespace Magitek.Logic.Warrior
             }
 
             //Logger.WriteInfo($@"InnerRelease Ready");
-            return await Utilities.Routines.Warrior.InnerRelease.Cast(Core.Me);
+            return await WarriorRoutine.InnerRelease.Cast(Core.Me);
         }
 
-        internal static async Task<bool> Infuriate()
+        public static async Task<bool> Infuriate()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInfuriate, Spells.Infuriate))
+            if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 
             if (Casting.LastSpell == Spells.InnerRelease)
@@ -84,6 +78,53 @@ namespace Magitek.Logic.Warrior
 
             Logger.WriteInfo($@"Infuriate Ready");
             return await Spells.Infuriate.Cast(Core.Me);
+        }
+
+        public static async Task<bool> NascentFlash()
+        {
+            if (!WarriorSettings.Instance.UseNascentFlash)
+                return false;
+
+            if (!Globals.InParty)
+                return false;
+
+            if (!Spells.NascentFlash.IsReady())
+                return false;
+
+            var canNascentTargets = Group.CastableAlliesWithin30.Where(CanNascentFlash).OrderByDescending(DispelManager.GetWeight).ThenBy(c => c.CurrentHealthPercent).ToList();
+
+            var nascentTarget = canNascentTargets.FirstOrDefault();
+
+            if (nascentTarget == null)
+                return false;
+
+            return await Spells.NascentFlash.Cast(nascentTarget);
+
+            bool CanNascentFlash(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.IsMe)
+                    return false;
+
+                if (unit.HasAura(Auras.NascentGlint))
+                    return false;
+
+                if (unit.CurrentHealthPercent > WarriorSettings.Instance.NascentFlashHealthPercent)
+                    return false;
+
+                if (WarriorSettings.Instance.NascentFlashTank && unit.IsTank())
+                    return true;
+
+                if (WarriorSettings.Instance.NascentFlashHealer && unit.IsHealer())
+                    return true;
+
+                if (WarriorSettings.Instance.NascentFlashDps && unit.IsDps())
+                    return true;
+
+                return false;
+            }
         }
     }
 }

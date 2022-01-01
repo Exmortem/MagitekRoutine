@@ -11,19 +11,13 @@ namespace Magitek.Models.Roles
     {
         protected TankSettings(string path) : base(path)
         {
+
         }
 
-        /*[Setting]
-        [DefaultValue(true)]
-        //public bool UseTankBusters { get; set; }*/
-
+        #region defensive
         [Setting]
         [DefaultValue(true)]
         public bool UseDefensives { get; set; }
-
-        /*[Setting]
-        [DefaultValue(false)]
-        //public bool UseDefensivesOnlyOnTankBusters { get; set; }*/
 
         [Setting]
         [DefaultValue(1)]
@@ -36,10 +30,6 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(50.0f)]
         public float MoreDefensivesHp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseProvoke { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -56,9 +46,18 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(10)]
         public int ReprisalHealthPercent { get; set; }
+        #endregion
 
+        #region aggro
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseProvoke { get; set; }
+        #endregion
+
+        #region interrupt
         [Setting]
         [DefaultValue(InterruptStrategy.AnyEnemy)]
         public InterruptStrategy Strategy { get; set; }
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ using Magitek.Logic.Paladin;
 using Magitek.Logic.Roles;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -90,7 +91,7 @@ namespace Magitek.Rotations
                     if (await Defensive.Defensives()) return true;
                     if (await Buff.Intervention()) return true;
                     if (await Buff.DivineVeil()) return true;
-                    if (await SingleTarget.Requiescat()) return true;
+                    if (await Buff.Requiescat()) return true;
                     if (await Buff.FightOrFlight()) return true;
                     if (!Utilities.Routines.Paladin.OGCDHold)
                     {
@@ -102,7 +103,7 @@ namespace Magitek.Rotations
                 }
 
                 if (await SingleTarget.ShieldLobLostAggro()) return true;
-                if (await Aoe.Confiteor()) return true;
+                if (await SingleTarget.Confiteor()) return true;
                 if (await Aoe.HolyCircle()) return true;
                 if (await Aoe.TotalEclipse()) return true;
                 if (await SingleTarget.HolySpirit()) return true;

@@ -74,9 +74,6 @@ namespace Magitek.Logic.Warrior
          * ***********************************************************************************/
         public static async Task<bool> StormsPath()
         {
-            if (!ActionManager.HasSpell(Spells.StormsPath.Id))
-                return false;
-
             if (!WarriorRoutine.CanContinueComboAfter(Spells.Maim))
                 return false;
 
@@ -85,9 +82,6 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> StormsEye()
         {
-            if (!ActionManager.HasSpell(Spells.StormsEye.Id))
-                return false;
-
             if (!WarriorRoutine.CanContinueComboAfter(Spells.Maim))
                 return false;
 
@@ -111,9 +105,6 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Maim()
         {
-            if (!ActionManager.HasSpell(Spells.Maim.Id))
-                return false;
-
             if (!WarriorRoutine.CanContinueComboAfter(Spells.HeavySwing))
                 return false;
 
@@ -122,9 +113,6 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> HeavySwing()
         {
-            if (!ActionManager.HasSpell(Spells.HeavySwing.Id))
-                return false;
-
             if (Core.Me.HasAura(Auras.InnerRelease))
                 return false;
 
@@ -137,10 +125,10 @@ namespace Magitek.Logic.Warrior
          * ***********************************************************************************/
         public static async Task<bool> Upheaval()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseUpheaval, Spells.Upheaval))
+            if (!WarriorSettings.Instance.UseUpheaval)
                 return false;
 
-            if (!Spells.Upheaval.IsKnownAndReady())
+            if (!Spells.Upheaval.IsReady())
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
@@ -154,7 +142,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Onslaught()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseOnslaught, Spells.Onslaught))
+            if (!WarriorSettings.Instance.UseOnslaught)
                 return false;
 
             if (!Core.Me.HasAura(Auras.InnerRelease))
@@ -163,7 +151,7 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) > 1)
                 return false;
 
-            if (Weaving.GetCurrentWeavingCounter() > 0)
+            if (!WarriorRoutine.GlobalCooldown.CanWeave(1))
                 return false;
 
             return await Spells.Onslaught.Cast(Core.Me.CurrentTarget);
@@ -174,9 +162,6 @@ namespace Magitek.Logic.Warrior
          * ***********************************************************************************/
         public static async Task<bool> FellCleave()
         {
-            if (!ActionManager.HasSpell(Spells.FellCleave.Id))
-                return false;
-
             if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
@@ -191,7 +176,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> InnerChaos()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerChaos, Spells.InnerChaos))
+            if (!WarriorSettings.Instance.UseInnerChaos)
                 return false;
 
             if (!Core.Me.HasAura(Auras.NascentChaos))

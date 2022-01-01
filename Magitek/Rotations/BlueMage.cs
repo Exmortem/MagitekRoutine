@@ -6,6 +6,7 @@ using Magitek.Logic.BlueMage;
 using Magitek.Logic.Roles;
 using Magitek.Models.BlueMage;
 using Magitek.Utilities;
+using BlueMageRoutine = Magitek.Utilities.Routines.BlueMage;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -137,9 +138,9 @@ namespace Magitek.Rotations
                 if (await SingleTarget.TheRoseOfDestruction()) return true;
                 if (await Aoe.Surpanakha()) return true;
 
-                if (Utilities.Routines.BlueMage.OnGcd && Casting.LastSpell != Spells.Surpanakha)
+                if (BlueMageRoutine.OnGcd && Casting.LastSpell != Spells.Surpanakha)
                 {
-                    if (Weaving.GetCurrentWeavingCounter() < 2)
+                    if (BlueMageRoutine.GlobalCooldown.CountOGCDs() < 2)
                     {
                         //put oGCD here
                         if (await Aoe.NightBloom()) return true;

@@ -67,7 +67,7 @@
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content=" Try Smart Dragon Sight ( Party / Solo ) - Deprecated" IsChecked="{Binding DragoonSettings.SmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Smart Dragon Sight (If you're not in a party or if no mate are around you, DragonSight is assigned to yourself)" IsChecked="{Binding DragoonSettings.UseSmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">

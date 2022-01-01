@@ -87,26 +87,6 @@ namespace Magitek.Logic.Paladin
             return await Spells.SpiritsWithin.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> Requiescat()
-        {
-            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.Requiescat, Spells.Requiescat))
-                return false;
-
-            if (!Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 1900)
-                || Core.Me.HasAuraCharge(Auras.SwordOath))
-                return false;
-
-            if (PaladinSettings.Instance.FoFFirst
-                && Spells.FightorFlight.Cooldown.Seconds < 8
-                && !Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 10000))
-                return false;
-
-            if (Core.Me.HasAura(Auras.FightOrFight, true, 3000))
-                return false;
-
-            return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
-        }
-
         public static async Task<bool> HolySpirit()
         {
             if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.HolySpirit, Spells.HolySpirit))
@@ -114,6 +94,20 @@ namespace Magitek.Logic.Paladin
 
             if (PaladinRoutine.RequiescatStackCount <= 1)
                 return false;
+
+            // Before 6.0 PLD would hold Requiestcat until starting the magic combo,
+            // but now it's often put up early during physical combo because it lasts
+            // a long time. It's not sufficient to only check if we have Requiestcat stacks
+            // now, because we could have them but still be in the middle of our phys combo.
+            // We also don't just check if we have FoF because it could be wearing off before
+            // we actually finish the physical combo.
+
+            if (ActionManager.LastSpell == Spells.FastBlade
+                || ActionManager.LastSpell == Spells.RiotBlade
+                || Core.Me.HasAura(Auras.FightOrFight, true, 2000))
+            {
+                return false;
+            }
 
             // TODO:optimization(wildchill)
             // There was a mana check here, but mana is changed in endwalker for paladin magic combo
@@ -148,22 +142,51 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> Atonement()
         {
-            if (Core.Me.ClassLevel < 76 || !Core.Me.HasAura(Auras.SwordOath))
-                return false;
+            // This logic is to accomodate dropping an unbuffed attonement usage,
+            // which puts paladin into a 61 second "standard loop" recommended by
+            // the balance (if you use the 3rd unbuffed attonement it's a 64 second
+            // loop).
+            // TODO:options(wildchill) Maybe add a toggle for 61/64 loop
 
-            //not in FoF Check
-            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight) && Spells.FightorFlight.Cooldown.TotalMilliseconds < 12000)
+            // Don't attonement during combo, including when goring blade was last
+            // because without goring blade check we'd use a left over attonement
+            // that we're trying to drop from the unbuffed segment of the rotation
+            if (ActionManager.LastSpell == Spells.FastBlade
+                || ActionManager.LastSpell == Spells.RiotBlade
+                || ActionManager.LastSpell == Spells.GoringBlade)
+            {
                 return false;
+            }
 
-            //we are in FoF Check
-            if (Core.Me.HasAuraCharge(Auras.SwordOath) && !Core.Me.HasAura(Auras.FightOrFight, true, 7000) && Core.Me.HasAura(Auras.FightOrFight))
-                return false;
-
-            //are we mid combo?
-            if (ActionManager.LastSpell == Spells.FastBlade || ActionManager.LastSpell == Spells.RiotBlade)
+            // If we have a single charge (HasAuraCharge looks for single stack ONLY)
+            // and we're not under FoF then don't use attonement.
+            if (!Core.Me.HasAura(Auras.FightOrFight) && Core.Me.HasAuraCharge(Auras.SwordOath))
                 return false;
 
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Confiteor()
+        {
+            if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.UseConfiteor, Spells.Confiteor))
+                return false;
+
+            if (ActionManager.CanCast(Spells.BladeOfFaith.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfFaith.Cast(Core.Me.CurrentTarget);
+
+            if (ActionManager.CanCast(Spells.BladeOfTruth.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfTruth.Cast(Core.Me.CurrentTarget);
+
+            if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
+                return await Spells.BladeOfValor.Cast(Core.Me.CurrentTarget);
+
+            // We want to Confit with our last stack, but if the req buff is
+            // about to fall off, and this is our last action, use confit
+            if (PaladinRoutine.RequiescatStackCount > 1
+                && Core.Me.HasAura(Auras.Requiescat, true, 3000))
+                return false;
+
+            return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Interrupt()

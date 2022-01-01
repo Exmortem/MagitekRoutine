@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
+using GunbreakerRoutine = Magitek.Utilities.Routines.Gunbreaker;
 using System.Threading.Tasks;
 using Healing = Magitek.Logic.Gunbreaker.Heal;
 
@@ -75,7 +76,7 @@ namespace Magitek.Rotations
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             if (await Buff.RoyalGuard()) return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.KeenEdge.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (GunbreakerRoutine.GlobalCooldown.CanWeave())
             {
                 //Defensive Buff
                 if (await Defensive.Superbolide()) return true;
@@ -108,25 +109,22 @@ namespace Magitek.Rotations
             //Pull or get back aggro with LightningShot
             if (await SingleTarget.LightningShot()) return true;
 
-            //AOE
-            if (await Aoe.FatedCircle()) return true;
-            if (await Aoe.DemonSlaughter()) return true;
-            if (await Aoe.DemonSlice()) return true;
-
-            //Combo 2 - 1st step
-            if (await SingleTarget.GnashingFang()) return true;
-
             //Apply DOT / Burst
             if (await Aoe.DoubleDown()) return true;
             if (await SingleTarget.SonicBreak()) return true;
 
-            //Combo 2 - 2nd step
+            //Combo 2
             if (await SingleTarget.SavageClaw()) return true;
             if (await SingleTarget.WickedTalon()) return true;
+            if (await SingleTarget.GnashingFang()) return true;
 
             //Combo 3
             if (await SingleTarget.BurstStrike()) return true;
-            if (await SingleTarget.LightningShot()) return true;
+
+            //AOE
+            if (await Aoe.FatedCircle()) return true;
+            if (await Aoe.DemonSlaughter()) return true;
+            if (await Aoe.DemonSlice()) return true;
 
             //Combo 1 Filler
             if (await SingleTarget.SolidBarrel()) return true;

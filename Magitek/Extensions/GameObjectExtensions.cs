@@ -168,7 +168,7 @@ namespace Magitek.Extensions
 
         public static IEnumerable<BattleCharacter> EnemiesNearby(this GameObject unit, float distance)
         {
-            return Combat.Enemies.Where(r => r.Distance(unit) <= distance);
+            return Combat.Enemies.Where(r => r.Distance(unit) <= distance + Core.Me.CombatReach + unit.CombatReach);
         }
 
         public static IEnumerable<BattleCharacter> EnemiesNearbyOoc(this GameObject unit, float distance)
@@ -185,11 +185,6 @@ namespace Magitek.Extensions
         {
             var gameObject = unit as Character;
             return gameObject != null && Tanks.Contains(gameObject.CurrentJob);
-        }
-
-        public static void test()
-        {
-
         }
 
         public static bool IsHealer(this GameObject unit)
@@ -303,14 +298,10 @@ namespace Magitek.Extensions
         public static float GetResurrectionWeight(this GameObject c)
         {
             if (c.IsHealer() || c.IsBlueMageHealer())
-            {
                 return 100;
-            }
 
             if (c.IsTank() || c.IsBlueMageTank())
-            {
                 return 90;
-            }
 
             return (c.IsDps() || c.IsBlueMageDps()) ? 80 : 0;
         }

@@ -216,5 +216,9 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(true)]
         public bool ActiveCombatRoutine { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool AssumeFaceTargetOnAction { get; set; }
     }
 }

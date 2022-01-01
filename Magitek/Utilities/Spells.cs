@@ -1,3 +1,4 @@
+using System;
 using ff14bot.Managers;
 using ff14bot.Objects;
 
@@ -98,6 +99,7 @@ namespace Magitek.Utilities
         public static readonly SpellData CrownPlay = DataManager.GetSpellData(25869);
         public static readonly SpellData Exaltation = DataManager.GetSpellData(25873);
         public static readonly SpellData Macrocosmos = DataManager.GetSpellData(25874);
+        public static readonly SpellData Microcosmos = DataManager.GetSpellData(25874);
         public static readonly SpellData FallMalefic = DataManager.GetSpellData(25871);
         public static readonly SpellData GravityII = DataManager.GetSpellData(25872);
         #endregion
@@ -406,7 +408,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Mug = DataManager.GetSpellData(2248);
         public static readonly SpellData DeathBlossom = DataManager.GetSpellData(2254);
         public static readonly SpellData AeolianEdge = DataManager.GetSpellData(2255);
-        //public static readonly SpellData ShadowFang = DataManager.GetSpellData(2257);
+        public static readonly SpellData ShadowFang = DataManager.GetSpellData(2257);
         public static readonly SpellData TrickAttack = DataManager.GetSpellData(2258);
         public static readonly SpellData Ten = DataManager.GetSpellData(2259);
         public static readonly SpellData Ninjutsu = DataManager.GetSpellData(2260);
@@ -606,7 +608,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Broil3 = DataManager.GetSpellData(16541);
         public static readonly SpellData Recitation = DataManager.GetSpellData(16542);
         public static readonly SpellData FeyBlessing = DataManager.GetSpellData(16543);
-        public static readonly SpellData SummonSeraph = DataManager.GetSpellData(16546);
+        public static readonly SpellData SummonSeraph = DataManager.GetSpellData(16545);
         public static readonly SpellData Consolation = DataManager.GetSpellData(16546);
         public static readonly SpellData SummonEos = DataManager.GetSpellData(17215);
         public static readonly SpellData SummonSelene = DataManager.GetSpellData(17216);
@@ -691,6 +693,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Bloodwhetting = DataManager.GetSpellData(25751);
         public static readonly SpellData Orogeny = DataManager.GetSpellData(25752);
         public static readonly SpellData PrimalRend = DataManager.GetSpellData(25753);
+        public static readonly SpellData NascentFlash = DataManager.GetSpellData(16464);
         #endregion
 
         // WHM
@@ -929,4 +932,5 @@ namespace Magitek.Utilities
         #endregion
 
     }
+
 }

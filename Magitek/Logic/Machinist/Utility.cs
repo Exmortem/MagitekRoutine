@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Magitek.Logic.Machinist
 {
-    class Utility
+    internal static class Utility
     {
         public static async Task<bool> Tactician()
         {
@@ -16,7 +16,9 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.ForceTactician)
                 return false;
 
-            if (!await Spells.Tactician.Cast(Core.Me)) return false;
+            if (!await Spells.Tactician.Cast(Core.Me)) 
+                return false;
+
             MachinistSettings.Instance.ForceTactician = false;
             TogglesManager.ResetToggles();
             return true;

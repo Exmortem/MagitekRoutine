@@ -33,7 +33,7 @@ namespace Magitek.Models.Paladin
         public int HealthSetting { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FoFFastBlade { get; set; }
 
         [Setting]
@@ -66,7 +66,15 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseConfiteor { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Requiescat { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int RequiescatWithFofSecondsRemaining { get; set; }
 
         [Setting]
         [DefaultValue(false)]

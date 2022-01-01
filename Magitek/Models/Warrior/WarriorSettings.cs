@@ -34,7 +34,24 @@ namespace Magitek.Models.Warrior
         public bool UseInnerRelease { get; set; }
         #endregion
 
-        #region Defensives
+
+        #region Heal
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHeal { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int MaxHealAtOnce { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int MaxHealUnderHp { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float MoreHealHp { get; set; }
+
         [Setting]
         [DefaultValue(true)]
         public bool UseEquilibrium { get; set; }
@@ -42,15 +59,7 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(60)]
         public int EquilibriumHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseBloodWhetting { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        public int BloodWhettingHpPercentage { get; set; }
-
+        
         [Setting]
         [DefaultValue(false)]
         public bool UseThrillOfBattle { get; set; }
@@ -58,6 +67,17 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(50)]
         public int ThrillOfBattleHpPercentage { get; set; }
+        #endregion
+
+
+        #region Defensives
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBloodWhetting { get; set; }
+
+        [Setting]
+        [DefaultValue(50)]
+        public int BloodWhettingHpPercentage { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -82,6 +102,26 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(10)]
         public int HolmgangHpPercentage { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseNascentFlash { get; set; }
+
+        [Setting]
+        [DefaultValue(55)]
+        public int NascentFlashHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashTank { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool NascentFlashDps { get; set; }
         #endregion
 
         #region AoEs

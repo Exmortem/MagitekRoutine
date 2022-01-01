@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.DarkKnight;
 using Magitek.Logic.Roles;
@@ -8,26 +7,15 @@ using Magitek.Models.Account;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using DarkKnightRoutine = Magitek.Utilities.Routines.DarkKnight;
 
 namespace Magitek.Rotations
 {
     public static class DarkKnight
     {
-        public static Task<bool> Rest()
-        {
-            return Task.FromResult(false);
-        }
-
         public static async Task<bool> PreCombatBuff()
         {
-
-
-            if (Core.Me.IsCasting)
-                return true;
-
             await Casting.CheckForSuccessfulCast();
-
-            Utilities.Routines.DarkKnight.PullUnleash = 0;
             return await Buff.Grit();
         }
 
@@ -35,49 +23,49 @@ namespace Magitek.Rotations
         {
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+                Movement.NavigateToUnitLos(Core.Me.CurrentTarget,
+                    DarkKnightSettings.Instance.AutonomousPullDistance);
             }
 
             return await Combat();
         }
         public static async Task<bool> Heal()
         {
-            if (Core.Me.IsMounted)
+            if (await GambitLogic.Gambit())
                 return true;
 
-            if (await GambitLogic.Gambit()) return true;
-            if (await Casting.TrackSpellCast()) return true;
+            if (await Casting.TrackSpellCast())
+                return true;
+
             await Casting.CheckForSuccessfulCast();
 
             return false;
         }
-        public static Task<bool> CombatBuff()
-        {
-            return Task.FromResult(false);
-        }
+
         public static async Task<bool> Combat()
         {
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
-                return false;
-
-            if (await CustomOpenerLogic.Opener()) return true;
-
-            //if (await Defensive.ExecuteTankBusters()) return true;
+            if (await CustomOpenerLogic.Opener())
+                return true;
 
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                Movement.NavigateToUnitLos(Core.Me.CurrentTarget,
+                    DarkKnightSettings.Instance.AutonomousCombatDistance + Core.Me.CurrentTarget.CombatReach);
             }
 
-            if (await Buff.Grit()) return true;
-            if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;
+            if (await Buff.Grit())
+                return true;
 
-            if (Weaving.GetCurrentWeavingCounter() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (await Tank.Interrupt(DarkKnightSettings.Instance))
+                return true;
+
+            if (DarkKnightRoutine.GlobalCooldown.CountOGCDs() < 2
+                && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
                 if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
                 if (await Defensive.Execute()) return true;
-                if (await Defensive.TheBlackestNight()) return true;
-                if (await SingleTarget.Reprisal()) return true;
+                if (await Defensive.Oblation(true)) return true;
+                if (await Defensive.Reprisal()) return true;
                 if (await SingleTarget.CarveAndSpit()) return true;
                 if (await Aoe.SaltedEarth()) return true;
                 if (await Aoe.AbyssalDrain()) return true;
@@ -87,6 +75,7 @@ namespace Magitek.Rotations
                 if (await Buff.Delirium()) return true;
                 if (await Buff.BloodWeapon()) return true;
                 if (await Buff.LivingShadow()) return true;
+                if (await SingleTarget.Shadowbringer()) return true;
             }
 
             if (await SingleTarget.Unmend()) return true;
@@ -99,9 +88,8 @@ namespace Magitek.Rotations
             if (await SingleTarget.SyphonStrike()) return true;
             return await SingleTarget.HardSlash();
         }
-        public static Task<bool> PvP()
-        {
-            return Task.FromResult(false);
-        }
+        public static Task<bool> PvP() => Task.FromResult(false);
+        public static Task<bool> Rest() => Task.FromResult(false);
+        public static Task<bool> CombatBuff() => Task.FromResult(false);
     }
 }
