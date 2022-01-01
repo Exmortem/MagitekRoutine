@@ -97,7 +97,7 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
+            if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 200)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff, true) || Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire))
