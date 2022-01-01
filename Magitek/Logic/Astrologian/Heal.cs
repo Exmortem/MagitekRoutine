@@ -248,8 +248,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> Macrocosmos()
         {
-            return false; 
+            return false;
 
+            #pragma warning disable CS0162 // Unreachable code detected
             if (!Core.Me.InCombat)
                 return false;
 
@@ -300,14 +301,14 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
-
+            #pragma warning restore CS0162 // Unreachable code detected
         }
 
         private static float GetRadius(this uint spell) {
                 return DataManager.GetSpellData(spell).Radius;
             }
 
-        public static async Task<bool> Microcosmos() {
+        private static async Task<bool> Microcosmos() {
             if (!Group.CastableAlliesWithin30.Any(x => x.HasMyAura(Auras.Macrocosmos)))
                 return false;
 
