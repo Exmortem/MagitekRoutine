@@ -18,7 +18,7 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> LightningShot()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.LightningShotToPullAggro, Spells.LightningShot))
+            if (!GunbreakerSettings.Instance.LightningShotToPullAggro)
                 return false;
 
             if (!Core.Me.HasAura(Auras.RoyalGuard))
@@ -49,9 +49,6 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> KeenEdge()
         {
-            if (!ActionManager.HasSpell(Spells.KeenEdge.Id))
-                return false;
-
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
@@ -60,9 +57,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> BrutalShell()
         {
-            if (!ActionManager.HasSpell(Spells.BrutalShell.Id))
-                return false;
-
             if (!GunbreakerRoutine.CanContinueComboAfter(Spells.KeenEdge))
                 return false;
 
@@ -74,9 +68,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> SolidBarrel()
         {
-            if (!ActionManager.HasSpell(Spells.SolidBarrel.Id))
-                return false;
-
             if (!GunbreakerRoutine.CanContinueComboAfter(Spells.BrutalShell))
                 return false;
 
@@ -95,13 +86,16 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> GnashingFang()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAmmoCombo, Spells.GnashingFang))
+            if (!GunbreakerSettings.Instance.UseAmmoCombo)
                 return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForGnashingFang)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= GunbreakerSettings.Instance.PrioritizeFatedCircleOverGnashingFangEnemies)
                 return false;
 
             if (Spells.NoMercy.IsKnownAndReady(10000))
@@ -112,9 +106,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> SavageClaw()
         {
-            if (!ActionManager.HasSpell(Spells.SavageClaw.Id))
-                return false;
-
             if (SecondaryComboStage != 1)
                 return false;
 
@@ -126,9 +117,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> WickedTalon()
         {
-            if (!ActionManager.HasSpell(Spells.WickedTalon.Id))
-                return false;
-
             if (SecondaryComboStage != 2)
                 return false;
 
@@ -144,9 +132,6 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> JugularRip()
         {
-            if (!ActionManager.HasSpell(Spells.JugularRip.Id))
-                return false;
-
             if (!Core.Me.HasAura(Auras.ReadytoRip))
                 return false;
 
@@ -155,9 +140,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> AbdomenTear()
         {
-            if (!ActionManager.HasSpell(Spells.AbdomenTear.Id))
-                return false;
-
             if (!Core.Me.HasAura(Auras.ReadytoTear))
                 return false;
 
@@ -166,9 +148,6 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> EyeGouge()
         {
-            if (!ActionManager.HasSpell(Spells.EyeGouge.Id))
-                return false;
-
             if (!Core.Me.HasAura(Auras.ReadytoGouge))
                 return false;
 
@@ -182,13 +161,16 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> BurstStrike()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseBurstStrike, Spells.BurstStrike))
+            if (!GunbreakerSettings.Instance.UseBurstStrike)
                 return false;
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForBurstStrike)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= GunbreakerSettings.Instance.PrioritizeFatedCircleOverBurstStrikeEnemies)
                 return false;
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
@@ -219,9 +201,6 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> Hypervelocity()
         {
-            if (!ActionManager.HasSpell(Spells.Hypervelocity.Id))
-                return false;
-
             if (!Core.Me.HasAura(Auras.ReadytoBlast))
                 return false;
 
@@ -234,9 +213,6 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> BlastingZone()
         {
-            if (!ActionManager.HasSpell(GunbreakerRoutine.BlastingZone.Id))
-                return false;
-
             if (GunbreakerSettings.Instance.SaveBlastingZone)
                 if (Spells.NoMercy.Cooldown.TotalMilliseconds <= GunbreakerSettings.Instance.SaveBlastingZoneMseconds)
                     return false;
@@ -250,7 +226,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> RoughDivide() //Dash
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseRoughDivide, Spells.RoughDivide))
+            if (!GunbreakerSettings.Instance.UseRoughDivide)
                 return false;
 
             if (!Core.Me.HasAura(Auras.NoMercy))
@@ -268,9 +244,6 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> SonicBreak()
         {
-            if (!ActionManager.HasSpell(Spells.SonicBreak.Id))
-                return false;
-
             if (!Core.Me.HasAura(Auras.NoMercy))
                 return false;
 

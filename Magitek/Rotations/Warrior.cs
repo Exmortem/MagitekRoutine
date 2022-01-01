@@ -4,7 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Warrior;
-using Magitek.Models.Account;
+using Healing = Magitek.Logic.Warrior.Heal;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
@@ -69,16 +69,16 @@ namespace Magitek.Rotations
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
 
-            if (WarriorRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HeavySwing.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (WarriorRoutine.GlobalCooldown.CanWeave())
             {
                 //Defensive Buff
                 if (await Defensive.Holmgang()) return true;
-                if (await Buff.Equilibrium()) return true;
+                if (await Healing.Equilibrium()) return true;
+                if (await Healing.ThrillOfBattle()) return true;
                 if (await Defensive.Reprisal()) return true;
                 if (await Defensive.Rampart()) return true;
                 if (await Defensive.Vengeance()) return true;
                 if (await Defensive.ShakeItOff()) return true;
-                if (await Defensive.ThrillOfBattle()) return true;
                 if (await Defensive.BloodWhetting()) return true;
                 if (await Buff.NascentFlash()) return true;
 

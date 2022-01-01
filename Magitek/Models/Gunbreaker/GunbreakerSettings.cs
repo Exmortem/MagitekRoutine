@@ -12,90 +12,40 @@ namespace Magitek.Models.Gunbreaker
 
         public static GunbreakerSettings Instance { get; set; } = new GunbreakerSettings();
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAmmoCombo { get; set; }
-
+        #region General
         [Setting]
         [DefaultValue(true)]
         public bool UseRoyalGuard { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSuperbolide { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int SuperbolideHealthPercent { get; set; }
+        public bool UseAmmoCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseCamouflage { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int CamouflageHealthPercent { get; set; }
+        public bool UseBowShock { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseNebula { get; set; }
-
-        [Setting]
-        [DefaultValue(30)]
-        public int NebulaHealthPercent { get; set; }
+        public bool UseRoughDivide { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseHeartofLight { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int HeartofLightHealthPercent { get; set; }
+        public bool UseBloodfest { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseHeartofCorundum { get; set; }
+        public bool UseBurstStrike { get; set; }
 
-        [Setting]
-        [DefaultValue(15)]
-        public int HeartofCorundumHealthPercent { get; set; }
+        #endregion
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAurora { get; set; }
-
+        #region Buff
         [Setting]
         [DefaultValue(true)]
-        public bool UseAuroraHealer { get; set; }
+        public bool UseNoMercy { get; set; }
+        #endregion
 
-        [Setting]
-        [DefaultValue(30)]
-        public int UseAuroraHealerHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAuroraDps { get; set; }
-
-        [Setting]
-        [DefaultValue(30)]
-        public int UseAuroraDpsHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseAuroraSelf { get; set; }
-
-        [Setting]
-        [DefaultValue(30)]
-        public int UseAuroraSelfHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(15)]
-        public int AuroraAsDefensiveHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        public int MinMpAurora { get; set; }
-
+        #region AOE
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
@@ -109,25 +59,103 @@ namespace Magitek.Models.Gunbreaker
         public bool UseFatedCircle { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool UseBowShock { get; set; }
+        [DefaultValue(3)]
+        public int PrioritizeFatedCircleOverGnashingFangEnemies { get; set; }
 
         [Setting]
         [DefaultValue(2)]
-        public int FatedCircleEnemies { get; set; }
+        public int PrioritizeFatedCircleOverBurstStrikeEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseNoMercy { get; set; }
+        public bool UseDoubleDown { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int DoubleDownEnemies { get; set; }
+        #endregion
+
+        #region Defensives
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSuperbolide { get; set; }
+
+        [Setting]
+        [DefaultValue(20)]
+        public int SuperbolideHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseRoughDivide { get; set; }
+        public bool UseCamouflage { get; set; }
+
+        [Setting]
+        [DefaultValue(80)]
+        public int CamouflageHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseBloodfest { get; set; }
+        public bool UseNebula { get; set; }
 
+        [Setting]
+        [DefaultValue(70)]
+        public int NebulaHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHeartofLight { get; set; }
+
+        [Setting]
+        [DefaultValue(60)]
+        public int HeartofLightHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHeartofCorundum { get; set; }
+
+        [Setting]
+        [DefaultValue(60)]
+        public int HeartofCorundumHealthPercent { get; set; }
+        #endregion
+
+        #region Heal
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAurora { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAuroraHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(40)]
+        public int UseAuroraHealerHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAuroraDps { get; set; }
+
+        [Setting]
+        [DefaultValue(40)]
+        public int UseAuroraDpsHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAuroraSelf { get; set; }
+
+        [Setting]
+        [DefaultValue(70)]
+        public int AuroraSelfHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(70)]
+        public int AuroraAsDefensiveHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(50)]
+        public int MinMpAurora { get; set; }
+        #endregion
+
+        #region Pull
         [Setting]
         [DefaultValue(true)]
         public bool PullWithLightningShot { get; set; }
@@ -140,6 +168,21 @@ namespace Magitek.Models.Gunbreaker
         [DefaultValue(true)]
         public bool LightningShotToPullAggro { get; set; }
 
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [Setting]
         [DefaultValue(true)]
         public bool SaveBlastingZone { get; set; }
@@ -148,16 +191,8 @@ namespace Magitek.Models.Gunbreaker
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseDoubleDown { get; set; }
+        
 
-        [Setting]
-        [DefaultValue(1)]
-        public int DoubleDownEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseBurstStrike { get; set; }
+        
     }
 }

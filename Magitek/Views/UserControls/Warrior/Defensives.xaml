@@ -95,15 +95,6 @@
                                       Value="{Binding WarriorSettings.RampartHpPercentage, Mode=TwoWay}" />
                     <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="4" Grid.Column="0" Content="Thrill Of Battle(WIP)" IsChecked="{Binding WarriorSettings.UseThrillOfBattle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="4"
-                                      Grid.Column="1"
-                                      Margin="0,3"
-                                      MaxValue="100"
-                                      MinValue="1"
-                                      Value="{Binding WarriorSettings.ThrillOfBattleHpPercentage, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
                     <CheckBox Grid.Row="5" Grid.Column="0" Content="Reprisal" IsChecked="{Binding WarriorSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="5"
                                       Grid.Column="1"

@@ -58,7 +58,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Heart of Corundum" IsChecked="{Binding GunbreakerSettings.UseHeartofCorundum, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Heart of Corundum / Heart of Stone  " IsChecked="{Binding GunbreakerSettings.UseHeartofCorundum, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.HeartofCorundumHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
@@ -82,10 +82,9 @@
                     <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.NebulaHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="6" Grid.Column="0" Content="Aurora" IsChecked="{Binding GunbreakerSettings.UseAurora, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.UseAuroraSelfHealthPercent, Mode=TwoWay}" />
+                    <CheckBox Grid.Row="6" Grid.Column="0" Content="Super Bolide" IsChecked="{Binding GunbreakerSettings.UseSuperbolide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.SuperbolideHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
                 </Grid>
             </StackPanel>
         </controls:SettingsBlock>

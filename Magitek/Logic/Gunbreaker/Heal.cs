@@ -12,12 +12,12 @@ namespace Magitek.Logic.Gunbreaker
     {
         public static async Task<bool> Aurora()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseAurora, Spells.Aurora))
+            if (!GunbreakerSettings.Instance.UseAurora)
                 return false;
 
             if (GunbreakerSettings.Instance.UseAuroraSelf)
             {
-                if (Core.Me.CurrentHealthPercent < GunbreakerSettings.Instance.UseAuroraSelfHealthPercent)
+                if (Core.Me.CurrentHealthPercent < GunbreakerSettings.Instance.AuroraSelfHealthPercent)
                 {
                     return await Spells.Aurora.Cast(Core.Me);
                 }
@@ -50,7 +50,7 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseAuroraSelf || anyHealers)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent < GunbreakerSettings.Instance.UseAuroraSelfHealthPercent)
+            if (Core.Me.CurrentHealthPercent < GunbreakerSettings.Instance.AuroraSelfHealthPercent)
                 return await Spells.Aurora.Cast(Core.Me);
 
             return false;

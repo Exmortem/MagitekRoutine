@@ -36,17 +36,6 @@ namespace Magitek.Utilities.Routines
         public static int RequiredCartridgeForBurstStrike => 1;
         public static int RequiredCartridgeForFatedCircle => 1;
 
-        public static bool ToggleAndSpellCheck(bool Toggle, SpellData Spell)
-        {
-            if (!Toggle)
-                return false;
-
-            if (!ActionManager.HasSpell(Spell.Id))
-                return false;
-
-            return true;
-        }
-
         public static bool IsAurasForComboActive()
         {
             return Core.Me.HasAura(Auras.ReadytoRip) || Core.Me.HasAura(Auras.ReadytoTear) || Core.Me.HasAura(Auras.ReadytoGouge) || Core.Me.HasAura(Auras.ReadytoBlast);

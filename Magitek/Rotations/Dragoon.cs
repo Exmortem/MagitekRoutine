@@ -109,7 +109,7 @@ namespace Magitek.Rotations
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(DragoonSettings.Instance)) return true;
 
-            if (DragoonRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.TrueThrust.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
+            if (DragoonRoutine.GlobalCooldown.CanWeave() && !DragoonRoutine.SingleWeaveJumpsList.Contains(Casting.LastSpell))
             {
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;
@@ -123,8 +123,15 @@ namespace Magitek.Rotations
                 //oGCD - Jump
                 if (await Aoe.WyrmwindThrust()) return true;
                 if (await Aoe.Geirskogul()) return true;
-                if (await Jumps.MirageDive()) return true;
-                if (await Jumps.Execute()) return true;
+                if (await Jumps.MirageDive()) return true; //DoubleWeave
+                
+                if (DragoonRoutine.GlobalCooldown.CanWeave(1))
+                {
+                    if (await Jumps.HighJump()) return true;  //SingleWeave
+                    if (await Jumps.DragonfireDive()) return true; //SingleWeave
+                    if (await Jumps.SpineshatterDive()) return true; //SingleWeave
+                    if (await Jumps.Stardiver()) return true; //SingleWeave
+                }
             }
 
             if (await Aoe.DraconianFury()) return true;

@@ -14,7 +14,7 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> Scattergun()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseScattergun, MachinistRoutine.Scattergun))
+            if (!MachinistSettings.Instance.UseScattergun)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -31,7 +31,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BioBlaster()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseBioBlaster, Spells.Bioblaster))
+            if (!MachinistSettings.Instance.UseBioBlaster)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -48,7 +48,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AutoCrossbow()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseAutoCrossbow, Spells.AutoCrossbow))
+            if (!MachinistSettings.Instance.UseAutoCrossbow)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -64,7 +64,7 @@ namespace Magitek.Logic.Machinist
         }
         public static async Task<bool> Flamethrower()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseFlamethrower, Spells.Flamethrower))
+            if (!MachinistSettings.Instance.UseFlamethrower)
                 return false;
 
             if (!MachinistSettings.Instance.UseAoe)
@@ -95,10 +95,7 @@ namespace Magitek.Logic.Machinist
         }
         public static async Task<bool> Ricochet()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseRicochet, Spells.Ricochet))
-                return false;
-
-            if (!MachinistRoutine.IsInWeaveingWindow)
+            if (!MachinistSettings.Instance.UseRicochet)
                 return false;
 
             if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
@@ -125,7 +122,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> ChainSaw()
         {
-            if (!MachinistRoutine.ToggleAndSpellCheck(MachinistSettings.Instance.UseChainSaw, Spells.ChainSaw))
+            if (!MachinistSettings.Instance.UseChainSaw)
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)

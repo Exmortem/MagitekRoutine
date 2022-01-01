@@ -32,20 +32,11 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.Defiance.Cast(Core.Me);
         }
-        internal static async Task<bool> Equilibrium()
-        {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseEquilibrium, Spells.Equilibrium))
-                return false;
 
-            if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.EquilibriumHealthPercent)
-                return false;
-
-            return await Spells.Equilibrium.Cast(Core.Me);
-        }
         //Berserk Becomes Inner Release
-        internal static async Task<bool> InnerRelease()
+        public static async Task<bool> InnerRelease()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInnerRelease, WarriorRoutine.InnerRelease))
+            if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
             if (Core.Me.CurrentTarget == null)
@@ -68,12 +59,12 @@ namespace Magitek.Logic.Warrior
             }
 
             //Logger.WriteInfo($@"InnerRelease Ready");
-            return await Utilities.Routines.Warrior.InnerRelease.Cast(Core.Me);
+            return await WarriorRoutine.InnerRelease.Cast(Core.Me);
         }
 
-        internal static async Task<bool> Infuriate()
+        public static async Task<bool> Infuriate()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseInfuriate, Spells.Infuriate))
+            if (!WarriorSettings.Instance.UseInfuriate)
                 return false;
 
             if (Casting.LastSpell == Spells.InnerRelease)
@@ -91,13 +82,13 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> NascentFlash()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseNascentFlash, Spells.NascentFlash))
+            if (!WarriorSettings.Instance.UseNascentFlash)
                 return false;
 
             if (!Globals.InParty)
                 return false;
 
-            if (Spells.NascentFlash.Cooldown != System.TimeSpan.Zero)
+            if (!Spells.NascentFlash.IsReady())
                 return false;
 
             var canNascentTargets = Group.CastableAlliesWithin30.Where(CanNascentFlash).OrderByDescending(DispelManager.GetWeight).ThenBy(c => c.CurrentHealthPercent).ToList();

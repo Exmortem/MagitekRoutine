@@ -31,7 +31,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Holmgang()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseHolmgang, Spells.Holmgang))
+            if (!WarriorSettings.Instance.UseHolmgang)
                 return false;
 
             if (!UseDefensives())
@@ -45,7 +45,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Reprisal()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseReprisal, Spells.Reprisal))
+            if (!WarriorSettings.Instance.UseReprisal)
                 return false;
 
             if (!UseDefensives())
@@ -59,7 +59,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Rampart()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseRampart, Spells.Rampart))
+            if (!WarriorSettings.Instance.UseRampart)
                 return false;
 
             if (!UseDefensives())
@@ -73,7 +73,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Vengeance()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseVengeance, Spells.Vengeance))
+            if (!WarriorSettings.Instance.UseVengeance)
                 return false;
 
             if (!UseDefensives())
@@ -87,7 +87,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> ShakeItOff()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseShakeItOff, Spells.ShakeItOff))
+            if (!WarriorSettings.Instance.UseShakeItOff)
                 return false;
 
             if (!UseDefensives())
@@ -99,23 +99,9 @@ namespace Magitek.Logic.Warrior
             return await Spells.ShakeItOff.Cast(Core.Me);
         }
 
-        public static async Task<bool> ThrillOfBattle()
-        {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseThrillOfBattle, Spells.ThrillofBattle))
-                return false;
-
-            if (!UseDefensives())
-                return false;
-
-            if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.ThrillOfBattleHpPercentage)
-                return false;
-
-            return await Spells.ThrillofBattle.CastAura(Core.Me, Auras.ThrillOfBattle);
-        }
-
         public static async Task<bool> BloodWhetting()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseBloodWhetting, WarriorRoutine.Bloodwhetting))
+            if (!WarriorSettings.Instance.UseBloodWhetting)
                 return false;
 
             if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.BloodWhettingHpPercentage)

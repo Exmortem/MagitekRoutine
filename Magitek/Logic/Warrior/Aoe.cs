@@ -13,7 +13,7 @@ namespace Magitek.Logic.Warrior
     {
         public static async Task<bool> ChaoticCyclone()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.ChaoticCyclone))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
             if (!Core.Me.HasAura(Auras.NascentChaos))
@@ -31,7 +31,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Decimate()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Decimate))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
             if (!WarriorSettings.Instance.UseDecimate)
@@ -55,7 +55,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Overpower()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Overpower))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
@@ -66,7 +66,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> MythrilTempest()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.MythrilTempest))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
             if (!WarriorRoutine.CanContinueComboAfter(Spells.Overpower))
@@ -80,10 +80,10 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> Orogeny()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.Orogeny))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
-            if (!Spells.Orogeny.IsKnownAndReady())
+            if (!Spells.Orogeny.IsReady())
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
@@ -97,7 +97,7 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> PrimalRend()
         {
-            if (!WarriorRoutine.ToggleAndSpellCheck(WarriorSettings.Instance.UseAoe, Spells.PrimalRend))
+            if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
             if (!WarriorSettings.Instance.UsePrimalRend)

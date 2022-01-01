@@ -146,6 +146,9 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool ForceTactician { get; internal set; }
 
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float RestHealthPercent { get; set; }
         #endregion
 
 

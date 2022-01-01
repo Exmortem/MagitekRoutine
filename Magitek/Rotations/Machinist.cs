@@ -7,6 +7,7 @@ using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
+using System;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -15,7 +16,7 @@ namespace Magitek.Rotations
     {
         public static Task<bool> Rest()
         {
-            var needRest = Core.Me.CurrentHealthPercent < 75;
+            var needRest = Core.Me.CurrentHealthPercent < MachinistSettings.Instance.RestHealthPercent;
             return Task.FromResult(needRest);
         }
 
@@ -34,23 +35,20 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
-                }
             }
 
             if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
+
             return await Combat();
         }
         public static async Task<bool> Heal()
         {
             if (Core.Me.IsMounted)
                 return true;
-
-
 
             if (await Casting.TrackSpellCast())
                 return true;
@@ -59,10 +57,12 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);
         }
+
         public static async Task<bool> Combat()
         {
             if (BotManager.Current.IsAutonomous)
@@ -91,27 +91,51 @@ namespace Magitek.Rotations
                     return true;
             }
 
-            //Utility
-            if (await Utility.Tactician()) return true;
-            if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
-            if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
-            if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
-
-            if (MachinistRoutine.GlobalCooldown.CountOGCDs() < 2)
+            if (ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero)
             {
-                //Pets
-                if (await Pet.RookQueen()) return true;
-                if (await Pet.RookQueenOverdrive()) return true;
+                if (MachinistRoutine.GlobalCooldown.CanWeave(1)) {
+                    
+                    //Utility
+                    if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
+                    if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
 
-                //Cooldowns
-                if (await Cooldowns.Wildfire()) return true;
-                if (await Cooldowns.Hypercharge()) return true;
-                if (await Cooldowns.Reassemble()) return true;
-                if (await Cooldowns.BarrelStabilizer()) return true;
+                    //Pets
+                    if (await Pet.RookQueen()) return true;
 
-                //oGCDs
-                if (await SingleTarget.GaussRound()) return true;
-                if (await MultiTarget.Ricochet()) return true;
+                    //Cooldowns
+                    if (await Cooldowns.BarrelStabilizer()) return true;
+
+                    //oGCDs
+                    if (await SingleTarget.GaussRound()) return true;
+                    if (await MultiTarget.Ricochet()) return true;
+
+                    //Cooldowns
+                    if (await Cooldowns.Reassemble()) return true;
+                }
+            } else
+            {
+                if (MachinistRoutine.GlobalCooldown.CanWeave()) {
+
+                    //Utility
+                    if (await Utility.Tactician()) return true;
+                    if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
+                    if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
+                    if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
+
+                    //Pets
+                    if (await Pet.RookQueen()) return true;
+                    if (await Pet.RookQueenOverdrive()) return true;
+
+                    //Cooldowns
+                    if (await Cooldowns.Wildfire()) return true;
+                    if (await Cooldowns.Hypercharge()) return true;
+                    if (await Cooldowns.Reassemble()) return true;
+                    if (await Cooldowns.BarrelStabilizer()) return true;
+
+                    //oGCDs
+                    if (await SingleTarget.GaussRound()) return true;
+                    if (await MultiTarget.Ricochet()) return true;
+                }
             }
 
             //GCDs - Top Hypercharge Priority

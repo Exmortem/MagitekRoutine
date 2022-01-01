@@ -32,7 +32,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Superbolide()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseSuperbolide, Spells.Superbolide))
+            if (!GunbreakerSettings.Instance.UseSuperbolide)
                 return false;
 
             if (!UseDefensives())
@@ -46,7 +46,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Rampart()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseRampart, Spells.Rampart))
+            if (!GunbreakerSettings.Instance.UseRampart)
                 return false;
 
             if (!UseDefensives())
@@ -60,7 +60,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Reprisal()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseReprisal, Spells.Reprisal))
+            if (!GunbreakerSettings.Instance.UseReprisal)
                 return false;
 
             if (!UseDefensives())
@@ -74,7 +74,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Camouflage()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseCamouflage, Spells.Camouflage))
+            if (!GunbreakerSettings.Instance.UseCamouflage)
                 return false;
 
             if (!UseDefensives())
@@ -88,7 +88,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> Nebula()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseNebula, Spells.Nebula))
+            if (!GunbreakerSettings.Instance.UseNebula)
                 return false;
 
             if (!UseDefensives())
@@ -102,7 +102,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> HeartofLight()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseHeartofLight, Spells.HeartofLight))
+            if (!GunbreakerSettings.Instance.UseHeartofLight)
                 return false;
 
             if (!UseDefensives())
@@ -116,7 +116,7 @@ namespace Magitek.Logic.Gunbreaker
 
         public static async Task<bool> HeartofCorundum()
         {
-            if (!GunbreakerRoutine.ToggleAndSpellCheck(GunbreakerSettings.Instance.UseHeartofCorundum, Spells.HeartOfCorundum))
+            if (!GunbreakerSettings.Instance.UseHeartofCorundum)
                 return false;
 
             if (!UseDefensives())

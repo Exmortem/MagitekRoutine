@@ -45,6 +45,14 @@ namespace Magitek.Utilities.Routines
             Spells.Stardiver
         };
 
+        public static List<SpellData> SingleWeaveJumpsList = new List<SpellData>()
+        {
+            HighJump,
+            Spells.SpineshatterDive,
+            Spells.DragonfireDive,
+            Spells.Stardiver
+        };
+
         public static int GetWeight(Character c)
         {
             switch (c.CurrentJob)

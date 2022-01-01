@@ -289,7 +289,9 @@ namespace Magitek.Utilities
             PowerSurge = 2720,
             ChaoticSpring = 2719,
             ChaosThrust = 118,
-            LanceCharge = 1864;
+            LanceCharge = 1864,
+            Equilibrium = 2681
+            ;
 
         private const int
             Invincibility0 = 981,
