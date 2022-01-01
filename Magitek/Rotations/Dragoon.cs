@@ -4,13 +4,11 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Dragoon;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using DragoonRoutine = Magitek.Utilities.Routines.Dragoon;
 
