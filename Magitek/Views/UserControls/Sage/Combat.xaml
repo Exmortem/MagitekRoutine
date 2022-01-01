@@ -126,6 +126,12 @@
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox Content="Toxicon Single Targets While Moving " IsChecked="{Binding SageSettings.ToxiconWhileMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Pneuma " IsChecked="{Binding SageSettings.Pneuma, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Content="Pneuma only to heal " IsChecked="{Binding SageSettings.PneumaHealOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.PneumaNeedHealing, Mode=TwoWay}" />
