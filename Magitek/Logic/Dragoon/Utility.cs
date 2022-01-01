@@ -1,7 +1,9 @@
 ﻿using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.Dragoon
@@ -23,7 +25,34 @@ namespace Magitek.Logic.Dragoon
             if (Casting.LastSpell != Spells.FullThrust && Casting.LastSpell != Spells.ChaosThrust && Casting.LastSpell != Spells.WheelingThrust && Casting.LastSpell != Spells.FangAndClaw)
                 return false;
 
-            return await Spells.TrueNorth.Cast(Core.Me);
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 10 + x.CombatReach) >= DragoonSettings.Instance.AoeEnemies)
+                return false;
+
+            if (ActionManager.LastSpell == Spells.Disembowel)
+            {
+                if (Core.Me.CurrentTarget.IsBehind)
+                    return false;
+
+                return await Spells.TrueNorth.CastAura(Core.Me, Auras.TrueNorth);
+            }
+
+            if (Core.Me.HasAura(Auras.EnhancedWheelingThrust))
+            {
+                if (Core.Me.CurrentTarget.IsBehind)
+                    return false;
+
+                return await Spells.TrueNorth.CastAura(Core.Me, Auras.TrueNorth);
+            }
+
+            if (Core.Me.HasAura(Auras.SharperFangandClaw))
+            {
+                if (Core.Me.CurrentTarget.IsFlanking)
+                    return false;
+
+                return await Spells.TrueNorth.CastAura(Core.Me, Auras.TrueNorth);
+            }
+
+            return false;
         }
 
     }
