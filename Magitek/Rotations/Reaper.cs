@@ -109,18 +109,15 @@ namespace Magitek.Rotations
             {
                 if (ReaperRoutine.GlobalCooldown.CanWeave(1))
                 {
-                    if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
-                    if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
-                    if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
-                    if (await Cooldown.ArcaneCircle()) return true;
+                    if (await Enshroud.AoE.LemuresScythe()) return true;
+                    if (await Enshroud.SingleTarget.LemuresSlice()) return true;
                 }
 
-                if (await Enshroud.AoE.LemuresScythe()) return true;
-                if (await Enshroud.SingleTarget.LemuresSlice()) return true;
                 if (await Enshroud.AoE.Communio()) return true;
                 if (await Enshroud.AoE.GrimReaping()) return true;
                 if (await Enshroud.SingleTarget.VoidReaping()) return true;
                 if (await Enshroud.SingleTarget.CrossReaping()) return true;
+                if (await Enshroud.SingleTarget.LemuresSliceOfFWeave()) return true;
             }
             else
             {
