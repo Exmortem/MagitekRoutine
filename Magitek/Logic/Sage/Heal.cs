@@ -307,6 +307,10 @@ namespace Magitek.Logic.Sage
                 }
                 var HaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent);
 
+                // If target is recently ressurected, stop
+                if (HaimaTarget.HasAura(Auras.Weakness))
+                    return false;
+
                 if (HaimaTarget != null)
                     return await Spells.Haima.Heal(HaimaTarget);
 
