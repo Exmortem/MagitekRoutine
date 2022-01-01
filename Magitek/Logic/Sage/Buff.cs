@@ -192,7 +192,7 @@ namespace Magitek.Logic.Sage
             if (target == null)
                 return false;
 
-            return await Spells.Holos.CastAura(target, Auras.Holos);
+            return await Spells.Holos.Heal(Core.Me);
         }
         public static async Task<bool> Krasis()
         {
