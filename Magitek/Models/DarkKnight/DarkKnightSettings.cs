@@ -12,6 +12,17 @@ namespace Magitek.Models.DarkKnight
 
         public static DarkKnightSettings Instance { get; set; } = new DarkKnightSettings();
 
+        // Autonomous
+        #region Autonomous
+        [Setting]
+        [DefaultValue(3.0f)]
+        public float AutonomousPullDistance { get; set; }
+
+        [Setting]
+        [DefaultValue(3.0f)]
+        public float AutonomousCombatDistance { get; set; }
+        #endregion
+
         //General
         #region General
         [Setting]
@@ -38,6 +49,26 @@ namespace Magitek.Models.DarkKnight
         public bool Grit { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseOblation { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseOblationOnTanks { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseOblationOnHealers { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseOblationOnDPS { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float UseOblationAtHpPercent { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool UseTheBlackestNight { get; set; }
 
@@ -46,7 +77,7 @@ namespace Magitek.Models.DarkKnight
         public float TheBlackestNightHealth { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseDarkMind { get; set; }
 
         [Setting]
@@ -54,7 +85,7 @@ namespace Magitek.Models.DarkKnight
         public float DarkMindHealth { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseDarkMissionary { get; set; }
 
         [Setting]
@@ -62,7 +93,7 @@ namespace Magitek.Models.DarkKnight
         public float DarkMissionaryHealth { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseShadowWall { get; set; }
 
         [Setting]
@@ -70,11 +101,11 @@ namespace Magitek.Models.DarkKnight
         public float ShadowWallHealth { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseLivingDead { get; set; }
 
         [Setting]
-        [DefaultValue(15.0f)]
+        [DefaultValue(10.0f)]
         public float LivingDeadHealth { get; set; }
         #endregion
 
@@ -98,6 +129,10 @@ namespace Magitek.Models.DarkKnight
         [Setting]
         [DefaultValue(false)]
         public bool UsePlunge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseShadowbringer { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -154,6 +189,5 @@ namespace Magitek.Models.DarkKnight
         [DefaultValue(2)]
         public int FloodEnemies { get; set; }
         #endregion
-
     }
 }

@@ -47,10 +47,8 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseBloodspiller)
                 return false;
 
-            if (ActionResourceManager.DarkKnight.BlackBlood >= 50 || Core.Me.HasAura(Auras.Delirium))
-                return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
+            return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
 
-            return false;
         }
 
         public static async Task<bool> Unmend()
@@ -58,18 +56,19 @@ namespace Magitek.Logic.DarkKnight
             if (Globals.OnPvpMap)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Delirium))
+            if (BotManager.Current.IsAutonomous)
                 return false;
 
             if (!DarkKnightSettings.Instance.UnmendToPullAggro)
                 return false;
 
-            if (BotManager.Current.IsAutonomous)
+            if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
-            var unmendTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach &&
-                                                                  r.Distance(Core.Me) <= 15 + r.CombatReach &&
-                                                                  r.TargetGameObject != Core.Me);
+            var unmendTarget = Combat.Enemies.FirstOrDefault(r =>
+                r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach
+                && r.Distance(Core.Me) <= 20 + r.CombatReach
+                && !r.TargetGameObject.IsMe);
 
             if (unmendTarget == null)
                 return false;
@@ -82,6 +81,14 @@ namespace Magitek.Logic.DarkKnight
 
             Logger.Write($@"Unmend On {unmendTarget.Name} To Pull Aggro");
             return true;
+        }
+
+        public static async Task<bool> Shadowbringer()
+        {
+            if (!DarkKnightSettings.Instance.UseShadowbringer)
+                return false;
+
+            return await Spells.Shadowbringer.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> EdgeofDarknessShadow()
@@ -115,17 +122,7 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UsePlunge)
                 return false;
 
-            Logger.Write($@"We are about to Plunge, The toggle was {DarkKnightSettings.Instance.UsePlunge}");
-
             return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Reprisal()
-        {
-            if (!DarkKnightSettings.Instance.UseReprisal)
-                return false;
-
-            return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
         }
     }
 }
