@@ -12,6 +12,9 @@ namespace Magitek.Logic.Reaper.Enshroud
     {
         public static async Task<bool> GrimReaping()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
+
             if (!ReaperSettings.Instance.UseGrimReaping || Core.Me.ClassLevel < Spells.GrimReaping.LevelAcquired)
                 return false;
 
@@ -42,6 +45,9 @@ namespace Magitek.Logic.Reaper.Enshroud
 
         public static async Task<bool> LemuresScythe()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
+
             if (!ReaperSettings.Instance.UseLemuresScythe || Core.Me.ClassLevel < Spells.LemuresScythe.LevelAcquired)
                 return false;
 
