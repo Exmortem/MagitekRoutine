@@ -103,7 +103,7 @@ namespace Magitek.Rotations
                 }
 
                 if (await SingleTarget.ShieldLobLostAggro()) return true;
-                if (await Aoe.Confiteor()) return true;
+                if (await SingleTarget.Confiteor()) return true;
                 if (await Aoe.HolyCircle()) return true;
                 if (await Aoe.TotalEclipse()) return true;
                 if (await SingleTarget.HolySpirit()) return true;

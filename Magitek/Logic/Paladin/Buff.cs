@@ -40,7 +40,7 @@ namespace Magitek.Logic.Paladin
             // In 6.0 PLD casts Req early, while FoF is still up, because the req buff lasts a long time,
             // and early use can be beneficial in some fight lengths.
             // The 6.0 balance standard rotation has it about 3 gcds/7.5~ seconds after FoF usage, but we
-            // expose a setting here as well in case users want to adjust this.
+            // default to 1 and expose the setting for users to adjust to what works for their situation.
             if (Core.Me.HasAura(Auras.FightOrFight, true,
                 PaladinSettings.Instance.RequiescatWithFofSecondsRemaining * 1000))
             {
@@ -53,7 +53,8 @@ namespace Magitek.Logic.Paladin
                 r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach);
 
             if (Spells.FightorFlight.IsKnown()
-                && Spells.FightorFlight.Cooldown.TotalSeconds >= 1
+                && Spells.FightorFlight.Cooldown != TimeSpan.Zero
+                && Casting.LastSpell != Spells.FightorFlight
                 && enemyCount >= PaladinSettings.Instance.TotalEclipseEnemies)
             {
                 return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
@@ -78,13 +79,22 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseFightOrFlight)
                 return false;
 
-            if (Core.Me.ClassLevel >= 68 && !PaladinSettings.Instance.FoFFirst)
+            if (!PaladinSettings.Instance.FoFFirst
+                && Spells.Requiescat.IsKnownAndReady(10000))
             {
-                if (Spells.Requiescat.Cooldown.Seconds < 10)
-                    return false;
+                return false;
             }
 
             if (Core.Me.HasAura(Auras.Requiescat))
+                return false;
+
+            if (ActionManager.CanCast(Spells.BladeOfFaith.Id, Core.Me.CurrentTarget))
+                return false;
+
+            if (ActionManager.CanCast(Spells.BladeOfTruth.Id, Core.Me.CurrentTarget))
+                return false;
+
+            if (ActionManager.CanCast(Spells.BladeOfValor.Id, Core.Me.CurrentTarget))
                 return false;
 
             // If we're in an aoe situation we want to FoF even if our
