@@ -1,61 +1,33 @@
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
+using Magitek.Utilities.Managers;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using DarkKnightRoutine = Magitek.Utilities.Routines.DarkKnight;
 
 namespace Magitek.Logic.DarkKnight
 {
     internal static class Defensive
     {
-        /*public static async Task<bool> ExecuteTankBusters()
-        {
-            if (!DarkKnightSettings.Instance.UseTankBusters)
-                return false;
-
-            var targetAsCharacter = (Core.Me.CurrentTarget as Character);
-
-            if (targetAsCharacter == null)
-                return false;
-            
-            var castingSpell = targetAsCharacter.CastingSpellId;
-            var targetIsMe = targetAsCharacter.TargetGameObject == Core.Me;
-
-            if (!TankBusterManager.DarkKnightTankBusters.ContainsKey(castingSpell))
-                return false;
-
-            var tankBuster = TankBusterManager.DarkKnightTankBusters.First(r => r.Key == castingSpell).Value;
-
-            if (tankBuster == null)
-                return false;
-
-            if (tankBuster.LivingDead && targetIsMe && await Spells.LivingDead.CastAura(Core.Me, Auras.LivingDead)) return true;
-            if (tankBuster.DarkMind && targetIsMe && await Spells.DarkMind.CastAura(Core.Me, Auras.DarkMind)) return true;
-            if (tankBuster.ShadowWall && targetIsMe && await Spells.ShadowWall.CastAura(Core.Me, Auras.ShadowWall)) return true;
-            if (tankBuster.TheBlackestNight && await Spells.TheBlackestNight.Cast(Core.Me)) return true;
-            if (tankBuster.ReprisalDk && await Spells.Reprisal.CastAura(Core.Me.CurrentTarget, Auras.Reprisal)) return true;
-            if (tankBuster.DarkMissionary && await Spells.DarkMissionary.CastAura(Core.Me, Auras.DarkMissionary)) return true;
-            return tankBuster.RampartDk && targetIsMe && await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
-            
-        }*/
-
         public static async Task<bool> Execute()
         {
             if (!DarkKnightSettings.Instance.UseDefensives)
                 return false;
-            /*
-            if (DarkKnightSettings.Instance.UseDefensivesOnlyOnTankBusters)
-                return false;
-            */
+
             if (Core.Me.HasAura(Auras.LivingDead))
                 return false;
 
             if (await LivingDead()) return true;
 
-            var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => Utilities.Routines.Paladin.Defensives.Contains(r)).ToList();
+            var currentAuras = Core.Me.CharacterAuras
+                .Select(r => r.Id)
+                .Where(r => DarkKnightRoutine.Defensives.Contains(r))
+                .ToList();
 
             if (currentAuras.Count >= DarkKnightSettings.Instance.MaxDefensivesAtOnce)
             {
@@ -70,7 +42,54 @@ namespace Magitek.Logic.DarkKnight
             if (await ShadowWall()) return true;
             if (await TheBlackestNight()) return true;
             if (await DarkMissionary()) return true;
-            return await Rampart();
+            if (await Oblation(false)) return true;
+            if (await Rampart()) return true;
+
+            return false;
+        }
+
+        public static async Task<bool> Oblation(bool excludeSelf)
+        {
+            if (!DarkKnightSettings.Instance.UseOblation)
+                return false;
+
+            var target = Group.CastableAlliesWithin30
+                .Where(CanOblation)
+                .OrderByDescending(DispelManager.GetWeight)
+                .ThenBy(c => c.CurrentHealthPercent)
+                .ToList()
+                .FirstOrDefault();
+
+            if (target == null)
+                return false;
+
+            return await Spells.Oblation.CastAura(Core.Me, Auras.Oblation);
+
+            bool CanOblation(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.HasAura(Auras.Oblation))
+                    return false;
+
+                if (unit.CurrentHealthPercent > DarkKnightSettings.Instance.UseOblationAtHpPercent)
+                    return false;
+
+                if (unit.IsMe && !excludeSelf)
+                    return true;
+
+                if (DarkKnightSettings.Instance.UseOblationOnTanks && unit.IsTank())
+                    return true;
+
+                if (DarkKnightSettings.Instance.UseOblationOnHealers && unit.IsHealer())
+                    return true;
+
+                if (DarkKnightSettings.Instance.UseOblationOnDPS && unit.IsDps())
+                    return true;
+
+                return false;
+            }
         }
 
         private static async Task<bool> LivingDead()
@@ -114,9 +133,6 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.CurrentHealthPercent > DarkKnightSettings.Instance.TheBlackestNightHealth)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.TheBlackestNight.Id))
-                return false;
-
             if (ActionResourceManager.DarkKnight.BlackBlood < 50)
                 return false;
 
@@ -146,6 +162,14 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             return await Spells.Rampart.CastAura(Core.Me, Auras.Rampart);
+        }
+
+        public static async Task<bool> Reprisal()
+        {
+            if (!DarkKnightSettings.Instance.UseReprisal)
+                return false;
+
+            return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
         }
     }
 }

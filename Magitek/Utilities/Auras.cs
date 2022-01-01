@@ -290,8 +290,8 @@ namespace Magitek.Utilities
             ChaoticSpring = 2719,
             ChaosThrust = 118,
             LanceCharge = 1864,
-            Equilibrium = 2681
-            ;
+            Equilibrium = 2681,
+            Oblation = 2682;
 
         private const int
             Invincibility0 = 981,
