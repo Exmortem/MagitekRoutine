@@ -77,10 +77,10 @@ namespace Magitek.Logic.Reaper.Enshroud
 
             // Prevent blowing remaining enshrouded if for some reason the weaving window for Lemure was missed
             // due to fight mechanics or disconnect with the target.
-            if (ActionResourceManager.Reaper.VoidShroud > 1 || shroudEndingSoon)
+            if (ActionResourceManager.Reaper.VoidShroud > 1 && !shroudEndingSoon)
                 return false;
 
-            if (ActionResourceManager.Reaper.LemureShroud > 1 || shroudEndingSoon)
+            if (ActionResourceManager.Reaper.LemureShroud > 1 && !shroudEndingSoon)
                 return false;
 
             return await Spells.Communio.Cast(Core.Me.CurrentTarget);

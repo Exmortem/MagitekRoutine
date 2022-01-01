@@ -74,5 +74,18 @@ namespace Magitek.Logic.Reaper.Enshroud
 
             return false;
         }
+
+        public static async Task<bool> LemuresSliceOfFWeave()
+        {
+            //Add level check so it doesn't hang here
+            if (!ReaperSettings.Instance.UseLemuresSlice || Core.Me.ClassLevel < Spells.LemuresSlice.LevelAcquired)
+                return false;
+
+            // Only use Lemures Slice off weave if resources are deadlocked
+            if (ActionResourceManager.Reaper.VoidShroud == 2 && ActionResourceManager.Reaper.LemureShroud == 1)
+                return await Spells.LemuresSlice.Cast(Core.Me.CurrentTarget);
+
+            return false;
+        }
     }
 }
