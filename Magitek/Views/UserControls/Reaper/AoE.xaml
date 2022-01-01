@@ -20,6 +20,14 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
+        
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable AoE (does not apply to abilities used in single target rotation)" IsChecked="{Binding ReaperSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">

@@ -16,6 +16,8 @@ namespace Magitek.Logic.Reaper
         //Something like TTK > Current GCD 
         public static async Task<bool> WhorlofDeath()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
 
             if (!ReaperSettings.Instance.UseWhorlOfDeath)
                 return false;
@@ -35,6 +37,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> HarvestMoon()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
 
             if (!ReaperSettings.Instance.UseHarvestMoon)
                 return false;
@@ -56,6 +60,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> WhorlofDeathIdle()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
 
             if (!ReaperSettings.Instance.UseWhorlOfDeath)
                 return false;
@@ -77,6 +83,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> SpinningScythe()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
             if (!ReaperSettings.Instance.UseSpinningScythe) return false;
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SpinningScytheTargetCount) return false;
             if (!await Spells.SpinningScythe.Cast(Core.Me)) return false;
@@ -87,6 +95,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> NightmareScythe()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
             //Add level check so it doesn't hang here
             if (Core.Me.ClassLevel < Spells.NightmareScythe.LevelAcquired)
                 return false;
@@ -103,6 +113,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> SoulScythe()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
             if (!ReaperSettings.Instance.UseSoulScythe) return false;
             if (!ReaperSettings.Instance.UseSoulSlice
                 || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount)
@@ -119,6 +131,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> GrimSwathe()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
             //Add level check so it doesn't hang here
             if (Core.Me.ClassLevel < Spells.GrimSwathe.LevelAcquired)
                 return false;
@@ -141,6 +155,8 @@ namespace Magitek.Logic.Reaper
 
         public static async Task<bool> Guillotine()
         {
+            if (!ReaperSettings.Instance.UseAoe)
+                return false;
             //Add level check so it doesn't hang here
             if (Core.Me.ClassLevel < Spells.Guillotine.LevelAcquired)
                 return false;
@@ -161,7 +177,7 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.SoulReaver))
                 return false;
 
-            if (ActionResourceManager.Reaper.ShroudGauge >= 50)
+            if (ActionResourceManager.Reaper.ShroudGauge > 50)
                 return false;
 
             return await Spells.PlentifulHarvest.Cast(Core.Me.CurrentTarget);

@@ -67,7 +67,14 @@ namespace Magitek.Logic.Reaper.Enshroud
             if (!ReaperSettings.Instance.UseCommunio || Core.Me.ClassLevel < Spells.Communio.LevelAcquired)
                 return false;
 
-            if (ActionResourceManager.Reaper.LemureShroud > 1 || (Core.Me.HasAura(Auras.Enshrouded) && !Core.Me.HasAura(Auras.Enshrouded, true, 3000)))
+            var shroudEndingSoon = Core.Me.HasAura(Auras.Enshrouded) && !Core.Me.HasAura(Auras.Enshrouded, true, 3000);
+
+            // Prevent blowing remaining enshrouded if for some reason the weaving window for Lemure was missed
+            // due to fight mechanics or disconnect with the target.
+            if (ActionResourceManager.Reaper.VoidShroud > 1 || shroudEndingSoon)
+                return false;
+
+            if (ActionResourceManager.Reaper.LemureShroud > 1 || shroudEndingSoon)
                 return false;
 
             return await Spells.Communio.Cast(Core.Me.CurrentTarget);

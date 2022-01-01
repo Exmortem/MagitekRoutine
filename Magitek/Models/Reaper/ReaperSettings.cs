@@ -92,6 +92,10 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
+        public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseSpinningScythe { get; set; }
 
         [Setting]
