@@ -12,7 +12,7 @@ namespace Magitek.Utilities.Routines
     {
         public static bool OnGcd => Spells.Dosis.Cooldown.TotalMilliseconds > 100;
 
-        public static HashSet<string> DontDiagnosis = new HashSet<string>();
+        public static HashSet<string> DontShield = new HashSet<string>();
         public static HashSet<string> DontEukrasianDiagnosis = new HashSet<string>();
         public static HashSet<string> DontEukrasianPrognosis = new HashSet<string>();
 

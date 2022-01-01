@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Sage.Shield"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Magitek.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Eukrasian Diagnosis" IsChecked="{Binding SageSettings.Shield, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Eukrasian Diagnosis On " />
+                <CheckBox Grid.Row="0" Grid.Column="1" Content="Tanks " IsChecked="{Binding SageSettings.ShieldOnTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="0" Grid.Column="2" Content="Healers " IsChecked="{Binding SageSettings.ShieldOnHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Row="0" Grid.Column="3" Content="DPS " IsChecked="{Binding SageSettings.ShieldOnDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use shield At " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.ShieldHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                    <CheckBox Content="Only shield while moving " IsChecked="{Binding SageSettings.OnlyShieldWhileMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </Grid>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Always keep shield up on " />
+                <CheckBox Grid.Column="1" Content="Tanks " IsChecked="{Binding SageSettings.ShieldKeepUpOnTanks, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="2" Content="Healers " IsChecked="{Binding SageSettings.ShieldKeepUpOnHealers, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="3" Content="DPS " IsChecked="{Binding SageSettings.ShieldKeepUpOnDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+
+
+    </StackPanel>
+
+</UserControl>
