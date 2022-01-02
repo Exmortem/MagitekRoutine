@@ -206,9 +206,6 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Shield)
                 return false;
 
-            if (!Core.Me.InCombat)
-                return false;
-
             if (Globals.InParty)
             {
                 if (await ShieldTanks()) return true;
@@ -367,6 +364,39 @@ namespace Magitek.Logic.Sage
                 return false;
 
             return await Spells.Pepsis.Cast(Core.Me);
+
+        }
+        public static async Task<bool> PepsisEukrasianPrognosis()
+        {
+            if (!SageSettings.Instance.Pepsis)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+                return false;
+
+            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
+                                                                     r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
+                                                                     (!r.HasAura(Auras.EukrasianPrognosis, true) || !r.HasAura(Auras.EukrasianDiagnosis, true))) >= SageSettings.Instance.PepsisNeedHealing;
+
+            if (!needPepsis)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PepsisHpPercent)
+                return false;
+
+            await UseEukrasia();
+
+            async Task UseEukrasia()
+            {
+                if (!SageSettings.Instance.Eukrasia)
+                    return;
+                if (!await Spells.Eukrasia.Cast(Core.Me))
+                    return;
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
+                    return;
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Prognosis.Id, Core.Me));
+            }
+            return false;
 
         }
         public static async Task<bool> Taurochole()
