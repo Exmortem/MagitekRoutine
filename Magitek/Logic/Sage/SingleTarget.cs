@@ -18,6 +18,9 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Dosis)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Eukrasia, true))
+                return false; 
+
             return await Spells.Dosis.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> EukrasianDosis()
@@ -60,6 +63,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (DotTarget == Core.Me.CurrentTarget)
+                return false;
+
+            if (!await Spells.EukrasianDosis.Cast(DotTarget))
                 return false;
 
             await UseEukrasia();

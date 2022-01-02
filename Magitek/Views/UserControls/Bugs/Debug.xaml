@@ -10,6 +10,7 @@
     
     <StackPanel Margin="5">
         <CheckBox Margin="0,0,0,3" Content="Use Cast Or Queue" IsChecked="{Binding Settings.UseCastOrQueue, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <CheckBox Margin="0,0,0,3" Content="(Experimental) Use Advanced SpellHistory" IsChecked="{Binding Settings.UseAdvancedSpellHistory, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="0,0,0,3" Content="CallerMemberName When Casting (Very Spammy)" IsChecked="{Binding Settings.DebugCastingCallerMemberName, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="20,0,0,3" Content="Include File Path" IsChecked="{Binding Settings.DebugCastingCallerMemberNameIncludePath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="0,0,0,3" Content="Debug Enemy Info (Prints Removes/Adds in Log)" IsChecked="{Binding Settings.DebugEnemyInfo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />

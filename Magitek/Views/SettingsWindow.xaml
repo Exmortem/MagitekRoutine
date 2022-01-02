@@ -615,6 +615,9 @@
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <sage:Buffs />
                         </TabItem>
+                        <TabItem Header="Shields" Style="{DynamicResource MainTabBuffs}">
+                            <sage:Shield />
+                        </TabItem>
                         <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
                             <sage:Alliance />
                         </TabItem>

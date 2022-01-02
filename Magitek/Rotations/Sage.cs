@@ -92,6 +92,7 @@ namespace Magitek.Rotations
             {
                 if (Globals.InParty)
                 {
+                    if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
                     if (await Logic.Sage.Heal.Shield()) return true;
                     if (await Logic.Sage.Heal.ZoePneuma()) return true;
                     if (await Logic.Sage.Heal.Pneuma()) return true;
