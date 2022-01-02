@@ -65,6 +65,9 @@ namespace Magitek.Logic.Sage
             if (DotTarget == Core.Me.CurrentTarget)
                 return false;
 
+            if (!await Spells.EukrasianDosis.Cast(DotTarget))
+                return false;
+
             await UseEukrasia();
 
             async Task UseEukrasia()
