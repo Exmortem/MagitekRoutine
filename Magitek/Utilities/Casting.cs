@@ -211,6 +211,15 @@ namespace Magitek.Utilities
 
             #region Verify Successful Spell Cast
 
+            //This is to ensure that the instant Action we just tried to use
+            //was indeed used and not rejected from the server.
+            //Logic behind this is, that every Action will trigger some kind of cooldown
+            if (BaseSettings.Instance.UseAdvancedSpellHistory)
+                if (CastingSpell.AdjustedCastTime.TotalMilliseconds == 0 && CastingSpell.Cooldown.TotalMilliseconds == 0)
+                    return;
+
+            Logger.Write($@"[SpellHistory] Added Spell {CastingSpell.Name}, ID : {CastingSpell.Id} to Spell History");
+
             // Compare Times
             Logger.WriteCast($@"Time Casting: {CastingTime.ElapsedMilliseconds} - Expected: {SpellCastTime.TotalMilliseconds}");
             var buffer = SpellCastTime.TotalMilliseconds - CastingTime.ElapsedMilliseconds;
