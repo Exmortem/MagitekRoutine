@@ -16,10 +16,16 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
+            if (!WarriorSettings.Instance.UseChaoticCyclone)
+                return false;
+
             if (!Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.ChaoticCycloneMinimumEnemies)
@@ -43,7 +49,7 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge < WarriorSettings.Instance.KeepAtLeastXBeastGauge)
+            if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < WarriorSettings.Instance.DecimateMinimumEnemies)
@@ -97,9 +103,6 @@ namespace Magitek.Logic.Warrior
 
         public static async Task<bool> PrimalRend()
         {
-            if (!WarriorSettings.Instance.UseAoe)
-                return false;
-
             if (!WarriorSettings.Instance.UsePrimalRend)
                 return false;
 

@@ -24,24 +24,41 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Use Onslaught " IsChecked="{Binding WarriorSettings.UseOnslaught, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Beast Gauge (ChaoticCyclone/Decimation/Fellcleave/InnerChaos won't be used outside IR) " IsChecked="{Binding WarriorSettings.UseBeastGauge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use FellCleave " IsChecked="{Binding WarriorSettings.UseFellCleave, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use InnerChaos " IsChecked="{Binding WarriorSettings.UseInnerChaos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Use Primal Rend " IsChecked="{Binding WarriorSettings.UsePrimalRend, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Steel Cyclone / Decimate When There Are " IsChecked="{Binding WarriorSettings.UseDecimate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Onslaught " IsChecked="{Binding WarriorSettings.UseOnslaught, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Aoe (Overpower, Mythril, Orogeny, ChaoticCyclone, Decimate)" IsChecked="{Binding WarriorSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Steel Cyclone / Decimate When There Are " IsChecked="{Binding WarriorSettings.UseDecimate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.DecimateMinimumEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <TextBlock Text="Always Keep At Least " Style="{DynamicResource TextBlockDefault}" />
-                    <controls:Numeric Increment="10" MaxValue="100" MinValue="0" Value="{Binding WarriorSettings.KeepAtLeastXBeastGauge, Mode=TwoWay}"/>
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Beast Gauge for Own Use of Onslaught" />
+                    <CheckBox Content="Use Chaotic Cyclone When There Are " IsChecked="{Binding WarriorSettings.UseChaoticCyclone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="50" MinValue="1" Value="{Binding WarriorSettings.ChaoticCycloneMinimumEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
