@@ -82,7 +82,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
                 return false;
 
-            if (!SageSettings.Instance.PneumaHealOnly)
+            if (SageSettings.Instance.PneumaHealOnly)
                 return false;
 
             if (Core.Me.CurrentTarget == null)
