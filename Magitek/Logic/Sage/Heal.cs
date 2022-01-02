@@ -358,7 +358,7 @@ namespace Magitek.Logic.Sage
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
-                                                                     (r.HasAura(Auras.EukrasianPrognosis) || r.HasAura(Auras.EukrasianDiagnosis))) >= SageSettings.Instance.PepsisNeedHealing;
+                                                                     (r.HasAura(Auras.EukrasianPrognosis,true) || r.HasAura(Auras.EukrasianDiagnosis,true))) >= SageSettings.Instance.PepsisNeedHealing;
 
             if (!needPepsis)
                 return false;
