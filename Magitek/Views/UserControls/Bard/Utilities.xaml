@@ -38,6 +38,13 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="Use Peloton " IsChecked="{Binding BardSettings.UsePeloton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
