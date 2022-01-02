@@ -266,10 +266,10 @@ namespace Magitek.Logic.Sage
             {
                 var taurocholeCandidates = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.TaurocholeHpPercent);
 
-                if (SageSettings.Instance.TaurocholeTankOnly)
-                    taurocholeCandidates = taurocholeCandidates.Where(r => r.IsTank() || r.CurrentHealthPercent <= SageSettings.Instance.TaurocholeOthersHpPercent);
-
-                var taurocholeTarget = taurocholeCandidates.FirstOrDefault();
+                var taurocholeTarget = SageSettings.Instance.TaurocholeTankOnly ?
+                    taurocholeCandidates.FirstOrDefault(r => r.IsTank() || r.CurrentHealthPercent <= SageSettings.Instance.TaurocholeOthersHpPercent)
+                    :
+                    taurocholeCandidates.FirstOrDefault();
 
                 if (taurocholeTarget == null)
                     return false;
