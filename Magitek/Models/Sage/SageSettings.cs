@@ -310,6 +310,14 @@ namespace Magitek.Models.Sage
         public float TaurocholeHpPercent { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool TaurocholeTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(10.0f)]
+        public float TaurocholeOthersHpPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Haima { get; set; }
 

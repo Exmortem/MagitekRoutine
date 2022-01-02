@@ -264,16 +264,17 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var TaurocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.TaurocholeHpPercent);
+                var taurocholeCandidates = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.TaurocholeHpPercent);
 
-                if (TaurocholeTarget != null)
-                    return await Spells.Taurochole.Heal(TaurocholeTarget);
+                if (SageSettings.Instance.TaurocholeTankOnly)
+                    taurocholeCandidates = taurocholeCandidates.Where(r => r.IsTank() || r.CurrentHealthPercent <= SageSettings.Instance.TaurocholeOthersHpPercent);
 
-                if (TaurocholeTarget == null)
+                var taurocholeTarget = taurocholeCandidates.FirstOrDefault();
+
+                if (taurocholeTarget == null)
                     return false;
 
-                return await Spells.Taurochole.Heal(TaurocholeTarget);
-
+                return await Spells.Taurochole.Heal(taurocholeTarget);
             }
 
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.TaurocholeHpPercent)
