@@ -19,6 +19,9 @@ namespace Magitek.Logic.DarkKnight
             if (!DarkKnightSettings.Instance.UseAbyssalDrain)
                 return false;
 
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
             var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5);
             if (enemyCount < DarkKnightSettings.Instance.AbyssalDrainEnemies)
                 return false;
@@ -102,6 +105,9 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (!DarkKnightSettings.Instance.UseFloodDarknessShadow)
+                return false;
+
+            if (Core.Me.CurrentTarget == null)
                 return false;
 
             var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 10 + r.CombatReach);
