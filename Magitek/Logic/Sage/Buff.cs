@@ -83,15 +83,15 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Soteria))
                 return false;
 
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.SoteriaHealthPercent) < 2)
+            var kardionTarget = Group.CastableAlliesWithin30.Where(r => r.HasAura(Auras.Kardion, true)).FirstOrDefault();
+
+            if (kardionTarget == null)
                 return false;
 
-            GameObject target = SageSettings.Instance.SoteriaTankOnly
-                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.SoteriaHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.SoteriaHealthPercent);
+            if (kardionTarget.CurrentHealthPercent > SageSettings.Instance.SoteriaHealthPercent)
+                return false;
 
-            if (target == null)
+            if (SageSettings.Instance.SoteriaTankOnly && !kardionTarget.IsTank())
                 return false;
 
             return await Spells.Soteria.CastAura(Core.Me, Auras.Soteria);
