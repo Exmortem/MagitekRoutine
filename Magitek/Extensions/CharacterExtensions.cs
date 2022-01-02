@@ -195,14 +195,23 @@ namespace Magitek.Extensions
 
         public static bool HasAnyHealerRegen(this Character unit)
         {
-            return unit.HasAnyAura(new uint[]
-            {
+            return unit.HasAnyAura(HealerRegens);
+        }
+
+        public static float AdjustHealthThresholdByRegen(this Character target, float healthThreshold) {
+
+            var regens = HealerRegens;
+            var matchingAuras = target.CharacterAuras.Count(r => regens.Contains(r.Id));
+
+            return healthThreshold + (2 * matchingAuras);
+        }
+
+        public static uint[] HealerRegens = new uint[] {
                 Auras.Regen,
                 Auras.Regen2,
                 Auras.Medica2,
                 Auras.AspectedBenefic,
                 Auras.AspectedHelios
-            });
-        }
+        };
     }
 }
