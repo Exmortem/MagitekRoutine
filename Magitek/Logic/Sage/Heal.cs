@@ -419,8 +419,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                // If the lowest heal target is higher than Haima health, check to see if the user wants us to Haima the tank
-                if (SageSettings.Instance.HaimaTankForBuff && Globals.HealTarget?.CurrentHealthPercent > SageSettings.Instance.HaimaHpPercent)
+                if (SageSettings.Instance.HaimaTankForBuff)
                 {
                     // Pick any tank who needs healing
                     var tankHaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsTank() && r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent);
