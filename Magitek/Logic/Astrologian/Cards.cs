@@ -71,18 +71,16 @@ namespace Magitek.Logic.Astrologian
             if (!cardDrawn)
                 return false;
 
-            if (Core.Me.InCombat)
-            {
+            if (Core.Me.InCombat && Spells.MinorArcana.IsKnownAndReady())
                 if (!Core.Me.HasAnyAura(new uint[] { Auras.LadyOfCrownsDrawn, Auras.LordOfCrownsDrawn }))
                     return await Spells.MinorArcana.Cast(Core.Me);
-            }
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
             if (await RedrawOrDrawAgain(drawnCard))
                 return true;
-
+            
             if (Globals.InParty && Core.Me.InCombat && AstrologianSettings.Instance.Play)
             {
                 switch (drawnCard)
@@ -134,9 +132,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
             if (!Globals.InParty && Core.Me.InCombat)
                 return await Spells.Play.Cast(Core.Me);
 
@@ -175,7 +170,7 @@ namespace Magitek.Logic.Astrologian
             if (drawnCard == NewAstroCards.Spire && DivinationSeals.All(seal => seal != AstrologianSeal.Celestial_Seal))
                 return false;
 
-            if (Spells.Redraw.Charges >= 1 && Core.Me.HasAura(Auras.ClarifyingDraw))
+            if (Spells.Redraw.IsKnownAndReady() && Spells.Redraw.Charges >= 1 && Core.Me.HasAura(Auras.ClarifyingDraw))
                 return await Spells.Redraw.Cast(Core.Me);
 
             if (Spells.Draw.Charges >= 1)
