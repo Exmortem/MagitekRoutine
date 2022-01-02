@@ -256,7 +256,7 @@ namespace Magitek.Logic.Astrologian
 
             var heliosCount = PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r => r.CurrentHealth > 0
             && r.Distance(Core.Me) < Spells.Helios.Radius
-            && r.CurrentHealthPercent <= AstrologianSettings.Instance.HeliosHealthPercent);
+            && r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.HeliosHealthPercent));
 
             //if (heliosCount < AstrologianSettings.Instance.HeliosAllies)
             if (heliosCount <= AoeThreshold)
@@ -273,10 +273,10 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.LadyOfCrowns)
                 return false;
 
-            if (!Globals.InParty && Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent)
+            if (!Globals.InParty && Core.Me.CurrentHealthPercent <= Core.Me.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent))
                 return await Spells.CrownPlay.Heal(Core.Me);
 
-            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.LadyOfCrownsHealthPercent) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
                 return false; 
 
             return await Spells.CrownPlay.Heal(Core.Me);
@@ -411,7 +411,7 @@ namespace Magitek.Logic.Astrologian
                 && !r.IsTank()
                 && !r.IsHealer()
                 && !r.HasMyAura(Auras.AspectedBenefic)
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.DiurnalBeneficHealthPercent);
+                && r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.DiurnalBeneficHealthPercent));
 
             if (aspectedBeneficTarget == null)
                 return false;
