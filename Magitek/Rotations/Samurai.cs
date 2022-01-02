@@ -116,14 +116,10 @@ namespace Magitek.Rotations
             if (await Aoe.TenkaGoken()) return true;
             if (await Aoe.Oka()) return true;
             if (await Aoe.Mangetsu()) return true;
-            if (await Aoe.Fuga()) return true;
+            if (await Aoe.Fuko()) return true;
             if (await Aoe.OgiNamikiri()) return true;
             if (await Aoe.KaeshiNamikiri()) return true;
-
             if (await SingleTarget.Higanbana()) return true;
-
-
-
             if (await SingleTarget.Gekko()) return true;
             if (await SingleTarget.Kasha()) return true;
             if (await SingleTarget.Yukikaze()) return true;

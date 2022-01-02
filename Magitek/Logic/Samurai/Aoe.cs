@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
+using SamuraiRoutine = Magitek.Utilities.Routines.Samurai;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace Magitek.Logic.Samurai
 {
     internal static class Aoe
     {
-        public static async Task<bool> Fuga()
+        
+        public static async Task<bool> Fuko()
         {
             if (SamuraiSettings.Instance.OnlyAoeComboWithJinpuShifu && (!Core.Me.HasAura(Auras.Shifu) || !Core.Me.HasAura(Auras.Jinpu)))
                 return false;
@@ -20,29 +22,32 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.AoeCombo)
                 return false;
 
-            if (Utilities.Routines.Samurai.SenCount == 2)
+            if (SamuraiRoutine.SenCount == 2)
                 return false;
 
             //if (!Core.Me.HasAura(Auras.Jinpu, true, 4000) || !Core.Me.HasAura(Auras.Shifu, true, 4000))
             //    return false;
 
-            if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)
+            if (!Spells.Fuko.IsKnown()) // Fuko ( lvl < 86) is a cone based attack
             {
-                if (Core.Me.EnemiesInCone(5.5f) < SamuraiSettings.Instance.AoeComboEnemies)
+                if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod && Core.Me.EnemiesInCone(5.5f) < SamuraiSettings.Instance.AoeComboEnemies)
                     return false;
             }
             else
             {
-                if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+                if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                     return false;
             }
 
-            return await Spells.Fuga.Cast(Core.Me.CurrentTarget);
+            return await SamuraiRoutine.Fuko.Cast(Core.Me.CurrentTarget);
         }
 
+        /**********************************************************************************************
+         *                                    Combo 1 To get Ka (purple)
+         * ********************************************************************************************/
         public static async Task<bool> Oka()
         {
-            if (Utilities.Routines.Samurai.SenCount == 2)
+            if (SamuraiRoutine.SenCount == 2)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Fuga && !Core.Me.HasAura(Auras.MeikyoShisui))
@@ -52,15 +57,18 @@ namespace Magitek.Logic.Samurai
                 return false;
             if (!Core.Me.HasAura(Auras.Jinpu, true, 7000))
                 return false;
-            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                 return false;
 
             return await Spells.Oka.Cast(Core.Me);
         }
 
+        /**********************************************************************************************
+         *                                    Combo 2 To get Getsu (blue)
+         * ********************************************************************************************/
         public static async Task<bool> Mangetsu()
         {
-            if (Utilities.Routines.Samurai.SenCount == 2)
+            if (SamuraiRoutine.SenCount == 2)
                 return false;
 
             if (ActionManager.LastSpell != Spells.Fuga && !Core.Me.HasAura(Auras.MeikyoShisui))
@@ -68,9 +76,11 @@ namespace Magitek.Logic.Samurai
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
                 return false;
+
             if (!Core.Me.HasAura(Auras.Shifu, true, 7000))
                 return false;
-            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
                 return false;
 
             return await Spells.Mangetsu.Cast(Core.Me);
@@ -113,7 +123,7 @@ namespace Magitek.Logic.Samurai
             }
             else
             {
-                if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.TenkaGokenEnemies)
+                if (SamuraiRoutine.AoeEnemies8Yards < SamuraiSettings.Instance.TenkaGokenEnemies)
                     return false;
             }
 
@@ -178,20 +188,6 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             return await Spells.HissatsuKyuten.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Fuko()
-        {
-            if (!SamuraiSettings.Instance.Fuko)
-                return false;
-
-            if (Core.Me.ClassLevel < 86)
-                return false;
-
-            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.FukoEnemies)
-                return false;
-
-            return await Spells.Fuko.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> ShohaII()
