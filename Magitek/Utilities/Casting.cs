@@ -218,8 +218,6 @@ namespace Magitek.Utilities
                 if (CastingSpell.AdjustedCastTime.TotalMilliseconds == 0 && CastingSpell.Cooldown.TotalMilliseconds == 0)
                     return;
 
-            Logger.Write($@"[SpellHistory] Added Spell {CastingSpell.Name}, ID : {CastingSpell.Id} to Spell History");
-
             // Compare Times
             Logger.WriteCast($@"Time Casting: {CastingTime.ElapsedMilliseconds} - Expected: {SpellCastTime.TotalMilliseconds}");
             var buffer = SpellCastTime.TotalMilliseconds - CastingTime.ElapsedMilliseconds;
