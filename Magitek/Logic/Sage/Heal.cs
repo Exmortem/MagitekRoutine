@@ -112,7 +112,7 @@ namespace Magitek.Logic.Sage
                     return;
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
                     return;
-                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Diagnosis.Id, Core.Me));
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.EukrasianDiagnosis.Id, Core.Me));
             }
         }
         private static async Task<bool> ShieldHealers()
@@ -276,7 +276,7 @@ namespace Magitek.Logic.Sage
                     return;
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
                     return;
-                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Prognosis.Id, Core.Me));
+                await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.EukrasianDiagnosis.Id, Core.Me));
             }
             return false;
         }
