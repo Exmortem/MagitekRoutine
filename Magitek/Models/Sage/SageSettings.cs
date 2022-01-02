@@ -174,6 +174,42 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool HolosTankOnly { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Shield { get; set; }
+
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float ShieldHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldKeepUpOnTanks { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldKeepUpOnHealers { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldKeepUpOnDps { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldOnTanks { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldOnHealers { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldOnDps { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnlyShieldWhileMoving { get; set; }
+
         #endregion
 
         #region Heals

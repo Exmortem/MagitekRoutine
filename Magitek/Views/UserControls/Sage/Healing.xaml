@@ -290,7 +290,7 @@
                     <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.EukrasianDiagnosisHpPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                     <CheckBox Grid.Column="3" Margin="10,0" Content="On Tank Only" IsChecked="{Binding SageSettings.EukrasianDiagnosisOnlyTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="4" Margin="10,0" Content="On Tank For Buff" IsChecked="{Binding SageSettings.EukrasianDiagnosisTankForBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Column="4" Margin="10,0" Content="Keep Up On Tank" IsChecked="{Binding SageSettings.EukrasianDiagnosisTankForBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Grid.Column="5" Margin="10,0" Content="On Healer Only" IsChecked="{Binding SageSettings.EukrasianDiagnosisOnlyHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </Grid>
             </Grid>

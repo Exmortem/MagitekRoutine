@@ -178,7 +178,12 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (ActionResourceManager.Reaper.ShroudGauge > 50)
-                return false;
+            {
+                var isacraficeEndingSoon = Core.Me.HasAura(Auras.ImmortalSacrifice) && !Core.Me.HasAura(Auras.ImmortalSacrifice, true, 3000);
+
+                if (!isacraficeEndingSoon)
+                    return false;
+            }
 
             return await Spells.PlentifulHarvest.Cast(Core.Me.CurrentTarget);
         }
