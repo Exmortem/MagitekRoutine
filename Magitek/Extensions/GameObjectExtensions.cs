@@ -303,7 +303,17 @@ namespace Magitek.Extensions
             if (c.IsTank() || c.IsBlueMageTank())
                 return 90;
 
-            return (c.IsDps() || c.IsBlueMageDps()) ? 80 : 0;
+            if (c.IsDps() || c.IsBlueMageDps())
+            {
+                var cha = c as Character;
+                if (cha.CurrentJob == ClassJobType.RedMage && cha.ClassLevel >= Spells.Verraise.LevelAcquired)
+                    return 80;
+                if (cha.CurrentJob == ClassJobType.Summoner && cha.ClassLevel >= Spells.Resurrection.LevelAcquired)
+                    return 70;
+                return 60;
+            }
+
+            return 0;
         }
 
         //This method return the heading from the player to the target object in radians.
