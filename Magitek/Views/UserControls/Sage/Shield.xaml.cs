@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace Magitek.Views.UserControls.WhiteMage
+namespace Magitek.Views.UserControls.Sage
 {
     /// <summary>
-    /// Interaction logic for Regen.xaml
+    /// Interaction logic for Shield.xaml
     /// </summary>
-    public partial class Regen : UserControl
+    public partial class Shield : UserControl
     {
-        public Regen()
+        public Shield()
         {
             InitializeComponent();
         }
