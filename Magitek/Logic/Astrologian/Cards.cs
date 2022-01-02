@@ -28,9 +28,9 @@ namespace Magitek.Logic.Astrologian
             Spire
         }
 
-        public static NewAstroCards GetDrawnCard()
+        private static NewAstroCards GetDrawnCard()
         {
-            int drawnCard = (int)Arcana;
+            var drawnCard = (int) Arcana;
 
             if (drawnCard == 1 || drawnCard == 113 || drawnCard == 129) return NewAstroCards.Balance;
             if (drawnCard == 2 || drawnCard == 114 || drawnCard == 130) return NewAstroCards.Bole;
@@ -43,14 +43,12 @@ namespace Magitek.Logic.Astrologian
         }
         public static async Task<bool> PlayCards()
         {
-            if (!AstrologianSettings.Instance.UseDraw)
-                return false;
-
-            var cardDrawn = Arcana != AstrologianCard.None && Arcana != AstrologianCard.LordofCrowns && Arcana != AstrologianCard.LadyofCrowns;
+            var drawnCard = GetDrawnCard();
+            
+            var cardDrawn = drawnCard != NewAstroCards.None;
 
             /*
-
-            Looks like Arcana is now filled with either the Divination Draw, Or the Arcana Draw with Arcana Draw taking priority.
+            Looks like Arcana is now filled with either the Crown Draw, Or the Arcana Draw with Arcana Draw taking priority.
             
             The Card ID's have changed... but there's some goof with Reborn where whether or not you have Lord, Lady, or nothing, the Card ID drawn changes:
                 Balance = 1, 113, 129.
@@ -68,7 +66,7 @@ namespace Magitek.Logic.Astrologian
                 && AstrologianSettings.Instance.UseDraw
                 && !cardDrawn)
                 if (await Spells.Draw.Cast(Core.Me))
-                    await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
+                    await Coroutine.Wait(750, () => GetDrawnCard() != NewAstroCards.None);
 
             if (!cardDrawn)
                 return false;
@@ -81,8 +79,6 @@ namespace Magitek.Logic.Astrologian
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
-
-            var drawnCard = GetDrawnCard();
 
             if (await RedrawOrDrawAgain(drawnCard))
                 return true;
@@ -190,6 +186,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> AstroDyne()
         {
+            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.AstroDyne)
+                return false;
+
             if (!Core.Me.InCombat)
                 return false;
 
@@ -197,9 +196,6 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
-            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.AstroDyne)
                 return false;
 
             if (DivinationSeals.All(seal => seal == 0))

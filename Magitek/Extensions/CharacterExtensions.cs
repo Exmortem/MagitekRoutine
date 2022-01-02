@@ -193,7 +193,7 @@ namespace Magitek.Extensions
             });
         }
 
-        public static bool HasAnyHealerRegenOrDelayedHeal(this Character unit)
+        public static bool HasAnyHealerRegen(this Character unit)
         {
             return unit.HasAnyAura(new uint[]
             {
