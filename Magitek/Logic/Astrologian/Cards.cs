@@ -28,9 +28,9 @@ namespace Magitek.Logic.Astrologian
             Spire
         }
 
-        public static NewAstroCards GetDrawnCard()
+        private static NewAstroCards GetDrawnCard()
         {
-            int drawnCard = (int)Arcana;
+            var drawnCard = (int) Arcana;
 
             if (drawnCard == 1 || drawnCard == 113 || drawnCard == 129) return NewAstroCards.Balance;
             if (drawnCard == 2 || drawnCard == 114 || drawnCard == 130) return NewAstroCards.Bole;
@@ -43,14 +43,12 @@ namespace Magitek.Logic.Astrologian
         }
         public static async Task<bool> PlayCards()
         {
-            if (!AstrologianSettings.Instance.UseDraw)
-                return false;
-
-            var cardDrawn = Arcana != AstrologianCard.None && Arcana != AstrologianCard.LordofCrowns && Arcana != AstrologianCard.LadyofCrowns;
+            var drawnCard = GetDrawnCard();
+            
+            var cardDrawn = drawnCard != NewAstroCards.None;
 
             /*
-
-            Looks like Arcana is now filled with either the Divination Draw, Or the Arcana Draw with Arcana Draw taking priority.
+            Looks like Arcana is now filled with either the Crown Draw, Or the Arcana Draw with Arcana Draw taking priority.
             
             The Card ID's have changed... but there's some goof with Reborn where whether or not you have Lord, Lady, or nothing, the Card ID drawn changes:
                 Balance = 1, 113, 129.
@@ -68,25 +66,21 @@ namespace Magitek.Logic.Astrologian
                 && AstrologianSettings.Instance.UseDraw
                 && !cardDrawn)
                 if (await Spells.Draw.Cast(Core.Me))
-                    await Coroutine.Wait(750, () => Arcana != AstrologianCard.None);
+                    await Coroutine.Wait(750, () => GetDrawnCard() != NewAstroCards.None);
 
             if (!cardDrawn)
                 return false;
 
-            if (Core.Me.InCombat)
-            {
+            if (Core.Me.InCombat && Spells.MinorArcana.IsKnownAndReady())
                 if (!Core.Me.HasAnyAura(new uint[] { Auras.LadyOfCrownsDrawn, Auras.LordOfCrownsDrawn }))
                     return await Spells.MinorArcana.Cast(Core.Me);
-            }
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
-            var drawnCard = GetDrawnCard();
-
             if (await RedrawOrDrawAgain(drawnCard))
                 return true;
-
+            
             if (Globals.InParty && Core.Me.InCombat && AstrologianSettings.Instance.Play)
             {
                 switch (drawnCard)
@@ -138,9 +132,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
             if (!Globals.InParty && Core.Me.InCombat)
                 return await Spells.Play.Cast(Core.Me);
 
@@ -179,7 +170,7 @@ namespace Magitek.Logic.Astrologian
             if (drawnCard == NewAstroCards.Spire && DivinationSeals.All(seal => seal != AstrologianSeal.Celestial_Seal))
                 return false;
 
-            if (Spells.Redraw.Charges >= 1 && Core.Me.HasAura(Auras.ClarifyingDraw))
+            if (Spells.Redraw.IsKnownAndReady() && Spells.Redraw.Charges >= 1 && Core.Me.HasAura(Auras.ClarifyingDraw))
                 return await Spells.Redraw.Cast(Core.Me);
 
             if (Spells.Draw.Charges >= 1)
@@ -190,6 +181,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> AstroDyne()
         {
+            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.AstroDyne)
+                return false;
+
             if (!Core.Me.InCombat)
                 return false;
 
@@ -197,9 +191,6 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
-            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.AstroDyne)
                 return false;
 
             if (DivinationSeals.All(seal => seal == 0))
