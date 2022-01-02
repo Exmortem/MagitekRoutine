@@ -205,6 +205,8 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.Reaper.PreCombatBuff();
 
                 case ClassJobType.Sage:
+                    Group.UpdateAllies(Routines.Sage.GroupExtension);
+                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
                     return await Rotations.Sage.PreCombatBuff();
 
                 default:
