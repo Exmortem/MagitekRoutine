@@ -206,9 +206,6 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Shield)
                 return false;
 
-            if (!Core.Me.InCombat)
-                return false;
-
             if (Globals.InParty)
             {
                 if (await ShieldTanks()) return true;
