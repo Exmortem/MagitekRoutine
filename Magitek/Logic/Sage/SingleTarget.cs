@@ -47,7 +47,16 @@ namespace Magitek.Logic.Sage
                     return;
                 //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, Core.Me.CurrentTarget));
             }
-            return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
+
+            if (Core.Me.ClassLevel < 72)
+            {
+                return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
+            }
+            if (Core.Me.ClassLevel < 82)
+            {
+                return await Spells.EukrasianDosisII.Cast(Core.Me.CurrentTarget);
+            }
+            return await Spells.EukrasianDosisIII.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> DotMultipleTargets()
         {
@@ -60,9 +69,6 @@ namespace Magitek.Logic.Sage
             var DotTarget = Combat.Enemies.FirstOrDefault(NeedsDot);
 
             if (DotTarget == null)
-                return false;
-
-            if (DotTarget == Core.Me.CurrentTarget)
                 return false;
 
             if (!await Spells.EukrasianDosis.Cast(DotTarget))
@@ -80,8 +86,16 @@ namespace Magitek.Logic.Sage
                     return;
                 //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, DotTarget));
             }
-            return await Spells.EukrasianDosis.Cast(DotTarget);
-            //return false;
+            if (Core.Me.ClassLevel < 72)
+            {
+                return await Spells.EukrasianDosis.Cast(DotTarget);
+            }
+            if (Core.Me.ClassLevel < 82)
+            {
+                return await Spells.EukrasianDosisII.Cast(DotTarget);
+            }
+            return await Spells.EukrasianDosisIII.Cast(DotTarget);
+
             bool NeedsDot(BattleCharacter unit)
             {
                 if (!CanDot(unit))
