@@ -30,6 +30,10 @@ namespace Magitek.Models.DarkKnight
         public int SaveXMana { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UnmendWhenOutOfMelee { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool UnmendToPullAggro { get; set; }
 
@@ -178,7 +182,7 @@ namespace Magitek.Models.DarkKnight
         public bool UseAbyssalDrain { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
+        [DefaultValue(4)]
         public int AbyssalDrainEnemies { get; set; }
 
         [Setting]
@@ -186,7 +190,7 @@ namespace Magitek.Models.DarkKnight
         public bool UseFloodDarknessShadow { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int FloodEnemies { get; set; }
         #endregion
     }
