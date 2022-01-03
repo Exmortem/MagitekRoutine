@@ -185,9 +185,6 @@ namespace Magitek.Logic.Bard
             if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
-
             return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);
         }
     }
