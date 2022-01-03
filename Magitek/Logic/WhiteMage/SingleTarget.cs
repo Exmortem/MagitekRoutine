@@ -25,6 +25,8 @@ namespace Magitek.Logic.WhiteMage
         {
             if (!WhiteMageSettings.Instance.DoDamage)
                 return false;
+            if (Core.Me.ClassLevel < Spells.AfflatusMisery.LevelAcquired)
+                return false;
             if (!WhiteMageSettings.Instance.UseAfflatusMisery)
                 return false;
             if (ActionResourceManager.WhiteMage.BloodLily < 3)
