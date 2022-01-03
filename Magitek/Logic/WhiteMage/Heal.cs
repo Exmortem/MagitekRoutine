@@ -98,6 +98,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Cure2)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Cure2.LevelAcquired)
+                return false;
+
             if (Globals.InParty)
             {
                 if (Core.Me.HasAura(Auras.Freecure) && Globals.HealTarget?.CurrentHealthPercent <= WhiteMageSettings.Instance.CureHealthPercent)
@@ -129,6 +132,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> Cure3()
         {
             if (!WhiteMageSettings.Instance.Cure3)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Cure3.LevelAcquired)
                 return false;
 
             if (!Globals.InParty)
@@ -174,6 +180,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Benediction)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Benediction.LevelAcquired)
+                return false;
+
             if (!Core.Me.InCombat)
                 return false;
 
@@ -214,6 +223,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> Tetragrammaton()
         {
             if (!WhiteMageSettings.Instance.Tetragrammaton)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Tetragrammaton.LevelAcquired)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -308,6 +320,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Asylum)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Asylum.LevelAcquired)
+                return false;
+
             if (!Globals.InParty)
                 return false;
 
@@ -333,6 +348,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> Medica2()
         {
             if (!WhiteMageSettings.Instance.Medica2)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Medica2.LevelAcquired)
                 return false;
 
             if (Casting.LastSpell == Spells.Medica2)
@@ -414,6 +432,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> Regen()
         {
             if (!WhiteMageSettings.Instance.Regen)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Regen.LevelAcquired)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -517,6 +538,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> AfflatusSolace()
         {
             if (!WhiteMageSettings.Instance.AfflatusSolace)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.AfflatusSolace.LevelAcquired)
                 return false;
 
             if (!Core.Me.InCombat)
@@ -661,6 +685,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> AfflatusRapture()
         {
             if (!WhiteMageSettings.Instance.AfflatusRapture)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.AfflatusRapture.LevelAcquired)
                 return false;
 
             if (Casting.LastSpell == Spells.Medica)

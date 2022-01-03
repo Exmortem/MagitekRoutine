@@ -42,6 +42,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.PresenceOfMind)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.PresenceofMind.LevelAcquired)
+                return false;
+
             if (Casting.LastSpell == Spells.Benediction)
                 return false;
 
@@ -86,6 +89,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Assize)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Assize.LevelAcquired)
+                return false;
+
             if (!Core.Me.InCombat)
                 return false;
 
@@ -105,6 +111,9 @@ namespace Magitek.Logic.WhiteMage
         {
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.ThinAir.LevelAcquired)
                 return false;
 
             if (!WhiteMageSettings.Instance.ThinAir)
@@ -127,6 +136,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.DivineBenison)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.DivineBenison.LevelAcquired)
+                return false;
+
             if (!Globals.PartyInCombat)
                 return false;
 
@@ -142,6 +154,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> Temperance()
         {
             if (!WhiteMageSettings.Instance.Temperance)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Temperance.LevelAcquired)
                 return false;
 
             if (Casting.LastSpell == Spells.Medica)

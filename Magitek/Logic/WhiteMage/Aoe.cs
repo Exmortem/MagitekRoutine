@@ -15,6 +15,9 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Holy)
                 return false;
 
+            if (Core.Me.ClassLevel < Spells.Holy.LevelAcquired)
+                return false;
+
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WhiteMageSettings.Instance.HolyEnemies)
                 return false;
 
@@ -37,6 +40,9 @@ namespace Magitek.Logic.WhiteMage
         public static async Task<bool> AssizeDamage()
         {
             if (!WhiteMageSettings.Instance.Assize)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Assize.LevelAcquired)
                 return false;
 
             if (Spells.Assize.Cooldown.TotalMilliseconds > 1)
