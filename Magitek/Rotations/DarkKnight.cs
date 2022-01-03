@@ -78,7 +78,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Shadowbringer()) return true;
             }
 
-            if (await SingleTarget.Unmend()) return true;
+            if (await SingleTarget.UnmendForAggro()) return true;
             if (await Aoe.Quietus()) return true;
             if (await Aoe.StalwartSoul()) return true;
             if (await Aoe.Unleash()) return true;
@@ -86,7 +86,10 @@ namespace Magitek.Rotations
             if (await SingleTarget.Bloodspiller()) return true;
             if (await SingleTarget.SoulEater()) return true;
             if (await SingleTarget.SyphonStrike()) return true;
-            return await SingleTarget.HardSlash();
+            if (await SingleTarget.HardSlash()) return true;
+            if (await SingleTarget.Unmend()) return true;
+
+            return false;
         }
         public static Task<bool> PvP() => Task.FromResult(false);
         public static Task<bool> Rest() => Task.FromResult(false);
