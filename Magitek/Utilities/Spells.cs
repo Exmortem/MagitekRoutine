@@ -573,10 +573,12 @@ namespace Magitek.Utilities
         public static readonly SpellData Toxikon = DataManager.GetSpellData(24304);
         public static readonly SpellData Haima = DataManager.GetSpellData(24305);
         public static readonly SpellData DosisII = DataManager.GetSpellData(24306);
+        public static readonly SpellData EukrasianDosisII = DataManager.GetSpellData(24308);
         public static readonly SpellData Rhizomata = DataManager.GetSpellData(24309);
         public static readonly SpellData Holos = DataManager.GetSpellData(24310);
         public static readonly SpellData Panhaima = DataManager.GetSpellData(24311);
         public static readonly SpellData DosisIII = DataManager.GetSpellData(24312);
+        public static readonly SpellData EukrasianDosisIII = DataManager.GetSpellData(24314);
         public static readonly SpellData DyskrasiaII = DataManager.GetSpellData(24315);
         public static readonly SpellData Krasis = DataManager.GetSpellData(24317);
         public static readonly SpellData Pneuma = DataManager.GetSpellData(24318);
