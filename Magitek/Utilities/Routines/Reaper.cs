@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Enums;
+using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
@@ -15,20 +16,9 @@ namespace Magitek.Utilities.Routines
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Reaper, Spells.Slice);
 
         // Reaper uses an 8x8 square in front for its "cone". So it can hit something 90* to the side 8y away.
-        public static bool InReaperView(GameObject target)
-        {
-            if (target == null)
-                return false;
-
-            if (target == Core.Me)
-                return true;
-
-            return target.RadiansFromPlayerHeading() < 1.57079f; //This is Pi/2 radians, or 90 degrees left or right
-        }
-
         public static int EnemiesInReaperCone(float maxdistance)
         {
-            return Combat.Enemies.Count(r => r.Distance(Core.Me) <= maxdistance + r.CombatReach && InReaperView(r));
+            return Combat.Enemies.Count(r => r.Distance(Core.Me) <= maxdistance + r.CombatReach && r.InCustomRadiantCone(1.57079f));
         }
 
         public static void RefreshVars()
