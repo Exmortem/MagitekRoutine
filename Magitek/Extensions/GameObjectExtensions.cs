@@ -6,6 +6,7 @@ using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
+using Magitek.Models.Account;
 using Magitek.Utilities;
 using System;
 using System.Collections.Generic;
@@ -324,7 +325,11 @@ namespace Magitek.Extensions
         public static float RadiansFromPlayerHeading(this GameObject target)
         {
             var playerLocation = Core.Me.Location;
-            var playerHeading = Core.Me.Heading;
+            var playerHeading = GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.UseAutoFaceChecks ?
+                MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, Core.Me.CurrentTarget.Location) + (float)Math.PI)
+                :
+                Core.Me.Heading;
+            Logger.WriteInfo($"Player Heading: {Core.Me.Heading}; Heading To Target {playerHeading}");
             var targetLocation = target.Location;
             var d = Math.Abs(MathEx.NormalizeRadian(playerHeading - MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, targetLocation) + (float)Math.PI)));
 
