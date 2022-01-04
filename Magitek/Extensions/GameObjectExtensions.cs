@@ -329,7 +329,6 @@ namespace Magitek.Extensions
                 MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, Core.Me.CurrentTarget.Location) + (float)Math.PI)
                 :
                 Core.Me.Heading;
-            Logger.WriteInfo($"Player Heading: {Core.Me.Heading}; Heading To Target {playerHeading}");
             var targetLocation = target.Location;
             var d = Math.Abs(MathEx.NormalizeRadian(playerHeading - MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, targetLocation) + (float)Math.PI)));
 
