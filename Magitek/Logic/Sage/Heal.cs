@@ -179,7 +179,7 @@ namespace Magitek.Logic.Sage
                 return false;
 
             var shieldTarget = SageSettings.Instance.ShieldKeepUpOnDps
-                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.IsTank() && !r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis,true))
+                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.IsTank() && !r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis, true))
                 : Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.IsTank() && !r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis, true) && r.CurrentHealthPercent <= SageSettings.Instance.ShieldHealthPercent);
 
             if (shieldTarget == null)
@@ -355,7 +355,7 @@ namespace Magitek.Logic.Sage
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
-                                                                     (r.HasAura(Auras.EukrasianPrognosis,true) || r.HasAura(Auras.EukrasianDiagnosis,true))) >= SageSettings.Instance.PepsisNeedHealing;
+                                                                     (r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true))) >= SageSettings.Instance.PepsisNeedHealing;
 
             if (!needPepsis)
                 return false;
@@ -584,7 +584,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var pneumaTarget = Group.CastableAlliesWithin20.Count(r => r.IsAlive &&
+                var pneumaTarget = Group.CastableAlliesWithin25.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= SageSettings.Instance.PneumaNeedHealing;
 
                 if (!pneumaTarget)
@@ -632,14 +632,14 @@ namespace Magitek.Logic.Sage
                 return false;
 
             await UseZoe();
-            
+
             return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
-            
+
             async Task UseZoe()
             {
                 if (!SageSettings.Instance.OnlyZoePneuma)
                     return;
-                
+
                 if (Spells.Zoe.Cooldown != TimeSpan.Zero)
                     return;
 
@@ -652,7 +652,7 @@ namespace Magitek.Logic.Sage
                 await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Zoe.Id, Core.Me));
             }
 
-            
+
         }
     }
 }
