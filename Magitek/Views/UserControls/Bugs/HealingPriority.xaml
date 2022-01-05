@@ -16,6 +16,13 @@
 
         <controls:SettingsBlock Margin="5,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" These weights adjust the sort priority of heal selection.   " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" A value less than 1.0 assigns a higher priority for heals.   " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" A value greater than 1.0 assigns a lower priority for heals.   " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" These are percentage adjustments applied to the HP of a party member.   " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" 0.95 represents a 5% increased priority.   " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" 1.20 represents a 20% decreased priority.  " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" 1.00 disables that value for priority checks.  " />
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <controls:Decimal Value="{Binding Settings.WeightedSelf, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Self   " />
