@@ -286,6 +286,10 @@
                             <bugs:Debug />
                         </TabItem>
 
+                        <TabItem Header="Healing Priority" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:HealingPriority />
+                        </TabItem>
+
                         <TabItem Header="Enemy Spell Casts" Style="{DynamicResource MainTabNewBugReport}">
                             <bugs:EnemySpellCasts />
                         </TabItem>
