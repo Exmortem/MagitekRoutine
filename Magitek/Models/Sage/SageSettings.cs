@@ -123,6 +123,11 @@ namespace Magitek.Models.Sage
         public int KeracholeNeedHealing { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool KeracholeOnlyWithTank { get; set; }
+
+        
+        [Setting]
         [DefaultValue(60.0f)]
         public float KeracholeHealthPercent { get; set; }
 

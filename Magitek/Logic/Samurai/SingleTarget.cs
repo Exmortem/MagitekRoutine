@@ -138,7 +138,7 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel >= 62 && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 6)
                 return false;
 
             if (Utilities.Routines.Samurai.SenCount != 3)
