@@ -114,11 +114,6 @@ namespace Magitek.Utilities
             {
                 var distance = ally.Distance(Core.Me);
 
-                if (BaseSettings.Instance.DebugHealingLists == true)
-                {
-                    Logger.WriteInfo($@"[Debug] HealingWeight {ally.Name} {ally.GetHealingWeight()}.");
-                }
-
                 if (ally.IsTank())
                     CastableTanks.Add(ally);
                 if (ally.IsHealer())

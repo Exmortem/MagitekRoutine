@@ -342,7 +342,8 @@ namespace Magitek.Extensions
             var distanceMinWeight = BaseSettings.Instance.WeightedDistanceMin;
             var distanceMaxWeight = BaseSettings.Instance.WeightedDistanceMax;
             var distanceWeight = distanceMinWeight + (distanceMaxWeight - distanceMinWeight) * (Core.Me.Distance(c) / 30);
-            Logger.WriteInfo($"{c.Name} - \n" +
+            /*
+             * Logger.WriteInfo($"{c.Name} - \n" +
                 $"hp {c.CurrentHealthPercent}\n" +
                 $"self {selfWeight}\n" +
                 $"role {roleWeight}\n" +
@@ -351,6 +352,7 @@ namespace Magitek.Extensions
                 $"shield {shieldWeight}\n" +
                 $"weakness {weaknessWeight}\n" +
                 $"distance {distanceWeight}\n");
+            */
 
             var weight = c.CurrentHealthPercent
                 * selfWeight

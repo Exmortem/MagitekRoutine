@@ -250,7 +250,7 @@ namespace Magitek.Models.Account
         public float WeightedDpsRole { get; set; }
 
         [Setting]
-        [DefaultValue(.9f)]
+        [DefaultValue(.95f)]
         public float WeightedSelf { get; set; }
 
         [Setting]
