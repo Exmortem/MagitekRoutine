@@ -123,6 +123,9 @@ namespace Magitek.Logic.Sage
                 if (canKeracholeTargets.Count < SageSettings.Instance.KeracholeNeedHealing)
                     return false;
 
+                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank()))
+                    return false;
+
                 return await Spells.Kerachole.Cast(Core.Me);
             }
 
