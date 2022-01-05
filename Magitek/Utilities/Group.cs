@@ -34,9 +34,13 @@ namespace Magitek.Utilities
 
         public static void UpdateAllies(Action extensions = null)
         {
+            var CastableAllies = new List<Character>();
             DeadAllies.Clear();
             CastableTanks.Clear();
+            CastableHealers.Clear();
+            CastableDps.Clear();
             CastableAlliesWithin30.Clear();
+            CastableAlliesWithin25.Clear();
             CastableAlliesWithin20.Clear();
             CastableAlliesWithin15.Clear();
             CastableAlliesWithin12.Clear();
@@ -46,6 +50,8 @@ namespace Magitek.Utilities
             {
                 if (Globals.InGcInstance)
                 {
+                    CastableAllies.Add(Core.Me);
+
                     foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
                     {
                         //if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
@@ -64,24 +70,7 @@ namespace Magitek.Utilities
                             continue;
                         }
 
-                        if (ally.IsTank())
-                        {
-                            CastableTanks.Add(ally);
-                        }
-
-                        var distance = ally.Distance(Core.Me);
-
-                        if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
-                        if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
-                        if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
-                        if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
-                        if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
-
-                        CastableAlliesWithin30.Add(Core.Me);
-                        CastableAlliesWithin20.Add(Core.Me);
-                        CastableAlliesWithin15.Add(Core.Me);
-                        CastableAlliesWithin12.Add(Core.Me);
-                        CastableAlliesWithin10.Add(Core.Me);
+                        CastableAllies.Add(ally);
                     }
                 }
             }
@@ -118,14 +107,27 @@ namespace Magitek.Utilities
                         continue;
                 }
 
-                if (ally.IsTank())
-                {
-                    CastableTanks.Add(ally);
-                }
+                CastableAllies.Add(ally);
+            }
 
+            foreach (var ally in CastableAllies.OrderBy(a => a.GetHealingWeight()))
+            {
                 var distance = ally.Distance(Core.Me);
 
+                if (BaseSettings.Instance.DebugHealingLists == true)
+                {
+                    Logger.WriteInfo($@"[Debug] HealingWeight {ally.Name} {ally.GetHealingWeight()}.");
+                }
+
+                if (ally.IsTank())
+                    CastableTanks.Add(ally);
+                if (ally.IsHealer())
+                    CastableHealers.Add(ally);
+                if (ally.IsDps())
+                    CastableDps.Add(ally);
+
                 if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
+                if (distance <= 25) { CastableAlliesWithin25.Add(ally); }
                 if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
                 if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
                 if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
@@ -150,7 +152,10 @@ namespace Magitek.Utilities
 
         public static readonly List<Character> DeadAllies = new List<Character>();
         public static readonly List<Character> CastableTanks = new List<Character>();
+        public static readonly List<Character> CastableHealers = new List<Character>();
+        public static readonly List<Character> CastableDps = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
+        public static readonly List<Character> CastableAlliesWithin25 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin15 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin12 = new List<Character>();

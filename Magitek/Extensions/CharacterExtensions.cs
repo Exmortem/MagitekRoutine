@@ -47,7 +47,7 @@ namespace Magitek.Extensions
 
             if (!Core.Me.InCombat)
                 return false;
-                
+
             if (!target.IsCasting)
                 return false;
 
@@ -122,7 +122,7 @@ namespace Magitek.Extensions
 
             //====Endwalker Savage Raids
         };
-        
+
         public static bool IsCastingBigAoe(this Character target)
         {
             if (!Globals.InActiveDuty)
@@ -130,7 +130,7 @@ namespace Magitek.Extensions
 
             if (!Core.Me.InCombat)
                 return false;
-                
+
             if (!target.IsCasting)
                 return false;
 
@@ -139,19 +139,19 @@ namespace Magitek.Extensions
 
         private static readonly List<uint> BigAoes = new List<uint>() {
             //====Endwalker Dungeons
-            
+
             //Lv 81 - The Tower of Zot
 
             //Lv 83 - The Tower of Babil
-            
+
             //Lv 85 - Vanaspati
 
             //Lv 87 - Ktisis Hyperboreia
 
             //Lv 89 - The Aitiascope
-            
+
             //Lv 90 - The Dead Ends
-            
+
             //Lv 90 - Smileton
 
             //Lv 90 - The Stigma Dreamscape
@@ -210,8 +210,28 @@ namespace Magitek.Extensions
                 Auras.Regen,
                 Auras.Regen2,
                 Auras.Medica2,
+                Auras.AsylumReceiver,
+                Auras.SacredSoilReceiver,
+                Auras.WhisperingDawn,
+                Auras.AngelsWhisper,
                 Auras.AspectedBenefic,
-                Auras.AspectedHelios
+                Auras.AspectedHelios,
+                Auras.Kerakeia,
+                Auras.PhysisII,
+                Auras.CrestOfTimeReturned
+        };
+
+        public static uint[] HealerShields = new uint[]
+        {
+            Auras.NocturnalField,
+            Auras.Galvanize,
+            Auras.EukrasianDiagnosis,
+            Auras.EukrasianPrognosis,
+            Auras.Haimatinon,
+            Auras.Haima,
+            Auras.Panhaima,
+            Auras.Panhaimatinon,
+            Auras.ShakeItOff
         };
     }
 }

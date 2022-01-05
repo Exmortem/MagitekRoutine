@@ -316,6 +316,51 @@ namespace Magitek.Extensions
             return 0;
         }
 
+        public static double GetHealingWeight(this GameObject c)
+        {
+            var cha = c as Character;
+
+            var roleWeight = cha.IsTank() ?
+                .95 :
+                cha.IsHealer() ?
+                .9 :
+                cha.CurrentJob == ClassJobType.RedMage || cha.CurrentJob == ClassJobType.Summoner ?
+                1.0 :
+                1.05;
+            var selfWeight = c == Core.Me ? .9 : 1.0;
+            var regens = CharacterExtensions.HealerRegens;
+            var shields = CharacterExtensions.HealerShields;
+            var debuffWeight = Math.Pow(.9, cha.CharacterAuras.Count(r => r.IsDebuff));
+            var buffWeight = Math.Pow(1.05, cha.CharacterAuras.Count(r => !r.IsDebuff && !regens.Contains(r.Id) && !shields.Contains(r.Id)));
+            var regenWeight = Math.Pow(1.1, cha.CharacterAuras.Count(r => regens.Contains(r.Id)));
+            var shieldWeight = Math.Pow(1.1, cha.CharacterAuras.Count(r => shields.Contains(r.Id)));
+            var weaknessWeight = Math.Pow(.95, cha.HasAura(Auras.Weakness) ? 1 : 0);
+            var distanceMinWeight = .95;
+            var distanceMaxWeight = 1.05;
+            var distanceWeight = distanceMinWeight + (distanceMaxWeight - distanceMinWeight) * (Core.Me.Distance(c) / 30);
+            Logger.WriteInfo($"{c.Name} - \n" +
+                $"hp {c.CurrentHealthPercent}\n" +
+                $"self {selfWeight}\n" +
+                $"role {roleWeight}\n" +
+                $"debuff {debuffWeight}\n" +
+                $"regen {regenWeight}\n" +
+                $"shield {shieldWeight}\n" +
+                $"weakness {weaknessWeight}\n" +
+                $"distance {distanceWeight}\n");
+
+            var weight = c.CurrentHealthPercent
+                * selfWeight
+                * roleWeight
+                * debuffWeight
+                * buffWeight
+                * regenWeight
+                * shieldWeight
+                * weaknessWeight
+                * distanceWeight;
+
+            return weight;
+        }
+
         //This method return the heading from the player to the target object in radians.
         //A circle has 2*Pi radians, so an angle of 90 degrees would be Pi/2, and an angle
         //of 30 degrees would be Pi/6, etc.
