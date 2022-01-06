@@ -90,7 +90,8 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.InCombat)
                 return false;
 
-            var verraiseTarget = Group.DeadAllies.FirstOrDefault(CanVerraise);
+            var deadList = Group.DeadAllies.Where(CanVerraise).OrderByDescending(r => r.GetResurrectionWeight());
+            var verraiseTarget = deadList.FirstOrDefault();
 
             if (verraiseTarget == null)
                 return false;
@@ -103,6 +104,9 @@ namespace Magitek.Logic.RedMage
                     return false;
 
                 if (unit.Distance(Core.Me) > 30)
+                    return false;
+
+                if (!unit.IsVisible || !unit.InLineOfSight() || !unit.IsTargetable)
                     return false;
 
                 if (RedMageSettings.Instance.VerraiseTank && unit.IsTank())

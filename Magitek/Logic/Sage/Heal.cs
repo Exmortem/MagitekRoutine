@@ -418,16 +418,17 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var TaurocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.TaurocholeHpPercent);
+                var taurocholeCandidates = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.TaurocholeHpPercent);
 
-                if (TaurocholeTarget != null)
-                    return await Spells.Taurochole.Heal(TaurocholeTarget);
+                var taurocholeTarget = SageSettings.Instance.TaurocholeTankOnly ?
+                    taurocholeCandidates.FirstOrDefault(r => r.IsTank() || r.CurrentHealthPercent <= SageSettings.Instance.TaurocholeOthersHpPercent)
+                    :
+                    taurocholeCandidates.FirstOrDefault();
 
-                if (TaurocholeTarget == null)
+                if (taurocholeTarget == null)
                     return false;
 
-                return await Spells.Taurochole.Heal(TaurocholeTarget);
-
+                return await Spells.Taurochole.Heal(taurocholeTarget);
             }
 
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.TaurocholeHpPercent)
@@ -448,8 +449,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                // If the lowest heal target is higher than Haima health, check to see if the user wants us to Haima the tank
-                if (SageSettings.Instance.HaimaTankForBuff && Globals.HealTarget?.CurrentHealthPercent > SageSettings.Instance.HaimaHpPercent)
+                if (SageSettings.Instance.HaimaTankForBuff)
                 {
                     // Pick any tank who needs healing
                     var tankHaimaTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.IsTank() && r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent);

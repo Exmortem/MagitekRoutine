@@ -194,6 +194,14 @@ namespace Magitek.Models.Account
         public bool UseCastOrQueue { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseAdvancedSpellHistory { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseAutoFaceChecks { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool SummonChocobo { get; set; }
 

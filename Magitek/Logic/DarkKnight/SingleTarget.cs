@@ -51,7 +51,7 @@ namespace Magitek.Logic.DarkKnight
 
         }
 
-        public static async Task<bool> Unmend()
+        public static async Task<bool> UnmendForAggro()
         {
             if (Globals.OnPvpMap)
                 return false;
@@ -76,11 +76,30 @@ namespace Magitek.Logic.DarkKnight
             if (unmendTarget.TargetGameObject == null)
                 return false;
 
-            if (!await Spells.Unmend.Cast(unmendTarget))
+            if (await Spells.Unmend.Cast(unmendTarget))
+            {
+                Logger.Write($@"Unmend On {unmendTarget.Name} To Pull Aggro");
+                return true;
+            }
+
+            return false;
+        }
+
+        public static async Task<bool> Unmend()
+        {
+            if (!DarkKnightSettings.Instance.UnmendWhenOutOfMelee)
                 return false;
 
-            Logger.Write($@"Unmend On {unmendTarget.Name} To Pull Aggro");
-            return true;
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (await Spells.Unmend.Cast(Core.Me.CurrentTarget))
+            {
+                Logger.Write($@"Unmend On {Core.Me.CurrentTarget.Name} because I'm out of melee range");
+                return true;
+            }
+
+            return false;
         }
 
         public static async Task<bool> Shadowbringer()

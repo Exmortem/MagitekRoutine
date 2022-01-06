@@ -39,9 +39,6 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
                 return false;
 
@@ -76,7 +73,6 @@ namespace Magitek.Logic.Warrior
             if (ActionResourceManager.Warrior.BeastGauge >= WarriorSettings.Instance.UseInfuriateAtBeastGauge)
                 return false;
 
-            Logger.WriteInfo($@"Infuriate Ready");
             return await Spells.Infuriate.Cast(Core.Me);
         }
 

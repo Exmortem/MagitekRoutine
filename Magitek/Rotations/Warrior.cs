@@ -75,11 +75,11 @@ namespace Magitek.Rotations
                 if (await Defensive.Holmgang()) return true;
                 if (await Healing.Equilibrium()) return true;
                 if (await Healing.ThrillOfBattle()) return true;
+                if (await Defensive.BloodWhetting()) return true;
                 if (await Defensive.Reprisal()) return true;
                 if (await Defensive.Rampart()) return true;
                 if (await Defensive.Vengeance()) return true;
                 if (await Defensive.ShakeItOff()) return true;
-                if (await Defensive.BloodWhetting()) return true;
                 if (await Buff.NascentFlash()) return true;
 
                 //Cooldowns

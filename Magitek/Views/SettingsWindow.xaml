@@ -379,6 +379,9 @@
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <warrior:Defensives />
                         </TabItem>
+                        <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
+                            <warrior:Healing />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

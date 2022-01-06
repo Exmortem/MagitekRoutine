@@ -158,17 +158,20 @@ namespace Magitek.Logic.Warrior
         }
 
         /*************************************************************************************
-         *                                Special GCD
+         *                           Special GCD using Beast Gauge
          * ***********************************************************************************/
         public static async Task<bool> FellCleave()
         {
+            if (!WarriorSettings.Instance.UseFellCleave)
+                return false;
+
             if (Core.Me.HasAura(Auras.NascentChaos))
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && ActionResourceManager.Warrior.BeastGauge <= WarriorSettings.Instance.KeepAtLeastXBeastGauge)
+            if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
                 return false;
 
             return await WarriorRoutine.FellCleave.Cast(Core.Me.CurrentTarget);
@@ -183,6 +186,9 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             if (!Core.Me.HasAura(Auras.SurgingTempest))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
                 return false;
 
             return await Spells.InnerChaos.Cast(Core.Me.CurrentTarget);

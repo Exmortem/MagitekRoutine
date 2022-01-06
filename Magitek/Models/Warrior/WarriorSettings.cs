@@ -13,8 +13,12 @@ namespace Magitek.Models.Warrior
         public static WarriorSettings Instance { get; set; } = new WarriorSettings();
 
         [Setting]
-        [DefaultValue(50)]
-        public int KeepAtLeastXBeastGauge { get; set; }
+        [DefaultValue(true)]
+        public bool UseBeastGauge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseFellCleave { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -33,7 +37,6 @@ namespace Magitek.Models.Warrior
         [DefaultValue(true)]
         public bool UseInnerRelease { get; set; }
         #endregion
-
 
         #region Heal
         [Setting]
@@ -68,7 +71,6 @@ namespace Magitek.Models.Warrior
         [DefaultValue(50)]
         public int ThrillOfBattleHpPercentage { get; set; }
         #endregion
-
 
         #region Defensives
         [Setting]
@@ -129,6 +131,13 @@ namespace Magitek.Models.Warrior
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseChaoticCyclone { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int ChaoticCycloneMinimumEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -137,10 +146,6 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(3)]
         public int DecimateMinimumEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int ChaoticCycloneMinimumEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]

@@ -6,6 +6,7 @@ using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
+using Magitek.Models.Account;
 using Magitek.Utilities;
 using System;
 using System.Collections.Generic;
@@ -303,7 +304,17 @@ namespace Magitek.Extensions
             if (c.IsTank() || c.IsBlueMageTank())
                 return 90;
 
-            return (c.IsDps() || c.IsBlueMageDps()) ? 80 : 0;
+            if (c.IsDps() || c.IsBlueMageDps())
+            {
+                var cha = c as Character;
+                if (cha.CurrentJob == ClassJobType.RedMage && cha.ClassLevel >= Spells.Verraise.LevelAcquired)
+                    return 80;
+                if (cha.CurrentJob == ClassJobType.Summoner && cha.ClassLevel >= Spells.Resurrection.LevelAcquired)
+                    return 70;
+                return 60;
+            }
+
+            return 0;
         }
 
         //This method return the heading from the player to the target object in radians.
@@ -314,7 +325,10 @@ namespace Magitek.Extensions
         public static float RadiansFromPlayerHeading(this GameObject target)
         {
             var playerLocation = Core.Me.Location;
-            var playerHeading = Core.Me.Heading;
+            var playerHeading = GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.UseAutoFaceChecks ?
+                MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, Core.Me.CurrentTarget.Location) + (float)Math.PI)
+                :
+                Core.Me.Heading;
             var targetLocation = target.Location;
             var d = Math.Abs(MathEx.NormalizeRadian(playerHeading - MathEx.NormalizeRadian(MathHelper.CalculateHeading(playerLocation, targetLocation) + (float)Math.PI)));
 

@@ -18,6 +18,10 @@ namespace Magitek.Utilities.Routines
 
         public static bool OnGcd => Spells.Hakaze.Cooldown > TimeSpan.FromMilliseconds(SamuraiSettings.Instance.UseOffGCDAbilitiesWithMoreThanXMSLeft);
 
+        public static SpellData Fuko => Core.Me.ClassLevel < 86
+                                                    ? Spells.Fuga
+                                                    : Spells.Fuko;
+
         public static int SenCount
         {
             get

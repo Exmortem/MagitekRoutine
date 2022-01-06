@@ -182,11 +182,38 @@ namespace Magitek.Logic.Paladin
 
             // We want to Confit with our last stack, but if the req buff is
             // about to fall off, and this is our last action, use confit
-            if (PaladinRoutine.RequiescatStackCount > 1
-                && Core.Me.HasAura(Auras.Requiescat, true, 3000))
+
+            var reqAura = Core.Me.GetAuraById(Auras.Requiescat);
+
+            if (reqAura == null)
                 return false;
 
-            return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
+            // In testing with Pohky we saw cases where we properly see Requiescat
+            // stack count, but the aura TimeLeft property is a negative value (-30).
+            // This works around that, which Pohky regularly could reproduce. Not sure
+            // if a ping related problem or something systematic we need to look at
+            // in more detail.
+            if (PaladinRoutine.RequiescatStackCount > 1
+                && (reqAura.TimeLeft > 3.0f || reqAura.TimeLeft < 0.0f))
+            {
+                return false;
+            }
+
+            var ret = await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
+
+            if (ret && PaladinRoutine.RequiescatStackCount > 1)
+            {
+                Logger.Write($"[PLD DEBUG] Setting: {PaladinSettings.Instance.HolySpirit} Known: {Spells.HolySpirit.IsKnown()} "); ;
+                Logger.Write($"[PLD DEBUG] Stacks: {PaladinRoutine.RequiescatStackCount}");
+                Logger.Write($"[PLD DEBUG] LastSpell: {ActionManager.LastSpell.Name}");
+
+                foreach (var aura in Core.Me.Auras)
+                {
+                    Logger.Write($"[PLD DEBUG] Aura: {aura.Name} {aura.TimeLeft}");
+                }
+            }
+
+            return ret;
         }
 
         public static async Task<bool> Interrupt()
