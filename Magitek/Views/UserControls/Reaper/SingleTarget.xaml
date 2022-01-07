@@ -50,6 +50,19 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Enable Gluttony " IsChecked="{Binding ReaperSettings.UseGluttony, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Hold Soul Guage for Gluttony cooldown within" IsChecked="{Binding ReaperSettings.GluttonySaveSoulGuage, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="0" Increment="1" Value="{Binding ReaperSettings.GluttonySaveSoulGuageCooldown, Mode=TwoWay}"/>
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds " />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Enable Blood Stalk \ Unveiled Gibbet \ Unveiled Gallows " IsChecked="{Binding ReaperSettings.UseBloodStalk, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
