@@ -143,7 +143,8 @@ namespace Magitek.Logic.Reaper
                     return false;
                 if (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)
                     return false;
-                if (Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown)
+                if (Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
+                    && ActionResourceManager.Reaper.ShroudGauge < 100)
                     return false;
             }
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
