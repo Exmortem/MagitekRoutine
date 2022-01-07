@@ -143,7 +143,8 @@ namespace Magitek.Logic.Reaper
                     return false;
                 if (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)
                     return false;
-                if (Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
+                if (ReaperSettings.Instance.GluttonySaveSoulGuage
+                    && Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
                     && ActionResourceManager.Reaper.SoulGauge < 100 && Spells.SoulScythe.Charges < 1)
                     return false;
             }
