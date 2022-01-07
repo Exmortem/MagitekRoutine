@@ -119,6 +119,10 @@ namespace Magitek.Models.Sage
         public bool KrasisTankOnly { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool KrasisMainTankOnly { get; set; }
+
+        [Setting]
         [DefaultValue(60.0f)]
         public float KrasisHealthPercent { get; set; }
 
