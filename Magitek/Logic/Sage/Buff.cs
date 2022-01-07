@@ -51,7 +51,7 @@ namespace Magitek.Logic.Sage
             if (Spells.Kardia.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (!Globals.InParty)
+            if (Globals.InParty)
             {
                 var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
 
