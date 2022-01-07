@@ -144,7 +144,7 @@ namespace Magitek.Logic.Reaper
                 if (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)
                     return false;
                 if (Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
-                    && ActionResourceManager.Reaper.SoulGauge < 100)
+                    && ActionResourceManager.Reaper.SoulGauge < 100 && Spells.SoulScythe.Charges < 1)
                     return false;
             }
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
