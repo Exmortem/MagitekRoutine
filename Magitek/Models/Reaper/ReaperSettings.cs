@@ -75,11 +75,11 @@ namespace Magitek.Models.Reaper
         public bool UseGluttony { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool GluttonySaveSoulGuage { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
+        [DefaultValue(30)]
         public int GluttonySaveSoulGuageCooldown { get; set; }
 
         [Setting]
