@@ -120,7 +120,7 @@ namespace Magitek.Logic.Reaper
                 || Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards < ReaperSettings.Instance.SoulScytheTargetCount)
                 return false;
 
-            if (ActionResourceManager.Reaper.SoulGauge >= 50) return false;
+            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
 
             return await Spells.SoulScythe.Cast(Core.Me);
         }
@@ -144,7 +144,7 @@ namespace Magitek.Logic.Reaper
                 if (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)
                     return false;
                 if (Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
-                    && ActionResourceManager.Reaper.ShroudGauge < 100)
+                    && ActionResourceManager.Reaper.SoulGauge < 100)
                     return false;
             }
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone < ReaperSettings.Instance.GrimSwatheTargetCount) return false;
