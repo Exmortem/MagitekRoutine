@@ -89,6 +89,9 @@ namespace Magitek.Logic.Sage
                     if (unit.HasAura(Auras.EukrasianDiagnosis))
                         return false;
 
+                    if (unit.HasAura(Auras.Galvanize))
+                        return false;
+
                     if (!SageSettings.Instance.EukrasianDiagnosisOnlyHealer && !SageSettings.Instance.EukrasianDiagnosisOnlyTank)
                         return true;
 
@@ -256,7 +259,7 @@ namespace Magitek.Logic.Sage
 
             var needEukrasianPrognosis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHpPercent &&
-                                                                     !r.HasAura(Auras.EukrasianPrognosis)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
+                                                                     !r.HasAura(Auras.EukrasianPrognosis) && !r.HasAura(Auras.Galvanize)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
 
             if (!needEukrasianPrognosis)
                 return false;
