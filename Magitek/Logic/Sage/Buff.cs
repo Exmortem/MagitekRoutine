@@ -217,13 +217,11 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Krasis))
                 return false;
 
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent) < 2)
-                return false;
-
             GameObject target = SageSettings.Instance.KrasisTankOnly
                 ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent);
+                && r.IsTank() && !r.HasAura(Auras.Krasis))
+                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent
+                && !r.HasAura(Auras.Krasis));
 
             if (target == null)
                 return false;
