@@ -155,7 +155,7 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
                     Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.WhiteMage.PreCombatBuff();
 
                 case ClassJobType.Thaumaturge:
@@ -168,7 +168,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Scholar:
                     Group.UpdateAllies(Routines.Scholar.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Scholar.PreCombatBuff();
 
                 case ClassJobType.Rogue:
@@ -183,7 +183,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Astrologian:
                     Group.UpdateAllies(Routines.Astrologian.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Astrologian.PreCombatBuff();
 
                 case ClassJobType.Samurai:
@@ -206,7 +206,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Sage:
                     Group.UpdateAllies(Routines.Sage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Sage.PreCombatBuff();
 
                 default:
@@ -328,7 +328,7 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
                     Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.WhiteMage.Heal();
 
                 case ClassJobType.Thaumaturge:
@@ -341,7 +341,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Scholar:
                     Group.UpdateAllies(Routines.Scholar.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Scholar.Heal();
 
                 case ClassJobType.Rogue:
@@ -356,7 +356,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Astrologian:
                     Group.UpdateAllies(Routines.Astrologian.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Astrologian.Heal();
 
                 case ClassJobType.Samurai:
@@ -379,7 +379,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Sage:
                     Group.UpdateAllies(Routines.Sage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Sage.Heal();
 
                 default:
