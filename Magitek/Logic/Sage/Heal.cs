@@ -549,6 +549,10 @@ namespace Magitek.Logic.Sage
             {
                 if (SageSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero)
                 {
+                    // Prevent burning switftcast if no mana to actually rez.
+                    if (!ActionManager.CanCast(Spells.Egeiro, deadTarget))
+                        return false;
+
                     if (await Buff.Swiftcast())
                     {
                         while (Core.Me.HasAura(Auras.Swiftcast))
