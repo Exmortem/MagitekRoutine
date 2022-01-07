@@ -83,6 +83,26 @@ namespace Magitek.Models.Sage
         public bool Kardia { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool KardiaSwitchTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(85)]
+        public float KardiaSwitchTargetsHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KardiaTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KardiaHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KardiaDps { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
 
@@ -97,6 +117,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool KrasisTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KrasisMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
@@ -126,7 +150,7 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool KeracholeOnlyWithTank { get; set; }
 
-        
+
         [Setting]
         [DefaultValue(60.0f)]
         public float KeracholeHealthPercent { get; set; }
