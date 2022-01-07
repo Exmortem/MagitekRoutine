@@ -83,11 +83,11 @@ namespace Magitek.Models.Sage
         public bool Kardia { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool KardiaSwitchTargets { get; set; }
 
         [Setting]
-        [DefaultValue(90)]
+        [DefaultValue(85)]
         public float KardiaSwitchTargetsHealthPercent { get; set; }
 
         [Setting]
@@ -95,11 +95,11 @@ namespace Magitek.Models.Sage
         public bool KardiaTank { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool KardiaHealer { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool KardiaDps { get; set; }
 
         [Setting]
