@@ -67,7 +67,7 @@ namespace Magitek.Logic.Sage
                     if (kardiaTarget == null)
                         return false;
 
-                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardia);
+                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
                 }
                 else
                 {
@@ -79,20 +79,20 @@ namespace Magitek.Logic.Sage
                     if (kardiaTarget == currentKardiaTarget)
                         return false;
 
-                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardia);
+                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
                 }
             }
             else
             {
                 if (Core.Me.HasAura(Auras.Kardia, true)
-                || Core.Me.HasAura(Auras.Kardion))
+                || Core.Me.HasAura(Auras.Kardion, true))
                     return false;
 
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardia);
+                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardion);
                 }
-                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardia);
+                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardion);
             }
 
             bool CanKardia(Character unit)
