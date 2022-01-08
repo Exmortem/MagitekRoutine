@@ -15,15 +15,18 @@ namespace Magitek.Logic.Sage
 {
     internal static class Heal
     {
-        private static async Task<bool> UseEukrasia()
+        public static async Task<bool> UseEukrasia(uint spellId = 24291, GameObject targetObject = null)
         {
+            if (Core.Me.HasAura(Auras.Eukrasia, true))
+                return true;
             if (!SageSettings.Instance.Eukrasia)
                 return false;
             if (!await Spells.Eukrasia.Cast(Core.Me))
                 return false;
-            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
+            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia, true)))
                 return false;
-            return await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.EukrasianDiagnosis.Id, Core.Me));
+            var target = targetObject == null ? Core.Me : targetObject;
+            return await Coroutine.Wait(1000, () => ActionManager.CanCast(spellId, target));
         }
 
         public static async Task<bool> Diagnosis()
@@ -75,7 +78,8 @@ namespace Magitek.Logic.Sage
                     if (tankEukrasianDiagnosisTarget == null)
                         return false;
 
-                    await UseEukrasia();
+                    if (!await UseEukrasia(targetObject: tankEukrasianDiagnosisTarget))
+                        return false;
 
                     return await Spells.EukrasianDiagnosis.HealAura(tankEukrasianDiagnosisTarget, Auras.EukrasianDiagnosis, false);
                 }
@@ -85,7 +89,8 @@ namespace Magitek.Logic.Sage
                 if (EukrasianDiagnosisTarget == null)
                     return false;
 
-                await UseEukrasia();
+                if (!await UseEukrasia(targetObject: EukrasianDiagnosisTarget))
+                    return false;
 
                 return await Spells.EukrasianDiagnosis.HealAura(EukrasianDiagnosisTarget, Auras.EukrasianDiagnosis);
 
@@ -116,6 +121,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.EukrasianDiagnosisHpPercent || Core.Me.HasAura(Auras.EukrasianDiagnosis))
                 return false;
 
+            if (!await UseEukrasia())
+                return false;
+
             return await Spells.EukrasianDiagnosis.HealAura(Core.Me, Auras.EukrasianDiagnosis);
         }
         private static async Task<bool> ShieldHealers()
@@ -130,7 +138,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
@@ -150,7 +158,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis); ;
@@ -168,7 +176,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
@@ -217,14 +225,15 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            var needEukrasianPrognosis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
-                                                                     r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHpPercent &&
-                                                                     !r.HasAura(Auras.EukrasianPrognosis) && !r.HasAura(Auras.Galvanize)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
+            var needEukrasianPrognosis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHealthPercent &&
+                                                                            !r.HasAura(Auras.EukrasianDiagnosis) &&
+                                                                            !r.HasAura(Auras.EukrasianPrognosis) &&
+                                                                            !r.HasAura(Auras.Galvanize)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
 
             if (!needEukrasianPrognosis)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
                 return false;
 
             return await Spells.EukrasianPrognosis.Heal(Core.Me);
@@ -298,6 +307,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
+            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+                return false;
+
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
                                                                      (r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true))) >= SageSettings.Instance.PepsisNeedHealing;
 
@@ -315,15 +327,24 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHpPercent) >= SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing;
+            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+                return false;
+
+            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHealthPercent) >= SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing;
 
             if (!needPepsis)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
                 return false;
 
             if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pepsis, Core.Me)))
                 return false;
 
             return await Spells.Pepsis.Cast(Core.Me);

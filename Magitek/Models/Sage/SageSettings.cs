@@ -278,6 +278,10 @@ namespace Magitek.Models.Sage
         public int EukrasianPrognosisAllies { get; set; }
 
         [Setting]
+        [DefaultValue(3)]
+        public int EukrasianPrognosisNeedHealing { get; set; }
+
+        [Setting]
         [DefaultValue(70.0f)]
         public float EukrasianPrognosisHealthPercent { get; set; }
 
@@ -320,14 +324,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool EukrasianDiagnosisOnlyTank { get; set; }
-
-        [Setting]
-        [DefaultValue(85.0f)]
-        public float EukrasianPrognosisHpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -379,7 +375,7 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(55.0f)]
-        public float PepsisEukrasianPrognosisHpPercent { get; set; }
+        public float PepsisEukrasianPrognosisHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(3)]
