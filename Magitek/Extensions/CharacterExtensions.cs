@@ -249,7 +249,8 @@ namespace Magitek.Extensions
             Auras.LeftEye,
             Auras.RightEye,
             Auras.Kardia,
-            Auras.Kardion
+            Auras.Kardion,
+            Auras.Eukrasia
         };
     }
 }
