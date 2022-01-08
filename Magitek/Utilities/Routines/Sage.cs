@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -17,6 +18,8 @@ namespace Magitek.Utilities.Routines
         public static HashSet<string> DontEukrasianPrognosis = new HashSet<string>();
 
         public static List<Character> AllianceDiagnosisOnly = new List<Character>();
+
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Sage, Spells.Diagnosis);
 
         public static bool NeedToInterruptCast()
         {

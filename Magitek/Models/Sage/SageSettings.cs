@@ -150,6 +150,9 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool KeracholeOnlyWithTank { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool KeracholeOnlyWithMainTank { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
@@ -202,6 +205,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool HolosTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool HolosMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -368,6 +375,18 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
+        public bool PepsisEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(55.0f)]
+        public float PepsisEukrasianPrognosisHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int PepsisEukrasianPrognosisNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Taurochole { get; set; }
 
         [Setting]
@@ -377,6 +396,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool TaurocholeTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool TaurocholeMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(10.0f)]
@@ -395,6 +418,10 @@ namespace Magitek.Models.Sage
         public bool HaimaTankForBuff { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HaimaMainTankForBuff { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Panhaima { get; set; }
 
@@ -405,6 +432,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool PanhaimaOnlyWithTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool PanhaimaOnlyWithMainTank { get; set; }
 
         [Setting]
         [DefaultValue(3)]
