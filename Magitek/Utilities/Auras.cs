@@ -6,6 +6,7 @@ namespace Magitek.Utilities
     {
         public const int
             Stun = 2,
+            Doom = 1769,
             Raise = 148,
             BattleVoice = 141,
             Swiftcast = 167,
