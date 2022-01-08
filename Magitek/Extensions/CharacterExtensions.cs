@@ -240,6 +240,7 @@ namespace Magitek.Extensions
         public static uint[] BuffIgnore = new uint[]
         {
             Auras.DancePartner,
+            Auras.ClosedPosition,
             Auras.IronWill,
             Auras.Defiance,
             Auras.Grit,
