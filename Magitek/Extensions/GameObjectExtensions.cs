@@ -354,10 +354,12 @@ namespace Magitek.Extensions
             var selfWeight = c == Core.Me ? BaseSettings.Instance.WeightedSelf : 1.0f;
             var regens = CharacterExtensions.HealerRegens;
             var shields = CharacterExtensions.HealerShields;
-            var debuffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedDebuff, cha.CharacterAuras.Count(r => r.IsDebuff));
-            var buffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedBuff, cha.CharacterAuras.Count(r => !r.IsDebuff && !regens.Contains(r.Id) && !shields.Contains(r.Id)));
-            var regenWeight = (float)Math.Pow(BaseSettings.Instance.WeightedRegen, cha.CharacterAuras.Count(r => regens.Contains(r.Id)));
-            var shieldWeight = (float)Math.Pow(BaseSettings.Instance.WeightedShield, cha.CharacterAuras.Count(r => shields.Contains(r.Id)));
+            var ignores = CharacterExtensions.BuffIgnore;
+            var auras = cha.CharacterAuras.Where(a => !ignores.Contains(a.Id));
+            var debuffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedDebuff, auras.Count(r => r.IsDebuff));
+            var buffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedBuff, auras.Count(r => !r.IsDebuff && !regens.Contains(r.Id) && !shields.Contains(r.Id)));
+            var regenWeight = (float)Math.Pow(BaseSettings.Instance.WeightedRegen, auras.Count(r => regens.Contains(r.Id)));
+            var shieldWeight = (float)Math.Pow(BaseSettings.Instance.WeightedShield, auras.Count(r => shields.Contains(r.Id)));
             var weaknessWeight = (float)Math.Pow(BaseSettings.Instance.WeightedWeakness, cha.HasAura(Auras.Weakness) ? 1f : 0f);
             var distanceMinWeight = BaseSettings.Instance.WeightedDistanceMin;
             var distanceMaxWeight = BaseSettings.Instance.WeightedDistanceMax;

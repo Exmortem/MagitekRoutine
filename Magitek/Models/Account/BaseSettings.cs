@@ -246,11 +246,11 @@ namespace Magitek.Models.Account
         public float WeightedRezMageRole { get; set; }
 
         [Setting]
-        [DefaultValue(1.05f)]
+        [DefaultValue(1.01f)]
         public float WeightedDpsRole { get; set; }
 
         [Setting]
-        [DefaultValue(.95f)]
+        [DefaultValue(.99f)]
         public float WeightedSelf { get; set; }
 
         [Setting]
@@ -258,15 +258,15 @@ namespace Magitek.Models.Account
         public float WeightedDebuff { get; set; }
 
         [Setting]
-        [DefaultValue(1.05f)]
+        [DefaultValue(1.01f)]
         public float WeightedBuff { get; set; }
 
         [Setting]
-        [DefaultValue(1.1f)]
+        [DefaultValue(1.15f)]
         public float WeightedRegen { get; set; }
 
         [Setting]
-        [DefaultValue(1.1f)]
+        [DefaultValue(1.15f)]
         public float WeightedShield { get; set; }
 
         [Setting]
@@ -274,11 +274,11 @@ namespace Magitek.Models.Account
         public float WeightedWeakness { get; set; }
 
         [Setting]
-        [DefaultValue(.95f)]
+        [DefaultValue(.99f)]
         public float WeightedDistanceMin { get; set; }
 
         [Setting]
-        [DefaultValue(1.05f)]
+        [DefaultValue(1.01f)]
         public float WeightedDistanceMax { get; set; }
 
     }

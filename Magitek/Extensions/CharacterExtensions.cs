@@ -137,7 +137,8 @@ namespace Magitek.Extensions
             return target.IsNpc && BigAoes.Contains(target.CastingSpellId);
         }
 
-        private static readonly List<uint> BigAoes = new List<uint>() {
+        private static readonly List<uint> BigAoes = new List<uint>()
+        {
             //====Endwalker Dungeons
 
             //Lv 81 - The Tower of Zot
@@ -198,7 +199,8 @@ namespace Magitek.Extensions
             return unit.HasAnyAura(HealerRegens);
         }
 
-        public static float AdjustHealthThresholdByRegen(this Character target, float healthThreshold) {
+        public static float AdjustHealthThresholdByRegen(this Character target, float healthThreshold)
+        {
 
             var regens = HealerRegens;
             var matchingAuras = target.CharacterAuras.Count(r => regens.Contains(r.Id));
@@ -231,7 +233,22 @@ namespace Magitek.Extensions
             Auras.Haima,
             Auras.Panhaima,
             Auras.Panhaimatinon,
-            Auras.ShakeItOff
+            Auras.ShakeItOff,
+            Auras.BlackestNight
+        };
+
+        public static uint[] BuffIgnore = new uint[]
+        {
+            Auras.DancePartner,
+            Auras.IronWill,
+            Auras.Defiance,
+            Auras.Grit,
+            Auras.RoyalGuard,
+            Auras.EyesOpen,
+            Auras.LeftEye,
+            Auras.RightEye,
+            Auras.Kardia,
+            Auras.Kardion
         };
     }
 }
