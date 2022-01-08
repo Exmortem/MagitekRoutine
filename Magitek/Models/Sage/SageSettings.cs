@@ -151,7 +151,7 @@ namespace Magitek.Models.Sage
         public bool KeracholeOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool KeracholeOnlyWithMainTank { get; set; }
 
         [Setting]
