@@ -14,6 +14,9 @@ namespace Magitek.Logic.Sage
     {
         public static async Task<bool> Phlegma()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (Core.Me.ClassLevel < Spells.Phlegma.LevelAcquired)
                 return false;
 
@@ -32,6 +35,9 @@ namespace Magitek.Logic.Sage
 
         public static async Task<bool> Dyskrasia()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (!SageSettings.Instance.AoE)
                 return false;
 
@@ -54,6 +60,9 @@ namespace Magitek.Logic.Sage
 
         public static async Task<bool> Toxikon()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (!SageSettings.Instance.ToxiconWhileMoving && !SageSettings.Instance.AoE)
                 return false;
 
@@ -68,11 +77,14 @@ namespace Magitek.Logic.Sage
 
             if (!MovementManager.IsMoving && (!SageSettings.Instance.AoE || Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies))
                 return false;
-            
+
             return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Pneuma()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (!SageSettings.Instance.AoE)
                 return false;
 

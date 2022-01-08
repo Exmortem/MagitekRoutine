@@ -55,32 +55,36 @@ namespace Magitek.Logic.Sage
             {
                 var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
 
-                if (SageSettings.Instance.KardiaSwitchTargets)
+                if (SageSettings.Instance.KardiaSwitchTargets && currentKardiaTarget != null && Core.Me.InCombat)
                 {
                     var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).ToList();
 
                     if (canKardiaTargets.Contains(currentKardiaTarget))
                         return false;
 
-                    var kardiaTarget = canKardiaTargets.FirstOrDefault();
+                    var kardiaTargetSwitch = canKardiaTargets.FirstOrDefault();
 
-                    if (kardiaTarget == null)
-                        return false;
-
-                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+                    if (kardiaTargetSwitch != null)
+                        return await Spells.Kardia.CastAura(kardiaTargetSwitch, Auras.Kardion);
                 }
-                else
+
+                var kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsMainTank()).FirstOrDefault();
+
+                if (kardiaTarget == null)
                 {
-                    var kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsAlive && a.IsMainTank()).FirstOrDefault();
-
+                    kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsTank()).FirstOrDefault();
                     if (kardiaTarget == null)
-                        return false;
-
-                    if (kardiaTarget == currentKardiaTarget)
-                        return false;
-
-                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+                    {
+                        kardiaTarget = Group.CastableAlliesWithin30.FirstOrDefault();
+                        if (kardiaTarget == null)
+                            return false;
+                    }
                 }
+
+                if (kardiaTarget == currentKardiaTarget)
+                    return false;
+
+                return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
             }
             else
             {
@@ -178,7 +182,7 @@ namespace Magitek.Logic.Sage
                 if (canKeracholeTargets.Count < SageSettings.Instance.KeracholeNeedHealing)
                     return false;
 
-                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank()))
+                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
                     return false;
 
                 return await Spells.Kerachole.Cast(Core.Me);
@@ -242,10 +246,12 @@ namespace Magitek.Logic.Sage
             if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent) < 2)
                 return false;
 
-            GameObject target = SageSettings.Instance.HolosTankOnly
-                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent);
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent);
+
+            if (SageSettings.Instance.HolosTankOnly)
+                targets = targets.Where(r => r.IsTank(SageSettings.Instance.HolosMainTankOnly));
+
+            var target = targets.FirstOrDefault();
 
             if (target == null)
                 return false;
@@ -273,12 +279,7 @@ namespace Magitek.Logic.Sage
                                                                   && !r.HasAura(Auras.Krasis));
 
             if (SageSettings.Instance.KrasisTankOnly)
-            {
-                if (SageSettings.Instance.KrasisMainTankOnly)
-                    targets = targets.Where(r => r.IsMainTank());
-                else
-                    targets = targets.Where(r => r.IsTank());
-            }
+                targets = targets.Where(r => r.IsTank(SageSettings.Instance.KrasisMainTankOnly));
 
             var target = targets.FirstOrDefault();
 

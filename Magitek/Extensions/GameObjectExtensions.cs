@@ -200,6 +200,14 @@ namespace Magitek.Extensions
             return gameObject != null && Tanks.Contains(gameObject.CurrentJob) && (gameObject.BeingTargetedBy(Core.Me.CurrentTarget) || gameObject.BeingTargetedBy(gameObject.TargetGameObject));
         }
 
+        public static bool IsTank(this GameObject unit, bool mainTank)
+        {
+            if (mainTank)
+                return unit.IsMainTank();
+            else
+                return unit.IsTank();
+        }
+
         public static bool IsHealer(this GameObject unit)
         {
             var gameObject = unit as Character;
