@@ -19,10 +19,6 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-
-        </controls:SettingsBlock>
-
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
