@@ -251,6 +251,10 @@ namespace Magitek.Models.Sage
         #region Heals
         [Setting]
         [DefaultValue(true)]
+        public bool WeaveOGCDHeals { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Diagnosis { get; set; }
 
         [Setting]

@@ -93,7 +93,7 @@ namespace Magitek.Rotations
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (SageRoutine.GlobalCooldown.CanWeave(1))
+                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await Buff.Kerachole()) return true;
                     if (await Buff.Holos()) return true;
