@@ -267,12 +267,12 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var DruocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.DruocholeHpPercent);
+                var DruocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.DruocholeHpPercent);
 
                 if (DruocholeTarget == null)
                     return false;
 
-                return await Spells.Diagnosis.Heal(DruocholeTarget);
+                return await Spells.Druochole.Heal(DruocholeTarget);
             }
 
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.DruocholeHpPercent)

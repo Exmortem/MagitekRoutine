@@ -97,13 +97,13 @@ namespace Magitek.Rotations
                 {
                     if (await Buff.Kerachole()) return true;
                     if (await Buff.Holos()) return true;
-                    if (await Logic.Sage.Heal.Panhaima()) return true;
-                    if (await Logic.Sage.Heal.Pepsis()) return true;
-                    if (await Logic.Sage.Heal.Haima()) return true;
-                    if (await Logic.Sage.Heal.Physis()) return true;
-                    if (await Logic.Sage.Heal.Druochole()) return true;
-                    if (await Logic.Sage.Heal.Ixochole()) return true;
                     if (await Logic.Sage.Heal.Taurochole()) return true;
+                    if (await Logic.Sage.Heal.Panhaima()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
+                    if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Physis()) return true;
+                    if (await Logic.Sage.Heal.Ixochole()) return true;
+                    if (await Logic.Sage.Heal.Druochole()) return true;
                 }
 
                 if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;

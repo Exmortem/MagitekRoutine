@@ -55,7 +55,7 @@ namespace Magitek.Logic.Sage
             {
                 var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
 
-                if (SageSettings.Instance.KardiaSwitchTargets && currentKardiaTarget != null)
+                if (SageSettings.Instance.KardiaSwitchTargets && currentKardiaTarget != null && Core.Me.InCombat)
                 {
                     var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).ToList();
 
