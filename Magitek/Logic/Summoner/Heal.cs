@@ -18,7 +18,7 @@ namespace Magitek.Logic.Summoner
             if (!SummonerSettings.Instance.Physick)
                 return false;
 
-            if (!Spells.Physick.IsKnownAndReady())
+            if (!Spells.Physick.IsKnown())
                 return false;
 
             if (Globals.InParty)
@@ -27,7 +27,7 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.PhysickHPThreshold)
                 return false;
             
-            return await Spells.Physick.Heal(Core.Me);
+            return await Spells.SmnPhysick.Heal(Core.Me);
         }
 
         public static async Task<bool> ForceRaise()

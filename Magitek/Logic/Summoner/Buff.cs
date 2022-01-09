@@ -79,6 +79,9 @@ namespace Magitek.Logic.Summoner
 
             if (!SummonerSettings.Instance.Aethercharge)
                 return false;
+
+            if (!Spells.Aethercharge.IsKnownAndReady())
+                return false;
             
             return await Spells.Aethercharge.Cast(Core.Me);
         }

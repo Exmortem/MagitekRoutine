@@ -46,7 +46,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Ruin = DataManager.GetSpellData(163);
         public static readonly SpellData SummonCarbuncle = DataManager.GetSpellData(25798);
         public static readonly SpellData RadiantAegis = DataManager.GetSpellData(25799);
-        public static readonly SpellData Aethercharge = DataManager.GetSpellData(7427);
+        public static readonly SpellData Aethercharge = DataManager.GetSpellData(25800);
         public static readonly SpellData SummonRuby = DataManager.GetSpellData(25802);
         public static readonly SpellData Gemshine = DataManager.GetSpellData(25883);
         public static readonly SpellData RubyRuin = DataManager.GetSpellData(25808);
@@ -66,6 +66,8 @@ namespace Magitek.Utilities
         public static readonly SpellData TopazOutburst = DataManager.GetSpellData(25815);
         public static readonly SpellData EmeraldOutburst = DataManager.GetSpellData(25816);
         public static readonly SpellData Ruin2 = DataManager.GetSpellData(172);
+        public static readonly SpellData SmnPhysick = DataManager.GetSpellData(16230);
+        
         
         #endregion
 

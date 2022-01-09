@@ -16,7 +16,7 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
                 return false;
 
-            return await Spells.Physick.Heal(Core.Me);
+            return await Spells.SmnPhysick.Heal(Core.Me);
         }
 
         public static async Task<bool> PreCombatBuff()
