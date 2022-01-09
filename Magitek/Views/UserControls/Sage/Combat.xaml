@@ -40,8 +40,8 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
-                    <CheckBox Content="Stop Casting A Damage Spell If Someone Drops " IsChecked="{Binding SageSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
+                    <CheckBox Content="Stop Casting A Damage Spell If Someone Drops Below " IsChecked="{Binding SageSettings.InterruptDamageToHeal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.InterruptDamageHealthPercent, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
             </Grid>
@@ -122,7 +122,7 @@
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.AoEEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
             </StackPanel>
-            
+
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
@@ -142,17 +142,17 @@
 
         </controls:SettingsBlock>
         <Border Grid.Row="7" Padding="5,2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="112" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="112" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Border>
 
 
     </StackPanel>
