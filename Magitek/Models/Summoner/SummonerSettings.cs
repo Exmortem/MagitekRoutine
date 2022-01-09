@@ -14,14 +14,6 @@ namespace Magitek.Models.Summoner
         public static SummonerSettings Instance { get; set; } = new SummonerSettings();
 
         [Setting]
-        [DefaultValue(SummonerPets.Garuda)]
-        public SummonerPets SelectedPet { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int DotRefreshSeconds { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
 
@@ -31,24 +23,12 @@ namespace Magitek.Models.Summoner
 
 
         [Setting]
-        [DefaultValue(7)]
-        public int BaneSecondsOnDots { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Ruin { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Bio { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Physick { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Miasma { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -77,10 +57,6 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool EnergyDrain { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Bane { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -120,10 +96,6 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool Aetherpact { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool SummonBahamut { get; set; }
 
         [Setting]
@@ -136,7 +108,7 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool FirebirdTrance { get; set; }
+        public bool SummonPhoenix { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -149,5 +121,49 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool EnkindlePhoenix { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool RadiantAegis { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonCarbuncle { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Aethercharge { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SearingLight { get; set; }
+        
+        [Setting]
+        [DefaultValue(60f)]
+        public float PhysickHPThreshold { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Rekindle { get; set; }
+        
+        [Setting]
+        [DefaultValue(80f)]
+        public float RekindleHPThreshold { get; set; }
+     
+        [Setting]
+        [DefaultValue(true)]
+        public bool CrimsonCyclone { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool CrimsonStrike { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool MountainBuster { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Slipstream { get; set; }
     }
 }

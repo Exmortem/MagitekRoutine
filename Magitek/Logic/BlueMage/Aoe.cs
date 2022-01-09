@@ -117,7 +117,7 @@ namespace Magitek.Logic.BlueMage
             if (Utilities.Routines.BlueMage.IsMoonFluteTakenActivatedAndWindowReady && !Core.Me.HasAura(Auras.WaxingNocturne))
                 return false;
 
-            return await Spells.MountainBuster.Cast(Core.Me.CurrentTarget);
+            return await Spells.BluMountainBuster.Cast(Core.Me.CurrentTarget);
         }
 
         /************** OTHER SPELLS **************/
