@@ -114,6 +114,9 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> SummonCarbuncleOrEgi()
         {
+            if (!Spells.SummonCarbuncle.IsKnown())
+                return false;
+            
             if (Core.Me.SummonedPet() == SmnPets.None)
                 return await SummonCarbuncle();
             
@@ -123,7 +126,7 @@ namespace Magitek.Logic.Summoner
             if ((SmnResources.PetTimer + SmnResources.TranceTimer) > 0)
                 return false;
             
-            if (Combat.CombatTotalTimeLeft < 30 && !Core.Me.TargetCharacter.EnglishName.Contains("Dummy"))
+            if (Combat.CombatTotalTimeLeft < 30)
                 return false;
             
             if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Titan) &&
