@@ -57,7 +57,7 @@ namespace Magitek.Logic.Sage
                     && Core.Me.InCombat
                     && (!SageSettings.Instance.KardiaSwitchTargetsCurrent || currentKardiaTarget.CurrentHealthPercent >= SageSettings.Instance.KardiaSwitchTargetsCurrentHealthPercent))
                 {
-                    var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).OrderByDescending(KardiaPriority).ToList();
+                    var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).Where(CanKardiaSwitch).OrderByDescending(KardiaPriority).ToList();
 
                     if (canKardiaTargets.Contains(currentKardiaTarget))
                         return false;
@@ -97,6 +97,14 @@ namespace Magitek.Logic.Sage
                 return await Spells.Kardia.CastAura(Core.Me, Auras.Kardion);
             }
 
+            bool CanKardiaSwitch(Character unit)
+            {
+                if (unit.CurrentHealthPercent > SageSettings.Instance.KardiaSwitchTargetsHealthPercent)
+                    return false;
+
+                return true;
+            }
+
             bool CanKardia(Character unit)
             {
                 if (unit == null)
@@ -105,22 +113,22 @@ namespace Magitek.Logic.Sage
                 if (!unit.IsAlive)
                     return false;
 
-                if (unit.CurrentHealthPercent > SageSettings.Instance.KardiaSwitchTargetsHealthPercent)
+                if (unit.Distance(Core.Me) > 30)
                     return false;
 
-                if (unit.IsHealer() && !SageSettings.Instance.KardiaHealer)
-                    return false;
+                if (unit.IsHealer() && SageSettings.Instance.KardiaHealer)
+                    return true;
 
-                if (unit.IsDps() && !SageSettings.Instance.KardiaDps)
-                    return false;
+                if (unit.IsDps() && SageSettings.Instance.KardiaDps)
+                    return true;
 
-                if (unit.IsMainTank() && !SageSettings.Instance.KardiaMainTank && !SageSettings.Instance.KardiaTank)
-                    return false;
+                if (unit.IsMainTank() && SageSettings.Instance.KardiaMainTank)
+                    return true;
 
-                else if (unit.IsTank() && !SageSettings.Instance.KardiaTank)
-                    return false;
+                if (unit.IsTank() && SageSettings.Instance.KardiaTank)
+                    return true;
 
-                return unit.Distance(Core.Me) <= 30;
+                return false;
             }
 
             int KardiaPriority(Character unit)

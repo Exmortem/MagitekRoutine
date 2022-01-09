@@ -66,6 +66,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"  Style="{DynamicResource TextBlockDefault}" Text="Allow Kardia on " />
                     <CheckBox Grid.Column="1" Content="Main Tank " IsChecked="{Binding SageSettings.KardiaMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
