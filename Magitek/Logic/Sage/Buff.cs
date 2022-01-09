@@ -45,23 +45,82 @@ namespace Magitek.Logic.Sage
         }
         public static async Task<bool> Kardia()
         {
-            if (Core.Me.HasAura(Auras.Kardia, true)
-                || Core.Me.HasAura(Auras.Kardion))
+            if (!SageSettings.Instance.Kardia)
                 return false;
 
-            var ally = Group.CastableAlliesWithin30.Where(a => a.IsAlive && (a.IsTank()));
+            if (Spells.Kardia.Cooldown != TimeSpan.Zero)
+                return false;
 
-            if (!Globals.InParty)
+            if (Globals.InParty)
             {
+                var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
+
+                if (SageSettings.Instance.KardiaSwitchTargets && currentKardiaTarget != null && Core.Me.InCombat)
+                {
+                    var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).ToList();
+
+                    if (canKardiaTargets.Contains(currentKardiaTarget))
+                        return false;
+
+                    var kardiaTargetSwitch = canKardiaTargets.FirstOrDefault();
+
+                    if (kardiaTargetSwitch != null)
+                        return await Spells.Kardia.CastAura(kardiaTargetSwitch, Auras.Kardion);
+                }
+
+                var kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsMainTank()).FirstOrDefault();
+
+                if (kardiaTarget == null)
+                {
+                    kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsTank()).FirstOrDefault();
+                    if (kardiaTarget == null)
+                    {
+                        kardiaTarget = Group.CastableAlliesWithin30.FirstOrDefault();
+                        if (kardiaTarget == null)
+                            return false;
+                    }
+                }
+
+                if (kardiaTarget == currentKardiaTarget)
+                    return false;
+
+                return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+            }
+            else
+            {
+                if (Core.Me.HasAura(Auras.Kardia, true)
+                || Core.Me.HasAura(Auras.Kardion, true))
+                    return false;
+
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardia);
+                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardion);
                 }
-                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardia);
+                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardion);
             }
 
+            bool CanKardia(Character unit)
+            {
+                if (unit == null)
+                    return false;
 
-            return await Spells.Kardia.CastAura(ally.FirstOrDefault(), Auras.Kardia);
+                if (!unit.IsAlive)
+                    return false;
+
+                if (unit.CurrentHealthPercent > SageSettings.Instance.KardiaSwitchTargetsHealthPercent)
+                    return false;
+
+                if (!SageSettings.Instance.KardiaTank && unit.IsTank())
+                    return false;
+
+                if (!SageSettings.Instance.KardiaHealer && unit.IsHealer())
+                    return false;
+
+                if (!SageSettings.Instance.KardiaDps && unit.IsDps())
+                    return false;
+
+                return unit.Distance(Core.Me) <= 30;
+            }
         }
         public static async Task<bool> Soteria()
         {
@@ -123,7 +182,7 @@ namespace Magitek.Logic.Sage
                 if (canKeracholeTargets.Count < SageSettings.Instance.KeracholeNeedHealing)
                     return false;
 
-                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank()))
+                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
                     return false;
 
                 return await Spells.Kerachole.Cast(Core.Me);
@@ -187,10 +246,12 @@ namespace Magitek.Logic.Sage
             if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent) < 2)
                 return false;
 
-            GameObject target = SageSettings.Instance.HolosTankOnly
-                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent);
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent);
+
+            if (SageSettings.Instance.HolosTankOnly)
+                targets = targets.Where(r => r.IsTank(SageSettings.Instance.HolosMainTankOnly));
+
+            var target = targets.FirstOrDefault();
 
             if (target == null)
                 return false;
@@ -214,16 +275,13 @@ namespace Magitek.Logic.Sage
             if (Spells.Krasis.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Krasis))
-                return false;
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.KrasisHealthPercent
+                                                                  && !r.HasAura(Auras.Krasis));
 
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent) < 2)
-                return false;
+            if (SageSettings.Instance.KrasisTankOnly)
+                targets = targets.Where(r => r.IsTank(SageSettings.Instance.KrasisMainTankOnly));
 
-            GameObject target = SageSettings.Instance.KrasisTankOnly
-                ? Group.CastableTanks.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent
-                && r.IsTank())
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.KrasisHealthPercent);
+            var target = targets.FirstOrDefault();
 
             if (target == null)
                 return false;

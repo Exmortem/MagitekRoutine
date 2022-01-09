@@ -28,14 +28,37 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel Margin="5">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Column="0" Content="Use Kardia" IsChecked="{Binding SageSettings.Kardia, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </Grid>
+                    <CheckBox Grid.Column="0" Content="Use Kardia" IsChecked="{Binding SageSettings.Kardia, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Switch Kardia Targets " IsChecked="{Binding SageSettings.KardiaSwitchTargets, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.KardiaSwitchTargetsHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                </Grid>
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Column="0" Content="Tanks " IsChecked="{Binding SageSettings.KardiaTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Column="1" Content="Healers " IsChecked="{Binding SageSettings.KardiaHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Column="2" Content="DPS " IsChecked="{Binding SageSettings.KardiaDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
+            </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -51,7 +74,15 @@
                     <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.KrasisHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                 </Grid>
-                <CheckBox Margin="0,3,0,0" Content="Use Krasis For Tank Only" IsChecked="{Binding SageSettings.KrasisTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Use Krasis For Tank Only " IsChecked="{Binding SageSettings.KrasisTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox  Grid.Column="1" Content="Main Tank Only" IsChecked="{Binding SageSettings.KrasisMainTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </Grid>
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -85,7 +116,10 @@
                     <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.HolosHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                 </Grid>
-                <CheckBox Margin="0,3,0,0" Content="Use Holos For Tank Only" IsChecked="{Binding SageSettings.HolosTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="0,3,0,0" Content="Use Holos For Tank Only " IsChecked="{Binding SageSettings.HolosTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="0,3,0,0" Content="Main Tank" IsChecked="{Binding SageSettings.HolosMainTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -106,7 +140,10 @@
                     <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding SageSettings.KeracholeNeedHealing, Mode=TwoWay}" />
                     <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
                 </Grid>
-                <CheckBox Margin="0,3,0,0" Content="Use Kerachole Only When Tank In Range" IsChecked="{Binding SageSettings.KeracholeOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="0,3,0,0" Content="Use Kerachole Only When Tank In Range " IsChecked="{Binding SageSettings.KeracholeOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="0,3,0,0" Content="Main Tank" IsChecked="{Binding SageSettings.KeracholeOnlyWithMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -122,7 +159,7 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            
+
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">

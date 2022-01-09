@@ -36,6 +36,12 @@ namespace Magitek.Extensions
             return Combat.Enemies.Any(x => x.TargetCharacter == unit);
         }
 
+        public static bool BeingTargetedBy(this GameObject unit, GameObject other)
+        {
+            var lp = other as Character;
+            return lp != null && lp.TargetGameObject == unit;
+        }
+
         public static bool WithinSpellRange(this GameObject unit, float range)
         {
             return (Core.Me.Distance2D(unit) - Core.Me.CombatReach - unit.CombatReach) <= range;
@@ -186,6 +192,20 @@ namespace Magitek.Extensions
         {
             var gameObject = unit as Character;
             return gameObject != null && Tanks.Contains(gameObject.CurrentJob);
+        }
+
+        public static bool IsMainTank(this GameObject unit)
+        {
+            var gameObject = unit as Character;
+            return gameObject != null && Tanks.Contains(gameObject.CurrentJob) && (gameObject.BeingTargetedBy(Core.Me.CurrentTarget) || gameObject.BeingTargetedBy(gameObject.TargetGameObject));
+        }
+
+        public static bool IsTank(this GameObject unit, bool mainTank)
+        {
+            if (mainTank)
+                return unit.IsMainTank();
+            else
+                return unit.IsTank();
         }
 
         public static bool IsHealer(this GameObject unit)

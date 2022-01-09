@@ -92,7 +92,7 @@ namespace Magitek.Logic.Reaper
             if (Spells.SoulSlice.Charges <= 1) return false;
             if (Spells.SoulSlice.Cooldown > Spells.Slice.Cooldown) return false;
             */
-            if (ActionResourceManager.Reaper.SoulGauge >= 50) return false;
+            if (ActionResourceManager.Reaper.SoulGauge > 50) return false;
 
             return await Spells.SoulSlice.Cast(Core.Me.CurrentTarget);
         }
@@ -146,9 +146,17 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.ClassLevel < Spells.BloodStalk.LevelAcquired)
                 return false;
             if (!ReaperSettings.Instance.UseBloodStalk) return false;
-            if ((Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired) &&
-                (Spells.Gluttony.Cooldown.Ticks == 0 || (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)))
-                return false;
+            if (Core.Me.ClassLevel >= Spells.Gluttony.LevelAcquired)
+            {
+                if (Spells.Gluttony.Cooldown.Ticks == 0)
+                    return false;
+                if (Spells.Gluttony.AdjustedCooldown - Spells.Gluttony.Cooldown <= Spells.Slice.AdjustedCooldown)
+                    return false;
+                if (ReaperSettings.Instance.GluttonySaveSoulGuage
+                    && Spells.Gluttony.Cooldown.TotalSeconds <= ReaperSettings.Instance.GluttonySaveSoulGuageCooldown
+                    && ActionResourceManager.Reaper.SoulGauge < 100 && Spells.SoulSlice.Charges < 1)
+                    return false;
+            }
             if (Core.Me.HasAura(Auras.SoulReaver)) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
             if (ActionResourceManager.Reaper.ShroudGauge > 90)

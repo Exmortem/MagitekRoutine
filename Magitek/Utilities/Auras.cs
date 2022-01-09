@@ -6,6 +6,7 @@ namespace Magitek.Utilities
     {
         public const int
             Stun = 2,
+            Doom = 1769,
             Raise = 148,
             BattleVoice = 141,
             Swiftcast = 167,
@@ -261,7 +262,7 @@ namespace Magitek.Utilities
             Taurochole = 2619,
             Krasis = 2622,
             Zoe = 2611,
-            Eukrasia = 2867,
+            Eukrasia = 2606,
             EukrasianDosis = 2614,
             EukrasianDosisII = 2615,
             EukrasianDosisIII = 2616,

@@ -83,6 +83,26 @@ namespace Magitek.Models.Sage
         public bool Kardia { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool KardiaSwitchTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(85)]
+        public float KardiaSwitchTargetsHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KardiaTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KardiaHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KardiaDps { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool LucidDreaming { get; set; }
 
@@ -97,6 +117,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool KrasisTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KrasisMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
@@ -126,7 +150,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool KeracholeOnlyWithTank { get; set; }
 
-        
+        [Setting]
+        [DefaultValue(false)]
+        public bool KeracholeOnlyWithMainTank { get; set; }
+
         [Setting]
         [DefaultValue(60.0f)]
         public float KeracholeHealthPercent { get; set; }
@@ -180,6 +207,10 @@ namespace Magitek.Models.Sage
         public bool HolosTankOnly { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HolosMainTankOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Shield { get; set; }
 
@@ -220,6 +251,10 @@ namespace Magitek.Models.Sage
         #region Heals
         [Setting]
         [DefaultValue(true)]
+        public bool WeaveOGCDHeals { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Diagnosis { get; set; }
 
         [Setting]
@@ -245,6 +280,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(3)]
         public int EukrasianPrognosisAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]
@@ -289,14 +328,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool EukrasianDiagnosisOnlyTank { get; set; }
-
-        [Setting]
-        [DefaultValue(85.0f)]
-        public float EukrasianPrognosisHpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -344,6 +375,18 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
+        public bool PepsisEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(55.0f)]
+        public float PepsisEukrasianPrognosisHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int PepsisEukrasianPrognosisNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Taurochole { get; set; }
 
         [Setting]
@@ -353,6 +396,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool TaurocholeTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool TaurocholeMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(10.0f)]
@@ -371,6 +418,10 @@ namespace Magitek.Models.Sage
         public bool HaimaTankForBuff { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HaimaMainTankForBuff { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Panhaima { get; set; }
 
@@ -381,6 +432,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool PanhaimaOnlyWithTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool PanhaimaOnlyWithMainTank { get; set; }
 
         [Setting]
         [DefaultValue(3)]
