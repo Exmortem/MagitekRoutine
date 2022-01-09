@@ -56,7 +56,7 @@ namespace Magitek.Utilities
         public static readonly SpellData TopazRuinII = DataManager.GetSpellData(25812);
         public static readonly SpellData EmeraldRuinII = DataManager.GetSpellData(25813);
         public static readonly SpellData Fester = DataManager.GetSpellData(181);
-        public static readonly SpellData EnergyDrain = DataManager.GetSpellData(167);
+        public static readonly SpellData EnergyDrain = DataManager.GetSpellData(16508);
         public static readonly SpellData Resurrection = DataManager.GetSpellData(173);
         public static readonly SpellData SummonTopaz = DataManager.GetSpellData(25803);
         public static readonly SpellData SummonEmerald = DataManager.GetSpellData(25804);

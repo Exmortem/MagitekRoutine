@@ -19,14 +19,6 @@ namespace Magitek.Utilities.Routines
 
         public static bool NeedToInterruptCast()
         {
-            /*if (Casting.CastingTankBuster || Casting.SpellTarget == null)
-                return false;*/
-
-            if (ActionResourceManager.Summoner.TranceTimer <= 1 &&
-                Core.Me.IsCasting)
-            {
-                Logger.Error($"Stopped {Casting.CastingSpell.LocalizedName}: so we don't lose Deathflare");
-            }
 
             if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.CurrentHealth > 1)
             {

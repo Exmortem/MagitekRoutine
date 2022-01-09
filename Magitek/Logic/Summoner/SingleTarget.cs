@@ -108,17 +108,14 @@ namespace Magitek.Logic.Summoner
         {
             if (!SummonerSettings.Instance.Fester)
                 return false;
-
+            
             if (!Spells.Fester.IsKnownAndReady())
                 return false;
-
+            
             if (SmnResources.Aetherflow + ArcResources.Aetherflow == 0)
                 return false;
             
-            if (GlobalCooldown.CanWeave())
-                return false;
-            
-            if (!GlobalCooldown.CanWeave(1))
+            if (!GlobalCooldown.CanWeave())
                 return false;
 
             return await Spells.Fester.Cast(Core.Me.CurrentTarget);
@@ -128,7 +125,7 @@ namespace Magitek.Logic.Summoner
         {
             if (!SummonerSettings.Instance.EnergyDrain)
                 return false;
-
+            
             if (!Spells.EnergyDrain.IsKnownAndReady())
                 return false;
             
@@ -138,7 +135,7 @@ namespace Magitek.Logic.Summoner
             if (ArcResources.TranceTimer + SmnResources.TranceTimer == 0)
                 return false;
             
-            if (!GlobalCooldown.CanWeave(1))
+            if (!GlobalCooldown.CanWeave())
                 return false;
 
             return await Spells.EnergyDrain.Cast(Core.Me.CurrentTarget);
@@ -163,12 +160,9 @@ namespace Magitek.Logic.Summoner
             if (!Spells.EnkindleBahamut.IsKnownAndReady())
                 return false;
 
-            if (GlobalCooldown.CanWeave(1))
-                return false;
-            
             if (!GlobalCooldown.CanWeave())
                 return false;
-
+            
             return await Spells.EnkindleBahamut.Cast(Core.Me.CurrentTarget);
         }
 
@@ -179,13 +173,10 @@ namespace Magitek.Logic.Summoner
                 
             if (!Spells.EnkindlePhoenix.IsKnownAndReady())
                 return false;
-
-            if (GlobalCooldown.CanWeave(1))
-                return false;
             
             if (!GlobalCooldown.CanWeave())
                 return false;
-
+            
             return await Spells.EnkindlePhoenix.Cast(Core.Me.CurrentTarget);
         }
     }

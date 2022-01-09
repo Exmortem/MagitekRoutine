@@ -30,9 +30,9 @@ namespace Magitek.Logic.Summoner
 
             if (Core.Me.SummonedPet() == SmnPets.Pheonix) return await Rekindle();
 
-            if (SmnResources.ActivePet == SmnResources.ActivePetType.Ifrit) return await CrimsonCyclone();
-            if (SmnResources.ActivePet == SmnResources.ActivePetType.Titan) return await MountainBuster();
-            if (SmnResources.ActivePet == SmnResources.ActivePetType.Garuda) return await Slipstream();
+            if (await CrimsonCyclone()) return true;
+            if (await MountainBuster()) return true;
+            if (await Slipstream()) return true;
 
             return false;
         }
@@ -81,29 +81,36 @@ namespace Magitek.Logic.Summoner
             if (!SummonerSettings.Instance.CrimsonCyclone)
                 return false;
 
-            if (await CrimsonStrike()) return true;
+            if (CrimsonStrike())
+                return true;
             
             if (!Spells.CrimsonCyclone.IsKnownAndReady())
                 return false;
 
+            if (!Core.Me.HasAura(Auras.IfritsFavor))
+                return false;
+            
             if (SmnResources.ElementalAttunement > 1)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.IfritsFavor))
-                return false;
-
-            return await Spells.CrimsonCyclone.Cast(Core.Me.CurrentTarget);
+            return await Spells.CrimsonCyclone.Cast(Core.Me.CurrentTarget); 
         }
 
-        public static async Task<bool> CrimsonStrike()
+        public static bool CrimsonStrike()
         {
-            if (!SummonerSettings.Instance.CrimsonStrike)
+            if (!SummonerSettings.Instance.CrimsonStrike) 
+                return false;
+
+            if (SmnResources.ActivePet != SmnResources.ActivePetType.Ifrit)
                 return false;
 
             if (!Spells.CrimsonStrike.IsKnownAndReady())
                 return false;
             
-            return await Spells.CrimsonStrike.Cast(Core.Me.CurrentTarget);
+            if (!ActionManager.DoAction(Spells.CrimsonStrike, Core.Me.CurrentTarget)) return false;
+            
+            Logger.WriteCast($@"Cast: {Spells.CrimsonStrike}");
+            return true;
         }
 
         public static async Task<bool> MountainBuster()
@@ -128,6 +135,9 @@ namespace Magitek.Logic.Summoner
             if (!Spells.Slipstream.IsKnownAndReady())
                 return false;
 
+            if (MovementManager.IsMoving)
+                return false;
+
             if (!Core.Me.HasAura(Auras.GarudasFavor))
                 return false;
             
@@ -147,7 +157,7 @@ namespace Magitek.Logic.Summoner
             if (ArcResources.TranceTimer + SmnResources.TranceTimer == 0)
                 return false;
             
-            if (!GlobalCooldown.CanWeave(1))
+            if (!GlobalCooldown.CanWeave())
                 return false;
 
             return await Spells.EnergySiphon.Cast(Core.Me.CurrentTarget);

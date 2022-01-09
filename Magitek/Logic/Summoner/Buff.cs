@@ -85,7 +85,7 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> SearingLight()
         {
-            return await Spells.SearingLight.CastAura(Core.Me, Auras.SearingLight);
+            return await Spells.SearingLight.Cast(Core.Me);
         }
     }
 }
