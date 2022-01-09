@@ -68,7 +68,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"  Style="{DynamicResource TextBlockDefault}" Text="Allow Kardia on " />
-                    <CheckBox Grid.Column="1" Content="Main Tank " IsChecked="{Binding SageSettings.Kardia, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Column="1" Content="Main Tank " IsChecked="{Binding SageSettings.KardiaMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Grid.Column="2" Content="Any Tanks " IsChecked="{Binding SageSettings.KardiaTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Grid.Column="3" Content="Healers " IsChecked="{Binding SageSettings.KardiaHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Grid.Column="4" Content="DPS " IsChecked="{Binding SageSettings.KardiaDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
