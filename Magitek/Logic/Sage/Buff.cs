@@ -35,13 +35,10 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentManaPercent > SageSettings.Instance.LucidDreamingManaPercent)
                 return false;
 
-            if (!Globals.InParty)
-                return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
-
-            if (Combat.CombatTotalTimeLeft <= 20)
+            if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
                 return false;
 
-            return await Spells.LucidDreaming.Cast(Core.Me);
+            return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
         }
         public static async Task<bool> Kardia()
         {
@@ -55,9 +52,12 @@ namespace Magitek.Logic.Sage
             {
                 var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
 
-                if (SageSettings.Instance.KardiaSwitchTargets && currentKardiaTarget != null && Core.Me.InCombat)
+                if (SageSettings.Instance.KardiaSwitchTargets
+                    && currentKardiaTarget != null
+                    && Core.Me.InCombat
+                    && (!SageSettings.Instance.KardiaSwitchTargetsCurrent || currentKardiaTarget.CurrentHealthPercent >= SageSettings.Instance.KardiaSwitchTargetsCurrentHealthPercent))
                 {
-                    var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).ToList();
+                    var canKardiaTargets = Group.CastableAlliesWithin30.Where(CanKardia).OrderByDescending(KardiaPriority).ToList();
 
                     if (canKardiaTargets.Contains(currentKardiaTarget))
                         return false;
@@ -66,25 +66,23 @@ namespace Magitek.Logic.Sage
 
                     if (kardiaTargetSwitch != null)
                         return await Spells.Kardia.CastAura(kardiaTargetSwitch, Auras.Kardion);
-                }
-
-                var kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsMainTank()).FirstOrDefault();
-
-                if (kardiaTarget == null)
-                {
-                    kardiaTarget = Group.CastableAlliesWithin30.Where(a => a.IsTank()).FirstOrDefault();
-                    if (kardiaTarget == null)
-                    {
-                        kardiaTarget = Group.CastableAlliesWithin30.FirstOrDefault();
-                        if (kardiaTarget == null)
-                            return false;
-                    }
-                }
-
-                if (kardiaTarget == currentKardiaTarget)
                     return false;
+                }
+                else
+                {
+                    if (Core.Me.HasAura(Auras.Kardia, true))
+                        return false;
 
-                return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+                    var kardiaTarget = Group.CastableAlliesWithin30.Where(CanKardia).OrderByDescending(KardiaPriority).FirstOrDefault();
+
+                    if (kardiaTarget == null)
+                        return false;
+
+                    if (kardiaTarget == currentKardiaTarget)
+                        return false;
+
+                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+                }
             }
             else
             {
@@ -110,16 +108,32 @@ namespace Magitek.Logic.Sage
                 if (unit.CurrentHealthPercent > SageSettings.Instance.KardiaSwitchTargetsHealthPercent)
                     return false;
 
-                if (!SageSettings.Instance.KardiaTank && unit.IsTank())
+                if (unit.IsHealer() && !SageSettings.Instance.KardiaHealer)
                     return false;
 
-                if (!SageSettings.Instance.KardiaHealer && unit.IsHealer())
+                if (unit.IsDps() && !SageSettings.Instance.KardiaDps)
                     return false;
 
-                if (!SageSettings.Instance.KardiaDps && unit.IsDps())
+                if (unit.IsMainTank() && !SageSettings.Instance.KardiaMainTank && !SageSettings.Instance.KardiaTank)
+                    return false;
+
+                else if (unit.IsTank() && !SageSettings.Instance.KardiaTank)
                     return false;
 
                 return unit.Distance(Core.Me) <= 30;
+            }
+
+            int KardiaPriority(Character unit)
+            {
+                if (unit.IsMainTank())
+                    return 100;
+                if (unit.IsTank())
+                    return 90;
+                if (unit.IsHealer())
+                    return 80;
+                if (unit.IsDps())
+                    return 70;
+                return 0;
             }
         }
         public static async Task<bool> Soteria()

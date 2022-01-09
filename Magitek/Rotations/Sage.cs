@@ -82,7 +82,7 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
 
-            if (SageRoutine.GlobalCooldown.CanWeave())
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave())
             {
                 if (await Buff.LucidDreaming()) return true;
                 if (await Buff.Kardia()) return true;

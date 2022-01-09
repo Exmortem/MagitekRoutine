@@ -36,27 +36,13 @@ namespace Magitek.Utilities.Routines
             if (SageSettings.Instance.InterruptHealing && Casting.DoHealthChecks &&
                 Casting.SpellTarget?.CurrentHealthPercent >= SageSettings.Instance.InterruptHealingHealthPercent)
             {
-                if (Casting.CastingSpell == Spells.Helios && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
-                        r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Helios.Radius && r.CurrentHealthPercent <=
+                if (Casting.CastingSpell == Spells.Prognosis && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
+                        r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Prognosis.Radius && r.CurrentHealthPercent <=
                         SageSettings.Instance.PrognosisHpPercent) <
                     SageSettings.Instance.PrognosisNeedHealing)
                 {
                     Logger.Error($@"Stopped Healing: Party's Health Too High");
                     return true;
-                }
-                if (Casting.CastingSpell == Spells.EukrasianPrognosis)
-                {
-                    if (PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
-                            r.CurrentHealth > 0 &&
-                            r.Distance(Core.Me) <= Spells.EukrasianPrognosis.Radius &&
-                            r.CurrentHealthPercent <=
-                            SageSettings.Instance.EukrasianPrognosisHealthPercent &&
-                            !r.HasAura(Auras.EukrasianPrognosis, true)) <
-                        SageSettings.Instance.EukrasianPrognosisAllies)
-                    {
-                        Logger.Error($@"Stopped Healing: Party's Health Too High");
-                        return true;
-                    }
                 }
                 else
                 {
@@ -71,16 +57,8 @@ namespace Magitek.Utilities.Routines
                     Casting.CastingSpell == Spells.DosisIII || Casting.CastingSpell == Spells.Dyskrasia ||
                     Casting.CastingSpell == Spells.DyskrasiaII)
                 {
-
-                    var lowestHealthToInterruptList = new[]
-                    {
-                        SageSettings.Instance.Diagnosis ? SageSettings.Instance.DiagnosisHpPercent -10 : 0,
-                    };
-
-                    var lowestHealthToInterrupt = lowestHealthToInterruptList.Max();
-
                     if (PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Any(r => r.CurrentHealth > 0 &&
-                        r.CurrentHealthPercent <= lowestHealthToInterrupt && r.Distance() < 30 && r.InLineOfSight()))
+                        r.CurrentHealthPercent <= SageSettings.Instance.InterruptDamageHealthPercent && r.Distance() < 30 && r.InLineOfSight()))
                     {
                         Logger.Error($@"Stopping Cast: Need To Heal Someone In The Party");
                         return true;
