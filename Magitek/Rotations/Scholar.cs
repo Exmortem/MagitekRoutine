@@ -146,8 +146,31 @@ namespace Magitek.Rotations
             if (await Logic.Scholar.Heal.Adloquium()) return true;
             if (await Logic.Scholar.Heal.Physick()) return true;
 
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.HealableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+
+            if (await Logic.Scholar.Heal.Resurrection()) return true;
+
+            if (ScholarSettings.Instance.HealAllianceOnlyPhysick)
+            {
+                if (await Logic.Scholar.Heal.Physick()) return true;
+            }
+
+            if (await Logic.Scholar.Heal.Lustrate()) return true;
+            if (await Logic.Scholar.Heal.EmergencyTacticsAdloquium()) return true;
+            if (await Logic.Scholar.Heal.Adloquium()) return true;
+            if (await Logic.Scholar.Heal.Physick()) return true;
+
             return false;
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);

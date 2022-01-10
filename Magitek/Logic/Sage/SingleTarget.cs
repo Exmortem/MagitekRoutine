@@ -15,18 +15,24 @@ namespace Magitek.Logic.Sage
     {
         public static async Task<bool> Dosis()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (!SageSettings.Instance.Dosis)
                 return false;
 
             if (Core.Me.HasAura(Auras.Eukrasia, true))
-                return false; 
+                return false;
 
             return await Spells.Dosis.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> EukrasianDosis()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             //Also this
-            if (Combat.CurrentTargetCombatTimeLeft <= SageSettings.Instance.DontDotIfEnemyDyingWithin)
+            if (SageSettings.Instance.UseTTDForDots && Combat.CurrentTargetCombatTimeLeft <= SageSettings.Instance.DontDotIfEnemyDyingWithin)
                 return false;
 
             if (!SageSettings.Instance.EukrasianDosis)
@@ -35,18 +41,8 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds))
                 return false;
 
-            await UseEukrasia();
-
-            async Task UseEukrasia()
-            {
-                if (!SageSettings.Instance.Eukrasia)
-                    return;
-                if (!await Spells.Eukrasia.Cast(Core.Me))
-                    return;
-                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
-                    return;
-                //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, Core.Me.CurrentTarget));
-            }
+            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
+                return false;
 
             if (Core.Me.ClassLevel < 72)
             {
@@ -60,6 +56,9 @@ namespace Magitek.Logic.Sage
         }
         public static async Task<bool> DotMultipleTargets()
         {
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
             if (!SageSettings.Instance.EukrasianDosis)
                 return false;
 
@@ -74,18 +73,9 @@ namespace Magitek.Logic.Sage
             if (!await Spells.EukrasianDosis.Cast(DotTarget))
                 return false;
 
-            await UseEukrasia();
+            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
+                return false;
 
-            async Task UseEukrasia()
-            {
-                if (!SageSettings.Instance.Eukrasia)
-                    return;
-                if (!await Spells.Eukrasia.Cast(Core.Me))
-                    return;
-                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
-                    return;
-                //await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Dosis.Id, DotTarget));
-            }
             if (Core.Me.ClassLevel < 72)
             {
                 return await Spells.EukrasianDosis.Cast(DotTarget);

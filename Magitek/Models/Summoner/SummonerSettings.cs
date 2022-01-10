@@ -13,26 +13,48 @@ namespace Magitek.Models.Summoner
 
         public static SummonerSettings Instance { get; set; } = new SummonerSettings();
 
-        [Setting]
-        [DefaultValue(SummonerPets.Garuda)]
-        public SummonerPets SelectedPet { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int DotRefreshSeconds { get; set; }
+        #region Pet Summons
 
         [Setting]
         [DefaultValue(true)]
-        public bool LucidDreaming { get; set; }
+        public bool SummonCarbuncle { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonRubyIfrit { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonTopazTitan { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonEmeraldGaruda { get; set; }
+
+        #endregion
+
+        #region Trances
 
         [Setting]
-        [DefaultValue(60.0f)]
-        public float LucidDreamingManaPercent { get; set; }
+        [DefaultValue(true)]
+        public bool Aethercharge { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool DreadwyrmTrance { get; set; }
 
 
         [Setting]
-        [DefaultValue(7)]
-        public int BaneSecondsOnDots { get; set; }
+        [DefaultValue(true)]
+        public bool SummonBahamut { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool SummonPhoenix { get; set; }
+
+        #endregion
+
+        #region Single Target
 
         [Setting]
         [DefaultValue(true)]
@@ -40,19 +62,100 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool Bio { get; set; }
+        public bool Fester { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool EnergyDrain { get; set; }        
+
+        #endregion
+
+        #region Aoes
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Outburst { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Ruin4 { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool EnergySiphon { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Painflare { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool EnkindleBahamut { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool EnkindlePhoenix { get; set; }
+
+        #endregion
+
+        #region Astral Flow
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Deathflare { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Rekindle { get; set; }
+        
+        [Setting]
+        [DefaultValue(80f)]
+        public float RekindleHPThreshold { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool CrimsonCyclone { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool CrimsonStrike { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool MountainBuster { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Slipstream { get; set; }
+        
+        #endregion
+
+        #region Buffs
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool SearingLight { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool RadiantAegis { get; set; }
+        
+        [Setting]
+        [DefaultValue(80f)]
+        public float RadiantAegisHPThreshold { get; set; }
+
+        #endregion
+
+        #region Heals
+
+        
         [Setting]
         [DefaultValue(true)]
         public bool Physick { get; set; }
-
+        
         [Setting]
-        [DefaultValue(true)]
-        public bool Miasma { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EgiAssault1 { get; set; }
+        [DefaultValue(60f)]
+        public float PhysickHPThreshold { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -70,84 +173,22 @@ namespace Magitek.Models.Summoner
         [DefaultValue(false)]
         public bool ForceResu { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool Fester { get; set; }
+        #endregion
+
+        #region Others
 
         [Setting]
         [DefaultValue(true)]
-        public bool EnergyDrain { get; set; }
+        public bool LucidDreaming { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool Bane { get; set; }
-
+        [DefaultValue(60.0f)]
+        public float LucidDreamingManaPercent { get; set; }
+        
         [Setting]
         [DefaultValue(true)]
-        public bool EnergySiphon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Outburst { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EgiAssault2 { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Enkindle { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Painflare { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool TriDisaster { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DreadwyrmTrance { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Deathflare { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Ruin4 { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Aetherpact { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool SummonBahamut { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EnkindleBahamut { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AkhMorn { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool FirebirdTrance { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool FountainOfFire { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool BrandOfPurgatory { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EnkindlePhoenix { get; set; }
+        public bool ThrottleSummonsWithTTL { get; set; }
+        
+        #endregion
     }
 }

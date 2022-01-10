@@ -82,7 +82,7 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
 
-            if (SageRoutine.GlobalCooldown.CanWeave())
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave())
             {
                 if (await Buff.LucidDreaming()) return true;
                 if (await Buff.Kardia()) return true;
@@ -93,17 +93,17 @@ namespace Magitek.Rotations
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (SageRoutine.GlobalCooldown.CanWeave(1))
+                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await Buff.Kerachole()) return true;
                     if (await Buff.Holos()) return true;
-                    if (await Logic.Sage.Heal.Panhaima()) return true;
-                    if (await Logic.Sage.Heal.Pepsis()) return true;
-                    if (await Logic.Sage.Heal.Haima()) return true;
-                    if (await Logic.Sage.Heal.Physis()) return true;
-                    if (await Logic.Sage.Heal.Druochole()) return true;
-                    if (await Logic.Sage.Heal.Ixochole()) return true;
                     if (await Logic.Sage.Heal.Taurochole()) return true;
+                    if (await Logic.Sage.Heal.Panhaima()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
+                    if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Physis()) return true;
+                    if (await Logic.Sage.Heal.Ixochole()) return true;
+                    if (await Logic.Sage.Heal.Druochole()) return true;
                 }
 
                 if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
@@ -115,6 +115,33 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
             }
+
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.HealableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+
+            if (await Logic.Sage.Heal.Egeiro()) return true;
+
+            if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
+            {
+                if (await Logic.Sage.Heal.Diagnosis()) return true;
+            }
+
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+            {
+                if (await Logic.Sage.Heal.Taurochole()) return true;
+                if (await Logic.Sage.Heal.Haima()) return true;
+                if (await Logic.Sage.Heal.Druochole()) return true;
+            }
+
+            if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
+            if (await Logic.Sage.Heal.Diagnosis()) return true;
 
             return false;
         }

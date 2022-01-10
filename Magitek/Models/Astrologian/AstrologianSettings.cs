@@ -103,6 +103,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(80.0f)]
         public float LucidDreamingManaPercent { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool Exaltation { get; set; }
 
         #endregion
 

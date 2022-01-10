@@ -256,6 +256,7 @@
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
     <Compile Include="Logic\Sage\Buff.cs" />
     <Compile Include="Logic\Sage\Dispel.cs" />
@@ -805,8 +806,8 @@
     <Compile Include="Views\UserControls\Summoner\Pets.xaml.cs">
       <DependentUpon>Pets.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\Summoner\SingleTarget.xaml.cs">
-      <DependentUpon>SingleTarget.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\Summoner\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Warrior\Aggro.xaml.cs">
       <DependentUpon>Aggro.xaml</DependentUpon>
@@ -1370,7 +1371,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\Summoner\SingleTarget.xaml">
+    <Page Include="Views\UserControls\Summoner\General.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

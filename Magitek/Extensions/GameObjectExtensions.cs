@@ -197,7 +197,11 @@ namespace Magitek.Extensions
         public static bool IsMainTank(this GameObject unit)
         {
             var gameObject = unit as Character;
-            return gameObject != null && Tanks.Contains(gameObject.CurrentJob) && (gameObject.BeingTargetedBy(Core.Me.CurrentTarget) || gameObject.BeingTargetedBy(gameObject.TargetGameObject));
+            return gameObject != null
+                && Tanks.Contains(gameObject.CurrentJob)
+                && (gameObject.BeingTargetedBy(Core.Me.CurrentTarget)
+                    || gameObject.BeingTargetedBy(gameObject.TargetGameObject)
+                    || PartyManager.AllMembers.Select(r => r.BattleCharacter).Where(r => Tanks.Contains(r.CurrentJob)).Count() == 1);
         }
 
         public static bool IsTank(this GameObject unit, bool mainTank)

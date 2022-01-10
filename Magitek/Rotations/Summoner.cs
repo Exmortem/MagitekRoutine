@@ -16,7 +16,7 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
                 return false;
 
-            return await Spells.Physick.Heal(Core.Me);
+            return await Spells.SmnPhysick.Heal(Core.Me);
         }
 
         public static async Task<bool> PreCombatBuff()
@@ -29,7 +29,7 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
             SpellQueueLogic.SpellQueue.Clear();
 
-            return await Pets.Summon();
+            return await Pets.SummonCarbuncle();
         }
 
         public static async Task<bool> Pull()
@@ -58,12 +58,12 @@ namespace Magitek.Rotations
 
             if (await GambitLogic.Gambit()) return true;
             if (await Logic.Summoner.Heal.Raise()) return true;
-            //if (await Logic.Summoner.Heal.EnkindlePheonix()) return true;
-            //Force Toggles:
+            #region Force Toggles
             if (await Logic.Summoner.Heal.ForceRaise()) return true;
             if (await Logic.Summoner.Heal.ForceHardRaise()) return true;
-            //Force Toggles End.
+            #endregion
 
+            if (await Logic.Summoner.Heal.RadiantAegis()) return true;
             return await Logic.Summoner.Heal.Physick();
 
         }
@@ -84,15 +84,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            //Logger.Write("Aetherflow Count: " + MagitekActionResourceManager.Arcanist.Aetherflow);
-            //Logger.Write("Can Trance: " + MagitekActionResourceManager.Arcanist.CanTrance);
-            //Logger.Write("In Trance: " + MagitekActionResourceManager.Arcanist.CanTrance);
 
             if (await CustomOpenerLogic.Opener()) return true;
-
-            if (!SpellQueueLogic.SpellQueue.Any()) SpellQueueLogic.InSpellQueue = false;
-
-            if (SpellQueueLogic.SpellQueue.Any()) if (await SpellQueueLogic.SpellQueueMethod()) return true;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.MagicResistance))
                 return false;
@@ -100,25 +93,18 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
-            //if (await SingleTarget.Ruin4MaxStacks()) return true;
-
-
-            if (await Buff.DreadwyrmTrance()) return true;
-            if (await SingleTarget.EnkindleBahamut()) return true;
-            if (await Pets.SummonBahamut()) return true;
-            if (await SingleTarget.Deathflare()) return true;
-            if (await SingleTarget.TriDisaster()) return true;
-            if (await Pets.Summon()) return true;
             if (await Buff.LucidDreaming()) return true;
-            if (await SingleTarget.Enkindle()) return true;
-
-            if (await Aoe.Painflare()) return true;
-            if (await SingleTarget.Fester()) return true;
+            if (await Pets.SummonCarbuncleOrEgi()) return true;
             if (await Aoe.EnergySiphon()) return true;
             if (await SingleTarget.EnergyDrain()) return true;
-
+            if (await SingleTarget.Enkindle()) return true;
+            if (await Aoe.AstralFlow()) return true;
+            if (await Aoe.CrimsonStrike()) return true;
+            if (await Aoe.Painflare()) return true;
+            if (await SingleTarget.Fester()) return true;
+            if (await Buff.Aethercharge()) return true;
+            if (await Aoe.Ruin4()) return true;
             if (await Aoe.Outburst()) return true;
-            if (await SingleTarget.Ruin4()) return true;
             return await SingleTarget.Ruin();
         }
         public static Task<bool> PvP()

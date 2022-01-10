@@ -15,10 +15,19 @@ namespace Magitek.Logic.Summoner
     {
         public static async Task<bool> Physick()
         {
-            if (Core.Me.ClassLevel < 4) return false;
+            if (!SummonerSettings.Instance.Physick)
+                return false;
 
-            //return await Spells.Physick.Heal(Core.Me);
-            return await Task.FromResult(false);
+            if (!Spells.Physick.IsKnown())
+                return false;
+
+            if (Globals.InParty)
+                return false;
+            
+            if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.PhysickHPThreshold)
+                return false;
+            
+            return await Spells.SmnPhysick.Heal(Core.Me);
         }
 
         public static async Task<bool> ForceRaise()
@@ -177,6 +186,29 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             return await Spells.Resurrection.Cast(deadTarget);
+        }
+
+        public static async Task<bool> RadiantAegis()
+        {
+            if (!SummonerSettings.Instance.RadiantAegis)
+                return false;
+            
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (!Spells.RadiantAegis.IsKnownAndReady())
+                return false;
+
+            if (Core.Me.HasAura(Auras.RadiantAegis))
+                return false;
+
+            if (Core.Me.CurrentHealthPercent >= SummonerSettings.Instance.RadiantAegisHPThreshold)
+                return false;
+
+            if (!Combat.Enemies.All(x => x.TargetCharacter == Core.Me && x.IsCasting))
+                return false;
+
+            return await Spells.RadiantAegis.CastAura(Core.Me, Auras.RadiantAegis);
         }
     }
 }

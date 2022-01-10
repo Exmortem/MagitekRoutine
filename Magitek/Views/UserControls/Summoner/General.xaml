@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Summoner.General" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:controls="clr-namespace:Magitek.Controls" 
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:BaseSettings.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Pet Summons:" />
+                    <CheckBox Margin="5,3" Content="Carbuncle" IsChecked="{Binding SummonerSettings.SummonCarbuncle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Ruby/Ifrit" IsChecked="{Binding SummonerSettings.SummonRubyIfrit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Topaz/Titan" IsChecked="{Binding SummonerSettings.SummonTopazTitan, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Emerald/Garuda" IsChecked="{Binding SummonerSettings.SummonEmeraldGaruda, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            
+                <StackPanel Margin="0, 0,0,5" Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Trances:" />
+                    <CheckBox Margin="5,3" Content="Aethercharge" IsChecked="{Binding SummonerSettings.Aethercharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Dreadwyrm" IsChecked="{Binding SummonerSettings.DreadwyrmTrance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Bahamut" IsChecked="{Binding SummonerSettings.SummonBahamut, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Phoenix" IsChecked="{Binding SummonerSettings.SummonPhoenix, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="0,5" Orientation="Horizontal">
+                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Single Target:" />
+                <CheckBox Margin="0,3" Content="Ruin, Pet Ruin, Pet Rite" IsChecked="{Binding SummonerSettings.Ruin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="5,3" Content="Fester" IsChecked="{Binding SummonerSettings.Fester, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="5,3" Content="EnergyDrain" IsChecked="{Binding SummonerSettings.EnergyDrain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
+                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Aoe:" />
+                <CheckBox Margin="5,3" Content="Outburst, Pet Outburst, Tri-Disaster, Pet Disaster, Pet Catastrophe, Astral Flare, Brand of Purgatory" IsChecked="{Binding SummonerSettings.Outburst, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <CheckBox Margin="5,3" Content="Ruin IV" IsChecked="{Binding SummonerSettings.Ruin4, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Energy Siphon" IsChecked="{Binding SummonerSettings.EnergySiphon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Painflare" IsChecked="{Binding SummonerSettings.Painflare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Enkindle Bahamut" IsChecked="{Binding SummonerSettings.EnkindleBahamut, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Enkindle Phoenix" IsChecked="{Binding SummonerSettings.EnkindlePhoenix, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Astral Flow:" />
+                    <CheckBox Margin="5,3" Content="Deathflare" IsChecked="{Binding SummonerSettings.Deathflare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Rekindle Lowest Target Under" IsChecked="{Binding SummonerSettings.Rekindle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.RekindleHPThreshold, Mode=TwoWay}" />
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <CheckBox Margin="5,3" Content="Crimson Cyclone" IsChecked="{Binding SummonerSettings.CrimsonCyclone, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Crimson Strike" IsChecked="{Binding SummonerSettings.CrimsonStrike, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Mountain Buster" IsChecked="{Binding SummonerSettings.MountainBuster, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Slipstream" IsChecked="{Binding SummonerSettings.Slipstream, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Buffs:" />
+                    <CheckBox Margin="5,3" Content="Searing Light" IsChecked="{Binding SummonerSettings.SearingLight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Radiant Aegis" IsChecked="{Binding SummonerSettings.RadiantAegis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.RadiantAegisHPThreshold, Mode=TwoWay}" />
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Heals:" />
+                    <CheckBox Margin="5,3" Content="Physick Self When Solo if Under" IsChecked="{Binding SummonerSettings.Physick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.PhysickHPThreshold, Mode=TwoWay}" />
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Margin="5,3" Content="Resurection" IsChecked="{Binding SummonerSettings.Resurrection, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Other:" />
+                <CheckBox Margin="5,3" Content="Lucid Dreaming" IsChecked="{Binding SummonerSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.LucidDreamingManaPercent, Mode=TwoWay}" />
+                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <CheckBox Margin="5,3" Content="Throttle Summons with TTL" IsChecked="{Binding SummonerSettings.ThrottleSummonsWithTTL, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
+    </StackPanel>
+</UserControl>

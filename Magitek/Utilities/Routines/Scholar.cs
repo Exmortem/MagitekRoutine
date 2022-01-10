@@ -87,6 +87,12 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
+            if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.HasAura(Auras.Raise) == true)
+            {
+                Logger.Error($@"Stopped Resurrection: Unit has raise aura");
+                return true;
+            }
+
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
@@ -141,59 +147,15 @@ namespace Magitek.Utilities.Routines
 
         public static void GroupExtension()
         {
-            // Should we be ignoring our alliance?
-            if (!ScholarSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
-            {
-                // Create a list of alliance members that we need to check
-                if (ScholarSettings.Instance.HealAllianceDps || ScholarSettings.Instance.HealAllianceHealers || ScholarSettings.Instance.HealAllianceTanks)
-                {
-                    var allianceToHeal = Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (ScholarSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                                          ScholarSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                                          ScholarSettings.Instance.HealAllianceHealers && a.IsDps()));
-
-                    // If all we're going to do with the alliance is Physick them, then simply use this list
-                    if (ScholarSettings.Instance.HealAllianceOnlyPhysick)
-                    {
-                        AlliancePhysickOnly = allianceToHeal.ToList();
-                    }
-                    else
-                    {
-                        // If not, then sort the alliance members into the appropriate lists
-                        foreach (var ally in allianceToHeal)
-                        {
-                            var distance = ally.Distance(Core.Me);
-
-                            if (distance <= 30)
-                            {
-                                Group.CastableAlliesWithin30.Add(ally);
-                            }
-
-                            if (distance <= 15)
-                            {
-                                Group.CastableAlliesWithin15.Add(ally);
-                            }
-
-                            if (distance <= 10)
-                            {
-                                Group.CastableAlliesWithin10.Add(ally);
-                            }
-                        }
-                    }
-                }
-
-                if (ScholarSettings.Instance.ResAllianceDps || ScholarSettings.Instance.ResAllianceHealers || ScholarSettings.Instance.ResAllianceTanks)
-                {
-                    var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
-                                                                   (ScholarSettings.Instance.ResAllianceDps && a.IsDps() ||
-                                                                    ScholarSettings.Instance.ResAllianceTanks && a.IsTank() ||
-                                                                    ScholarSettings.Instance.ResAllianceHealers && a.IsDps()));
-
-                    foreach (var ally in allianceToRes)
-                    {
-                        Group.DeadAllies.Add(ally);
-                    }
-                }
-            }
+            Group.UpdateAlliance(
+                ScholarSettings.Instance.IgnoreAlliance,
+                ScholarSettings.Instance.HealAllianceDps,
+                ScholarSettings.Instance.HealAllianceHealers,
+                ScholarSettings.Instance.HealAllianceTanks,
+                ScholarSettings.Instance.ResAllianceDps,
+                ScholarSettings.Instance.ResAllianceHealers,
+                ScholarSettings.Instance.ResAllianceTanks
+            );
         }
     }
 }

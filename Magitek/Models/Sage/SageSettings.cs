@@ -12,6 +12,28 @@ namespace Magitek.Models.Sage
 
         public static SageSettings Instance { get; set; } = new SageSettings();
 
+        #region ForcePowers
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForcePanhaima { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceZoePneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForcePepsisEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceHaima { get; set; }
+        #endregion
+
         #region Combat
 
         [Setting]
@@ -29,6 +51,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool InterruptDamageToHeal { get; set; }
+
+        [Setting]
+        [DefaultValue(80.0f)]
+        public float InterruptDamageHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -91,6 +117,18 @@ namespace Magitek.Models.Sage
         public float KardiaSwitchTargetsHealthPercent { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool KardiaSwitchTargetsCurrent { get; set; }
+
+        [Setting]
+        [DefaultValue(95)]
+        public float KardiaSwitchTargetsCurrentHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KardiaMainTank { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool KardiaTank { get; set; }
 
@@ -151,20 +189,12 @@ namespace Magitek.Models.Sage
         public bool KeracholeOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool KeracholeOnlyWithMainTank { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
         public float KeracholeHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Egeiro { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EgeiroSwiftcast { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -251,6 +281,10 @@ namespace Magitek.Models.Sage
         #region Heals
         [Setting]
         [DefaultValue(true)]
+        public bool WeaveOGCDHeals { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Diagnosis { get; set; }
 
         [Setting]
@@ -275,7 +309,7 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(3)]
-        public int EukrasianPrognosisAllies { get; set; }
+        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]
@@ -320,14 +354,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool EukrasianDiagnosisOnlyTank { get; set; }
-
-        [Setting]
-        [DefaultValue(85.0f)]
-        public float EukrasianPrognosisHpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -379,7 +405,7 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(55.0f)]
-        public float PepsisEukrasianPrognosisHpPercent { get; set; }
+        public float PepsisEukrasianPrognosisHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(3)]

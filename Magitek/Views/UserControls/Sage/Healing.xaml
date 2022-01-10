@@ -18,9 +18,12 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-
+        <controls:SettingsBlock Margin="0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+                <CheckBox Content="Interrupt Healing If Target HP Gets Over " IsChecked="{Binding SageSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+            </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -34,6 +37,15 @@
                 <CheckBox Grid.Column="0" Content="Egeiro" IsChecked="{Binding SageSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Grid.Column="1" Margin="5,0" Content="Egeiro With Swiftcast In Combat" IsChecked="{Binding SageSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Grid.Column="2" Content="Egeiro out of Combat" IsChecked="{Binding SageSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </Grid>
+        </controls:SettingsBlock>
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Weave OGCD Heals" IsChecked="{Binding SageSettings.WeaveOGCDHeals, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
 
@@ -116,7 +128,7 @@
                         <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.HaimaHpPercent, Mode=TwoWay}" />
                         <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                         <CheckBox Grid.Column="3" Margin="10,0" Content="Tank only" IsChecked="{Binding SageSettings.HaimaTankForBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Column="4" Margin="10,0" Content="Main Tank" IsChecked="{Binding SageSettings.TaurocholeMainTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Column="4" Margin="10,0" Content="Main Tank" IsChecked="{Binding SageSettings.HaimaMainTankForBuff, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </Grid>
                 </Border>
 
@@ -283,7 +295,7 @@
                         <CheckBox Grid.Column="0" Content="Eukrasian Prognosis" IsChecked="{Binding SageSettings.EukrasianPrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.EukrasianPrognosisHealthPercent, Mode=TwoWay}" />
                         <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
-                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding SageSettings.EukrasianPrognosisAllies, Mode=TwoWay}" />
+                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding SageSettings.EukrasianPrognosisNeedHealing, Mode=TwoWay}" />
                         <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
                     </Grid>
                 </Border>
@@ -318,7 +330,7 @@
                     </Grid.ColumnDefinitions>
 
                     <CheckBox Grid.Column="0" Content="Eukrasian Pepsis" IsChecked="{Binding SageSettings.PepsisEukrasianPrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.PepsisEukrasianPrognosisHpPercent, Mode=TwoWay}" />
+                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.PepsisEukrasianPrognosisHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
                     <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding SageSettings.PepsisEukrasianPrognosisNeedHealing, Mode=TwoWay}" />
                     <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />

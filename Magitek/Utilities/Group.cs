@@ -45,12 +45,15 @@ namespace Magitek.Utilities
             CastableAlliesWithin15.Clear();
             CastableAlliesWithin12.Clear();
             CastableAlliesWithin10.Clear();
+            HealableAlliance.Clear();
 
             if (!Globals.InParty)
             {
                 if (Globals.InGcInstance)
                 {
                     CastableAllies.Add(Core.Me);
+
+                    AddAllyToCastable(Core.Me);
 
                     foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
                     {
@@ -70,6 +73,12 @@ namespace Magitek.Utilities
                             continue;
                         }
 
+                        if (ally.IsTank())
+                        {
+                            CastableTanks.Add(ally);
+                        }
+
+                        AddAllyToCastable(ally);
                         CastableAllies.Add(ally);
                     }
                 }
@@ -95,11 +104,6 @@ namespace Magitek.Utilities
                     UpdatePartyMemberHistory(ally);
                 }
 
-                if (ally.CurrentHealth <= 0 || ally.IsDead)
-                {
-                    DeadAllies.Add(ally);
-                    continue;
-                }
 
                 if (WorldManager.InPvP)
                 {
@@ -107,7 +111,7 @@ namespace Magitek.Utilities
                         continue;
                 }
 
-                CastableAllies.Add(ally);
+                AddAllyToCastable(ally);
             }
 
             foreach (var ally in CastableAllies.OrderBy(a => a.GetHealingWeight()))
@@ -132,6 +136,61 @@ namespace Magitek.Utilities
             extensions?.Invoke();
         }
 
+        public static void UpdateAlliance(
+            bool IgnoreAlliance,
+            bool HealAllianceDps,
+            bool HealAllianceHealers,
+            bool HealAllianceTanks,
+            bool ResAllianceDps,
+            bool ResAllianceHealers,
+            bool ResAllianceTanks
+        )
+        {
+            HealableAlliance.Clear();
+
+            // Should we be ignoring our alliance?
+            if (!IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
+            {
+                // Create a list of alliance members that we need to check
+                if (HealAllianceDps || HealAllianceHealers || HealAllianceTanks)
+                {
+                    var allianceToHeal = AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (
+                                                                          HealAllianceDps && a.IsDps() ||
+                                                                          HealAllianceTanks && a.IsTank() ||
+                                                                          HealAllianceHealers && a.IsDps()));
+
+                    foreach (var ally in allianceToHeal)
+                    {
+                        if (ally.Distance(Core.Me) <= 30)
+                            HealableAlliance.Add(ally);
+                    }
+                }
+
+                if (ResAllianceDps || ResAllianceHealers || ResAllianceTanks)
+                {
+                    var allianceToRes = AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
+                                                                   (ResAllianceDps && a.IsDps() ||
+                                                                    ResAllianceTanks && a.IsTank() ||
+                                                                    ResAllianceHealers && a.IsDps()));
+                    foreach (var ally in allianceToRes)
+                    {
+                        DeadAllies.Add(ally);
+                    }
+                }
+            }
+        }
+
+        public static void SwitchCastableToAlliance()
+        {
+            ClearCastable();
+
+            foreach (var ally in HealableAlliance)
+            {
+                AddAllyToCastable(ally);
+            }
+        }
+
+
         private static void UpdatePartyMemberHistory(Character unit)
         {
             foreach (var aura in unit.CharacterAuras)
@@ -144,6 +203,38 @@ namespace Magitek.Utilities
                 Debug.Instance.PartyMemberAuras.Add(aura.Id, newAura);
             }
         }
+        private static void AddAllyToCastable(Character ally)
+        {
+            if (ally.CurrentHealth <= 0 || ally.IsDead)
+            {
+                DeadAllies.Add(ally);
+                return;
+            }
+
+            if (ally.IsTank())
+                CastableTanks.Add(ally);
+
+            var distance = ally.Distance(Core.Me);
+            if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
+            if (distance <= 25) { CastableAlliesWithin25.Add(ally); }
+            if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
+            if (distance <= 15) { CastableAlliesWithin15.Add(ally); }
+            if (distance <= 12) { CastableAlliesWithin12.Add(ally); }
+            if (distance <= 10) { CastableAlliesWithin10.Add(ally); }
+        }
+
+        private static void ClearCastable()
+        {
+            DeadAllies.Clear();
+            CastableTanks.Clear();
+            CastableAlliesWithin30.Clear();
+            CastableAlliesWithin25.Clear();
+            CastableAlliesWithin20.Clear();
+            CastableAlliesWithin15.Clear();
+            CastableAlliesWithin12.Clear();
+            CastableAlliesWithin10.Clear();
+            HealableAlliance.Clear();
+        }
 
         public static readonly List<Character> DeadAllies = new List<Character>();
         public static readonly List<Character> CastableTanks = new List<Character>();
@@ -155,5 +246,6 @@ namespace Magitek.Utilities
         public static readonly List<Character> CastableAlliesWithin15 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin12 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin10 = new List<Character>();
+        public static readonly List<Character> HealableAlliance = new List<Character>();
     }
 }

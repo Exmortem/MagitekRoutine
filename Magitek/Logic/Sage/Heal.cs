@@ -4,6 +4,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Sage;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
 using System.Linq;
@@ -15,15 +16,18 @@ namespace Magitek.Logic.Sage
 {
     internal static class Heal
     {
-        private static async Task<bool> UseEukrasia()
+        public static async Task<bool> UseEukrasia(uint spellId = 24291, GameObject targetObject = null)
         {
+            if (Core.Me.HasAura(Auras.Eukrasia, true))
+                return true;
             if (!SageSettings.Instance.Eukrasia)
                 return false;
             if (!await Spells.Eukrasia.Cast(Core.Me))
                 return false;
-            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia)))
+            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia, true)))
                 return false;
-            return await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.EukrasianDiagnosis.Id, Core.Me));
+            var target = targetObject == null ? Core.Me : targetObject;
+            return await Coroutine.Wait(1000, () => ActionManager.CanCast(spellId, target));
         }
 
         public static async Task<bool> Diagnosis()
@@ -75,7 +79,8 @@ namespace Magitek.Logic.Sage
                     if (tankEukrasianDiagnosisTarget == null)
                         return false;
 
-                    await UseEukrasia();
+                    if (!await UseEukrasia(targetObject: tankEukrasianDiagnosisTarget))
+                        return false;
 
                     return await Spells.EukrasianDiagnosis.HealAura(tankEukrasianDiagnosisTarget, Auras.EukrasianDiagnosis, false);
                 }
@@ -85,7 +90,8 @@ namespace Magitek.Logic.Sage
                 if (EukrasianDiagnosisTarget == null)
                     return false;
 
-                await UseEukrasia();
+                if (!await UseEukrasia(targetObject: EukrasianDiagnosisTarget))
+                    return false;
 
                 return await Spells.EukrasianDiagnosis.HealAura(EukrasianDiagnosisTarget, Auras.EukrasianDiagnosis);
 
@@ -116,6 +122,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.EukrasianDiagnosisHpPercent || Core.Me.HasAura(Auras.EukrasianDiagnosis))
                 return false;
 
+            if (!await UseEukrasia())
+                return false;
+
             return await Spells.EukrasianDiagnosis.HealAura(Core.Me, Auras.EukrasianDiagnosis);
         }
         private static async Task<bool> ShieldHealers()
@@ -130,7 +139,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
@@ -150,7 +159,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis); ;
@@ -168,7 +177,7 @@ namespace Magitek.Logic.Sage
             if (shieldTarget == null)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(targetObject: shieldTarget))
                 return false;
 
             return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
@@ -217,17 +226,36 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            var needEukrasianPrognosis = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
-                                                                     r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHpPercent &&
-                                                                     !r.HasAura(Auras.EukrasianPrognosis) && !r.HasAura(Auras.Galvanize)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
+            var needEukrasianPrognosis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHealthPercent &&
+                                                                            !r.HasAura(Auras.EukrasianDiagnosis) &&
+                                                                            !r.HasAura(Auras.EukrasianPrognosis) &&
+                                                                            !r.HasAura(Auras.Galvanize)) >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
 
             if (!needEukrasianPrognosis)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
                 return false;
 
             return await Spells.EukrasianPrognosis.Heal(Core.Me);
+        }
+        public static async Task<bool> ForceEukrasianPrognosis()
+        {
+            if (!SageSettings.Instance.ForceEukrasianPrognosis)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+                return false;
+
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
+                return false;
+
+            if (!await Spells.EukrasianPrognosis.Heal(Core.Me))
+                return false;
+
+            SageSettings.Instance.ForceEukrasianPrognosis = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
         public static async Task<bool> Physis()
         {
@@ -258,12 +286,12 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var DruocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.DruocholeHpPercent);
+                var DruocholeTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.DruocholeHpPercent);
 
                 if (DruocholeTarget == null)
                     return false;
 
-                return await Spells.Diagnosis.Heal(DruocholeTarget);
+                return await Spells.Druochole.Heal(DruocholeTarget);
             }
 
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.DruocholeHpPercent)
@@ -298,6 +326,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
+            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+                return false;
+
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
                                                                      (r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true))) >= SageSettings.Instance.PepsisNeedHealing;
 
@@ -315,18 +346,57 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHpPercent) >= SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing;
+            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+                return false;
+
+            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHealthPercent) >= SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing;
 
             if (!needPepsis)
                 return false;
 
-            if (!await UseEukrasia())
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
                 return false;
 
             if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
                 return false;
 
+            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pepsis, Core.Me)))
+                return false;
+
             return await Spells.Pepsis.Cast(Core.Me);
+        }
+        public static async Task<bool> ForcePepsisEukrasianPrognosis()
+        {
+            if (!SageSettings.Instance.ForcePepsisEukrasianPrognosis)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+                return false;
+
+            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
+                return false;
+
+            if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pepsis, Core.Me)))
+                return false;
+
+            if (!await Spells.Pepsis.Cast(Core.Me))
+                return false;
+
+            SageSettings.Instance.ForcePepsisEukrasianPrognosis = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
         public static async Task<bool> Taurochole()
         {
@@ -397,6 +467,42 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Haima.Cast(Core.Me);
         }
+        public static async Task<bool> ForceHaima()
+        {
+            if (!SageSettings.Instance.ForceHaima)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.Haima.LevelAcquired)
+                return false;
+
+            if (Spells.Haima.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var haimaCandidates = Group.CastableAlliesWithin30.Where(r => !r.HasAura(Auras.Weakness));
+
+                if (SageSettings.Instance.HaimaTankForBuff)
+                    haimaCandidates = haimaCandidates.Where(r => r.IsTank(SageSettings.Instance.HaimaMainTankForBuff));
+
+                var haimaTarget = haimaCandidates.FirstOrDefault();
+
+                if (haimaTarget == null)
+                    return false;
+
+                if (!await Spells.Haima.Heal(haimaTarget))
+                    return false;
+            }
+            else
+            {
+                if (!await Spells.Haima.Cast(Core.Me))
+                    return false;
+            }
+
+            SageSettings.Instance.ForceHaima = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
         public static async Task<bool> Panhaima()
         {
             if (!SageSettings.Instance.Panhaima)
@@ -438,52 +544,30 @@ namespace Magitek.Logic.Sage
 
                 return unit.Distance(Core.Me) <= 15;
             }
+        }
+        public static async Task<bool> ForcePanhaima()
+        {
+            if (!SageSettings.Instance.ForcePanhaima)
+                return false;
 
+            if (Core.Me.ClassLevel < Spells.Panhaima.LevelAcquired)
+                return false;
+
+            if (!await Spells.Panhaima.Cast(Core.Me))
+                return false;
+
+            SageSettings.Instance.ForcePanhaima = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
         public static async Task<bool> Egeiro()
         {
-            if (!Globals.InParty)
-                return false;
-
-            var deadList = Group.DeadAllies.Where(u => u.CurrentHealth == 0 &&
-                                                       !u.HasAura(Auras.Raise) &&
-                                                       u.Distance(Core.Me) <= 30 &&
-                                                       u.IsVisible &&
-                                                       u.InLineOfSight() &&
-                                                       u.IsTargetable)
-                .OrderByDescending(r => r.GetResurrectionWeight());
-
-            var deadTarget = deadList.FirstOrDefault();
-
-            if (deadTarget == null)
-                return false;
-
-            if (Globals.PartyInCombat)
-            {
-                if (SageSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero)
-                {
-                    // Prevent burning switftcast if no mana to actually rez.
-                    if (!ActionManager.CanCast(Spells.Egeiro, deadTarget))
-                        return false;
-
-                    if (await Buff.Swiftcast())
-                    {
-                        while (Core.Me.HasAura(Auras.Swiftcast))
-                        {
-                            if (await Spells.Egeiro.CastAura(deadTarget, Auras.Raise))
-                                return true;
-                            await Coroutine.Yield();
-                        }
-                    }
-                }
-            }
-
-            if (Globals.PartyInCombat && SageSettings.Instance.SlowcastRes || !Globals.PartyInCombat && SageSettings.Instance.ResOutOfCombat)
-            {
-                return await Spells.Egeiro.CastAura(deadTarget, Auras.Raise);
-            }
-
-            return false;
+            return await Roles.Healer.Raise(
+                Spells.Egeiro,
+                SageSettings.Instance.SwiftcastRes,
+                SageSettings.Instance.SlowcastRes,
+                SageSettings.Instance.ResOutOfCombat
+            );
         }
         public static async Task<bool> Pneuma()
         {
@@ -551,27 +635,55 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PneumaHpPercent)
                 return false;
 
+            if (!SageSettings.Instance.OnlyZoePneuma)
+                return false;
+
             if (!await UseZoe())
                 return false;
 
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pneuma.Id, Core.Me.CurrentTarget)))
+                return false;
+
             return await Spells.Pneuma.Cast(Core.Me.CurrentTarget);
+        }
 
-            async Task<bool> UseZoe()
-            {
-                if (!SageSettings.Instance.OnlyZoePneuma)
-                    return false;
+        private static async Task<bool> UseZoe()
+        {
+            if (Spells.Zoe.Cooldown != TimeSpan.Zero)
+                return false;
 
-                if (Spells.Zoe.Cooldown != TimeSpan.Zero)
-                    return false;
+            if (!await Spells.Zoe.Cast(Core.Me))
+                return false;
 
-                if (!await Spells.Zoe.Cast(Core.Me))
-                    return false;
+            return await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Zoe));
+        }
 
-                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Zoe)))
-                    return false;
+        public static async Task<bool> ForceZoePneuma()
+        {
+            if (!SageSettings.Instance.ForceZoePneuma)
+                return false;
 
-                return await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pneuma.Id, Core.Me.CurrentTarget));
-            }
+            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
+                return false;
+
+            if (Core.Me.CurrentTarget == null)
+                return false;
+
+            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (!await UseZoe())
+                return false;
+
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pneuma.Id, Core.Me.CurrentTarget)))
+                return false;
+
+            if (!await Spells.Pneuma.Cast(Core.Me.CurrentTarget))
+                return false;
+
+            SageSettings.Instance.ForceZoePneuma = false;
+            TogglesManager.ResetToggles();
+            return true;
         }
     }
 }
