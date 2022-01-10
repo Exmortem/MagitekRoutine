@@ -22,6 +22,8 @@ namespace Magitek.Logic.Sage
                 return true;
             if (!SageSettings.Instance.Eukrasia)
                 return false;
+            if (Casting.LastSpell == Spells.Eukrasia || Casting.CastingSpell == Spells.Eukrasia)
+                return false;
             if (!await Spells.Eukrasia.Cast(Core.Me))
                 return false;
             if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia, true)))
@@ -39,19 +41,10 @@ namespace Magitek.Logic.Sage
             {
                 var DiagnosisTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.DiagnosisHpPercent || r.HasAura(Auras.Doom));
 
-                if (DiagnosisTarget != null)
-                    return await Spells.Diagnosis.Heal(DiagnosisTarget);
-
-                if (!SageSettings.Instance.HealAllianceOnlyDiagnosis)
-                    return false;
-
-                DiagnosisTarget = Utilities.Routines.Sage.AllianceDiagnosisOnly.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.DiagnosisHpPercent);
-
                 if (DiagnosisTarget == null)
                     return false;
 
                 return await Spells.Diagnosis.Heal(DiagnosisTarget);
-
             }
 
             if (Core.Me.CurrentHealthPercent > SageSettings.Instance.DiagnosisHpPercent)
@@ -376,7 +369,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+            if (!Spells.Pepsis.IsKnownAndReady())
                 return false;
 
             if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))

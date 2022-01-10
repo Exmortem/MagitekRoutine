@@ -34,20 +34,14 @@ namespace Magitek.Utilities
 
         public static void UpdateAllies(Action extensions = null)
         {
-            DeadAllies.Clear();
-            CastableTanks.Clear();
-            CastableAlliesWithin30.Clear();
-            CastableAlliesWithin20.Clear();
-            CastableAlliesWithin15.Clear();
-            CastableAlliesWithin12.Clear();
-            CastableAlliesWithin10.Clear();
-            HealableAlliance.Clear();
+            CastableParty.Clear();
+            ClearCastable();
 
             if (!Globals.InParty)
             {
                 if (Globals.InGcInstance)
                 {
-                    AddAllyToCastable(Core.Me);
+                    CastableParty.Add(Core.Me);
 
                     foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
                     {
@@ -61,18 +55,7 @@ namespace Magitek.Utilities
                             UpdatePartyMemberHistory(ally);
                         }
 
-                        if (ally.CurrentHealth <= 0 || ally.IsDead)
-                        {
-                            DeadAllies.Add(ally);
-                            continue;
-                        }
-
-                        if (ally.IsTank())
-                        {
-                            CastableTanks.Add(ally);
-                        }
-
-                        AddAllyToCastable(ally);
+                        CastableParty.Add(ally);
                     }
                 }
             }
@@ -104,6 +87,12 @@ namespace Magitek.Utilities
                         continue;
                 }
 
+                CastableParty.Add(ally);
+            }
+
+            foreach (var ally in CastableParty.OrderBy(a => a.GetHealingWeight()))
+            {
+
                 AddAllyToCastable(ally);
             }
 
@@ -120,7 +109,7 @@ namespace Magitek.Utilities
             bool ResAllianceTanks
         )
         {
-            HealableAlliance.Clear();
+            CastableAlliance.Clear();
 
             // Should we be ignoring our alliance?
             if (!IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
@@ -136,7 +125,7 @@ namespace Magitek.Utilities
                     foreach (var ally in allianceToHeal)
                     {
                         if (ally.Distance(Core.Me) <= 30)
-                            HealableAlliance.Add(ally);
+                            CastableAlliance.Add(ally);
                     }
                 }
 
@@ -149,17 +138,30 @@ namespace Magitek.Utilities
 
                     foreach (var ally in allianceToRes)
                     {
-                        DeadAllies.Add(ally);
+                        CastableAlliance.Add(ally);
                     }
                 }
             }
         }
 
+        // Another option instead of switchable, is to just implement a second set of
+        // Heal tasks in each healer Logic that work off the HealableAlliance instead.
+        // Switching the arrays is less code duplication.
         public static void SwitchCastableToAlliance()
         {
             ClearCastable();
 
-            foreach (var ally in HealableAlliance)
+            foreach (var ally in CastableAlliance.OrderBy(a => a.GetHealingWeight()))
+            {
+                AddAllyToCastable(ally);
+            }
+        }
+
+        public static void SwitchCastableToParty()
+        {
+            ClearCastable();
+
+            foreach (var ally in CastableParty.OrderBy(a => a.GetResurrectionWeight()))
             {
                 AddAllyToCastable(ally);
             }
@@ -211,6 +213,7 @@ namespace Magitek.Utilities
             HealableAlliance.Clear();
         }
 
+        public static readonly List<Character> CastableParty = new List<Character>();
         public static readonly List<Character> DeadAllies = new List<Character>();
         public static readonly List<Character> CastableTanks = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
@@ -219,6 +222,6 @@ namespace Magitek.Utilities
         public static readonly List<Character> CastableAlliesWithin15 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin12 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin10 = new List<Character>();
-        public static readonly List<Character> HealableAlliance = new List<Character>();
+        public static readonly List<Character> CastableAlliance = new List<Character>();
     }
 }

@@ -45,7 +45,10 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Kardia)
                 return false;
 
-            if (Spells.Kardia.Cooldown != TimeSpan.Zero)
+            if (!Spells.Kardia.IsKnownAndReady())
+                return false;
+
+            if (Casting.LastSpell == Spells.Kardia || Casting.CastingSpell == Spells.Kardia)
                 return false;
 
             if (Globals.InParty)
@@ -65,7 +68,7 @@ namespace Magitek.Logic.Sage
                     var kardiaTargetSwitch = canKardiaTargets.FirstOrDefault();
 
                     if (kardiaTargetSwitch != null)
-                        return await Spells.Kardia.CastAura(kardiaTargetSwitch, Auras.Kardion);
+                        return await Spells.Kardia.Cast(kardiaTargetSwitch);
                     return false;
                 }
                 else
@@ -81,7 +84,7 @@ namespace Magitek.Logic.Sage
                     if (kardiaTarget == currentKardiaTarget)
                         return false;
 
-                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
+                    return await Spells.Kardia.Cast(kardiaTarget);
                 }
             }
             else
@@ -92,9 +95,9 @@ namespace Magitek.Logic.Sage
 
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardion);
+                    return await Spells.Kardia.Cast(ChocoboManager.Object);
                 }
-                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardion);
+                return await Spells.Kardia.Cast(Core.Me);
             }
 
             bool CanKardiaSwitch(Character unit)

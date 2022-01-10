@@ -123,24 +123,30 @@ namespace Magitek.Rotations
 
         public static async Task<bool> HealAlliance()
         {
-            if (Group.HealableAlliance.Count == 0)
+            if (Group.CastableAlliance.Count == 0)
                 return false;
 
             Group.SwitchCastableToAlliance();
+            var res = await DoHeal();
+            Group.SwitchCastableToParty();
+            return res;
 
-            if (await Logic.Astrologian.Heal.Ascend()) return true;
-
-            if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
+            async Task<bool> DoHeal()
             {
+                if (await Logic.Astrologian.Heal.Ascend()) return true;
+
+                if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
+                {
+                    if (await Logic.Astrologian.Heal.Benefic()) return true;
+                }
+
+                if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+                if (await Logic.Astrologian.Heal.Benefic2()) return true;
                 if (await Logic.Astrologian.Heal.Benefic()) return true;
+                if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
+
+                return false;
             }
-
-            if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
-            if (await Logic.Astrologian.Heal.Benefic2()) return true;
-            if (await Logic.Astrologian.Heal.Benefic()) return true;
-            if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
-
-            return false;
         }
 
         public static async Task<bool> CombatBuff()
