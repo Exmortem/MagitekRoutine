@@ -223,6 +223,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> Exaltation()
         {
+            if (!AstrologianSettings.Instance.Exaltation)
+                return false;
+            
             if (!Core.Me.InCombat)
                 return false;
 

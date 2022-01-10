@@ -516,6 +516,10 @@ namespace Magitek.Logic.Scholar
             {
                 if (ScholarSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero)
                 {
+                    // Prevent burning switftcast if no mana to actually rez.
+                    if (!ActionManager.CanCast(Spells.Resurrection, deadTarget))
+                        return false;
+
                     if (await Buff.Swiftcast())
                     {
                         while (Core.Me.HasAura(Auras.Swiftcast))

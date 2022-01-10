@@ -1,5 +1,6 @@
 ﻿using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Models.Account;
@@ -132,10 +133,9 @@ namespace Magitek.Extensions
 
         public static bool CanCast(this SpellData spell, GameObject target)
         {
-
             return ActionManager.CanCast(spell, target);
-
         }
+
 
         public static bool CanCast(this SpellData spell)
         {
@@ -144,7 +144,7 @@ namespace Magitek.Extensions
 
         }
 
-        private static async Task<bool> DoAction(SpellData spell, GameObject target, uint aura = 0, bool needAura = false, bool useRefreshTime = false, int refreshTime = 0)
+        private static async Task<bool> DoAction(SpellData spell, GameObject target, uint aura = 0, bool needAura = false, bool useRefreshTime = false, int refreshTime = 0, bool canCastCheck = true)
         {
             if (!Check(spell, target))
                 return false;

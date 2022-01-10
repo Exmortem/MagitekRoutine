@@ -30,11 +30,11 @@ namespace Magitek.Models.Reaper
         [DefaultValue(false)]
         public bool HidePositionalMessage { get; set; }
 
-    #endregion
+        #endregion
 
-    #region SingleTarget-Abilities
+        #region SingleTarget-Abilities
 
-    [Setting]
+        [Setting]
         [DefaultValue(true)]
         public bool UseSlice { get; set; }
 
@@ -73,6 +73,14 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseGluttony { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool GluttonySaveSoulGuage { get; set; }
+
+        [Setting]
+        [DefaultValue(30)]
+        public int GluttonySaveSoulGuageCooldown { get; set; }
 
         [Setting]
         [DefaultValue(true)]

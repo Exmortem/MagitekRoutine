@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.Sage;
 using Magitek.Models.Sage;
 using Magitek.Utilities;
+using SageRoutine = Magitek.Utilities.Routines.Sage;
 using System.Threading.Tasks;
 namespace Magitek.Rotations
 {
@@ -80,39 +81,37 @@ namespace Magitek.Rotations
 
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
-            if (await Buff.LucidDreaming()) return true;
-            if (await Buff.Kardia()) return true;
-            if (await Buff.Kerachole()) return true;
-            if (await Buff.Soteria()) return true;
-            if (await Buff.Rhizomata()) return true;
-            if (await Buff.Holos()) return true;
-            if (await Buff.Krasis()) return true;
+
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave())
+            {
+                if (await Buff.LucidDreaming()) return true;
+                if (await Buff.Kardia()) return true;
+                if (await Buff.Soteria()) return true;
+                if (await Buff.Rhizomata()) return true;
+                if (await Buff.Krasis()) return true;
+            }
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (Globals.InParty)
+                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
                 {
-                    if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
-                    if (await Logic.Sage.Heal.Shield()) return true;
-                    if (await Logic.Sage.Heal.ZoePneuma()) return true;
-                    if (await Logic.Sage.Heal.Pneuma()) return true;
-                    if (await Logic.Sage.Heal.Panhaima()) return true;
-                    if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
-                    if (await Logic.Sage.Heal.Pepsis()) return true;
-                    if (await Logic.Sage.Heal.Haima()) return true;
-                    if (await Logic.Sage.Heal.Prognosis()) return true;
-                    if (await Logic.Sage.Heal.Physis()) return true;
-                    if (await Logic.Sage.Heal.Druochole()) return true;
-                    if (await Logic.Sage.Heal.Ixochole()) return true;
+                    if (await Buff.Kerachole()) return true;
+                    if (await Buff.Holos()) return true;
                     if (await Logic.Sage.Heal.Taurochole()) return true;
-                    if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
-                    if (await Logic.Sage.Heal.Diagnosis()) return true;
+                    if (await Logic.Sage.Heal.Panhaima()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
+                    if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Physis()) return true;
+                    if (await Logic.Sage.Heal.Ixochole()) return true;
+                    if (await Logic.Sage.Heal.Druochole()) return true;
                 }
+
+                if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
+                if (await Logic.Sage.Heal.Shield()) return true;
                 if (await Logic.Sage.Heal.ZoePneuma()) return true;
                 if (await Logic.Sage.Heal.Pneuma()) return true;
-                if (await Logic.Sage.Heal.Druochole()) return true;
-                if (await Logic.Sage.Heal.Haima()) return true;
-                if (await Logic.Sage.Heal.Taurochole()) return true;
+                if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
+                if (await Logic.Sage.Heal.Prognosis()) return true;
                 if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
             }
@@ -167,9 +166,9 @@ namespace Magitek.Rotations
             }
 
             if (await AoE.Phlegma()) return true;
-            if (await AoE.Dyskrasia()) return true;
             if (await AoE.Toxikon()) return true;
             if (await AoE.Pneuma()) return true;
+            if (await AoE.Dyskrasia()) return true;
             if (await SingleTarget.EukrasianDosis()) return true;
             if (await SingleTarget.DotMultipleTargets()) return true;
             return await SingleTarget.Dosis();

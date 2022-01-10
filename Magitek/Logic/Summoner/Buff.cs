@@ -5,6 +5,9 @@ using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using ArcResources = ff14bot.Managers.ActionResourceManager.Arcanist;
+using SmnResources = ff14bot.Managers.ActionResourceManager.Summoner;
+using static Magitek.Utilities.Routines.Summoner;
 
 namespace Magitek.Logic.Summoner
 {
@@ -12,43 +15,39 @@ namespace Magitek.Logic.Summoner
     {
         public static async Task<bool> DreadwyrmTrance()
         {
-            if (Core.Me.ClassLevel < 58)
+            if (!SummonerSettings.Instance.DreadwyrmTrance)
                 return false;
 
-            if (!SummonerSettings.Instance.DreadwyrmTrance
-                || !SummonerSettings.Instance.FirebirdTrance)
+            if (!Spells.DreadwyrmTrance.IsKnownAndReady())
                 return false;
 
-            //if (ActionResourceManager.Arcanist.AetherAttunement == 2)
-            //    return false;
-
-            if ((int)PetManager.ActivePetType == 10
-                || (int)PetManager.ActivePetType == 14)
+            if (Spells.SummonBahamut.IsKnown())
+                return false;
+            
+            if (SmnResources.PetTimer + SmnResources.TranceTimer > 0)
+                return false;
+            
+            if (!SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.None))
+                return false;
+            
+            if (Core.Me.SummonedPet() != SmnPets.Carbuncle)
                 return false;
 
-            if (Spells.Ruin.Cooldown.TotalMilliseconds < 850)
+            if (Combat.CombatTotalTimeLeft < 15)
                 return false;
 
-            if (Spells.TriDisaster.Cooldown.TotalMilliseconds < 2000)
-                return false;
-
-            /*if (Casting.LastSpell != Spells.Bio || Casting.LastSpell != Spells.Ruin2 || Casting.LastSpell != Spells.EgiAssault || Casting.LastSpell != Spells.EgiAssault2)
-                if (!ActionResourceManager.Summoner.DreadwyrmTrance)
-                    if (await Spells.SmnRuin2.Cast(Core.Me.CurrentTarget))
-                        return true;*/
-
-            return await Spells.Trance.Cast(Core.Me);
+            return await Spells.DreadwyrmTrance.Cast(Core.Me);
         }
 
         public static async Task<bool> LucidDreaming()
         {
-            if (Core.Me.ClassLevel < 24)
+            if (!Spells.LucidDreaming.IsKnownAndReady())
                 return false;
 
             if (Core.Me.CurrentManaPercent > SummonerSettings.Instance.LucidDreamingManaPercent)
                 return false;
 
-            if (ActionResourceManager.Summoner.TranceTimer == 0)
+            if (!GlobalCooldown.CanWeave())
                 return false;
 
             return await Spells.LucidDreaming.Cast(Core.Me);
@@ -63,6 +62,33 @@ namespace Magitek.Logic.Summoner
             }
 
             return false;
+        }
+        
+        public static async Task<bool> Aethercharge()
+        {
+            if (await Pets.SummonPhoenix()) return true;
+            if (await Pets.SummonBahamut()) return true;
+
+            if (Spells.SummonBahamut.IsKnown())
+                return false;
+            
+            if (await DreadwyrmTrance()) return true;
+            
+            if (Spells.DreadwyrmTrance.IsKnown())
+                return false;
+
+            if (!SummonerSettings.Instance.Aethercharge)
+                return false;
+
+            if (!Spells.Aethercharge.IsKnownAndReady())
+                return false;
+            
+            return await Spells.Aethercharge.Cast(Core.Me);
+        }
+
+        public static async Task<bool> SearingLight()
+        {
+            return await Spells.SearingLight.Cast(Core.Me);
         }
     }
 }
