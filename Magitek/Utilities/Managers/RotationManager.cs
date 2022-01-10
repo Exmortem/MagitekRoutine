@@ -300,29 +300,33 @@ namespace Magitek.Utilities.Managers
             if (!BaseSettings.Instance.ActiveCombatRoutine)
                 return false;
 
-            Group.UpdateAllies();
             await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
                 case ClassJobType.Paladin:
+                    Group.UpdateAllies();
                     return await Rotations.Paladin.Heal();
 
                 case ClassJobType.Pugilist:
                 case ClassJobType.Monk:
+                    Group.UpdateAllies();
                     return await Rotations.Monk.Heal();
 
                 case ClassJobType.Marauder:
                 case ClassJobType.Warrior:
+                    Group.UpdateAllies();
                     return await Rotations.Warrior.Heal();
 
                 case ClassJobType.Lancer:
                 case ClassJobType.Dragoon:
+                    Group.UpdateAllies();
                     return await Rotations.Dragoon.Heal();
 
                 case ClassJobType.Archer:
                 case ClassJobType.Bard:
+                    Group.UpdateAllies();
                     return await Rotations.Bard.Heal();
 
                 case ClassJobType.Conjurer:
@@ -333,10 +337,12 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Thaumaturge:
                 case ClassJobType.BlackMage:
+                    Group.UpdateAllies();
                     return await Rotations.BlackMage.Heal();
 
                 case ClassJobType.Arcanist:
                 case ClassJobType.Summoner:
+                    Group.UpdateAllies();
                     return await Rotations.Summoner.Heal();
 
                 case ClassJobType.Scholar:
@@ -346,12 +352,15 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Rogue:
                 case ClassJobType.Ninja:
+                    Group.UpdateAllies();
                     return await Rotations.Ninja.Heal();
 
                 case ClassJobType.Machinist:
+                    Group.UpdateAllies();
                     return await Rotations.Machinist.Heal();
 
                 case ClassJobType.DarkKnight:
+                    Group.UpdateAllies();
                     return await Rotations.DarkKnight.Heal();
 
                 case ClassJobType.Astrologian:
@@ -360,21 +369,27 @@ namespace Magitek.Utilities.Managers
                     return await Rotations.Astrologian.Heal();
 
                 case ClassJobType.Samurai:
+                    Group.UpdateAllies();
                     return await Rotations.Samurai.Heal();
 
                 case ClassJobType.BlueMage:
+                    Group.UpdateAllies();
                     return await Rotations.BlueMage.Heal();
 
                 case ClassJobType.RedMage:
+                    Group.UpdateAllies();
                     return await Rotations.RedMage.Heal();
 
                 case ClassJobType.Gunbreaker:
+                    Group.UpdateAllies();
                     return await Rotations.Gunbreaker.Heal();
 
                 case ClassJobType.Dancer:
+                    Group.UpdateAllies();
                     return await Rotations.Dancer.Heal();
 
                 case ClassJobType.Reaper:
+                    Group.UpdateAllies();
                     return await Rotations.Reaper.Heal();
 
                 case ClassJobType.Sage:
