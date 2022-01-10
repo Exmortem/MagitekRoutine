@@ -32,7 +32,7 @@ namespace Magitek.Logic.Roles
             bool ResOutOfCombat,
             // isSwiftcast, continue
             Func<bool, Task<bool>> extensions = null
-            )
+        )
         {
             if (!Globals.InParty)
                 return false;
@@ -68,7 +68,7 @@ namespace Magitek.Logic.Roles
                     {
                         while (Core.Me.HasAura(Auras.Swiftcast))
                         {
-                            if (!await extensions?.Invoke(true)) return false;
+                            if (extensions != null && !await extensions.Invoke(true)) return false;
                             if (await spell.CastAura(deadTarget, Auras.Raise))
                                 return true;
                             await Coroutine.Yield();
@@ -79,7 +79,7 @@ namespace Magitek.Logic.Roles
 
             if (Globals.PartyInCombat && SlowcastRes || !Globals.PartyInCombat && ResOutOfCombat)
             {
-                if (!await extensions?.Invoke(false)) return false;
+                if (extensions != null && !await extensions.Invoke(false)) return false;
                 return await spell.CastAura(deadTarget, Auras.Raise);
             }
 
