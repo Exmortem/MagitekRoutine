@@ -95,7 +95,7 @@ namespace Magitek.Rotations
             if (await Buff.NeutralSect()) return true;
 
             if (!Core.Me.InCombat) return false;
-            
+
             if (PartyManager.NumMembers > 1)
             {
                 if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
@@ -116,7 +116,31 @@ namespace Magitek.Rotations
             if (await Logic.Astrologian.Heal.Benefic2()) return true;
             if (await Logic.Astrologian.Heal.Benefic()) return true;
             if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
-            return await Logic.Astrologian.Heal.EarthlyStar();
+            if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
+
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.HealableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+
+            if (await Logic.Astrologian.Heal.Ascend()) return true;
+
+            if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
+            {
+                if (await Logic.Astrologian.Heal.Benefic()) return true;
+            }
+
+            if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+            if (await Logic.Astrologian.Heal.Benefic2()) return true;
+            if (await Logic.Astrologian.Heal.Benefic()) return true;
+            if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
+
+            return false;
         }
 
         public static async Task<bool> CombatBuff()
@@ -127,7 +151,7 @@ namespace Magitek.Rotations
             if (await Buff.Synastry()) return true;
             if (await Buff.NeutralSect()) return true;
 
-            
+
             if (await Buff.Divination()) return true;
             if (await Cards.AstroDyne()) return true;
             return await Cards.PlayCards();

@@ -116,6 +116,33 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
             }
 
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.HealableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+
+            if (await Logic.Sage.Heal.Egeiro()) return true;
+
+            if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
+            {
+                if (await Logic.Sage.Heal.Diagnosis()) return true;
+            }
+
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+            {
+                if (await Logic.Sage.Heal.Taurochole()) return true;
+                if (await Logic.Sage.Heal.Haima()) return true;
+                if (await Logic.Sage.Heal.Druochole()) return true;
+            }
+
+            if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
+            if (await Logic.Sage.Heal.Diagnosis()) return true;
+
             return false;
         }
 

@@ -199,12 +199,12 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var canKeracholeTargets = Group.CastableAlliesWithin30.Where(CanKerachole).ToList();
+                var canKeracholeTargets = Group.CastableAlliesWithin15.Where(CanKerachole).ToList();
 
                 if (canKeracholeTargets.Count < SageSettings.Instance.KeracholeNeedHealing)
                     return false;
 
-                if (SageSettings.Instance.KeracholeOnlyWithTank && !canKeracholeTargets.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
+                if (SageSettings.Instance.KeracholeOnlyWithTank && !Group.CastableAlliesWithin15.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
                     return false;
 
                 return await Spells.Kerachole.Cast(Core.Me);

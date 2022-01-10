@@ -12,6 +12,28 @@ namespace Magitek.Models.Sage
 
         public static SageSettings Instance { get; set; } = new SageSettings();
 
+        #region ForcePowers
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForcePanhaima { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceZoePneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForcePepsisEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceHaima { get; set; }
+        #endregion
+
         #region Combat
 
         [Setting]
@@ -284,10 +306,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool EukrasianPrognosis { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int EukrasianPrognosisAllies { get; set; }
 
         [Setting]
         [DefaultValue(3)]

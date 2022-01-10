@@ -253,6 +253,7 @@
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
     <Compile Include="Logic\Sage\Buff.cs" />
     <Compile Include="Logic\Sage\Dispel.cs" />
