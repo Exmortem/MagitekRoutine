@@ -13,7 +13,6 @@ namespace Magitek.Utilities.Routines
 
         public static uint[] BioAuras = { Auras.Bio, Auras.Bio2, Auras.Bio3 };
         public static uint[] MiasmaAuras = { Auras.Miasma, Auras.Miasma3 };
-        public static HashSet<int> DemiSummonIds = new HashSet<int> { 10, 14 };
         
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Summoner, Spells.Ruin);
 

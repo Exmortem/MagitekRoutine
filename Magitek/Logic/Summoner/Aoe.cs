@@ -81,9 +81,6 @@ namespace Magitek.Logic.Summoner
             if (!SummonerSettings.Instance.CrimsonCyclone)
                 return false;
 
-            if (CrimsonStrike())
-                return true;
-            
             if (!Spells.CrimsonCyclone.IsKnownAndReady())
                 return false;
 
@@ -96,7 +93,7 @@ namespace Magitek.Logic.Summoner
             return await Spells.CrimsonCyclone.Cast(Core.Me.CurrentTarget); 
         }
 
-        public static bool CrimsonStrike()
+        public static async Task<bool> CrimsonStrike()
         {
             if (!SummonerSettings.Instance.CrimsonStrike) 
                 return false;
@@ -104,13 +101,21 @@ namespace Magitek.Logic.Summoner
             if (SmnResources.ActivePet != SmnResources.ActivePetType.Ifrit)
                 return false;
 
-            if (!Spells.CrimsonStrike.IsKnownAndReady())
+            if (Casting.LastSpell != Spells.CrimsonCyclone) return false;
+
+            if (Core.Me.CurrentTarget == null)
                 return false;
-            
-            if (!ActionManager.DoAction(Spells.CrimsonStrike, Core.Me.CurrentTarget)) return false;
-            
-            Logger.WriteCast($@"Cast: {Spells.CrimsonStrike}");
-            return true;
+
+            if (Core.Me.Distance2D(Core.Me.CurrentTarget) > Spells.CrimsonStrike.Range)
+                return false;
+
+            while (Casting.LastSpell == Spells.CrimsonCyclone)
+            {
+                if (await Spells.CrimsonStrike.Cast(Core.Me.CurrentTarget)) return true;
+                await Coroutine.Yield();
+            }
+
+            return false;
         }
 
         public static async Task<bool> MountainBuster()
@@ -248,6 +253,33 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             return await Spells.Painflare.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Ruin4()
+        {
+            if (!SummonerSettings.Instance.Ruin4)
+                return false;
+
+            if (!Spells.Ruin4.IsKnownAndReady())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.FurtherRuin))
+                return false;
+
+            if (Core.Me.SummonedPet() == SmnPets.Bahamut 
+                || Core.Me.SummonedPet() == SmnPets.Pheonix) 
+                return false;
+            
+            if ((SmnResources.ActivePet == SmnResources.ActivePetType.Garuda 
+                || SmnResources.ActivePet == SmnResources.ActivePetType.Titan) 
+                && SmnResources.ElementalAttunement > 0)
+                return false;
+
+            if (SmnResources.ActivePet == SmnResources.ActivePetType.Ifrit 
+                && (SmnResources.ElementalAttunement > 1 || !MovementManager.IsMoving))
+                return false;
+            
+            return await Spells.Ruin4.Cast(Core.Me);
         }
     }
 }

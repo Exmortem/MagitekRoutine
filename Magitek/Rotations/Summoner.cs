@@ -99,9 +99,11 @@ namespace Magitek.Rotations
             if (await SingleTarget.EnergyDrain()) return true;
             if (await SingleTarget.Enkindle()) return true;
             if (await Aoe.AstralFlow()) return true;
+            if (await Aoe.CrimsonStrike()) return true;
             if (await Aoe.Painflare()) return true;
             if (await SingleTarget.Fester()) return true;
             if (await Buff.Aethercharge()) return true;
+            if (await Aoe.Ruin4()) return true;
             if (await Aoe.Outburst()) return true;
             return await SingleTarget.Ruin();
         }

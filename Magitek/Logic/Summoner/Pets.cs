@@ -62,6 +62,9 @@ namespace Magitek.Logic.Summoner
 
             if ((SmnResources.PetTimer + SmnResources.TranceTimer) > 0)
                 return false;
+            
+            if (SummonerSettings.Instance.ThrottleSummonsWithTTL && Combat.CombatTotalTimeLeft < 15)
+                return false;
 
             return await Spells.SummonPhoenix.Cast(Core.Me.CurrentTarget);
         }
@@ -94,7 +97,7 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.SummonedPet() != SmnPets.Carbuncle)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft < 15)
+            if (SummonerSettings.Instance.ThrottleSummonsWithTTL && Combat.CombatTotalTimeLeft < 15)
                 return false;
             
             if (!SummonerSettings.Instance.SearingLight)
@@ -126,36 +129,45 @@ namespace Magitek.Logic.Summoner
             if ((SmnResources.PetTimer + SmnResources.TranceTimer) > 0)
                 return false;
             
-            if (Combat.CombatTotalTimeLeft < 30)
+            if (SummonerSettings.Instance.ThrottleSummonsWithTTL && Combat.CombatTotalTimeLeft < 30)
                 return false;
-            
-            if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Titan) &&
-                Spells.SummonTitan.IsKnownAndReady())
-                return Spells.SummonTitan2.IsKnown()
-                    ? await Spells.SummonTitan2.Cast(Core.Me.CurrentTarget)
-                    : await Spells.SummonTitan.Cast(Core.Me.CurrentTarget);
-            
-            if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Topaz))
-                return await Spells.SummonTopaz.Cast(Core.Me.CurrentTarget);
-            
-            if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Garuda) &&
-                Spells.SummonGaruda.IsKnownAndReady())
-                return Spells.SummonGaruda2.IsKnown()
-                    ? await Spells.SummonGaruda2.Cast(Core.Me.CurrentTarget)
-                    : await Spells.SummonGaruda.Cast(Core.Me.CurrentTarget);
-            
-            if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Emerald))
-                return await Spells.SummonEmerald.Cast(Core.Me.CurrentTarget);
-            
-            if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Ifrit) &&
-                Spells.SummonIfrit.IsKnownAndReady())
-                return Spells.SummonIfrit2.IsKnown()
-                    ? await Spells.SummonIfrit2.Cast(Core.Me.CurrentTarget)
-                    : await Spells.SummonIfrit.Cast(Core.Me.CurrentTarget);
-            
-            if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Ruby))
-                return await Spells.SummonRuby.Cast(Core.Me.CurrentTarget);
-            
+
+            if (SummonerSettings.Instance.SummonTopazTitan)
+            {
+                if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Titan) &&
+                    Spells.SummonTitan.IsKnownAndReady())
+                    return Spells.SummonTitan2.IsKnown()
+                        ? await Spells.SummonTitan2.Cast(Core.Me.CurrentTarget)
+                        : await Spells.SummonTitan.Cast(Core.Me.CurrentTarget);
+
+                if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Topaz))
+                    return await Spells.SummonTopaz.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (SummonerSettings.Instance.SummonEmeraldGaruda)
+            {
+                if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Garuda) &&
+                    Spells.SummonGaruda.IsKnownAndReady())
+                    return Spells.SummonGaruda2.IsKnown()
+                        ? await Spells.SummonGaruda2.Cast(Core.Me.CurrentTarget)
+                        : await Spells.SummonGaruda.Cast(Core.Me.CurrentTarget);
+
+                if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Emerald))
+                    return await Spells.SummonEmerald.Cast(Core.Me.CurrentTarget);
+            }
+
+            if (SummonerSettings.Instance.SummonRubyIfrit)
+            {
+                if (SmnResources.AvailablePets.HasFlag(SmnResources.AvailablePetFlags.Ifrit) &&
+                    Spells.SummonIfrit.IsKnownAndReady())
+                    return Spells.SummonIfrit2.IsKnown()
+                        ? await Spells.SummonIfrit2.Cast(Core.Me.CurrentTarget)
+                        : await Spells.SummonIfrit.Cast(Core.Me.CurrentTarget);
+
+                if (ArcResources.AvailablePets.HasFlag(ArcResources.AvailablePetFlags.Ruby))
+                    return await Spells.SummonRuby.Cast(Core.Me.CurrentTarget);
+            }
+
             return false;
         } 
     }

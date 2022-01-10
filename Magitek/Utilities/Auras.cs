@@ -163,7 +163,7 @@ namespace Magitek.Utilities
             Flamethrower = 1205,
             TrueNorth = 1250,
             Doton = 501,
-            FurtherRuin = 1212,
+            FurtherRuin = 2701,
             MountedPvp = 1420,
             RegenPvp = 1330,
             DivineBenisonPvp = 1404,

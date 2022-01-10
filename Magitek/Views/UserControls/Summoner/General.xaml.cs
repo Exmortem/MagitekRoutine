@@ -5,9 +5,9 @@ namespace Magitek.Views.UserControls.Summoner
     /// <summary>
     /// Interaction logic for SingleTarget.xaml
     /// </summary>
-    public partial class SingleTarget : UserControl
+    public partial class General : UserControl
     {
-        public SingleTarget()
+        public General()
         {
             InitializeComponent();
         }

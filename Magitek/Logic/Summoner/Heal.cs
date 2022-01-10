@@ -202,7 +202,7 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.HasAura(Auras.RadiantAegis))
                 return false;
 
-            if (Core.Me.CurrentHealthPercent >= 80f)
+            if (Core.Me.CurrentHealthPercent >= SummonerSettings.Instance.RadiantAegisHPThreshold)
                 return false;
 
             if (!Combat.Enemies.All(x => x.TargetCharacter == Core.Me && x.IsCasting))

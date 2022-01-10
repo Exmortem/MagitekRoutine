@@ -667,9 +667,11 @@
                         <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
                             <customControls:CurrentNews />
                         </TabItem>
-                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
-                            <summoner:SingleTarget />
+                        <TabItem Header="General " Style="{DynamicResource MainTabCombat}">
+                            <summoner:General />
                         </TabItem>
+                        <!--
+                        Old, Obsolete... might remove later.
                         <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
                             <summoner:Aoe />
                         </TabItem>
@@ -682,6 +684,7 @@
                         <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
                             <summoner:Healing />
                         </TabItem>
+                        -->
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
