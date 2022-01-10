@@ -135,7 +135,6 @@ namespace Magitek.Utilities
                                                                    (ResAllianceDps && a.IsDps() ||
                                                                     ResAllianceTanks && a.IsTank() ||
                                                                     ResAllianceHealers && a.IsDps()));
-
                     foreach (var ally in allianceToRes)
                     {
                         CastableAlliance.Add(ally);
@@ -190,6 +189,10 @@ namespace Magitek.Utilities
 
             if (ally.IsTank())
                 CastableTanks.Add(ally);
+            if (ally.IsHealer())
+                CastableHealers.Add(ally);
+            if (ally.IsDps())
+                CastableDps.Add(ally);
 
             var distance = ally.Distance(Core.Me);
             if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
@@ -204,18 +207,21 @@ namespace Magitek.Utilities
         {
             DeadAllies.Clear();
             CastableTanks.Clear();
+            CastableHealers.Clear();
+            CastableDps.Clear();
             CastableAlliesWithin30.Clear();
             CastableAlliesWithin25.Clear();
             CastableAlliesWithin20.Clear();
             CastableAlliesWithin15.Clear();
             CastableAlliesWithin12.Clear();
             CastableAlliesWithin10.Clear();
-            HealableAlliance.Clear();
         }
 
         public static readonly List<Character> CastableParty = new List<Character>();
         public static readonly List<Character> DeadAllies = new List<Character>();
         public static readonly List<Character> CastableTanks = new List<Character>();
+        public static readonly List<Character> CastableHealers = new List<Character>();
+        public static readonly List<Character> CastableDps = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin25 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();

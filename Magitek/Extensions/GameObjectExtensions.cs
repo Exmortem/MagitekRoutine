@@ -341,6 +341,58 @@ namespace Magitek.Extensions
             return 0;
         }
 
+        public static float GetHealingWeight(this GameObject c)
+        {
+            if (!BaseSettings.Instance.UseWeightedHealingPriority)
+                return 1;
+
+            var cha = c as Character;
+
+            var roleWeight = cha.IsTank() ?
+                BaseSettings.Instance.WeightedTankRole :
+                cha.IsHealer() ?
+                BaseSettings.Instance.WeightedHealerRole :
+                cha.CurrentJob == ClassJobType.RedMage || cha.CurrentJob == ClassJobType.Summoner ?
+                BaseSettings.Instance.WeightedRezMageRole :
+                BaseSettings.Instance.WeightedDpsRole;
+            var selfWeight = c == Core.Me ? BaseSettings.Instance.WeightedSelf : 1.0f;
+            var regens = CharacterExtensions.HealerRegens;
+            var shields = CharacterExtensions.HealerShields;
+            var ignores = CharacterExtensions.BuffIgnore;
+            var auras = cha.CharacterAuras.Where(a => !ignores.Contains(a.Id));
+            var debuffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedDebuff, auras.Count(r => r.IsDebuff));
+            var buffWeight = (float)Math.Pow(BaseSettings.Instance.WeightedBuff, auras.Count(r => !r.IsDebuff && !regens.Contains(r.Id) && !shields.Contains(r.Id)));
+            var regenWeight = (float)Math.Pow(BaseSettings.Instance.WeightedRegen, auras.Count(r => regens.Contains(r.Id)));
+            var shieldWeight = (float)Math.Pow(BaseSettings.Instance.WeightedShield, auras.Count(r => shields.Contains(r.Id)));
+            var weaknessWeight = (float)Math.Pow(BaseSettings.Instance.WeightedWeakness, cha.HasAura(Auras.Weakness) ? 1f : 0f);
+            var distanceMinWeight = BaseSettings.Instance.WeightedDistanceMin;
+            var distanceMaxWeight = BaseSettings.Instance.WeightedDistanceMax;
+            var distanceWeight = distanceMinWeight + (distanceMaxWeight - distanceMinWeight) * (Core.Me.Distance(c) / 30);
+            /*
+             * Logger.WriteInfo($"{c.Name} - \n" +
+                $"hp {c.CurrentHealthPercent}\n" +
+                $"self {selfWeight}\n" +
+                $"role {roleWeight}\n" +
+                $"debuff {debuffWeight}\n" +
+                $"regen {regenWeight}\n" +
+                $"shield {shieldWeight}\n" +
+                $"weakness {weaknessWeight}\n" +
+                $"distance {distanceWeight}\n");
+            */
+
+            var weight = c.CurrentHealthPercent
+                * selfWeight
+                * roleWeight
+                * debuffWeight
+                * buffWeight
+                * regenWeight
+                * shieldWeight
+                * weaknessWeight
+                * distanceWeight;
+
+            return weight;
+        }
+
         //This method return the heading from the player to the target object in radians.
         //A circle has 2*Pi radians, so an angle of 90 degrees would be Pi/2, and an angle
         //of 30 degrees would be Pi/6, etc.
