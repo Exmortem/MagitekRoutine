@@ -31,6 +31,10 @@ namespace Magitek.Models.Sage
         public bool InterruptDamageToHeal { get; set; }
 
         [Setting]
+        [DefaultValue(80.0f)]
+        public float InterruptDamageHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool DoDamage { get; set; }
 
@@ -89,6 +93,18 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(85)]
         public float KardiaSwitchTargetsHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool KardiaSwitchTargetsCurrent { get; set; }
+
+        [Setting]
+        [DefaultValue(95)]
+        public float KardiaSwitchTargetsCurrentHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KardiaMainTank { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -157,14 +173,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(60.0f)]
         public float KeracholeHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Egeiro { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EgeiroSwiftcast { get; set; }
 
         [Setting]
         [DefaultValue(true)]
