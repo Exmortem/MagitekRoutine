@@ -186,7 +186,7 @@ namespace Magitek.Models.Summoner
         public float LucidDreamingManaPercent { get; set; }
         
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ThrottleSummonsWithTTL { get; set; }
         
         #endregion
