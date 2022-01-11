@@ -88,7 +88,9 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
             if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
 
-            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+            if (!SageSettings.Instance.WeaveOGCDHeals
+                || Core.Me.CurrentMana < SageSettings.Instance.WeaveOGCDHealsManaPercent
+                || SageRoutine.GlobalCooldown.CanWeave(1))
             {
                 if (await Buff.LucidDreaming()) return true;
                 if (await Buff.Kardia()) return true;
@@ -99,7 +101,9 @@ namespace Magitek.Rotations
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+                if (!SageSettings.Instance.WeaveOGCDHeals
+                    || Core.Me.CurrentMana < SageSettings.Instance.WeaveOGCDHealsManaPercent
+                    || SageRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await Buff.Kerachole()) return true;
                     if (await Buff.Holos()) return true;

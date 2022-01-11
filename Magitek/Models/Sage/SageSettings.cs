@@ -284,6 +284,10 @@ namespace Magitek.Models.Sage
         public bool WeaveOGCDHeals { get; set; }
 
         [Setting]
+        [DefaultValue(10.0f)]
+        public float WeaveOGCDHealsManaPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Diagnosis { get; set; }
 
