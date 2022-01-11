@@ -102,6 +102,9 @@
     <Compile Include="Controls\HotkeyToggles.xaml.cs">
       <DependentUpon>HotkeyToggles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Decimal.xaml.cs">
+      <DependentUpon>Decimal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Numeric.xaml.cs">
       <DependentUpon>Numeric.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,7 @@
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
+    <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
     <Compile Include="Logic\Sage\Buff.cs" />
     <Compile Include="Logic\Sage\Dispel.cs" />
@@ -589,6 +593,9 @@
     <Compile Include="Views\UserControls\Bugs\Enmity.xaml.cs">
       <DependentUpon>Enmity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Bugs\HealingPriority.xaml.cs">
+      <DependentUpon>HealingPriority.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Bugs\HealingLists.xaml.cs">
       <DependentUpon>HealingLists.xaml</DependentUpon>
     </Compile>
@@ -880,6 +887,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Decimal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Numeric.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1077,6 +1088,10 @@
     <Page Include="Views\UserControls\Bugs\Enmity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\HealingPriority.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Bugs\HealingLists.xaml">
       <SubType>Designer</SubType>
