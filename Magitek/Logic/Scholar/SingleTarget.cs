@@ -17,7 +17,7 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.RuinBroil)
                 return false;
 
-            return await Spells.Ruin.Cast(Core.Me.CurrentTarget);
+            return await Spells.SchRuin.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Ruin2()

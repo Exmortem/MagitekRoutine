@@ -610,6 +610,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Lustrate = DataManager.GetSpellData(189);
         public static readonly SpellData Physick = DataManager.GetSpellData(190);
         public static readonly SpellData Indomitability = DataManager.GetSpellData(3583);
+        public static readonly SpellData SchRuin = DataManager.GetSpellData(17869);
         public static readonly SpellData Broil = DataManager.GetSpellData(3584);
         public static readonly SpellData DeploymentTactics = DataManager.GetSpellData(3585);
         public static readonly SpellData EmergencyTactics = DataManager.GetSpellData(3586);
