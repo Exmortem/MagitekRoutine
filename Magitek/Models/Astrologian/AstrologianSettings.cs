@@ -142,11 +142,15 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool Ascend { get; set; }
+        public bool SwifcastRes { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool SlowcastRes { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool AscendSwiftcast { get; set; }
+        public bool ResOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -191,22 +195,6 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(30.0f)]
         public float DiurnalHeliosMinManaPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool NocturnalHelios { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int NocturnalHeliosAllies { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float NocturnalHeliosHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        public float NocturnalHeliosMinManaPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -310,50 +298,6 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool NocturnalBenefic { get; set; }
-
-        [Setting]
-        [DefaultValue(40.0f)]
-        public float NocturnalBeneficMinMana { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool NocturnalBeneficOnTanks { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool NocturnalBeneficOnHealers { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool NocturnalBeneficOnDps { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool NocturnalBeneficKeepUpOnTanks { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool NocturnalBeneficKeepUpOnHealers { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool NocturnalBeneficKeepUpOnDps { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float NocturnalBeneficHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool NocturnalBeneficWhileMoving { get; set; }
-
-        [Setting]
-        [DefaultValue(40.0f)]
-        public float NocturnalBeneficWhileMovingMinMana { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Benefic { get; set; }
 
         [Setting]
@@ -436,7 +380,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(60)]
         public float GiantDominanceHealthPercent { get; set; }
-
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool WeaveOGCDHeals { get; set; }
 
         #endregion
 

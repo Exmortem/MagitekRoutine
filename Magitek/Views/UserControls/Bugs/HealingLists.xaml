@@ -8,9 +8,12 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="5">
+    <StackPanel Margin="5" Background="{DynamicResource ClassSelectorBackground}">
 
-        <CheckBox Margin="0,0,0,10" Content="Enable Healing List Debug" IsChecked="{Binding Settings.DebugHealingLists, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="0,0,10,10" Content="Enable Healing List Debug" IsChecked="{Binding Settings.DebugHealingLists, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <CheckBox Margin="0,0,0,10" Content="Print Changes to Console" IsChecked="{Binding Settings.DebugHealingListsPrintToLog, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </StackPanel>
 
         <Grid>
             <Grid.ColumnDefinitions>

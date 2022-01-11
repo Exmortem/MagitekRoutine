@@ -1,5 +1,6 @@
 ﻿using Clio.Utilities;
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
@@ -20,6 +21,8 @@ namespace Magitek.Utilities.Routines
         public static HashSet<string> DontNocturnalBenefic = new HashSet<string>();
         public static HashSet<string> DontEssentialDignity = new HashSet<string>();
         public static HashSet<string> DontCelestialIntersection = new HashSet<string>();
+        
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Astrologian, Spells.Malefic);
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
 

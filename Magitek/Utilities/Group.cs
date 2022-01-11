@@ -65,7 +65,7 @@ namespace Magitek.Utilities
                 if (ally == null)
                     continue;
 
-                if (BaseSettings.Instance.DebugHealingLists == true)
+                if (BaseSettings.Instance.DebugHealingListsPrintToLog == true)
                 {
                     Logger.WriteInfo($@"[Debug] PartyManager {ally.Name} is a valid Party Member in PartyManager.");
                 }
@@ -89,7 +89,7 @@ namespace Magitek.Utilities
 
                 CastableParty.Add(ally);
             }
-
+            
             foreach (var ally in CastableParty.OrderBy(a => a.GetHealingWeight()))
             {
 

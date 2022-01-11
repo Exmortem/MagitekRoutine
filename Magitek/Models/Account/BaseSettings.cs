@@ -92,6 +92,10 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool DebugHealingLists { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool DebugHealingListsPrintToLog { get; set; }
 
         [Setting]
         [DefaultValue(false)]

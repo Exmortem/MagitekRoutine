@@ -26,6 +26,7 @@ namespace Magitek.Utilities
         public static SpellData LastSpell;
         public static bool LastSpellSucceeded;
         public static DateTime LastSpellTimeFinishedUtc;
+        public static readonly Stopwatch LastSpellTimeFinishAge = new Stopwatch();
         public static GameObject LastSpellTarget;
         public static GameObject SpellTarget;
         public static TimeSpan SpellCastTime;
@@ -247,6 +248,8 @@ namespace Magitek.Utilities
             LastSpellSucceeded = true;
             Debug.Instance.LastSpell = LastSpell;
             LastSpellTimeFinishedUtc = DateTime.UtcNow;
+            if (!LastSpellTimeFinishAge.IsRunning) LastSpellTimeFinishAge.Start();
+            else LastSpellTimeFinishAge.Restart();
             LastSpellTarget = SpellTarget;
             Logger.WriteCast($@"Successfully Casted {LastSpell}");
 
