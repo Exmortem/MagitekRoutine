@@ -642,6 +642,9 @@ namespace Magitek.Logic.Sage
 
         private static async Task<bool> UseZoe()
         {
+            if (Core.Me.HasAura(Auras.Zoe))
+                return true;
+
             if (Spells.Zoe.Cooldown != TimeSpan.Zero)
                 return false;
 
