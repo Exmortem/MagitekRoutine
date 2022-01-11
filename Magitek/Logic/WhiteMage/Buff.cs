@@ -185,20 +185,17 @@ namespace Magitek.Logic.WhiteMage
                 if (aquaveilTarget == null)
                     return false;
 
-                return await Spells.Protraction.CastAura(aquaveilTarget, Auras.Protraction);
+                return await Spells.Aquaveil.Cast(aquaveilTarget);
             }
 
             if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.AquaveilHealthPercent)
                 return false;
 
-            return await Spells.Protraction.CastAura(Core.Me, Auras.Protraction);
+            return await Spells.Aquaveil.Cast(Core.Me);
 
             bool CanAquaveil(Character unit)
             {
                 if (unit == null)
-                    return false;
-
-                if (unit.HasAura(Auras.Protraction))
                     return false;
 
                 if (unit.CurrentHealthPercent > WhiteMageSettings.Instance.AquaveilHealthPercent)
