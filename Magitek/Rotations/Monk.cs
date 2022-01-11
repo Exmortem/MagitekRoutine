@@ -24,6 +24,8 @@ namespace Magitek.Rotations
         public static async Task<bool> PreCombatBuff()
         {
             await Casting.CheckForSuccessfulCast();
+            if (WorldManager.InSanctuary)
+                return false;
 
             if (await Buff.Meditate()) return true;
             //if (await Buff.FormShiftOOC()) return true;

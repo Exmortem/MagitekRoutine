@@ -18,9 +18,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-            if (WorldManager.InSanctuary)
-                return false;
-
             if (Core.Me.IsMounted)
                 return false;
 
@@ -28,6 +25,9 @@ namespace Magitek.Rotations
                 return true;
 
             await Casting.CheckForSuccessfulCast();
+
+            if (WorldManager.InSanctuary)
+                return false;
 
             if (Globals.OnPvpMap)
                 return false;

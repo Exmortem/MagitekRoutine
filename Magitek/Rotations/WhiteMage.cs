@@ -32,6 +32,9 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (Core.Me.IsMounted)
                 return false;
 
