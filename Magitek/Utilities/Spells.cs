@@ -647,7 +647,7 @@ namespace Magitek.Utilities
         public static readonly SpellData SummonIfrit = DataManager.GetSpellData(25805);
         public static readonly SpellData SummonTitan = DataManager.GetSpellData(25806);
         public static readonly SpellData Painflare = DataManager.GetSpellData(3578);
-        public static readonly SpellData SummonGaruda = DataManager.GetSpellData(25806);
+        public static readonly SpellData SummonGaruda = DataManager.GetSpellData(25807);
         public static readonly SpellData EnergySiphon = DataManager.GetSpellData(16510);
         public static readonly SpellData Ruin3 = DataManager.GetSpellData(3579);
         public static readonly SpellData RubyRuinIII = DataManager.GetSpellData(25817);
