@@ -56,7 +56,8 @@ namespace Magitek.Extensions
             return unit.HasAnyAura(HealerRegens);
         }
 
-        public static float AdjustHealthThresholdByRegen(this Character target, float healthThreshold) {
+        public static float AdjustHealthThresholdByRegen(this Character target, float healthThreshold)
+        {
 
             var regens = HealerRegens;
             var matchingAuras = target.CharacterAuras.Count(r => regens.Contains(r.Id));
@@ -64,14 +65,6 @@ namespace Magitek.Extensions
             return healthThreshold + (2 * matchingAuras);
         }
 
-        public static uint[] HealerRegens = new uint[] {
-                Auras.Regen,
-                Auras.Regen2,
-                Auras.Medica2,
-                Auras.AspectedBenefic,
-                Auras.AspectedHelios
-        };
-        
         public static bool IsCastingTankBuster(this Character target)
         {
             if (!Globals.InActiveDuty)
@@ -79,7 +72,7 @@ namespace Magitek.Extensions
 
             if (!Core.Me.InCombat)
                 return false;
-                
+
             if (!target.IsCasting)
                 return false;
 
@@ -154,7 +147,7 @@ namespace Magitek.Extensions
 
             //====Endwalker Savage Raids
         };
-        
+
         public static bool IsCastingBigAoe(this Character target)
         {
             if (!Globals.InActiveDuty)
@@ -162,28 +155,29 @@ namespace Magitek.Extensions
 
             if (!Core.Me.InCombat)
                 return false;
-                
+
             if (!target.IsCasting)
                 return false;
 
             return target.IsNpc && BigAoes.Contains(target.CastingSpellId);
         }
 
-        private static readonly List<uint> BigAoes = new List<uint>() {
+        private static readonly List<uint> BigAoes = new List<uint>()
+        {
             //====Endwalker Dungeons
-            
+
             //Lv 81 - The Tower of Zot
 
             //Lv 83 - The Tower of Babil
-            
+
             //Lv 85 - Vanaspati
 
             //Lv 87 - Ktisis Hyperboreia
 
             //Lv 89 - The Aitiascope
-            
+
             //Lv 90 - The Dead Ends
-            
+
             //Lv 90 - Smileton
 
             //Lv 90 - The Stigma Dreamscape
@@ -212,6 +206,50 @@ namespace Magitek.Extensions
 
 
             //====Endwalker Savage Raids
+        };
+        public static uint[] HealerRegens = new uint[] {
+                Auras.Regen,
+                Auras.Regen2,
+                Auras.Medica2,
+                Auras.AsylumReceiver,
+                Auras.SacredSoilReceiver,
+                Auras.WhisperingDawn,
+                Auras.AngelsWhisper,
+                Auras.AspectedBenefic,
+                Auras.AspectedHelios,
+                Auras.Kerakeia,
+                Auras.PhysisII,
+                Auras.CrestOfTimeReturned
+        };
+
+        public static uint[] HealerShields = new uint[]
+        {
+            Auras.NocturnalField,
+            Auras.Galvanize,
+            Auras.EukrasianDiagnosis,
+            Auras.EukrasianPrognosis,
+            Auras.Haimatinon,
+            Auras.Haima,
+            Auras.Panhaima,
+            Auras.Panhaimatinon,
+            Auras.ShakeItOff,
+            Auras.BlackestNight
+        };
+
+        public static uint[] BuffIgnore = new uint[]
+        {
+            Auras.DancePartner,
+            Auras.ClosedPosition,
+            Auras.IronWill,
+            Auras.Defiance,
+            Auras.Grit,
+            Auras.RoyalGuard,
+            Auras.EyesOpen,
+            Auras.LeftEye,
+            Auras.RightEye,
+            Auras.Kardia,
+            Auras.Kardion,
+            Auras.Eukrasia
         };
     }
 }

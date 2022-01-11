@@ -82,7 +82,13 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
 
-            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave())
+            if (await Logic.Sage.Heal.ForceEukrasianPrognosis()) return true;
+            if (await Logic.Sage.Heal.ForceHaima()) return true;
+            if (await Logic.Sage.Heal.ForcePanhaima()) return true;
+            if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
+            if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
+
+            if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
             {
                 if (await Buff.LucidDreaming()) return true;
                 if (await Buff.Kardia()) return true;
@@ -116,20 +122,49 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
             }
 
-            return false;
+            return await HealAlliance();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static async Task<bool> HealAlliance()
         {
-            if (await Buff.Kardia()) return true;
+            if (Group.CastableAlliance.Count == 0)
+                return false;
 
-            return false;
+            Group.SwitchCastableToAlliance();
+            var res = await DoHeal();
+            Group.SwitchCastableToParty();
+            return res;
+
+            async Task<bool> DoHeal()
+            {
+                if (await Logic.Sage.Heal.Egeiro()) return true;
+
+                if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
+                {
+                    if (await Logic.Sage.Heal.Diagnosis()) return true;
+                }
+
+                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+                {
+                    if (await Logic.Sage.Heal.Taurochole()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
+                    if (await Logic.Sage.Heal.Druochole()) return true;
+                }
+
+                if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
+                if (await Logic.Sage.Heal.Diagnosis()) return true;
+
+                return false;
+            }
+        }
+
+        public static Task<bool> CombatBuff()
+        {
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
         {
-            await CombatBuff();
-
             //Only stop doing damage when in party
             if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;

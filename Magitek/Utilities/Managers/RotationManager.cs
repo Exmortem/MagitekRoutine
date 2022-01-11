@@ -155,7 +155,7 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
                     Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.WhiteMage.PreCombatBuff();
 
                 case ClassJobType.Thaumaturge:
@@ -168,7 +168,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Scholar:
                     Group.UpdateAllies(Routines.Scholar.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Scholar.PreCombatBuff();
 
                 case ClassJobType.Rogue:
@@ -183,7 +183,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Astrologian:
                     Group.UpdateAllies(Routines.Astrologian.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Astrologian.PreCombatBuff();
 
                 case ClassJobType.Samurai:
@@ -206,7 +206,7 @@ namespace Magitek.Utilities.Managers
 
                 case ClassJobType.Sage:
                     Group.UpdateAllies(Routines.Sage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Sage.PreCombatBuff();
 
                 default:
@@ -300,86 +300,101 @@ namespace Magitek.Utilities.Managers
             if (!BaseSettings.Instance.ActiveCombatRoutine)
                 return false;
 
-            Group.UpdateAllies();
             await Chocobo.HandleChocobo();
 
             switch (RotationManager.CurrentRotation)
             {
                 case ClassJobType.Gladiator:
                 case ClassJobType.Paladin:
+                    Group.UpdateAllies();
                     return await Rotations.Paladin.Heal();
 
                 case ClassJobType.Pugilist:
                 case ClassJobType.Monk:
+                    Group.UpdateAllies();
                     return await Rotations.Monk.Heal();
 
                 case ClassJobType.Marauder:
                 case ClassJobType.Warrior:
+                    Group.UpdateAllies();
                     return await Rotations.Warrior.Heal();
 
                 case ClassJobType.Lancer:
                 case ClassJobType.Dragoon:
+                    Group.UpdateAllies();
                     return await Rotations.Dragoon.Heal();
 
                 case ClassJobType.Archer:
                 case ClassJobType.Bard:
+                    Group.UpdateAllies();
                     return await Rotations.Bard.Heal();
 
                 case ClassJobType.Conjurer:
                 case ClassJobType.WhiteMage:
                     Group.UpdateAllies(Routines.WhiteMage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.WhiteMage.Heal();
 
                 case ClassJobType.Thaumaturge:
                 case ClassJobType.BlackMage:
+                    Group.UpdateAllies();
                     return await Rotations.BlackMage.Heal();
 
                 case ClassJobType.Arcanist:
                 case ClassJobType.Summoner:
+                    Group.UpdateAllies();
                     return await Rotations.Summoner.Heal();
 
                 case ClassJobType.Scholar:
                     Group.UpdateAllies(Routines.Scholar.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Scholar.Heal();
 
                 case ClassJobType.Rogue:
                 case ClassJobType.Ninja:
+                    Group.UpdateAllies();
                     return await Rotations.Ninja.Heal();
 
                 case ClassJobType.Machinist:
+                    Group.UpdateAllies();
                     return await Rotations.Machinist.Heal();
 
                 case ClassJobType.DarkKnight:
+                    Group.UpdateAllies();
                     return await Rotations.DarkKnight.Heal();
 
                 case ClassJobType.Astrologian:
                     Group.UpdateAllies(Routines.Astrologian.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Astrologian.Heal();
 
                 case ClassJobType.Samurai:
+                    Group.UpdateAllies();
                     return await Rotations.Samurai.Heal();
 
                 case ClassJobType.BlueMage:
+                    Group.UpdateAllies();
                     return await Rotations.BlueMage.Heal();
 
                 case ClassJobType.RedMage:
+                    Group.UpdateAllies();
                     return await Rotations.RedMage.Heal();
 
                 case ClassJobType.Gunbreaker:
+                    Group.UpdateAllies();
                     return await Rotations.Gunbreaker.Heal();
 
                 case ClassJobType.Dancer:
+                    Group.UpdateAllies();
                     return await Rotations.Dancer.Heal();
 
                 case ClassJobType.Reaper:
+                    Group.UpdateAllies();
                     return await Rotations.Reaper.Heal();
 
                 case ClassJobType.Sage:
                     Group.UpdateAllies(Routines.Sage.GroupExtension);
-                    Globals.HealTarget = Group.CastableAlliesWithin30.OrderBy(x => x.CurrentHealthPercent).FirstOrDefault();
+                    Globals.HealTarget = Group.CastableAlliesWithin30.FirstOrDefault();
                     return await Rotations.Sage.Heal();
 
                 default:

@@ -496,53 +496,12 @@ namespace Magitek.Logic.Scholar
 
         public static async Task<bool> Resurrection()
         {
-            if (!Globals.InParty)
-                return false;
-
-            var deadList = Group.DeadAllies.Where(u => u.CurrentHealth == 0 &&
-                                                       !u.HasAura(Auras.Raise) &&
-                                                       u.Distance(Core.Me) <= 30 &&
-                                                       u.IsVisible &&
-                                                       u.InLineOfSight() &&
-                                                       u.IsTargetable)
-                .OrderByDescending(r => r.GetResurrectionWeight());
-
-            var deadTarget = deadList.FirstOrDefault();
-
-            if (deadTarget == null)
-                return false;
-
-            if (Globals.PartyInCombat)
-            {
-                if (ScholarSettings.Instance.SwiftcastRes && Spells.Swiftcast.Cooldown == TimeSpan.Zero)
-                {
-                    // Prevent burning switftcast if no mana to actually rez.
-                    if (!ActionManager.CanCast(Spells.Resurrection, deadTarget))
-                        return false;
-
-                    if (await Buff.Swiftcast())
-                    {
-                        while (Core.Me.HasAura(Auras.Swiftcast))
-                        {
-                            if (await Spells.Resurrection.CastAura(deadTarget, Auras.Raise))
-                                return true;
-                            await Coroutine.Yield();
-                        }
-                    }
-                }
-            }
-
-            if (Globals.PartyInCombat && ScholarSettings.Instance.SlowcastRes || !Globals.PartyInCombat && ScholarSettings.Instance.ResOutOfCombat)
-            {
-                //delay casting raise on the same target in case they are already in the resurrect animation and the buff is gone for some reason
-                //but this shouldn't be needed outside of Trust NPCs
-                //if(Casting.SpellCastHistory.Take(5).Any(s => s.Spell == Spells.Resurrection && s.SpellTarget == deadTarget))
-                //    return false;
-
-                return await Spells.Resurrection.CastAura(deadTarget, Auras.Raise);
-            }
-
-            return false;
+            return await Roles.Healer.Raise(
+                Spells.Resurrection,
+                ScholarSettings.Instance.SwiftcastRes,
+                ScholarSettings.Instance.SlowcastRes,
+                ScholarSettings.Instance.ResOutOfCombat
+            );
         }
 
         public static async Task<bool> WhisperingDawn()

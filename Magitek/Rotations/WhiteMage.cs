@@ -135,7 +135,37 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.Cure()) return true;
             if (await Logic.WhiteMage.Heal.Regen()) return true;
 
-            return false;
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.CastableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+            var res = await DoHeal();
+            Group.SwitchCastableToParty();
+            return res;
+
+            async Task<bool> DoHeal()
+            {
+                if (await Logic.WhiteMage.Heal.Raise()) return true;
+
+                if (WhiteMageSettings.Instance.HealAllianceOnlyCure)
+                {
+                    if (await Logic.WhiteMage.Heal.Cure()) return true;
+                }
+
+                if (await Logic.WhiteMage.Heal.Benediction()) return true;
+                if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
+                if (await Logic.WhiteMage.Heal.AfflatusSolace()) return true;
+                if (await Logic.WhiteMage.Heal.Cure2()) return true;
+                if (await Logic.WhiteMage.Heal.Cure()) return true;
+                if (await Logic.WhiteMage.Heal.Regen()) return true;
+
+                return false;
+            }
         }
 
         public static Task<bool> CombatBuff()
