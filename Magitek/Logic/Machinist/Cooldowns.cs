@@ -96,6 +96,11 @@ namespace Magitek.Logic.Machinist
             if (!Spells.Wildfire.IsReady())
                 return false;
 
+            if (MachinistSettings.Instance.UseWildfireEnemyCount
+                && MachinistSettings.Instance.UseAoe 
+                && Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.WildfireEnemies)
+                return false;
+
             //Force Delay CD
             if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 200)
                 return false;

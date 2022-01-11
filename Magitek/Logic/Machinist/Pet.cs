@@ -25,6 +25,11 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Battery < MachinistSettings.Instance.MinBatteryForPetSummon)
                 return false;
 
+            if (MachinistSettings.Instance.UseRookQueenEnemyCount
+                && MachinistSettings.Instance.UseAoe
+                && Core.Me.EnemiesInCone(12) > MachinistSettings.Instance.RookQueenEnemies)
+                return false;
+
             if (MachinistSettings.Instance.UseBuffedRookQueen)
             {
                 if (!MachinistRoutine.CheckCurrentDamageIncrease(MachinistSettings.Instance.UseRookQueenWithAtLeastXBonusDamage) && ActionResourceManager.Machinist.Battery < 80)
