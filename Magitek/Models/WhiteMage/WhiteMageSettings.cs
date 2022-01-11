@@ -87,6 +87,22 @@ namespace Magitek.Models.WhiteMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool LiturgyOfTheBell { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int LiturgyOfTheBellAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(85.0f)]
+        public float LiturgyOfTheBellHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool LiturgyOfTheBellCenterParty { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseAfflatusMisery { get; set; }
 
         [Setting]
@@ -293,6 +309,22 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(1)]
         public int PresenceOfMindNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Aquaveil { get; set; }
+
+        [Setting]
+        [DefaultValue(65.0f)]
+        public float AquaveilHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool AquaveilTankOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool AquaveilMainTankOnly { get; set; }
 
         [Setting]
         [DefaultValue(true)]

@@ -20,7 +20,7 @@
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
- 
+
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -242,8 +242,25 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+
+                <CheckBox Content="Liturgy Of The Bell" IsChecked="{Binding WhiteMageSettings.LiturgyOfTheBell, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.LiturgyOfTheBellAllies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Party Members Are Below " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.LiturgyOfTheBellHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                </StackPanel>
+
+                <CheckBox Content="Place healing blossom on the party member closest to the center of the whole party." IsChecked="{Binding WhiteMageSettings.LiturgyOfTheBellCenterParty, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-           <!-- <StackPanel Margin="5">
+            <!-- <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Use Tank Busters" IsChecked="{Binding WhiteMageSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5,0" Content="Prioritize Tank Busters" IsChecked="{Binding WhiteMageSettings.PrioritizeTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
