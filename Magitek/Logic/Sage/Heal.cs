@@ -347,7 +347,7 @@ namespace Magitek.Logic.Sage
             if (!needPepsis)
                 return false;
 
-            if (!await UseEukrasianPrognosisIfNeeded(SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing, Spells.Pepsis, Core.Me))
+            if (!await UseEukrasianPrognosisIfNeeded(Group.CastableAlliesWithin15.Count(), Spells.Pepsis, Core.Me))
                 return false;
 
             return await Spells.Pepsis.Cast(Core.Me);
@@ -363,7 +363,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Pepsis.IsKnownAndReady())
                 return false;
 
-            if (!await UseEukrasianPrognosisIfNeeded(SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing, Spells.Pepsis, Core.Me))
+            if (!await UseEukrasianPrognosisIfNeeded(Group.CastableAlliesWithin15.Count(), Spells.Pepsis, Core.Me))
                 return false;
 
             if (!await Spells.Pepsis.Cast(Core.Me))
