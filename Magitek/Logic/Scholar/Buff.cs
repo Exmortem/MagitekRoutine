@@ -187,23 +187,7 @@ namespace Magitek.Logic.Scholar
 
         public static async Task<bool> LucidDreaming()
         {
-            if (!ScholarSettings.Instance.LucidDreaming)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Core.Me.CurrentManaPercent > ScholarSettings.Instance.LucidDreamingManaPercent)
-                return false;
-
-            if (Spells.LucidDreaming.Cooldown.TotalMilliseconds > 1500)
-                return false;
-
-            //force ruin 2 cast to open GCD 
-            //if (Casting.LastSpell != Spells.Biolysis || Casting.LastSpell != Spells.ArtOfWar || Casting.LastSpell != Spells.Adloquium || Casting.LastSpell != Spells.Succor)
-            //    if (await Spells.Ruin2.Cast(Core.Me.CurrentTarget))
-            //        return true;
-            return await Spells.LucidDreaming.Cast(Core.Me);
+            return await Roles.Healer.LucidDreaming(ScholarSettings.Instance.LucidDreaming, ScholarSettings.Instance.LucidDreamingManaPercent);
         }
 
         public static async Task<bool> ChainStrategem()

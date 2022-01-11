@@ -26,19 +26,7 @@ namespace Magitek.Logic.Sage
         }
         public static async Task<bool> LucidDreaming()
         {
-            if (!SageSettings.Instance.LucidDreaming)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Core.Me.CurrentManaPercent > SageSettings.Instance.LucidDreamingManaPercent)
-                return false;
-
-            if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
-                return false;
-
-            return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
+            return await Roles.Healer.LucidDreaming(SageSettings.Instance.LucidDreaming, SageSettings.Instance.LucidDreamingManaPercent);
         }
         public static async Task<bool> Kardia()
         {

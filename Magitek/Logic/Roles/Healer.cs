@@ -15,6 +15,26 @@ namespace Magitek.Logic.Roles
 {
     public class Healer
     {
+        public static async Task<bool> LucidDreaming(bool useLucid, float manaPercent)
+        {
+            if (!useLucid)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Core.Me.CurrentManaPercent > manaPercent)
+                return false;
+
+            if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft <= 20)
+                return false;
+
+            return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
+        }
+
         public static async Task<bool> Swiftcast()
         {
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
