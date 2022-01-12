@@ -44,9 +44,6 @@ namespace Magitek.Logic.Summoner
             if (!Spells.Deathflare.IsKnownAndReady())
                 return false;
 
-            if (GlobalCooldown.CanWeave(1))
-                return false;
-            
             if (!GlobalCooldown.CanWeave())
                 return false;
             
@@ -59,9 +56,6 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             if (!Spells.Rekindle.IsKnownAndReady())
-                return false;
-            
-            if (GlobalCooldown.CanWeave(1))
                 return false;
             
             if (!GlobalCooldown.CanWeave())
@@ -249,12 +243,9 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 2) 
                 return false;
             
-            if (GlobalCooldown.CanWeave())
+            if (!GlobalCooldown.CanWeave())
                 return false;
             
-            if (!GlobalCooldown.CanWeave(1))
-                return false;
-
             return await Spells.Painflare.Cast(Core.Me.CurrentTarget);
         }
 
@@ -282,7 +273,7 @@ namespace Magitek.Logic.Summoner
                 && (SmnResources.ElementalAttunement > 1 || !MovementManager.IsMoving))
                 return false;
             
-            return await Spells.Ruin4.Cast(Core.Me);
+            return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
         }
     }
 }
