@@ -69,14 +69,17 @@ namespace Magitek.Logic.Astrologian
                 if (Core.Me.CurrentHealthPercent > AstrologianSettings.Instance.BeneficHealthPercent)
                     return false;
 
-                if (Core.Me.HasAura(Auras.EnhancedBenefic2)
-                    && AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2
-                    && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
-                    return await Spells.Benefic2.Heal(Core.Me);
+                if (Spells.Benefic2.IsKnownAndReady())
+                {
+                    if (Core.Me.HasAura(Auras.EnhancedBenefic2)
+                        && AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2
+                        && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
+                        return await Spells.Benefic2.Heal(Core.Me);
 
-                if (Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent
-                    && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
-                    return await Spells.Benefic2.Heal(Core.Me);
+                    if (Core.Me.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent
+                        && Core.Me.CurrentManaPercent >= Spells.Benefic2.Cost)
+                        return await Spells.Benefic2.Heal(Core.Me);
+                }
 
                 return await Spells.Benefic.Heal(Core.Me);
             }
@@ -94,6 +97,9 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> Benefic2()
         {
             if (!AstrologianSettings.Instance.Benefic2)
+                return false;
+
+            if (!Spells.Benefic2.IsKnownAndReady())
                 return false;
 
             var shouldBenefic2WithEnhancedBenefic2 = AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2
@@ -432,6 +438,9 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
+            if (!Spells.AspectedHelios.IsKnownAndReady())
+                return false;
+
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
 
@@ -448,10 +457,13 @@ namespace Magitek.Logic.Astrologian
             if (diurnalHeliosCount < AstrologianSettings.Instance.DiurnalHeliosAllies)
                 return false;
 
-            if (diurnalHeliosCount == PartyManager.NumMembers)
-                return await SwiftCastAspectedHelios();
+            if (diurnalHeliosCount != PartyManager.NumMembers)
+                return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
+            
+            if (await SwiftCastAspectedHelios())
+                return true;
 
-            return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
+            return false;
         }
 
         private static async Task<bool> SwiftCastAspectedHelios()

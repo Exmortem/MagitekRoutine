@@ -66,7 +66,11 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool EnergyDrain { get; set; }        
+        public bool EnergyDrain { get; set; }     
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SwiftRubyRite { get; set; }
 
         #endregion
 
@@ -159,7 +163,15 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool Resurrection { get; set; }
+        public bool SwiftcastRes { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SlowcastRes { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool ResOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]

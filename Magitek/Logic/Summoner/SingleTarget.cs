@@ -47,9 +47,9 @@ namespace Magitek.Logic.Summoner
                                                                     u.InLineOfSight() &&
                                                                     u.IsTargetable);
 
-                            if (anyDead || SmnResources.ElementalAttunement > 1)
+                            if (anyDead || SmnResources.ElementalAttunement > 1 || !SummonerSettings.Instance.SwiftRubyRite)
                                 return await Spells.RubyRite.Cast(Core.Me.CurrentTarget);
-
+                            
                             if (await Buff.Swiftcast())
                             {
                                 while (Core.Me.HasAura(Auras.Swiftcast))

@@ -164,6 +164,9 @@ namespace Magitek.Logic.Summoner
             
             if (!GlobalCooldown.CanWeave())
                 return false;
+            
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+                return false; 
 
             return await Spells.EnergySiphon.Cast(Core.Me.CurrentTarget);
         }
