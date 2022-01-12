@@ -91,7 +91,8 @@ namespace Magitek.Rotations
             if (await Logic.Astrologian.Heal.Ascend()) return true;
             if (await Dispel.Execute()) return true;
 
-            if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+            //if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+            if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 500)
             {
                 if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
                 if (await Buff.LucidDreaming()) return true;
@@ -101,7 +102,8 @@ namespace Magitek.Rotations
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+                //if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+                if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 500)
                 {
                     if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
                     if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
@@ -188,6 +190,13 @@ namespace Magitek.Rotations
                     return false;
 
             }
+            
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            Casting.DoHealthChecks = false;
 
             if (BotManager.Current.IsAutonomous)
             {
