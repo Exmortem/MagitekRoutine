@@ -99,7 +99,7 @@ namespace Magitek.Rotations
                 return false;
             }
 
-            if (Casting.LastSpell == Spells.PlenaryIndulgence || Core.Me.HasAura(Auras.Confession, true))
+            if (Casting.LastSpell == Spells.PlenaryIndulgence)
             {
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;
