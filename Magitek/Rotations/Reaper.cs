@@ -33,6 +33,9 @@ namespace Magitek.Rotations
 
             //Openers.OpenerCheck();
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (await Utility.Soulsow())
                 return true;
 

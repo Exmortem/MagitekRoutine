@@ -36,6 +36,8 @@ namespace Magitek.Rotations
                     return await Spells.Transpose.Cast(Core.Me);
                 }
             }*/
+            if (WorldManager.InSanctuary)
+                return false;
 
             //Try to keep stacks outside combat
             if (await Buff.UmbralSoul()) return true;

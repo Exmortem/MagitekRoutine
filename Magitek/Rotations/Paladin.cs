@@ -23,15 +23,15 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (Core.Me.IsCasting)
                 return true;
 
             await Casting.CheckForSuccessfulCast();
 
-
             if (Core.Me.IsMounted)
+                return false;
+
+            if (WorldManager.InSanctuary)
                 return false;
 
             return await Buff.Oath();
