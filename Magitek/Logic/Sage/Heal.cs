@@ -347,16 +347,7 @@ namespace Magitek.Logic.Sage
             if (!needPepsis)
                 return false;
 
-            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
-                return false;
-
-            if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
-                return false;
-
-            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
-                return false;
-
-            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pepsis, Core.Me)))
+            if (!await UseEukrasianPrognosisIfNeeded(Group.CastableAlliesWithin15.Count(), Spells.Pepsis, Core.Me))
                 return false;
 
             return await Spells.Pepsis.Cast(Core.Me);
@@ -372,16 +363,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Pepsis.IsKnownAndReady())
                 return false;
 
-            if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
-                return false;
-
-            if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
-                return false;
-
-            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
-                return false;
-
-            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.Pepsis, Core.Me)))
+            if (!await UseEukrasianPrognosisIfNeeded(Group.CastableAlliesWithin15.Count(), Spells.Pepsis, Core.Me))
                 return false;
 
             if (!await Spells.Pepsis.Cast(Core.Me))
@@ -391,6 +373,29 @@ namespace Magitek.Logic.Sage
             TogglesManager.ResetToggles();
             return true;
         }
+
+        private static async Task<bool> UseEukrasianPrognosisIfNeeded(int NeedShields, SpellData forSpell, Character target)
+        {
+            var needPrognosis = Group.CastableAlliesWithin15.Count(r => r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true)) < NeedShields;
+
+            if (needPrognosis)
+            {
+                if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
+                    return false;
+
+                if (!await Spells.EukrasianPrognosis.Cast(Core.Me))
+                    return false;
+
+                if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
+                    return false;
+
+                if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(forSpell, target)))
+                    return false;
+            }
+
+            return true;
+        }
+
         public static async Task<bool> Taurochole()
         {
             if (!SageSettings.Instance.Taurochole)
@@ -642,6 +647,9 @@ namespace Magitek.Logic.Sage
 
         private static async Task<bool> UseZoe()
         {
+            if (Core.Me.HasAura(Auras.Zoe))
+                return true;
+
             if (Spells.Zoe.Cooldown != TimeSpan.Zero)
                 return false;
 

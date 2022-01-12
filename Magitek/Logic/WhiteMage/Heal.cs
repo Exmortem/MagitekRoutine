@@ -345,6 +345,53 @@ namespace Magitek.Logic.WhiteMage
             return await Spells.Asylum.Cast(asylumTarget);
         }
 
+        public static async Task<bool> LiturgyOfTheBell()
+        {
+            if (!WhiteMageSettings.Instance.LiturgyOfTheBell)
+                return false;
+
+            if (!Spells.LiturgyOfTheBell.IsKnownAndReady())
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft < 20)
+                return false;
+
+            if (!Core.Me.HasTarget)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var liturgyTargets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.LiturgyOfTheBellHealthPercent);
+
+                if (liturgyTargets.Count() < WhiteMageSettings.Instance.LiturgyOfTheBellAllies)
+                    return false;
+
+                Character target = liturgyTargets.FirstOrDefault();
+
+                if (WhiteMageSettings.Instance.LiturgyOfTheBellCenterParty)
+                {
+                    var targets = Group.CastableAlliesWithin30.OrderBy(r =>
+                        Group.CastableAlliesWithin30.Sum(ot => r.Distance(ot.Location))
+                    ).ThenBy(t => Core.Me.Distance(t.Location));
+
+                    target = targets.FirstOrDefault();
+                }
+
+                if (target == null)
+                    return false;
+
+                return await Spells.LiturgyOfTheBell.Cast(target);
+            }
+
+            if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.LiturgyOfTheBellHealthPercent)
+                return false;
+
+            return await Spells.LiturgyOfTheBell.Cast(Core.Me);
+        }
+
         public static async Task<bool> Medica2()
         {
             if (!WhiteMageSettings.Instance.Medica2)
