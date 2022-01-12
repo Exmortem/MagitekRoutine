@@ -33,7 +33,10 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Wildfire" IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Wildfire " IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Only use when there are fewer than " IsChecked="{Binding MachinistSettings.UseWildfireEnemyCount, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.WildfireEnemies, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
             </StackPanel>
         </controls:SettingsBlock>
 
