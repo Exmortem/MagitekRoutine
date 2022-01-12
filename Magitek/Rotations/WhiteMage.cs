@@ -32,6 +32,9 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (Core.Me.IsMounted)
                 return false;
 
@@ -96,7 +99,7 @@ namespace Magitek.Rotations
                 return false;
             }
 
-            if (Casting.LastSpell == Spells.PlenaryIndulgence || Core.Me.HasAura(Auras.Confession, true))
+            if (Casting.LastSpell == Spells.PlenaryIndulgence)
             {
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;

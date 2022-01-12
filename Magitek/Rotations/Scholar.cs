@@ -40,11 +40,11 @@ namespace Magitek.Rotations
 
             if (CustomOpenerLogic.InOpener) return false;
 
-            if (await Buff.SummonPet())
-                return true;
-
             if (WorldManager.InSanctuary)
                 return false;
+
+            if (await Buff.SummonPet())
+                return true;
 
             return false;
         }

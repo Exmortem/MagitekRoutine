@@ -34,6 +34,9 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             return await PhysicalDps.Peloton(BardSettings.Instance);
         }
 
