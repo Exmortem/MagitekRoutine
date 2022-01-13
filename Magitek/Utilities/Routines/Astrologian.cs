@@ -21,7 +21,7 @@ namespace Magitek.Utilities.Routines
         public static HashSet<string> DontNocturnalBenefic = new HashSet<string>();
         public static HashSet<string> DontEssentialDignity = new HashSet<string>();
         public static HashSet<string> DontCelestialIntersection = new HashSet<string>();
-        
+
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Astrologian, Spells.Malefic);
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
@@ -41,7 +41,7 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
-            if (Casting.CastingSpell == Spells.Ascend && Casting.SpellTarget?.HasAura(Auras.Raise) == true)
+            if (Casting.CastingSpell == Spells.Ascend && (Casting.SpellTarget?.HasAura(Auras.Raise) == true || Casting.SpellTarget?.CurrentHealth > 0))
             {
                 Logger.Error($@"Stopped Resurrection: Unit has raise aura");
                 return true;

@@ -87,7 +87,7 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
-            if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.HasAura(Auras.Raise) == true)
+            if (Casting.CastingSpell == Spells.Resurrection && (Casting.SpellTarget?.HasAura(Auras.Raise) == true || Casting.SpellTarget?.CurrentHealth > 0))
             {
                 Logger.Error($@"Stopped Resurrection: Unit has raise aura");
                 return true;

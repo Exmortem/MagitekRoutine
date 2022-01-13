@@ -4,8 +4,8 @@
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="450"
+             xmlns:viewModels="clr-namespace:Magitek.ViewModels"             
+             d:DesignHeight="500"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -119,49 +119,7 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <CheckBox Grid.Column="0" Content="Holos " IsChecked="{Binding SageSettings.Holos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.HolosHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
-                </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,3,0,0" Content="Use Holos For Tank Only " IsChecked="{Binding SageSettings.HolosTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="0,3,0,0" Content="Main Tank" IsChecked="{Binding SageSettings.HolosMainTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <CheckBox Grid.Column="0" Content="Kerachole " IsChecked="{Binding SageSettings.Kerachole, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.KeracholeHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
-                    <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding SageSettings.KeracholeNeedHealing, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
-                </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,3,0,0" Content="Use Kerachole Only When Tank In Range " IsChecked="{Binding SageSettings.KeracholeOnlyWithTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="0,3,0,0" Content="Main Tank" IsChecked="{Binding SageSettings.KeracholeOnlyWithMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
@@ -175,54 +133,33 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding SageSettings.Zoe, Mode=TwoWay}" GroupName="UseZoe" Style="{DynamicResource RadioButtonCheckboxLike}">Use Zoe</RadioButton>
+                    <RadioButton Margin="5,0,0,0" IsChecked="{Binding SageSettings.OnlyZoePneuma, Mode=TwoWay}" GroupName="UseZoe" Style="{DynamicResource RadioButtonCheckboxLike}">Only With Pneuma</RadioButton>
+                </StackPanel>
 
-        </controls:SettingsBlock>
+                <StackPanel Visibility="{Binding SageSettings.OnlyZoePneuma, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Uses Pneuma HP % On Combat Tab" />
+                </StackPanel>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel Visibility="{Binding SageSettings.Zoe, Converter={StaticResource BoolToVis}}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Margin="0,3,0,0" Content="Use On Tank " IsChecked="{Binding SageSettings.ZoeTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Margin="0,3,0,0" Content="Main Tank" IsChecked="{Binding SageSettings.ZoeMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
 
-                    <CheckBox Grid.Column="0" Content="Zoe " IsChecked="{Binding SageSettings.Zoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.ZoeHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
-                </Grid>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Zoe Diagnosis " />
-                    <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.ZoeDiagnosisHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
-                </Grid>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <CheckBox Grid.Column="0" Content="Only Tank " IsChecked="{Binding SageSettings.ZoeOnlyTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="1" Content="Only Healer " IsChecked="{Binding SageSettings.ZoeOnlyHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="2" Content="Use with Diagnosis " IsChecked="{Binding SageSettings.ZoeDiagnosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="3" Content="Use with Eukrasian Diagnosis " IsChecked="{Binding SageSettings.ZoeEukrasianDiagnosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="4" Content="Use with Prognosis " IsChecked="{Binding SageSettings.ZoePrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Grid.Column="5" Content="Use with Eukrasian Prognosis " IsChecked="{Binding SageSettings.ZoeEukrasianPrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </Grid>
+                    <CheckBox Content="Use On Healer " IsChecked="{Binding SageSettings.ZoeHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Use at " />
+                        <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.ZoeHealthPercent, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                    </StackPanel>
+                    <CheckBox Content="Use with Eukrasian Diagnosis " IsChecked="{Binding SageSettings.ZoeEukrasianDiagnosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use with Eukrasian Prognosis " IsChecked="{Binding SageSettings.ZoeEukrasianPrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use with Pneuma " IsChecked="{Binding SageSettings.ZoePneuma, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>
