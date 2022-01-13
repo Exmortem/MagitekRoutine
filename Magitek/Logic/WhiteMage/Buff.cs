@@ -1,5 +1,6 @@
 using Buddy.Coroutines;
 using ff14bot;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
@@ -22,19 +23,7 @@ namespace Magitek.Logic.WhiteMage
         }
         public static async Task<bool> LucidDreaming()
         {
-            if (!WhiteMageSettings.Instance.LucidDreaming)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Core.Me.CurrentManaPercent > WhiteMageSettings.Instance.LucidDreamingManaPercent)
-                return false;
-
-            if (Core.Me.IsCasting)
-                return false;
-
-            return await Spells.LucidDreaming.Cast(Core.Me);
+            return await Roles.Healer.LucidDreaming(WhiteMageSettings.Instance.LucidDreaming, WhiteMageSettings.Instance.LucidDreamingManaPercent);
         }
 
         public static async Task<bool> PresenceOfMind()
@@ -174,6 +163,49 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             return await Spells.Temperance.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Aquaveil()
+        {
+            if (!WhiteMageSettings.Instance.Aquaveil)
+                return false;
+
+            if (Spells.Aquaveil.IsKnownAndReady())
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var canAquaveilTargets = Group.CastableAlliesWithin30.Where(CanAquaveil).ToList();
+
+                var aquaveilTarget = canAquaveilTargets.FirstOrDefault();
+
+                if (aquaveilTarget == null)
+                    return false;
+
+                return await Spells.Aquaveil.Cast(aquaveilTarget);
+            }
+
+            if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.AquaveilHealthPercent)
+                return false;
+
+            return await Spells.Aquaveil.Cast(Core.Me);
+
+            bool CanAquaveil(Character unit)
+            {
+                if (unit == null)
+                    return false;
+
+                if (unit.CurrentHealthPercent > WhiteMageSettings.Instance.AquaveilHealthPercent)
+                    return false;
+
+                if (WhiteMageSettings.Instance.AquaveilTankOnly && !unit.IsTank(WhiteMageSettings.Instance.AquaveilMainTankOnly))
+                    return false;
+
+                return unit.Distance(Core.Me) <= 30;
+            }
         }
     }
 }

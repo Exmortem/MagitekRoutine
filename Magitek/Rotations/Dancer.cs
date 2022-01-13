@@ -43,6 +43,9 @@ namespace Magitek.Rotations
             if (Globals.OnPvpMap)
                 return false;
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (await Buff.DancePartner()) return true;
 
             return await PhysicalDps.Peloton(DancerSettings.Instance);

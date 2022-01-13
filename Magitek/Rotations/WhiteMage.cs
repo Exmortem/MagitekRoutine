@@ -32,6 +32,9 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             if (Core.Me.IsMounted)
                 return false;
 
@@ -113,29 +116,59 @@ namespace Magitek.Rotations
             if (await Buff.LucidDreaming()) return true;
             if (await Buff.AssizeForMana()) return true;
             if (await Buff.PresenceOfMind()) return true;
+            if (await Buff.Aquaveil()) return true;
+
+            if (await Logic.WhiteMage.Heal.Benediction()) return true;
+            if (await Logic.WhiteMage.Heal.LiturgyOfTheBell()) return true;
 
             if (Globals.InParty)
             {
                 // if (await Logic.WhiteMage.Heal.AssizeHeal()) return true;
-                if (await Logic.WhiteMage.Heal.Benediction()) return true;
-                if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
                 if (await Logic.WhiteMage.Heal.AfflatusRapture()) return true;
                 if (await Logic.WhiteMage.Heal.Cure3()) return true;
-                if (await Logic.WhiteMage.Heal.Cure2()) return true;
+                if (await Logic.WhiteMage.Heal.Asylum()) return true;
                 if (await Logic.WhiteMage.Heal.Medica2()) return true;
                 if (await Logic.WhiteMage.Heal.Medica()) return true;
-                if (await Logic.WhiteMage.Heal.Asylum()) return true;
             }
 
             if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
             if (await Logic.WhiteMage.Heal.AfflatusSolace()) return true;
-            if (await Logic.WhiteMage.Heal.Cure3()) return true;
-
             if (await Logic.WhiteMage.Heal.Cure2()) return true;
             if (await Logic.WhiteMage.Heal.Cure()) return true;
             if (await Logic.WhiteMage.Heal.Regen()) return true;
 
-            return false;
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.CastableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+            var res = await DoHeal();
+            Group.SwitchCastableToParty();
+            return res;
+
+            async Task<bool> DoHeal()
+            {
+                if (await Logic.WhiteMage.Heal.Raise()) return true;
+
+                if (WhiteMageSettings.Instance.HealAllianceOnlyCure)
+                {
+                    if (await Logic.WhiteMage.Heal.Cure()) return true;
+                    return false;
+                }
+
+                if (await Logic.WhiteMage.Heal.Benediction()) return true;
+                if (await Logic.WhiteMage.Heal.Tetragrammaton()) return true;
+                if (await Logic.WhiteMage.Heal.AfflatusSolace()) return true;
+                if (await Logic.WhiteMage.Heal.Cure2()) return true;
+                if (await Logic.WhiteMage.Heal.Cure()) return true;
+                if (await Logic.WhiteMage.Heal.Regen()) return true;
+
+                return false;
+            }
         }
 
         public static Task<bool> CombatBuff()

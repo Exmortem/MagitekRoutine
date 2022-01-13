@@ -8,6 +8,7 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Models.Account;
+using static Magitek.Utilities.Routines.Astrologian;
 
 namespace Magitek.Rotations
 {
@@ -88,35 +89,72 @@ namespace Magitek.Rotations
                 return true;
 
             if (await Logic.Astrologian.Heal.Ascend()) return true;
-            if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
             if (await Dispel.Execute()) return true;
-            if (await Buff.LucidDreaming()) return true;
-            if (await Buff.Lightspeed()) return true;
-            if (await Buff.NeutralSect()) return true;
 
-            if (!Core.Me.InCombat) return false;
-            
-            if (PartyManager.NumMembers > 1)
+            //if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+            if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 500)
             {
                 if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
-                if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
-                if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
-                if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
-                if (await Logic.Astrologian.Heal.Horoscope()) return true;
-                if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
-                if (await Logic.Astrologian.Heal.Exaltation()) return true;
-                if (await Logic.Astrologian.Heal.Macrocosmos()) return true;
-                if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
-                if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
-                if (await Logic.Astrologian.Heal.Helios()) return true;
-                if (await Buff.Synastry()) return true;
-                if (await Logic.Astrologian.Heal.Benefic2()) return true;
+                if (await Buff.LucidDreaming()) return true;
+                if (await Buff.Lightspeed()) return true;
+                if (await Buff.NeutralSect()) return true;
             }
 
-            if (await Logic.Astrologian.Heal.Benefic2()) return true;
-            if (await Logic.Astrologian.Heal.Benefic()) return true;
-            if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
-            return await Logic.Astrologian.Heal.EarthlyStar();
+            if (Globals.InActiveDuty || Core.Me.InCombat)
+            {
+                //if (!AstrologianSettings.Instance.WeaveOGCDHeals || GlobalCooldown.CanWeave(1) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds)
+                if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 500)
+                {
+                    if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+                    if (await Logic.Astrologian.Heal.CelestialIntersection()) return true;
+                    if (await Logic.Astrologian.Heal.CelestialOpposition()) return true;
+                    if (await Logic.Astrologian.Heal.LadyOfCrowns()) return true;
+                    if (await Logic.Astrologian.Heal.Horoscope()) return true;
+                    if (await Logic.Astrologian.Heal.HoroscopePop()) return true;
+                    if (await Logic.Astrologian.Heal.Exaltation()) return true;
+                    if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
+                    if (await Buff.Synastry()) return true;
+                }
+
+                if (await Logic.Astrologian.Heal.Macrocosmos()) return true;
+                if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
+                if (await Logic.Astrologian.Heal.Helios()) return true;
+                if (await Logic.Astrologian.Heal.Benefic2()) return true;
+                if (await Logic.Astrologian.Heal.Benefic()) return true;
+                if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
+                if (await Logic.Astrologian.Heal.EarthlyStar()) return true;
+            }
+
+            return await HealAlliance();
+        }
+
+        public static async Task<bool> HealAlliance()
+        {
+            if (Group.CastableAlliance.Count == 0)
+                return false;
+
+            Group.SwitchCastableToAlliance();
+            var res = await DoHeal();
+            Group.SwitchCastableToParty();
+            return res;
+
+            async Task<bool> DoHeal()
+            {
+                if (await Logic.Astrologian.Heal.Ascend()) return true;
+
+                if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
+                {
+                    if (await Logic.Astrologian.Heal.Benefic()) return true;
+                    return false;
+                }
+
+                if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
+                if (await Logic.Astrologian.Heal.Benefic2()) return true;
+                if (await Logic.Astrologian.Heal.Benefic()) return true;
+                if (await Logic.Astrologian.Heal.AspectedBenefic()) return true;
+
+                return false;
+            }
         }
 
         public static async Task<bool> CombatBuff()
@@ -127,7 +165,7 @@ namespace Magitek.Rotations
             if (await Buff.Synastry()) return true;
             if (await Buff.NeutralSect()) return true;
 
-            
+
             if (await Buff.Divination()) return true;
             if (await Cards.AstroDyne()) return true;
             return await Cards.PlayCards();
@@ -153,6 +191,13 @@ namespace Magitek.Rotations
                     return false;
 
             }
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            Casting.DoHealthChecks = false;
 
             if (BotManager.Current.IsAutonomous)
             {

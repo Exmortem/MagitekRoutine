@@ -16,18 +16,22 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentHealthPercent > 70 || Core.Me.ClassLevel < 4)
                 return false;
 
+            if (WorldManager.InSanctuary)
+                return false;
+
             return await Spells.SmnPhysick.Heal(Core.Me);
         }
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (Core.Me.IsCasting)
                 return true;
 
             await Casting.CheckForSuccessfulCast();
             SpellQueueLogic.SpellQueue.Clear();
+
+            if (WorldManager.InSanctuary)
+                return false;
 
             return await Pets.SummonCarbuncle();
         }
@@ -57,7 +61,7 @@ namespace Magitek.Rotations
             Casting.DoHealthChecks = false;
 
             if (await GambitLogic.Gambit()) return true;
-            if (await Logic.Summoner.Heal.Raise()) return true;
+            if (await Logic.Summoner.Heal.Resurrection()) return true;
             #region Force Toggles
             if (await Logic.Summoner.Heal.ForceRaise()) return true;
             if (await Logic.Summoner.Heal.ForceHardRaise()) return true;

@@ -16,6 +16,10 @@ namespace Magitek.Rotations
         public static async Task<bool> PreCombatBuff()
         {
             await Casting.CheckForSuccessfulCast();
+
+            if (WorldManager.InSanctuary)
+                return false;
+
             return await Buff.Grit();
         }
 

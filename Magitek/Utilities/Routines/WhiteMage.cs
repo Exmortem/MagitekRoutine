@@ -94,6 +94,12 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
+            if (Casting.CastingSpell == Spells.Raise && (Casting.SpellTarget?.HasAura(Auras.Raise) == true || Casting.SpellTarget?.CurrentHealth > 0))
+            {
+                Logger.Error($@"Stopped Resurrection: Unit has raise aura");
+                return true;
+            }
+
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
@@ -131,70 +137,15 @@ namespace Magitek.Utilities.Routines
 
         public static void GroupExtension()
         {
-            // Should we be ignoring our alliance? Check to see if we're even in an instance
-            if (!WhiteMageSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
-            {
-                // Create a list of alliance members that we need to check
-                if (WhiteMageSettings.Instance.HealAllianceDps || WhiteMageSettings.Instance.HealAllianceHealers || WhiteMageSettings.Instance.HealAllianceTanks)
-                {
-                    //Exclude the party members - they've already been handled by Group.UpdateAllies, and we don't want them in the list twice
-                    var allianceToHeal = Group.AllianceMembers.Except(PartyManager.AllMembers.Select(r => r.BattleCharacter))
-                                                              .Where(a => !a.CanAttack
-                                                                          && !a.HasAura(Auras.MountedPvp)
-                                                                          && (WhiteMageSettings.Instance.HealAllianceDps && a.IsDps()
-                                                                              || WhiteMageSettings.Instance.HealAllianceTanks && a.IsTank()
-                                                                              || WhiteMageSettings.Instance.HealAllianceHealers && a.IsDps()));
-
-                    // If all we're going to do with the alliance is Physick them, then simply use this list
-                    if (WhiteMageSettings.Instance.HealAllianceOnlyCure)
-                    {
-                        AllianceCureOnly = allianceToHeal.ToList();
-                    }
-                    else
-                    {
-                        // If not, then sort the alliance members into the appropriate lists
-                        foreach (var ally in allianceToHeal)
-                        {
-                            var distance = ally.Distance(Core.Me);
-
-                            if (distance <= 30)
-                            {
-                                Group.CastableAlliesWithin30.Add(ally);
-                            }
-
-                            if (distance <= 15)
-                            {
-                                Group.CastableAlliesWithin15.Add(ally);
-                            }
-
-                            if (distance <= 10)
-                            {
-                                Group.CastableAlliesWithin10.Add(ally);
-                            }
-                        }
-                    }
-                }
-
-                if (WhiteMageSettings.Instance.ResAllianceDps || WhiteMageSettings.Instance.ResAllianceHealers || WhiteMageSettings.Instance.ResAllianceTanks)
-                {
-                    var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
-                                                                         (WhiteMageSettings.Instance.ResAllianceDps && a.IsDps() ||
-                                                                          WhiteMageSettings.Instance.ResAllianceTanks && a.IsTank() ||
-                                                                          WhiteMageSettings.Instance.ResAllianceHealers && a.IsDps()));
-
-                    foreach (var ally in allianceToRes)
-                    {
-                        Group.DeadAllies.Add(ally);
-                    }
-                }
-            }
-
-            // Heal Pets
-            if (!WhiteMageSettings.Instance.HealPartyMembersPets)
-                return;
-
-            var pets = WhiteMageSettings.Instance.HealPartyMembersPetsTitanOnly ? Group.Pets.Where(r => r.EnglishName.Contains("Titan")).ToArray() : Group.Pets.ToArray();
-            Group.CastableAlliesWithin30.AddRange(pets);
+            Group.UpdateAlliance(
+                WhiteMageSettings.Instance.IgnoreAlliance,
+                WhiteMageSettings.Instance.HealAllianceDps,
+                WhiteMageSettings.Instance.HealAllianceHealers,
+                WhiteMageSettings.Instance.HealAllianceTanks,
+                WhiteMageSettings.Instance.ResAllianceDps,
+                WhiteMageSettings.Instance.ResAllianceHealers,
+                WhiteMageSettings.Instance.ResAllianceTanks
+            );
         }
     }
 }

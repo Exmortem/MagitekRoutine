@@ -58,55 +58,15 @@ namespace Magitek.Logic.Summoner
             return true;
         }
 
-        public static async Task<bool> Raise()
+        public static async Task<bool> Resurrection()
         {
-            if (!SummonerSettings.Instance.Resurrection)
-                return false;
-
-            if (!Globals.InParty)
-                return false;
-
-            if (Core.Me.CurrentMana < Spells.Resurrection.Cost)
-                return false;
-
-            var deadList = Group.DeadAllies.Where(u => !u.HasAura(Auras.Raise) &&
-                                                       u.Distance(Core.Me) <= 30 &&
-                                                       u.InLineOfSight() &&
-                                                       u.IsTargetable)
-                                           .OrderByDescending(r => r.GetResurrectionWeight());
-
-            var deadTarget = deadList.FirstOrDefault();
-
-            if (deadTarget == null)
-                return false;
-
-            if (!deadTarget.IsVisible)
-                return false;
-
-            if (!deadTarget.IsTargetable)
-                return false;
-
-            if (Core.Me.InCombat || Globals.OnPvpMap)
-            {
-                if (Core.Me.ClassLevel < 28)
-                    return false;
-
-                if (await Buff.Swiftcast())
-                {
-                    while (Core.Me.HasAura(Auras.Swiftcast))
-                    {
-                        if (await Spells.Resurrection.Cast(deadTarget)) return true;
-                        await Coroutine.Yield();
-                    }
-                }
-            }
-
-            if (Core.Me.InCombat)
-                return false;
-
-            return await Spells.Resurrection.Cast(deadTarget);
+            return await Roles.Healer.Raise(
+                Spells.Resurrection,
+                SummonerSettings.Instance.SwiftcastRes,
+                SummonerSettings.Instance.SlowcastRes,
+                SummonerSettings.Instance.ResOutOfCombat
+            );
         }
-
         public static async Task<bool> ForceRaiseLogic()
         {
             if (!Globals.InParty)

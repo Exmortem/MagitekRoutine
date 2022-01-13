@@ -92,6 +92,10 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool DebugHealingLists { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool DebugHealingListsPrintToLog { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -228,5 +232,58 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool AssumeFaceTargetOnAction { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseWeightedHealingPriority { get; set; }
+
+        [Setting]
+        [DefaultValue(.95f)]
+        public float WeightedTankRole { get; set; }
+
+        [Setting]
+        [DefaultValue(.9f)]
+        public float WeightedHealerRole { get; set; }
+
+        [Setting]
+        [DefaultValue(1.0f)]
+        public float WeightedRezMageRole { get; set; }
+
+        [Setting]
+        [DefaultValue(1.01f)]
+        public float WeightedDpsRole { get; set; }
+
+        [Setting]
+        [DefaultValue(.99f)]
+        public float WeightedSelf { get; set; }
+
+        [Setting]
+        [DefaultValue(.9f)]
+        public float WeightedDebuff { get; set; }
+
+        [Setting]
+        [DefaultValue(1.01f)]
+        public float WeightedBuff { get; set; }
+
+        [Setting]
+        [DefaultValue(1.15f)]
+        public float WeightedRegen { get; set; }
+
+        [Setting]
+        [DefaultValue(1.15f)]
+        public float WeightedShield { get; set; }
+
+        [Setting]
+        [DefaultValue(.95f)]
+        public float WeightedWeakness { get; set; }
+
+        [Setting]
+        [DefaultValue(.99f)]
+        public float WeightedDistanceMin { get; set; }
+
+        [Setting]
+        [DefaultValue(1.01f)]
+        public float WeightedDistanceMax { get; set; }
+
     }
 }

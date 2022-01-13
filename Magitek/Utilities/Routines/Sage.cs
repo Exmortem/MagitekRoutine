@@ -3,6 +3,7 @@ using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Sage;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,25 @@ namespace Magitek.Utilities.Routines
 
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Sage, Spells.Diagnosis);
 
+        public static bool CanWeave()
+        {
+            if (SageSettings.Instance.WeaveOGCDHeals
+                && Core.Me.CurrentMana >= SageSettings.Instance.WeaveOGCDHealsManaPercent)
+            {
+                if (GlobalCooldown.CanWeave(1))
+                    return true;
+                else if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 1750 + BaseSettings.Instance.UserLatencyOffset)
+                    return true;
+            }
+            else
+            {
+                if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
+                    return true;
+            }
+
+            return false;
+        }
+
         public static bool NeedToInterruptCast()
         {
             // Scalebound Extreme Rathalos
@@ -29,7 +49,13 @@ namespace Magitek.Utilities.Routines
 
             if (Casting.CastingSpell != Spells.Egeiro && Casting.SpellTarget?.CurrentHealth < 1)
             {
-                Logger.Error($@"Stopped Resurrection: Unit Died");
+                Logger.Error($@"Stopped cast: Unit Died");
+                return true;
+            }
+
+            if (Casting.CastingSpell == Spells.Egeiro && (Casting.SpellTarget?.HasAura(Auras.Raise) == true || Casting.SpellTarget?.CurrentHealth > 0))
+            {
+                Logger.Error($@"Stopped Resurrection: Unit has raise aura");
                 return true;
             }
 
@@ -73,58 +99,15 @@ namespace Magitek.Utilities.Routines
         }
         public static void GroupExtension()
         {
-            // Should we be ignoring our alliance?
-            if (!SageSettings.Instance.IgnoreAlliance && (Globals.InActiveDuty || WorldManager.InPvP))
-            {
-                // Create a list of alliance members that we need to check
-                if (SageSettings.Instance.HealAllianceDps || SageSettings.Instance.HealAllianceHealers || SageSettings.Instance.HealAllianceTanks)
-                {
-                    var allianceToHeal =
-                        Group.AllianceMembers.Where(a => !a.CanAttack && !a.HasAura(Auras.MountedPvp) && (SageSettings.Instance.HealAllianceDps && a.IsDps() ||
-                                                         SageSettings.Instance.HealAllianceTanks && a.IsTank() ||
-                                                         SageSettings.Instance.HealAllianceHealers && a.IsHealer()));
-
-                    if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
-                    {
-                        AllianceDiagnosisOnly = allianceToHeal.ToList();
-                    }
-                    else
-                    {
-                        // If not, then sort the alliance members into the appropriate lists
-                        foreach (var ally in allianceToHeal)
-                        {
-                            var distance = ally.Distance(Core.Me);
-                            if (distance <= 30)
-                            {
-                                Group.CastableAlliesWithin30.Add(ally);
-                            }
-                            if (distance <= 15)
-                            {
-                                Group.CastableAlliesWithin15.Add(ally);
-                            }
-                            if (distance <= 10)
-                            {
-                                Group.CastableAlliesWithin10.Add(ally);
-                            }
-                        }
-                    }
-                }
-                if (SageSettings.Instance.ResAllianceDps || SageSettings.Instance.ResAllianceHealers ||
-                        SageSettings.Instance.ResAllianceTanks)
-                {
-                    var allianceToRes = Group.AllianceMembers.Where(a => a.CurrentHealth <= 0 &&
-                    (SageSettings.Instance.ResAllianceDps &&
-                    a.IsDps() ||
-                    SageSettings.Instance
-                    .ResAllianceTanks && a.IsTank() ||
-                    SageSettings.Instance
-                    .ResAllianceHealers && a.IsDps()));
-                    foreach (var ally in allianceToRes)
-                    {
-                        Group.DeadAllies.Add(ally);
-                    }
-                }
-            }
+            Group.UpdateAlliance(
+                SageSettings.Instance.IgnoreAlliance,
+                SageSettings.Instance.HealAllianceDps,
+                SageSettings.Instance.HealAllianceHealers,
+                SageSettings.Instance.HealAllianceTanks,
+                SageSettings.Instance.ResAllianceDps,
+                SageSettings.Instance.ResAllianceHealers,
+                SageSettings.Instance.ResAllianceTanks
+            );
         }
 
         public static readonly uint[] ShieldAuraList = {

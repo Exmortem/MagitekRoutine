@@ -47,8 +47,11 @@
             <StackPanel>
                 <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Aoe:" />
                 <CheckBox Margin="5,3" Content="Outburst, Pet Outburst, Tri-Disaster, Pet Disaster, Pet Catastrophe, Astral Flare, Brand of Purgatory" IsChecked="{Binding SummonerSettings.Outburst, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                    <CheckBox Margin="5,3" Content="Swiftcast Ruby Rite" IsChecked="{Binding SummonerSettings.SwiftRubyRite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5,3" Content="Ruin IV" IsChecked="{Binding SummonerSettings.Ruin4, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <CheckBox Margin="5,3" Content="Energy Siphon" IsChecked="{Binding SummonerSettings.EnergySiphon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5,3" Content="Painflare" IsChecked="{Binding SummonerSettings.Painflare, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Margin="5,3" Content="Enkindle Bahamut" IsChecked="{Binding SummonerSettings.EnkindleBahamut, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
@@ -86,13 +89,20 @@
         </controls:SettingsBlock>
         
         <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Heals:" />
                     <CheckBox Margin="5,3" Content="Physick Self When Solo if Under" IsChecked="{Binding SummonerSettings.Physick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.PhysickHPThreshold, Mode=TwoWay}" />
                     <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                    <CheckBox Margin="5,3" Content="Resurection" IsChecked="{Binding SummonerSettings.Resurrection, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Resurrection:" />
+                    <CheckBox Margin="5,3" Content="Swiftcast" IsChecked="{Binding SummonerSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Slowcast" IsChecked="{Binding SummonerSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Out Of Combat" IsChecked="{Binding SummonerSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
         </controls:SettingsBlock>
         
         <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">

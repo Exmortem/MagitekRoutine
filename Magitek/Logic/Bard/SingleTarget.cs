@@ -130,7 +130,14 @@ namespace Magitek.Logic.Bard
             if (Spells.Bloodletter.Charges < 1)
                 return false;
 
-            return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && Spells.Bloodletter.Charges < 3)
+                return false;
+
+            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet
+                && !Core.Me.HasAura(Auras.RagingStrikes) && !Core.Me.HasAura(Auras.RadiantFinale) && Spells.RagingStrikes.IsReady(3000) && Spells.Bloodletter.Charges < 3)
+                return false;
+
+                return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> EmpyrealArrow()

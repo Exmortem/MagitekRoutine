@@ -26,22 +26,7 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> LucidDreaming()
         {
-            if (!AstrologianSettings.Instance.LucidDreaming)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LucidDreamingManaPercent)
-                return false;
-
-            if (!Globals.InParty)
-                return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
-
-            if (Combat.CombatTotalTimeLeft <= 20)
-                return false;
-
-            return await Spells.LucidDreaming.Cast(Core.Me);
+            return await Roles.Healer.LucidDreaming(AstrologianSettings.Instance.LucidDreaming, AstrologianSettings.Instance.LucidDreamingManaPercent);
         }
 
         public static async Task<bool> Lightspeed()

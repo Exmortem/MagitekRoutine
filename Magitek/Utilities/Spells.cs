@@ -610,6 +610,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Lustrate = DataManager.GetSpellData(189);
         public static readonly SpellData Physick = DataManager.GetSpellData(190);
         public static readonly SpellData Indomitability = DataManager.GetSpellData(3583);
+        public static readonly SpellData SchRuin = DataManager.GetSpellData(17869);
         public static readonly SpellData Broil = DataManager.GetSpellData(3584);
         public static readonly SpellData DeploymentTactics = DataManager.GetSpellData(3585);
         public static readonly SpellData EmergencyTactics = DataManager.GetSpellData(3586);
@@ -646,7 +647,7 @@ namespace Magitek.Utilities
         public static readonly SpellData SummonIfrit = DataManager.GetSpellData(25805);
         public static readonly SpellData SummonTitan = DataManager.GetSpellData(25806);
         public static readonly SpellData Painflare = DataManager.GetSpellData(3578);
-        public static readonly SpellData SummonGaruda = DataManager.GetSpellData(25806);
+        public static readonly SpellData SummonGaruda = DataManager.GetSpellData(25807);
         public static readonly SpellData EnergySiphon = DataManager.GetSpellData(16510);
         public static readonly SpellData Ruin3 = DataManager.GetSpellData(3579);
         public static readonly SpellData RubyRuinIII = DataManager.GetSpellData(25817);

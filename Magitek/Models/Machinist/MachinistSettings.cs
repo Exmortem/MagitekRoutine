@@ -104,6 +104,14 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(false)]
+        public bool UseRookQueenEnemyCount { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int RookQueenEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         public bool UseRookQueenOverdrive { get; set; }
 
         [Setting]
@@ -129,6 +137,14 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseWildfire { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool UseWildfireEnemyCount { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int WildfireEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]

@@ -345,6 +345,53 @@ namespace Magitek.Logic.WhiteMage
             return await Spells.Asylum.Cast(asylumTarget);
         }
 
+        public static async Task<bool> LiturgyOfTheBell()
+        {
+            if (!WhiteMageSettings.Instance.LiturgyOfTheBell)
+                return false;
+
+            if (!Spells.LiturgyOfTheBell.IsKnownAndReady())
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Combat.CombatTotalTimeLeft < 20)
+                return false;
+
+            if (!Core.Me.HasTarget)
+                return false;
+
+            if (Globals.InParty)
+            {
+                var liturgyTargets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.LiturgyOfTheBellHealthPercent);
+
+                if (liturgyTargets.Count() < WhiteMageSettings.Instance.LiturgyOfTheBellAllies)
+                    return false;
+
+                Character target = liturgyTargets.FirstOrDefault();
+
+                if (WhiteMageSettings.Instance.LiturgyOfTheBellCenterParty)
+                {
+                    var targets = Group.CastableAlliesWithin30.OrderBy(r =>
+                        Group.CastableAlliesWithin30.Sum(ot => r.Distance(ot.Location))
+                    ).ThenBy(t => Core.Me.Distance(t.Location));
+
+                    target = targets.FirstOrDefault();
+                }
+
+                if (target == null)
+                    return false;
+
+                return await Spells.LiturgyOfTheBell.Cast(target);
+            }
+
+            if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.LiturgyOfTheBellHealthPercent)
+                return false;
+
+            return await Spells.LiturgyOfTheBell.Cast(Core.Me);
+        }
+
         public static async Task<bool> Medica2()
         {
             if (!WhiteMageSettings.Instance.Medica2)
@@ -460,60 +507,25 @@ namespace Magitek.Logic.WhiteMage
 
         public static async Task<bool> Raise()
         {
-            if (!WhiteMageSettings.Instance.Raise)
-                return false;
+            return await Roles.Healer.Raise(
+                Spells.Raise,
+                WhiteMageSettings.Instance.RaiseSwiftcast,
+                WhiteMageSettings.Instance.Raise,
+                WhiteMageSettings.Instance.Raise,
+                ThinAir
+            );
 
-            if (!Globals.InParty)
-                return false;
-
-            if (Core.Me.CurrentMana < Spells.Raise.Cost)
-                return false;
-
-            var deadList = Group.DeadAllies.Where(u => !u.HasAura(Auras.Raise) &&
-                                                       u.Distance(Core.Me) <= 30 &&
-                                                       u.IsVisible &&
-                                                       u.InLineOfSight() &&
-                                                       u.IsTargetable)
-                                           .OrderByDescending(r => r.GetResurrectionWeight());
-
-            var deadTarget = deadList.FirstOrDefault();
-
-            if (deadTarget == null)
-                return false;
-
-            if (Core.Me.InCombat || Globals.OnPvpMap)
+            async Task<bool> ThinAir(bool isSwiftcast)
             {
-                if (Core.Me.ClassLevel < 28)
-                    return false;
-
-                if (!WhiteMageSettings.Instance.RaiseSwiftcast)
-                    return false;
-
-                if (!ActionManager.HasSpell(Spells.Swiftcast.Id))
-                    return false;
-
-                if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
-                    return false;
-
-                if (await Buff.Swiftcast())
+                if (isSwiftcast)
                 {
-                    if (WhiteMageSettings.Instance.ThinAirBeforeSwiftcastRaise && await Buff.ThinAir(true))
+                    if (WhiteMageSettings.Instance.ThinAirBeforeSwiftcastRaise && Spells.ThinAir.IsKnownAndReady() && await Buff.ThinAir(true))
                     {
-                        await Coroutine.Wait(3000, () => Core.Me.HasAura(Auras.ThinAir));
-                    }
-
-                    while (Core.Me.HasAura(Auras.Swiftcast))
-                    {
-                        if (await Spells.Raise.HealAura(deadTarget, Auras.Raise)) return true;
-                        await Coroutine.Yield();
+                        return await Coroutine.Wait(3000, () => Core.Me.HasAura(Auras.ThinAir));
                     }
                 }
+                return true;
             }
-
-            if (Core.Me.InCombat)
-                return false;
-
-            return await Spells.Raise.HealAura(deadTarget, Auras.Raise);
         }
 
         public static async Task<bool> PlenaryIndulgence()
