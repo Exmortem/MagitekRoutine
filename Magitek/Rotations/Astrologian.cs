@@ -115,7 +115,7 @@ namespace Magitek.Rotations
                     if (await Logic.Astrologian.Heal.CollectiveUnconscious()) return true;
                     if (await Buff.Synastry()) return true;
                 }
-                
+
                 if (await Logic.Astrologian.Heal.Macrocosmos()) return true;
                 if (await Logic.Astrologian.Heal.AspectedHelios()) return true;
                 if (await Logic.Astrologian.Heal.Helios()) return true;
@@ -145,6 +145,7 @@ namespace Magitek.Rotations
                 if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
                 {
                     if (await Logic.Astrologian.Heal.Benefic()) return true;
+                    return false;
                 }
 
                 if (await Logic.Astrologian.Heal.EssentialDignity()) return true;
@@ -190,7 +191,7 @@ namespace Magitek.Rotations
                     return false;
 
             }
-            
+
             if (await Casting.TrackSpellCast())
                 return true;
 

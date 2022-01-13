@@ -519,12 +519,12 @@ namespace Magitek.Logic.WhiteMage
             {
                 if (isSwiftcast)
                 {
-                    if (WhiteMageSettings.Instance.ThinAirBeforeSwiftcastRaise && await Buff.ThinAir(true))
+                    if (WhiteMageSettings.Instance.ThinAirBeforeSwiftcastRaise && Spells.ThinAir.IsKnownAndReady() && await Buff.ThinAir(true))
                     {
                         return await Coroutine.Wait(3000, () => Core.Me.HasAura(Auras.ThinAir));
                     }
                 }
-                return false;
+                return true;
             }
         }
 

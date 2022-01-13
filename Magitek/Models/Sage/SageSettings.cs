@@ -202,30 +202,6 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
-        public bool Zoe { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ZoeDiagnosis { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ZoeEukrasianDiagnosis { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ZoePrognosis { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ZoeEukrasianPrognosis { get; set; }
-
-        [Setting]
-        [DefaultValue(60.0f)]
-        public float ZoeHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool Holos { get; set; }
 
         [Setting]
@@ -324,16 +300,36 @@ namespace Magitek.Models.Sage
         public float EukrasianPrognosisMinManaPercent { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
-        public float ZoeDiagnosisHealthPercent { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
-        public bool ZoeOnlyTank { get; set; }
+        public bool Zoe { get; set; }
 
         [Setting]
         [DefaultValue(false)]
-        public bool ZoeOnlyHealer { get; set; }
+        public bool ZoeEukrasianDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ZoeEukrasianPrognosis { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ZoePneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float ZoeHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeTank { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ZoeMainTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ZoeHealer { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -349,15 +345,15 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
-        public bool EukrasianDiagnosisTankForBuff { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool EukrasianDiagnosisOnlyHealer { get; set; }
 
         [Setting]
         [DefaultValue(false)]
         public bool EukrasianDiagnosisOnlyTank { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool EukrasianDiagnosisOnlyMainTank { get; set; }
 
         [Setting]
         [DefaultValue(true)]
