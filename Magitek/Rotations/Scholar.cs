@@ -166,6 +166,7 @@ namespace Magitek.Rotations
                 if (ScholarSettings.Instance.HealAllianceOnlyPhysick)
                 {
                     if (await Logic.Scholar.Heal.Physick()) return true;
+                    return false;
                 }
 
                 if (await Logic.Scholar.Heal.Lustrate()) return true;

@@ -143,7 +143,7 @@ namespace Magitek.Rotations
 
                 if (AstrologianSettings.Instance.HealAllianceOnlyBenefic)
                 {
-                    if (await Heals.Benefic()) return true;
+                    return await Heals.Benefic();
                 }
 
                 if (await Heals.EssentialDignity()) return true;
@@ -187,7 +187,7 @@ namespace Magitek.Rotations
                     return false;
 
             }
-            
+
             if (await Casting.TrackSpellCast())
                 return true;
 
