@@ -45,7 +45,7 @@
             </Grid>
         </controls:SettingsBlock>
         
-        <!--<controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -53,7 +53,7 @@
 
                 <CheckBox Grid.Column="0" Content="Weave OGCD Heals" IsChecked="{Binding AstrologianSettings.WeaveOGCDHeals, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
-        </controls:SettingsBlock>-->
+        </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel>

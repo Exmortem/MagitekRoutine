@@ -102,6 +102,7 @@ namespace Magitek.Utilities
             Darkside = 751,
             Reprisal = 1193,
             LivingDead = 810,
+            WalkingDead = 811,
             DragonKick = 98,
             TwinSnakes = 101,
             FistsofFire = 103,

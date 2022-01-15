@@ -277,6 +277,39 @@ namespace Magitek.Extensions
             });
         }
 
+        public static TankImmunityCheck CheckTankImmunity(this Character unit)
+        {
+
+            switch (unit.CurrentJob)
+            {
+                case ClassJobType.Warrior:
+                    return AuraCheck(Auras.Holmgang);
+                case ClassJobType.Paladin:
+                    return AuraCheck(Auras.HallowedGround);
+                case ClassJobType.DarkKnight:
+                    return AuraCheck(Auras.LivingDead);
+                case ClassJobType.Gunbreaker:
+                    return AuraCheck(Auras.Superbolide);
+                default:
+                    return TankImmunityCheck.HealThem;
+            }
+
+            TankImmunityCheck AuraCheck(uint aura)
+            {
+                if (!unit.HasAura(aura)) return TankImmunityCheck.DontHealThem;
+                return unit.CharacterAuras.Any(
+                    x => x.Id == aura && x.TimespanLeft.Milliseconds <= 2000) 
+                    ? TankImmunityCheck.HealThem 
+                    : TankImmunityCheck.DontHealThem;
+            }
+        }
+
+        public enum TankImmunityCheck
+        {
+            DontHealThem,
+            HealThem
+        }
+
         public static bool HealthCheck(this GameObject tar, int healthSetting, float healthSettingPercent)
         {
             if (tar == null)

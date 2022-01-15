@@ -381,9 +381,13 @@ namespace Magitek.Models.Astrologian
         [DefaultValue(60)]
         public float GiantDominanceHealthPercent { get; set; }
         
-        /*[Setting]
+        [Setting]
         [DefaultValue(true)]
-        public bool WeaveOGCDHeals { get; set; }*/
+        public bool WeaveOGCDHeals { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool DontLetTheDRKDie { get; set; }
 
         #endregion
 

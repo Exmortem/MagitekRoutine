@@ -267,6 +267,7 @@
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
+    <Compile Include="Utilities\FightLogic.cs" />
     <Compile Include="Utilities\WeaveWindow.cs" />
     <Compile Include="Utilities\Routines\Reaper.cs" />
     <Compile Include="Utilities\Routines\Sage.cs" />
@@ -334,7 +335,7 @@
     <Compile Include="Logic\Astrologian\Aoe.cs" />
     <Compile Include="Logic\Astrologian\Buff.cs" />
     <Compile Include="Logic\Astrologian\Dispel.cs" />
-    <Compile Include="Logic\Astrologian\Heal.cs" />
+    <Compile Include="Logic\Astrologian\Heals.cs" />
     <Compile Include="Logic\Astrologian\SingleTarget.cs" />
     <Compile Include="Logic\Astrologian\TankBusters.cs" />
     <Compile Include="Logic\Astrologian\Pvp.cs" />

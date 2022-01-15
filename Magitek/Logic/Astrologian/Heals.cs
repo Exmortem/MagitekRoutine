@@ -10,10 +10,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using static Magitek.Extensions.GameObjectExtensions;
 
 namespace Magitek.Logic.Astrologian
 {
-    internal static class Heal
+    internal static class Heals
     {
 
         #region Single Target No Regen Heals
@@ -27,6 +28,9 @@ namespace Magitek.Logic.Astrologian
                 foreach (var ally in Group.CastableAlliesWithin30)
                 {
                     if (Utilities.Routines.Astrologian.DontBenefic.Contains(ally.Name))
+                        continue;
+
+                    if (ally.CheckTankImmunity() == TankImmunityCheck.DontHealThem)
                         continue;
 
                     if (ally.CurrentHealthPercent > AstrologianSettings.Instance.BeneficHealthPercent
@@ -126,7 +130,8 @@ namespace Magitek.Logic.Astrologian
 
                 var benefic2Target = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name)
                 && r.CurrentHealth > 0
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent);
+                && r.CurrentHealthPercent <= AstrologianSettings.Instance.Benefic2HealthPercent
+                && r.CheckTankImmunity() == TankImmunityCheck.HealThem);
 
                 if (benefic2Target == null)
                     return false;
@@ -149,6 +154,28 @@ namespace Magitek.Logic.Astrologian
             }
         }
 
+        public static async Task<bool> DontLetTheDRKDie()
+        {
+            if (!AstrologianSettings.Instance.DontLetTheDRKDie)
+                return false;
+
+            if (!Globals.InParty)
+                return false;
+            
+            if (!Globals.PartyInCombat)
+                return false;
+
+            var walkingDeadMan = Group.CastableTanks.FirstOrDefault(r =>
+                !Utilities.Routines.Astrologian.DontBenefic2.Contains(r.Name)
+                && r.HasAura(Auras.WalkingDead) 
+                && r.CurrentHealthPercent < 100);
+
+            if (walkingDeadMan == null)
+                return false;
+
+            return await Spells.Benefic2.Heal(walkingDeadMan);
+        }
+
         public static async Task<bool> CelestialIntersection()
         {
             if (!AstrologianSettings.Instance.CelestialIntersection)
@@ -165,7 +192,8 @@ namespace Magitek.Logic.Astrologian
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
                 && r.CurrentHealth > 0
                 && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent
-                && Combat.Enemies.Any(x => x.TargetCharacter == r));
+                && Combat.Enemies.Any(x => x.TargetCharacter == r)
+                && r.CheckTankImmunity() == TankImmunityCheck.HealThem);
 
                 if (celestialIntersectionTank == null)
                     return false;
@@ -176,7 +204,8 @@ namespace Magitek.Logic.Astrologian
             var celestialIntersectionTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
             && r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialIntersectionHealthPercent
-            && !r.HasAura(Auras.CelestialIntersections));
+            && !r.HasAura(Auras.CelestialIntersections)
+            && r.CheckTankImmunity() == TankImmunityCheck.HealThem);
 
             if (celestialIntersectionTarget == null)
                 return false;
@@ -198,7 +227,8 @@ namespace Magitek.Logic.Astrologian
                 {
                     var tar = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontEssentialDignity.Contains(r.Name)
                     && r.IsAlive
-                    && r.CurrentHealthPercent <= AstrologianSettings.Instance.EssentialDignityHealthPercent);
+                    && r.CurrentHealthPercent <= AstrologianSettings.Instance.EssentialDignityHealthPercent
+                    && r.CheckTankImmunity() == TankImmunityCheck.HealThem);
 
                     if (tar == null)
                         return false;
@@ -211,7 +241,8 @@ namespace Magitek.Logic.Astrologian
 
                 var essentialDignityTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontEssentialDignity.Contains(r.Name)
                 && r.CurrentHealth > 0
-                && r.CurrentHealthPercent <= AstrologianSettings.Instance.EssentialDignityHealthPercent);
+                && r.CurrentHealthPercent <= AstrologianSettings.Instance.EssentialDignityHealthPercent
+                && r.CheckTankImmunity() == TankImmunityCheck.HealThem);
 
                 if (essentialDignityTarget == null)
                     return false;
@@ -240,12 +271,13 @@ namespace Magitek.Logic.Astrologian
 
             if (!Spells.Exaltation.IsKnownAndReady())
                 return false;
-            var enemyCastingTankBuster = Combat.Enemies.FirstOrDefault(x => x.IsCastingTankBuster());
+            
+            var tankBusterOnPartyMember = FightLogic.EnemyIsCastingTankBuster();
 
-            if (enemyCastingTankBuster == null)
+            if (tankBusterOnPartyMember == null)
                 return false;
 
-            return await Spells.Exaltation.HealAura(enemyCastingTankBuster.TargetCharacter, Auras.Exaltation);
+            return await Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation);
         }
 
         #endregion
