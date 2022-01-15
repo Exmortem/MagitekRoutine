@@ -15,7 +15,7 @@ namespace Magitek.Logic.Sage
     {
         private static async Task<bool> UseEukrasianDosis(GameObject target)
         {
-            if (!Core.Me.HasAura(Auras.Eukrasia, true))
+            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
             if (Core.Me.ClassLevel < 72)
@@ -59,9 +59,6 @@ namespace Magitek.Logic.Sage
             if (Core.Me.CurrentTarget.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds))
                 return false;
 
-            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
-                return false;
-
             return await UseEukrasianDosis(Core.Me.CurrentTarget);
         }
         public static async Task<bool> DotMultipleTargets()
@@ -75,20 +72,15 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.DotMultipleTargets)
                 return false;
 
-            var DotTarget = Combat.Enemies.FirstOrDefault(NeedsDot);
+            var DotTarget = Combat.Enemies.Where(NeedsDot).Where(CanDot).FirstOrDefault();
 
             if (DotTarget == null)
-                return false;
-
-            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
             return await UseEukrasianDosis(DotTarget);
 
             bool NeedsDot(BattleCharacter unit)
             {
-                if (!CanDot(unit))
-                    return false;
                 return !unit.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds);
             }
             bool CanDot(GameObject unit)
