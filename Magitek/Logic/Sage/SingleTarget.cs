@@ -72,6 +72,9 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.DotMultipleTargets)
                 return false;
 
+            if (Combat.Enemies.Count < 2)
+                return false;
+
             var DotTarget = Combat.Enemies.Where(NeedsDot).Where(CanDot).FirstOrDefault();
 
             if (DotTarget == null)
