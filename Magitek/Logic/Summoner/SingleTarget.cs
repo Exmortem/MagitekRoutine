@@ -63,16 +63,22 @@ namespace Magitek.Logic.Summoner
                         }
                     case SmnResources.ActivePetType.Ifrit when Spells.RubyRuinIII.IsKnown():
                         return await Spells.RubyRuinIII.Cast(Core.Me.CurrentTarget);
+                    case SmnResources.ActivePetType.Ifrit:
+                        return await Spells.RubyRuinII.Cast(Core.Me.CurrentTarget);
 
                     case SmnResources.ActivePetType.Titan when Spells.TopazRite.IsKnown():
                         return await Spells.TopazRite.Cast(Core.Me.CurrentTarget);
                     case SmnResources.ActivePetType.Titan when Spells.TopazRuinIII.IsKnown():
                         return await Spells.TopazRuinIII.Cast(Core.Me.CurrentTarget);
+                    case SmnResources.ActivePetType.Titan:
+                        return await Spells.TopazRuinII.Cast(Core.Me.CurrentTarget);
 
                     case SmnResources.ActivePetType.Garuda when Spells.EmeraldRite.IsKnown():
                         return await Spells.EmeraldRite.Cast(Core.Me.CurrentTarget);
                     case SmnResources.ActivePetType.Garuda when Spells.EmeraldRuinIII.IsKnown():
                         return await Spells.EmeraldRuinIII.Cast(Core.Me.CurrentTarget);
+                    case SmnResources.ActivePetType.Garuda:
+                        return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
                 }
 
             if (Core.Me.CurrentJob == ClassJobType.Arcanist)

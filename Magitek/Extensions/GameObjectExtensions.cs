@@ -16,7 +16,7 @@ using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Extensions
 {
-    internal static class GameObjectExtensions
+    public static class GameObjectExtensions
     {
         public static bool ThoroughCanAttack(this GameObject unit)
         {
@@ -43,6 +43,10 @@ namespace Magitek.Extensions
         }
 
         public static bool WithinSpellRange(this GameObject unit, float range)
+        {
+            return (Core.Me.Distance2D(unit) - Core.Me.CombatReach - unit.CombatReach) <= range;
+        }
+        public static bool WithinSpellRange(this GameObject unit, double range)
         {
             return (Core.Me.Distance2D(unit) - Core.Me.CombatReach - unit.CombatReach) <= range;
         }
@@ -177,7 +181,7 @@ namespace Magitek.Extensions
         {
             return Combat.Enemies.Where(r => r.Distance(unit) <= distance + Core.Me.CombatReach + unit.CombatReach);
         }
-
+        
         public static IEnumerable<BattleCharacter> EnemiesNearbyOoc(this GameObject unit, float distance)
         {
             return GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.IsTargetable && r.CurrentHealth > 0 && r.CanAttack && r.Distance(unit) <= distance);
@@ -296,11 +300,13 @@ namespace Magitek.Extensions
 
             TankImmunityCheck AuraCheck(uint aura)
             {
-                if (!unit.HasAura(aura)) return TankImmunityCheck.DontHealThem;
-                return unit.CharacterAuras.Any(
+                if (!unit.HasAura(aura)) return TankImmunityCheck.HealThem;
+                var result = unit.CharacterAuras.Any(
                     x => x.Id == aura && x.TimespanLeft.Milliseconds <= 2000) 
                     ? TankImmunityCheck.HealThem 
                     : TankImmunityCheck.DontHealThem;
+
+                return result;
             }
         }
 

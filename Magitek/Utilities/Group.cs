@@ -12,7 +12,7 @@ using BaseSettings = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.Utilities
 {
-    internal static class Group
+    public static class Group
     {
         public static IEnumerable<Character> AllianceMembers
         {

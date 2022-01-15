@@ -99,6 +99,10 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool EnkindlePhoenix { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SmartAoe { get; set; }
 
         #endregion
 
@@ -199,7 +203,11 @@ namespace Magitek.Models.Summoner
         
         [Setting]
         [DefaultValue(false)]
-        public bool ThrottleSummonsWithTTL { get; set; }
+        public bool ThrottleEgiSummonsWithTTL { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool ThrottleTranceSummonsWithTTL { get; set; }
         
         #endregion
     }

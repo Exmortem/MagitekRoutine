@@ -17,10 +17,15 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Gravity.Radius) < AstrologianSettings.Instance.GravityEnemies)
-                return false;
+            var target = Combat.SmartAoeTarget(Spells.Gravity, AstrologianSettings.Instance.SmartAoe);
 
-            return await Spells.Gravity.Cast(Core.Me.CurrentTarget);
+            if (target == null)
+                return false;
+            
+            if (Combat.Enemies.Count(r => r.Distance(target) <= Spells.Gravity.Radius) < AstrologianSettings.Instance.GravityEnemies)
+                return false;
+            
+            return await Spells.Gravity.Cast(target);
         }
 
         public static async Task<bool> LordOfCrown()
@@ -30,12 +35,17 @@ namespace Magitek.Logic.Astrologian
 
             if (Core.Me.CurrentTarget == null)
                 return false;
+            
+            var target = Combat.SmartAoeTarget(Spells.Gravity, AstrologianSettings.Instance.SmartAoe);
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.LordofCrowns.Radius) >= AstrologianSettings.Instance.LordOfCrownsEnemies)
-                return await Spells.CrownPlay.Cast(Core.Me.CurrentTarget);
+            if (target == null)
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(target) <= Spells.LordofCrowns.Radius) >= AstrologianSettings.Instance.LordOfCrownsEnemies)
+                return await Spells.CrownPlay.Cast(target);
 
             if (Spells.MinorArcana.Cooldown == System.TimeSpan.Zero)
-                return await Spells.CrownPlay.Cast(Core.Me.CurrentTarget);
+                return await Spells.CrownPlay.Cast(target);
 
             return false;
         }

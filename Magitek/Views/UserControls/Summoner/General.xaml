@@ -106,12 +106,18 @@
         </controls:SettingsBlock>
         
         <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Other:" />
-                <CheckBox Margin="5,3" Content="Lucid Dreaming" IsChecked="{Binding SummonerSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.LucidDreamingManaPercent, Mode=TwoWay}" />
-                <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                <CheckBox Margin="5,3" Content="Throttle Summons with TTL" IsChecked="{Binding SummonerSettings.ThrottleSummonsWithTTL, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text="Other:" />
+                    <CheckBox Margin="5,3" Content="Lucid Dreaming" IsChecked="{Binding SummonerSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding SummonerSettings.LucidDreamingManaPercent, Mode=TwoWay}" />
+                    <TextBlock Margin="3" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Margin="5,3" Content="Smart Aoe" IsChecked="{Binding SummonerSettings.SmartAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5,3" Content="Throttle Egi Summons with TTL" IsChecked="{Binding SummonerSettings.ThrottleEgiSummonsWithTTL, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5,3" Content="Throttle Trance Summons with TTL" IsChecked="{Binding SummonerSettings.ThrottleTranceSummonsWithTTL, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

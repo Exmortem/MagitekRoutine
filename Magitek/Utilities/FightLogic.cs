@@ -1,4 +1,5 @@
 ﻿using ff14bot;
+using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Utilities.Collections;
@@ -13,10 +14,7 @@ namespace Magitek.Utilities
         {
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
-            if (enemyLogic == null)
-                return null;
-            
-            if (enemyLogic.TankBusters == null)
+            if (enemyLogic?.TankBusters == null)
                 return null;
             
             var output = enemyLogic.TankBusters.Contains(enemy.CastingSpellId) ? Group.CastableTanks.FirstOrDefault(x => x == enemy.TargetCharacter) : null;
@@ -36,13 +34,10 @@ namespace Magitek.Utilities
         public static bool EnemyIsCastingAoe()
         {
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
-
-            if (enemyLogic == null)
+            
+            if (enemyLogic?.Aoes == null)
                 return false;
-
-            if (enemyLogic.Aoes == null)
-                return false;
-
+            
             var output = enemyLogic.Aoes.Contains(enemy.CastingSpellId);
             
             if (output && DebugSettings.Instance.DebugFightLogic)
@@ -53,12 +48,10 @@ namespace Magitek.Utilities
 
         public static bool EnemyIsCastingBigAoe()
         {
+            var testing = GetEnemyLogicAndEnemy();
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
-            if (enemyLogic == null)
-                return false;
-
-            if (enemyLogic.BigAoes == null)
+            if (enemyLogic?.BigAoes == null)
                 return false;
             
             var output = enemyLogic.BigAoes.Contains(enemy.CastingSpellId);
@@ -82,35 +75,35 @@ namespace Magitek.Utilities
             
             return Encounters.Any(x => x.ZoneId == WorldManager.ZoneId);
         }
-        private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
+        public static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
         {
             if (!DebugSettings.Instance.UseFightLogic)
                 return (null, null, null);
             
             if (!Globals.InActiveDuty)
                 return (null, null, null);
-
+            
             if (!Core.Me.InCombat)
                 return (null, null, null);
-
+            
             var encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.ZoneId);
-
+            
             if (encounter == null)
                 return (null, null, null);
-
+            
             var enemy = Combat.Enemies.FirstOrDefault(x => encounter.Enemies.Any(y => y.Id == x.NpcId) && x.IsCasting);
 
             if (enemy == null)
                 return (null, null, null);
             
-            var enemyLogic = encounter.Enemies.FirstOrDefault(x => x.Id == enemy.ObjectId);
-
+            var enemyLogic = encounter.Enemies.FirstOrDefault(x => x.Id == enemy.NpcId);
+            
             return enemyLogic == null ? (null, null, null) : (encounter, enemyLogic, enemy);
         }
-        
-        private class Enemy
+
+        public class Enemy
         {
-            public int Id { get; set; }
+            public uint Id { get; set; }
             public string Name { get; set; }
             public List<uint> TankBusters { get; set; }
             public List<uint> SharedTankBusters { get; set; }
@@ -118,7 +111,7 @@ namespace Magitek.Utilities
             public List<uint> BigAoes { get; set; }
         }
 
-        private class Encounter
+        public class Encounter
         {
             public ushort ZoneId { get; set; }
             public string Name { get; set; }
@@ -126,7 +119,7 @@ namespace Magitek.Utilities
             public List<Enemy> Enemies { get; set; }
         }
 
-        private static readonly List<Encounter> Encounters = new List<Encounter>() {
+        public static readonly List<Encounter> Encounters = new List<Encounter>() {
             #region Endwalker: Dungeons
             new Encounter {
                 ZoneId = ZoneId.TheTowerOfZot,
@@ -1094,7 +1087,8 @@ namespace Magitek.Utilities
                 Yanxia = 614,
                 Zadnor = 975;
         }
-        private enum FFXIVExpansion
+
+        public enum FFXIVExpansion
         {
             ARealmReborn,
             Heavensward,

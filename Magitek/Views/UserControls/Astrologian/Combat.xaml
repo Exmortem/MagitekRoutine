@@ -6,8 +6,6 @@
              xmlns:local="clr-namespace:Magitek.Views.UserControls.Astrologian"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -105,11 +103,12 @@
             </Grid>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Gravity When There Are " IsChecked="{Binding AstrologianSettings.Gravity, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,0,5,0" Content="Gravity When There Are " IsChecked="{Binding AstrologianSettings.Gravity, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.GravityEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                <CheckBox Margin="5,0,5,0" Content="Smart Aoe" IsChecked="{Binding AstrologianSettings.SmartAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
     </StackPanel>

@@ -74,7 +74,7 @@ namespace Magitek.Utilities
             LadyOfCrownsDrawn = 2055,
             ClarifyingDraw = 2713,
             Exaltation = 2717,
-            CelestialIntersections = 1887,
+            CelestialIntersection = 1887,
             Macrocosmos = 2718,
             Disembowel = 1914,
             SharperFangandClaw = 802,

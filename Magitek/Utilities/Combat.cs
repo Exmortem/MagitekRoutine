@@ -1,6 +1,8 @@
-﻿using ff14bot;
+﻿using Clio.Utilities;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -110,6 +112,20 @@ namespace Magitek.Utilities
 
             DutyTime.Reset();
             DutyTime.Stop();
+        }
+
+        public static BattleCharacter SmartAoeTarget(SpellData spell, bool smartAoeSetting = false)
+        {
+            if (!Core.Me.InCombat)
+                return null;
+
+            if (smartAoeSetting == false)
+                return Core.Me.CurrentTarget == null ? null : (BattleCharacter) Core.Me.TargetGameObject;
+
+            var bestTarget = Enemies.Where(x => x.WithinSpellRange(spell.Range))
+                .OrderBy(x => x.EnemiesNearby(spell.Radius).Count());
+            
+            return bestTarget?.FirstOrDefault();
         }
     }
 }

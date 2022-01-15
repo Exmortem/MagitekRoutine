@@ -317,6 +317,10 @@
                         <TabItem Header="Player Spell Cast History" Style="{DynamicResource MainTabNewBugReport}">
                             <bugs:SpellCastHistory />
                         </TabItem>
+                        
+                        <TabItem Header="Fight Logic" Style="{DynamicResource MainTabNewBugReport}">
+                            <bugs:FightLogic />
+                        </TabItem>
                     </TabControl>
                 </TabItem>
 

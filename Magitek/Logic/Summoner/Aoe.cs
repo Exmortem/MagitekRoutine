@@ -2,6 +2,7 @@
 using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
@@ -14,6 +15,7 @@ using System.Windows.Media.Animation;
 using ArcResources = ff14bot.Managers.ActionResourceManager.Arcanist;
 using SmnResources = ff14bot.Managers.ActionResourceManager.Summoner;
 using static Magitek.Utilities.Routines.Summoner;
+using Auras = Magitek.Utilities.Auras;
 
 
 namespace Magitek.Logic.Summoner
@@ -46,8 +48,13 @@ namespace Magitek.Logic.Summoner
 
             if (!GlobalCooldown.CanWeave())
                 return false;
-            
-            return await Spells.Deathflare.Cast(Core.Me.CurrentTarget);
+
+            var target = Combat.SmartAoeTarget(Spells.Deathflare, SummonerSettings.Instance.SmartAoe);
+
+            if (target == null)
+                return false;
+                
+            return await Spells.Deathflare.Cast(target);
         }
 
         public static async Task<bool> Rekindle()
@@ -67,7 +74,7 @@ namespace Magitek.Logic.Summoner
             if (targetNeedsHealing == null)
                 return false;
 
-            return await Spells.Rekindle.HealAura(targetNeedsHealing, Auras.Rekindle);
+            return await Spells.Rekindle.Heal(targetNeedsHealing,false);
         }
         
         public static async Task<bool> CrimsonCyclone()
@@ -83,8 +90,13 @@ namespace Magitek.Logic.Summoner
             
             if (SmnResources.ElementalAttunement > 1)
                 return false;
+            
+            var target = Combat.SmartAoeTarget(Spells.CrimsonCyclone, SummonerSettings.Instance.SmartAoe);
 
-            return await Spells.CrimsonCyclone.Cast(Core.Me.CurrentTarget); 
+            if (target == null)
+                return false;
+
+            return await Spells.CrimsonCyclone.Cast(target); 
         }
 
         public static async Task<bool> CrimsonStrike()
@@ -100,16 +112,10 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Core.Me.Distance2D(Core.Me.CurrentTarget) > Spells.CrimsonStrike.Range)
+            if (!Core.Me.WithinSpellRange(Spells.CrimsonStrike.Range))
                 return false;
 
-            while (Casting.LastSpell == Spells.CrimsonCyclone)
-            {
-                if (await Spells.CrimsonStrike.Cast(Core.Me.CurrentTarget)) return true;
-                await Coroutine.Yield();
-            }
-
-            return false;
+            return await Spells.CrimsonStrike.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> MountainBuster()
@@ -123,7 +129,12 @@ namespace Magitek.Logic.Summoner
             if (!Core.Me.HasAura(Auras.TitansFavor))
                 return false;
             
-            return await Spells.MountainBuster.Cast(Core.Me.CurrentTarget);
+            var target = Combat.SmartAoeTarget(Spells.MountainBuster, SummonerSettings.Instance.SmartAoe);
+
+            if (target == null)
+                return false;
+            
+            return await Spells.MountainBuster.Cast(target);
         }
         
         public static async Task<bool> Slipstream()
@@ -140,7 +151,12 @@ namespace Magitek.Logic.Summoner
             if (!Core.Me.HasAura(Auras.GarudasFavor))
                 return false;
             
-            return await Spells.Slipstream.Cast(Core.Me.CurrentTarget);
+            var target = Combat.SmartAoeTarget(Spells.Slipstream, SummonerSettings.Instance.SmartAoe);
+
+            if (target == null)
+                return false;
+            
+            return await Spells.Slipstream.Cast(target);
         }
         public static async Task<bool> EnergySiphon()
         {
@@ -161,8 +177,13 @@ namespace Magitek.Logic.Summoner
             
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
                 return false; 
+            
+            var target = Combat.SmartAoeTarget(Spells.EnergySiphon, SummonerSettings.Instance.SmartAoe);
 
-            return await Spells.EnergySiphon.Cast(Core.Me.CurrentTarget);
+            if (target == null)
+                return false;
+
+            return await Spells.EnergySiphon.Cast(target);
         }
 
         public static async Task<bool> Outburst()
@@ -174,59 +195,73 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
-                return false; 
+                return false;
+
+            BattleCharacter target;
             
             if (Core.Me.SummonedPet() == SmnPets.Pheonix)
-                return await Spells.BrandofPurgatory.Cast(Core.Me.CurrentTarget);
+            {
+                target = Combat.SmartAoeTarget(Spells.BrandofPurgatory, SummonerSettings.Instance.SmartAoe);
+
+                if (target == null)
+                    return false;
+                
+                return await Spells.BrandofPurgatory.Cast(target);
+            }
+
+            target = Combat.SmartAoeTarget(Spells.PreciousBrilliance, SummonerSettings.Instance.SmartAoe);
+            
+            if (target == null)
+                return false;
 
             if (Core.Me.SummonedPet() == SmnPets.Bahamut)
-                return await Spells.AstralFlare.Cast(Core.Me.CurrentTarget);
+                return await Spells.AstralFlare.Cast(target);
             
             if (Spells.AstralFlare.IsKnownAndReady() && SmnResources.TranceTimer > 0 && Core.Me.SummonedPet() == SmnPets.Carbuncle) //It means we're in Dreadwyrm Trance
-                return await Spells.AstralFlare.Cast(Core.Me.CurrentTarget);
+                return await Spells.AstralFlare.Cast(target);
 
             if (Core.Me.CurrentJob == ClassJobType.Summoner)
                 switch (SmnResources.ActivePet)
                 {
                     case SmnResources.ActivePetType.Ifrit when Spells.RubyCatastrophe.IsKnown():
-                        return await Spells.RubyCatastrophe.Cast(Core.Me.CurrentTarget);
+                        return await Spells.RubyCatastrophe.Cast(target);
                     case SmnResources.ActivePetType.Ifrit when Spells.RubyDisaster.IsKnown():
-                        return await Spells.RubyDisaster.Cast(Core.Me.CurrentTarget);
+                        return await Spells.RubyDisaster.Cast(target);
                     case SmnResources.ActivePetType.Ifrit:
-                        return await Spells.RubyOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.RubyOutburst.Cast(target);
 
                     case SmnResources.ActivePetType.Titan when Spells.TopazCatastrophe.IsKnown():
-                        return await Spells.TopazCatastrophe.Cast(Core.Me.CurrentTarget);
+                        return await Spells.TopazCatastrophe.Cast(target);
                     case SmnResources.ActivePetType.Titan when Spells.TopazDisaster.IsKnown():
-                        return await Spells.TopazDisaster.Cast(Core.Me.CurrentTarget);
+                        return await Spells.TopazDisaster.Cast(target);
                     case SmnResources.ActivePetType.Titan:
-                        return await Spells.TopazOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.TopazOutburst.Cast(target);
 
                     case SmnResources.ActivePetType.Garuda when Spells.EmeraldCatastrophe.IsKnown():
-                        return await Spells.EmeraldCatastrophe.Cast(Core.Me.CurrentTarget);
+                        return await Spells.EmeraldCatastrophe.Cast(target);
                     case SmnResources.ActivePetType.Garuda when Spells.EmeraldDisaster.IsKnown():
-                        return await Spells.EmeraldDisaster.Cast(Core.Me.CurrentTarget);
+                        return await Spells.EmeraldDisaster.Cast(target);
                     case SmnResources.ActivePetType.Garuda:
-                        return await Spells.EmeraldOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.EmeraldOutburst.Cast(target);
                 }
 
             if (Core.Me.CurrentJob == ClassJobType.Arcanist)
                 switch (ArcResources.ActivePet)
                 {
                     case ArcResources.ActivePetType.Ruby:
-                        return await Spells.RubyOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.RubyOutburst.Cast(target);
 
                     case ArcResources.ActivePetType.Topaz:
-                        return await Spells.TopazOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.TopazOutburst.Cast(target);
 
                     case ArcResources.ActivePetType.Emerald:
-                        return await Spells.EmeraldOutburst.Cast(Core.Me.CurrentTarget);
+                        return await Spells.EmeraldOutburst.Cast(target);
                 }
 
             if (Spells.TriDisaster.IsKnown())
-                return await Spells.TriDisaster.Cast(Core.Me.CurrentTarget);
+                return await Spells.TriDisaster.Cast(target);
                     
-            return await Spells.Outburst.Cast(Core.Me.CurrentTarget);
+            return await Spells.Outburst.Cast(target);
         }
 
         public static async Task<bool> Painflare()
@@ -246,7 +281,12 @@ namespace Magitek.Logic.Summoner
             if (!GlobalCooldown.CanWeave())
                 return false;
             
-            return await Spells.Painflare.Cast(Core.Me.CurrentTarget);
+            var target = Combat.SmartAoeTarget(Spells.Painflare, SummonerSettings.Instance.SmartAoe);
+
+            if (target == null)
+                return false;
+            
+            return await Spells.Painflare.Cast(target);
         }
 
         public static async Task<bool> Ruin4()
@@ -273,7 +313,12 @@ namespace Magitek.Logic.Summoner
                 && (SmnResources.ElementalAttunement > 1 || !MovementManager.IsMoving))
                 return false;
             
-            return await Spells.Ruin4.Cast(Core.Me.CurrentTarget);
+            var target = Combat.SmartAoeTarget(Spells.Ruin4, SummonerSettings.Instance.SmartAoe);
+
+            if (target == null)
+                return false;
+            
+            return await Spells.Ruin4.Cast(target);
         }
     }
 }

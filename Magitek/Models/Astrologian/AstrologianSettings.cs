@@ -70,6 +70,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(20)]
         public int DoDamageIfTimeLeftLessThan { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool SmartAoe { get; set; }
 
         #endregion
 
