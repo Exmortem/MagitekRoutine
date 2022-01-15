@@ -13,20 +13,20 @@ namespace Magitek.Logic.Sage
 {
     internal static class SingleTarget
     {
-        private static async Task<bool> UseEukrasianDosis()
+        private static async Task<bool> UseEukrasianDosis(GameObject target)
         {
             if (!Core.Me.HasAura(Auras.Eukrasia, true))
                 return false;
 
             if (Core.Me.ClassLevel < 72)
             {
-                return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
+                return await Spells.EukrasianDosis.Cast(target);
             }
             if (Core.Me.ClassLevel < 82)
             {
-                return await Spells.EukrasianDosisII.Cast(Core.Me.CurrentTarget);
+                return await Spells.EukrasianDosisII.Cast(target);
             }
-            return await Spells.EukrasianDosisIII.Cast(Core.Me.CurrentTarget);
+            return await Spells.EukrasianDosisIII.Cast(target);
         }
         public static async Task<bool> Dosis()
         {
@@ -40,7 +40,7 @@ namespace Magitek.Logic.Sage
             // nothing else to do with it, so refresh the dot so it can proceed to throwing out
             // regular dosis instead of stopping completely.
             if (Core.Me.HasAura(Auras.Eukrasia, true))
-                return await UseEukrasianDosis();
+                return await UseEukrasianDosis(Core.Me.CurrentTarget);
 
             return await Spells.Dosis.Cast(Core.Me.CurrentTarget);
         }
@@ -62,7 +62,7 @@ namespace Magitek.Logic.Sage
             if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
-            return await UseEukrasianDosis();
+            return await UseEukrasianDosis(Core.Me.CurrentTarget);
         }
         public static async Task<bool> DotMultipleTargets()
         {
@@ -83,7 +83,7 @@ namespace Magitek.Logic.Sage
             if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
-            return await UseEukrasianDosis();
+            return await UseEukrasianDosis(DotTarget);
 
             bool NeedsDot(BattleCharacter unit)
             {
