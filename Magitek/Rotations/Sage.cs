@@ -33,6 +33,7 @@ namespace Magitek.Rotations
                 return false;
 
             if (await Buff.Kardia()) return true;
+            if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
 
             return false;
         }

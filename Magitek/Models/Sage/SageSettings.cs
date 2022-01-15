@@ -233,8 +233,20 @@ namespace Magitek.Models.Sage
         public bool ShieldKeepUpOnHealers { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool ShieldKeepUpOnSelf { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool ShieldKeepUpOnDps { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldKeepUpUnlessAdderstingFull { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ShieldKeepUpOnlyOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -243,6 +255,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool ShieldOnHealers { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ShieldOnSelf { get; set; }
 
         [Setting]
         [DefaultValue(true)]

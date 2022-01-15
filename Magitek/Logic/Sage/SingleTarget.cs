@@ -13,6 +13,21 @@ namespace Magitek.Logic.Sage
 {
     internal static class SingleTarget
     {
+        private static async Task<bool> UseEukrasianDosis()
+        {
+            if (!Core.Me.HasAura(Auras.Eukrasia, true))
+                return false;
+
+            if (Core.Me.ClassLevel < 72)
+            {
+                return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
+            }
+            if (Core.Me.ClassLevel < 82)
+            {
+                return await Spells.EukrasianDosisII.Cast(Core.Me.CurrentTarget);
+            }
+            return await Spells.EukrasianDosisIII.Cast(Core.Me.CurrentTarget);
+        }
         public static async Task<bool> Dosis()
         {
             if (!SageSettings.Instance.DoDamage)
@@ -21,8 +36,11 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Dosis)
                 return false;
 
+            // By the time the routine is casting Dosis, if it has a stored eukrasia, there was
+            // nothing else to do with it, so refresh the dot so it can proceed to throwing out
+            // regular dosis instead of stopping completely.
             if (Core.Me.HasAura(Auras.Eukrasia, true))
-                return false;
+                return await UseEukrasianDosis();
 
             return await Spells.Dosis.Cast(Core.Me.CurrentTarget);
         }
@@ -44,15 +62,7 @@ namespace Magitek.Logic.Sage
             if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
-            if (Core.Me.ClassLevel < 72)
-            {
-                return await Spells.EukrasianDosis.Cast(Core.Me.CurrentTarget);
-            }
-            if (Core.Me.ClassLevel < 82)
-            {
-                return await Spells.EukrasianDosisII.Cast(Core.Me.CurrentTarget);
-            }
-            return await Spells.EukrasianDosisIII.Cast(Core.Me.CurrentTarget);
+            return await UseEukrasianDosis();
         }
         public static async Task<bool> DotMultipleTargets()
         {
