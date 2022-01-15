@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Magitek.Views.UserControls.Bugs.FightLogic" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:viewModels="clr-namespace:Magitek.ViewModels">
+
+    <UserControl.DataContext>
+        <Binding Source="{x:Static viewModels:Debug.Instance}" />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="5" Background="{DynamicResource ClassSelectorBackground}">
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <CheckBox Margin="0,0,10,0" Content="Enable Fight Logic" IsChecked="{Binding Settings.UseFightLogic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <CheckBox Margin="0,0,0,0" Content="Print Fight Logic Detection" IsChecked="{Binding Settings.DebugFightLogic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
+

@@ -97,7 +97,7 @@ namespace Magitek.Utilities
 
             if (encounter == null)
                 return (null, null, null);
-            
+
             var enemy = Combat.Enemies.FirstOrDefault(x => encounter.Enemies.Any(y => y.Id == x.NpcId) && x.IsCasting);
 
             if (enemy == null)
@@ -127,6 +127,259 @@ namespace Magitek.Utilities
         }
 
         private static readonly List<Encounter> Encounters = new List<Encounter>() {
+            #region Endwalker: Dungeons
+            new Encounter {
+                ZoneId = ZoneId.TheTowerOfZot,
+                Name = "Dungeon: The Tower of Zot",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10256,
+                        Name = "Minduruva",
+                        TankBusters = new List<uint>{25257,25290},
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10257,
+                        Name = "Sanduruva",
+                        TankBusters = new List<uint>{25257,25280},
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10259,
+                        Name = "Cinduruva",
+                        TankBusters = new List<uint>{25257},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25273,},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheTowerOfBabil,
+                Name = "Dungeon: The Tower of Babil",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10281,
+                        Name = "Lugae",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25338},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10282,
+                        Name = "Lugae",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25338},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10285,
+                        Name = "Anima",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25344},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10288,
+                        Name = "Anima",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25344},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.Vanaspati,
+                Name = "Dungeon: Vanaspati",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10717,
+                        Name = "Terminus Snatcher",
+                        TankBusters = new List<uint>{25141},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25144},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11049,
+                        Name = "Terminus Snatcher",
+                        TankBusters = new List<uint>{25141},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25144},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10718,
+                        Name = "Terminus Wrecker",
+                        TankBusters = new List<uint>{25154},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25153},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11052,
+                        Name = "Terminus Wrecker",
+                        TankBusters = new List<uint>{25154},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25153},
+                        BigAoes = null
+                        
+                    },
+                    new Enemy {
+                        Id = 10719,
+                        Name = "Svarbhanu",
+                        TankBusters = new List<uint>{25171},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25170},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.KtisisHyperboreia,
+                Name = "Dungeon: Ktisis Hyperboreia",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10396,
+                        Name = "Lyssa",
+                        TankBusters = new List<uint>{25182},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25181},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10398,
+                        Name = "Ladon Lord",
+                        TankBusters = new List<uint>{25743},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25741},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10363,
+                        Name = "Hermes",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25886},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10399,
+                        Name = "Hermes",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25886},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheAitiascope,
+                Name = "Dungeon: The Aitiascope",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10290,
+                        Name = "Livia the Undeterred",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25672},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10292,
+                        Name = "Rhitahtyn the Unshakable",
+                        TankBusters = new List<uint>{25686},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25685},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10293,
+                        Name = "Amon the Undying",
+                        TankBusters = new List<uint>{25700},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25701},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.Smileton,
+                Name = "Dungeon: Smileton",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10331,
+                        Name = "Face",
+                        TankBusters = new List<uint>{26434},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{26435},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10333,
+                        Name = "Frameworker",
+                        TankBusters = new List<uint>{26436},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{26437},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10336,
+                        Name = "The Big Cheese",
+                        TankBusters = new List<uint>{26449},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{26450},
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheDeadEnds,
+                Name = "Dungeon: The Dead Ends",
+                Expansion = FFXIVExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10313,
+                        Name = "Caustic Grebuloff",
+                        TankBusters = new List<uint>{25920},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25916},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10315,
+                        Name = "Peacekeeper",
+                        TankBusters = new List<uint>{28359},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25936},
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 10316,
+                        Name = "Ra-la",
+                        TankBusters = new List<uint>{25949},
+                        SharedTankBusters = null,
+                        Aoes = new List<uint>{25950},
+                        BigAoes = null
+                    }
+                }
+            },
+            #endregion
+            #region Endwalker: Trials
             new Encounter {
                 ZoneId = ZoneId.TheDarkInside,
                 Name = "Trial: Zodiark",
@@ -172,6 +425,8 @@ namespace Magitek.Utilities
                     }
                 }
             },
+            #endregion
+            #region Endwalker: Trials (Extreme)
             new Encounter {
                 ZoneId = ZoneId.TheMinstrelsBalladZodiarksFall,
                 Name = "Trial: Zodiark (Extreme)",
@@ -202,6 +457,8 @@ namespace Magitek.Utilities
                     }
                 }
             },
+            #endregion
+            #region Endwalker: Normal Raids
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFirstCircle,
                 Name = "Normal Raid: First Circle (P1N)",
@@ -262,7 +519,9 @@ namespace Magitek.Utilities
                     }
                 }
             },
-                        new Encounter {
+            #endregion
+            #region Endwalker: Normal Raids (Savage)
+            new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFirstCircleSavage,
                 Name = "Normal Raid: First Circle (Savage) (P1S)",
                 Expansion = FFXIVExpansion.Endwalker,
@@ -322,6 +581,7 @@ namespace Magitek.Utilities
                     }
                 }
             }
+            #endregion
         };
         
         private static class ZoneId

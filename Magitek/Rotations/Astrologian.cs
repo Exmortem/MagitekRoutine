@@ -121,7 +121,7 @@ namespace Magitek.Rotations
                 if (await Heals.Benefic()) return true;
                 if (await Heals.AspectedBenefic()) return true;
                 if (await Heals.EarthlyStar()) return true;
-                if (await Heals.DontLetTheDRKDie()) return true;
+                if (await Heals.DontLetTheDrkDie()) return true;
             }
 
             return await HealAlliance();

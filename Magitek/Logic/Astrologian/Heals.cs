@@ -6,7 +6,7 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -154,7 +154,7 @@ namespace Magitek.Logic.Astrologian
             }
         }
 
-        public static async Task<bool> DontLetTheDRKDie()
+        public static async Task<bool> DontLetTheDrkDie()
         {
             if (!AstrologianSettings.Instance.DontLetTheDRKDie)
                 return false;
@@ -184,7 +184,7 @@ namespace Magitek.Logic.Astrologian
             if (!Globals.PartyInCombat)
                 return false;
 
-            if (Spells.CelestialIntersection.Cooldown != TimeSpan.Zero)
+            if (!Spells.CelestialIntersection.IsKnownAndReady())
                 return false;
 
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
@@ -271,13 +271,26 @@ namespace Magitek.Logic.Astrologian
 
             if (!Spells.Exaltation.IsKnownAndReady())
                 return false;
-            
-            var tankBusterOnPartyMember = FightLogic.EnemyIsCastingTankBuster();
 
-            if (tankBusterOnPartyMember == null)
+            if (AstrologianSettings.Instance.FightLogic_Exaltation)
+            {
+
+                var tankBusterOnPartyMember = FightLogic.EnemyIsCastingTankBuster();
+
+                if (tankBusterOnPartyMember == null)
+                    return false;
+
+                return await Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation);
+            }
+
+            var tankToShieldAndHeal = Group.CastableTanks.FirstOrDefault(x =>
+                x.CurrentHealthPercent < AstrologianSettings.Instance.ExaltationHealthPercent &&
+                x.CheckTankImmunity() == TankImmunityCheck.HealThem);
+            
+            if (tankToShieldAndHeal == null)
                 return false;
 
-            return await Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation);
+            return await Spells.Exaltation.HealAura(tankToShieldAndHeal, Auras.Exaltation);
         }
 
         #endregion
@@ -372,6 +385,14 @@ namespace Magitek.Logic.Astrologian
 
         private static async Task<bool> AspectedBeneficTanks()
         {
+            if (Core.Me.HasAllAuras(new List<uint>{Auras.NeutralSect,Auras.NeutralSectShield}))
+            {
+                var tankShieldTarget = Group.CastableTanks.FirstOrDefault(x => !x.HasAura(Auras.NeutralSectShield));
+
+                if (tankShieldTarget != null)
+                    return await Spells.AspectedBenefic.HealAura(tankShieldTarget,Auras.NeutralSectShield);
+            }
+
             if (!AstrologianSettings.Instance.DiurnalBeneficOnTanks)
                 return false;
 
@@ -476,9 +497,15 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
 
+            if (Core.Me.HasAura(Auras.NeutralSect) &&
+                Group.CastableAlliesWithin15.Count(x => !x.HasAura(Auras.NeutralSectShield)) < AoeThreshold)
+                return MovementManager.IsMoving
+                    ? await SwiftCastAspectedHelios()
+                    : await Spells.AspectedHelios.HealAura(Core.Me, Auras.NeutralSectShield);
+
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.DiurnalHeliosMinManaPercent)
                 return false;
-
+            
             var diurnalHeliosCount =
                 PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r => r.CurrentHealth > 0 &&
                                                         r.Distance(Core.Me) <= Spells.AspectedHelios.Radius &&
@@ -522,7 +549,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CelestialOpposition)
                 return false;
 
-            if (Spells.CelestialOpposition.Cooldown != TimeSpan.Zero)
+            if (!Spells.CelestialOpposition.IsKnownAndReady())
                 return false;
 
             if (Casting.LastSpell == Spells.Helios)
@@ -537,8 +564,11 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.Horoscope)
                 return false;
 
-            var celestialOppositionCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0
-            && r.Distance(Core.Me) <= 15
+            if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
+                Group.CastableAlliesWithin15.Count() > AoeThreshold)
+                return await Spells.CelestialOpposition.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation);
+
+            var celestialOppositionCount = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialOppositionHealthPercent);
 
             if (celestialOppositionCount < AstrologianSettings.Instance.CelestialOppositionAllies)
@@ -663,9 +693,9 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> Macrocosmos()
         {
-            return false;
-
-#pragma warning disable CS0162 // Unreachable code detected
+            if (!AstrologianSettings.Instance.Macrocosmos)
+                return false;
+            
             if (!Core.Me.InCombat)
                 return false;
 
@@ -683,45 +713,31 @@ namespace Magitek.Logic.Astrologian
 
             if (Group.CastableAlliesWithin20.Any(x => x.HasAura(Auras.Macrocosmos)))
                 return false;
+            
+            if (AstrologianSettings.Instance.FightLogic_Macrocosmos && FightLogic.EnemyIsCastingBigAoe()) 
+                return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
 
             var enemyCount = Combat.Enemies.Count();
             if (enemyCount == 0)
                 return false;
 
-            var partySize = PartyManager.NumMembers;
-
-            if (enemyCount > partySize)
+            if (enemyCount > PartyManager.NumMembers)
             {
-                if (Combat.Enemies.All(x => x.WithinSpellRange(Spells.Macrocosmos.Radius) && Group.CastableAlliesWithin20.Count() == partySize))
+                if (Combat.Enemies.All(x => x.WithinSpellRange(Spells.Macrocosmos.Radius) && Group.CastableAlliesWithin20.Count() == PartyManager.NumMembers))
                     return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
             }
 
             var groupHealth = PartyManager.AllMembers.Sum(x => x.MaxHealth);
-            var mightBeBoss = enemyCount == 1 && Combat.Enemies.FirstOrDefault().MaxHealth > groupHealth;
+            var mightBeBoss = (enemyCount == 1 && Combat.Enemies.FirstOrDefault()?.MaxHealth > groupHealth || Combat.Enemies.Any(x => x.IsBoss()));
 
             if (enemyCount < AoeThreshold && !mightBeBoss)
                 return false;
-
-
-            if (!Combat.Enemies.Any(x =>
-                    x.IsCasting && x.CastingSpellId.GetRadius() > 0 &&
-                    Group.CastableAlliesWithin20.Count(y =>
-                        y.Distance2D(y.SpellCastInfo.CastLocation) < y.CastingSpellId.GetRadius()) >
-                        AoeThreshold))
-                return false;
-
 
             if (!mightBeBoss && Group.CastableTanks.All(x =>
                     Core.Me.Distance2D(x) <= Spells.Macrocosmos.Radius && x.CurrentHealthPercent > 30f))
                 return false;
 
             return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
-#pragma warning restore CS0162 // Unreachable code detected
-        }
-
-        private static float GetRadius(this uint spell)
-        {
-            return DataManager.GetSpellData(spell).Radius;
         }
 
         private static async Task<bool> Microcosmos()
@@ -755,6 +771,6 @@ namespace Magitek.Logic.Astrologian
 
         #endregion
 
-        private static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
+        public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
     }
 }

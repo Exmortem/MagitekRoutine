@@ -107,6 +107,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Exaltation { get; set; }
+        
+        [Setting]
+        [DefaultValue(40f)]
+        public float ExaltationHealthPercent { get; set; }
 
         #endregion
 
@@ -383,11 +387,35 @@ namespace Magitek.Models.Astrologian
         
         [Setting]
         [DefaultValue(true)]
+        public bool Macrocosmos { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
         public bool WeaveOGCDHeals { get; set; }
         
         [Setting]
         [DefaultValue(true)]
         public bool DontLetTheDRKDie { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogic_NeutralSectAspectedHelios { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogic_Exaltation { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogic_Macrocosmos { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogic_CollectiveUnconscious { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogic_Lightspeed { get; set; }
 
         #endregion
 

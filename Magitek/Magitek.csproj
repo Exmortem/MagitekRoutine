@@ -594,6 +594,9 @@
     <Compile Include="Views\UserControls\Bugs\Enmity.xaml.cs">
       <DependentUpon>Enmity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Bugs\FightLogic.xaml.cs">
+      <DependentUpon>FightLogic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Bugs\HealingPriority.xaml.cs">
       <DependentUpon>HealingPriority.xaml</DependentUpon>
     </Compile>
@@ -1087,6 +1090,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bugs\Enmity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Bugs\FightLogic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -121,7 +121,7 @@ namespace Magitek.Utilities.Routines
             );
         }
 
-        public static readonly uint[] ShieldAuraList = {
+        public static readonly uint[]  ShieldAuraList = {
             Auras.NocturnalField,
             Auras.Galvanize
         };
