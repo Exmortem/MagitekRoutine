@@ -169,7 +169,7 @@ namespace Magitek.Models.Astrologian
         public bool EssentialDignityTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(40.0f)]
         public float EssentialDignityHealthPercent { get; set; }
 
         [Setting]
@@ -185,7 +185,7 @@ namespace Magitek.Models.Astrologian
         public float HeliosHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(40)]
+        [DefaultValue(20)]
         public float HeliosMinManaPercent { get; set; }
 
         [Setting]
@@ -197,7 +197,7 @@ namespace Magitek.Models.Astrologian
         public int DiurnalHeliosAllies { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(80.0f)]
         public float DiurnalHeliosHealthPercent { get; set; }
 
         [Setting]
@@ -229,7 +229,7 @@ namespace Magitek.Models.Astrologian
         public int HoroscopeAllies { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
+        [DefaultValue(70.0f)]
         public float HoroscopeHealthPercent { get; set; }
 
         [Setting]
@@ -257,7 +257,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficOnTanks { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DiurnalBeneficOnHealers { get; set; }
 
         [Setting]
@@ -277,7 +277,7 @@ namespace Magitek.Models.Astrologian
         public bool DiurnalBeneficKeepUpOnDps { get; set; }
 
         [Setting]
-        [DefaultValue(85.0f)]
+        [DefaultValue(80.0f)]
         public float DiurnalBeneficHealthPercent { get; set; }
 
         [Setting]
@@ -322,7 +322,7 @@ namespace Magitek.Models.Astrologian
         public bool NoBeneficIfBenefic2Available { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(60.0f)]
         public float Benefic2HealthPercent { get; set; }
 
         [Setting]
@@ -334,7 +334,7 @@ namespace Magitek.Models.Astrologian
         public bool CelestialIntersection { get; set; }
 
         [Setting]
-        [DefaultValue(85.0f)]
+        [DefaultValue(90.0f)]
         public float CelestialIntersectionHealthPercent { get; set; }
 
         [Setting]
@@ -362,11 +362,11 @@ namespace Magitek.Models.Astrologian
         public int EarthlyStarEnemiesNearTarget { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
+        [DefaultValue(2)]
         public int EarthlyStarPartyMembersNearTarget { get; set; }
 
         [Setting]
-        [DefaultValue(95)]
+        [DefaultValue(95f)]
         public float EarthlyStarPartyMembersNearTargetHealthPercent { get; set; }
 
         [Setting]
@@ -378,7 +378,7 @@ namespace Magitek.Models.Astrologian
         public int EarthlyDominanceCount { get; set; }
 
         [Setting]
-        [DefaultValue(70)]
+        [DefaultValue(70f)]
         public float EarthlyDominanceHealthPercent { get; set; }
 
         [Setting]
@@ -402,23 +402,23 @@ namespace Magitek.Models.Astrologian
         public bool DontLetTheDRKDie { get; set; }
         
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FightLogic_NeutralSectAspectedHelios { get; set; }
         
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FightLogic_Exaltation { get; set; }
         
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FightLogic_Macrocosmos { get; set; }
         
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FightLogic_CollectiveUnconscious { get; set; }
         
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool FightLogic_Lightspeed { get; set; }
 
         #endregion
@@ -447,19 +447,19 @@ namespace Magitek.Models.Astrologian
         #region AlliancesAndPets
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool IgnoreAlliance { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool HealAllianceHealers { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool HealAllianceTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool HealAllianceDps { get; set; }
 
         [Setting]
@@ -467,11 +467,11 @@ namespace Magitek.Models.Astrologian
         public bool ResAllianceHealers { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ResAllianceTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ResAllianceDps { get; set; }
 
         [Setting]
