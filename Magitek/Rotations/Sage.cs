@@ -33,7 +33,6 @@ namespace Magitek.Rotations
                 return false;
 
             if (await Buff.Kardia()) return true;
-            if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
 
             return false;
         }
@@ -114,11 +113,11 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.ZoePneuma()) return true;
                 if (await Logic.Sage.Heal.Pneuma()) return true;
-                if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
                 if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.Prognosis()) return true;
                 if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
+                if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
             }
 
             return await HealAlliance();

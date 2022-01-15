@@ -100,6 +100,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool ToxiconWhileMoving { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool ToxiconOnFullAddersting { get; set; }
+
         #endregion
 
         #region Buffs

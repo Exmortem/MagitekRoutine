@@ -32,8 +32,7 @@
                 </Grid.RowDefinitions>
 
                 <CheckBox Grid.Column="0" Grid.Row="0" Content="Shields w/ Eukrasian Diagnosis" IsChecked="{Binding SageSettings.Shield, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Column="0" Grid.Row="1" Style="{DynamicResource TextBlockDefault}" Text="These are extra settings for using Eukrasian Diagnosis that are in addition to General Healing." />
-                <TextBlock Grid.Column="0" Grid.Row="2" Style="{DynamicResource TextBlockDefault}" Text="Shields settings apply before the General Healing versions of Euk prognosis/diagnosis." />
+                <TextBlock Grid.Column="0" Grid.Row="2" Style="{DynamicResource TextBlockDefault}" Text="Shields settings are extra shields which apply after those in General Healing." />
             </Grid>
         </controls:SettingsBlock>
 

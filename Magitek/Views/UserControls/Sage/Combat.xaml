@@ -125,8 +125,9 @@
 
         </controls:SettingsBlock>
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
+            <StackPanel Margin="5" Orientation="Vertical">
                 <CheckBox Content="Toxicon Single Targets While Moving " IsChecked="{Binding SageSettings.ToxiconWhileMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Toxicon At Full Addersting " IsChecked="{Binding SageSettings.ToxiconOnFullAddersting, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
 
         </controls:SettingsBlock>

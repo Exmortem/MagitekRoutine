@@ -80,21 +80,10 @@ namespace Magitek.Logic.Sage
             if (DotTarget == null)
                 return false;
 
-            if (!await Spells.EukrasianDosis.Cast(DotTarget))
-                return false;
-
             if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
                 return false;
 
-            if (Core.Me.ClassLevel < 72)
-            {
-                return await Spells.EukrasianDosis.Cast(DotTarget);
-            }
-            if (Core.Me.ClassLevel < 82)
-            {
-                return await Spells.EukrasianDosisII.Cast(DotTarget);
-            }
-            return await Spells.EukrasianDosisIII.Cast(DotTarget);
+            return await UseEukrasianDosis();
 
             bool NeedsDot(BattleCharacter unit)
             {
