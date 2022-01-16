@@ -113,11 +113,11 @@ namespace Magitek.Rotations
                 if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.ZoePneuma()) return true;
                 if (await Logic.Sage.Heal.Pneuma()) return true;
-                if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
                 if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.Prognosis()) return true;
                 if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
+                if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
             }
 
             return await HealAlliance();
@@ -205,12 +205,12 @@ namespace Magitek.Rotations
                 if (await Buff.Soteria()) return true;
             }
 
+            if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Phlegma()) return true;
             if (await AoE.Toxikon()) return true;
             if (await AoE.Pneuma()) return true;
             if (await AoE.Dyskrasia()) return true;
             if (await SingleTarget.EukrasianDosis()) return true;
-            if (await SingleTarget.DotMultipleTargets()) return true;
             return await SingleTarget.Dosis();
         }
 
