@@ -75,7 +75,10 @@ namespace Magitek.Logic.Sage
             if (Addersting == 0)
                 return false;
 
-            if (!MovementManager.IsMoving && (!SageSettings.Instance.AoE || Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies))
+            var enemyCountCheck = Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies;
+            var adderstingCheck = SageSettings.Instance.ToxiconOnFullAddersting && Addersting == 3;
+
+            if (!MovementManager.IsMoving && (!SageSettings.Instance.AoE || enemyCountCheck) && !adderstingCheck)
                 return false;
 
             return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
