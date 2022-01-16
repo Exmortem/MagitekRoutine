@@ -3,10 +3,8 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Sage;
 using Magitek.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.Sage
@@ -18,37 +16,23 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ShieldOnHealers)
                 return false;
 
-            var shieldTarget = SageSettings.Instance.ShieldKeepUpOnHealers
-                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis, true))
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && r.IsHealer() && r.CurrentHealthPercent <= SageSettings.Instance.ShieldHealthPercent && !r.HasAura(Auras.EukrasianDiagnosis, true));
-
-            if (shieldTarget == null)
-                return false;
-
-            if (!await Heal.UseEukrasia(targetObject: shieldTarget))
-                return false;
-
-            return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
+            return await ShieldTarget(Group.CastableAlliesWithin30.Where(r => r.IsHealer()), SageSettings.Instance.ShieldKeepUpOnHealers);
         }
+
+        private static async Task<bool> ShieldSelf()
+        {
+            if (!SageSettings.Instance.ShieldOnSelf)
+                return false;
+
+            return await ShieldTarget(Group.CastableAlliesWithin30.Where(r => r == Core.Me), SageSettings.Instance.ShieldKeepUpOnSelf);
+        }
+
         private static async Task<bool> ShieldTanks()
         {
             if (!SageSettings.Instance.ShieldOnTanks)
                 return false;
 
-            var shieldTarget = SageSettings.Instance.ShieldKeepUpOnTanks ?
-                Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.EukrasianDiagnosis, true)) :
-                Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.HasAura(Auras.EukrasianDiagnosis, true) && r.CurrentHealthPercent <= SageSettings.Instance.ShieldHealthPercent);
-
-            if (!MovementManager.IsMoving && SageSettings.Instance.OnlyShieldWhileMoving)
-                return false;
-
-            if (shieldTarget == null)
-                return false;
-
-            if (!await Heal.UseEukrasia(targetObject: shieldTarget))
-                return false;
-
-            return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis); ;
+            return await ShieldTarget(Group.CastableAlliesWithin30.Where(r => r.IsTank()), SageSettings.Instance.ShieldKeepUpOnTanks);
         }
 
         private static async Task<bool> ShieldDps()
@@ -56,17 +40,40 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ShieldOnDps)
                 return false;
 
-            var shieldTarget = SageSettings.Instance.ShieldKeepUpOnDps
-                ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.IsTank() && !r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis, true))
-                : Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Sage.DontShield.Contains(r.Name) && r.CurrentHealth > 0 && !r.IsTank() && !r.IsHealer() && !r.HasAura(Auras.EukrasianDiagnosis, true) && r.CurrentHealthPercent <= SageSettings.Instance.ShieldHealthPercent);
+            return await ShieldTarget(Group.CastableAlliesWithin30.Where(r => r.IsDps()), SageSettings.Instance.ShieldKeepUpOnDps);
+        }
 
-            if (shieldTarget == null)
+        private static async Task<bool> ShieldTarget(IEnumerable<ff14bot.Objects.Character> targetBase, bool keepUp)
+        {
+            var targets = targetBase.Where(r => !r.HasAura(Auras.EukrasianDiagnosis, true));
+            ff14bot.Objects.Character target = null;
+
+            if (keepUp)
+            {
+                if (SageSettings.Instance.ShieldKeepUpUnlessAdderstingFull && ActionResourceManager.Sage.Addersting >= 3)
+                    target = null;
+                else
+                {
+                    if (SageSettings.Instance.ShieldKeepUpOnlyOutOfCombat)
+                    {
+                        if (!Core.Me.InCombat)
+                            target = targets.FirstOrDefault();
+                    }
+                    else
+                        target = targets.FirstOrDefault();
+                }
+            }
+
+            if (target == null)
+                target = targets.FirstOrDefault(r => r.CurrentHealthPercent <= SageSettings.Instance.ShieldHealthPercent);
+
+            if (target == null)
                 return false;
 
-            if (!await Heal.UseEukrasia(targetObject: shieldTarget))
+            if (!await Heal.UseEukrasia(targetObject: target))
                 return false;
 
-            return await Spells.EukrasianDiagnosis.HealAura(shieldTarget, Auras.EukrasianDiagnosis);
+            return await Spells.EukrasianDiagnosis.HealAura(target, Auras.EukrasianDiagnosis);
         }
 
         public static async Task<bool> ShieldsUpRedAlert()
@@ -74,9 +81,13 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Shield)
                 return false;
 
+            if (SageSettings.Instance.OnlyShieldWhileMoving && !MovementManager.IsMoving)
+                return false;
+
             if (Globals.InParty)
             {
                 if (await ShieldTanks()) return true;
+                if (await ShieldSelf()) return true;
                 if (await ShieldHealers()) return true;
                 return await ShieldDps();
             }
@@ -85,7 +96,19 @@ namespace Magitek.Logic.Sage
                 if (Core.Me.HasAura(Auras.EukrasianDiagnosis))
                     return false;
 
-                if (!SageSettings.Instance.ShieldKeepUpOnHealers && Core.Me.CurrentHealthPercent > SageSettings.Instance.ShieldHealthPercent)
+                var keepUpOnMe = SageSettings.Instance.ShieldKeepUpOnHealers || SageSettings.Instance.ShieldKeepUpOnSelf;
+                var useOnMe = SageSettings.Instance.ShieldOnHealers || SageSettings.Instance.ShieldOnSelf;
+
+                if (!useOnMe)
+                    return false;
+
+                if (!keepUpOnMe && Core.Me.CurrentHealthPercent > SageSettings.Instance.ShieldHealthPercent)
+                    return false;
+
+                if (keepUpOnMe && SageSettings.Instance.ShieldKeepUpUnlessAdderstingFull && ActionResourceManager.Sage.Addersting >= 3)
+                    return false;
+
+                if (keepUpOnMe && SageSettings.Instance.ShieldKeepUpOnlyOutOfCombat && Core.Me.InCombat)
                     return false;
 
                 if (!await Heal.UseEukrasia())

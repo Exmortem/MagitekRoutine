@@ -107,7 +107,14 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentHealthPercent > WarriorSettings.Instance.BloodWhettingHpPercentage)
                 return false;
 
-            return await WarriorRoutine.Bloodwhetting.CastAura(Core.Me, Auras.Bloodwhetting);
+            // The CastAura below correctly handles casting either Raw Intuition or Bloodwhetting,
+            // but we need to pass in the correct aura id in the second parameter otherwise the
+            // routine will "hang" for 6 seconds waiting on the wrong aura.
+            var aura = Spells.Bloodwhetting.IsKnown()
+                ? Auras.Bloodwhetting
+                : Auras.RawIntuition;
+
+            return await WarriorRoutine.Bloodwhetting.CastAura(Core.Me, (uint)aura);
         }
 
     }
