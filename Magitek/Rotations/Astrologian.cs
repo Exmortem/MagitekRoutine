@@ -1,6 +1,7 @@
 ﻿using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Astrologian;
@@ -8,6 +9,8 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using Magitek.Models.Account;
+using System.Linq;
+using System.Windows.Controls;
 using static Magitek.Utilities.Routines.Astrologian;
 
 namespace Magitek.Rotations
@@ -70,6 +73,44 @@ namespace Magitek.Rotations
             return await SingleTarget.Malefic();
         }
 
+        private static SpellCastInfo _lastTargetCast = null;
+        
+        public static SpellCastInfo LastTargetCast
+        {
+            get => _lastTargetCast;
+            set
+            {
+                if (value.ActionId == 0) return;
+
+                if (_lastTargetCast != null && _lastTargetCast.ActionId == 0 && value.ActionId == 0) return;
+                
+                if (_lastTargetCast != null && _lastTargetCast.ActionId == value.ActionId) return;
+                
+                _lastTargetCast = value;
+                Logger.WriteInfo($"[Target Spell Cast] Detected New Cast From {Core.Me.CurrentTarget} \n" +
+                                 $"[Target Spell Cast] Name: {value.Name} Id: {value.ActionId} Type: {value.ActionType} \n" +
+                                 $"[Target Spell Cast] isCasting: {value.IsCasting} isSpell: {value.IsSpell} itemData: {value.ItemData} \n" +
+                                 $"[Target Spell Cast] Target: {value.TargetId} Location: {value.CastLocation} Interruptible: {value.Interruptible} \n" +
+                                 $"[Target Spell Cast] CastTime: {value.CastTime} CurrentCastTime: {value.CurrentCastTime} RemainingCastTime: {value.RemainingCastTime} \n" +
+                                 $"[Target Spell Cast] SpellData: {value.SpellData} VTable: {value.VTable}");
+            }
+        }
+
+        public static void CheckCasts()
+        {
+            return;
+            if (Core.Me.CurrentTarget == null) return;
+            
+            var info = ((BattleCharacter) Core.Me.CurrentTarget).SpellCastInfo;
+            var actionId = Core.Memory.Read<uint>(info.Pointer + 0x40);
+            if (actionId == 0) return;
+            
+            var arraySize = Core.Memory.Read<int>(info.Pointer + 0x158);
+            var objIdArray = Core.Memory.ReadArray<ulong>(info.Pointer + 0x58, arraySize).Select(id => (uint)id).ToArray();
+            Logger.WriteInfo($"{Core.Me.CurrentTarget} is using {DataManager.GetSpellData(actionId).Name} ({actionId.ToString()}) on the following targets:");
+            for (var i = 0; i < objIdArray.Length; i++)
+                Logger.WriteInfo(string.Format($"[{i}] {GameObjectManager.GetObjectByObjectId(objIdArray[i])}"));
+        } 
         public static async Task<bool> Heal()
         {
             if (WorldManager.InSanctuary)
@@ -81,6 +122,11 @@ namespace Magitek.Rotations
             if (await Casting.TrackSpellCast())
                 return true;
 
+            //if (Core.Me.CurrentTarget != null)
+            //  LastTargetCast = ((BattleCharacter) Core.Me.CurrentTarget).SpellCastInfo;
+            
+            CheckCasts();
+            
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;

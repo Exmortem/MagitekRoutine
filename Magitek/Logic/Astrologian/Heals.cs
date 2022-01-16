@@ -280,7 +280,9 @@ namespace Magitek.Logic.Astrologian
                 if (tankBusterOnPartyMember == null)
                     return false;
 
-                return await Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation);
+                return await FightLogic.DoFlAction(
+                    Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation),
+                    FightLogic.TankBusterStopwatch);
             }
 
             var tankToShieldAndHeal = Group.CastableTanks.FirstOrDefault(x =>
@@ -495,7 +497,7 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Core.Me.HasAura(Auras.NeutralSect) &&
-                Group.CastableAlliesWithin15.Count(x => !x.HasAura(Auras.NeutralSectShield)) >= AoeThreshold)
+                Group.CastableAlliesWithin15.Count(x => !x.HasAura(Auras.NeutralSectShield)) >= AoeThreshold && !Core.Me.HasAura(Auras.NeutralSectShield))
                 return MovementManager.IsMoving
                     ? await SwiftCastAspectedHelios()
                     : await Spells.AspectedHelios.HealAura(Core.Me, Auras.NeutralSectShield, false);
@@ -578,12 +580,18 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CollectiveUnconscious)
                 return false;
 
+            if (!Core.Me.InCombat)
+                return false;
+
             if (!Spells.CollectiveUnconscious.IsKnownAndReady())
                 return false;
-            
+
             if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
-                Group.CastableAlliesWithin15.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) > AoeThreshold)
-                return await Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation);
+                Group.CastableAlliesWithin15.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) >
+                AoeThreshold)
+                return await FightLogic.DoFlAction(
+                    Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation),FightLogic.AoeStopwatch);
+
 
             if (Group.CastableAlliesWithin10.Count(r => r.Distance() < 6
                                                     && r.IsAlive
@@ -716,9 +724,9 @@ namespace Magitek.Logic.Astrologian
 
             if (Group.CastableAlliesWithin20.Any(x => x.HasAura(Auras.Macrocosmos)))
                 return false;
-            
-            if (AstrologianSettings.Instance.FightLogic_Macrocosmos && FightLogic.EnemyIsCastingBigAoe()) 
-                return await Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos);
+
+            if (AstrologianSettings.Instance.FightLogic_Macrocosmos && FightLogic.EnemyIsCastingBigAoe())
+                return await FightLogic.DoFlAction(Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos),FightLogic.AoeStopwatch);
 
             var enemyCount = Combat.Enemies.Count();
             if (enemyCount == 0)

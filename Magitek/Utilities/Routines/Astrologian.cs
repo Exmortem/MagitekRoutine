@@ -121,9 +121,12 @@ namespace Magitek.Utilities.Routines
             );
         }
 
-        public static readonly uint[]  ShieldAuraList = {
-            Auras.NocturnalField,
-            Auras.Galvanize
+        public static readonly uint[]  ScholarAndSageShieldsNotToOverwrite = {
+            Auras.Catalyze,
+            Auras.Galvanize,
+            Auras.SeraphicVeil,
+            Auras.EukrasianDiagnosis,
+            Auras.EukrasianPrognosis
         };
 
         public static Vector3 EarthlyStarLocation { get; set; }

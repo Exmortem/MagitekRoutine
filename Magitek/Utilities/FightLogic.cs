@@ -2,37 +2,159 @@
 using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Logic.Roles;
 using Magitek.Utilities.Collections;
+using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using DebugSettings = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.Utilities
 {
     public static class FightLogic
     {
+
+        public static readonly Stopwatch TankBusterStopwatch = new Stopwatch();
+        public static readonly Stopwatch AoeStopwatch = new Stopwatch();
+        
+        private static TimeSpan TankBusterCooldown
+        {
+            get
+            {
+                if (!TankBusterStopwatch.IsRunning) return TimeSpan.Zero;
+                
+                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(TankBusterStopwatch.Elapsed);
+                
+                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
+                
+                TankBusterStopwatch.Reset();
+                
+                return TimeSpan.Zero;
+            }
+        }
+
+        private static TimeSpan SharedTankBusterCooldown
+        {
+            get
+            {
+                if (!TankBusterStopwatch.IsRunning) return TimeSpan.Zero;
+                
+                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(TankBusterStopwatch.Elapsed);
+                
+                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
+                
+                TankBusterStopwatch.Reset();
+                return TimeSpan.Zero;
+            }
+        }
+        private static TimeSpan AoeCooldown
+        {
+            get
+            {
+                if (!AoeStopwatch.IsRunning) return TimeSpan.Zero;
+                
+                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(AoeStopwatch.Elapsed);
+                
+                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
+                
+                AoeStopwatch.Reset();
+                return TimeSpan.Zero;
+            }
+        }
+        private static TimeSpan BigAoeCooldown
+        {
+            get
+            {
+                if (!AoeStopwatch.IsRunning) return TimeSpan.Zero;
+                
+                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(AoeStopwatch.Elapsed);
+                
+                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
+                
+                AoeStopwatch.Reset();
+                return TimeSpan.Zero;
+            }
+        }
+
+        private static bool IsTankBusterFlReady => TankBusterCooldown == TimeSpan.Zero;
+
+        private static bool IsSharedTankBusterFlReady => SharedTankBusterCooldown == TimeSpan.Zero;
+        private static bool IsAoeFlReady => AoeCooldown == TimeSpan.Zero;
+
+        private static bool IsBigAoeFlReady => BigAoeCooldown == TimeSpan.Zero;
+
+        public static async Task<bool> DoFlAction(Task<bool> task, Ref<Stopwatch> stopwatch)
+        {
+            //Logger.WriteInfo($"Doing an FL Action!");
+            if (!await task) return false;
+            
+            stopwatch.Value.Start();
+            return true;
+        }
+        
+        public class Ref<T>
+        {
+            public Ref() { }
+            public Ref(T value) { Value = value; }
+            public T Value { get; set; }
+            public override string ToString()
+            {
+                T value = Value;
+                return value == null ? "" : value.ToString();
+            }
+            public static implicit operator T(Ref<T> r) { return r.Value; }
+            public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
+        }
+
         public static Character EnemyIsCastingTankBuster()
         {
+            if (!IsTankBusterFlReady)
+                return null;
+            
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
             if (enemyLogic?.TankBusters == null)
-                return null;
+                return EnemyIsCastingSharedTankBuster();
             
             var output = enemyLogic.TankBusters.Contains(enemy.CastingSpellId) ? Group.CastableTanks.FirstOrDefault(x => x == enemy.TargetCharacter) : null;
             
             if (output != null && DebugSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name}");
+                Logger.WriteInfo($"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name} ({output.CurrentJob})");
+            
+            if (output != null)
+                TankBusterStopwatch.Start();
 
             return output;
         }
 
-        public static bool EnemyIsCastingSharedTankBuster()
+        public static Character EnemyIsCastingSharedTankBuster()
         {
-            return false;
+            if (!IsTankBusterFlReady)
+                return null;
+            
+            var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
+
+            if (enemyLogic?.SharedTankBusters == null)
+                return null;
+            
+            var output = enemyLogic.SharedTankBusters.Contains(enemy.CastingSpellId) ? Group.CastableTanks.FirstOrDefault(x => x != enemy.TargetCharacter) : null;
+            
+            if (output != null && DebugSettings.Instance.DebugFightLogic)
+                Logger.WriteInfo($"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.Name} ({output.CurrentJob})");
+            
+            if (output != null)
+                TankBusterStopwatch.Start();
+
+            return output;
             
         }
         
         public static bool EnemyIsCastingAoe()
         {
+            if (!IsAoeFlReady)
+                return false;
+            
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
             
             if (enemyLogic?.Aoes == null)
@@ -42,23 +164,28 @@ namespace Magitek.Utilities
             
             if (output && DebugSettings.Instance.DebugFightLogic)
                 Logger.WriteInfo($"[AOE Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}");
-
+            
             return output;
         }
 
         public static bool EnemyIsCastingBigAoe()
         {
-            var testing = GetEnemyLogicAndEnemy();
+            if (!IsBigAoeFlReady)
+                return false;
+            
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
-            if (enemyLogic?.BigAoes == null)
+            if (enemyLogic == null)
                 return false;
+
+            if (enemyLogic.BigAoes == null)
+                return EnemyIsCastingAoe();
             
             var output = enemyLogic.BigAoes.Contains(enemy.CastingSpellId);
             
             if (output && DebugSettings.Instance.DebugFightLogic)
                 Logger.WriteInfo($"[BIG AOE Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}");
-
+            
             return output;
         }
         
@@ -80,25 +207,37 @@ namespace Magitek.Utilities
             if (!DebugSettings.Instance.UseFightLogic)
                 return (null, null, null);
             
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Enabled");
+            
             if (!Globals.InActiveDuty)
                 return (null, null, null);
             
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Active Duty");
+            
             if (!Core.Me.InCombat)
                 return (null, null, null);
+            
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] In Combat");
             
             var encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.ZoneId);
             
             if (encounter == null)
                 return (null, null, null);
             
-            var enemy = Combat.Enemies.FirstOrDefault(x => encounter.Enemies.Any(y => y.Id == x.NpcId) && x.IsCasting);
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Zone Matches: {encounter.Name}");
 
-            if (enemy == null)
+            var enemyLogic = encounter.Enemies.FirstOrDefault(x => ((BattleCharacter)GameObjectManager.GetObjectByNPCId(x.Id)).IsCasting);
+
+            if (enemyLogic == null)
                 return (null, null, null);
-            
-            var enemyLogic = encounter.Enemies.FirstOrDefault(x => x.Id == enemy.NpcId);
-            
-            return enemyLogic == null ? (null, null, null) : (encounter, enemyLogic, enemy);
+                
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Enemy and Casting Check Found Logic {enemyLogic.Name} ({enemyLogic.Id})");
+
+            var enemy = (BattleCharacter)GameObjectManager.GetObjectByNPCId(enemyLogic.Id);
+
+            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] An Enemy Matches and is Casting {enemy} ({enemy.NpcId})");            
+           
+            return (encounter, enemyLogic, enemy);
         }
 
         public class Enemy
@@ -398,7 +537,7 @@ namespace Magitek.Utilities
                         Name = "Hydaelyn",
                         TankBusters = null,
                         SharedTankBusters = new List<uint>{26070},
-                        Aoes = new List<uint>{26071,26072,26043,26064},
+                        Aoes = new List<uint>{26071,26072,26043,26064,26037,26038,26824},
                         BigAoes = null
                     }
                 }
@@ -430,13 +569,13 @@ namespace Magitek.Utilities
                         Name = "Zodiark",
                         TankBusters = new List<uint>{26607},
                         SharedTankBusters = null,
-                        Aoes = null,
+                        Aoes = new List<uint>{26611,26608},
                         BigAoes = null
                     }
                 }
             },
             new Encounter {
-                ZoneId = ZoneId.TheMinstrelsBalladHydaelynsCall,
+                ZoneId = ZoneId.TheMinstrelsBalladHydaelynsCall, //995
                 Name = "Trial: Hydaelyn (Extreme)",
                 Expansion = FFXIVExpansion.Endwalker,
                 Enemies = new List<Enemy> {
@@ -964,14 +1103,14 @@ namespace Magitek.Utilities
                 TheLostCityOfAmdapor = 363,
                 TheLostCityOfAmdaporHard = 519,
                 TheMinstrelsBalladHadessElegy = 885,
-                TheMinstrelsBalladHydaelynsCall = 996,
+                TheMinstrelsBalladHydaelynsCall = 995,
                 TheMinstrelsBalladNidhoggsRage = 566,
                 TheMinstrelsBalladShinryusDomain = 730,
                 TheMinstrelsBalladThordansReign = 448,
                 TheMinstrelsBalladTsukuyomisPain = 779,
                 TheMinstrelsBalladUltimasBane = 348,
-                TheMinstrelsBalladZodiarksFall = 993,
-                TheMothercrystal = 995,
+                TheMinstrelsBalladZodiarksFall = 9950,
+                TheMothercrystal = 9950,
                 TheNavel = 206,
                 TheNavelExtreme = 296,
                 TheNavelHard = 293,

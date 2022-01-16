@@ -11,7 +11,8 @@
     <StackPanel Margin="5" Background="{DynamicResource ClassSelectorBackground}">
         <StackPanel Orientation="Horizontal" Margin="5">
             <CheckBox Margin="0,0,10,0" Content="Enable Fight Logic" IsChecked="{Binding Settings.UseFightLogic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            <CheckBox Margin="0,0,0,0" Content="Print Fight Logic Detection" IsChecked="{Binding Settings.DebugFightLogic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <CheckBox Margin="0,0,10,0" Content="Print Fight Logic Detection" IsChecked="{Binding Settings.DebugFightLogic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <CheckBox Margin="0,0,0,0" Content="Print Extra Fight Logic Debugging" IsChecked="{Binding Settings.DebugFightLogic2, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
