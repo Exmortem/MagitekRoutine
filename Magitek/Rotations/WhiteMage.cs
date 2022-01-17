@@ -157,6 +157,7 @@ namespace Magitek.Rotations
                 if (WhiteMageSettings.Instance.HealAllianceOnlyCure)
                 {
                     if (await Logic.WhiteMage.Heal.Cure()) return true;
+                    return false;
                 }
 
                 if (await Logic.WhiteMage.Heal.Benediction()) return true;

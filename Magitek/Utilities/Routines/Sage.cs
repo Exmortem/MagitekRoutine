@@ -3,6 +3,7 @@ using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Sage;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,25 @@ namespace Magitek.Utilities.Routines
 
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Sage, Spells.Diagnosis);
 
+        public static bool CanWeave()
+        {
+            if (SageSettings.Instance.WeaveOGCDHeals
+                && Core.Me.CurrentMana >= SageSettings.Instance.WeaveOGCDHealsManaPercent)
+            {
+                if (GlobalCooldown.CanWeave(1))
+                    return true;
+                else if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 1750 + BaseSettings.Instance.UserLatencyOffset)
+                    return true;
+            }
+            else
+            {
+                if (Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
+                    return true;
+            }
+
+            return false;
+        }
+
         public static bool NeedToInterruptCast()
         {
             // Scalebound Extreme Rathalos
@@ -33,7 +53,7 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
-            if (Casting.CastingSpell == Spells.Egeiro && Casting.SpellTarget?.HasAura(Auras.Raise) == true)
+            if (Casting.CastingSpell == Spells.Egeiro && (Casting.SpellTarget?.HasAura(Auras.Raise) == true || Casting.SpellTarget?.CurrentHealth > 0))
             {
                 Logger.Error($@"Stopped Resurrection: Unit has raise aura");
                 return true;

@@ -88,22 +88,16 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
             if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
 
-            if (!SageSettings.Instance.WeaveOGCDHeals
-                || Core.Me.CurrentMana < SageSettings.Instance.WeaveOGCDHealsManaPercent
-                || SageRoutine.GlobalCooldown.CanWeave(1))
+            if (SageRoutine.CanWeave())
             {
                 if (await Buff.LucidDreaming()) return true;
-                if (await Buff.Kardia()) return true;
-                if (await Buff.Soteria()) return true;
                 if (await Buff.Rhizomata()) return true;
                 if (await Buff.Krasis()) return true;
             }
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if (!SageSettings.Instance.WeaveOGCDHeals
-                    || Core.Me.CurrentMana < SageSettings.Instance.WeaveOGCDHealsManaPercent
-                    || SageRoutine.GlobalCooldown.CanWeave(1))
+                if (SageRoutine.CanWeave())
                 {
                     if (await Buff.Kerachole()) return true;
                     if (await Buff.Holos()) return true;
@@ -117,13 +111,13 @@ namespace Magitek.Rotations
                 }
 
                 if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
-                if (await Logic.Sage.Heal.Shield()) return true;
                 if (await Logic.Sage.Heal.ZoePneuma()) return true;
                 if (await Logic.Sage.Heal.Pneuma()) return true;
                 if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.Prognosis()) return true;
                 if (await Logic.Sage.Heal.EukrasianDiagnosis()) return true;
                 if (await Logic.Sage.Heal.Diagnosis()) return true;
+                if (await Logic.Sage.Shield.ShieldsUpRedAlert()) return true;
             }
 
             return await HealAlliance();
@@ -146,9 +140,10 @@ namespace Magitek.Rotations
                 if (SageSettings.Instance.HealAllianceOnlyDiagnosis)
                 {
                     if (await Logic.Sage.Heal.Diagnosis()) return true;
+                    return false;
                 }
 
-                if (!SageSettings.Instance.WeaveOGCDHeals || SageRoutine.GlobalCooldown.CanWeave(1))
+                if (SageRoutine.CanWeave())
                 {
                     if (await Logic.Sage.Heal.Taurochole()) return true;
                     if (await Logic.Sage.Heal.Haima()) return true;
@@ -204,12 +199,18 @@ namespace Magitek.Rotations
                 return false;
             }
 
+            if (SageRoutine.CanWeave())
+            {
+                if (await Buff.Kardia()) return true;
+                if (await Buff.Soteria()) return true;
+            }
+
+            if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Phlegma()) return true;
             if (await AoE.Toxikon()) return true;
             if (await AoE.Pneuma()) return true;
             if (await AoE.Dyskrasia()) return true;
             if (await SingleTarget.EukrasianDosis()) return true;
-            if (await SingleTarget.DotMultipleTargets()) return true;
             return await SingleTarget.Dosis();
         }
 

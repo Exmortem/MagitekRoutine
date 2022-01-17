@@ -1,5 +1,70 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+    <Style x:Key="RadioButtonCheckboxLike" TargetType="{x:Type RadioButton}">
+        <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{DynamicResource Light}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Name="CheckboxBorder" Grid.Column="0" Width="16" Height="16" CornerRadius="10">
+                            <Grid>
+                                <Path Name="Checked"
+                                      Height="8"
+                                      Data="F1 M 0,110L 47.6667,62L 102,117.333L 218.667,0L 266,48L 102,212.333L 0,110 Z"
+                                      Fill="{DynamicResource Background}"
+                                      Opacity="0.90"
+                                      Stretch="Uniform"
+                                      UseLayoutRounding="False"
+                                      Visibility="Hidden">
+                                </Path>
+
+                                <Path Name="Unchecked"
+                                      Height="8"
+                                      Data="M7.1999998,0L16,8.7999997 24.799999,0 32,7.1999998 23.2,16 32,24.799999 24.799999,32 16,23.2 7.1999998,32 0,24.799999 8.7999997,16 0,7.1999998z"
+                                      Fill="{DynamicResource Background}"
+                                      Opacity="0.90"
+                                      Stretch="Uniform"
+                                      UseLayoutRounding="False"
+                                      Visibility="Hidden">
+                                </Path>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Padding="5,0,0,0">
+                            <ContentPresenter VerticalAlignment="Center" Content="{TemplateBinding Content}" />
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Checked" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="CheckboxBorder" Property="Background" Value="{DynamicResource FlatControlBackground}" />
+                                <Setter TargetName="CheckboxBorder" Property="BorderBrush" Value="{DynamicResource FlatControlBackground}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Trigger.Setters>
+                                <Setter TargetName="Unchecked" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="CheckboxBorder" Property="Background" Value="{DynamicResource Danger}" />
+                                <Setter TargetName="CheckboxBorder" Property="BorderBrush" Value="{DynamicResource Danger}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="RadioButtonBlueMage" TargetType="{x:Type RadioButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -83,7 +148,7 @@
                             Background="Transparent"
                             CornerRadius="3"
                             IsHitTestVisible="True">
-                            <Path Name="Icon" Margin="4,4" 
+                        <Path Name="Icon" Margin="4,4" 
                                   Data="M2790 7073 c-243 -18 -563 -99 -729 -183 -144 -73 -320 -191 -463
                                         -310 l-36 -31 -97 245 c-52 134 -105 252 -115 261 -55 49 -61 -39 -35 -500
                                         l13 -250 -68 -106 c-210 -326 -299 -642 -287 -1024 9 -288 68 -524 196 -789

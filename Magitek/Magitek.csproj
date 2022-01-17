@@ -262,6 +262,7 @@
     <Compile Include="Logic\Sage\Dispel.cs" />
     <Compile Include="Logic\Sage\Heal.cs" />
     <Compile Include="Logic\Sage\SingleTarget.cs" />
+    <Compile Include="Logic\Sage\Shield.cs" />
     <Compile Include="Logic\Warrior\Heal.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
     <Compile Include="Models\Sage\SageSettings.cs" />
