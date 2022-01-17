@@ -1,8 +1,7 @@
-﻿using ff14bot;
-using ff14bot.Helpers;
+﻿using Clio.Utilities;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Logic.Roles;
 using Magitek.Utilities.Collections;
 using System;
 using System.Diagnostics;
@@ -200,44 +199,90 @@ namespace Magitek.Utilities
             if (!Core.Me.InCombat)
                 return false;
             
-            return Encounters.Any(x => x.ZoneId == WorldManager.ZoneId);
+            return Encounters.Any(x => x.ZoneId == WorldManager.RawZoneId);
         }
+
+        private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemyCached { get; set; }
+
+        private static readonly Stopwatch GetEnemyLogicAndEnemyCacheAge = new Stopwatch();
         public static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
         {
-            if (!DebugSettings.Instance.UseFightLogic)
-                return (null, null, null);
+            if (GetEnemyLogicAndEnemyCacheAge.IsRunning && GetEnemyLogicAndEnemyCacheAge.ElapsedMilliseconds < 1000)
+                return GetEnemyLogicAndEnemyCached;
             
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Enabled");
+            Encounter encounter = null;
+            Enemy enemyLogic = null;
+            BattleCharacter enemy = null;
+            
+            if (!DebugSettings.Instance.UseFightLogic)
+                return SetAndReturn();
             
             if (!Globals.InActiveDuty)
-                return (null, null, null);
-            
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Active Duty");
+                return SetAndReturn();
             
             if (!Core.Me.InCombat)
-                return (null, null, null);
+                return SetAndReturn();
             
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] In Combat");
-            
-            var encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.ZoneId);
+            encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.ZoneId);
             
             if (encounter == null)
-                return (null, null, null);
+                return SetAndReturn();
             
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Zone Matches: {encounter.Name}");
-
-            var enemyLogic = encounter.Enemies.FirstOrDefault(x => ((BattleCharacter)GameObjectManager.GetObjectByNPCId(x.Id)).IsCasting);
+            enemyLogic = encounter.Enemies.FirstOrDefault(x => Combat.Enemies.Any(y => x.Id == y.NpcId));
 
             if (enemyLogic == null)
-                return (null, null, null);
+                return SetAndReturn();
                 
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] Enemy and Casting Check Found Logic {enemyLogic.Name} ({enemyLogic.Id})");
+            enemy = Combat.Enemies.FirstOrDefault(y => enemyLogic.Id == y.NpcId);
 
-            var enemy = (BattleCharacter)GameObjectManager.GetObjectByNPCId(enemyLogic.Id);
+            return SetAndReturn();
 
-            if (DebugSettings.Instance.DebugFightLogic2) Logger.WriteInfo($"[FL Settings] An Enemy Matches and is Casting {enemy} ({enemy.NpcId})");            
-           
-            return (encounter, enemyLogic, enemy);
+            (Encounter, Enemy, BattleCharacter) SetAndReturn()
+            {
+                if (DebugSettings.Instance.DebugFightLogicFound)
+                {
+                    ViewModels.Debug.Instance.FightLogicData =
+                        $"You are currently in {WorldManager.CurrentZoneName} ({WorldManager.RawZoneId})\n\n";
+                    
+                    if (encounter == null && enemyLogic == null && enemy == null)
+                        ViewModels.Debug.Instance.FightLogicData += $"There is no Fight Logic for this zone. \n";
+                    else
+                    {
+                        ViewModels.Debug.Instance.FightLogicData +=
+                            $"Fight Logic Recognized for {encounter.Name} from ({encounter.Expansion})\n" +
+                            $"There is Logic for {encounter.Enemies.Count()} enemies.\n\n";
+
+                        encounter.Enemies.ForEach(element =>
+                        {
+                            ViewModels.Debug.Instance.FightLogicData += $"Enemy: {element.Name} ({element.Id}):\n";
+
+                            if (element.TankBusters != null)
+                                ViewModels.Debug.Instance.FightLogicData +=
+                                    $"\tTankbusters:\n{string.Join("",element.TankBusters.Select(tb => $"\t\t{DataManager.GetSpellData(tb).Name} ({tb})\n"))}";
+                            
+                            if (element.SharedTankBusters != null)
+                                ViewModels.Debug.Instance.FightLogicData +=
+                                    $"\tShared Tankbusters:\n{string.Join("",element.SharedTankBusters.Select(stb => $"\t\t{DataManager.GetSpellData(stb).Name} ({stb})\n"))}";
+                            
+                            if (element.Aoes != null)
+                                ViewModels.Debug.Instance.FightLogicData +=
+                                    $"\tAoes:\n{string.Join("",element.Aoes.Select(aoe => $"\t\t{DataManager.GetSpellData(aoe).Name} ({aoe})\n"))}";
+                            
+                            if (element.BigAoes != null)
+                                ViewModels.Debug.Instance.FightLogicData +=
+                                    $"\tBig Aoes:\n{string.Join("",element.BigAoes.Select(baoe => $"\t\t{DataManager.GetSpellData(baoe).Name} ({baoe})\n"))}";
+
+                            ViewModels.Debug.Instance.FightLogicData += "\n";
+                        });
+                    }
+                }
+
+                GetEnemyLogicAndEnemyCached = (encounter, enemyLogic, enemy);
+                if (!GetEnemyLogicAndEnemyCacheAge.IsRunning)
+                    GetEnemyLogicAndEnemyCacheAge.Start();
+                else GetEnemyLogicAndEnemyCacheAge.Restart();
+                return GetEnemyLogicAndEnemyCached;
+            }
         }
 
         public class Enemy
@@ -575,7 +620,7 @@ namespace Magitek.Utilities
                 }
             },
             new Encounter {
-                ZoneId = ZoneId.TheMinstrelsBalladHydaelynsCall, //995
+                ZoneId = ZoneId.TheMinstrelsBalladHydaelynsCall,
                 Name = "Trial: Hydaelyn (Extreme)",
                 Expansion = FFXIVExpansion.Endwalker,
                 Enemies = new List<Enemy> {
@@ -1103,14 +1148,14 @@ namespace Magitek.Utilities
                 TheLostCityOfAmdapor = 363,
                 TheLostCityOfAmdaporHard = 519,
                 TheMinstrelsBalladHadessElegy = 885,
-                TheMinstrelsBalladHydaelynsCall = 995,
+                TheMinstrelsBalladHydaelynsCall = 996,
                 TheMinstrelsBalladNidhoggsRage = 566,
                 TheMinstrelsBalladShinryusDomain = 730,
                 TheMinstrelsBalladThordansReign = 448,
                 TheMinstrelsBalladTsukuyomisPain = 779,
                 TheMinstrelsBalladUltimasBane = 348,
-                TheMinstrelsBalladZodiarksFall = 9950,
-                TheMothercrystal = 9950,
+                TheMinstrelsBalladZodiarksFall = 993,
+                TheMothercrystal = 995,
                 TheNavel = 206,
                 TheNavelExtreme = 296,
                 TheNavelHard = 293,

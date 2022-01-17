@@ -135,7 +135,7 @@ namespace Magitek.Models.Account
         
         [Setting]
         [DefaultValue(false)]
-        public bool DebugFightLogic2 { get; set; }
+        public bool DebugFightLogicFound { get; set; }
 
         [Setting]
         [DefaultValue(DefaultOverlayPosX)]

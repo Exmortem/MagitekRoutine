@@ -6,6 +6,7 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroUtils =  Magitek.Utilities.Routines.Astrologian;
 using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Astrologian
@@ -143,7 +144,7 @@ namespace Magitek.Logic.Astrologian
             if (!Spells.NeutralSect.IsKnownAndReady())
                 return false;
             
-            if (AstrologianSettings.Instance.FightLogic_NeutralSectAspectedHelios && FightLogic.EnemyIsCastingBigAoe() && (AstrologianSettings.Instance.FightLogic_Macrocosmos && !Spells.Macrocosmos.IsKnownAndReady())) 
+            if (AstrologianSettings.Instance.FightLogic_NeutralSectAspectedHelios && FightLogic.EnemyIsCastingBigAoe() && (AstrologianSettings.Instance.FightLogic_Macrocosmos && !Spells.Macrocosmos.IsKnownAndReady()) && !Core.Me.HasAnyAura(AstroUtils.ScholarAndSageShieldsNotToOverwrite)) 
                 return await FightLogic.DoFlAction(Spells.NeutralSect.CastAura(Core.Me,Auras.NeutralSect),FightLogic.AoeStopwatch);
 
             var neutral = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0

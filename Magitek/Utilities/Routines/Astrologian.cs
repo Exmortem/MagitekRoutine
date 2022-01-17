@@ -121,7 +121,7 @@ namespace Magitek.Utilities.Routines
             );
         }
 
-        public static readonly uint[]  ScholarAndSageShieldsNotToOverwrite = {
+        public static readonly uint[] ScholarAndSageShieldsNotToOverwrite = {
             Auras.Catalyze,
             Auras.Galvanize,
             Auras.SeraphicVeil,

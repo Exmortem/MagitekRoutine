@@ -60,7 +60,7 @@ namespace Magitek.Models.Astrologian
         public bool Gravity { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(2)]
         public int GravityEnemies { get; set; }
 
         [Setting]
