@@ -62,7 +62,7 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(60)]
         public int EquilibriumHealthPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool UseThrillOfBattle { get; set; }
@@ -199,6 +199,14 @@ namespace Magitek.Models.Warrior
         [Setting]
         [DefaultValue(true)]
         public bool UseOnslaught { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnslaughtOnlyInMelee { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SaveOnslaughtCharges { get; set; }
 
         [Setting]
         [DefaultValue(true)]

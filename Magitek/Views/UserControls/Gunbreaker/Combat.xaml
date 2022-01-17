@@ -53,7 +53,10 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Rough Divide / Dash" IsChecked="{Binding GunbreakerSettings.UseRoughDivide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Rough Divide / Dash " IsChecked="{Binding GunbreakerSettings.UseRoughDivide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Only in Melee. Save " IsChecked="{Binding GunbreakerSettings.RoughDivideOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding GunbreakerSettings.SaveRoughDivideCharges, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" charges" />
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -151,6 +151,17 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) > 1)
                 return false;
 
+            if (WarriorSettings.Instance.OnslaughtOnlyInMelee
+                && !Core.Me.CurrentTarget.WithinSpellRange(3))
+            {
+                return false;
+            }
+
+            if (Spells.Onslaught.Charges < WarriorSettings.Instance.SaveOnslaughtCharges + 1)
+            {
+                return false;
+            }
+
             if (!WarriorRoutine.GlobalCooldown.CanWeave(1))
                 return false;
 

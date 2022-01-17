@@ -65,6 +65,8 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0" Grid.Column="0" Margin="0,5" Content="Use AoEs (Does not Affect Abyssal Drain or Salted Earth)" IsChecked="{Binding DarkKnightSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <CheckBox Grid.Row="1" Grid.Column="0" Content="Unleash When There Are  " IsChecked="{Binding DarkKnightSettings.UseUnleash, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
@@ -82,6 +84,12 @@
                         <CheckBox Grid.Row="5" Grid.Column="0" Margin="0,3" Content="Use Salted Earth When There Are  " IsChecked="{Binding DarkKnightSettings.UseSaltedEarth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.SaltedEarthEnemies, Mode=TwoWay}" />
                         <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                        <CheckBox Grid.Row="6" Grid.Column="0" Content="Use Plunge" IsChecked="{Binding DarkKnightSettings.UsePlunge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding DarkKnightSettings.PlungeOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Only in Melee" />
+                        <TextBlock Grid.Row="7" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="Save this many charges of Plunge" />
+                        <controls:Numeric Grid.Row="7" Grid.Column="1" Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding DarkKnightSettings.SavePlungeCharges, Mode=TwoWay}" />
+
                     </Grid>
                 </StackPanel>
             </StackPanel>

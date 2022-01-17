@@ -31,6 +31,14 @@ namespace Magitek.Models.Gunbreaker
 
         [Setting]
         [DefaultValue(true)]
+        public bool RoughDivideOnlyInMelee { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SaveRoughDivideCharges { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseBloodfest { get; set; }
 
         [Setting]
@@ -191,8 +199,8 @@ namespace Magitek.Models.Gunbreaker
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
 
-        
 
-        
+
+
     }
 }
