@@ -223,7 +223,7 @@ namespace Magitek.Utilities
             if (!Core.Me.InCombat)
                 return SetAndReturn();
             
-            encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.ZoneId);
+            encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.RawZoneId);
             
             if (encounter == null)
                 return SetAndReturn();
@@ -629,7 +629,7 @@ namespace Magitek.Utilities
                         Name = "Hydaelyn",
                         TankBusters = null,
                         SharedTankBusters = new List<uint>{26048,26040},
-                        Aoes = new List<uint>{26049,26050,27477,26021,27476},
+                        Aoes = new List<uint>{26036,26049,26050,27477,26021,27476},
                         BigAoes = null,
                     }
                 }
