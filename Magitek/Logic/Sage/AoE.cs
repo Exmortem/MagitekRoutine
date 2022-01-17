@@ -75,13 +75,30 @@ namespace Magitek.Logic.Sage
             if (Addersting == 0)
                 return false;
 
-            var enemyCountCheck = Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies;
-            var adderstingCheck = SageSettings.Instance.ToxiconOnFullAddersting && Addersting == 3;
+            var doToxicon = false;
 
-            if (!MovementManager.IsMoving && (!SageSettings.Instance.AoE || enemyCountCheck) && !adderstingCheck)
+            if (MovementManager.IsMoving)
+            {
+                doToxicon = true;
+            }
+            else
+            {
+                var enemyCountCheck = SageSettings.Instance.AoE && Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Toxikon.Radius + r.CombatReach) >= SageSettings.Instance.AoEEnemies;
+                var adderstingCheck = SageSettings.Instance.ToxiconOnFullAddersting && Addersting == 3;
+                var lowManaCheck = SageSettings.Instance.ToxiconOnLowMana && Core.Me.CurrentManaPercent < SageSettings.Instance.MinimumManaPercentToDoDamage;
+
+                if (enemyCountCheck || adderstingCheck || lowManaCheck)
+                    doToxicon = true;
+            }
+
+            if (doToxicon)
+            {
+                return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
+            }
+            else
+            {
                 return false;
-
-            return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
+            }
         }
         public static async Task<bool> Pneuma()
         {

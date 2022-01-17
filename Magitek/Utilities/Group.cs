@@ -89,7 +89,7 @@ namespace Magitek.Utilities
 
                 CastableParty.Add(ally);
             }
-            
+
             foreach (var ally in CastableParty.OrderBy(a => a.GetHealingWeight()))
             {
 
@@ -160,7 +160,7 @@ namespace Magitek.Utilities
         {
             ClearCastable();
 
-            foreach (var ally in CastableParty.OrderBy(a => a.GetResurrectionWeight()))
+            foreach (var ally in CastableParty.OrderBy(a => a.GetHealingWeight()))
             {
                 AddAllyToCastable(ally);
             }
