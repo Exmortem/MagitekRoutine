@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
 using Auras = Magitek.Utilities.Auras;
 using Magitek.Utilities.Managers;
+using Magitek.Models.Account;
 
 namespace Magitek.Logic.Warrior
 {
@@ -87,7 +88,11 @@ namespace Magitek.Logic.Warrior
             if (!Spells.NascentFlash.IsReady())
                 return false;
 
-            var canNascentTargets = Group.CastableAlliesWithin30.Where(CanNascentFlash).OrderByDescending(DispelManager.GetWeight).ThenBy(c => c.CurrentHealthPercent).ToList();
+
+            var canNascentTargets = Group.CastableAlliesWithin30.Where(CanNascentFlash);
+
+            if (!BaseSettings.Instance.UseWeightedHealingPriority)
+                canNascentTargets = canNascentTargets.OrderByDescending(DispelManager.GetWeight).ThenBy(c => c.CurrentHealthPercent);
 
             var nascentTarget = canNascentTargets.FirstOrDefault();
 

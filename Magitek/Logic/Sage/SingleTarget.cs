@@ -49,7 +49,6 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.DoDamage)
                 return false;
 
-            //Also this
             if (SageSettings.Instance.UseTTDForDots && Combat.CurrentTargetCombatTimeLeft <= SageSettings.Instance.DontDotIfEnemyDyingWithin)
                 return false;
 
@@ -57,6 +56,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (Core.Me.CurrentTarget.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds))
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25 + Core.Me.CurrentTarget.CombatReach)
                 return false;
 
             return await UseEukrasianDosis(Core.Me.CurrentTarget);
@@ -88,6 +90,11 @@ namespace Magitek.Logic.Sage
             }
             bool CanDot(GameObject unit)
             {
+                // Check dosis since no eukrasia buff yet.
+                if (!Spells.Dosis.CanCast(unit))
+                    return false;
+                if (unit.Distance(Core.Me) > 25 + unit.CombatReach)
+                    return false;
                 if (!SageSettings.Instance.UseTTDForDots)
                     return true;
                 return unit.CombatTimeLeft() >= SageSettings.Instance.DontDotIfEnemyDyingWithin;

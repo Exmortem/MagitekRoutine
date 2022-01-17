@@ -41,19 +41,19 @@ namespace Magitek.Models.Sage
         public bool Dosis { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool InterruptHealing { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(81.0f)]
         public float InterruptHealingHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool InterruptDamageToHeal { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
+        [DefaultValue(79.0f)]
         public float InterruptDamageHealthPercent { get; set; }
 
         [Setting]
@@ -77,7 +77,7 @@ namespace Magitek.Models.Sage
         public bool UseTTDForDots { get; set; }
 
         [Setting]
-        [DefaultValue(21)]
+        [DefaultValue(13)]
         public int DontDotIfEnemyDyingWithin { get; set; }
 
         [Setting]
@@ -89,7 +89,7 @@ namespace Magitek.Models.Sage
         public int AoEEnemies { get; set; }
 
         [Setting]
-        [DefaultValue(30.0f)]
+        [DefaultValue(10.0f)]
         public float MinimumManaPercentToDoDamage { get; set; }
 
         [Setting]
@@ -104,6 +104,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool ToxiconOnFullAddersting { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool ToxiconOnLowMana { get; set; }
+
         #endregion
 
         #region Buffs
@@ -113,19 +117,19 @@ namespace Magitek.Models.Sage
         public bool Kardia { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool KardiaSwitchTargets { get; set; }
 
         [Setting]
-        [DefaultValue(85)]
+        [DefaultValue(80.0f)]
         public float KardiaSwitchTargetsHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool KardiaSwitchTargetsCurrent { get; set; }
 
         [Setting]
-        [DefaultValue(95)]
+        [DefaultValue(95.0f)]
         public float KardiaSwitchTargetsCurrentHealthPercent { get; set; }
 
         [Setting]
@@ -137,11 +141,11 @@ namespace Magitek.Models.Sage
         public bool KardiaTank { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool KardiaHealer { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool KardiaDps { get; set; }
 
         [Setting]
@@ -165,7 +169,7 @@ namespace Magitek.Models.Sage
         public bool KrasisMainTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(80.0f)]
         public float KrasisHealthPercent { get; set; }
 
         [Setting]
@@ -173,11 +177,11 @@ namespace Magitek.Models.Sage
         public bool Soteria { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SoteriaTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(80.0f)]
         public float SoteriaHealthPercent { get; set; }
 
         [Setting]
@@ -193,11 +197,11 @@ namespace Magitek.Models.Sage
         public bool KeracholeOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool KeracholeOnlyWithMainTank { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(80.0f)]
         public float KeracholeHealthPercent { get; set; }
 
         [Setting]
@@ -217,7 +221,7 @@ namespace Magitek.Models.Sage
         public bool HolosTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool HolosMainTankOnly { get; set; }
 
         [Setting]
@@ -225,7 +229,7 @@ namespace Magitek.Models.Sage
         public bool Shield { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(50.0f)]
         public float ShieldHealthPercent { get; set; }
 
         [Setting]
@@ -233,7 +237,7 @@ namespace Magitek.Models.Sage
         public bool ShieldKeepUpOnTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ShieldKeepUpOnHealers { get; set; }
 
         [Setting]
@@ -241,7 +245,7 @@ namespace Magitek.Models.Sage
         public bool ShieldKeepUpOnSelf { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ShieldKeepUpOnDps { get; set; }
 
         [Setting]
@@ -257,7 +261,7 @@ namespace Magitek.Models.Sage
         public bool ShieldOnTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ShieldOnHealers { get; set; }
 
         [Setting]
@@ -265,7 +269,7 @@ namespace Magitek.Models.Sage
         public bool ShieldOnSelf { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool ShieldOnDps { get; set; }
 
         [Setting]
@@ -280,7 +284,7 @@ namespace Magitek.Models.Sage
         public bool WeaveOGCDHeals { get; set; }
 
         [Setting]
-        [DefaultValue(10.0f)]
+        [DefaultValue(20.0f)]
         public float WeaveOGCDHealsManaPercent { get; set; }
 
         [Setting]
@@ -288,7 +292,7 @@ namespace Magitek.Models.Sage
         public bool Diagnosis { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(30.0f)]
         public float DiagnosisHpPercent { get; set; }
 
         [Setting]
@@ -300,7 +304,7 @@ namespace Magitek.Models.Sage
         public int PrognosisNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(30.0f)]
         public float PrognosisHpPercent { get; set; }
 
         [Setting]
@@ -312,12 +316,8 @@ namespace Magitek.Models.Sage
         public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
-        [DefaultValue(70.0f)]
+        [DefaultValue(72.0f)]
         public float EukrasianPrognosisHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        public float EukrasianPrognosisMinManaPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -328,15 +328,15 @@ namespace Magitek.Models.Sage
         public bool ZoeEukrasianDiagnosis { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool ZoeEukrasianPrognosis { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool ZoePneuma { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(59.0f)]
         public float ZoeHealthPercent { get; set; }
 
         [Setting]
@@ -360,11 +360,11 @@ namespace Magitek.Models.Sage
         public bool EukrasianDiagnosis { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(69.0f)]
         public float EukrasianDiagnosisHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool EukrasianDiagnosisOnlyHealer { get; set; }
 
         [Setting]
@@ -380,7 +380,7 @@ namespace Magitek.Models.Sage
         public bool Physis { get; set; }
 
         [Setting]
-        [DefaultValue(85.0f)]
+        [DefaultValue(75.0f)]
         public float PhysisHpPercent { get; set; }
 
         [Setting]
@@ -392,7 +392,7 @@ namespace Magitek.Models.Sage
         public bool Druochole { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(65.0f)]
         public float DruocholeHpPercent { get; set; }
 
         [Setting]
@@ -400,7 +400,7 @@ namespace Magitek.Models.Sage
         public bool Ixochole { get; set; }
 
         [Setting]
-        [DefaultValue(75.0f)]
+        [DefaultValue(65.0f)]
         public float IxocholeHpPercent { get; set; }
 
         [Setting]
@@ -412,7 +412,7 @@ namespace Magitek.Models.Sage
         public bool Pepsis { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(46.0f)]
         public float PepsisHpPercent { get; set; }
 
         [Setting]
@@ -436,19 +436,19 @@ namespace Magitek.Models.Sage
         public bool Taurochole { get; set; }
 
         [Setting]
-        [DefaultValue(45.0f)]
+        [DefaultValue(71.0f)]
         public float TaurocholeHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool TaurocholeTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool TaurocholeMainTankOnly { get; set; }
 
         [Setting]
-        [DefaultValue(10.0f)]
+        [DefaultValue(30.0f)]
         public float TaurocholeOthersHpPercent { get; set; }
 
         [Setting]
@@ -456,7 +456,7 @@ namespace Magitek.Models.Sage
         public bool Haima { get; set; }
 
         [Setting]
-        [DefaultValue(50.0f)]
+        [DefaultValue(60.0f)]
         public float HaimaHpPercent { get; set; }
 
         [Setting]
@@ -464,7 +464,7 @@ namespace Magitek.Models.Sage
         public bool HaimaTankForBuff { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool HaimaMainTankForBuff { get; set; }
 
         [Setting]
@@ -480,7 +480,7 @@ namespace Magitek.Models.Sage
         public bool PanhaimaOnlyWithTank { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool PanhaimaOnlyWithMainTank { get; set; }
 
         [Setting]
@@ -492,11 +492,11 @@ namespace Magitek.Models.Sage
         public bool Pneuma { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool OnlyZoePneuma { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool PneumaHealOnly { get; set; }
 
         [Setting]
@@ -512,7 +512,7 @@ namespace Magitek.Models.Sage
         public bool SwiftcastRes { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SlowcastRes { get; set; }
 
         [Setting]
@@ -528,7 +528,7 @@ namespace Magitek.Models.Sage
         public bool Dispel { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool DispelOnlyAbove { get; set; }
 
         [Setting]
@@ -557,7 +557,7 @@ namespace Magitek.Models.Sage
         public bool HealAllianceTanks { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool HealAllianceDps { get; set; }
 
         [Setting]
@@ -573,7 +573,7 @@ namespace Magitek.Models.Sage
         public bool ResAllianceDps { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool HealAllianceOnlyDiagnosis { get; set; }
 
         #endregion

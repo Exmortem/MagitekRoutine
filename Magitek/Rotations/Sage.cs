@@ -168,15 +168,8 @@ namespace Magitek.Rotations
             if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            if (Globals.InParty)
-            {
-                if (!SageSettings.Instance.DoDamage)
-                    return true;
-
-                if (Core.Me.CurrentManaPercent < SageSettings.Instance.MinimumManaPercentToDoDamage
-                    && Core.Target.CombatTimeLeft() > SageSettings.Instance.DoDamageIfTimeLeftLessThan)
-                    return true;
-            }
+            if (Globals.InParty && !SageSettings.Instance.DoDamage)
+                return true;
 
             if (!GameSettingsManager.FaceTargetOnAction
                 && !Core.Me.CurrentTarget.InView())
@@ -203,6 +196,13 @@ namespace Magitek.Rotations
             {
                 if (await Buff.Kardia()) return true;
                 if (await Buff.Soteria()) return true;
+            }
+
+            if (Core.Me.CurrentManaPercent < SageSettings.Instance.MinimumManaPercentToDoDamage
+                    && Core.Target.CombatTimeLeft() > SageSettings.Instance.DoDamageIfTimeLeftLessThan)
+            {
+                if (await AoE.Toxikon()) return true;
+                return true;
             }
 
             if (await SingleTarget.DotMultipleTargets()) return true;
