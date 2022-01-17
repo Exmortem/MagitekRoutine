@@ -65,7 +65,12 @@ namespace Magitek.Logic.Astrologian
                 }
             }
 
-            if (Core.Me.TargetCharacter?.CharacterAuras.Count() >= 25)
+            var target = Core.Me.CurrentTarget as Character;
+
+            if (target == null)
+                return false;
+
+            if (target.CharacterAuras.Count() >= 25)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAnyAura(CombustAuras, true, msLeft: AstrologianSettings.Instance.CombustRefreshMSeconds))
