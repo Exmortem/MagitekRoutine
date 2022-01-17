@@ -53,18 +53,19 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> Combust()
         {
-            //Why this wasn't here before, I have no idea
-            if (!AstrologianSettings.Instance.UseTTDForCombust)
-                return false;
-
-            //Also this
-            if (Combat.CurrentTargetCombatTimeLeft <= AstrologianSettings.Instance.DontCombustIfEnemyDyingWithin)
-                return false;
-
             if (!AstrologianSettings.Instance.Combust)
                 return false;
 
-            if (Core.Me.TargetCharacter.CharacterAuras.Count() >= 25)
+            if (AstrologianSettings.Instance.UseTTDForCombust)
+            {
+                if (Combat.CurrentTargetCombatTimeLeft
+                    <= AstrologianSettings.Instance.DontCombustIfEnemyDyingWithin)
+                {
+                    return false;
+                }
+            }
+
+            if (Core.Me.TargetCharacter?.CharacterAuras.Count() >= 25)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAnyAura(CombustAuras, true, msLeft: AstrologianSettings.Instance.CombustRefreshMSeconds))
