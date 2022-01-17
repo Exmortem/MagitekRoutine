@@ -52,7 +52,10 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Intervene" IsChecked="{Binding PaladinSettings.Intervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Intervene " IsChecked="{Binding PaladinSettings.Intervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only in Melee. Save " IsChecked="{Binding PaladinSettings.InterveneOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding PaladinSettings.SaveInterveneCharges, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" charges" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

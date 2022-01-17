@@ -68,12 +68,10 @@ namespace Magitek.Logic.DarkKnight
             var unmendTarget = Combat.Enemies.FirstOrDefault(r =>
                 r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach
                 && r.Distance(Core.Me) <= 20 + r.CombatReach
+                && r.TargetGameObject != null
                 && !r.TargetGameObject.IsMe);
 
             if (unmendTarget == null)
-                return false;
-
-            if (unmendTarget.TargetGameObject == null)
                 return false;
 
             if (await Spells.Unmend.Cast(unmendTarget))
@@ -140,6 +138,17 @@ namespace Magitek.Logic.DarkKnight
         {
             if (!DarkKnightSettings.Instance.UsePlunge)
                 return false;
+
+            if (DarkKnightSettings.Instance.PlungeOnlyInMelee
+                && !Core.Me.CurrentTarget.WithinSpellRange(3))
+            {
+                return false;
+            }
+
+            if (Spells.Plunge.Charges < DarkKnightSettings.Instance.SavePlungeCharges + 1)
+            {
+                return false;
+            }
 
             return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
         }

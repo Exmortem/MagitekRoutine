@@ -125,6 +125,17 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.Intervene)
                 return false;
 
+            if (PaladinSettings.Instance.InterveneOnlyInMelee
+                && !Core.Me.CurrentTarget.WithinSpellRange(3))
+            {
+                return false;
+            }
+
+            if (Spells.Intervene.Charges < PaladinSettings.Instance.SaveInterveneCharges + 1)
+            {
+                return false;
+            }
+
             if (Core.Me.HasAura(Auras.SwordOath) && Core.Me.HasAura(Auras.FightOrFight))
             {
                 // We only want to use this during Sword Oath as a OGCD, one we go into this phase and once after using Atonement

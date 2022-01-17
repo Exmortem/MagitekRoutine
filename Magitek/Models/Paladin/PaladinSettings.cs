@@ -135,6 +135,14 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
+        public bool InterveneOnlyInMelee { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SaveInterveneCharges { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool AoE { get; set; }
 
 

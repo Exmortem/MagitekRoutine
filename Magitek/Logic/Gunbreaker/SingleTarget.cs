@@ -232,6 +232,17 @@ namespace Magitek.Logic.Gunbreaker
             if (!Core.Me.HasAura(Auras.NoMercy))
                 return false;
 
+            if (GunbreakerSettings.Instance.RoughDivideOnlyInMelee
+                && !Core.Me.CurrentTarget.WithinSpellRange(3))
+            {
+                return false;
+            }
+
+            if (Spells.RoughDivide.Charges < GunbreakerSettings.Instance.SaveRoughDivideCharges + 1)
+            {
+                return false;
+            }
+
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 

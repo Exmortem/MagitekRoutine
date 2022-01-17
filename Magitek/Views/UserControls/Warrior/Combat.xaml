@@ -35,12 +35,15 @@
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Use InnerChaos " IsChecked="{Binding WarriorSettings.UseInnerChaos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                
+
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Use Primal Rend " IsChecked="{Binding WarriorSettings.UsePrimalRend, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Use Onslaught " IsChecked="{Binding WarriorSettings.UseOnslaught, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Only in Melee. Save " IsChecked="{Binding WarriorSettings.OnslaughtOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding WarriorSettings.SaveOnslaughtCharges, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" charges" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

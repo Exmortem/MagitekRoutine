@@ -136,6 +136,14 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
+        public bool PlungeOnlyInMelee { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SavePlungeCharges { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseShadowbringer { get; set; }
 
         [Setting]
