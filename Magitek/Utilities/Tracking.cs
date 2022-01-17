@@ -68,6 +68,9 @@ namespace Magitek.Utilities
                 if (!unit.ValidAttackUnit())
                     continue;
 
+                if (!unit.NotInvulnerable)
+                    continue;
+
                 if (!unit.IsTargetable)
                     continue;
 

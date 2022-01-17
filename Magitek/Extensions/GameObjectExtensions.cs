@@ -173,6 +173,11 @@ namespace Magitek.Extensions
             return unit != null && unit.IsValid && unit.IsTargetable && unit.CanAttack && unit.CurrentHealth > 0;
         }
 
+        public static bool NotInvulnerable(this GameObject unit)
+        {
+            return unit != null && !unit.HasAnyAura(Auras.Invincibility);
+        }
+
         public static IEnumerable<BattleCharacter> EnemiesNearby(this GameObject unit, float distance)
         {
             return Combat.Enemies.Where(r => r.Distance(unit) <= distance + Core.Me.CombatReach + unit.CombatReach);
