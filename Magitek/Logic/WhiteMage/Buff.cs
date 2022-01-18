@@ -170,7 +170,7 @@ namespace Magitek.Logic.WhiteMage
             if (!WhiteMageSettings.Instance.Aquaveil)
                 return false;
 
-            if (Spells.Aquaveil.IsKnownAndReady())
+            if (!Spells.Aquaveil.IsKnownAndReady())
                 return false;
 
             if (!Core.Me.InCombat)
@@ -185,13 +185,13 @@ namespace Magitek.Logic.WhiteMage
                 if (aquaveilTarget == null)
                     return false;
 
-                return await Spells.Aquaveil.Cast(aquaveilTarget);
+                return await Spells.Aquaveil.CastAura(aquaveilTarget, Auras.Aquaveil);
             }
 
             if (Core.Me.CurrentHealthPercent > WhiteMageSettings.Instance.AquaveilHealthPercent)
                 return false;
 
-            return await Spells.Aquaveil.Cast(Core.Me);
+            return await Spells.Aquaveil.CastAura(Core.Me, Auras.Aquaveil);
 
             bool CanAquaveil(Character unit)
             {
