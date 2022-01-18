@@ -15,18 +15,24 @@ namespace Magitek.Logic.Sage
     {
         private static async Task<bool> UseEukrasianDosis(GameObject target)
         {
-            if (!await Heal.UseEukrasia(Spells.EukrasianDosis.Id, Core.Me.CurrentTarget))
-                return false;
+            var spell = Spells.EukrasianDosisIII;
+            var aura = Auras.EukrasianDosisIII;
 
-            if (Core.Me.ClassLevel < 72)
-            {
-                return await Spells.EukrasianDosis.Cast(target);
-            }
             if (Core.Me.ClassLevel < 82)
             {
-                return await Spells.EukrasianDosisII.Cast(target);
+                spell = Spells.EukrasianDosisII;
+                aura = Auras.EukrasianDosisII;
             }
-            return await Spells.EukrasianDosisIII.Cast(target);
+            if (Core.Me.ClassLevel < 72)
+            {
+                spell = Spells.EukrasianDosis;
+                aura = Auras.EukrasianDosis;
+            }
+
+            if (!await Heal.UseEukrasia(spell.Id, target))
+                return false;
+
+            return await spell.CastAura(target, (uint)aura);
         }
         public static async Task<bool> Dosis()
         {
@@ -42,7 +48,18 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Eukrasia, true))
                 return await UseEukrasianDosis(Core.Me.CurrentTarget);
 
-            return await Spells.Dosis.Cast(Core.Me.CurrentTarget);
+            var spell = Spells.DosisIII;
+
+            if (Core.Me.ClassLevel < 82)
+            {
+                spell = Spells.DosisII;
+            }
+            if (Core.Me.ClassLevel < 72)
+            {
+                spell = Spells.Dosis;
+            }
+
+            return await spell.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> EukrasianDosis()
         {
@@ -53,6 +70,11 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!SageSettings.Instance.EukrasianDosis)
+                return false;
+
+            var targetChar = Core.Me.CurrentTarget as Character;
+
+            if (targetChar != null && targetChar.CharacterAuras.Count() >= 25)
                 return false;
 
             if (Core.Me.CurrentTarget.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds))
@@ -86,6 +108,8 @@ namespace Magitek.Logic.Sage
 
             bool NeedsDot(BattleCharacter unit)
             {
+                if (unit.CharacterAuras.Count() >= 25)
+                    return false;
                 return !unit.HasAnyAura(DotAuras, true, msLeft: SageSettings.Instance.DotRefreshMSeconds);
             }
             bool CanDot(GameObject unit)

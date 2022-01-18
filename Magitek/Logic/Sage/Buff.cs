@@ -36,8 +36,6 @@ namespace Magitek.Logic.Sage
             if (!Spells.Kardia.IsKnownAndReady())
                 return false;
 
-            if (Casting.LastSpell == Spells.Kardia || Casting.CastingSpell == Spells.Kardia)
-                return false;
 
             if (Globals.InParty)
             {
@@ -56,7 +54,7 @@ namespace Magitek.Logic.Sage
                     var kardiaTargetSwitch = canKardiaTargets.FirstOrDefault();
 
                     if (kardiaTargetSwitch != null)
-                        return await Spells.Kardia.Cast(kardiaTargetSwitch);
+                        return await Spells.Kardia.CastAura(kardiaTargetSwitch, Auras.Kardion);
                     return false;
                 }
                 else
@@ -72,7 +70,7 @@ namespace Magitek.Logic.Sage
                     if (kardiaTarget == currentKardiaTarget)
                         return false;
 
-                    return await Spells.Kardia.Cast(kardiaTarget);
+                    return await Spells.Kardia.CastAura(kardiaTarget, Auras.Kardion);
                 }
             }
             else
@@ -83,9 +81,9 @@ namespace Magitek.Logic.Sage
 
                 if (ChocoboManager.Summoned)
                 {
-                    return await Spells.Kardia.Cast(ChocoboManager.Object);
+                    return await Spells.Kardia.CastAura(ChocoboManager.Object, Auras.Kardion);
                 }
-                return await Spells.Kardia.Cast(Core.Me);
+                return await Spells.Kardia.CastAura(Core.Me, Auras.Kardion);
             }
 
             bool CanKardiaSwitch(Character unit)
@@ -168,55 +166,6 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Soteria.CastAura(Core.Me, Auras.Soteria);
         }
-        public static async Task<bool> Kerachole()
-        {
-            if (!SageSettings.Instance.Kerachole)
-                return false;
-
-            if (Core.Me.ClassLevel < Spells.Kerachole.LevelAcquired)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (Spells.Kerachole.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Addersgall == 0)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Taurochole))
-                return false;
-
-            if (Globals.InParty)
-            {
-                var canKeracholeTargets = Group.CastableAlliesWithin15.Where(CanKerachole).ToList();
-
-                if (canKeracholeTargets.Count < SageSettings.Instance.KeracholeNeedHealing)
-                    return false;
-
-                if (SageSettings.Instance.KeracholeOnlyWithTank && !Group.CastableAlliesWithin15.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
-                    return false;
-
-                return await Spells.Kerachole.Cast(Core.Me);
-            }
-
-            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.KeracholeHealthPercent)
-                return false;
-
-            return await Spells.Kerachole.Cast(Core.Me);
-
-            bool CanKerachole(Character unit)
-            {
-                if (unit == null)
-                    return false;
-
-                if (unit.CurrentHealthPercent > SageSettings.Instance.KeracholeHealthPercent)
-                    return false;
-
-                return unit.Distance(Core.Me) <= 15;
-            }
-        }
         public static async Task<bool> Rhizomata()
         {
             if (!SageSettings.Instance.Rhizomata)
@@ -236,41 +185,7 @@ namespace Magitek.Logic.Sage
 
             return await Spells.Rhizomata.Cast(Core.Me);
         }
-        public static async Task<bool> Holos()
-        {
-            if (!SageSettings.Instance.Holos)
-                return false;
 
-            if (Core.Me.ClassLevel < Spells.Holos.LevelAcquired)
-                return false;
-
-            if (!Core.Me.InCombat)
-                return false;
-
-            if (!Globals.PartyInCombat)
-                return false;
-
-            if (Spells.Holos.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Soteria))
-                return false;
-
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent) < 2)
-                return false;
-
-            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent);
-
-            if (SageSettings.Instance.HolosTankOnly)
-                targets = targets.Where(r => r.IsTank(SageSettings.Instance.HolosMainTankOnly));
-
-            var target = targets.FirstOrDefault();
-
-            if (target == null)
-                return false;
-
-            return await Spells.Holos.Heal(Core.Me);
-        }
         public static async Task<bool> Krasis()
         {
             if (!SageSettings.Instance.Krasis)

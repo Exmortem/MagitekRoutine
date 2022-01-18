@@ -99,8 +99,8 @@ namespace Magitek.Rotations
             {
                 if (SageRoutine.CanWeave())
                 {
-                    if (await Buff.Kerachole()) return true;
-                    if (await Buff.Holos()) return true;
+                    if (await Logic.Sage.Heal.Kerachole()) return true;
+                    if (await Logic.Sage.Heal.Holos()) return true;
                     if (await Logic.Sage.Heal.Taurochole()) return true;
                     if (await Logic.Sage.Heal.Panhaima()) return true;
                     if (await Logic.Sage.Heal.Haima()) return true;
@@ -205,12 +205,12 @@ namespace Magitek.Rotations
                 return true;
             }
 
+            if (await AoE.Toxikon()) return true;
+            if (await SingleTarget.EukrasianDosis()) return true;
             if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Phlegma()) return true;
-            if (await AoE.Toxikon()) return true;
             if (await AoE.Pneuma()) return true;
             if (await AoE.Dyskrasia()) return true;
-            if (await SingleTarget.EukrasianDosis()) return true;
             return await SingleTarget.Dosis();
         }
 

@@ -26,11 +26,21 @@ namespace Magitek.Logic.Sage
             // Phlegma is a great 550 potency single target attack.
             //if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= Spells.Phlegma.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies)
             //    return false;
+            var spell = Spells.PhlegmaIII;
 
-            if (Spells.Phlegma.Charges == 0)
+            if (Core.Me.ClassLevel < 82)
+            {
+                spell = Spells.PhlegmaII;
+            }
+            if (Core.Me.ClassLevel < 72)
+            {
+                spell = Spells.Phlegma;
+            }
+
+            if (spell.Charges == 0)
                 return false;
 
-            return await Spells.Phlegma.Cast(Core.Me.CurrentTarget);
+            return await spell.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Dyskrasia()
@@ -55,7 +65,14 @@ namespace Magitek.Logic.Sage
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Dyskrasia.Radius + r.CombatReach) < SageSettings.Instance.AoEEnemies)
                 return false;
 
-            return await Spells.Dyskrasia.Cast(Core.Me.CurrentTarget);
+            var spell = Spells.DyskrasiaII;
+
+            if (Core.Me.ClassLevel < 82)
+            {
+                spell = Spells.Dyskrasia;
+            }
+
+            return await spell.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Toxikon()
@@ -93,7 +110,13 @@ namespace Magitek.Logic.Sage
 
             if (doToxicon)
             {
-                return await Spells.Toxikon.Cast(Core.Me.CurrentTarget);
+                var spell = Spells.ToxikonII;
+
+                if (Core.Me.ClassLevel < 82)
+                {
+                    spell = Spells.Toxikon;
+                }
+                return await spell.Cast(Core.Me.CurrentTarget);
             }
             else
             {

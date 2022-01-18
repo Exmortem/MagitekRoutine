@@ -158,6 +158,20 @@ namespace Magitek.Extensions
                 : unitAsCharacter.CharacterAuras.Any(r => auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft);
         }
 
+        public static int CountAuras(this GameObject unit, List<uint> auras, bool isMyAura = false, int msLeft = 0)
+        {
+            var unitAsCharacter = unit as Character;
+
+            if (unitAsCharacter == null || !unitAsCharacter.IsValid)
+            {
+                return 0;
+            }
+
+            return isMyAura
+                ? unitAsCharacter.CharacterAuras.Count(r => r.CasterId == Core.Player.ObjectId && auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft)
+                : unitAsCharacter.CharacterAuras.Count(r => auras.Contains(r.Id) && r.TimespanLeft.TotalMilliseconds >= msLeft);
+        }
+
         public static bool HasAllAuras(this GameObject unit, List<uint> auras, bool areMyAuras = false, int msLeft = 0)
         {
             var unitAsCharacter = unit as Character;
@@ -181,7 +195,7 @@ namespace Magitek.Extensions
         {
             return Combat.Enemies.Where(r => r.Distance(unit) <= distance + Core.Me.CombatReach + unit.CombatReach);
         }
-        
+
         public static IEnumerable<BattleCharacter> EnemiesNearbyOoc(this GameObject unit, float distance)
         {
             return GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.IsTargetable && r.CurrentHealth > 0 && r.CanAttack && r.Distance(unit) <= distance);
@@ -302,8 +316,8 @@ namespace Magitek.Extensions
             {
                 if (!unit.HasAura(aura)) return TankImmunityCheck.HealThem;
                 var result = unit.CharacterAuras.Any(
-                    x => x.Id == aura && x.TimespanLeft.Milliseconds <= 2000) 
-                    ? TankImmunityCheck.HealThem 
+                    x => x.Id == aura && x.TimespanLeft.Milliseconds <= 2000)
+                    ? TankImmunityCheck.HealThem
                     : TankImmunityCheck.DontHealThem;
 
                 return result;

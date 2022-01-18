@@ -751,6 +751,9 @@
     <Compile Include="Views\UserControls\Sage\Alliance.xaml.cs">
       <DependentUpon>Alliance.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Sage\HealingOptions.xaml.cs">
+      <DependentUpon>HealingOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Sage\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
@@ -1297,6 +1300,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Sage\Alliance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\HealingOptions.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
