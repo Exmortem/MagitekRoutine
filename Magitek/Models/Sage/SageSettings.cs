@@ -289,6 +289,30 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(true)]
+        public bool HealingBuffsLimitAtOnce { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int HealingBuffsMaxAtOnce { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int HealingBuffsMaxUnderHp { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public float HealingBuffsMoreHpNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(45.0f)]
+        public float HealingBuffsMoreHpHealthPercentage { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool HealingBuffsOnlyMine { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Diagnosis { get; set; }
 
         [Setting]

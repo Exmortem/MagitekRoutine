@@ -317,7 +317,7 @@
                         <TabItem Header="Player Spell Cast History" Style="{DynamicResource MainTabNewBugReport}">
                             <bugs:SpellCastHistory />
                         </TabItem>
-                        
+
                         <TabItem Header="Fight Logic" Style="{DynamicResource MainTabNewBugReport}">
                             <bugs:FightLogic />
                         </TabItem>
@@ -619,6 +619,9 @@
                         </TabItem>
                         <TabItem Header="General Healing" Style="{DynamicResource MainTabHealing}">
                             <sage:Healing />
+                        </TabItem>
+                        <TabItem Header="Healing Options" Style="{DynamicResource MainTabHealing}">
+                            <sage:HealingOptions />
                         </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <sage:Buffs />

@@ -67,8 +67,8 @@ namespace Magitek.Utilities
         public static readonly SpellData EmeraldOutburst = DataManager.GetSpellData(25816);
         public static readonly SpellData Ruin2 = DataManager.GetSpellData(172);
         public static readonly SpellData SmnPhysick = DataManager.GetSpellData(16230);
-        
-        
+
+
         #endregion
 
         // AST
@@ -573,7 +573,10 @@ namespace Magitek.Utilities
         public static readonly SpellData Prognosis = DataManager.GetSpellData(24286);
         public static readonly SpellData Egeiro = DataManager.GetSpellData(24287);
         public static readonly SpellData Physis = DataManager.GetSpellData(24288);
+        public static readonly SpellData PhysisII = DataManager.GetSpellData(24302);
         public static readonly SpellData Phlegma = DataManager.GetSpellData(24289);
+        public static readonly SpellData PhlegmaII = DataManager.GetSpellData(24307);
+        public static readonly SpellData PhlegmaIII = DataManager.GetSpellData(24313);
         public static readonly SpellData Eukrasia = DataManager.GetSpellData(24290);
         public static readonly SpellData EukrasianDiagnosis = DataManager.GetSpellData(24291);
         public static readonly SpellData EukrasianPrognosis = DataManager.GetSpellData(24292);
@@ -587,6 +590,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Pepsis = DataManager.GetSpellData(24301);
         public static readonly SpellData Taurochole = DataManager.GetSpellData(24303);
         public static readonly SpellData Toxikon = DataManager.GetSpellData(24304);
+        public static readonly SpellData ToxikonII = DataManager.GetSpellData(24316);
         public static readonly SpellData Haima = DataManager.GetSpellData(24305);
         public static readonly SpellData DosisII = DataManager.GetSpellData(24306);
         public static readonly SpellData EukrasianDosisII = DataManager.GetSpellData(24308);
@@ -637,8 +641,8 @@ namespace Magitek.Utilities
         public static readonly SpellData Expedient = DataManager.GetSpellData(25868);
         public static readonly SpellData Bio = DataManager.GetSpellData(17864);
         public static readonly SpellData Enkindle = DataManager.GetSpellData(184);
-        
-        
+
+
         #endregion
 
         // SMN
