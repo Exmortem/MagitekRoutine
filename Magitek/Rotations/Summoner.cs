@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Summoner;
+using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Magitek.Rotations
             if (WorldManager.InSanctuary)
                 return false;
 
-            return await Spells.SmnPhysick.Heal(Core.Me);
+            return SummonerSettings.Instance.Physick ? await Spells.SmnPhysick.Heal(Core.Me) : false;
         }
 
         public static async Task<bool> PreCombatBuff()
