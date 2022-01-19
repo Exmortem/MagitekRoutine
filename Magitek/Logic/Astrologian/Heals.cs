@@ -280,9 +280,8 @@ namespace Magitek.Logic.Astrologian
                 if (tankBusterOnPartyMember == null)
                     return false;
 
-                return await FightLogic.DoFlAction(
-                    Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation),
-                    FightLogic.TankBusterStopwatch);
+                return await FightLogic.DoAndBuffer.Tankbuster(
+                    Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation));
             }
 
             var tankToShieldAndHeal = Group.CastableTanks.FirstOrDefault(x =>
@@ -589,8 +588,8 @@ namespace Magitek.Logic.Astrologian
             if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
                 Group.CastableAlliesWithin15.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) >
                 AoeThreshold)
-                return await FightLogic.DoFlAction(
-                    Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation),FightLogic.AoeStopwatch);
+                return await FightLogic.DoAndBuffer.Aoe(
+                    Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation));
 
 
             if (Group.CastableAlliesWithin10.Count(r => r.Distance() < 6
@@ -726,7 +725,7 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (AstrologianSettings.Instance.FightLogic_Macrocosmos && FightLogic.EnemyIsCastingBigAoe())
-                return await FightLogic.DoFlAction(Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos),FightLogic.AoeStopwatch);
+                return await FightLogic.DoAndBuffer.Aoe(Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos));
 
             var enemyCount = Combat.Enemies.Count();
             if (enemyCount == 0)

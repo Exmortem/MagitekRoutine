@@ -83,15 +83,24 @@ namespace Magitek.Utilities
 
         private static bool IsBigAoeFlReady => BigAoeCooldown == TimeSpan.Zero;
 
-        public static async Task<bool> DoFlAction(Task<bool> task, Ref<Stopwatch> stopwatch)
+        public class DoAndBuffer
         {
-            //Logger.WriteInfo($"Doing an FL Action!");
-            if (!await task) return false;
-            
-            stopwatch.Value.Start();
-            return true;
+            public static async Task<bool> Tankbuster(Task<bool> task)
+            {
+                if (!await task) return false;
+
+                TankBusterStopwatch.Start();
+                return true;
+            }
+            public static async Task<bool> Aoe(Task<bool> task)
+            {
+                if (!await task) return false;
+
+                AoeStopwatch.Start();
+                return true;
+            }
         }
-        
+
         public class Ref<T>
         {
             public Ref() { }
