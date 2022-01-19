@@ -101,7 +101,7 @@ namespace Magitek.Models.Summoner
         public bool EnkindlePhoenix { get; set; }
         
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SmartAoe { get; set; }
 
         #endregion

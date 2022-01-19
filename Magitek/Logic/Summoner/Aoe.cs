@@ -34,9 +34,7 @@ namespace Magitek.Logic.Summoner
 
             if (await CrimsonCyclone()) return true;
             if (await MountainBuster()) return true;
-            if (await Slipstream()) return true;
-
-            return false;
+            return await Slipstream();
         }
         public static async Task<bool> Deathflare()
         {
@@ -106,6 +104,8 @@ namespace Magitek.Logic.Summoner
 
             if (SmnResources.ActivePet != SmnResources.ActivePetType.Ifrit)
                 return false;
+
+            if (!Spells.CrimsonStrike.IsKnown()) return false;
 
             if (Casting.LastSpell != Spells.CrimsonCyclone) return false;
 
