@@ -13,9 +13,7 @@ namespace Magitek.Utilities.Routines
             Auras.LivingDead,
             Auras.ShadowWall,
             Auras.Rampart,
-            Auras.DarkMissionary,
             Auras.BlackestNight,
-            Auras.DarkMind,
             Auras.Oblation
         };
     }
