@@ -14,99 +14,39 @@ namespace Magitek.Utilities
     public static class FightLogic
     {
 
-        public static readonly Stopwatch TankBusterStopwatch = new Stopwatch();
-        public static readonly Stopwatch AoeStopwatch = new Stopwatch();
+        public static readonly Stopwatch FlStopwatch = new Stopwatch();
         
-        private static TimeSpan TankBusterCooldown
+        private static TimeSpan FlCooldown
         {
             get
             {
-                if (!TankBusterStopwatch.IsRunning) return TimeSpan.Zero;
+                if (!FlStopwatch.IsRunning) return TimeSpan.Zero;
                 
-                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(TankBusterStopwatch.Elapsed);
+                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(FlStopwatch.Elapsed);
                 
                 if (timeRemaining > TimeSpan.Zero) return timeRemaining;
                 
-                TankBusterStopwatch.Reset();
+                FlStopwatch.Reset();
                 
                 return TimeSpan.Zero;
             }
         }
 
-        private static TimeSpan SharedTankBusterCooldown
+        private static bool IsFlReady => FlCooldown == TimeSpan.Zero;
+
+        public static async Task<bool> DoAndBuffer(Task<bool> task)
         {
-            get
-            {
-                if (!TankBusterStopwatch.IsRunning) return TimeSpan.Zero;
-                
-                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(TankBusterStopwatch.Elapsed);
-                
-                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
-                
-                TankBusterStopwatch.Reset();
-                return TimeSpan.Zero;
-            }
+            if (!await task) return false;
+
+            FlStopwatch.Start();
+            return true;
         }
-        private static TimeSpan AoeCooldown
-        {
-            get
-            {
-                if (!AoeStopwatch.IsRunning) return TimeSpan.Zero;
-                
-                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(AoeStopwatch.Elapsed);
-                
-                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
-                
-                AoeStopwatch.Reset();
-                return TimeSpan.Zero;
-            }
-        }
-        private static TimeSpan BigAoeCooldown
-        {
-            get
-            {
-                if (!AoeStopwatch.IsRunning) return TimeSpan.Zero;
-                
-                var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(AoeStopwatch.Elapsed);
-                
-                if (timeRemaining > TimeSpan.Zero) return timeRemaining;
-                
-                AoeStopwatch.Reset();
-                return TimeSpan.Zero;
-            }
-        }
-
-        private static bool IsTankBusterFlReady => TankBusterCooldown == TimeSpan.Zero;
-
-        private static bool IsSharedTankBusterFlReady => SharedTankBusterCooldown == TimeSpan.Zero;
-        private static bool IsAoeFlReady => AoeCooldown == TimeSpan.Zero;
-
-        private static bool IsBigAoeFlReady => BigAoeCooldown == TimeSpan.Zero;
-
-        public class DoAndBuffer
-        {
-            public static async Task<bool> Tankbuster(Task<bool> task)
-            {
-                if (!await task) return false;
-
-                TankBusterStopwatch.Start();
-                return true;
-            }
-            public static async Task<bool> Aoe(Task<bool> task)
-            {
-                if (!await task) return false;
-
-                AoeStopwatch.Start();
-                return true;
-            }
-        }
-
         public class Ref<T>
         {
             public Ref() { }
             public Ref(T value) { Value = value; }
-            public T Value { get; set; }
-            public override string ToString()
+            private T Value { get; set; }
+            override public string ToString()
             {
                 T value = Value;
                 return value == null ? "" : value.ToString();
@@ -117,7 +57,7 @@ namespace Magitek.Utilities
 
         public static Character EnemyIsCastingTankBuster()
         {
-            if (!IsTankBusterFlReady)
+            if (!IsFlReady)
                 return null;
             
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
@@ -131,14 +71,14 @@ namespace Magitek.Utilities
                 Logger.WriteInfo($"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name} ({output.CurrentJob})");
             
             if (output != null)
-                TankBusterStopwatch.Start();
+                FlStopwatch.Start();
 
             return output;
         }
 
         public static Character EnemyIsCastingSharedTankBuster()
         {
-            if (!IsTankBusterFlReady)
+            if (!IsFlReady)
                 return null;
             
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
@@ -152,7 +92,7 @@ namespace Magitek.Utilities
                 Logger.WriteInfo($"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.Name} ({output.CurrentJob})");
             
             if (output != null)
-                TankBusterStopwatch.Start();
+                FlStopwatch.Start();
 
             return output;
             
@@ -160,7 +100,7 @@ namespace Magitek.Utilities
         
         public static bool EnemyIsCastingAoe()
         {
-            if (!IsAoeFlReady)
+            if (!IsFlReady)
                 return false;
             
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
@@ -178,7 +118,7 @@ namespace Magitek.Utilities
 
         public static bool EnemyIsCastingBigAoe()
         {
-            if (!IsBigAoeFlReady)
+            if (!IsFlReady)
                 return false;
             
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();

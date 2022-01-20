@@ -8,7 +8,6 @@ using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 using static Magitek.Extensions.GameObjectExtensions;
@@ -280,7 +279,7 @@ namespace Magitek.Logic.Astrologian
                 if (tankBusterOnPartyMember == null)
                     return false;
 
-                return await FightLogic.DoAndBuffer.Tankbuster(
+                return await FightLogic.DoAndBuffer(
                     Spells.Exaltation.HealAura(tankBusterOnPartyMember, Auras.Exaltation));
             }
 
@@ -588,7 +587,7 @@ namespace Magitek.Logic.Astrologian
             if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
                 Group.CastableAlliesWithin15.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) >
                 AoeThreshold)
-                return await FightLogic.DoAndBuffer.Aoe(
+                return await FightLogic.DoAndBuffer(
                     Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation));
 
 
@@ -725,7 +724,7 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (AstrologianSettings.Instance.FightLogic_Macrocosmos && FightLogic.EnemyIsCastingBigAoe())
-                return await FightLogic.DoAndBuffer.Aoe(Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos));
+                return await FightLogic.DoAndBuffer(Spells.Macrocosmos.HealAura(Core.Me, Auras.Macrocosmos));
 
             var enemyCount = Combat.Enemies.Count();
             if (enemyCount == 0)

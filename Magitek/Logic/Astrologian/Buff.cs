@@ -48,7 +48,7 @@ namespace Magitek.Logic.Astrologian
             if (Globals.InParty)
             {
                 if (AstrologianSettings.Instance.FightLogic_Lightspeed && FightLogic.EnemyIsCastingBigAoe() && !Spells.NeutralSect.IsKnownAndReady() && !Spells.Macrocosmos.IsKnownAndReady())
-                    return await FightLogic.DoAndBuffer.Aoe(Spells.Lightspeed.CastAura(Core.Me,Auras.Lightspeed));
+                    return await FightLogic.DoAndBuffer(Spells.Lightspeed.CastAura(Core.Me,Auras.Lightspeed));
                 
                 if (AstrologianSettings.Instance.LightspeedTankOnly && Group.CastableTanks.All(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
                     return false;
@@ -145,7 +145,7 @@ namespace Magitek.Logic.Astrologian
                 return false;
             
             if (AstrologianSettings.Instance.FightLogic_NeutralSectAspectedHelios && FightLogic.EnemyIsCastingBigAoe() && (AstrologianSettings.Instance.FightLogic_Macrocosmos && !Spells.Macrocosmos.IsKnownAndReady()) && !Core.Me.HasAnyAura(AstroUtils.ScholarAndSageShieldsNotToOverwrite)) 
-                return await FightLogic.DoAndBuffer.Aoe(Spells.NeutralSect.CastAura(Core.Me,Auras.NeutralSect));
+                return await FightLogic.DoAndBuffer(Spells.NeutralSect.CastAura(Core.Me,Auras.NeutralSect));
 
             var neutral = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
