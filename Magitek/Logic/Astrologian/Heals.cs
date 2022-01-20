@@ -748,7 +748,7 @@ namespace Magitek.Logic.Astrologian
             if (!Group.CastableAlliesWithin30.Any(x => x.HasMyAura(Auras.Macrocosmos)))
                 return false;
 
-            if (Core.Me.HasAura(Auras.Macrocosmos, true, 10000))
+            if (Core.Me.HasAura(Auras.Macrocosmos, true, 7000))
                 return false;
 
             if (Group.CastableAlliesWithin30.Count(x => x.HasMyAura(Auras.Macrocosmos)

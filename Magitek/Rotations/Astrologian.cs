@@ -108,6 +108,7 @@ namespace Magitek.Rotations
                 {
                     if (await Heals.EssentialDignity()) return true;
                     if (await Heals.CelestialIntersection()) return true;
+                    if (await Heals.Macrocosmos()) return true;
                     if (await Heals.CelestialOpposition()) return true;
                     if (await Heals.LadyOfCrowns()) return true;
                     if (await Heals.Horoscope()) return true;
@@ -117,7 +118,6 @@ namespace Magitek.Rotations
                     if (await Buff.Synastry()) return true;
                 }
                 
-                if (await Heals.Macrocosmos()) return true;
                 if (await Heals.AspectedHelios()) return true;
                 if (await Heals.Helios()) return true;
                 if (await Heals.Benefic2()) return true;
