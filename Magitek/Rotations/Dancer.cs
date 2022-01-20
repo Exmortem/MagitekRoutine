@@ -22,8 +22,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
-
-
             if (Core.Me.IsCasting)
                 return true;
 
@@ -31,7 +29,6 @@ namespace Magitek.Rotations
                 return true;
 
             await Casting.CheckForSuccessfulCast();
-
 
             //Openers.OpenerCheck();
 
@@ -58,24 +55,25 @@ namespace Magitek.Rotations
                 return await Combat();
             }
 
-            Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+            Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
 
-            return await SingleTarget.Cascade();
+            return await Combat();
         }
+
         public static async Task<bool> Heal()
         {
-
-
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
             if (await GambitLogic.Gambit()) return true;
             return false;
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);
         }
+
         public static async Task<bool> Combat()
         {
             if (BotManager.Current.IsAutonomous)
