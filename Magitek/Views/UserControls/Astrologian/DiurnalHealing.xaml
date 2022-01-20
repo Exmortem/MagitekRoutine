@@ -87,10 +87,10 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Celestial Opposition " IsChecked="{Binding AstrologianSettings.DiurnalCelestialOpposition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DiurnalCelestialOppositionHealthPercent, Mode=TwoWay}" />
+                <CheckBox Content="Celestial Opposition " IsChecked="{Binding AstrologianSettings.CelestialOpposition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.CelestialOppositionHealthPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent When " />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.DiurnalCelestialOppositionAllies, Mode=TwoWay}" />
+                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.CelestialOppositionAllies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing " />
             </StackPanel>
         </controls:SettingsBlock>

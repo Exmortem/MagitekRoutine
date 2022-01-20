@@ -120,7 +120,7 @@ namespace Magitek.Utilities
                 return null;
 
             if (smartAoeSetting == false)
-                return Core.Me.CurrentTarget == null ? null : (BattleCharacter) Core.Me.TargetGameObject;
+                return Core.Me.CurrentTarget == null ? null : (BattleCharacter) Core.Me.CurrentTarget;
 
             var bestTarget = Enemies.Where(x => x.WithinSpellRange(spell.Range))
                 .OrderBy(x => x.EnemiesNearby(spell.Radius).Count());

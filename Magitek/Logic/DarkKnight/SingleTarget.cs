@@ -65,9 +65,18 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.HasAura(Auras.Delirium))
                 return false;
 
+            // If we're in AOE situation we're going to likely use Unleash which has a 5y range
+            // but if we're not then we're going to melee which has a 0.66 (CombatReach) range
+            // This extra bit of complexity helps make this do the right thing in more scenarios
+            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
+            var enoughEnemies = enemyCount >= DarkKnightSettings.Instance.UnleashEnemies;
+            var calculatedCombatReach = (DarkKnightSettings.Instance.UseUnleash && enoughEnemies)
+                ? 5
+                : Core.Me.CombatReach;
+
             var unmendTarget = Combat.Enemies.FirstOrDefault(r =>
-                r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach
-                && r.Distance(Core.Me) <= 20 + r.CombatReach
+                r.Distance2D(Core.Me) >= calculatedCombatReach
+                && r.Distance2D(Core.Me) <= 20 + r.CombatReach
                 && r.TargetGameObject != null
                 && !r.TargetGameObject.IsMe);
 
@@ -140,6 +149,7 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (DarkKnightSettings.Instance.PlungeOnlyInMelee
+                && Core.Me.CurrentTarget != null
                 && !Core.Me.CurrentTarget.WithinSpellRange(3))
             {
                 return false;

@@ -28,6 +28,10 @@
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Defensive Buffs At The Same Time" />
                     </StackPanel>
 
+                    <StackPanel>
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="    NOTE: Does not include Dark Mind and Dark Missionary" />
+                    </StackPanel>
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Unless You Are Lower Than " />
                         <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding DarkKnightSettings.MoreDefensivesHp, Mode=TwoWay}" />
