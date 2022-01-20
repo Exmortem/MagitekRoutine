@@ -38,7 +38,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => WithinManaOf(11, 80)
+                                          () => WithinManaOf(11, 50)
                                                 && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired
                                                 && !InMeleeCombo()
                                                 && bossPresenceOk()));
@@ -62,7 +62,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => WithinManaOf(11, 55)
+                                          () => WithinManaOf(11, 35)
                                                 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired
                                                 && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired
                                                 && !InMeleeCombo()
