@@ -7,32 +7,44 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Debug = Magitek.ViewModels.Debug;
 using DebugSettings = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.Utilities
 {
     public static class FightLogic
     {
+        internal enum FfxivExpansion
+        {
+            ARealmReborn,
+            Heavensward,
+            Shadowbringers,
+            Endwalker,
+        }
 
-        public static readonly Stopwatch FlStopwatch = new Stopwatch();
-        
+        private static readonly Stopwatch FlStopwatch = new Stopwatch();
+
+        private static readonly Stopwatch GetEnemyLogicAndEnemyCacheAge = new Stopwatch();
+
         private static TimeSpan FlCooldown
         {
             get
             {
                 if (!FlStopwatch.IsRunning) return TimeSpan.Zero;
-                
+
                 var timeRemaining = new TimeSpan(0, 0, 0, 5).Subtract(FlStopwatch.Elapsed);
-                
+
                 if (timeRemaining > TimeSpan.Zero) return timeRemaining;
-                
+
                 FlStopwatch.Reset();
-                
+
                 return TimeSpan.Zero;
             }
         }
 
         private static bool IsFlReady => FlCooldown == TimeSpan.Zero;
+
+        private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemyCached { get; set; }
 
         public static async Task<bool> DoAndBuffer(Task<bool> task)
         {
@@ -41,35 +53,25 @@ namespace Magitek.Utilities
             FlStopwatch.Start();
             return true;
         }
-        public class Ref<T>
-        {
-            public Ref() { }
-            public Ref(T value) { Value = value; }
-            private T Value { get; set; }
-            override public string ToString()
-            {
-                T value = Value;
-                return value == null ? "" : value.ToString();
-            }
-            public static implicit operator T(Ref<T> r) { return r.Value; }
-            public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
-        }
 
         public static Character EnemyIsCastingTankBuster()
         {
             if (!IsFlReady)
                 return null;
-            
+
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
             if (enemyLogic?.TankBusters == null)
                 return EnemyIsCastingSharedTankBuster();
-            
-            var output = enemyLogic.TankBusters.Contains(enemy.CastingSpellId) ? Group.CastableTanks.FirstOrDefault(x => x == enemy.TargetCharacter) : null;
-            
+
+            var output = enemyLogic.TankBusters.Contains(enemy.CastingSpellId)
+                ? Group.CastableTanks.FirstOrDefault(x => x == enemy.TargetCharacter)
+                : null;
+
             if (output != null && DebugSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name} ({output.CurrentJob})");
-            
+                Logger.WriteInfo(
+                    $"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name} ({output.CurrentJob})");
+
             if (output != null)
                 FlStopwatch.Start();
 
@@ -80,39 +82,42 @@ namespace Magitek.Utilities
         {
             if (!IsFlReady)
                 return null;
-            
+
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
             if (enemyLogic?.SharedTankBusters == null)
                 return null;
-            
-            var output = enemyLogic.SharedTankBusters.Contains(enemy.CastingSpellId) ? Group.CastableTanks.FirstOrDefault(x => x != enemy.TargetCharacter) : null;
-            
+
+            var output = enemyLogic.SharedTankBusters.Contains(enemy.CastingSpellId)
+                ? Group.CastableTanks.FirstOrDefault(x => x != enemy.TargetCharacter)
+                : null;
+
             if (output != null && DebugSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.Name} ({output.CurrentJob})");
-            
+                Logger.WriteInfo(
+                    $"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.Name} ({output.CurrentJob})");
+
             if (output != null)
                 FlStopwatch.Start();
 
             return output;
-            
+
         }
-        
+
         public static bool EnemyIsCastingAoe()
         {
             if (!IsFlReady)
                 return false;
-            
+
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
-            
+
             if (enemyLogic?.Aoes == null)
                 return false;
-            
+
             var output = enemyLogic.Aoes.Contains(enemy.CastingSpellId);
-            
+
             if (output && DebugSettings.Instance.DebugFightLogic)
                 Logger.WriteInfo($"[AOE Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}");
-            
+
             return output;
         }
 
@@ -120,7 +125,7 @@ namespace Magitek.Utilities
         {
             if (!IsFlReady)
                 return false;
-            
+
             var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
 
             if (enemyLogic == null)
@@ -128,60 +133,58 @@ namespace Magitek.Utilities
 
             if (enemyLogic.BigAoes == null)
                 return EnemyIsCastingAoe();
-            
+
             var output = enemyLogic.BigAoes.Contains(enemy.CastingSpellId);
-            
+
             if (output && DebugSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[BIG AOE Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}");
-            
+                Logger.WriteInfo(
+                    $"[BIG AOE Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}");
+
             return output;
         }
-        
+
         public static bool ZoneHasFightLogic()
         {
             if (!DebugSettings.Instance.UseFightLogic)
                 return false;
-                
+
             if (!Globals.InActiveDuty)
                 return false;
 
             if (!Core.Me.InCombat)
                 return false;
-            
+
             return Encounters.Any(x => x.ZoneId == WorldManager.RawZoneId);
         }
 
-        private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemyCached { get; set; }
-
-        private static readonly Stopwatch GetEnemyLogicAndEnemyCacheAge = new Stopwatch();
-        public static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
+        private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
         {
             if (GetEnemyLogicAndEnemyCacheAge.IsRunning && GetEnemyLogicAndEnemyCacheAge.ElapsedMilliseconds < 1000)
                 return GetEnemyLogicAndEnemyCached;
-            
+
             Encounter encounter = null;
             Enemy enemyLogic = null;
             BattleCharacter enemy = null;
-            
+
             if (!DebugSettings.Instance.UseFightLogic)
                 return SetAndReturn();
-            
+
             if (!Globals.InActiveDuty)
                 return SetAndReturn();
-            
+
             if (!Core.Me.InCombat)
                 return SetAndReturn();
-            
+
             encounter = Encounters.FirstOrDefault(x => x.ZoneId == WorldManager.RawZoneId);
-            
+
             if (encounter == null)
                 return SetAndReturn();
-            
+
             enemyLogic = encounter.Enemies.FirstOrDefault(x => Combat.Enemies.Any(y => x.Id == y.NpcId));
 
             if (enemyLogic == null)
                 return SetAndReturn();
-                
+
             enemy = Combat.Enemies.FirstOrDefault(y => enemyLogic.Id == y.NpcId);
 
             return SetAndReturn();
@@ -190,38 +193,38 @@ namespace Magitek.Utilities
             {
                 if (DebugSettings.Instance.DebugFightLogicFound)
                 {
-                    ViewModels.Debug.Instance.FightLogicData =
+                    Debug.Instance.FightLogicData =
                         $"You are currently in {WorldManager.CurrentZoneName} ({WorldManager.RawZoneId})\n\n";
-                    
+
                     if (encounter == null && enemyLogic == null && enemy == null)
-                        ViewModels.Debug.Instance.FightLogicData += $"There is no Fight Logic for this zone. \n";
+                        Debug.Instance.FightLogicData += "There is no Fight Logic for this zone. \n";
                     else
                     {
-                        ViewModels.Debug.Instance.FightLogicData +=
+                        Debug.Instance.FightLogicData +=
                             $"Fight Logic Recognized for {encounter.Name} from ({encounter.Expansion})\n" +
                             $"There is Logic for {encounter.Enemies.Count()} enemies.\n\n";
 
                         encounter.Enemies.ForEach(element =>
                         {
-                            ViewModels.Debug.Instance.FightLogicData += $"Enemy: {element.Name} ({element.Id}):\n";
+                            Debug.Instance.FightLogicData += $"Enemy: {element.Name} ({element.Id}):\n";
 
                             if (element.TankBusters != null)
-                                ViewModels.Debug.Instance.FightLogicData +=
-                                    $"\tTankbusters:\n{string.Join("",element.TankBusters.Select(tb => $"\t\t{DataManager.GetSpellData(tb).Name} ({tb})\n"))}";
-                            
-                            if (element.SharedTankBusters != null)
-                                ViewModels.Debug.Instance.FightLogicData +=
-                                    $"\tShared Tankbusters:\n{string.Join("",element.SharedTankBusters.Select(stb => $"\t\t{DataManager.GetSpellData(stb).Name} ({stb})\n"))}";
-                            
-                            if (element.Aoes != null)
-                                ViewModels.Debug.Instance.FightLogicData +=
-                                    $"\tAoes:\n{string.Join("",element.Aoes.Select(aoe => $"\t\t{DataManager.GetSpellData(aoe).Name} ({aoe})\n"))}";
-                            
-                            if (element.BigAoes != null)
-                                ViewModels.Debug.Instance.FightLogicData +=
-                                    $"\tBig Aoes:\n{string.Join("",element.BigAoes.Select(baoe => $"\t\t{DataManager.GetSpellData(baoe).Name} ({baoe})\n"))}";
+                                Debug.Instance.FightLogicData +=
+                                    $"\tTankbusters:\n{string.Join("", element.TankBusters.Select(tb => $"\t\t{DataManager.GetSpellData(tb).Name} ({tb})\n"))}";
 
-                            ViewModels.Debug.Instance.FightLogicData += "\n";
+                            if (element.SharedTankBusters != null)
+                                Debug.Instance.FightLogicData +=
+                                    $"\tShared Tankbusters:\n{string.Join("", element.SharedTankBusters.Select(stb => $"\t\t{DataManager.GetSpellData(stb).Name} ({stb})\n"))}";
+
+                            if (element.Aoes != null)
+                                Debug.Instance.FightLogicData +=
+                                    $"\tAoes:\n{string.Join("", element.Aoes.Select(aoe => $"\t\t{DataManager.GetSpellData(aoe).Name} ({aoe})\n"))}";
+
+                            if (element.BigAoes != null)
+                                Debug.Instance.FightLogicData +=
+                                    $"\tBig Aoes:\n{string.Join("", element.BigAoes.Select(baoe => $"\t\t{DataManager.GetSpellData(baoe).Name} ({baoe})\n"))}";
+
+                            Debug.Instance.FightLogicData += "\n";
                         });
                     }
                 }
@@ -234,35 +237,669 @@ namespace Magitek.Utilities
             }
         }
 
-        public class Enemy
-        {
-            public uint Id { get; set; }
-            public string Name { get; set; }
-            public List<uint> TankBusters { get; set; }
-            public List<uint> SharedTankBusters { get; set; }
-            public List<uint> Aoes { get; set; }
-            public List<uint> BigAoes { get; set; }
-        }
+        private static readonly List<Encounter> Encounters = new List<Encounter> {
+            #region A Realm Reborn: Normal Raids
 
-        public class Encounter
-        {
-            public ushort ZoneId { get; set; }
-            public string Name { get; set; }
-            public FFXIVExpansion Expansion { get; set; }
-            public List<Enemy> Enemies { get; set; }
-        }
+            new Encounter {
+                ZoneId = ZoneId.TheBindingCoilOfBahamutTurn5,
+                Name = "Normal Raid: The Binding Coil of Bahamut - Turn 5 (T5 - Twintania)",
+                Expansion = FfxivExpansion.ARealmReborn,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 1482,
+                        Name = "Twintania",
+                        TankBusters = new List<uint> {
+                            1458 //Death Sentence
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
 
-        public static readonly List<Encounter> Encounters = new List<Encounter>() {
+            #endregion
+
+            #region Heavensward: Alliance Raids
+
+            new Encounter {
+                ZoneId = ZoneId.DunScaith,
+                Name = "Alliance Raid: Dun Scaith",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5509,
+                        Name = "Ferdiad Hollow",
+                        TankBusters = new List<uint> {
+                            7320 //Jongleur
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 3780,
+                        Name = "Proto Ultima",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7762, // Aetherochemical Flare & Supernova
+                            7581 // Aetherochemical Flare & Supernova
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5515,
+                        Name = "Scathach",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7474 //Thirty Souls
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 2564,
+                        Name = "Diabolos",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7184, //Ruinous Omen
+                            7185 //Ruinous Omen
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5526,
+                        Name = "Diabolos Hollow",
+                        TankBusters = new List<uint> {
+                            7193 //Camisado
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = new List<uint> {
+                            7202, //Omen
+                            7203 //Omen
+                        }
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheWeepingCityOfMhach,
+                Name = "Alliance Raid: The Weeping City of Mhach",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 4878,
+                        Name = "Forgall",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6091 //Hell Wind
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 4897,
+                        Name = "Calofisteri",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6169 //Dancing Mad
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+
+            #endregion
+
+            #region Heavensward: Dungeons
+
+            new Encounter {
+                ZoneId = ZoneId.TheAetherochemicalResearchFacility,
+                Name = "Aetherochemical Research Facility",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3822,
+                        Name = "Igeyorhm",
+                        TankBusters = new List<uint> {
+                            4348 //Dark Orb
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 2143,
+                        Name = "Lahabrea",
+                        TankBusters = new List<uint> {
+                            4348 //Dark Orb
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 3829,
+                        Name = "Ascian Prime",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            4361, //Shadowflare
+                            4362 //Annihilation
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.BaelsarsWall,
+                Name = "Dungeon: Baelsar's Wall",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5560,
+                        Name = "Magitek Predator",
+                        TankBusters = new List<uint> {
+                            7346 //Magitek Claw
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7356 //Launcher
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5564,
+                        Name = "The Griffin",
+                        TankBusters = new List<uint> {
+                            7362 //Claw
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7363 //Beak
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheFractalContinuum,
+                Name = "Dungeon: Fractal Continuum",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3428,
+                        Name = "Phantom Ray",
+                        TankBusters = new List<uint> {
+                            3962 //Rapid Sever
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheGreatGubalLibraryHard,
+                Name = "Dungeon: Gubal Library (Hard)",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5218,
+                        Name = "Liquid Flame",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6469 //Bibliocide
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5219,
+                        Name = "Strix",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6485 //Properties of Darkness II
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.SohmAlHard,
+                Name = "Dungeon: Sohm Al (Hard)",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5529,
+                        Name = "The Leightonward",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            7216 //Inflammable Fumes
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5531,
+                        Name = "Lava Scorpion",
+                        TankBusters = new List<uint> {
+                            7232, //Deadly Thrust
+                            7240 //Deadly Thrust
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5533,
+                        Name = "The Scoprion's Tail",
+                        TankBusters = new List<uint> {
+                            7232, //Deadly Thrust
+                            7240 //Deadly Thrust
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheVault,
+                Name = "Dungeon: The Vault",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3634,
+                        Name = "Ser Adelphel",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            4126 //Holiest of Holy
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 3642,
+                        Name = "Ser Charibert",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            4149 //Altar Pyre
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.Xelphatol,
+                Name = "Dungeon: Xelphatol",
+                Expansion = FfxivExpansion.ARealmReborn,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5265,
+                        Name = "Nuzal Hueloc",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6600 //Long Burst
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5272,
+                        Name = "Tozol Huatotl",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6613 //Ixali Aero III
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+
+            #endregion
+
+            #region Heavensward: Normal Raids
+
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheCuffOfTheSon,
+                Name = "Normal Raid: Alexander - The Cuff of The Son - A6N",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 4705,
+                        Name = "Swindler",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5919 //Bio-arithmeticks
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheBurdenOfTheSon,
+                Name = "Normal Raid: Alexander - The Burden of The Son - A8N",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 4707,
+                        Name = "Onslaughter",
+                        TankBusters = new List<uint> {
+                            5936 //Perpetual Ray
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 4708,
+                        Name = "Brute Justice",
+                        TankBusters = new List<uint> {
+                            5966 //Double Rocket Punch
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheSoulOfTheCreator,
+                Name = "Normal Raid: Alexander - The Soul Of The Creator - A12N",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5193,
+                        Name = "Alexander Prime",
+                        TankBusters = new List<uint> {
+                            6884 //Punishing Heat
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6887 //Mega Holy
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 9220,
+                        Name = "Alexander Prime",
+                        TankBusters = new List<uint> {
+                            6884 //Punishing Heat
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6887 //Mega Holy
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+
+
+            #endregion
+
+            #region Heavensward: Savage Raids
+
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheFistOfTheFatherSavage,
+                Name = "Normal Raid: Alexander - The First of The Father (Savage) - A1S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3747,
+                        Name = "Oppressor",
+                        TankBusters = new List<uint> {
+                            3658 //Hypercompressed
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 3748,
+                        Name = "Oppressor 0.5",
+                        TankBusters = new List<uint> {
+                            3658 //Hypercompressed
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheArmOfTheFatherSavage,
+                Name = "Normal Raid: Alexander - The Arm of The Father (Savage) - A3S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 9211,
+                        Name = "Living Liquid",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            3838 //Cascade
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheBurdenOfTheFatherSavage,
+                Name = "Normal Raid: Alexander - The Burden of The Father (Savage) - A4S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3772,
+                        Name = "The Manipulator",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5095 //Mortal Revolution
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheCuffOfTheSonSavage,
+                Name = "Normal Raid: Alexander - The Cuff of The Son (Savage) - A6S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 4705,
+                        Name = "Swindler",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5648 //Bio-arithmeticks
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheArmOfTheSonSavage,
+                Name = "Normal Raid: Alexander - The Arm of The Son (Savage) - A7S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 3376,
+                        Name = "Quickthinx Allthoughts",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5880 //Sizzlespark
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheBurdenOfTheSonSavage,
+                Name = "Normal Raid: Alexander - The Burden of The Son (Savage) - A8S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 4707,
+                        Name = "Onslaughter",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5675 //Perpetual Ray
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 4705,
+                        Name = "Swindler",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            5706 //Bio-Arithmeticks
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 4708,
+                        Name = "Brute Justice",
+                        TankBusters = new List<uint> {
+                            5900 //Final Punch
+                        },
+                        SharedTankBusters = new List<uint> {
+                            5731 //Double Rocket Punch
+                        },
+                        Aoes = new List<uint> {
+                            5736 //Short Needle
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheBreathOfTheCreatorSavage,
+                Name = "Normal Raid: Alexander - The Breath of The Creator (Savage) - A10S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5180,
+                        Name = "Lamebrix Strikebocks",
+                        TankBusters = new List<uint> {
+                            6815 //Gobrush Rushgob
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 5181,
+                        Name = "Lamebrix Strikebocks",
+                        TankBusters = new List<uint> {
+                            6815 //Gobrush Rushgob
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheHeartOfTheCreatorSavage,
+                Name = "Normal Raid: Alexander - The Heart of The Creator (Savage) - A11S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 9218,
+                        Name = "Cruise Chaser",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            6783 //Laser X Sword
+                        },
+                        Aoes = new List<uint> {
+                            6788 //Whirlwind
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.AlexanderTheSoulOfTheCreatorSavage,
+                Name = "Normal Raid: Alexander - The Soul Of The Creator (Savage) - A12S",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5193,
+                        Name = "Alexander Prime",
+                        TankBusters = new List<uint> {
+                            6633 //Punishing Heat
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6638 //Mega Holy
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 9220,
+                        Name = "Alexander Prime",
+                        TankBusters = new List<uint> {
+                            6633, //Punishing Heat
+                            6669 //Chastening Heat
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            6638 //Mega Holy
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+
+
+            #endregion
+
+            #region Heavensward: Extreme Trials
+
+            new Encounter {
+                ZoneId = ZoneId.ContainmentBayP1T6Extreme,
+                Name = "Trial: Sophia (Extreme)",
+                Expansion = FfxivExpansion.Heavensward,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 5199,
+                        Name = "Sophia",
+                        TankBusters = new List<uint> {
+                            6596 //Tankbuster Swap?
+                        },
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = null
+                    }
+                }
+            },
+
+
+            #endregion
+
             #region Endwalker: Dungeons
+
             new Encounter {
                 ZoneId = ZoneId.TheTowerOfZot,
                 Name = "Dungeon: The Tower of Zot",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10256,
                         Name = "Minduruva",
-                        TankBusters = new List<uint>{25257,25290},
+                        TankBusters = new List<uint> { 25257, 25290 },
                         SharedTankBusters = null,
                         Aoes = null,
                         BigAoes = null
@@ -270,7 +907,7 @@ namespace Magitek.Utilities
                     new Enemy {
                         Id = 10257,
                         Name = "Sanduruva",
-                        TankBusters = new List<uint>{25257,25280},
+                        TankBusters = new List<uint> { 25257, 25280 },
                         SharedTankBusters = null,
                         Aoes = null,
                         BigAoes = null
@@ -278,9 +915,9 @@ namespace Magitek.Utilities
                     new Enemy {
                         Id = 10259,
                         Name = "Cinduruva",
-                        TankBusters = new List<uint>{25257},
+                        TankBusters = new List<uint> { 25257 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25273,},
+                        Aoes = new List<uint> { 25273, },
                         BigAoes = null
                     }
                 }
@@ -288,14 +925,14 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheTowerOfBabil,
                 Name = "Dungeon: The Tower of Babil",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10281,
                         Name = "Lugae",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25338},
+                        Aoes = new List<uint> { 25338 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -303,7 +940,7 @@ namespace Magitek.Utilities
                         Name = "Lugae",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25338},
+                        Aoes = new List<uint> { 25338 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -311,7 +948,7 @@ namespace Magitek.Utilities
                         Name = "Anima",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25344},
+                        Aoes = new List<uint> { 25344 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -319,7 +956,7 @@ namespace Magitek.Utilities
                         Name = "Anima",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25344},
+                        Aoes = new List<uint> { 25344 },
                         BigAoes = null
                     }
                 }
@@ -327,47 +964,47 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.Vanaspati,
                 Name = "Dungeon: Vanaspati",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10717,
                         Name = "Terminus Snatcher",
-                        TankBusters = new List<uint>{25141},
+                        TankBusters = new List<uint> { 25141 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25144},
+                        Aoes = new List<uint> { 25144 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 11049,
                         Name = "Terminus Snatcher",
-                        TankBusters = new List<uint>{25141},
+                        TankBusters = new List<uint> { 25141 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25144},
+                        Aoes = new List<uint> { 25144 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10718,
                         Name = "Terminus Wrecker",
-                        TankBusters = new List<uint>{25154},
+                        TankBusters = new List<uint> { 25154 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25153},
+                        Aoes = new List<uint> { 25153 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 11052,
                         Name = "Terminus Wrecker",
-                        TankBusters = new List<uint>{25154},
+                        TankBusters = new List<uint> { 25154 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25153},
+                        Aoes = new List<uint> { 25153 },
                         BigAoes = null
-                        
+
                     },
                     new Enemy {
                         Id = 10719,
                         Name = "Svarbhanu",
-                        TankBusters = new List<uint>{25171},
+                        TankBusters = new List<uint> { 25171 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25170},
+                        Aoes = new List<uint> { 25170 },
                         BigAoes = null
                     }
                 }
@@ -375,22 +1012,22 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.KtisisHyperboreia,
                 Name = "Dungeon: Ktisis Hyperboreia",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10396,
                         Name = "Lyssa",
-                        TankBusters = new List<uint>{25182},
+                        TankBusters = new List<uint> { 25182 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25181},
+                        Aoes = new List<uint> { 25181 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10398,
                         Name = "Ladon Lord",
-                        TankBusters = new List<uint>{25743},
+                        TankBusters = new List<uint> { 25743 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25741},
+                        Aoes = new List<uint> { 25741 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -398,7 +1035,7 @@ namespace Magitek.Utilities
                         Name = "Hermes",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25886},
+                        Aoes = new List<uint> { 25886 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -406,7 +1043,7 @@ namespace Magitek.Utilities
                         Name = "Hermes",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25886},
+                        Aoes = new List<uint> { 25886 },
                         BigAoes = null
                     }
                 }
@@ -414,30 +1051,30 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheAitiascope,
                 Name = "Dungeon: The Aitiascope",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10290,
                         Name = "Livia the Undeterred",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25672},
+                        Aoes = new List<uint> { 25672 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10292,
                         Name = "Rhitahtyn the Unshakable",
-                        TankBusters = new List<uint>{25686},
+                        TankBusters = new List<uint> { 25686 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25685},
+                        Aoes = new List<uint> { 25685 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10293,
                         Name = "Amon the Undying",
-                        TankBusters = new List<uint>{25700},
+                        TankBusters = new List<uint> { 25700 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25701},
+                        Aoes = new List<uint> { 25701 },
                         BigAoes = null
                     }
                 }
@@ -445,30 +1082,30 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.Smileton,
                 Name = "Dungeon: Smileton",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10331,
                         Name = "Face",
-                        TankBusters = new List<uint>{26434},
+                        TankBusters = new List<uint> { 26434 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26435},
+                        Aoes = new List<uint> { 26435 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10333,
                         Name = "Frameworker",
-                        TankBusters = new List<uint>{26436},
+                        TankBusters = new List<uint> { 26436 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26437},
+                        Aoes = new List<uint> { 26437 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10336,
                         Name = "The Big Cheese",
-                        TankBusters = new List<uint>{26449},
+                        TankBusters = new List<uint> { 26449 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26450},
+                        Aoes = new List<uint> { 26450 },
                         BigAoes = null
                     }
                 }
@@ -476,45 +1113,48 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheDeadEnds,
                 Name = "Dungeon: The Dead Ends",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10313,
                         Name = "Caustic Grebuloff",
-                        TankBusters = new List<uint>{25920},
+                        TankBusters = new List<uint> { 25920 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25916},
+                        Aoes = new List<uint> { 25916 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10315,
                         Name = "Peacekeeper",
-                        TankBusters = new List<uint>{28359},
+                        TankBusters = new List<uint> { 28359 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25936},
+                        Aoes = new List<uint> { 25936 },
                         BigAoes = null
                     },
                     new Enemy {
                         Id = 10316,
                         Name = "Ra-la",
-                        TankBusters = new List<uint>{25949},
+                        TankBusters = new List<uint> { 25949 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{25950},
+                        Aoes = new List<uint> { 25950 },
                         BigAoes = null
                     }
                 }
             },
+
             #endregion
+
             #region Endwalker: Trials
+
             new Encounter {
                 ZoneId = ZoneId.TheDarkInside,
                 Name = "Trial: Zodiark",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10456,
                         Name = "Zodiark",
-                        TankBusters = new List<uint>{27490},
+                        TankBusters = new List<uint> { 27490 },
                         SharedTankBusters = null,
                         Aoes = null,
                         BigAoes = null,
@@ -524,14 +1164,14 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheMothercrystal,
                 Name = "Trial: Hydaelyn",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10453,
                         Name = "Hydaelyn",
                         TankBusters = null,
-                        SharedTankBusters = new List<uint>{26070},
-                        Aoes = new List<uint>{26071,26072,26043,26064,26037,26038,26824},
+                        SharedTankBusters = new List<uint> { 26070 },
+                        Aoes = new List<uint> { 26071, 26072, 26043, 26064, 26037, 26038, 26824 },
                         BigAoes = null
                     }
                 }
@@ -539,31 +1179,34 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheFinalDay,
                 Name = "Trial: Endsinger",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10448,
                         Name = "The Endsinger",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26156,26242},
+                        Aoes = new List<uint> { 26156, 26242 },
                         BigAoes = null
                     }
                 }
             },
+
             #endregion
+
             #region Endwalker: Trials (Extreme)
+
             new Encounter {
                 ZoneId = ZoneId.TheMinstrelsBalladZodiarksFall,
                 Name = "Trial: Zodiark (Extreme)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10456,
                         Name = "Zodiark",
-                        TankBusters = new List<uint>{26607},
+                        TankBusters = new List<uint> { 26607 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26611,26608},
+                        Aoes = new List<uint> { 26611, 26608 },
                         BigAoes = null
                     }
                 }
@@ -571,31 +1214,34 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.TheMinstrelsBalladHydaelynsCall,
                 Name = "Trial: Hydaelyn (Extreme)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10453,
                         Name = "Hydaelyn",
                         TankBusters = null,
-                        SharedTankBusters = new List<uint>{26048,26040},
-                        Aoes = new List<uint>{26036,26049,26050,27477,26021,27476},
+                        SharedTankBusters = new List<uint> { 26048, 26040 },
+                        Aoes = new List<uint> { 26036, 26049, 26050, 27477, 26021, 27476 },
                         BigAoes = null,
                     }
                 }
             },
+
             #endregion
+
             #region Endwalker: Normal Raids
+
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFirstCircle,
                 Name = "Normal Raid: First Circle (P1N)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10576,
                         Name = "Erichthonios",
-                        TankBusters = new List<uint>{26099},
+                        TankBusters = new List<uint> { 26099 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26100,26089,26090},
+                        Aoes = new List<uint> { 26100, 26089, 26090 },
                         BigAoes = null
                     }
                 }
@@ -603,14 +1249,14 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheSecondCircle,
                 Name = "Normal Raid: Second Circle (P2N)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10348,
                         Name = "Hippokampos",
                         TankBusters = null,
-                        SharedTankBusters = new List<uint>{26638},
-                        Aoes = new List<uint>{26639,26614},
+                        SharedTankBusters = new List<uint> { 26638 },
+                        Aoes = new List<uint> { 26639, 26614 },
                         BigAoes = null
                     }
                 }
@@ -618,14 +1264,14 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheThirdCircle,
                 Name = "Normal Raid: Third Circle (P3N)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10720,
                         Name = "Phoinix",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26296,26281},
+                        Aoes = new List<uint> { 26296, 26281 },
                         BigAoes = null
                     }
                 }
@@ -633,31 +1279,34 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFourthCircle,
                 Name = "Normal Raid: Fourth Circle (P4N)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10742,
                         Name = "Hesperos",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{27217,27200},
+                        Aoes = new List<uint> { 27217, 27200 },
                         BigAoes = null
                     }
                 }
             },
+
             #endregion
+
             #region Endwalker: Normal Raids (Savage)
+
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFirstCircleSavage,
                 Name = "Normal Raid: First Circle (Savage) (P1S)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10576,
                         Name = "Erichthonios",
-                        TankBusters = new List<uint>{26153},
+                        TankBusters = new List<uint> { 26153 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26154,26134,26135},
+                        Aoes = new List<uint> { 26154, 26134, 26135 },
                         BigAoes = null
                     }
                 }
@@ -665,51 +1314,85 @@ namespace Magitek.Utilities
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheSecondCircleSavage,
                 Name = "Normal Raid: Second Circle (Savage) (P2S)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10348,
                         Name = "Hippokampos",
                         TankBusters = null,
-                        SharedTankBusters = new List<uint>{26674},
-                        Aoes = new List<uint>{26675},
-                        BigAoes = new List<uint>{26640}
+                        SharedTankBusters = new List<uint> { 26674 },
+                        Aoes = new List<uint> { 26675 },
+                        BigAoes = new List<uint> { 26640 }
                     }
                 }
             },
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheThirdCircleSavage,
                 Name = "Normal Raid: Third Circle (Savage) (P3S)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10720,
                         Name = "Phoinix",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint>{26374},
-                        BigAoes = new List<uint>{26340,26352}
+                        Aoes = new List<uint> { 26374 },
+                        BigAoes = new List<uint> { 26340, 26352 }
                     }
                 }
             },
             new Encounter {
                 ZoneId = ZoneId.AsphodelosTheFourthCircleSavage,
                 Name = "Normal Raid: Fourth Circle (Savage) (P4S)",
-                Expansion = FFXIVExpansion.Endwalker,
+                Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
                         Id = 10742,
                         Name = "Hesperos",
-                        TankBusters = new List<uint>{27144,27174,27175,27179},
-                        SharedTankBusters = new List<uint>{28280},
-                        Aoes = new List<uint>{27145,27096,27181},
-                        BigAoes = new List<uint>{27180}
+                        TankBusters = new List<uint> { 27144, 27174, 27175, 27179 },
+                        SharedTankBusters = new List<uint> { 28280 },
+                        Aoes = new List<uint> { 27145, 27096, 27181 },
+                        BigAoes = new List<uint> { 27180 }
                     }
                 }
             }
+
             #endregion
         };
+        public class Ref<T>
+        {
+            public Ref() { }
+            public Ref(T value) { Value = value; }
+            private T Value { get; set; }
         
+            override public string ToString()
+            {
+                T value = Value;
+                return value == null ? "" : value.ToString();
+            }
+        
+            public static implicit operator T(Ref<T> r) { return r.Value; }
+            public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
+        }
+
+        internal class Enemy
+        {
+            internal uint Id { get; set; }
+            internal string Name { get; set; }
+            internal List<uint> TankBusters { get; set; }
+            internal List<uint> SharedTankBusters { get; set; }
+            internal List<uint> Aoes { get; set; }
+            internal List<uint> BigAoes { get; set; }
+        }
+
+        internal class Encounter
+        {
+            internal ushort ZoneId { get; set; }
+            internal string Name { get; set; }
+            internal FfxivExpansion Expansion { get; set; }
+            internal List<Enemy> Enemies { get; set; }
+        }
+
         private static class ZoneId
         {
             public const ushort
@@ -1219,14 +1902,6 @@ namespace Magitek.Utilities
                 Xelphatol = 572,
                 Yanxia = 614,
                 Zadnor = 975;
-        }
-
-        public enum FFXIVExpansion
-        {
-            ARealmReborn,
-            Heavensward,
-            Shadowbringers,
-            Endwalker,
         }
     }
 }
