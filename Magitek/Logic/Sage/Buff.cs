@@ -36,9 +36,11 @@ namespace Magitek.Logic.Sage
             if (!Spells.Kardia.IsKnownAndReady())
                 return false;
 
-
             if (Globals.InParty)
             {
+                if (DutyManager.InInstance && !Globals.InActiveDuty)
+                    return false;
+
                 var currentKardiaTarget = Group.CastableAlliesWithin30.Where(a => a.HasAura(Auras.Kardion, true)).FirstOrDefault();
 
                 if (SageSettings.Instance.KardiaSwitchTargets
