@@ -1126,9 +1126,9 @@ namespace Magitek.Utilities
                     new Enemy {
                         Id = 10315,
                         Name = "Peacekeeper",
-                        TankBusters = new List<uint> { 28359 },
+                        TankBusters = new List<uint> { 28359, 25935 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 25936 },
+                        Aoes = new List<uint> { 25936, 28351 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -1136,7 +1136,7 @@ namespace Magitek.Utilities
                         Name = "Ra-la",
                         TankBusters = new List<uint> { 25949 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 25950 },
+                        Aoes = new List<uint> { 25950, 25945, 25947 },
                         BigAoes = null
                     }
                 }
@@ -1364,13 +1364,13 @@ namespace Magitek.Utilities
             public Ref() { }
             public Ref(T value) { Value = value; }
             private T Value { get; set; }
-        
+
             override public string ToString()
             {
                 T value = Value;
                 return value == null ? "" : value.ToString();
             }
-        
+
             public static implicit operator T(Ref<T> r) { return r.Value; }
             public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
         }
