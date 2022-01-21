@@ -1120,7 +1120,7 @@ namespace Magitek.Utilities
                         Name = "Caustic Grebuloff",
                         TankBusters = new List<uint> { 25920 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 25916 },
+                        Aoes = new List<uint> { 25916, 25921, 25923 },
                         BigAoes = null
                     },
                     new Enemy {
@@ -1128,7 +1128,7 @@ namespace Magitek.Utilities
                         Name = "Peacekeeper",
                         TankBusters = new List<uint> { 28359, 25935 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 25936, 28351 },
+                        Aoes = new List<uint> { 25936, 28351, 25925 },
                         BigAoes = null
                     },
                     new Enemy {
