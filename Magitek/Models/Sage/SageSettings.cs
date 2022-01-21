@@ -34,6 +34,38 @@ namespace Magitek.Models.Sage
         public bool ForceHaima { get; set; }
         #endregion
 
+        #region FightLogic
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_Haima { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_Taurochole { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_EukrasianDiagnosis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_Panhaima { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_Holos { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_Kerachole { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_EukrasianPrognosis { get; set; }
+
+
+        #endregion
+
         #region Combat
 
         [Setting]

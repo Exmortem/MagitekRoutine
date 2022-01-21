@@ -60,7 +60,7 @@ namespace Magitek.Logic.Sage
             Auras.Haimatinon
         };
 
-        private static bool UseAoEHealingBuff(IEnumerable<Character> wantHealTargets)
+        public static bool UseAoEHealingBuff(IEnumerable<Character> wantHealTargets)
         {
             if (!SageSettings.Instance.HealingBuffsLimitAtOnce)
                 return true;
@@ -395,10 +395,7 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Kerachole))
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Taurochole.LevelAcquired)
-                return false;
-
-            if (Spells.Taurochole.Cooldown != TimeSpan.Zero)
+            if (!Spells.Taurochole.IsKnownAndReady())
                 return false;
 
             if (Globals.InParty)
@@ -428,18 +425,18 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Haima)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Haima.LevelAcquired)
-                return false;
-
-            if (Spells.Haima.Cooldown != TimeSpan.Zero)
+            if (!Spells.Haima.IsKnownAndReady())
                 return false;
 
             if (Globals.InParty)
             {
+                if (SageSettings.Instance.FightLogic_Haima && FightLogic.ZoneHasFightLogic())
+                    return false;
+
                 var haimaCandidates = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent
-                                                                         && !r.HasAura(Auras.Weakness)
-                                                                         && !r.HasAura(Auras.Haimatinon)
-                                                                         && !r.HasAura(Auras.Panhaimatinon));
+                                                                     && !r.HasAura(Auras.Weakness)
+                                                                     && !r.HasAura(Auras.Haimatinon)
+                                                                     && !r.HasAura(Auras.Panhaimatinon));
 
                 if (SageSettings.Instance.HaimaTankForBuff)
                     haimaCandidates = haimaCandidates.Where(r => r.IsTank(SageSettings.Instance.HaimaMainTankForBuff));
@@ -498,19 +495,14 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Panhaima)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Panhaima.LevelAcquired)
-                return false;
-
-            var needPanhaima = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PanhaimaHpPercent) >= SageSettings.Instance.PanhaimaNeedHealing;
-
-            if (!needPanhaima)
-                return false;
-
-            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PanhaimaHpPercent)
+            if (!Spells.Panhaima.IsKnownAndReady())
                 return false;
 
             if (Globals.InParty)
             {
+                if (SageSettings.Instance.FightLogic_Panhaima && FightLogic.ZoneHasFightLogic())
+                    return false;
+
                 var targets = Group.CastableAlliesWithin15.Where(CanPanhaima);
 
                 if (targets.Count() < SageSettings.Instance.PanhaimaNeedHealing)
@@ -524,6 +516,9 @@ namespace Magitek.Logic.Sage
 
                 return await Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon);
             }
+
+            if (Core.Me.CurrentHealthPercent > SageSettings.Instance.PanhaimaHpPercent)
+                return false;
 
             return await Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon);
 
@@ -573,13 +568,10 @@ namespace Magitek.Logic.Sage
             if (SageSettings.Instance.OnlyZoePneuma)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
+            if (!Spells.Pneuma.IsKnownAndReady())
                 return false;
 
             if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (Globals.InParty)
@@ -611,13 +603,10 @@ namespace Magitek.Logic.Sage
             else if (!SageSettings.Instance.OnlyZoePneuma)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
+            if (!Spells.Pneuma.IsKnownAndReady())
                 return false;
 
             if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
                 return false;
 
             if (Globals.InParty)
@@ -651,13 +640,10 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ForceZoePneuma)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Pneuma.LevelAcquired)
-                return false;
-
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Spells.Pneuma.Cooldown != TimeSpan.Zero)
+            if (!Spells.Pneuma.IsKnownAndReady())
                 return false;
 
             if (!await UseZoe())
@@ -677,9 +663,6 @@ namespace Magitek.Logic.Sage
         public static async Task<bool> Kerachole()
         {
             if (!SageSettings.Instance.Kerachole)
-                return false;
-
-            if (Core.Me.ClassLevel < Spells.Kerachole.LevelAcquired)
                 return false;
 
             if (!Core.Me.InCombat)
