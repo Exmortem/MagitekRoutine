@@ -119,7 +119,7 @@ namespace Magitek.Utilities
             if (!Core.Me.InCombat)
                 return null;
 
-            if (smartAoeSetting == false)
+            if (!smartAoeSetting)
                 return Core.Me.CurrentTarget == null ? null : (BattleCharacter) Core.Me.CurrentTarget;
 
             var bestTarget = Enemies.Where(x => x.WithinSpellRange(spell.Range))

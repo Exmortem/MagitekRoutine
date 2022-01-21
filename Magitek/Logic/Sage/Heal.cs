@@ -17,7 +17,7 @@ namespace Magitek.Logic.Sage
 {
     internal static class Heal
     {
-        public static int AoeNeedHealing => PartyManager.NumMembers == 8 ? SageSettings.Instance.AoeNeedHealingFullParty : SageSettings.Instance.AoeNeedHealingLightParty;
+        public static int AoeNeedHealing => PartyManager.NumMembers > 4 ? SageSettings.Instance.AoeNeedHealingFullParty : SageSettings.Instance.AoeNeedHealingLightParty;
 
         public static async Task<bool> UseEukrasia(uint spellId = 24291, GameObject targetObject = null)
         {
