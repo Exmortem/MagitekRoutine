@@ -88,6 +88,9 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
             if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
 
+            if (await Logic.Sage.HealFightLogic.Aoe()) return true;
+            if (await Logic.Sage.HealFightLogic.Tankbuster()) return true;
+
             if (SageRoutine.CanWeave())
             {
                 if (await Buff.LucidDreaming()) return true;
@@ -99,14 +102,14 @@ namespace Magitek.Rotations
             {
                 if (SageRoutine.CanWeave())
                 {
-                    if (await Logic.Sage.Heal.Kerachole()) return true;
-                    if (await Logic.Sage.Heal.Holos()) return true;
-                    if (await Logic.Sage.Heal.Taurochole()) return true;
-                    if (await Logic.Sage.Heal.Panhaima()) return true;
-                    if (await Logic.Sage.Heal.Haima()) return true;
                     if (await Logic.Sage.Heal.Pepsis()) return true;
+                    if (await Logic.Sage.Heal.Panhaima()) return true;
+                    if (await Logic.Sage.Heal.Holos()) return true;
                     if (await Logic.Sage.Heal.Physis()) return true;
                     if (await Logic.Sage.Heal.Ixochole()) return true;
+                    if (await Logic.Sage.Heal.Kerachole()) return true;
+                    if (await Logic.Sage.Heal.Haima()) return true;
+                    if (await Logic.Sage.Heal.Taurochole()) return true;
                     if (await Logic.Sage.Heal.Druochole()) return true;
                 }
 
