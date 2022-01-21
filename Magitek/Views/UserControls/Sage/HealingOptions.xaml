@@ -18,6 +18,19 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Content="Weave OGCD Abilities When Mana Is Over " IsChecked="{Binding SageSettings.WeaveOGCDHeals, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding SageSettings.WeaveOGCDHealsManaPercent, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Percent" />
+            </Grid>
+        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Vertical">
@@ -47,6 +60,25 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Healing Buffs: Panhaimatinon, Holos, Physis, Kerachole, Eukrasian Prognosis" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" TextWrapping="Wrap" Text="Fight Logic: Automatically casts abilities based on fight content. Only works on certain Endwalker bosses and dungeons. If a spell is denoted with (save) it will only be cast when the fight logic conditions are satisfied, otherwise the spell may also continue to trigger if other conditions like HealthPercentage are met." />
+                <TextBlock Margin="0,5"  Style="{DynamicResource TextBlockDefault}" TextWrapping="Wrap" Text="Tankbusters" />
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Haima (saved)" IsChecked="{Binding SageSettings.FightLogic_Haima, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Taurochole " IsChecked="{Binding SageSettings.FightLogic_Taurochole, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Eukrasian Diagnosis " IsChecked="{Binding SageSettings.FightLogic_EukrasianDiagnosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <TextBlock Margin="0,5" Style="{DynamicResource TextBlockDefault}" TextWrapping="Wrap" Text="Party AoE" />
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Panhaima (saved)" IsChecked="{Binding SageSettings.FightLogic_Panhaima, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Holos " IsChecked="{Binding SageSettings.FightLogic_Holos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Kerachole " IsChecked="{Binding SageSettings.FightLogic_Kerachole, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Eukrasian Prognosis " IsChecked="{Binding SageSettings.FightLogic_EukrasianPrognosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
