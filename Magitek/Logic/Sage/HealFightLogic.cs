@@ -30,16 +30,6 @@ namespace Magitek.Logic.Sage
 
             var useAoEBuffs = Heal.UseAoEHealingBuff(Group.CastableAlliesWithin15);
 
-            if (SageSettings.Instance.FightLogic_Panhaima
-                && Spells.Panhaima.IsKnownAndReady()
-                && useAoEBuffs)
-            {
-                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Panhaimatinon));
-
-                if (targets.Count() >= Heal.AoeNeedHealing)
-                    return await FightLogic.DoAndBuffer(Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon));
-            }
-
             if (SageSettings.Instance.FightLogic_Kerachole
                 && Spells.Kerachole.IsKnownAndReady()
                 && Addersgall >= 1
@@ -49,6 +39,16 @@ namespace Magitek.Logic.Sage
 
                 if (targets.Count() >= Heal.AoeNeedHealing)
                     return await FightLogic.DoAndBuffer(Spells.Kerachole.CastAura(Core.Me, Auras.Kerachole));
+            }
+
+            if (SageSettings.Instance.FightLogic_Panhaima
+                && Spells.Panhaima.IsKnownAndReady()
+                && useAoEBuffs)
+            {
+                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Panhaimatinon));
+
+                if (targets.Count() >= Heal.AoeNeedHealing)
+                    return await FightLogic.DoAndBuffer(Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon));
             }
 
             if (SageSettings.Instance.FightLogic_Holos
