@@ -211,15 +211,15 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                 () => SmUtil.NoOp(),                                                RdmStateIds.AoeSecondWeavePart1, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60
+                    //Single target, building mana toward 35/35
                     {
                         RdmStateIds.FishForProcsUntil60Mana,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => AoeMode,                                        () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60,             () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ManaficationUp && WithinManaOfManafication(20), () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 35 && WhiteMana >= 35,             () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ManaficationUp && WithinManaOfManafication(10), () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ScatterInSt(),                                  () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),           () => SmUtil.NoOp(), RdmStateIds.FishForProcsBothProcsUpDualcast,     TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),            () => SmUtil.NoOp(), RdmStateIds.FishForProcsVerstoneUpDualcast,      TransitionType.Immediate),
@@ -234,13 +234,13 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                           () => SmUtil.NoOp(), RdmStateIds.FishForProcsNeitherProcUpNoDualcast, TransitionType.Immediate),
                             })
                     },
-                    //Single target, building mana toward 60/60, first weave
+                    //Single target, building mana toward 35/35, first weave
                     {
                         RdmStateIds.FishForProcsFirstWeave,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 35 && WhiteMana >= 35, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                     () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsSecondWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => EmboldenEnabled,                    () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => !AvoidAccelerationSt,               () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me.CurrentTarget), RdmStateIds.FishForProcsSecondWeave),
@@ -252,13 +252,13 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                   () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.FishForProcsSecondWeave)
                             })
                     },
-                    //Single target, building mana toward 60/60, second weave
+                    //Single target, building mana toward 35/35, second weave
                     {
                         RdmStateIds.FishForProcsSecondWeave,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 60 && WhiteMana >= 60,                                                            () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingSecondWeave, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 35 && WhiteMana >= 35,                                                            () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingSecondWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                                                 () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsUntil60Mana,  TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => EmboldenEnabled,                                                                               () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => !AvoidAccelerationSt,                                                                          () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.FishForProcsUntil60Mana),
@@ -273,7 +273,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                                                              () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.FishForProcsUntil60Mana)
                             })
                     },
-                    //Single target, building mana toward 60/60, dualcast is up, neither proc is up
+                    //Single target, building mana toward 35/35, dualcast is up, neither proc is up
                     {
                         RdmStateIds.FishForProcsNeitherProcUpDualcast,
                         new State<RdmStateIds>(
@@ -285,7 +285,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, we need to hardcast, neither proc is up
+                    //Single target, building mana toward 35/35, we need to hardcast, neither proc is up
                     {
                         RdmStateIds.FishForProcsNeitherProcUpNoDualcast,
                         new State<RdmStateIds>(
@@ -297,55 +297,55 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                () => SmUtil.NoOp(),                                         RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, dualcast is up, verstone proc is up
+                    //Single target, building mana toward 35/35, dualcast is up, verstone proc is up
                     {
                         RdmStateIds.FishForProcsVerstoneUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+5) <= Cap(WhiteMana+15), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, we need to hardcast, verstone proc is up
+                    //Single target, building mana toward 35/35, we need to hardcast, verstone proc is up
                     {
                         RdmStateIds.FishForProcsVerstoneUpNoDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+4) <= Cap(BlackMana+15), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, dualcast is up, verfire proc is up
+                    //Single target, building mana toward 35/35, dualcast is up, verfire proc is up
                     {
                         RdmStateIds.FishForProcsVerfireUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+6) <= Cap(BlackMana+15), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.FishForProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, we need to hardcast, verfire proc is up
+                    //Single target, building mana toward 35/35, we need to hardcast, verfire proc is up
                     {
                         RdmStateIds.FishForProcsVerfireUpNoDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+4) <= Cap(WhiteMana+15), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.FishForProcsUntil60Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, dualcast is up, both procs are up (shouldn't really get here, but acounting for it just in case)
+                    //Single target, building mana toward 35/35, dualcast is up, both procs are up (shouldn't really get here, but acounting for it just in case)
                     {
                         RdmStateIds.FishForProcsBothProcsUpDualcast,
                         new State<RdmStateIds>(
@@ -356,7 +356,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 60/60, we need to hardcast, both procs are up
+                    //Single target, building mana toward 35/35, we need to hardcast, both procs are up
                     {
                         RdmStateIds.FishForProcsBothProcsUpNoDualcast,
                         new State<RdmStateIds>(
@@ -367,16 +367,16 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                             RdmStateIds.FishForProcsUntil60Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80
+                    //Single target, building mana toward 50/50
                     {
                         RdmStateIds.EschewFishingUntil80Mana,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => AoeMode,                                               () => SmUtil.NoOp(), RdmStateIds.Aoe,                                  TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                    () => SmUtil.NoOp(), RdmStateIds.PrepareProcsForCombo,                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => (BlackMana < 60 || WhiteMana < 60) && !ManaficationUp, () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => ManaficationUp && !WithinManaOfManafication(20),       () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 50 && WhiteMana >= 50,                    () => SmUtil.NoOp(), RdmStateIds.PrepareProcsForCombo,                 TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => (BlackMana < 35 || WhiteMana < 35) && !ManaficationUp, () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => ManaficationUp && !WithinManaOfManafication(10),       () => SmUtil.NoOp(), RdmStateIds.FishForProcsUntil60Mana,              TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ScatterInSt(),                                         () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                  TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),                  () => SmUtil.NoOp(), RdmStateIds.EschewFishingBothProcsUpDualcast,     TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),                   () => SmUtil.NoOp(), RdmStateIds.EschewFishingVerstoneUpDualcast,      TransitionType.Immediate),
@@ -391,15 +391,15 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                                  () => SmUtil.NoOp(), RdmStateIds.EschewFishingNeitherProcUpNoDualcast, TransitionType.Immediate)
                             })
                     },
-                    //Single target, building mana toward 80/80, first weave
+                    //Single target, building mana toward 50/50, first weave
                     {
                         RdmStateIds.EschewFishingFirstWeave,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                    () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsFirstWeave,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => (BlackMana < 60 || WhiteMana < 60) && !ManaficationUp, () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave,   TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana < 20 || WhiteMana < 20,                      () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 50 && WhiteMana >= 50,                    () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsFirstWeave,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => (BlackMana < 35 || WhiteMana < 35) && !ManaficationUp, () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave,   TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 10 || WhiteMana < 10,                      () => SmUtil.NoOp(),                                                 RdmStateIds.FishForProcsFirstWeave,   TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                                        () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingSecondWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => EmboldenEnabled,                                       () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.EschewFishingSecondWeave),
                                 new StateTransition<RdmStateIds>(() => FlecheEnabled,                                         () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.EschewFishingSecondWeave),
@@ -410,13 +410,13 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                      () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.EschewFishingSecondWeave)
                             })
                     },
-                    //Single target, building mana toward 80/80, second weave
+                    //Single target, building mana toward 50/50, second weave
                     {
                         RdmStateIds.EschewFishingSecondWeave,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                      () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsSecondWeave,  TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 50 && WhiteMana >= 50,                                      () => SmUtil.NoOp(),                                                RdmStateIds.PrepareProcsSecondWeave,  TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 700,                                                           () => SmUtil.NoOp(),                                                RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
                                 //Use Manafication only in the second weave slot to ensure mana values have had time to update before we do this check
                                 new StateTransition<RdmStateIds>(() => UseManaficationSt,                                                       () => SmUtil.SyncedCast(Spells.Manafication, Core.Me),              RdmStateIds.EschewFishingUntil80Mana),
@@ -430,20 +430,20 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                                        () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.EschewFishingUntil80Mana),
                             })
                     },
-                    //Single target, building mana toward 80/80, dualcast is up, neither proc is up
+                    //Single target, building mana toward 50/50, dualcast is up, neither proc is up
                     {
                         RdmStateIds.EschewFishingNeitherProcUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) > BlackMana && BlackMana >= ComboTargetMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) > WhiteMana && WhiteMana >= ComboTargetMana, () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+6) > BlackMana && BlackMana >= ComboTargetMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+6) > WhiteMana && WhiteMana >= ComboTargetMana, () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                        () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                                          () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                                          () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, we need to hardcast, neither proc is up
+                    //Single target, building mana toward 50/50, we need to hardcast, neither proc is up
                     {
                         RdmStateIds.EschewFishingNeitherProcUpNoDualcast,
                         new State<RdmStateIds>(
@@ -455,55 +455,55 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                () => SmUtil.NoOp(),                                         RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, dualcast is up, verstone proc is up
+                    //Single target, building mana toward 50/50, dualcast is up, verstone proc is up
                     {
                         RdmStateIds.EschewFishingVerstoneUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+11) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+6) <= Cap(WhiteMana+15), () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, we need to hardcast, verstone proc is up
+                    //Single target, building mana toward 50/50, we need to hardcast, verstone proc is up
                     {
                         RdmStateIds.EschewFishingVerstoneUpNoDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+9) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+5) <= Cap(BlackMana+15), () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),         RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),      RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),     RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                             RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, dualcast is up, verfire proc is up
+                    //Single target, building mana toward 50/50, dualcast is up, verfire proc is up
                     {
                         RdmStateIds.EschewFishingVerfireUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+6) <= Cap(BlackMana+15), () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.EschewFishingFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, we need to hardcast, verfire proc is up
+                    //Single target, building mana toward 50/50, we need to hardcast, verfire proc is up
                     {
                         RdmStateIds.EschewFishingVerfireUpNoDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+9) <= Cap(WhiteMana+30), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
+                                new StateTransition<RdmStateIds>(() => Cap(BlackMana+5) <= Cap(WhiteMana+15), () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVeraero2St,                      () => SmUtil.SyncedCast(Spells.Veraero2, BestAoeTarget),        RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => ShouldVerthunder2St,                   () => SmUtil.SyncedCast(Spells.Verthunder2, BestAoeTarget),     RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.SyncedCast(Spells.Jolt, Core.Me.CurrentTarget),    RdmStateIds.EschewFishingUntil80Mana),
                                 new StateTransition<RdmStateIds>(() => true,                                  () => SmUtil.NoOp(),                                            RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, dualcast is up, both procs are up (shouldn't really get here, but acounting for it just in case)
+                    //Single target, building mana toward 50/50, dualcast is up, both procs are up (shouldn't really get here, but acounting for it just in case)
                     {
                         RdmStateIds.EschewFishingBothProcsUpDualcast,
                         new State<RdmStateIds>(
@@ -514,7 +514,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, building mana toward 80/80, we need to hardcast, both procs are up
+                    //Single target, building mana toward 50/50, we need to hardcast, both procs are up
                     {
                         RdmStateIds.EschewFishingBothProcsUpNoDualcast,
                         new State<RdmStateIds>(
@@ -525,14 +525,14 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                             RdmStateIds.EschewFishingUntil80Mana, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo
+                    //Single target, mana at 50/50, get procs set up properly for combo
                     {
                         RdmStateIds.PrepareProcsForCombo,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => AoeMode,                                              () => SmUtil.NoOp(), RdmStateIds.Aoe,                                 TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80,                     () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 50 || WhiteMana < 50,                     () => SmUtil.NoOp(), RdmStateIds.EschewFishingUntil80Mana,            TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ScatterInSt(),                                        () => SmUtil.NoOp(), RdmStateIds.SingleTargetScatter,                 TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mBothProcsAndDualcast),                 () => SmUtil.NoOp(), RdmStateIds.PrepareProcsBothProcsUpDualcast,     TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAllAuras(mVerstoneAndDualcast),                  () => SmUtil.NoOp(), RdmStateIds.PrepareProcsVerstoneUpDualcast,      TransitionType.Immediate),
@@ -550,13 +550,13 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                                 () => SmUtil.NoOp(), RdmStateIds.PrepareProcsNeitherProcUpNoDualcast, TransitionType.Immediate)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, first weave
+                    //Single target, mana at 50/50, get procs set up properly for combo, first weave
                     {
                         RdmStateIds.PrepareProcsFirstWeave,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 50 || WhiteMana < 50, () => SmUtil.NoOp(),                                                 RdmStateIds.EschewFishingFirstWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 1400,                   () => SmUtil.NoOp(),                                                 RdmStateIds.PrepareProcsSecondWeave, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => EmboldenEnabled,                  () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.PrepareProcsSecondWeave),
                                 new StateTransition<RdmStateIds>(() => FlecheEnabled,                    () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.PrepareProcsSecondWeave),
@@ -567,7 +567,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                 () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.PrepareProcsSecondWeave)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, second weave
+                    //Single target, mana at 50/50, get procs set up properly for combo, second weave
                     {
                         RdmStateIds.PrepareProcsSecondWeave,
                         new State<RdmStateIds>(
@@ -584,22 +584,22 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => UseLucidDreaming,                                                                              () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),             RdmStateIds.PrepareProcsForCombo)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, dualcast is up, neither proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, dualcast is up, neither proc is up
                     {
                         RdmStateIds.PrepareProcsNeitherProcUpDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 //Cast the one with less mana, if it'll surpass the larger
-                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && Cap(WhiteMana+11) > BlackMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
-                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && Cap(BlackMana+11) > WhiteMana, () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && Cap(WhiteMana+5) > BlackMana, () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && Cap(BlackMana+5) > WhiteMana, () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
                                 //Otherwise, keep the larger larger
-                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+11) > BlackMana,                          () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
+                                new StateTransition<RdmStateIds>(() => Cap(WhiteMana+5) > BlackMana,                          () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                                   () => SmUtil.SyncedCast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsFirstWeave),
                                 new StateTransition<RdmStateIds>(() => true,                                                   () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, we need to hardcast, neither proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, we need to hardcast, neither proc is up
                     {
                         RdmStateIds.PrepareProcsNeitherProcUpNoDualcast,
                         new State<RdmStateIds>(
@@ -611,7 +611,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                          () => SmUtil.NoOp(),                                         RdmStateIds.ReadyForCombo,        TransitionType.Immediate)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, dualcast is up, verstone proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, dualcast is up, verstone proc is up
                     {
                         RdmStateIds.PrepareProcsVerstoneUpDualcast,
                         new State<RdmStateIds>(
@@ -621,7 +621,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true, () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, we need to hardcast, verstone proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, we need to hardcast, verstone proc is up
                     {
                         RdmStateIds.PrepareProcsVerstoneUpNoDualcast,
                         new State<RdmStateIds>(
@@ -629,11 +629,11 @@ namespace Magitek.Logic.RedMage
                             {
                                 new StateTransition<RdmStateIds>(() => WhiteMana > BlackMana,                                             () => SmUtil.NoOp(),                                             RdmStateIds.ReadyForCombo,        TransitionType.Immediate),
                                 //If trying to fix procs will waste too much mana or cap both at 100, it doesn't really help, so don't bother and go into the combo
-                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+9) + Cap(BlackMana+11) < 200, () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+5) + Cap(BlackMana+6) < 200, () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
                                 new StateTransition<RdmStateIds>(() => true,                                                              () => SmUtil.NoOp(),                                             RdmStateIds.ReadyForCombo,        TransitionType.Immediate)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, dualcast is up, verfire proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, dualcast is up, verfire proc is up
                     {
                         RdmStateIds.PrepareProcsVerfireUpDualcast,
                         new State<RdmStateIds>(
@@ -643,7 +643,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true, () => SmUtil.NoOp(),                                            RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, we need to hardcast, verfire proc is up
+                    //Single target, mana at 50/50, get procs set up properly for combo, we need to hardcast, verfire proc is up
                     {
                         RdmStateIds.PrepareProcsVerfireUpNoDualcast,
                         new State<RdmStateIds>(
@@ -651,11 +651,11 @@ namespace Magitek.Logic.RedMage
                             {
                                 new StateTransition<RdmStateIds>(() => BlackMana > WhiteMana,                                             () => SmUtil.NoOp(),                                            RdmStateIds.ReadyForCombo,        TransitionType.Immediate),
                                 //If trying to fix procs will waste too much mana or cap us at 100, it doesn't really help, so don't bother and go into the combo
-                                new StateTransition<RdmStateIds>(() => CapLoss(11, 9) <= 8 && Cap(WhiteMana+11) + Cap(BlackMana+9) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
+                                new StateTransition<RdmStateIds>(() => CapLoss(11, 9) <= 8 && Cap(WhiteMana+6) + Cap(BlackMana+5) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget), RdmStateIds.PrepareProcsForCombo),
                                 new StateTransition<RdmStateIds>(() => true,                                                              () => SmUtil.NoOp(),                                            RdmStateIds.ReadyForCombo,        TransitionType.Immediate)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, dualcast is up, verfire proc is up (shouldn't really get here, but acounting for it just in case)
+                    //Single target, mana at 50/50, get procs set up properly for combo, dualcast is up, verfire proc is up (shouldn't really get here, but acounting for it just in case)
                     {
                         RdmStateIds.PrepareProcsBothProcsUpDualcast,
                         new State<RdmStateIds>(
@@ -666,24 +666,24 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                   () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo, TransitionType.NextPulse)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, we need to hardcast, both procs are up
+                    //Single target, mana at 50/50, get procs set up properly for combo, we need to hardcast, both procs are up
                     {
                         RdmStateIds.PrepareProcsBothProcsUpNoDualcast,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana && CapLoss(11, 9) <= 8 && Cap(WhiteMana+11) + Cap(BlackMana+9) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),  RdmStateIds.OverwriteProc),
-                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+9) + Cap(BlackMana+11) < 200,                           () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.OverwriteProc),
+                                new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana && CapLoss(11, 9) <= 8 && Cap(WhiteMana+6) + Cap(BlackMana+5) < 200, () => SmUtil.SyncedCast(Spells.Verfire, Core.Me.CurrentTarget),  RdmStateIds.OverwriteProc),
+                                new StateTransition<RdmStateIds>(() => CapLoss(9, 11) <= 8 && Cap(WhiteMana+5) + Cap(BlackMana+6) < 200,                           () => SmUtil.SyncedCast(Spells.Verstone, Core.Me.CurrentTarget), RdmStateIds.OverwriteProc),
                                 new StateTransition<RdmStateIds>(() => true,                                                                                        () => SmUtil.NoOp(),                                             RdmStateIds.ReadyForCombo, TransitionType.Immediate)
                             })
                     },
-                    //Single target, mana at 80/80, get procs set up properly for combo, dualcast is up, we need to overwrite a proc before we start the combo
+                    //Single target, mana at 50/50, get procs set up properly for combo, dualcast is up, we need to overwrite a proc before we start the combo
                     {
                         RdmStateIds.OverwriteProc,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana < 80 || WhiteMana < 80, () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 50 || WhiteMana < 50, () => SmUtil.NoOp(),                                               RdmStateIds.EschewFishingUntil80Mana, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => !MeHasAura(Auras.Dualcast),       () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs),        () => SmUtil.NoOp(),                                               RdmStateIds.PrepareProcsForCombo,     TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => MeHasAura(Auras.VerstoneReady),   () => SmUtil.SyncedCast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.PrepareProcsFirstWeave),
@@ -724,7 +724,7 @@ namespace Magitek.Logic.RedMage
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired, () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 30 || WhiteMana < 30,                    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 //We need to give the action manager time to notice there's a combo going, otherwise we sometimes leave this state immediately
                                 new StateTransition<RdmStateIds>(() => GcdLeft < 50 && ActionManager.ComboTimeLeft == 0,    () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                   () => SmUtil.NoOp(),                                                RdmStateIds.Start, TransitionType.Immediate),
@@ -744,7 +744,7 @@ namespace Magitek.Logic.RedMage
                             new List<StateTransition<RdmStateIds>>()
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
-                                new StateTransition<RdmStateIds>(() => BlackMana < 25 || WhiteMana < 25,                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => BlackMana < 15 || WhiteMana < 15,                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                       () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => OutsideComboRange && GcdLeft < 50,                      () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                      () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Redoublement),
@@ -764,8 +764,6 @@ namespace Magitek.Logic.RedMage
                             {
                                 new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Verflare.LevelAcquired,                                               () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                                                                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start,  TransitionType.Immediate),
-                                //Use acceleration before Verflare or Verholy if we need it to get the proc
-                                new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseAccelerationInCombo && !MeHasAllAuras(mBothProcs),                           () => SmUtil.SyncedCast(Spells.Acceleration, Core.Me),               RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                                                                () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                                                                  () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && ContreSixteEnabled,                                                             () => SmUtil.SyncedCast(Spells.ContreSixte, BestContreSixteTarget),  RdmStateIds.VerflareOrVerholy),
@@ -775,7 +773,7 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && UseLucidDreaming,                                                               () => SmUtil.SyncedCast(Spells.LucidDreaming, Core.Me),              RdmStateIds.VerflareOrVerholy),
                                 new StateTransition<RdmStateIds>(() => WhiteMana < BlackMana && !MeHasAura(Auras.VerstoneReady),                                         () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
                                 new StateTransition<RdmStateIds>(() => BlackMana < WhiteMana && !MeHasAura(Auras.VerfireReady),                                          () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
-                                new StateTransition<RdmStateIds>(() => (!MeHasAura(Auras.VerstoneReady) && WhiteMana+21 <= BlackMana+30) || BlackMana+21 > WhiteMana+30, () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
+                                new StateTransition<RdmStateIds>(() => (!MeHasAura(Auras.VerstoneReady) && WhiteMana+11 <= BlackMana+15) || BlackMana+11 > WhiteMana+15, () => SmUtil.SyncedCast(Spells.Verholy, Core.Me.CurrentTarget),      RdmStateIds.Scorch),
                                 //It's important that verflare is last, because if we'd like to cast verholy but we don't have it yet, we'll fall through to here, and we need to cast verflare to get out of this state
                                 new StateTransition<RdmStateIds>(() => true,                                                                                             () => SmUtil.SyncedCast(Spells.Verflare, Core.Me.CurrentTarget),     RdmStateIds.Scorch),
                             })
@@ -798,12 +796,13 @@ namespace Magitek.Logic.RedMage
                                 new StateTransition<RdmStateIds>(() => true,                                             () => SmUtil.SyncedCast(Spells.Scorch, Core.Me.CurrentTarget),       RdmStateIds.Resolution)
                             })
                     },
+                    //Combo Finisher!, Cast Resolution!
                     {
                         RdmStateIds.Resolution,
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Resolution.LevelAcquired, () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
+                                new StateTransition<RdmStateIds>(() => SmUtil.SyncedLevel < Spells.Resolution.LevelAcquired, () => SmUtil.NoOp(),                                             RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => ActionManager.ComboTimeLeft == 0,                 () => SmUtil.NoOp(),                                                 RdmStateIds.Start, TransitionType.Immediate),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && EmboldenEnabled,                () => SmUtil.SyncedCast(Spells.Embolden, Core.Me),                   RdmStateIds.Resolution),
                                 new StateTransition<RdmStateIds>(() => GcdLeft >= 700 && FlecheEnabled,                  () => SmUtil.SyncedCast(Spells.Fleche, Core.Me.CurrentTarget),       RdmStateIds.Resolution),
@@ -854,11 +853,11 @@ namespace Magitek.Logic.RedMage
                         new State<RdmStateIds>(
                             new List<StateTransition<RdmStateIds>>()
                             {
-                                new StateTransition<RdmStateIds>(() => BlackMana >= 80 && WhiteMana >= 80,                                                                                () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse),
+                                new StateTransition<RdmStateIds>(() => BlackMana >= 50 && WhiteMana >= 50,                                                                                () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse),
                                 new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && WhiteMana <= BlackMana,                                                               () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
                                 new StateTransition<RdmStateIds>(() => !MeHasAnyAura(mBothProcs) && BlackMana <= WhiteMana,                                                               () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !MeHasAura(Auras.VerstoneReady) && Cap(WhiteMana+11) <= Cap(BlackMana+30), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
-                                new StateTransition<RdmStateIds>(() => (BlackMana <= 60 || WhiteMana <= 60) && !MeHasAura(Auras.VerfireReady) && Cap(BlackMana+11) <= Cap(WhiteMana+30),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => (BlackMana <= 35 || WhiteMana <= 35) && !MeHasAura(Auras.VerstoneReady) && Cap(WhiteMana+6) <= Cap(BlackMana+15), () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
+                                new StateTransition<RdmStateIds>(() => (BlackMana <= 35 || WhiteMana <= 35) && !MeHasAura(Auras.VerfireReady) && Cap(BlackMana+6) <= Cap(WhiteMana+15),  () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
                                 new StateTransition<RdmStateIds>(() => WhiteMana <= BlackMana,                                                                                            () => SmUtil.Swiftcast(Spells.Veraero, Core.Me.CurrentTarget),    RdmStateIds.Start),
                                 new StateTransition<RdmStateIds>(() => BlackMana <= WhiteMana,                                                                                            () => SmUtil.Swiftcast(Spells.Verthunder, Core.Me.CurrentTarget), RdmStateIds.Start),
                                 new StateTransition<RdmStateIds>(() => true,                                                                                                              () => SmUtil.NoOp(),                                              RdmStateIds.Start, TransitionType.NextPulse)
