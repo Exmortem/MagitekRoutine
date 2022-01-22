@@ -95,14 +95,16 @@ namespace Magitek.Logic.Sage
             if (SageSettings.Instance.FightLogic_Haima
                 && Spells.Haima.IsKnownAndReady()
                 && !target.HasAura(Auras.Haimatinon)
-                && !target.HasAura(Auras.Panhaimatinon))
+                && !target.HasAura(Auras.Panhaimatinon)
+                && Spells.Haima.CanCast(target))
             {
                 return await FightLogic.DoAndBuffer(Spells.Haima.CastAura(target, Auras.Haimatinon));
             }
 
             if (SageSettings.Instance.FightLogic_Taurochole
                 && Spells.Taurochole.IsKnownAndReady()
-                && !target.HasAura(Auras.Taurochole))
+                && !target.HasAura(Auras.Taurochole)
+                && Spells.Taurochole.CanCast(target))
             {
                 return await FightLogic.DoAndBuffer(Spells.Taurochole.HealAura(target, Auras.Taurochole));
             }
