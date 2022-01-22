@@ -1280,7 +1280,7 @@ namespace Magitek.Utilities
                         Name = "Hippokampos",
                         TankBusters = null,
                         SharedTankBusters = new List<uint> { 26638 },
-                        Aoes = new List<uint> { 26639, 26614, 26625 },
+                        Aoes = new List<uint> { 26639, 26614, 26625, 26632 },
                         BigAoes = null
                     }
                 }
