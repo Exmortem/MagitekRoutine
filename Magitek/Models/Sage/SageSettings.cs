@@ -221,10 +221,6 @@ namespace Magitek.Models.Sage
         public bool Kerachole { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int KeracholeNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool KeracholeOnlyWithTank { get; set; }
 
@@ -320,6 +316,14 @@ namespace Magitek.Models.Sage
         public float WeaveOGCDHealsManaPercent { get; set; }
 
         [Setting]
+        [DefaultValue(2)]
+        public int AoeNeedHealingLightParty { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AoeNeedHealingFullParty { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool HealingBuffsLimitAtOnce { get; set; }
 
@@ -356,20 +360,12 @@ namespace Magitek.Models.Sage
         public bool Prognosis { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int PrognosisNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(30.0f)]
         public float PrognosisHpPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool EukrasianPrognosis { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int EukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(72.0f)]
@@ -440,10 +436,6 @@ namespace Magitek.Models.Sage
         public float PhysisHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int PhysisNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Druochole { get; set; }
 
@@ -460,10 +452,6 @@ namespace Magitek.Models.Sage
         public float IxocholeHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int IxocholeNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Pepsis { get; set; }
 
@@ -472,20 +460,12 @@ namespace Magitek.Models.Sage
         public float PepsisHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int PepsisNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool PepsisEukrasianPrognosis { get; set; }
 
         [Setting]
         [DefaultValue(55.0f)]
         public float PepsisEukrasianPrognosisHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int PepsisEukrasianPrognosisNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -540,10 +520,6 @@ namespace Magitek.Models.Sage
         public bool PanhaimaOnlyWithMainTank { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int PanhaimaNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Pneuma { get; set; }
 
@@ -558,10 +534,6 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(60.0f)]
         public float PneumaHpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int PneumaNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]

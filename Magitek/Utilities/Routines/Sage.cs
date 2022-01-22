@@ -65,7 +65,7 @@ namespace Magitek.Utilities.Routines
                 if (Casting.CastingSpell == Spells.Prognosis && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
                         r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Prognosis.Radius && r.CurrentHealthPercent <=
                         SageSettings.Instance.PrognosisHpPercent) <
-                    SageSettings.Instance.PrognosisNeedHealing)
+                    Logic.Sage.Heal.AoeNeedHealing)
                 {
                     Logger.Error($@"Stopped Healing: Party's Health Too High");
                     return true;

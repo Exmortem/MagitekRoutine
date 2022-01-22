@@ -209,10 +209,10 @@ namespace Magitek.Rotations
             }
 
             if (await AoE.Toxikon()) return true;
-            if (await SingleTarget.EukrasianDosis()) return true;
-            if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Phlegma()) return true;
             if (await AoE.Pneuma()) return true;
+            if (await SingleTarget.EukrasianDosis()) return true;
+            if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Dyskrasia()) return true;
             return await SingleTarget.Dosis();
         }

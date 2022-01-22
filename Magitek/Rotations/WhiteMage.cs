@@ -199,6 +199,7 @@ namespace Magitek.Rotations
                 }
             }
 
+            if (await SingleTarget.AfflatusMisery()) return true;
             if (await Aoe.Holy()) return true;
             if (await Aoe.AssizeDamage()) return true;
 
@@ -206,7 +207,6 @@ namespace Magitek.Rotations
                 return false;
 
             if (await SingleTarget.Dots()) return true;
-            if (await SingleTarget.AfflatusMisery()) return true;
             return await SingleTarget.Stone();
         }
 

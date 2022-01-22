@@ -31,7 +31,8 @@ namespace Magitek.Logic.WhiteMage
                 return false;
             if (ActionResourceManager.WhiteMage.BloodLily < 3)
                 return false;
-            if (!BotManager.Current.IsAutonomous && !MovementManager.IsMoving)
+            if (!BotManager.Current.IsAutonomous && !MovementManager.IsMoving
+                && Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < WhiteMageSettings.Instance.HolyEnemies)
                 return false;
             return await Spells.AfflatusMisery.Cast(Core.Me.CurrentTarget);
         }

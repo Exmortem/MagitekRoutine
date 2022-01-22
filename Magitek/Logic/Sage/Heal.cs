@@ -17,6 +17,8 @@ namespace Magitek.Logic.Sage
 {
     internal static class Heal
     {
+        public static int AoeNeedHealing => PartyManager.NumMembers > 4 ? SageSettings.Instance.AoeNeedHealingFullParty : SageSettings.Instance.AoeNeedHealingLightParty;
+
         public static async Task<bool> UseEukrasia(uint spellId = 24291, GameObject targetObject = null)
         {
             if (Core.Me.HasAura(Auras.Eukrasia, true))
@@ -170,11 +172,12 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Prognosis)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < SageSettings.Instance.PrognosisNeedHealing)
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < AoeNeedHealing)
                 return false;
 
             return await Spells.Prognosis.Heal(Core.Me);
         }
+
         public static async Task<bool> EukrasianPrognosis()
         {
             if (!SageSettings.Instance.EukrasianPrognosis)
@@ -188,7 +191,7 @@ namespace Magitek.Logic.Sage
                                                                 !r.HasAura(Auras.EukrasianPrognosis) &&
                                                                 !r.HasAura(Auras.Galvanize));
 
-            var needEukrasianPrognosis = targets.Count() >= SageSettings.Instance.EukrasianPrognosisNeedHealing;
+            var needEukrasianPrognosis = targets.Count() >= AoeNeedHealing;
 
             if (!needEukrasianPrognosis)
                 return false;
@@ -246,7 +249,7 @@ namespace Magitek.Logic.Sage
             var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent
                                                              && !r.HasAura(Auras.PhysisII));
 
-            if (targets.Count() < SageSettings.Instance.PhysisNeedHealing)
+            if (targets.Count() < AoeNeedHealing)
                 return false;
 
             if (!UseAoEHealingBuff(targets))
@@ -294,7 +297,7 @@ namespace Magitek.Logic.Sage
             if (Spells.Ixochole.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.IxocholeHpPercent) < SageSettings.Instance.IxocholeNeedHealing)
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.IxocholeHpPercent) < AoeNeedHealing)
                 return false;
 
             return await Spells.Ixochole.Heal(Core.Me);
@@ -311,7 +314,7 @@ namespace Magitek.Logic.Sage
                 return false;
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
-                                                                     (r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true))) >= SageSettings.Instance.PepsisNeedHealing;
+                                                                     (r.HasAura(Auras.EukrasianPrognosis, true) || r.HasAura(Auras.EukrasianDiagnosis, true))) >= AoeNeedHealing;
 
             if (!needPepsis)
                 return false;
@@ -330,7 +333,7 @@ namespace Magitek.Logic.Sage
             if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
                 return false;
 
-            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHealthPercent) >= SageSettings.Instance.PepsisEukrasianPrognosisNeedHealing;
+            var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHealthPercent) >= AoeNeedHealing;
 
             if (!needPepsis)
                 return false;
@@ -505,7 +508,7 @@ namespace Magitek.Logic.Sage
 
                 var targets = Group.CastableAlliesWithin15.Where(CanPanhaima);
 
-                if (targets.Count() < SageSettings.Instance.PanhaimaNeedHealing)
+                if (targets.Count() < AoeNeedHealing)
                     return false;
 
                 if (SageSettings.Instance.PanhaimaOnlyWithTank && !targets.Any(r => r.IsTank(SageSettings.Instance.PanhaimaOnlyWithMainTank)))
@@ -576,7 +579,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var pneumaTarget = Group.CastableAlliesWithin25.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= SageSettings.Instance.PneumaNeedHealing;
+                var pneumaTarget = Group.CastableAlliesWithin25.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= AoeNeedHealing;
 
                 if (!pneumaTarget)
                     return false;
@@ -611,7 +614,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var pneumaTarget = Group.CastableAlliesWithin25.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= SageSettings.Instance.PneumaNeedHealing;
+                var pneumaTarget = Group.CastableAlliesWithin25.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PneumaHpPercent) >= AoeNeedHealing;
 
                 if (!pneumaTarget)
                     return false;
@@ -678,7 +681,7 @@ namespace Magitek.Logic.Sage
             {
                 var targets = Group.CastableAlliesWithin15.Where(CanKerachole).ToList();
 
-                if (targets.Count < SageSettings.Instance.KeracholeNeedHealing)
+                if (targets.Count < AoeNeedHealing)
                     return false;
 
                 if (SageSettings.Instance.KeracholeOnlyWithTank && !Group.CastableAlliesWithin15.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
@@ -729,7 +732,7 @@ namespace Magitek.Logic.Sage
             var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
                                                              && !r.HasAura(Auras.Holos));
 
-            if (targets.Count() < 2)
+            if (targets.Count() < AoeNeedHealing)
                 return false;
 
             if (SageSettings.Instance.HolosTankOnly && !targets.Any(r => r.IsTank(SageSettings.Instance.HolosMainTankOnly)))

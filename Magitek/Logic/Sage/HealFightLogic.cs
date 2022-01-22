@@ -30,16 +30,6 @@ namespace Magitek.Logic.Sage
 
             var useAoEBuffs = Heal.UseAoEHealingBuff(Group.CastableAlliesWithin15);
 
-            if (SageSettings.Instance.FightLogic_Panhaima
-                && Spells.Panhaima.IsKnownAndReady()
-                && useAoEBuffs)
-            {
-                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Panhaimatinon));
-
-                if (targets.Count() >= SageSettings.Instance.PanhaimaNeedHealing)
-                    return await FightLogic.DoAndBuffer(Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon));
-            }
-
             if (SageSettings.Instance.FightLogic_Kerachole
                 && Spells.Kerachole.IsKnownAndReady()
                 && Addersgall >= 1
@@ -47,8 +37,18 @@ namespace Magitek.Logic.Sage
             {
                 var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Kerachole) && !r.HasAura(Auras.Taurochole));
 
-                if (targets.Count() >= SageSettings.Instance.KeracholeNeedHealing)
+                if (targets.Count() >= Heal.AoeNeedHealing)
                     return await FightLogic.DoAndBuffer(Spells.Kerachole.CastAura(Core.Me, Auras.Kerachole));
+            }
+
+            if (SageSettings.Instance.FightLogic_Panhaima
+                && Spells.Panhaima.IsKnownAndReady()
+                && useAoEBuffs)
+            {
+                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Panhaimatinon));
+
+                if (targets.Count() >= Heal.AoeNeedHealing)
+                    return await FightLogic.DoAndBuffer(Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon));
             }
 
             if (SageSettings.Instance.FightLogic_Holos
@@ -57,7 +57,7 @@ namespace Magitek.Logic.Sage
             {
                 var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Holos));
 
-                if (targets.Count() >= SageSettings.Instance.KeracholeNeedHealing)
+                if (targets.Count() >= Heal.AoeNeedHealing)
                     return await FightLogic.DoAndBuffer(Spells.Holos.CastAura(Core.Me, Auras.Holos));
             }
 
@@ -68,7 +68,7 @@ namespace Magitek.Logic.Sage
                                                                 && !r.HasAura(Auras.EukrasianPrognosis)
                                                                 && !r.HasAura(Auras.Galvanize));
 
-                if (targets.Count() >= SageSettings.Instance.EukrasianPrognosisNeedHealing)
+                if (targets.Count() >= Heal.AoeNeedHealing)
                 {
                     if (await Heal.UseEukrasia(Spells.EukrasianPrognosis.Id))
                         return await FightLogic.DoAndBuffer(Spells.EukrasianPrognosis.HealAura(Core.Me, Auras.EukrasianPrognosis));
