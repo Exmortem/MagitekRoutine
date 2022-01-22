@@ -42,7 +42,7 @@ namespace Magitek.Utilities
             }
         }
 
-        private static bool IsFlReady => FlCooldown == TimeSpan.Zero;
+        public static bool IsFlReady => FlCooldown == TimeSpan.Zero;
 
         private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemyCached { get; set; }
 

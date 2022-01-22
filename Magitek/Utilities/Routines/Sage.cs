@@ -47,6 +47,10 @@ namespace Magitek.Utilities.Routines
             if (Core.Me.HasAura(1495))
                 return false;
 
+            // Don't interrupt FightLogic spells... just in case.
+            if (!FightLogic.IsFlReady)
+                return false;
+
             if (Casting.CastingSpell != Spells.Egeiro && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped cast: Unit Died");
@@ -67,14 +71,24 @@ namespace Magitek.Utilities.Routines
                         SageSettings.Instance.PrognosisHpPercent) <
                     Logic.Sage.Heal.AoeNeedHealing)
                 {
-                    Logger.Error($@"Stopped Healing: Party's Health Too High");
+                    Logger.Error($@"Stopped Healing Prognosis: Party's Health Too High");
                     return true;
                 }
-                else
+                else if (Casting.CastingSpell == Spells.Pneuma && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
+                         r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Pneuma.Radius && r.CurrentHealthPercent <=
+                         SageSettings.Instance.PneumaHpPercent) <
+                    Logic.Sage.Heal.AoeNeedHealing)
                 {
-                    Logger.Error($@"Stopped Healing: Target's Health Too High");
+                    Logger.Error($@"Stopped Healing Pneuma: Party's Health Too High");
                     return true;
                 }
+                else if (Casting.CastingSpell == Spells.Diagnosis)
+                {
+                    Logger.Error($@"Stopped Healing Diagnosis: Target's Health Too High");
+                    return true;
+                }
+
+                return false;
             }
 
             if (SageSettings.Instance.InterruptDamageToHeal && !Core.Me.HasAura(1495))
