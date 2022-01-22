@@ -245,18 +245,17 @@ namespace Magitek.Logic.Summoner
                         return await Spells.EmeraldOutburst.Cast(target);
                 }
 
-            if (Core.Me.CurrentJob == ClassJobType.Arcanist)
-                switch (ArcResources.ActivePet)
-                {
-                    case ArcResources.ActivePetType.Ruby:
-                        return await Spells.RubyOutburst.Cast(target);
+            switch (ArcResources.ActivePet)
+            {
+                case ArcResources.ActivePetType.Ruby:
+                    return await Spells.RubyOutburst.Cast(target);
 
-                    case ArcResources.ActivePetType.Topaz:
-                        return await Spells.TopazOutburst.Cast(target);
+                case ArcResources.ActivePetType.Topaz:
+                    return await Spells.TopazOutburst.Cast(target);
 
-                    case ArcResources.ActivePetType.Emerald:
-                        return await Spells.EmeraldOutburst.Cast(target);
-                }
+                case ArcResources.ActivePetType.Emerald:
+                    return await Spells.EmeraldOutburst.Cast(target);
+            }
 
             if (Spells.TriDisaster.IsKnown())
                 return await Spells.TriDisaster.Cast(target);
