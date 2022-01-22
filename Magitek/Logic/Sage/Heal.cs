@@ -433,7 +433,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                if (SageSettings.Instance.FightLogic_Haima && FightLogic.ZoneHasFightLogic())
+                if (SageSettings.Instance.FightLogic_Haima && FightLogic.EnemyHasAnyTankbusterLogic())
                     return false;
 
                 var haimaCandidates = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent < SageSettings.Instance.HaimaHpPercent
@@ -503,7 +503,7 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                if (SageSettings.Instance.FightLogic_Panhaima && FightLogic.ZoneHasFightLogic())
+                if (SageSettings.Instance.FightLogic_Panhaima && FightLogic.EnemyHasAnyAoeLogic())
                     return false;
 
                 var targets = Group.CastableAlliesWithin15.Where(CanPanhaima);
@@ -729,7 +729,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Holos.IsKnownAndReady())
                 return false;
 
-            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
+            var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
                                                              && !r.HasAura(Auras.Holos));
 
             if (targets.Count() < AoeNeedHealing)

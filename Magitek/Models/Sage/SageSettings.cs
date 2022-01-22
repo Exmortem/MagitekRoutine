@@ -63,6 +63,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(true)]
         public bool FightLogic_EukrasianPrognosis { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool FightLogic_RespectOnlyTank { get; set; }
+
 
         #endregion
 

@@ -74,6 +74,9 @@
                     <CheckBox Content="Eukrasian Diagnosis " IsChecked="{Binding SageSettings.FightLogic_EukrasianDiagnosis, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <TextBlock Margin="0,5" Style="{DynamicResource TextBlockDefault}" TextWrapping="Wrap" Text="Party AoE" />
+                <StackPanel Margin="0,5,0,10" Orientation="Vertical">
+                    <CheckBox Content="Respect Tank In Range Settings From Healing Tab" IsChecked="{Binding SageSettings.FightLogic_RespectOnlyTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <CheckBox Content="Panhaima (saved)" IsChecked="{Binding SageSettings.FightLogic_Panhaima, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Holos " IsChecked="{Binding SageSettings.FightLogic_Holos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
