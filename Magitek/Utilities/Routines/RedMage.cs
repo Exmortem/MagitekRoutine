@@ -218,11 +218,11 @@ namespace Magitek.Utilities.Routines
         //Ready to start a combo (below level for Zwerchhau)
         public static bool ReadyForComboNoZwerchhau => BlackMana >= 30 && WhiteMana >= 30 && SmUtil.SyncedLevel < Spells.Zwerchhau.LevelAcquired;
 
-        //How much mana do we need to start a combo? This returns 80 if manafication is down, or the user's configured value for using manafication if it's up.
+        //How much mana do we need to start a combo? This returns 50 if manafication is down, or the user's configured value for using manafication if it's up.
         public static int ComboTargetMana =>
                ManaficationUp
             && (BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
-                || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana) ? RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana : 80;
+                || WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana) ? RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana : 50;
 
         public static bool UseManaficationSt =>
                ManaficationEnabled

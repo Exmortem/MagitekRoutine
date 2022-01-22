@@ -87,11 +87,11 @@ namespace Magitek.Models.RedMage
         public bool Manafication { get; set; }
 
         [Setting]
-        [DefaultValue(40)]
+        [DefaultValue(0)]
         public int ManaficationMinimumBlackAndWhiteMana { get; set; }
 
         [Setting]
-        [DefaultValue(60)]
+        [DefaultValue(50)]
         public int ManaficationMaximumBlackAndWhiteMana { get; set; }
 
         [Setting]
