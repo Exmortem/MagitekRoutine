@@ -202,7 +202,7 @@ namespace Magitek.Rotations
             }
 
             if (Core.Me.CurrentManaPercent < SageSettings.Instance.MinimumManaPercentToDoDamage
-                    && Core.Target.CombatTimeLeft() > SageSettings.Instance.DoDamageIfTimeLeftLessThan)
+                && Core.Target.CombatTimeLeft() > SageSettings.Instance.DoDamageIfTimeLeftLessThan)
             {
                 if (await AoE.Toxikon()) return true;
                 return true;
@@ -216,6 +216,5 @@ namespace Magitek.Rotations
             if (await AoE.Dyskrasia()) return true;
             return await SingleTarget.Dosis();
         }
-
     }
 }

@@ -87,7 +87,8 @@ namespace Magitek.Logic.Sage
             }
 
             if (SageSettings.Instance.FightLogic_EukrasianPrognosis
-                && Core.Me.ClassLevel >= Spells.Eukrasia.LevelAcquired)
+                && Core.Me.ClassLevel >= Spells.Eukrasia.LevelAcquired
+                && Heal.IsEukrasiaReady())
             {
                 var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.EukrasianDiagnosis)
                                                                 && !r.HasAura(Auras.EukrasianPrognosis)
@@ -105,9 +106,6 @@ namespace Magitek.Logic.Sage
                 }
 
             }
-
-            if (BaseSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[AOE Response] No spells available to respond to AOE.");
 
             return false;
         }
@@ -155,16 +153,14 @@ namespace Magitek.Logic.Sage
                 && Core.Me.ClassLevel >= Spells.Eukrasia.LevelAcquired
                 && !target.HasAura(Auras.EukrasianDiagnosis)
                 && !target.HasAura(Auras.Galvanize)
-                && !target.HasAura(Auras.EukrasianPrognosis))
+                && !target.HasAura(Auras.EukrasianPrognosis)
+                && Heal.IsEukrasiaReady())
             {
                 if (BaseSettings.Instance.DebugFightLogic)
                     Logger.WriteInfo($"[TankBuster Response] Cast Eukrasian Diagnosis on {target.Name}");
                 if (await Heal.UseEukrasia(targetObject: target))
                     return await FightLogic.DoAndBuffer(Spells.EukrasianDiagnosis.HealAura(target, Auras.EukrasianDiagnosis));
             }
-
-            if (BaseSettings.Instance.DebugFightLogic)
-                Logger.WriteInfo($"[TankBuster Response] No spells available to respond to tankbuster.");
 
             return false;
         }

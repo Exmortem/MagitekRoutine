@@ -19,20 +19,25 @@ namespace Magitek.Logic.Sage
     {
         public static int AoeNeedHealing => PartyManager.NumMembers > 4 ? SageSettings.Instance.AoeNeedHealingFullParty : SageSettings.Instance.AoeNeedHealingLightParty;
 
+        public static bool IsEukrasiaReady()
+        {
+            return Core.Me.HasAura(Auras.Eukrasia, true) || Spells.Eukrasia.IsKnownAndReady();
+        }
+
         public static async Task<bool> UseEukrasia(uint spellId = 24291, GameObject targetObject = null)
         {
             if (Core.Me.HasAura(Auras.Eukrasia, true))
                 return true;
             if (!SageSettings.Instance.Eukrasia)
                 return false;
-            if (Casting.LastSpell == Spells.Eukrasia || Casting.CastingSpell == Spells.Eukrasia)
+            if (!IsEukrasiaReady())
                 return false;
             if (!await Spells.Eukrasia.Cast(Core.Me))
                 return false;
-            if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.Eukrasia, true)))
+            if (!await Coroutine.Wait(2500, () => Core.Me.HasAura(Auras.Eukrasia, true)))
                 return false;
             var target = targetObject == null ? Core.Me : targetObject;
-            return await Coroutine.Wait(1000, () => ActionManager.CanCast(spellId, target));
+            return await Coroutine.Wait(2500, () => ActionManager.CanCast(spellId, target));
         }
         private static async Task<bool> UseZoe()
         {
@@ -113,7 +118,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.EukrasianDiagnosis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+            if (!IsEukrasiaReady())
                 return false;
 
             if (Globals.InParty)
@@ -172,6 +177,9 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Prognosis)
                 return false;
 
+            if (!Spells.Prognosis.IsKnownAndReady())
+                return false;
+
             if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < AoeNeedHealing)
                 return false;
 
@@ -183,7 +191,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.EukrasianPrognosis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+            if (!IsEukrasiaReady())
                 return false;
 
             var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHealthPercent &&
@@ -215,7 +223,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ForceEukrasianPrognosis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+            if (!IsEukrasiaReady())
                 return false;
 
             if (!await UseEukrasia(Spells.EukrasianPrognosis.Id))
@@ -231,9 +239,6 @@ namespace Magitek.Logic.Sage
         public static async Task<bool> Physis()
         {
             if (!SageSettings.Instance.Physis)
-                return false;
-
-            if (Core.Me.ClassLevel < Spells.Physis.LevelAcquired)
                 return false;
 
             var spell = Spells.PhysisII;
@@ -265,7 +270,7 @@ namespace Magitek.Logic.Sage
             if (Addersgall == 0)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Druochole.LevelAcquired)
+            if (!Spells.Druochole.IsKnownAndReady())
                 return false;
 
             if (Globals.InParty)
@@ -291,10 +296,7 @@ namespace Magitek.Logic.Sage
             if (Addersgall == 0)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Ixochole.LevelAcquired)
-                return false;
-
-            if (Spells.Ixochole.Cooldown != TimeSpan.Zero)
+            if (!Spells.Ixochole.IsKnownAndReady())
                 return false;
 
             if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.IxocholeHpPercent) < AoeNeedHealing)
@@ -307,10 +309,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Pepsis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
-                return false;
-
-            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+            if (!Spells.Pepsis.IsKnownAndReady())
                 return false;
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisHpPercent &&
@@ -327,10 +326,10 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.PepsisEukrasianPrognosis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+            if (!IsEukrasiaReady())
                 return false;
 
-            if (Spells.Pepsis.Cooldown != TimeSpan.Zero)
+            if (!Spells.Pepsis.IsKnownAndReady())
                 return false;
 
             var needPepsis = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PepsisEukrasianPrognosisHealthPercent) >= AoeNeedHealing;
@@ -348,7 +347,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ForcePepsisEukrasianPrognosis)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
+            if (!IsEukrasiaReady())
                 return false;
 
             if (!Spells.Pepsis.IsKnownAndReady())
@@ -462,10 +461,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ForceHaima)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Haima.LevelAcquired)
-                return false;
-
-            if (Spells.Haima.Cooldown != TimeSpan.Zero)
+            if (!Spells.Haima.IsKnownAndReady())
                 return false;
 
             if (Globals.InParty)
@@ -544,7 +540,7 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.ForcePanhaima)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.Panhaima.LevelAcquired)
+            if (!Spells.Panhaima.IsKnownAndReady())
                 return false;
 
             if (!await Spells.Panhaima.CastAura(Core.Me, Auras.Panhaimatinon))
