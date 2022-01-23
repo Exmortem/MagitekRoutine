@@ -81,24 +81,24 @@ namespace Magitek.Logic.Summoner
                         return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
                 }
 
-            if (Core.Me.CurrentJob == ClassJobType.Arcanist)
-                switch (ArcResources.ActivePet)
-                {
-                    case ArcResources.ActivePetType.Ruby when Spells.RubyRuinII.IsKnown():
-                        return await Spells.RubyRuinII.Cast(Core.Me.CurrentTarget);
-                    case ArcResources.ActivePetType.Ruby:
-                        return await Spells.RubyRuin.Cast(Core.Me.CurrentTarget);
+            
+            switch (ArcResources.ActivePet)
+            {
+                case ArcResources.ActivePetType.Ruby when Spells.RubyRuinII.IsKnown():
+                    return await Spells.RubyRuinII.Cast(Core.Me.CurrentTarget);
+                case ArcResources.ActivePetType.Ruby:
+                    return await Spells.RubyRuin.Cast(Core.Me.CurrentTarget);
 
-                    case ArcResources.ActivePetType.Topaz when Spells.TopazRuinII.IsKnown():
-                        return await Spells.TopazRuinII.Cast(Core.Me.CurrentTarget);
-                    case ArcResources.ActivePetType.Topaz:
-                        return await Spells.TopazRuin.Cast(Core.Me.CurrentTarget);
+                case ArcResources.ActivePetType.Topaz when Spells.TopazRuinII.IsKnown():
+                    return await Spells.TopazRuinII.Cast(Core.Me.CurrentTarget);
+                case ArcResources.ActivePetType.Topaz:
+                    return await Spells.TopazRuin.Cast(Core.Me.CurrentTarget);
 
-                    case ArcResources.ActivePetType.Emerald when Spells.EmeraldRuinII.IsKnown():
-                        return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
-                    case ArcResources.ActivePetType.Emerald:
-                        return await Spells.EmeraldRuin.Cast(Core.Me.CurrentTarget);
-                }    
+                case ArcResources.ActivePetType.Emerald when Spells.EmeraldRuinII.IsKnown():
+                    return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
+                case ArcResources.ActivePetType.Emerald:
+                    return await Spells.EmeraldRuin.Cast(Core.Me.CurrentTarget);
+            }    
 
 
             if (Spells.Ruin3.IsKnown())
