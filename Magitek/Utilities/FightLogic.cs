@@ -249,7 +249,7 @@ namespace Magitek.Utilities
                                 Debug.Instance.FightLogicData +=
                                     $"\tBig Aoes:\n{string.Join("", element.BigAoes.Select(baoe => $"\t\t{DataManager.GetSpellData(baoe).Name} ({baoe})\n"))}";
 
-                            Debug.Instance.FightLogicData += "\n";
+                            Debug.Instance.FightLogicData += $"\n\nLast Mechanic Detected: {FlCooldown.TotalMilliseconds}";
                         });
                     }
                 }
@@ -5128,6 +5128,20 @@ namespace Magitek.Utilities
                 Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
                     new Enemy {
+                        Id = 10345,
+                        Name = "Erichthonios",
+                        TankBusters = new List<uint> {
+                            26099 //Heavy Hand
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            26100, //Warder's Wrath
+                            26089, //Shining Cells
+                            26090 //Slam Shut
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
                         Id = 10576,
                         Name = "Erichthonios",
                         TankBusters = new List<uint> {
@@ -5211,6 +5225,20 @@ namespace Magitek.Utilities
                 Name = "Normal Raid: First Circle (Savage) (P1S)",
                 Expansion = FfxivExpansion.Endwalker,
                 Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10345,
+                        Name = "Erichthonios",
+                        TankBusters = new List<uint> {
+                            26153 //Heavy Hand
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            26154, //Warder's Wrath
+                            26134, //Shining Cells
+                            26135 //Slam Shut
+                        },
+                        BigAoes = null
+                    },
                     new Enemy {
                         Id = 10576,
                         Name = "Erichthonios",
