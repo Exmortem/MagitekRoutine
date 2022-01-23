@@ -72,6 +72,9 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.EukrasianDosis)
                 return false;
 
+            if (!Heal.IsEukrasiaReady())
+                return false;
+
             var targetChar = Core.Me.CurrentTarget as Character;
 
             if (targetChar != null && targetChar.CharacterAuras.Count() >= 25)
@@ -94,6 +97,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!SageSettings.Instance.DotMultipleTargets)
+                return false;
+
+            if (!Heal.IsEukrasiaReady())
                 return false;
 
             if (Combat.Enemies.Count < 2)

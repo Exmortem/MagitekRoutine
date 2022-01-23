@@ -42,7 +42,7 @@ namespace Magitek.Utilities
             }
         }
 
-        private static bool IsFlReady => FlCooldown == TimeSpan.Zero;
+        public static bool IsFlReady => FlCooldown == TimeSpan.Zero;
 
         private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemyCached { get; set; }
 
@@ -155,6 +155,30 @@ namespace Magitek.Utilities
                 return false;
 
             return Encounters.Any(x => x.ZoneId == WorldManager.RawZoneId);
+        }
+
+        public static bool EnemyHasAnyTankbusterLogic()
+        {
+            if (ZoneHasFightLogic())
+            {
+                var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
+
+                return (enemyLogic?.TankBusters != null || enemyLogic?.SharedTankBusters != null);
+            }
+
+            return false;
+        }
+
+        public static bool EnemyHasAnyAoeLogic()
+        {
+            if (ZoneHasFightLogic())
+            {
+                var (encounter, enemyLogic, enemy) = GetEnemyLogicAndEnemy();
+
+                return (enemyLogic?.Aoes != null || enemyLogic?.BigAoes != null);
+            }
+
+            return false;
         }
 
         private static (Encounter, Enemy, BattleCharacter) GetEnemyLogicAndEnemy()
@@ -1105,7 +1129,7 @@ namespace Magitek.Utilities
                         Name = "The Big Cheese",
                         TankBusters = new List<uint> { 26449 },
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 26450 },
+                        Aoes = new List<uint> { 26450, 26451, 26452 },
                         BigAoes = null
                     }
                 }
@@ -1256,7 +1280,7 @@ namespace Magitek.Utilities
                         Name = "Hippokampos",
                         TankBusters = null,
                         SharedTankBusters = new List<uint> { 26638 },
-                        Aoes = new List<uint> { 26639, 26614 },
+                        Aoes = new List<uint> { 26639, 26614, 26625, 26632 },
                         BigAoes = null
                     }
                 }
