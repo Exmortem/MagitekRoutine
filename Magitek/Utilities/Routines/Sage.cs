@@ -63,6 +63,7 @@ namespace Magitek.Utilities.Routines
                 return true;
             }
 
+            /*
             if (SageSettings.Instance.InterruptHealing && Casting.DoHealthChecks &&
                 Casting.SpellTarget?.CurrentHealthPercent >= SageSettings.Instance.InterruptHealingHealthPercent)
             {
@@ -105,6 +106,7 @@ namespace Magitek.Utilities.Routines
                     }
                 }
             }
+            */
 
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
