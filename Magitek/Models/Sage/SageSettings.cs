@@ -75,7 +75,7 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool Dosis { get; set; }
-
+        /*
         [Setting]
         [DefaultValue(false)]
         public bool InterruptHealing { get; set; }
@@ -91,7 +91,7 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(79.0f)]
         public float InterruptDamageHealthPercent { get; set; }
-
+        */
         [Setting]
         [DefaultValue(true)]
         public bool DoDamage { get; set; }

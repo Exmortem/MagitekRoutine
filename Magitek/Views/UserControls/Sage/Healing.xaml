@@ -18,13 +18,14 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
+        <!--
         <controls:SettingsBlock Margin="0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
                 <CheckBox Content="Interrupt Healing If Target HP Gets Over " IsChecked="{Binding SageSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
             </StackPanel>
-        </controls:SettingsBlock>
+        </controls:SettingsBlock>-->
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
