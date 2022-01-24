@@ -23,7 +23,8 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
             if (ActionResourceManager.Reaper.ShroudGauge > 80)
                 return false;
-
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
             return await Spells.Gluttony.Cast(Core.Me.CurrentTarget);
         }
 
@@ -37,7 +38,8 @@ namespace Magitek.Logic.Reaper
             if (!ReaperSettings.Instance.UseEnshroud) return false;
             if (ActionResourceManager.Reaper.ShroudGauge < 50) return false;
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
-
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
             return await Spells.Enshroud.Cast(Core.Me);
         }
 
@@ -53,10 +55,18 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.ArcaneCircle))
                 return false;
 
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
+
             if (Globals.InParty)
             {
                 var couldArcane = Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.ArcaneCircle));
-                if (couldArcane >= ReaperSettings.Instance.ArcaneCircleCount)
+                var arcaneNeededCount = ReaperSettings.Instance.ArcaneCircleCount;
+
+                if (ReaperSettings.Instance.ArcaneCircleEntireParty)
+                    arcaneNeededCount = Group.CastableParty.Count();
+
+                if (couldArcane >= arcaneNeededCount)
                     return await Spells.ArcaneCircle.Cast(Core.Me);
                 else
                     return false;
