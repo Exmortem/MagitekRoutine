@@ -1,13 +1,15 @@
 using ff14bot;
 using ff14bot.Managers;
+using BardSong = ff14bot.Managers.ActionResourceManager.Bard.BardSong;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using Auras = Magitek.Utilities.Auras;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Bard
 {
@@ -19,10 +21,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseHeavyShot)
                 return false;
 
-            if (Core.Me.ClassLevel < 76)
-                return await Spells.HeavyShot.Cast(Core.Me.CurrentTarget);
-
-            return await Spells.BurstShot.Cast(Core.Me.CurrentTarget);
+            return await BardRoutine.BurstShot.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> StraightShot()
@@ -50,7 +49,7 @@ namespace Magitek.Logic.Bard
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= BardSettings.Instance.ShadowBiteAfterBarrageEnemies)
                 return false;
 
-            if (Core.Me.ClassLevel < 70 || !ActionManager.HasSpell(Spells.RefulgentArrow.Id))
+            if (Core.Me.ClassLevel < 70 || !Spells.RefulgentArrow.IsKnown())
                 if (await Spells.StraightShot.Cast(Core.Me.CurrentTarget))
                     return true;
 
@@ -65,18 +64,16 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UsePitchPerfect)
                 return false;
 
-            if (Spells.PitchPerfect.Cooldown != TimeSpan.Zero)
+            if (!Spells.PitchPerfect.IsReady())
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+            if (!BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong))
                 return false;
 
-            //Logger.WriteInfo($@"[LastPossiblePitchPerfectDuringWM] {Utilities.Routines.Bard.GlobalDurationWanderersMinuet()} - {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()} - {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
-            if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() > 500)
+            if (BardRoutine.NextTickUnderCurrentSong() > 500)
                 return false;
 
             return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
-
         }
 
         public static async Task<bool> PitchPerfect()
@@ -84,17 +81,16 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UsePitchPerfect)
                 return false;
 
-            if (Spells.PitchPerfect.Cooldown != TimeSpan.Zero)
+            if (!Spells.PitchPerfect.IsReady())
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
+            if (ActionResourceManager.Bard.ActiveSong != BardSong.WanderersMinuet)
                 return false;
 
             if (ActionResourceManager.Bard.Repertoire == 0)
                 return false;
 
-            //Logger.WriteInfo($@"[PitchPerfect] {Utilities.Routines.Bard.GlobalDurationWanderersMinuet()} - {Utilities.Routines.Bard.TimeUntilNextPossibleDoTTick()} - {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
-            if (Utilities.Routines.Bard.NextTickUnderWanderersMinuet() < 550)
+            if (BardRoutine.NextTickUnderCurrentSong() < 550)
                 return await Spells.PitchPerfect.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.Bard.Repertoire < BardSettings.Instance.UsePitchPerfectAtRepertoire)
@@ -108,36 +104,37 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
+            if (!Spells.Bloodletter.IsKnown())
                 return false;
 
             if (Spells.Bloodletter.Charges < 1)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+            if (ActionResourceManager.Bard.ActiveSong != BardSong.MagesBallad)
                 return false;
 
             return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
+
         public static async Task<bool> Bloodletter()
         {
             if (!BardSettings.Instance.UseBloodletter)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.Bloodletter.Id))
+            if (!Spells.Bloodletter.IsKnown())
                 return false;
 
             if (Spells.Bloodletter.Charges < 1)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.ArmysPaeon && Spells.Bloodletter.Charges < 3)
+            if (BardSong.ArmysPaeon.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.Bloodletter.Charges < 3)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet
-                && !Core.Me.HasAura(Auras.RagingStrikes) && !Core.Me.HasAura(Auras.RadiantFinale) && Spells.RagingStrikes.IsReady(3000) && Spells.Bloodletter.Charges < 3)
+            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.Bloodletter.Charges < 3 && !Spells.RagingStrikes.IsReady(90000)
+                && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.RadiantFinale) || !Core.Me.HasAura(Auras.BattleVoice)))
                 return false;
 
-                return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
+            return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> EmpyrealArrow()
@@ -145,34 +142,33 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseEmpyrealArrow)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.EmpyrealArrow.Id))
+            if (!Spells.EmpyrealArrow.IsKnown())
                 return false;
 
             switch (ActionResourceManager.Bard.ActiveSong)
             {
-                case ActionResourceManager.Bard.BardSong.None:
+                case BardSong.None:
                     return false;
 
-                case ActionResourceManager.Bard.BardSong.MagesBallad:
+                case BardSong.MagesBallad:
                     if (Spells.Bloodletter.Cooldown == TimeSpan.Zero)
                         return false;
                     break;
 
-                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-
+                case BardSong.WanderersMinuet:
                     if (ActionResourceManager.Bard.Repertoire == 3)
                         return false;
 
-                    //Logger.WriteInfo($@"[EmpyrealArrow] {Utilities.Routines.Bard.LastTickUnderWanderersMinuet()}");
-                    if (ActionResourceManager.Bard.Repertoire == 0 && Utilities.Routines.Bard.CurrentDurationWanderersMinuet() <= 2000 && Utilities.Routines.Bard.NextTickUnderWanderersMinuet() < 0)
+                    if (ActionResourceManager.Bard.Repertoire == 0 
+                        && BardRoutine.CurrentSongDuration() <= 1000 
+                        && BardRoutine.NextTickUnderCurrentSong() <= 0)
                         return false;
-
                     break;
 
-                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
-                    if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
+                case BardSong.ArmysPaeon:
+                    if (BardSettings.Instance.CurrentSongPlaylist == SongStrategyEnum.WM_MB_AP)
                     {
-                        if (Utilities.Routines.Bard.CurrentDurationArmysPaeon() < BardSettings.Instance.DontUseEmpyrealArrowWhenSongEndsInXSeconds)
+                        if (BardRoutine.CurrentSongDuration() <= BardSettings.Instance.DontUseEmpyrealArrowWhenSongEndsInXSeconds)
                             return false;
                     }
                     break;
@@ -180,7 +176,6 @@ namespace Magitek.Logic.Bard
                 default:
                     break;
             }
-
             return await Spells.EmpyrealArrow.Cast(Core.Me.CurrentTarget);
         }
 
@@ -189,7 +184,13 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseSidewinder)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.Sidewinder.Id))
+            if (!Spells.Sidewinder.IsKnown())
+                return false;
+            
+            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.RadiantFinale) || !Core.Me.HasAura(Auras.BattleVoice)))
+                return false;
+
+            if (!BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.RagingStrikes.IsKnown() && (Spells.RagingStrikes.IsReady(5000) || !Spells.RagingStrikes.IsReady(61000)))
                 return false;
 
             return await Spells.Sidewinder.Cast(Core.Me.CurrentTarget);

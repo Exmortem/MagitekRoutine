@@ -105,8 +105,8 @@ namespace Magitek.Rotations
                 if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;
                 if (await Songs.LetMeSingYouTheSongOfMyPeople()) return true;
                 if (await Cooldowns.RagingStrikes()) return true;
-                if (await Cooldowns.RadiantFinale()) return true;
                 if (await Cooldowns.BattleVoice()) return true;
+                if (await Cooldowns.RadiantFinale()) return true;
                 if (await Cooldowns.Barrage()) return true;
                 if (await SingleTarget.PitchPerfect()) return true;
                 if (await Aoe.RainOfDeathDuringMagesBallard()) return true;

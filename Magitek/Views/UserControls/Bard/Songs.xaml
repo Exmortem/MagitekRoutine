@@ -21,9 +21,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <ObjectDataProvider x:Key="SongStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider x:Key="SongStrategyEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:SongStrategy" />
+                    <x:Type TypeName="enums:SongStrategyEnum" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
         </ResourceDictionary>
@@ -41,31 +41,23 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Selected Song Order:" VerticalAlignment="Center" />
-                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource SongStrategy}}" SelectedValue="{Binding BardSettings.CurrentSongPlaylist, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                    <ComboBox Width="100" ItemsSource="{Binding Source={StaticResource SongStrategyEnum}}" SelectedValue="{Binding BardSettings.CurrentSongPlaylist, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Check If We Have At Least " IsChecked="{Binding BardSettings.CheckDotsBeforeSinging, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="2" MinValue="0" Value="{Binding BardSettings.AmmountOfDotsBeforeSinging, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" DoTs Running Before Singing" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Cut Army's Paeon Short When " IsChecked="{Binding BardSettings.EndArmysPaeonEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXSecondsRemaining, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
+                <controls:Numeric MaxValue="45000" MinValue="1000" Value="{Binding BardSettings.EndArmysPaeonEarlyWithXMilliSecondsRemaining, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" ms Or Less Remain" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Cut Mages Ballad Short When " IsChecked="{Binding BardSettings.EndMagesBalladEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndMagesBalladEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <controls:Numeric MaxValue="45000" MinValue="1000" Value="{Binding BardSettings.EndMagesBalladEarlyWithXMilliSecondsRemaining, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
             </StackPanel>
         </controls:SettingsBlock>
@@ -73,7 +65,7 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Cut Wanderers Minuet Short When " IsChecked="{Binding BardSettings.EndWanderersMinuetEarly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="45" MinValue="1" Value="{Binding BardSettings.EndWanderersMinuetEarlyWithXSecondsRemaining, Mode=TwoWay}" />
+                <controls:Numeric MaxValue="45000" MinValue="1000" Value="{Binding BardSettings.EndWanderersMinuetEarlyWithXMilliSecondsRemaining, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Or Less Remain" />
             </StackPanel>
         </controls:SettingsBlock>

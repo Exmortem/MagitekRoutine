@@ -1,13 +1,13 @@
 using ff14bot;
 using ff14bot.Managers;
+using BardSong = ff14bot.Managers.ActionResourceManager.Bard.BardSong;
 using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
-using System;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 using System.Linq;
 using System.Threading.Tasks;
-using BardRoutine = Magitek.Utilities.Routines.Bard;
 
 namespace Magitek.Logic.Bard
 {
@@ -18,11 +18,38 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseApexArrow)
                 return false;
 
-            if (BardSettings.Instance.UseBuffedApexArrow
-                && ActionResourceManager.Bard.SoulVoice >= BardSettings.Instance.UseBuffedApexArrowWithAtLeastXSoulVoice)
+            if (BardSettings.Instance.UseBuffedApexArrow)
             {
-                if (Utilities.Routines.Bard.CheckCurrentDamageIncrease(BardSettings.Instance.UseBuffedApexArrowWithAtLeastXBonusDamage))
-                    return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
+                //Delay to use it inside Burst windows
+                if (Spells.RagingStrikes.IsKnownAndReady(7000))
+                    return false;
+
+                //Use Apex in Buff windows under WM and delay it as much as possible at the end of buff
+                if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) 
+                    && Core.Me.HasAura(Auras.RagingStrikes) && Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice))
+                {
+                    if (ActionResourceManager.Bard.SoulVoice == 100)
+                        return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
+
+                    if (BardRoutine.CheckCurrentDamageIncrease(BardSettings.Instance.UseBuffedApexArrowWithAtLeastXBonusDamage)
+                        && ActionResourceManager.Bard.SoulVoice >= BardSettings.Instance.UseBuffedApexArrowWithAtLeastXSoulVoice
+                        && (Core.Me.Auras.Any(x => x.Id == Auras.RagingStrikes && x.TimespanLeft.TotalMilliseconds < 6000)
+                            || Core.Me.Auras.Any(x => x.Id == Auras.RadiantFinale && x.TimespanLeft.TotalMilliseconds < 6000)
+                            || Core.Me.Auras.Any(x => x.Id == Auras.BattleVoice && x.TimespanLeft.TotalMilliseconds < 6000)))
+                            return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
+                }
+
+                //Force Apex in MB at 22sec if soulgauge >= 80
+                if (BardSong.MagesBallad.Equals(ActionResourceManager.Bard.ActiveSong) 
+                    && (ActionResourceManager.Bard.SoulVoice == 100 || ActionResourceManager.Bard.SoulVoice >= 80 && ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds - 24000 <= 1) )
+                {
+                    if(await Spells.ApexArrow.Cast(Core.Me.CurrentTarget))
+                    {
+                        Logger.WriteInfo($@"[ApexArrow] Execution with SoulVoice = {ActionResourceManager.Bard.SoulVoice} at {ActionResourceManager.Bard.Timer.TotalMilliseconds}"); 
+                        return true;
+                    }
+                }
+                return false;                    
             }
 
             if (ActionResourceManager.Bard.SoulVoice < BardSettings.Instance.UseApexArrowWithAtLeastXSoulVoice)
@@ -39,13 +66,13 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseRainOfDeath)
                 return false;
 
-            if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.MagesBallad)
+            if (ActionResourceManager.Bard.ActiveSong != BardSong.MagesBallad)
                 return false;
 
             if (!BardSettings.Instance.PrioritizeBloodletterDuringMagesBallard)
                 return false;
 
-            if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
+            if (BardRoutine.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
                 return false;
 
             return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
@@ -59,7 +86,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseAoe)
                 return false;
 
-            if (Utilities.Routines.Bard.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
+            if (BardRoutine.AoeEnemies8Yards < BardSettings.Instance.RainOfDeathEnemies)
                 return false;
 
             return await Spells.RainofDeath.Cast(Core.Me.CurrentTarget);
@@ -87,7 +114,7 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseAoe)
                 return false;
 
-            if (Utilities.Routines.Bard.EnemiesInCone < BardSettings.Instance.QuickNockEnemiesInCone)
+            if (BardRoutine.EnemiesInCone < BardSettings.Instance.QuickNockEnemiesInCone)
                 return false;
 
             return await BardRoutine.LadonsBite.Cast(Core.Me.CurrentTarget);
@@ -101,32 +128,9 @@ namespace Magitek.Logic.Bard
             if (!Core.Me.HasAura(Auras.BlastArrowReady))
                 return false;
 
-            switch (ActionResourceManager.Bard.ActiveSong)
-            {
-                case ActionResourceManager.Bard.BardSong.None:
-                    return false;
-
-                case ActionResourceManager.Bard.BardSong.MagesBallad:
-                    if (Core.Me.HasAura(Auras.BlastArrowReady, true, 3000) && Spells.Bloodletter.Cooldown == TimeSpan.Zero)
-                        return false;
-                    break;
-
-                case ActionResourceManager.Bard.BardSong.WanderersMinuet:
-                    if (Core.Me.HasAura(Auras.BlastArrowReady, true, 3000) && !Core.Me.HasAura(Auras.RagingStrikes) && Spells.RagingStrikes.Cooldown == TimeSpan.Zero)
-                        return false;
-                    break;
-
-                case ActionResourceManager.Bard.BardSong.ArmysPaeon:
-                    if (BardSettings.Instance.CurrentSongPlaylist == SongStrategy.WM_MB_AP)
-                    {
-                        if (Core.Me.HasAura(Auras.BlastArrowReady, true, 6000) && Utilities.Routines.Bard.CurrentDurationArmysPaeon() < BardSettings.Instance.DontUseBlastArrowWhenAPEndsInXSeconds)
-                            return false;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            if (BardSong.MagesBallad.Equals(ActionResourceManager.Bard.ActiveSong)
+                && Core.Me.HasAura(Auras.BlastArrowReady, true, 3000) && Spells.Bloodletter.IsReady())
+                return false;
 
             return await Spells.BlastArrow.Cast(Core.Me.CurrentTarget);
         }

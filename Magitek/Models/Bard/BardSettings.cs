@@ -180,7 +180,7 @@ namespace Magitek.Models.Bard
         public bool UseBuffedApexArrow { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
+        [DefaultValue(24)]
         public int UseBuffedApexArrowWithAtLeastXBonusDamage { get; set; }
 
         [Setting]
@@ -196,8 +196,8 @@ namespace Magitek.Models.Bard
         #region Songs
 
         [Setting]
-        [DefaultValue(SongStrategy.WM_MB_AP)]
-        public SongStrategy CurrentSongPlaylist { get; set; }
+        [DefaultValue(SongStrategyEnum.WM_MB_AP)]
+        public SongStrategyEnum CurrentSongPlaylist { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -205,39 +205,27 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool CheckDotsBeforeSinging { get; set; }
-
-        [Setting]
-        [DefaultValue(1)]
-        public int AmmountOfDotsBeforeSinging { get; set; }
-
-        [Setting]
-        [DefaultValue(1)]
-        public int DefaultSongTransitionTime { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool EndArmysPaeonEarly { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int EndArmysPaeonEarlyWithXSecondsRemaining { get; set; }
+        [DefaultValue(2500)]
+        public int EndArmysPaeonEarlyWithXMilliSecondsRemaining { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool EndMagesBalladEarly { get; set; }
 
         [Setting]
-        [DefaultValue(11)]
-        public int EndMagesBalladEarlyWithXSecondsRemaining { get; set; }
+        [DefaultValue(12500)]
+        public int EndMagesBalladEarlyWithXMilliSecondsRemaining { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool EndWanderersMinuetEarly { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int EndWanderersMinuetEarlyWithXSecondsRemaining { get; set; }
+        [DefaultValue(2500)]
+        public int EndWanderersMinuetEarlyWithXMilliSecondsRemaining { get; set; }
 
 
         #endregion
@@ -254,10 +242,6 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool DelayRageingStrikes { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseRageingStrikesOnlyDuringWanderersMinuet { get; set; }
 
         [Setting]
@@ -269,7 +253,7 @@ namespace Magitek.Models.Bard
         public bool DelayRageingStrikesDuringWanderersMinuet { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
+        [DefaultValue(2)]
         public int DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM { get; set; }
 
         [Setting]
