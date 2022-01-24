@@ -71,7 +71,7 @@ namespace Magitek.Utilities
 
             if (output != null && DebugSettings.Instance.DebugFightLogic)
                 Logger.WriteInfo(
-                    $"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.Name} ({output.CurrentJob})");
+                    $"[TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name} on {output.CurrentJob} in our party.");
 
             if (output != null)
                 FlStopwatch.Start();
@@ -95,7 +95,7 @@ namespace Magitek.Utilities
 
             if (output != null && DebugSettings.Instance.DebugFightLogic)
                 Logger.WriteInfo(
-                    $"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.Name} ({output.CurrentJob})");
+                    $"[Shared TankBuster Detected] {encounter.Name} {enemy.Name} casting {enemy.SpellCastInfo.Name}. Handling for {output.CurrentJob} in our party.");
 
             if (output != null)
                 FlStopwatch.Start();
@@ -219,10 +219,13 @@ namespace Magitek.Utilities
                 if (DebugSettings.Instance.DebugFightLogicFound)
                 {
                     Debug.Instance.FightLogicData =
-                        $"You are currently in {WorldManager.CurrentZoneName} ({WorldManager.RawZoneId})\n\n";
+                        $"\nYou are currently in {WorldManager.CurrentZoneName} ({WorldManager.RawZoneId})";
+                    var currentTarget = Core.Me.CurrentTarget == null ? "No Target" : Core.Me.CurrentTarget.Name;
+                    var npcId = Core.Me.CurrentTarget?.NpcId == null ? 0 : Core.Me.CurrentTarget.NpcId;
+                    Debug.Instance.FightLogicData += $"\nCurrent Target: {currentTarget} ({npcId})\n\n\n";
 
                     if (encounter == null && enemyLogic == null && enemy == null)
-                        Debug.Instance.FightLogicData += "There is no Fight Logic for this zone. \n";
+                        Debug.Instance.FightLogicData += $"There is no Fight Logic for this zone - {WorldManager.CurrentZoneName} ({WorldManager.RawZoneId}). \n";
                     else
                     {
                         Debug.Instance.FightLogicData +=
@@ -249,7 +252,7 @@ namespace Magitek.Utilities
                                 Debug.Instance.FightLogicData +=
                                     $"\tBig Aoes:\n{string.Join("", element.BigAoes.Select(baoe => $"\t\t{DataManager.GetSpellData(baoe).Name} ({baoe})\n"))}";
 
-                            Debug.Instance.FightLogicData += $"\n\nLast Mechanic Detected: {FlCooldown.TotalMilliseconds}";
+                            Debug.Instance.FightLogicData += $"\n";
                         });
                     }
                 }
