@@ -11,9 +11,6 @@ namespace Magitek.Logic.Reaper
 {
     internal static class AoE
     {
-
-        //Expire Check Missing
-        //Something like TTK > Current GCD 
         public static async Task<bool> WhorlofDeath()
         {
             if (!ReaperSettings.Instance.UseAoe)
@@ -30,6 +27,9 @@ namespace Magitek.Logic.Reaper
 
             if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds)))
                                          && x.Distance(Core.Me) <= 5 + Core.Me.CombatReach))
+                return false;
+
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
                 return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
@@ -74,6 +74,9 @@ namespace Magitek.Logic.Reaper
 
             if (!Combat.Enemies.Any(x => (!x.HasMyAura(Auras.DeathsDesign) || (x.HasMyAura(Auras.DeathsDesign) && !x.HasAura(Auras.DeathsDesign, true, 30000 - Spells.Slice.AdjustedCooldown.Milliseconds)))
                                          && x.Distance(Core.Me) <= 5 + Core.Me.CombatReach))
+                return false;
+
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
                 return false;
 
             return await Spells.WhorlOfDeath.Cast(Core.Me);
@@ -153,7 +156,8 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
             if (ActionResourceManager.Reaper.ShroudGauge > 90)
                 return false;
-
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
             return await Spells.GrimSwathe.Cast(Core.Me.CurrentTarget);
         }
 

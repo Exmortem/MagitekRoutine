@@ -19,6 +19,14 @@ namespace Magitek.Models.Reaper
         public bool EnemyIsOmni { get; set; }
 
         [Setting]
+        [DefaultValue(true)]
+        public bool UseTTD { get; set; }
+
+        [Setting]
+        [DefaultValue(13)]
+        public int SaveIfEnemyDyingWithin { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool BurnEverything { get; set; }
 
@@ -179,8 +187,12 @@ namespace Magitek.Models.Reaper
         public bool UseArcaneCircle { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
+        [DefaultValue(4)]
         public int ArcaneCircleCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ArcaneCircleEntireParty { get; set; }
 
         [Setting]
         [DefaultValue(true)]

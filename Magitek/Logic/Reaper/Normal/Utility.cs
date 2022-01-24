@@ -17,18 +17,18 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-            if (ReaperSettings.Instance.TrueNorthWithSoulReaverOnly)
-            {
-                if (!Core.Me.HasAura(Auras.SoulReaver))
-                    return false;
-            }
-            else
-            {
-                if (ActionResourceManager.Reaper.SoulGauge < 40)
-                    return false;
-                if (ActionResourceManager.Reaper.ShroudGauge >= 40)
-                    return false;
-            }
+                if (ReaperSettings.Instance.TrueNorthWithSoulReaverOnly)
+                {
+                    if (!Core.Me.HasAura(Auras.SoulReaver))
+                        return false;
+                }
+                else
+                {
+                    if (ActionResourceManager.Reaper.SoulGauge < 40)
+                        return false;
+                    if (ActionResourceManager.Reaper.ShroudGauge >= 40)
+                        return false;
+                }
 
             if (Utilities.Routines.Reaper.EnemiesAroundPlayer5Yards >= ReaperSettings.Instance.SpinningScytheTargetCount) return false;
             if (Utilities.Routines.Reaper.EnemiesIn8YardCone >= ReaperSettings.Instance.GrimSwatheTargetCount) return false;
@@ -64,6 +64,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.InCombat && Core.Me.HasTarget)
+                return false;
+
+            if (DutyManager.InInstance && !Globals.InActiveDuty)
                 return false;
 
             return await Spells.Soulsow.CastAura(Core.Me, Auras.Soulsow);

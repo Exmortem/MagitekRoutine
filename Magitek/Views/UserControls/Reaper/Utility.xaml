@@ -33,11 +33,26 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Enable Arcane Circle " IsChecked="{Binding ReaperSettings.UseArcaneCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                </StackPanel>
+                <StackPanel Margin="10,0" Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Entire Party In Range Otherwise:" IsChecked="{Binding ReaperSettings.ArcaneCircleEntireParty, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding ReaperSettings.ArcaneCircleCount, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Players Are In Range For Buff" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Use TTD Checks/Save Cooldowns When Enemy Dying Within " IsChecked="{Binding ReaperSettings.UseTTD, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100000" MinValue="1" Value="{Binding ReaperSettings.SaveIfEnemyDyingWithin, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
 
     </StackPanel>
 </UserControl>
