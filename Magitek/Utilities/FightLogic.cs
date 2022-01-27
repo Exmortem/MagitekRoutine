@@ -5271,7 +5271,9 @@ namespace Magitek.Utilities
                             26674 //Doubled Impact
                         },
                         Aoes = new List<uint> {
-                            26675 //Murky Depths
+                            26675, //Murky Depths
+                            26651, //Coherence - Line Stack
+                            26667 //Ominous Bubbling - Group Stack
                         },
                         BigAoes = new List<uint> {
                             26640 //Sewage Deluge
