@@ -59,7 +59,7 @@ namespace Magitek.Logic.Summoner
                                 }
                             }
 
-                            break;
+                            return false;
                         }
                     case SmnResources.ActivePetType.Ifrit when Spells.RubyRuinIII.IsKnown():
                         return await Spells.RubyRuinIII.Cast(Core.Me.CurrentTarget);
