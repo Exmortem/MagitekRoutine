@@ -26,6 +26,9 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, Spells.Slice.AdjustedCooldown.Milliseconds))
                 return false;
 
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
+
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
         }
 
@@ -41,6 +44,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true) && Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true, 30000 - Spells.Slice.AdjustedCooldown.Milliseconds))
+                return false;
+
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
                 return false;
 
             return await Spells.ShadowOfDeath.Cast(Core.Me.CurrentTarget);
@@ -161,7 +167,8 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true)) return false;
             if (ActionResourceManager.Reaper.ShroudGauge > 90)
                 return false;
-
+            if (Utilities.Routines.Reaper.CheckTTDIsEnemyDyingSoon())
+                return false;
             return await Spells.BloodStalk.Cast(Core.Me.CurrentTarget);
         }
 

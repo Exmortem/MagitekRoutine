@@ -63,6 +63,15 @@ namespace Magitek.Utilities.Routines
             if ((int) PetManager.ActivePetType == 26)
                 return SmnPets.Emerald;
             
+            if ((int) PetManager.ActivePetType == 27)
+                return SmnPets.Ifrit;
+            
+            if ((int) PetManager.ActivePetType == 28)
+                return SmnPets.Titan;
+            
+            if ((int) PetManager.ActivePetType == 29)
+                return SmnPets.Garuda;
+            
             if ((int) PetManager.ActivePetType == 30)
                 return SmnPets.Ifrit;
             

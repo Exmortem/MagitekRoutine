@@ -22,6 +22,7 @@ namespace Magitek.Logic.Summoner
     {
         public static async Task<bool> Ruin()
         {
+            Logger.WriteInfo("Ruin Check");
             if (!SummonerSettings.Instance.Ruin)
                 return false;
 
@@ -47,9 +48,10 @@ namespace Magitek.Logic.Summoner
                                                                     u.InLineOfSight() &&
                                                                     u.IsTargetable);
 
-                            if (anyDead || SmnResources.ElementalAttunement > 1 || !SummonerSettings.Instance.SwiftRubyRite)
+                            if (anyDead || SmnResources.ElementalAttunement > 1 ||
+                                !SummonerSettings.Instance.SwiftRubyRite)
                                 return await Spells.RubyRite.Cast(Core.Me.CurrentTarget);
-                            
+
                             if (await Buff.Swiftcast())
                             {
                                 while (Core.Me.HasAura(Auras.Swiftcast))
@@ -59,7 +61,7 @@ namespace Magitek.Logic.Summoner
                                 }
                             }
 
-                            break;
+                            return false;
                         }
                     case SmnResources.ActivePetType.Ifrit when Spells.RubyRuinIII.IsKnown():
                         return await Spells.RubyRuinIII.Cast(Core.Me.CurrentTarget);
@@ -81,24 +83,24 @@ namespace Magitek.Logic.Summoner
                         return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
                 }
 
-            
-            switch (ArcResources.ActivePet)
-            {
-                case ArcResources.ActivePetType.Ruby when Spells.RubyRuinII.IsKnown():
-                    return await Spells.RubyRuinII.Cast(Core.Me.CurrentTarget);
-                case ArcResources.ActivePetType.Ruby:
-                    return await Spells.RubyRuin.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.CurrentJob == ClassJobType.Arcanist || Core.Me.ClassLevel <= 30)
+                switch (ArcResources.ActivePet)
+                {
+                    case ArcResources.ActivePetType.Ruby when Spells.RubyRuinII.IsKnown():
+                        return await Spells.RubyRuinII.Cast(Core.Me.CurrentTarget);
+                    case ArcResources.ActivePetType.Ruby:
+                        return await Spells.RubyRuin.Cast(Core.Me.CurrentTarget);
 
-                case ArcResources.ActivePetType.Topaz when Spells.TopazRuinII.IsKnown():
-                    return await Spells.TopazRuinII.Cast(Core.Me.CurrentTarget);
-                case ArcResources.ActivePetType.Topaz:
-                    return await Spells.TopazRuin.Cast(Core.Me.CurrentTarget);
+                    case ArcResources.ActivePetType.Topaz when Spells.TopazRuinII.IsKnown():
+                        return await Spells.TopazRuinII.Cast(Core.Me.CurrentTarget);
+                    case ArcResources.ActivePetType.Topaz:
+                        return await Spells.TopazRuin.Cast(Core.Me.CurrentTarget);
 
-                case ArcResources.ActivePetType.Emerald when Spells.EmeraldRuinII.IsKnown():
-                    return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
-                case ArcResources.ActivePetType.Emerald:
-                    return await Spells.EmeraldRuin.Cast(Core.Me.CurrentTarget);
-            }    
+                    case ArcResources.ActivePetType.Emerald when Spells.EmeraldRuinII.IsKnown():
+                        return await Spells.EmeraldRuinII.Cast(Core.Me.CurrentTarget);
+                    case ArcResources.ActivePetType.Emerald:
+                        return await Spells.EmeraldRuin.Cast(Core.Me.CurrentTarget);
+                }    
 
 
             if (Spells.Ruin3.IsKnown())

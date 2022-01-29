@@ -32,6 +32,8 @@ namespace Magitek.Logic.Summoner
 
             if (Core.Me.SummonedPet() == SmnPets.Pheonix) return await Rekindle();
 
+            if (!Spells.MountainBuster.IsKnown()) return false;
+            
             if (await CrimsonCyclone()) return true;
             if (await MountainBuster()) return true;
             return await Slipstream();
