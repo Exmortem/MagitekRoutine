@@ -4,9 +4,10 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
+using Auras = Magitek.Utilities.Auras;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 using System.Linq;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Bard
 {
@@ -106,26 +107,24 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseIronJaws)
                 return false;
 
-            if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
+            if (!Spells.IronJaws.IsKnown())
                 return false;
 
             if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.UseVenomousBite)
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.Windbite, true) || !Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.VenomousBite, true))
+            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.WindbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.VenomousBiteAura, true))
                 return false;
 
-            Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
-            Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
+            Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId);
+            Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId);
 
             if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
                 && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
                 return false;
 
             if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
-            Logger.WriteInfo($@"[DoT-Refresh] Iron Jaws on {Core.Me.CurrentTarget.Name}");
-            Logger.WriteInfo($@"[DoT-Refresh] Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds}");
-            Logger.WriteInfo($@"[DoT-Refresh] VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
+            Logger.WriteInfo($@"[DoT-Refresh] Iron Jaws on {Core.Me.CurrentTarget.Name} | Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds} | VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
             return true;
         }
 
@@ -141,30 +140,36 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseIronJaws)
                 return false;
 
-            if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
+            if (!Spells.IronJaws.IsKnown())
                 return false;
 
             if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.UseVenomousBite)
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.Windbite, true) || !Core.Me.CurrentTarget.HasAura(Utilities.Routines.Bard.VenomousBite, true))
+            //if we dont don't have DOTs, we don't consider any snapshot
+            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.WindbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.VenomousBiteAura, true))
                 return false;
 
-            Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
-            Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
-
-            if (!Core.Me.Auras.Any(x => x.Id == Auras.RagingStrikes && x.TimespanLeft.TotalMilliseconds < 3000)
-                && !Core.Me.Auras.Any(x => x.Id == Auras.RadiantFinale && x.TimespanLeft.TotalMilliseconds < 3000)
-                && !Core.Me.Auras.Any(x => x.Id == Auras.BattleVoice && x.TimespanLeft.TotalMilliseconds < 3000))
+            //if we dont don't have 3 buff, we don't consider any snapshot
+            if (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.RadiantFinale) || !Core.Me.HasAura(Auras.BattleVoice))
                 return false;
 
-            if (Utilities.Routines.Bard.AlreadySnapped)
+            double ragingStrikesAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.RagingStrikes).TimespanLeft.TotalMilliseconds;
+            double radiantFinaleAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.RadiantFinale).TimespanLeft.TotalMilliseconds;
+            double battleVoiceAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.BattleVoice).TimespanLeft.TotalMilliseconds;
+            double windbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
+            double venomousbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
+
+            if (Core.Me.HasAura(Auras.RagingStrikes) && Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice)
+                && ragingStrikesAuraTimeleft > 2500 && radiantFinaleAuraTimeleft > 2500 && battleVoiceAuraTimeleft > 2500)
+                return false;
+
+            if (BardRoutine.AlreadySnapped)
                 return false;
 
             if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
-            Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name}");
-            Logger.WriteInfo($@"[DoT-Refresh] Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds}");
-            Logger.WriteInfo($@"[DoT-Refresh] VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
+
+            Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name} | Windbite TimeLeft : {windbiteTimeleft} | VenomousBite TimeLeft : {venomousbiteTimeleft} | RS TimeLeft : {ragingStrikesAuraTimeleft}| RF TimeLeft : {radiantFinaleAuraTimeleft} | BV TimeLeft : {battleVoiceAuraTimeleft}");
             return true;
         }
 
@@ -283,11 +288,11 @@ namespace Magitek.Logic.Bard
                 if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon && unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
                     return false;
 
-                if (!unit.HasAura(Utilities.Routines.Bard.Windbite, true) || !unit.HasAura(Utilities.Routines.Bard.VenomousBite, true))
+                if (!unit.HasAura(BardRoutine.WindbiteAura, true) || !unit.HasAura(BardRoutine.VenomousBiteAura, true))
                     return false;
 
-                Aura windbite = unit.Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.Windbite && x.CasterId == Core.Player.ObjectId);
-                Aura venomousbite = unit.Auras.FirstOrDefault(x => x.Id == Utilities.Routines.Bard.VenomousBite && x.CasterId == Core.Player.ObjectId);
+                Aura windbite = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId);
+                Aura venomousbite = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId);
 
                 if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
                     && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
@@ -299,77 +304,6 @@ namespace Magitek.Logic.Bard
         }
 
         #endregion
-
-
-        /*
-        Still here for some ideas
-        public static async Task<bool> IronJaws()
-        {
-
-            if (!Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true))
-                return false;
-
-            // state 0 - haven't used IJ yet since Buff up
-            // state 1 - have used IJ already since buff up
-
-            if (Utilities.Routines.Bard.SnapShotCheck == 0)
-            {
-
-                if (Core.Me.HasAura(786)) // Battle Littany
-                {
-                    if (Casting.LastSpell == Spells.IronJaws)
-                    {
-                        Utilities.Routines.Bard.SnapShotCheck = 1;
-                        Logger.WriteInfo($"Value of IronJaws Battle Littany Check {Utilities.Routines.Bard.SnapShotCheck}");
-                        return false;
-                    }
-                    Logger.WriteInfo("We just IJ'd during Battle Littany");
-                    return await Spells.IronJaws.Cast(Core.Me.CurrentTarget);
-                }
-
-                if (Core.Me.CurrentTarget.HasAura(1221)) // Chain Stratagem
-                {
-                    if (Casting.LastSpell == Spells.IronJaws)
-                    {
-                        Utilities.Routines.Bard.SnapShotCheck = 2;
-                        Logger.WriteInfo($"Value of IronJaws Chain Stratagem Check {Utilities.Routines.Bard.SnapShotCheck}");
-                        return false;
-                    }
-                    Logger.WriteInfo("We just IJ'd during Chain Stratagem");
-                    return await Spells.IronJaws.Cast(Core.Me.CurrentTarget);
-                }
-            }
-
-            if (Utilities.Routines.Bard.SnapShotCheck == 1)
-            {
-                if (!Core.Me.HasAura(786))
-                {
-                    Utilities.Routines.Bard.SnapShotCheck = 0;
-                    Logger.WriteInfo("We just passed the IJ Gate and BattleLitany has dropped,Reset.");
-                    return false;
-                }
-            }
-
-            if (Utilities.Routines.Bard.SnapShotCheck == 2)
-            {
-                if (!Core.Me.CurrentTarget.HasAura(1221))
-                {
-                    Utilities.Routines.Bard.SnapShotCheck = 0;
-                    Logger.WriteInfo("We just passed the IJ Gate and ChainStrat has dropped,Reset.");
-                    return false;
-                }
-            }
-
-            if (Core.Me.CurrentTarget.HasAllAuras(Utilities.Routines.Bard.DotsList, true, BardSettings.Instance.DotRefreshTime * 1000 + (int)Spells.HeavyShot.Cooldown.TotalMilliseconds))
-                return false;
-
-            if (Casting.LastSpell == Spells.IronJaws && Casting.LastSpellTarget == Core.Me.CurrentTarget)
-                return false;
-
-            return await Spells.IronJaws.Cast(Core.Me.CurrentTarget);
-
-        }
-        */
 
     }
 }

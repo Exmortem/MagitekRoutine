@@ -73,21 +73,38 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel >
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Use Apex Arrow " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="With At Least " />
-                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice" />
-                </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Use Apex Arrow At " IsChecked="{Binding BardSettings.UseBuffedApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Soul Voice When A " />
-                    <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXBonusDamage, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="% Damage-Buff Is About To End" />
+            <StackPanel>
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Apex Arrow with Soul Voice >= " IsChecked="{Binding BardSettings.UseApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Use Buffed Apex Arrow with Soul Voice >= " IsChecked="{Binding BardSettings.UseBuffedApexArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="20" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXSoulVoice, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" at % Damage-Buff >= " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="3" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding BardSettings.UseBuffedApexArrowWithAtLeastXBonusDamage, Mode=TwoWay}" />
+                </Grid>
+                <StackPanel>
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Info on Buffed Apex (Experimental):" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="- 24% will match RS+BV+RF+WM (EndWalker Patch)" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="- This will force to keep Apex for Buff windows, even if Soul Voice = 100" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="- This will force to execute Apex in MB window if Soul Voice >= 80 at MB remaining time = 22sec" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="- You need to check 'Use Apex Arrow' checkbox above too" />
                 </StackPanel>
             </StackPanel>
+            
         </controls:SettingsBlock>
 
     </StackPanel>

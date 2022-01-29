@@ -4,7 +4,7 @@ using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
-using System;
+using BardRoutine = Magitek.Utilities.Routines.Bard;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,10 +44,10 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
 
-            if (!BardSettings.Instance.DelayRageingStrikes)
+            if (!BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuet)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
-            if ((45 - ActionResourceManager.Bard.Timer.TotalSeconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
+            if ((BardRoutine.SongMaxDuration - ActionResourceManager.Bard.Timer.TotalSeconds) >= BardSettings.Instance.DelayRageingStrikesDuringWanderersMinuetUntilXSecondsInWM)
                 return await Spells.RagingStrikes.CastAura(Core.Me, Auras.RagingStrikes);
 
             return false;
@@ -60,6 +60,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (!Core.Me.HasAura(Auras.RagingStrikes))
+                return false;
+
+            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000)
                 return false;
 
             return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice, false, 0, false);
@@ -83,7 +86,7 @@ namespace Magitek.Logic.Bard
             {
                 //Wait for potential SSR procs from Burstshot/IJ/Windbite/VenomousBite
                 if (Spells.HeavyShot.Cooldown.TotalMilliseconds > 1850
-                    && (Casting.LastSpell == Utilities.Routines.Bard.BurstShot || Casting.LastSpell == Utilities.Routines.Bard.Stormbite || Casting.LastSpell == Utilities.Routines.Bard.CausticBite || Casting.LastSpell == Spells.IronJaws))
+                    && (Casting.LastSpell == BardRoutine.BurstShot || Casting.LastSpell == BardRoutine.Stormbite || Casting.LastSpell == BardRoutine.CausticBite || Casting.LastSpell == Spells.IronJaws))
                     return false;
 
                 if (Core.Me.HasAura(Auras.StraighterShot))
@@ -108,6 +111,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (!Core.Me.HasAura(Auras.RagingStrikes))
+                return false;
+
+            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000) 
                 return false;
 
             return await Spells.RadiantFinale.CastAura(Core.Me, Auras.RadiantFinale);
