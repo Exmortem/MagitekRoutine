@@ -103,10 +103,6 @@ namespace Magitek.Gambits.Helpers
                     condition = new MonkChakraCondition();
                     break;
 
-                case "MonkGreasedLightning":
-                    condition = new MonkGreasedLightningCondition();
-                    break;
-
                 case "BardRepertoire":
                     condition = new BardRepertoireCondition();
                     break;
