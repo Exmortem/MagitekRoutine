@@ -1223,36 +1223,7 @@
                                                                                         </StackPanel>
                                                                                     </ComboBox>
                                                                                 </DataTemplate>
-
-                                                                                <DataTemplate DataType="{x:Type conditions:MonkGreasedLightningCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="GREASED LIGHTNING">
-                                                                                        <StackPanel Width="200">
-                                                                                            <TextBox CaretBrush="White"
-                                                                                                     FontSize="10"
-                                                                                                     Foreground="{DynamicResource Light}"
-                                                                                                     Tag="MINIMUM GREASED LIGHTNING:"
-                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
-                                                                                                     Text="{Binding GreasedLightningMinimum, Mode=TwoWay}" />
-                                                                                            <TextBox CaretBrush="White"
-                                                                                                     FontSize="10"
-                                                                                                     Foreground="{DynamicResource Light}"
-                                                                                                     Tag="MAXIMUM GREASED LIGHTNING:"
-                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
-                                                                                                     Text="{Binding GreasedLightningMaximum, Mode=TwoWay}" />
-
-                                                                                            <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveGambitCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                                <Button.CommandParameter>
-                                                                                                    <MultiBinding Converter="{StaticResource ConditionConverter}">
-                                                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
-                                                                                                        <Binding Path="Id" />
-                                                                                                    </MultiBinding>
-                                                                                                </Button.CommandParameter>
-                                                                                            </Button>
-                                                                                        </StackPanel>
-                                                                                    </ComboBox>
-                                                                                </DataTemplate>
-
-
+                                                                                
                                                                                 <DataTemplate DataType="{x:Type conditions:MonkChakraCondition}">
                                                                                     <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="CHAKRA">
                                                                                         <StackPanel Width="200">

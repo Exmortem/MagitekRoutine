@@ -22,7 +22,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 74)
                 return false;
 
-            if (ActionResourceManager.Monk.FithChakra < 5)
+            if (ActionResourceManager.Monk.ChakraCount < 5)
                 return false;
 
             //Logger.Write($@"[Magitek] Enlightenment Check: We have {Utilities.Routines.Monk.EnemiesInCone} Enemies in range we need {MonkSettings.Instance.EnlightenmentEnemies} and Enlightenment is {MonkSettings.Instance.UseEnlightenment}");

@@ -14,10 +14,10 @@ namespace Magitek.Gambits.Conditions
 
         public override bool Check(GameObject gameObject = null)
         {
-            if (ActionResourceManager.Monk.FithChakra < ChakraMinimum)
+            if (ActionResourceManager.Monk.ChakraCount < ChakraMinimum)
                 return false;
 
-            if (ActionResourceManager.Monk.FithChakra > ChakraMaximum)
+            if (ActionResourceManager.Monk.ChakraCount > ChakraMaximum)
                 return false;
 
             return true;

@@ -77,9 +77,6 @@ namespace Magitek.Converters
                     case GambitConditionTypes.MonkChakra:
                         condition = new MonkChakraCondition();
                         break;
-                    case GambitConditionTypes.MonkGreasedLightning:
-                        condition = new MonkGreasedLightningCondition();
-                        break;
                     case GambitConditionTypes.SpellOffCooldown:
                         condition = new SpellOffCooldownCondition();
                         break;

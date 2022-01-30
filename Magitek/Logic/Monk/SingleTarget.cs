@@ -109,7 +109,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseTheForbiddenChakra)
                 return false;
 
-            if (ActionResourceManager.Monk.FithChakra < 5)
+            if (ActionResourceManager.Monk.ChakraCount < 5)
                 return false;
 
             return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);

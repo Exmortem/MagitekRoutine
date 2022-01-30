@@ -22,6 +22,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -49,15 +50,16 @@
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="GreyMagic, Version=1.0.41.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\GreyMagic.dll</HintPath>
+    <Reference Include="GreyMagic, Version=1.0.60.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.478\lib\net461\GreyMagic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
     </Reference>
-    <Reference Include="RebornBuddy">
-      <HintPath>..\References\RebornBuddy.exe</HintPath>
+    <Reference Include="RebornBuddy, Version=1.0.478.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.478\lib\net461\RebornBuddy.exe</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -209,7 +211,6 @@
     <Compile Include="Gambits\Conditions\LastSpellCondition.cs" />
     <Compile Include="Gambits\Conditions\MachinistHeatCondition.cs" />
     <Compile Include="Gambits\Conditions\MonkChakraCondition.cs" />
-    <Compile Include="Gambits\Conditions\MonkGreasedLightningCondition.cs" />
     <Compile Include="Gambits\Conditions\MpPercentCondition.cs" />
     <Compile Include="Gambits\Conditions\NinjaHutonCondition.cs" />
     <Compile Include="Gambits\Conditions\NinjaNinkiCondition.cs" />

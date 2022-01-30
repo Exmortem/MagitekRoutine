@@ -19,10 +19,10 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAutoMeditate)
                 return false;
 
-            if (!Core.Me.InCombat && ActionResourceManager.Monk.FithChakra < 5)
+            if (!Core.Me.InCombat && ActionResourceManager.Monk.ChakraCount < 5)
                 return await Spells.Meditation.Cast(Core.Me);
 
-            if (!Core.Me.HasTarget && ActionResourceManager.Monk.FithChakra < 5)
+            if (!Core.Me.HasTarget && ActionResourceManager.Monk.ChakraCount < 5)
                 return await Spells.Meditation.Cast(Core.Me);
 
             return false;
