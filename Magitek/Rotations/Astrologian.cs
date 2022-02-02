@@ -217,6 +217,7 @@ namespace Magitek.Rotations
                 return await Pvp.Malefic(); //Damage
             }
 
+            if (await Aoe.AggroAst()) return true;
             if (await Aoe.LordOfCrown()) return true;
             if (await Aoe.Gravity()) return true;
             if (await SingleTarget.Combust()) return true;
