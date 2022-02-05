@@ -748,11 +748,8 @@ namespace Magitek.Logic.Astrologian
             if (!Group.CastableAlliesWithin30.Any(x => x.HasMyAura(Auras.Macrocosmos)))
                 return false;
 
-            if (Core.Me.HasAura(Auras.Macrocosmos, true, 7000))
-                return false;
-
             if (Group.CastableAlliesWithin30.Count(x => x.HasMyAura(Auras.Macrocosmos)
-                    && x.CurrentHealthPercent < 50f) <= AoeThreshold) return false;
+                    && x.CurrentHealthPercent < AstrologianSettings.Instance.MacrocosmosHealthPercent) <= AoeThreshold) return false;
 
             return await Spells.Microcosmos.Heal(Core.Me);
 

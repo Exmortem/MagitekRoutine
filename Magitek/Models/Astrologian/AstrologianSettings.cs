@@ -74,6 +74,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(false)]
         public bool SmartAoe { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool AggroAst { get; set; }
 
         #endregion
 
@@ -243,7 +247,7 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(75)]
         public float CelestialOppositionHealthPercent { get; set; }
-
+        
         [Setting]
         [DefaultValue(true)]
         public bool DiurnalBenefic { get; set; }
@@ -392,6 +396,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Macrocosmos { get; set; }
+        
+        [Setting]
+        [DefaultValue(65f)]
+        public float MacrocosmosHealthPercent { get; set; }
         
         [Setting]
         [DefaultValue(true)]

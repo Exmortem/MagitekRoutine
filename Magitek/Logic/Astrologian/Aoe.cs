@@ -9,6 +9,56 @@ namespace Magitek.Logic.Astrologian
 {
     internal static class Aoe
     {
+        public static async Task<bool> AggroAst()
+        {
+            if (!AstrologianSettings.Instance.AggroAst)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+            
+            if (Core.Me.CurrentTarget.IsBoss() || Combat.Enemies.Count() > 4)
+
+            if (await AggroLightSpeed()) return true;
+            if (await AggroEarthlyStar()) return true;
+            return await AggroMacrocosmos();
+        }
+
+        private static async Task<bool> AggroLightSpeed()
+        {
+            if (!Spells.Lightspeed.IsKnownAndReady())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Lightspeed))
+                return false;
+
+            return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
+        }
+
+        private static async Task<bool> AggroEarthlyStar()
+        {
+            if (!Spells.EarthlyStar.IsKnownAndReady())
+                return false;
+
+            if (Core.Me.HasAnyAura(new uint[] {Auras.EarthlyDominance,Auras.GiantDominance}))
+                return false;
+                
+            
+            if (!await Spells.EarthlyStar.Cast(Core.Me.CurrentTarget)) return false;
+            
+            Utilities.Routines.Astrologian.EarthlyStarLocation = Core.Target.Location;
+            return true;
+        }
+        private static async Task<bool> AggroMacrocosmos()
+        {
+            if (!Spells.Macrocosmos.IsKnownAndReady())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Macrocosmos))
+                return false;
+
+            return await Spells.Macrocosmos.Cast(Core.Me.CurrentTarget);
+        }
         public static async Task<bool> Gravity()
         {
             if (!AstrologianSettings.Instance.Gravity)
