@@ -242,17 +242,19 @@ namespace Magitek.Logic.Sage
                 return false;
 
             var spell = Spells.PhysisII;
+            uint aura = Auras.PhysisII;
 
             if (Core.Me.ClassLevel < 60)
             {
                 spell = Spells.Physis;
+                aura = Auras.Physis;
             }
 
             if (!spell.IsKnownAndReady())
                 return false;
 
             var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent
-                                                             && !r.HasAura(Auras.PhysisII));
+                                                             && !r.HasAura(aura));
 
             if (targets.Count() < AoeNeedHealing)
                 return false;
@@ -260,7 +262,7 @@ namespace Magitek.Logic.Sage
             if (!UseAoEHealingBuff(targets))
                 return false;
 
-            return await spell.HealAura(Core.Me, Auras.PhysisII);
+            return await spell.HealAura(Core.Me, aura);
         }
         public static async Task<bool> Druochole()
         {

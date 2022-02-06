@@ -144,6 +144,9 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.Adloquium)
                 return false;
 
+            if (!ScholarSettings.Instance.AdloOutOfCombat && !Core.Me.InCombat)
+                return false;
+
             if (Globals.InParty)
             {
                 // If the lowest heal target is higher than Adloquium health, check to see if the user wants us to Galvanize the tank

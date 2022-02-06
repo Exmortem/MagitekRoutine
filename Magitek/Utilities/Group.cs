@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Enums;
+using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -60,7 +61,7 @@ namespace Magitek.Utilities
                 }
             }
 
-            foreach (var ally in PartyManager.AllMembers.Select(r => r.BattleCharacter))
+            foreach (var ally in PartyManager.RawMembers.Select(r => r.BattleCharacter))
             {
                 if (ally == null)
                     continue;
@@ -89,6 +90,13 @@ namespace Magitek.Utilities
 
                 CastableParty.Add(ally);
             }
+
+            /*if (CastableParty.Count() < PartyManager.NumMembers)
+            {
+                Logger.WriteInfo("Mismatch in Castable Party Count:");
+                Logger.WriteInfo($"CastableParty: {String.Join(", ",CastableParty.Select(x => x.Name))}");
+                Logger.WriteInfo($"PartyManager: {String.Join(", ",PartyManager.AllMembers.Select(x => x.Name))}");
+            }*/
 
             foreach (var ally in CastableParty.OrderBy(a => a.GetHealingWeight()))
             {

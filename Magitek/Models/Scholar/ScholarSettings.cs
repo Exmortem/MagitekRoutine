@@ -128,6 +128,10 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(false)]
         public bool AdloquiumTankForBuff { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool AdloOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]

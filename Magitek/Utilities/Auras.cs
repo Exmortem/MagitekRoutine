@@ -281,6 +281,7 @@ namespace Magitek.Utilities
             EukrasianDiagnosis = 2607,
             Kerachole = 2618,
             Kerakeia = 2938,
+            Physis = 2617,
             PhysisII = 2620,
             Autophysis = 2621,
             Haimatinon = 2642,
