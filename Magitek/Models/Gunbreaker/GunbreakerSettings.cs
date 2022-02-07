@@ -165,16 +165,16 @@ namespace Magitek.Models.Gunbreaker
 
         #region Pull
         [Setting]
-        [DefaultValue(true)]
-        public bool PullWithLightningShot { get; set; }
-
-        [Setting]
-        [DefaultValue(0)]
+        [DefaultValue(3)]
         public int LightningShotMinDistance { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool LightningShotToPullAggro { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool LightningShotToDps { get; set; }
 
         #endregion
 

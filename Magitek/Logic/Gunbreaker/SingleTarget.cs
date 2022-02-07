@@ -18,29 +18,39 @@ namespace Magitek.Logic.Gunbreaker
          *******************************************************************************/
         public static async Task<bool> LightningShot()
         {
-            if (!GunbreakerSettings.Instance.LightningShotToPullAggro)
+            if (!GunbreakerSettings.Instance.LightningShotToPullAggro || !GunbreakerSettings.Instance.LightningShotToDps)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.RoyalGuard))
-                return false;
-
-            if (BotManager.Current.IsAutonomous)
-                return false;
-
-            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
-                                                                         && r.Distance(Core.Me) <= 20 + r.CombatReach
-                                                                         && r.TargetGameObject != Core.Me);
+            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
+                                                                        && r.NotInvulnerable()
+                                                                        && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
+                                                                        && r.Distance(Core.Me) <= 20 + r.CombatReach);
 
             if (lightningShotTarget == null)
                 return false;
 
-            if (lightningShotTarget.TargetGameObject == null)
+            if (GunbreakerSettings.Instance.LightningShotToPullAggro && lightningShotTarget.TargetGameObject != Core.Me)
+            {
+                if (!Core.Me.HasAura(Auras.RoyalGuard))
+                    return false;
+
+                if (BotManager.Current.IsAutonomous)
+                    return false;
+ 
+                if (!await Spells.LightningShot.Cast(lightningShotTarget))
+                    return false;
+
+                Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} To Pull Aggro");
+                return true;
+            }
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             if (!await Spells.LightningShot.Cast(lightningShotTarget))
                 return false;
 
-            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} To Pull Aggro");
+            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} To DPS");
             return true;
         }
 
@@ -164,10 +174,10 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseBurstStrike)
                 return false;
 
-            if (GunbreakerRoutine.IsAurasForComboActive())
-                return false;
-
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForBurstStrike)
+                return false; 
+            
+            if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= GunbreakerSettings.Instance.PrioritizeFatedCircleOverBurstStrikeEnemies)
@@ -175,22 +185,16 @@ namespace Magitek.Logic.Gunbreaker
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)
             {
-                if (Spells.DoubleDown.IsKnownAndReady() || Spells.GnashingFang.IsKnownAndReady())
+                if (Cartridge < GunbreakerRoutine.MaxCartridge && (Spells.DoubleDown.IsKnownAndReady(10000) || Spells.GnashingFang.IsKnownAndReady(10000)))
                     return false;
+
+                return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
             }
 
-            //Delay if nomercy ready soon
-            if (Spells.NoMercy.IsKnownAndReady(16000) && Cartridge < GunbreakerRoutine.MaxCartridge - 1)
-                return false;
-            if (Spells.NoMercy.IsKnownAndReady(8000) && Cartridge < GunbreakerRoutine.MaxCartridge)
+            if (Cartridge == GunbreakerRoutine.MaxCartridge && ActionManager.LastSpell.Id != Spells.BrutalShell.Id)
                 return false;
 
-            //Delay if GnashingFang ready soon
-            if (Spells.GnashingFang.IsKnownAndReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForGnashingFang)
-                return false;
-
-            //Delay if DoubleDown ready soon
-            if (Spells.DoubleDown.IsKnownAndReady(8000) && Cartridge <= GunbreakerRoutine.RequiredCartridgeForDoubleDown)
+            if (Cartridge < GunbreakerRoutine.MaxCartridge)
                 return false;
 
             return await Spells.BurstStrike.Cast(Core.Me.CurrentTarget);
