@@ -30,17 +30,24 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Pull With Lightning Shot" IsChecked="{Binding GunbreakerSettings.PullWithLightningShot, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Use Lightning Shot if not in melee to deal damage " IsChecked="{Binding GunbreakerSettings.LightningShotToDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Grid.Row="1" Margin="0,3,0,0" Content="Lightning Shot To Regain Aggro When Mob Is At Least " IsChecked="{Binding GunbreakerSettings.LightningShotToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Margin="0,3,0,0" Content="Use Lightning Shot To Pull or Regain Aggro " IsChecked="{Binding GunbreakerSettings.LightningShotToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Lightning Shot When Mob Is At Least "  />
                         <controls:Numeric Margin="0,3" MaxValue="15" MinValue="0" Value="{Binding GunbreakerSettings.LightningShotMinDistance, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Yalms Away" />
                     </StackPanel>
