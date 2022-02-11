@@ -97,6 +97,9 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Diagnosis)
                 return false;
 
+            if (SageSettings.Instance.DiagnosisOnlyBelowXAddersgall && Addersgall > SageSettings.Instance.DiagnosisOnlyAddersgallValue)
+                return false;
+
             if (Globals.InParty)
             {
                 var DiagnosisTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => r.CurrentHealthPercent < SageSettings.Instance.DiagnosisHpPercent || r.HasAura(Auras.Doom));
@@ -178,6 +181,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!Spells.Prognosis.IsKnownAndReady())
+                return false;
+
+            if (SageSettings.Instance.PrognosisOnlyBelowXAddersgall && Addersgall > SageSettings.Instance.PrognosisOnlyAddersgallValue)
                 return false;
 
             if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < AoeNeedHealing)
