@@ -40,7 +40,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (GunbreakerSettings.Instance.PullWithLightningShot)
+            if (GunbreakerSettings.Instance.LightningShotToPullAggro)
                 await Spells.LightningShot.Cast(Core.Me.CurrentTarget);
 
             return await Combat();
@@ -91,15 +91,18 @@ namespace Magitek.Rotations
                 if (await Defensive.Reprisal()) return true;
                 if (await Defensive.HeartofLight()) return true;
                 if (await Defensive.HeartofCorundum()) return true;
+            }
 
-                //oGCD to use with BurstStrike
-                if (await SingleTarget.Hypervelocity()) return true;
+            //oGCD to use with BurstStrike
+            if (await SingleTarget.Hypervelocity()) return true;
 
-                //oGCD to use inside Combo 2
-                if (await SingleTarget.EyeGouge()) return true;
-                if (await SingleTarget.AbdomenTear()) return true;
-                if (await SingleTarget.JugularRip()) return true;
+            //oGCD to use inside Combo 2
+            if (await SingleTarget.EyeGouge()) return true;
+            if (await SingleTarget.AbdomenTear()) return true;
+            if (await SingleTarget.JugularRip()) return true;
 
+            if (GunbreakerRoutine.GlobalCooldown.CanWeave())
+            {
                 //oGCD - Buffs
                 if (await Buff.NoMercy()) return true;
                 if (await Buff.Bloodfest()) return true;
