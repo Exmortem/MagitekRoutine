@@ -8,7 +8,7 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="10">
+    <StackPanel Margin="5">
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
@@ -65,7 +65,7 @@
                     <CheckBox Grid.Row="1" Grid.Column="0" Content="Reprisal" IsChecked="{Binding GunbreakerSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.ReprisalHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                    
+
                     <CheckBox Grid.Row="2" Grid.Column="0" Content="Camouflage" IsChecked="{Binding GunbreakerSettings.UseCamouflage, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.CamouflageHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
@@ -81,12 +81,17 @@
                     <CheckBox Grid.Row="5" Grid.Column="0" Content="Nebula" IsChecked="{Binding GunbreakerSettings.UseNebula, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.NebulaHealthPercent, Mode=TwoWay}" />
                     <TextBlock Grid.Row="5" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
-                    <CheckBox Grid.Row="6" Grid.Column="0" Content="Super Bolide" IsChecked="{Binding GunbreakerSettings.UseSuperbolide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="6" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.SuperbolideHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </Grid>
             </StackPanel>
         </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Margin="0,3" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="3 3 0 3" Orientation="Horizontal">
+                <CheckBox Content="Use Super Bolide under " IsChecked="{Binding GunbreakerSettings.UseSuperbolide, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.SuperbolideHealthPercent, Mode=TwoWay}" />
+                <TextBlock Grid.Row="6" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
     </StackPanel>
 </UserControl>

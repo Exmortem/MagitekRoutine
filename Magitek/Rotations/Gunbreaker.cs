@@ -114,7 +114,8 @@ namespace Magitek.Rotations
             }
 
             //Pull or get back aggro with LightningShot
-            if (await SingleTarget.LightningShot()) return true;
+            if (await SingleTarget.LightningShotToPullOrAggro()) return true;
+            if (await SingleTarget.LightningShotToDps()) return true;
 
             //Apply DOT / Burst
             if (await Aoe.DoubleDown()) return true;

@@ -1,11 +1,13 @@
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.Gunbreaker;
+using Auras = Magitek.Utilities.Auras;
 using GunbreakerRoutine = Magitek.Utilities.Routines.Gunbreaker;
 
 namespace Magitek.Logic.Gunbreaker
@@ -16,41 +18,66 @@ namespace Magitek.Logic.Gunbreaker
         /********************************************************************************
          *                               Pull - GCD
          *******************************************************************************/
-        public static async Task<bool> LightningShot()
+        public static async Task<bool> LightningShotToDps()
         {
-            if (!GunbreakerSettings.Instance.LightningShotToPullAggro || !GunbreakerSettings.Instance.LightningShotToDps)
+            if (!GunbreakerSettings.Instance.LightningShotToDps)
                 return false;
-
-            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
-                                                                        && r.NotInvulnerable()
-                                                                        && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
-                                                                        && r.Distance(Core.Me) <= 20 + r.CombatReach);
-
-            if (lightningShotTarget == null)
-                return false;
-
-            if (GunbreakerSettings.Instance.LightningShotToPullAggro && lightningShotTarget.TargetGameObject != Core.Me)
-            {
-                if (!Core.Me.HasAura(Auras.RoyalGuard))
-                    return false;
-
-                if (BotManager.Current.IsAutonomous)
-                    return false;
- 
-                if (!await Spells.LightningShot.Cast(lightningShotTarget))
-                    return false;
-
-                Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} To Pull Aggro");
-                return true;
-            }
 
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit()
+                        || !Core.Me.CurrentTarget.NotInvulnerable()
+                        || Core.Me.CurrentTarget.Distance(Core.Me) < Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
+                        || Core.Me.CurrentTarget.Distance(Core.Me) > 20 + Core.Me.CurrentTarget.CombatReach
+                        || (Core.Me.CurrentTarget as BattleCharacter).TargetGameObject == null)
+                return false;
+
+            if (!await Spells.LightningShot.Cast(Core.Me.CurrentTarget))
+                return false;
+
+            Logger.WriteInfo($@"Lightning Shot On {Core.Me.CurrentTarget.Name} To DPS");
+            return true;
+        }
+
+        public static async Task<bool> LightningShotToPullOrAggro()
+        {
+            if (!GunbreakerSettings.Instance.LightningShotToPullAggro)
+                return false;
+
+            if (GunbreakerRoutine.IsAurasForComboActive())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.RoyalGuard))
+                return false;
+
+            if (BotManager.Current.IsAutonomous)
+                return false;
+
+            //find target already pulled on which I lose aggro
+            var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
+                                                                    && r.NotInvulnerable()
+                                                                    && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
+                                                                    && r.Distance(Core.Me) <= 20 + r.CombatReach
+                                                                    && r.TargetGameObject != Core.Me);
+
+            //if no target found, then check if current target is not pulled yet
+            if (lightningShotTarget == null)
+            {
+                lightningShotTarget = (BattleCharacter) Core.Me.CurrentTarget;
+
+                if (!lightningShotTarget.ValidAttackUnit()
+                    || !lightningShotTarget.NotInvulnerable()
+                    || lightningShotTarget.Distance(Core.Me) < Core.Me.CombatReach + lightningShotTarget.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
+                    || lightningShotTarget.Distance(Core.Me) > 20 + lightningShotTarget.CombatReach
+                    || lightningShotTarget.TargetGameObject != null)
+                    return false;
+            }
+
             if (!await Spells.LightningShot.Cast(lightningShotTarget))
                 return false;
 
-            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} To DPS");
+            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} to pull");
             return true;
         }
 
