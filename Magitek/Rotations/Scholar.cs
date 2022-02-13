@@ -89,6 +89,9 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
 
             if (CustomOpenerLogic.InOpener) return false;
+            
+            if (await HealFightLogic.Aoe()) return true;
+            if (await HealFightLogic.Tankbuster()) return true;
 
             if (await Logic.Scholar.Heal.Resurrection()) return true;
 

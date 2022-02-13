@@ -511,6 +511,34 @@ namespace Magitek.Models.Scholar
         public bool HealAllianceOnlyPhysick { get; set; }
         #endregion
 
+        #region FightLogic
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicExcogTank { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicAdloTank { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicSuccorAoe { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicAdloDeployBigAoe { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicRecitSuccorBigAoe { get; set; }
+        
+        [Setting]
+        [DefaultValue(false)]
+        public bool FightLogicSoilBigAoe { get; set; }
+        
+        #endregion
+
 
         public void Load(string path)
         {

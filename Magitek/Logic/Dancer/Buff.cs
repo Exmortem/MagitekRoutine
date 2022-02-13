@@ -64,14 +64,14 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            var cureTargets = PartyManager.AllMembers.Count(x => x.IsValid && x.BattleCharacter.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.BattleCharacter.Distance(Core.Me) < 5);
+            var cureTargets = Group.CastableParty.Count(x => x.IsValid && x.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.Distance(Core.Me) < 5);
 
             if (Core.Me.HasAura(Auras.ClosedPosition))
             {
-                var DancePartner = PartyManager.AllMembers.FirstOrDefault(x => x.BattleCharacter.HasMyAura(Auras.DancePartner));
+                var DancePartner = Group.CastableParty.FirstOrDefault(x => x.HasMyAura(Auras.DancePartner));
 
                 if (DancePartner != null)
-                    cureTargets += PartyManager.AllMembers.Count(x => x.IsValid && x.BattleCharacter.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.BattleCharacter.Distance(DancePartner.BattleCharacter) < 5);
+                    cureTargets += Group.CastableParty.Count(x => x.IsValid && x.CurrentHealthPercent < DancerSettings.Instance.CuringWaltzHP && x.Distance(DancePartner) < 5);
             }
 
             if (cureTargets < (Globals.InParty ? DancerSettings.Instance.CuringWaltzCount : 1))
