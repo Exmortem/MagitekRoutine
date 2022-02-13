@@ -59,6 +59,7 @@ namespace Magitek.Utilities
             WheelOfFortune = 956,
             CollectiveUnconsciousMitigation = 849,
             DiurnalIntersection = 1888,
+            Opposition = 1879,
             Horoscope = 1890,
             HoroscopeHelios = 1891,
             TheBalance = 1882,
