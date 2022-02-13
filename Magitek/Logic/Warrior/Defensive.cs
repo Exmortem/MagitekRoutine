@@ -15,7 +15,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseDefensives)
                 return false;
 
-            var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => Utilities.Routines.Warrior.Defensives.Contains(r)).ToList();
+            var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => WarriorRoutine.Defensives.Contains(r)).ToList();
 
             if (currentAuras.Count >= WarriorSettings.Instance.MaxDefensivesAtOnce)
             {

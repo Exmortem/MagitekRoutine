@@ -89,7 +89,7 @@ namespace Magitek.Models.Gunbreaker
         public bool UseSuperbolide { get; set; }
 
         [Setting]
-        [DefaultValue(20)]
+        [DefaultValue(15)]
         public int SuperbolideHealthPercent { get; set; }
 
         [Setting]
@@ -131,36 +131,65 @@ namespace Magitek.Models.Gunbreaker
         public bool UseAurora { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseAuroraHealer { get; set; }
 
         [Setting]
-        [DefaultValue(40)]
-        public int UseAuroraHealerHealthPercent { get; set; }
+        [DefaultValue(20)]
+        public int AuroraHealerHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UseAuroraDps { get; set; }
 
         [Setting]
-        [DefaultValue(40)]
-        public int UseAuroraDpsHealthPercent { get; set; }
+        [DefaultValue(20)]
+        public int AuroraDpsHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseAuroraSelf { get; set; }
 
         [Setting]
-        [DefaultValue(70)]
+        [DefaultValue(60)]
         public int AuroraSelfHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(70)]
-        public int AuroraAsDefensiveHealthPercent { get; set; }
+        [DefaultValue(true)]
+        public bool UseAuroraMainTank { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
-        public int MinMpAurora { get; set; }
+        [DefaultValue(60)]
+        public int AuroraMainTankHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAuroraTank { get; set; }
+
+        [Setting]
+        [DefaultValue(60)]
+        public int AuroraTankHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int AuroraPrioritySelf { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int AuroraPriorityMainTank { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AuroraPriorityTank { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int AuroraPriorityHealer { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int AuroraPriorityDps { get; set; }
+
         #endregion
 
         #region Pull
