@@ -16,6 +16,9 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseAurora)
                 return false;
 
+            if (!Core.Me.InCombat)
+                return false;
+
             if (Spells.Aurora.Charges < 1)
                 return false;
 
