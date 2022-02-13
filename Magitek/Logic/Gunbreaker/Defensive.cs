@@ -16,7 +16,7 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.UseDefensives)
                 return false;
 
-            var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => Utilities.Routines.Gunbreaker.Defensives.Contains(r)).ToList();
+            var currentAuras = Core.Me.CharacterAuras.Select(r => r.Id).Where(r => GunbreakerRoutine.Defensives.Contains(r)).ToList();
 
             if (currentAuras.Count >= GunbreakerSettings.Instance.MaxDefensivesAtOnce)
             {
@@ -33,9 +33,6 @@ namespace Magitek.Logic.Gunbreaker
         public static async Task<bool> Superbolide()
         {
             if (!GunbreakerSettings.Instance.UseSuperbolide)
-                return false;
-
-            if (!UseDefensives())
                 return false;
 
             if (Core.Me.CurrentHealthPercent > GunbreakerSettings.Instance.SuperbolideHealthPercent)

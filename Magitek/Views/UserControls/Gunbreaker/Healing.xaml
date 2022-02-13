@@ -20,15 +20,18 @@
     <StackPanel Margin="10">
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Aurora When We Have At Least " IsChecked="{Binding GunbreakerSettings.UseAurora, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.MinMpAurora, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
+            <StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <TextBlock Margin="0 0 0 10" Style="{DynamicResource TextBlockDefault}" Text="Aurora Priority order is: 1 -> 5" />
+                </StackPanel>
+                <StackPanel Margin="3 0 0 0" Orientation="Horizontal">
+                    <CheckBox Content="Use Aurora " IsChecked="{Binding GunbreakerSettings.UseAurora, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-                <Grid Margin="0,10,0,0">
+                <Grid Margin="6">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -39,20 +42,36 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="on Yourself with priority " IsChecked="{Binding GunbreakerSettings.UseAuroraSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" Margin="3" MaxValue="5" MinValue="1" Value="{Binding GunbreakerSettings.AuroraPrioritySelf, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" if under " />
+                    <controls:Numeric Grid.Row="0" Grid.Column="3" Margin="3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.AuroraSelfHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="On Healers At " IsChecked="{Binding GunbreakerSettings.UseAuroraHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.UseAuroraHealerHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="on Main Tank with priority " IsChecked="{Binding GunbreakerSettings.UseAuroraMainTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="3" MaxValue="5" MinValue="1" Value="{Binding GunbreakerSettings.AuroraPriorityMainTank, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" if under " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="3" Margin="3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.AuroraMainTankHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="1" Grid.Column="0" Content="On DPS At " IsChecked="{Binding GunbreakerSettings.UseAuroraDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.UseAuroraDpsHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="on Any Tanks with priority " IsChecked="{Binding GunbreakerSettings.UseAuroraTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="3" MaxValue="5" MinValue="1" Value="{Binding GunbreakerSettings.AuroraPriorityTank, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" if under " />
+                    <controls:Numeric Grid.Row="2" Grid.Column="3" Margin="3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.AuroraTankHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-                    <CheckBox Grid.Row="2" Grid.Column="0" Content="On Ourself At " IsChecked="{Binding GunbreakerSettings.UseAuroraSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.UseAuroraSelfHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="on Healers with priority " IsChecked="{Binding GunbreakerSettings.UseAuroraHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="3" MaxValue="5" MinValue="1" Value="{Binding GunbreakerSettings.AuroraPriorityHealer, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" if under " />
+                    <controls:Numeric Grid.Row="3" Grid.Column="3" Margin="3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.AuroraHealerHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="4" Grid.Column="0" Content="on DPS with priority " IsChecked="{Binding GunbreakerSettings.UseAuroraDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="3" MaxValue="5" MinValue="1" Value="{Binding GunbreakerSettings.AuroraPriorityDps, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" if under " />
+                    <controls:Numeric Grid.Row="4" Grid.Column="3" Margin="3" MaxValue="100" MinValue="1" Value="{Binding GunbreakerSettings.AuroraDpsHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </Grid>
             </StackPanel>
         </controls:SettingsBlock>

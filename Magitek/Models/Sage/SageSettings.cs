@@ -360,12 +360,28 @@ namespace Magitek.Models.Sage
         public float DiagnosisHpPercent { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool DiagnosisOnlyBelowXAddersgall { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int DiagnosisOnlyAddersgallValue { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Prognosis { get; set; }
 
         [Setting]
         [DefaultValue(30.0f)]
         public float PrognosisHpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool PrognosisOnlyBelowXAddersgall { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int PrognosisOnlyAddersgallValue { get; set; }
 
         [Setting]
         [DefaultValue(true)]
