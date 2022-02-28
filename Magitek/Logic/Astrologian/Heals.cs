@@ -676,7 +676,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
 
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
             if (await Spells.Horoscope.Cast(Core.Me))
@@ -688,13 +688,10 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> HoroscopePop()
         {
-            if (AstrologianSettings.Instance.Horoscope)
+            if (!AstrologianSettings.Instance.Horoscope)
                 return false;
-
-            if (!Core.Me.HasAura(Auras.HoroscopeHelios))
-                return false;
-
-            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+                        
+            if (Group.CastableAlliesWithin20.Count(r => r.HasAura(Auras.HoroscopeHelios) && r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
                 return false;
 
             return await Spells.Horoscope.Cast(Core.Me);
