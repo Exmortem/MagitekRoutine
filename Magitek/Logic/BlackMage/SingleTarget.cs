@@ -79,16 +79,27 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Fire()
         {
             //Low level logic
-            if (Core.Me.ClassLevel < 40
-                && Core.Me.CurrentMana > 1600)
+            if (Core.Me.ClassLevel < 35)
             {
                 if (Casting.LastSpell == Spells.Transpose
-                    && Core.Me.CurrentMana != 10000)
+                    && Core.Me.CurrentMana <= 9600)
                     return false;
 
+                if (Core.Me.CurrentMana < 2000)
+                {
+                    if (Spells.Transpose.IsKnownAndReady())
+                        return await Spells.Transpose.Cast(Core.Me);
+                    else return false;
+
+                }
+
                 //If UmbralStacks was == 1 then it would cast fire and leave us with 0 stacks
-                if (ActionResourceManager.BlackMage.UmbralStacks < 1)
+                //if (ActionResourceManager.BlackMage.UmbralStacks <= 1 && Core.Me.CurrentMana < 9600)
+                //    return false;
+                
+                if (ActionResourceManager.BlackMage.AstralStacks >= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                     return await Spells.Fire.Cast(Core.Me.CurrentTarget);
+
                 return false;
             }
 
@@ -145,7 +156,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             //Level 40-59 logic
-            if (Core.Me.ClassLevel >= 40
+            if (Core.Me.ClassLevel >= 35
                 && Core.Me.ClassLevel <= 59)
             {
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3
@@ -158,6 +169,8 @@ namespace Magitek.Logic.BlackMage
 
                 if (Core.Me.HasAura(Auras.FireStarter))
                     return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
+
+                return false;
             }
 
             // Use if we're in Umbral and we have 3 hearts and have max mp
@@ -198,24 +211,29 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             //Low level logic
-            if (Core.Me.ClassLevel < 40)
+            if (Core.Me.ClassLevel < 35)
             {
                 if (Casting.LastSpell != Spells.Thunder
-                    && Casting.LastSpell == Spells.Transpose)
+                        && Casting.LastSpell == Spells.Transpose
+                        && ActionResourceManager.BlackMage.UmbralStacks > 0
+                        && !Core.Me.CurrentTarget.HasAura(Auras.Thunder, true, 4500))
                     return await Spells.Thunder.Cast(Core.Me.CurrentTarget);
+
                 if (Core.Me.HasAura(Auras.ThunderCloud))
                     return await Spells.Thunder.Cast(Core.Me.CurrentTarget);
+
                 return false;
             }
 
-            //Level 40-59 logic
-            if (Core.Me.ClassLevel >= 40
+            //Level 35-59 logic
+            if (Core.Me.ClassLevel >= 35
                 && Core.Me.ClassLevel <= 59)
             {
                 if (Casting.LastSpell != Spells.Thunder3
-                    && Casting.LastSpell == Spells.Blizzard3
-                    && ActionResourceManager.BlackMage.UmbralStacks == 3)
+                        && Casting.LastSpell == Spells.Blizzard3
+                        && ActionResourceManager.BlackMage.UmbralStacks == 3)
                     return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+                
                 if (Core.Me.HasAura(Auras.ThunderCloud))
                     return await Spells.Thunder.Cast(Core.Me.CurrentTarget);
 
@@ -285,8 +303,15 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Blizzard3.LevelAcquired)
                 return false;
 
-            // If we have no umbral or astral stacks, cast 
-            if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
+            //35-59 logic
+            if (Core.Me.ClassLevel >= 35
+               && Core.Me.ClassLevel <= 59)
+            {
+                if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana <= 1200)
+                    return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
+            }
+                // If we have no umbral or astral stacks, cast 
+                if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             // If our mana is less than 800 while in astral
@@ -305,17 +330,23 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
             //Low level logic
-            if (Core.Me.ClassLevel < 40)
+            if (Core.Me.ClassLevel < 35)
             {
-                if (Core.Me.CurrentMana == 10000)
+                if (Casting.LastSpell == Spells.Transpose && ActionResourceManager.BlackMage.AstralStacks > 0)
                     return false;
+                
+                if (Core.Me.CurrentMana >= 9600 && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                    return await Spells.Transpose.Cast(Core.Me);
 
-                if (ActionResourceManager.BlackMage.UmbralStacks > 0)
+                if (Core.Me.CurrentMana < 2000 || (ActionResourceManager.BlackMage.AstralStacks == 0 && ActionResourceManager.BlackMage.UmbralStacks >= 0))
+                    return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
+
+                if (Core.Me.CurrentMana < 9600 && ActionResourceManager.BlackMage.AstralStacks == 0 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                     return await Spells.Blizzard.Cast(Core.Me.CurrentTarget);
 
                 return false;
             }
-
+             
             return false;
         }
         public static async Task<bool> ParadoxUmbral()
