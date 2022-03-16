@@ -210,9 +210,13 @@ namespace Magitek.Logic.BlackMage
             {
                 if (Core.Me.CurrentMana >= 3800)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
-                //return await Spells.Transpose.Cast(Core.Me);
+
+                return false;
             }
-            if (Core.Me.ClassLevel >= Spells.HighFireII.LevelAcquired)
+            
+            // level 35-90 logic
+            if (Core.Me.ClassLevel >= 35)
+                
             {
                 if (ActionResourceManager.BlackMage.UmbralHearts == 1)
                     return false;
@@ -231,6 +235,28 @@ namespace Magitek.Logic.BlackMage
 
         public static async Task<bool> Blizzard2()
         {
+            //Low-level logic
+            if (Core.Me.ClassLevel >= 12
+                && Core.Me.ClassLevel < 35)
+            {
+                if (Core.Me.CurrentMana < 3800)
+                {
+                    if (ActionResourceManager.BlackMage.AstralStacks > 0)
+                      await Spells.Transpose.Cast(Core.Me);
+                    
+                    return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+                }
+
+                if (Core.Me.CurrentMana >= 9200 && ActionResourceManager.BlackMage.UmbralStacks < 0)
+                    return await Spells.Transpose.Cast(Core.Me);
+
+                if (ActionResourceManager.BlackMage.UmbralStacks < 0)
+                    return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+
+                return false;
+
+            }
+
             if ((Casting.LastSpell == Spells.Blizzard2)
                 || (Casting.LastSpell == Spells.HighBlizzardII))
                 return false;
