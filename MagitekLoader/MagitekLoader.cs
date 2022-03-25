@@ -120,7 +120,7 @@ namespace MagitekLoader
         public override void Initialize()
         {
             if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
-            if (Product != null) { InitFunc.Invoke(Product, null); }
+           // if (Product != null) { InitFunc.Invoke(Product, null); }
         }
 
         public override void OnButtonPress()
