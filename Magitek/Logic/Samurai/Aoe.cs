@@ -28,16 +28,15 @@ namespace Magitek.Logic.Samurai
             //if (!Core.Me.HasAura(Auras.Jinpu, true, 4000) || !Core.Me.HasAura(Auras.Shifu, true, 4000))
             //    return false;
 
-            if (!Spells.Fuko.IsKnown()) // Fuko ( lvl < 86) is a cone based attack
+            if (Core.Me.ClassLevel < 86) // Fuko ( lvl < 86) is a cone based attack
             {
-                if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod && Core.Me.EnemiesInCone(5.5f) < SamuraiSettings.Instance.AoeComboEnemies)
+                if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod && Core.Me.EnemiesInCone(8.5f) < SamuraiSettings.Instance.AoeComboEnemies)
                     return false;
             }
-            else
-            {
-                if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
-                    return false;
-            }
+          
+            if ((!SamuraiSettings.Instance.UseConeBasedAoECalculationMethod || Core.Me.ClassLevel >= 86) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+                return false;
+            
 
             return await SamuraiRoutine.Fuko.Cast(Core.Me.CurrentTarget);
         }
