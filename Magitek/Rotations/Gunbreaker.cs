@@ -58,13 +58,16 @@ namespace Magitek.Rotations
             return await Healing.Aurora();
         }
 
-        public static Task<bool> CombatBuff()
+        public static async Task<bool> CombatBuff()
         {
-            return Task.FromResult(false);
+            if (await Buff.RoyalGuard()) return true;
+            else return false;
         }
 
         public static async Task<bool> Combat()
         {
+            await CombatBuff();
+            
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
@@ -78,7 +81,7 @@ namespace Magitek.Rotations
 
             //Utility
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
-            if (await Buff.RoyalGuard()) return true;
+            //if (await Buff.RoyalGuard()) return true;
 
             if (GunbreakerRoutine.GlobalCooldown.CanWeave())
             {

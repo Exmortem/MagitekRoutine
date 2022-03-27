@@ -23,9 +23,6 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.LightningShotToDps)
                 return false;
 
-            if (GunbreakerRoutine.IsAurasForComboActive())
-                return false;
-
             if (!Core.Me.CurrentTarget.ValidAttackUnit()
                         || !Core.Me.CurrentTarget.NotInvulnerable()
                         || Core.Me.CurrentTarget.Distance(Core.Me) < Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach + GunbreakerSettings.Instance.LightningShotMinDistance
@@ -51,8 +48,9 @@ namespace Magitek.Logic.Gunbreaker
             if (!Core.Me.HasAura(Auras.RoyalGuard))
                 return false;
 
-            if (BotManager.Current.IsAutonomous)
-                return false;
+            //need this in autonomous for dungeon profiles
+            //if (BotManager.Current.IsAutonomous)
+            //    return false;
 
             //find target already pulled on which I lose aggro
             var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
@@ -274,8 +272,8 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
             }
 
-            if (GunbreakerRoutine.IsAurasForComboActive())
-                return false;
+            //if (GunbreakerRoutine.IsAurasForComboActive())
+            //    return false;
 
             return await Spells.RoughDivide.Cast(Core.Me.CurrentTarget);
         }

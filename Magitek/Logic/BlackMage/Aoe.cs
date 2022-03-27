@@ -117,7 +117,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             //Can only use in Umbral Ice
-            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
+            if (ActionResourceManager.BlackMage.UmbralStacks < 1)
                 return false;
 
             // If we need to refresh stack timer, stop
@@ -208,7 +208,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel >= 18
                 && Core.Me.ClassLevel < 35)
             {
-                if (Core.Me.CurrentMana >= 3800)
+                if (Core.Me.CurrentMana >= 3000)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 
                 return false;
@@ -239,7 +239,7 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel >= 12
                 && Core.Me.ClassLevel < 35)
             {
-                if (Core.Me.CurrentMana < 3800)
+                if (Core.Me.CurrentMana < 3000)
                 {
                     if (ActionResourceManager.BlackMage.AstralStacks > 0)
                       await Spells.Transpose.Cast(Core.Me);
@@ -247,7 +247,7 @@ namespace Magitek.Logic.BlackMage
                     return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
                 }
 
-                if (Core.Me.CurrentMana >= 9200 && ActionResourceManager.BlackMage.UmbralStacks < 0)
+                if (Core.Me.CurrentMana >= 9600 && ActionResourceManager.BlackMage.UmbralStacks < 0)
                     return await Spells.Transpose.Cast(Core.Me);
 
                 if (ActionResourceManager.BlackMage.UmbralStacks < 0)

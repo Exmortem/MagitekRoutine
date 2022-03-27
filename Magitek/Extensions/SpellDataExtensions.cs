@@ -29,8 +29,10 @@ namespace Magitek.Extensions
                 }
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
-                GameSettingsManager.FaceTargetOnAction = true;
+            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
+            
+                //GameSettingsManager.FaceTargetOnAction = true;
+                Core.Me.Face(target);
 
             return await DoAction(spell, target);
         }
@@ -47,8 +49,9 @@ namespace Magitek.Extensions
                 }
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
-                GameSettingsManager.FaceTargetOnAction = true;
+            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && target != Core.Me)
+                //GameSettingsManager.FaceTargetOnAction = true;
+                Core.Me.Face(target);
 
             return await DoAction(spell, target, aura, needAura, useRefreshTime, refreshTime);
         }
@@ -133,7 +136,14 @@ namespace Magitek.Extensions
 
         public static bool CanCast(this SpellData spell, GameObject target)
         {
-            return ActionManager.CanCast(spell, target);
+            if (!BaseSettings.Instance.UseCastOrQueue)
+            {
+               return ActionManager.CanCast(spell, target);
+            }
+            else
+            {
+               return ActionManager.CanCastOrQueue(spell, target);
+            }
         }
 
 
@@ -245,10 +255,18 @@ namespace Magitek.Extensions
 
         public static bool IsReady(this SpellData spell, int remainingTimeInMs = 0)
         {
-            return spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
+            if (!BaseSettings.Instance.UseCastOrQueue)
+            {
+                return spell.Cooldown.TotalMilliseconds <= remainingTimeInMs;
+            }
+            else
+            {
+                return spell.Cooldown.TotalMilliseconds <= 500;
+            }
+            
         }
 
-        public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 0)
+        public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 500)
         {
             return spell.IsKnown() && spell.IsReady(remainingTimeInMs);
         }
