@@ -202,8 +202,9 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Core.Me.CurrentTarget.Face();
+
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+
                 }
             }
 
