@@ -19,7 +19,7 @@ namespace Magitek.Logic.Warrior
          * ***********************************************************************************/
         public static async Task<bool> Tomahawk()
         {
-            if (WarriorSettings.Instance.UseTomahawkToPullExtraEnemies && !BotManager.Current.IsAutonomous)
+            if (WarriorSettings.Instance.UseTomahawkToPullExtraEnemies)
             {
                 var pullTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit() && !r.Tapped && r.Distance(Core.Me) < 15 + r.CombatReach &&
                                                                                 r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.TargetGameObject != Core.Me);
@@ -51,8 +51,8 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseTomahawkOnLostAggro)
                 return false;
 
-            if (BotManager.Current.IsAutonomous)
-                return false;
+            //if (BotManager.Current.IsAutonomous)
+            //    return false;
 
             var tomahawkTarget = Combat.Enemies.FirstOrDefault(r => r.Distance(Core.Me) > 5 + r.CombatReach && r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.Distance(Core.Me) <= 15 + r.CombatReach && r.TargetGameObject != Core.Me);
 

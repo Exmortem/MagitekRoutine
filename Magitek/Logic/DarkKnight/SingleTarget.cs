@@ -55,9 +55,10 @@ namespace Magitek.Logic.DarkKnight
         {
             if (Globals.OnPvpMap)
                 return false;
-
-            if (BotManager.Current.IsAutonomous)
-                return false;
+            
+            //need this in autonomous for dungeon profiles
+            //if (BotManager.Current.IsAutonomous)
+            //    return false;
 
             if (!DarkKnightSettings.Instance.UnmendToPullAggro)
                 return false;
