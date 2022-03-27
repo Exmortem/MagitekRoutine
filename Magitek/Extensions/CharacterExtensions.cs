@@ -77,7 +77,9 @@ namespace Magitek.Extensions
                 Auras.AspectedHelios,
                 Auras.Kerakeia,
                 Auras.PhysisII,
-                Auras.CrestOfTimeReturned
+                Auras.CrestOfTimeReturned,
+                Auras.Opposition,
+                Auras.WheelOfFortune
         };
 
         public static uint[] HealerShields = new uint[]
