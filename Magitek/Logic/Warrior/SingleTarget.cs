@@ -173,18 +173,22 @@ namespace Magitek.Logic.Warrior
          * ***********************************************************************************/
         public static async Task<bool> FellCleave()
         {
+
             if (!WarriorSettings.Instance.UseFellCleave)
                 return false;
 
-            if (Core.Me.HasAura(Auras.NascentChaos))
-                return false;
+            if (Core.Me.ClassLevel < 54)
+            {
 
-            if (!Core.Me.HasAura(Auras.SurgingTempest))
-                return false;
+                if (Core.Me.HasAura(Auras.NascentChaos))
+                    return false;
 
-            if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
-                return false;
+                if (!Core.Me.HasAura(Auras.SurgingTempest))
+                    return false;
 
+                if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
+                    return false;
+            }
             return await WarriorRoutine.FellCleave.Cast(Core.Me.CurrentTarget);
         }
 
@@ -204,5 +208,6 @@ namespace Magitek.Logic.Warrior
 
             return await Spells.InnerChaos.Cast(Core.Me.CurrentTarget);
         }
+
     }
 }
