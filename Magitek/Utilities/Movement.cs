@@ -19,8 +19,8 @@ namespace Magitek.Utilities
             if (unit == null)
                 return;
 
-            //if (!unit.InView() && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
-            //    Core.Me.Face(Core.Me.CurrentTarget);
+            if (!MovementManager.IsMoving && !unit.InView() && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
+                Core.Me.Face(Core.Me.CurrentTarget);
 
             if (AvoidanceManager.IsRunningOutOfAvoid)
                 return;
