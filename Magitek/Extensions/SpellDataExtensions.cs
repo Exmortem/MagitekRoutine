@@ -29,10 +29,8 @@ namespace Magitek.Extensions
                 }
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
-            
-                //GameSettingsManager.FaceTargetOnAction = true;
-                Core.Me.Face(target);
+            if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
+                GameSettingsManager.FaceTargetOnAction = true;
 
             return await DoAction(spell, target);
         }
@@ -49,9 +47,8 @@ namespace Magitek.Extensions
                 }
             }
 
-            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && target != Core.Me)
-                //GameSettingsManager.FaceTargetOnAction = true;
-                Core.Me.Face(target);
+            if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
+                GameSettingsManager.FaceTargetOnAction = true;
 
             return await DoAction(spell, target, aura, needAura, useRefreshTime, refreshTime);
         }
