@@ -51,10 +51,7 @@ namespace Magitek.Logic.Warrior
 
             // We're assuming IR is usable from here. If we're on GCD with more than 800 milliseconds left
             if (Spells.HeavySwing.Cooldown.TotalMilliseconds > 800)
-            {
-                // Wait until the GCD has 800 or less remaining
-                await Coroutine.Wait(3000, () => Spells.HeavySwing.Cooldown.TotalMilliseconds <= 800);
-            }
+                return false;
 
             //Logger.WriteInfo($@"InnerRelease Ready");
             return await WarriorRoutine.InnerRelease.Cast(Core.Me);
