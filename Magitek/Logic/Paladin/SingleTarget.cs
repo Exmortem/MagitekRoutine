@@ -18,7 +18,7 @@ namespace Magitek.Logic.Paladin
     {
         public static async Task<bool> ShieldLob()
         {
-            if (PaladinSettings.Instance.ShieldLobToPullExtraEnemies && !BotManager.Current.IsAutonomous)
+            if (PaladinSettings.Instance.ShieldLobToPullExtraEnemies)
             {
                 var pullTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit() && !r.Tapped && r.Distance(Core.Me) < 15 + r.CombatReach &&
                                                                                 r.Distance(Core.Me) >= Core.Me.CombatReach + r.CombatReach && r.TargetGameObject != Core.Me);
