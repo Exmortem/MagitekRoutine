@@ -177,7 +177,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseFellCleave)
                 return false;
 
-            if (Core.Me.ClassLevel < 54)
+            if (Core.Me.ClassLevel > 54)
             {
 
                 if (Core.Me.HasAura(Auras.NascentChaos))
@@ -189,6 +189,7 @@ namespace Magitek.Logic.Warrior
                 if (!Core.Me.HasAura(Auras.InnerRelease) && !WarriorSettings.Instance.UseBeastGauge)
                     return false;
             }
+
             return await WarriorRoutine.FellCleave.Cast(Core.Me.CurrentTarget);
         }
 
