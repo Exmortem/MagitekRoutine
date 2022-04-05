@@ -97,9 +97,18 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseNastrond)
                 return false;
 
-            if (!Spells.Nastrond.IsReady())
+            if (!Spells.Nastrond.IsKnownAndReady())
                 return false;
 
+            if (Spells.Geirskogul.IsKnown() && 
+                    (
+                        (Core.Me.ClassLevel < 78 && Spells.Geirskogul.Cooldown.TotalMilliseconds < 10000) 
+                     || (Core.Me.ClassLevel >= 78 && Spells.Geirskogul.Cooldown.TotalMilliseconds == 0)
+                    
+                    )
+               )
+                return false;
+                        
             return await Spells.Nastrond.Cast(Core.Me.CurrentTarget);
         }
 
