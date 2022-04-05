@@ -35,7 +35,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -58,15 +58,19 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+            if (BotManager.Current.IsAutonomous)
+            {
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
+
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-            if (BotManager.Current.IsAutonomous)
-            {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
-            }
 
             //Utility
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;

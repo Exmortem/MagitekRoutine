@@ -42,7 +42,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.ClassLevel < 2 ? 3 : 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, (Core.Me.ClassLevel < 2 ? 3 : 20) + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -71,19 +71,19 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
-                return false;
-
-            if (await CustomOpenerLogic.Opener()) return true;
-
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.ClassLevel < 2 ? 3 : 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, (Core.Me.ClassLevel < 2 ? 3 : 20) + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (await CustomOpenerLogic.Opener()) return true;
+                        
             return await RdmStateMachine.StateMachine.Pulse();
         }
 

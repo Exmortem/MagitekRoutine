@@ -49,6 +49,14 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Pull()
         {
+            if (BotManager.Current.IsAutonomous)
+            {
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
+
             return await Combat();
         }
         public static async Task<bool> Heal()
@@ -68,9 +76,13 @@ namespace Magitek.Rotations
         {
             Utilities.Routines.Ninja.RefreshVars();
             //Logger.Write("Ninki:" + Utilities.Routines.Ninja.ninki);
+
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             if (!SpellQueueLogic.SpellQueue.Any())

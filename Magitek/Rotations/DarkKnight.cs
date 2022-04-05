@@ -27,8 +27,10 @@ namespace Magitek.Rotations
         {
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget,
-                    DarkKnightSettings.Instance.AutonomousPullDistance);
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             return await Combat();
@@ -48,14 +50,17 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (await CustomOpenerLogic.Opener())
-                return true;
 
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget,
-                    DarkKnightSettings.Instance.AutonomousCombatDistance + Core.Me.CurrentTarget.CombatReach);
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
+
+            if (await CustomOpenerLogic.Opener())
+                return true;
 
             if (await Buff.Grit())
                 return true;

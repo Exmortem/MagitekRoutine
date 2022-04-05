@@ -37,7 +37,9 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 5 + Core.Me.CurrentTarget.CombatReach);
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             return await Combat();
@@ -64,7 +66,12 @@ namespace Magitek.Rotations
         public static async Task<bool> Combat()
         {
             if (BotManager.Current.IsAutonomous)
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+            {
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
 
             if (!Core.Me.HasTarget && !Core.Me.InCombat)
                 return false;
@@ -114,7 +121,6 @@ namespace Magitek.Rotations
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;
                 if (await Buff.LanceCharge()) return true;
-                if (await Aoe.Nastrond()) return true;
                 if (await Buff.DragonSight()) return true;
                 if (await Buff.BattleLitany()) return true;
                 if (await Buff.LifeSurge()) return true;
@@ -122,9 +128,10 @@ namespace Magitek.Rotations
 
                 //oGCD - Jump
                 if (await Aoe.WyrmwindThrust()) return true;
-                if (await Aoe.Geirskogul()) return true;
                 if (await Jumps.MirageDive()) return true; //DoubleWeave
-                
+                if (await Aoe.Geirskogul()) return true;
+                if (await Aoe.Nastrond()) return true;
+
                 if (DragoonRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await Jumps.HighJump()) return true;  //SingleWeave
