@@ -387,7 +387,7 @@ namespace Magitek.Logic.Sage
                 if (!await Coroutine.Wait(1000, () => Core.Me.HasAura(Auras.EukrasianPrognosis, true)))
                     return false;
 
-                if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(forSpell, target)))
+                if (!await Coroutine.Wait(1000, () => SpellDataExtensions.CanCast(forSpell, target)))
                     return false;
             }
 

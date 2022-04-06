@@ -52,7 +52,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -93,7 +93,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 

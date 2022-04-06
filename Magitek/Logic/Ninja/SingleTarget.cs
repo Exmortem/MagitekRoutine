@@ -119,9 +119,6 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasAura(Auras.Suiton, true, 1))
                 return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
 
-            if (!BotManager.Current.IsAutonomous)
-                return false;
-
             return false;
         }
 

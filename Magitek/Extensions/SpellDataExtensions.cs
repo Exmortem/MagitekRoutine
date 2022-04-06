@@ -28,9 +28,12 @@ namespace Magitek.Extensions
                     Logger.WriteInfo($@"[Path] {sourceFilePath}");
                 }
             }
-
+            
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
+
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+                Core.Me.Face(target);
 
             return await DoAction(spell, target);
         }
@@ -49,6 +52,9 @@ namespace Magitek.Extensions
 
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
+
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+                Core.Me.Face(target);
 
             return await DoAction(spell, target, aura, needAura, useRefreshTime, refreshTime);
         }
@@ -146,9 +152,14 @@ namespace Magitek.Extensions
 
         public static bool CanCast(this SpellData spell)
         {
-
-            return CanCast(spell, Core.Me);
-
+            if (!BaseSettings.Instance.UseCastOrQueue)
+            {
+                return ActionManager.CanCast(spell, Core.Me);
+            }
+            else
+            {
+                return ActionManager.CanCastOrQueue(spell, Core.Me);
+            }
         }
 
         private static async Task<bool> DoAction(SpellData spell, GameObject target, uint aura = 0, bool needAura = false, bool useRefreshTime = false, int refreshTime = 0, bool canCastCheck = true)
@@ -263,7 +274,7 @@ namespace Magitek.Extensions
             
         }
 
-        public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 500)
+        public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 0)
         {
             return spell.IsKnown() && spell.IsReady(remainingTimeInMs);
         }

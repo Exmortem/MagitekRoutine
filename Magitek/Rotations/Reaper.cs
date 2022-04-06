@@ -58,7 +58,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -82,6 +82,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
             if (Core.Me.IsCasting)
                 return true;
 
@@ -100,11 +101,12 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
 
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 

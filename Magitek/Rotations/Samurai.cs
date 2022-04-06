@@ -34,12 +34,14 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Pull()
         {
-            if (!BotManager.Current.IsAutonomous)
+            
+            if (BotManager.Current.IsAutonomous)
             {
-                return await Combat();
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
-
-            Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
 
             return await Combat();
         }
@@ -60,6 +62,14 @@ namespace Magitek.Rotations
         {
             Utilities.Routines.Samurai.RefreshVars();
 
+            if (BotManager.Current.IsAutonomous)
+            {
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
+
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
@@ -69,14 +79,7 @@ namespace Magitek.Rotations
             {
                 SpellQueueLogic.InSpellQueue = false;
             }
-
-            if (BotManager.Current.IsAutonomous)
-            {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
-            }
-
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
-                return false;
+                                                
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 

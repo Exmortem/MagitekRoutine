@@ -41,7 +41,10 @@ namespace Magitek.Rotations
         {
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3);
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             return await Combat();
@@ -71,7 +74,10 @@ namespace Magitek.Rotations
 
             if (BotManager.Current.IsAutonomous)
             {
-                Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())

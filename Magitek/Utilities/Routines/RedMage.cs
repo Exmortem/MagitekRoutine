@@ -51,6 +51,7 @@ namespace Magitek.Utilities.Routines
         //If the user has selected to use Corps-A-Corps only in melee range, make sure we're close enough
         public static bool UseCorpsACorps => RedMageSettings.Instance.UseMelee
                                              && RedMageSettings.Instance.CorpsACorps
+                                             && !(BotManager.Current.IsAutonomous && RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))                                          
                                              && (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
                                                  || (Core.Me.CurrentTarget != null
                                                      && Core.Me.CurrentTarget.Distance(Core.Me) <= 2 + Core.Me.CurrentTarget.CombatReach));

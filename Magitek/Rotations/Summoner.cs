@@ -43,10 +43,8 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
-
-                return await Spells.Ruin.Cast(Core.Me.CurrentTarget);
             }
 
             return await Combat();
@@ -82,7 +80,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 

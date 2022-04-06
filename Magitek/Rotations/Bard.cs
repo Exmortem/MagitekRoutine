@@ -47,7 +47,9 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 23);
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             if (await Casting.TrackSpellCast())
@@ -70,6 +72,14 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BotManager.Current.IsAutonomous)
+            {
+                if (Core.Me.HasTarget)
+                {
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
+
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -81,15 +91,7 @@ namespace Magitek.Rotations
                 return false;
 
             if (await CustomOpenerLogic.Opener()) return true;
-
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (Core.Me.HasTarget)
-                {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
-                }
-            }
-
+                      
             if (BardRoutine.GlobalCooldown.CanWeave())
             {
                 // Utility

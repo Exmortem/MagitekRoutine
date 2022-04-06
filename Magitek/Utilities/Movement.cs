@@ -18,18 +18,18 @@ namespace Magitek.Utilities
 
             if (unit == null)
                 return;
-
-            if (!MovementManager.IsMoving && !unit.InView() && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
-                Core.Me.Face(Core.Me.CurrentTarget);
-
+            
             if (AvoidanceManager.IsRunningOutOfAvoid)
                 return;
+
+            //if (!MovementManager.IsMoving && !unit.InView() && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing))
+            //   Core.Me.Face(Core.Me.CurrentTarget);
 
             if (unit.Distance(Core.Me) > distance)
             {
                 Navigator.MoveTo(new MoveToParameters(unit.Location));
             }
-            
+
             if (Core.Me.Distance(Core.Me.CurrentTarget.Location) <= distance && unit.InView() && unit.InLineOfSight())
             {
                 if (MovementManager.IsMoving)

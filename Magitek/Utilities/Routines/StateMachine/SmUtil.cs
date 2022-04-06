@@ -48,7 +48,7 @@ namespace Magitek.Utilities.Routines
             if (await SmUtil.SyncedCast(Spells.Swiftcast, Core.Me))
             {
                 await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.Swiftcast));
-                await Coroutine.Wait(2000, () => ActionManager.CanCast(spell, target));
+                await Coroutine.Wait(2000, () => SpellDataExtensions.CanCast(spell, target));
                 return await spell.Cast(target);
             }
             return false;

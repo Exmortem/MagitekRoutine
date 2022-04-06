@@ -43,9 +43,10 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
+
             else
             {
                 if (Globals.InParty)
@@ -82,11 +83,11 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
 
+            if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
             if (await Logic.Sage.Heal.ForceEukrasianPrognosis()) return true;
             if (await Logic.Sage.Heal.ForceHaima()) return true;
             if (await Logic.Sage.Heal.ForcePanhaima()) return true;
             if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
-            if (await Logic.Sage.Heal.ForceZoePneuma()) return true;
 
             if (await Logic.Sage.HealFightLogic.Aoe()) return true;
             if (await Logic.Sage.HealFightLogic.Tankbuster()) return true;
@@ -113,8 +114,8 @@ namespace Magitek.Rotations
                     if (await Logic.Sage.Heal.Druochole()) return true;
                 }
 
-                if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.ZoePneuma()) return true;
+                if (await Logic.Sage.Heal.PepsisEukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.Pneuma()) return true;
                 if (await Logic.Sage.Heal.EukrasianPrognosis()) return true;
                 if (await Logic.Sage.Heal.Prognosis()) return true;
@@ -182,7 +183,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 

@@ -78,7 +78,7 @@ namespace Magitek.Logic.Dragoon
             if (!DragoonSettings.Instance.UseDragonSight)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.DragonSight, Core.Me))
+            if (!SpellDataExtensions.CanCast(Spells.DragonSight, Core.Me))
                 return false;
 
             if (!Core.Me.HasTarget)

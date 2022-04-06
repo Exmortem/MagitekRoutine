@@ -39,10 +39,11 @@ namespace Magitek.Logic.Dragoon
         {
             if (!DragoonSettings.Instance.UseHighJump)
                 return false;
+            
 
             if (!CheckBeforeExecuteJumps())
                 return false;
-
+            
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
@@ -102,6 +103,9 @@ namespace Magitek.Logic.Dragoon
         public static async Task<bool> Stardiver()
         {
             if (!DragoonSettings.Instance.UseStardiver)
+                return false;
+
+            if (Spells.Geirskogul.IsReady())
                 return false;
 
             if (!CheckBeforeExecuteJumps())

@@ -16,7 +16,7 @@ namespace Magitek.Utilities.Routines
         public static int TCJState = 0;
         public static double ninki;
         public static bool OnGcd => Spells.SpinningEdge.Cooldown > TimeSpan.FromMilliseconds(100);
-        public static bool CanCastNinjutsu => ActionManager.CanCast(Spells.Ninjutsu, null);
+        public static bool CanCastNinjutsu => SpellDataExtensions.CanCast(Spells.Ninjutsu, null);
 
         public static void RefreshVars()
         {

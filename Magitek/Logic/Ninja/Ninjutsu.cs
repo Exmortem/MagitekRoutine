@@ -27,7 +27,7 @@ namespace Magitek.Logic.Ninja
             if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Ten, null))
+            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
                 return false;
 
             SpellQueueLogic.SpellQueue.Clear();
@@ -60,7 +60,7 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             // First Mudra of the line
-            if (!ActionManager.CanCast(Spells.Ten, null))
+            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
                 return false;
 
             if (Spells.TrickAttack.Cooldown.Seconds < 22)
@@ -103,7 +103,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Jin, null))
+            if (!SpellDataExtensions.CanCast(Spells.Jin, null))
                 return false;
 
             if (ActionResourceManager.Ninja.HutonTimer.TotalMilliseconds > 1)
@@ -140,7 +140,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Chi, null))
+            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
                 return false;
 
             if (!Core.Me.HasAura(Auras.Kassatsu) && Casting.LastSpell != Spells.Kassatsu)
@@ -181,7 +181,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Ten, null))
+            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
                 return false;
 
             if (Core.Me.HasAura(Auras.Doton))
@@ -223,7 +223,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, true, 2500))
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Chi, null))
+            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
                 return false;
 
             if (Core.Me.CurrentTarget.EnemiesNearby(5 + Core.Me.CurrentTarget.CombatReach).Count() < NinjaSettings.Instance.KatonMinEnemies)
@@ -252,7 +252,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Chi, null))
+            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
                 return false;
 
             if (!Core.Me.HasAura(Auras.Kassatsu) && Casting.LastSpell != Spells.Kassatsu)
@@ -293,7 +293,7 @@ namespace Magitek.Logic.Ninja
             if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Ten, null))
+            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
                 return false;
 
             SpellQueueLogic.SpellQueue.Clear();
@@ -322,7 +322,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!ActionManager.CanCast(Spells.Ten, null))
+            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
                 return false;
 
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 20000)
@@ -394,9 +394,9 @@ namespace Magitek.Logic.Ninja
                 SpellQueueLogic.Timeout.Start();
                 SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 7000;
                 SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Shuriken", Check = () => ActionManager.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Raiton", Check = () => ActionManager.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Suiton", Check = () => ActionManager.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Shuriken", Check = () => SpellDataExtensions.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Raiton", Check = () => SpellDataExtensions.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Suiton", Check = () => SpellDataExtensions.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
                 Utilities.Routines.Ninja.TCJState = 0;
                 return false;
             }
@@ -409,9 +409,9 @@ namespace Magitek.Logic.Ninja
                 SpellQueueLogic.Timeout.Start();
                 SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 7000;
                 SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Mudra1", Check = () => ActionManager.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Mudra2", Check = () => ActionManager.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Mudra3", Check = () => ActionManager.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Mudra1", Check = () => SpellDataExtensions.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Mudra2", Check = () => SpellDataExtensions.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Mudra3", Check = () => SpellDataExtensions.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
                 Utilities.Routines.Ninja.TCJState = 0;
                 return false;
             }

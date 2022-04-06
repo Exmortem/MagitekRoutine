@@ -51,9 +51,7 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             if (Spells.HardSlash.Cooldown.TotalMilliseconds > 800)
-            {
-                await Coroutine.Wait(3000, () => Spells.HardSlash.Cooldown.TotalMilliseconds <= 800);
-            }
+                return false;
 
             return await Spells.Delirium.Cast(Core.Me);
         }
