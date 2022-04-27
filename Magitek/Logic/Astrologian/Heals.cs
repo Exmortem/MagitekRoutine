@@ -186,7 +186,10 @@ namespace Magitek.Logic.Astrologian
             
             if (!Spells.CelestialIntersection.IsKnownAndReady())
                 return false;
-            
+
+            if (Casting.LastSpell == Spells.CelestialIntersection)
+                return false;
+
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
@@ -209,7 +212,7 @@ namespace Magitek.Logic.Astrologian
             if (celestialIntersectionTarget == null)
                 return false;
 
-            return await Spells.CelestialIntersection.Cast(celestialIntersectionTarget);
+            return await Spells.CelestialIntersection.Heal(celestialIntersectionTarget);
         }
 
         public static async Task<bool> EssentialDignity()
@@ -262,9 +265,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Exaltation)
                 return false;
 
-            if (!Core.Me.InCombat)
-                return false;
-
+          
             if (!Globals.InParty)
                 return false;
 
@@ -300,9 +301,6 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> Helios()
         {
             if (!AstrologianSettings.Instance.Helios)
-                return false;
-
-            if (Casting.LastSpell == Spells.Helios)
                 return false;
 
             if (Core.Me.CurrentManaPercent <= AstrologianSettings.Instance.HeliosMinManaPercent)
@@ -513,15 +511,13 @@ namespace Magitek.Logic.Astrologian
                                                         AstrologianSettings.Instance.DiurnalHeliosHealthPercent &&
                                                         !r.HasAura(Auras.AspectedHelios, true));
 
-            if (diurnalHeliosCount < AstrologianSettings.Instance.DiurnalHeliosAllies)
-                return false;
+            if (diurnalHeliosCount >= AstrologianSettings.Instance.DiurnalHeliosAllies)
+            {
+                if (await SwiftCastAspectedHelios())
+                    return true;
 
-            if (diurnalHeliosCount != PartyManager.NumMembers)
-                return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);
-            
-            if (await SwiftCastAspectedHelios())
-                return true;
-
+                return await Spells.AspectedHelios.HealAura(Core.Me, Auras.AspectedHelios);            
+            }
             return false;
         }
 
@@ -549,17 +545,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CelestialOpposition)
                 return false;
 
-            if (!Spells.CelestialOpposition.IsKnownAndReady())
-                return false;
-
-            if (Casting.LastSpell == Spells.Helios)
-                return false;
-
-            if (Casting.LastSpell == Spells.AspectedHelios)
-                return false;
-
-            if (Casting.LastSpell == Spells.CelestialOpposition)
-                return false;
+           if (!Spells.CelestialOpposition.IsKnownAndReady())
+              return false;
 
             if (Casting.LastSpell == Spells.Horoscope)
                 return false;
@@ -570,7 +557,7 @@ namespace Magitek.Logic.Astrologian
             if (celestialOppositionCount < AstrologianSettings.Instance.CelestialOppositionAllies)
                 return false;
 
-            return await Spells.CelestialOpposition.Heal(Core.Me, false);
+            return await Spells.CelestialOpposition.HealAura(Core.Me, Auras.Opposition, false);
         }
 
         public static async Task<bool> CollectiveUnconscious()
@@ -611,8 +598,6 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.InCombat)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft < 15)
-                return false;
 
             var earthlyStarLocation = Utilities.Routines.Astrologian.EarthlyStarLocation;
 
@@ -639,8 +624,6 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.EarthlyStar)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft < 40)
-                return false;
 
             if (!Core.Me.HasTarget)
                 return false;
