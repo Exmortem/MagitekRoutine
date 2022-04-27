@@ -83,19 +83,13 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.HasAura(Auras.LordOfCrownsDrawn))
                 return false;
 
-            if (Core.Me.CurrentTarget == null)
-                return false;
-            
-            var target = Combat.SmartAoeTarget(Spells.Gravity, AstrologianSettings.Instance.SmartAoe);
+          
 
-            if (target == null)
-                return false;
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.Location) <= Spells.LordofCrowns.Radius) >= AstrologianSettings.Instance.LordOfCrownsEnemies)
+                return await Spells.CrownPlay.Cast(Core.Me);
 
-            if (Combat.Enemies.Count(r => r.Distance(target) <= Spells.LordofCrowns.Radius) >= AstrologianSettings.Instance.LordOfCrownsEnemies)
-                return await Spells.CrownPlay.Cast(target);
-
-            if (Spells.MinorArcana.Cooldown == System.TimeSpan.Zero)
-                return await Spells.CrownPlay.Cast(target);
+            if (Spells.MinorArcana.IsReady())
+                return await Spells.CrownPlay.Cast(Core.Me);
 
             return false;
         }
