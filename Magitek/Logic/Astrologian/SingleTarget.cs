@@ -16,6 +16,9 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Malefic)
                 return false;
 
+            if (!Spells.Malefic.IsReady())
+                return false;
+
             return await Spells.Malefic.Cast(Core.Me.CurrentTarget);
         }
 
@@ -54,6 +57,9 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> Combust()
         {
             if (!AstrologianSettings.Instance.Combust)
+                return false;
+
+            if (!Spells.Combust.IsKnownAndReady())
                 return false;
 
             if (AstrologianSettings.Instance.UseTTDForCombust)
