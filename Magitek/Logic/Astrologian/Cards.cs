@@ -28,9 +28,9 @@ namespace Magitek.Logic.Astrologian
             Spire
         }
 
-        private static NewAstroCards GetDrawnCard()
+        public static NewAstroCards GetDrawnCard()
         {
-            var drawnCard = (int) Arcana;
+            var drawnCard = ActionResourceManager.CostTypesStruct.offset_D;
 
             if (drawnCard == 1 || drawnCard == 113 || drawnCard == 129) return NewAstroCards.Balance;
             if (drawnCard == 2 || drawnCard == 114 || drawnCard == 130) return NewAstroCards.Bole;
@@ -51,6 +51,7 @@ namespace Magitek.Logic.Astrologian
             Looks like Arcana is now filled with either the Crown Draw, Or the Arcana Draw with Arcana Draw taking priority.
             
             The Card ID's have changed... but there's some goof with Reborn where whether or not you have Lord, Lady, or nothing, the Card ID drawn changes:
+                None = 0, 112, 128
                 Balance = 1, 113, 129.
                 Bole = 2, 114, 130.
                 Arrow = 3, 115, 131.
@@ -62,12 +63,12 @@ namespace Magitek.Logic.Astrologian
 
             */
 
-            if (ActionManager.CanCast(Spells.Draw, Core.Me)
-                && AstrologianSettings.Instance.UseDraw
-                && !cardDrawn)
-                if (await Spells.Draw.Cast(Core.Me))
-                    await Coroutine.Wait(750, () => GetDrawnCard() != NewAstroCards.None);
-
+            //if (ActionManager.CanCast(Spells.Draw, Core.Me)
+            //    && AstrologianSettings.Instance.UseDraw
+            //    && !cardDrawn)
+            //     if (await Spells.Draw.Cast(Core.Me))
+            //       await Coroutine.Wait(700, () => GetDrawnCard() != NewAstroCards.None);
+                
             if (!cardDrawn)
                 return false;
 
@@ -78,8 +79,8 @@ namespace Magitek.Logic.Astrologian
             if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
                 return false;
 
-            if (await RedrawOrDrawAgain(drawnCard))
-                return true;
+            //if (await RedrawOrDrawAgain(drawnCard))
+            //    return true;
             
             if (Globals.InParty && Core.Me.InCombat && AstrologianSettings.Instance.Play)
             {
@@ -132,7 +133,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Play)
                 return false;
 
-            if (!Globals.InParty && Core.Me.InCombat)
+            if (!Globals.InParty && Core.Me.InCombat && !(Casting.LastSpell == Spells.Play))
                 return await Spells.Play.Cast(Core.Me);
 
             return false;
@@ -140,16 +141,7 @@ namespace Magitek.Logic.Astrologian
 
         public static async Task<bool> RedrawOrDrawAgain(NewAstroCards drawnCard)
         {
-            if (!AstrologianSettings.Instance.UseReDraw)
-                return false;
-
             if (!Core.Me.InCombat)
-                return false;
-
-            if (DivinationSeals.All(seal => seal == 0))
-                return false;
-
-            if (Group.CastableAlliesWithin30.All(r => r.HasAnyCardAura()))
                 return false;
 
             if (drawnCard == NewAstroCards.Balance && DivinationSeals.All(seal => seal != AstrologianSeal.Solar_Seal))
@@ -170,10 +162,10 @@ namespace Magitek.Logic.Astrologian
             if (drawnCard == NewAstroCards.Spire && DivinationSeals.All(seal => seal != AstrologianSeal.Celestial_Seal))
                 return false;
 
-            if (Spells.Redraw.IsKnownAndReady() && Spells.Redraw.Charges >= 1 && Core.Me.HasAura(Auras.ClarifyingDraw))
+            if (Spells.Redraw.IsKnownAndReady() && Spells.Redraw.Charges >= 1 && AstrologianSettings.Instance.UseReDraw &&Core.Me.HasAura(Auras.ClarifyingDraw))
                 return await Spells.Redraw.Cast(Core.Me);
 
-            if (Spells.Draw.Charges >= 1)
+            if (Spells.Draw.IsKnownAndReady() && Spells.Draw.Charges >= 1)
                 return await Spells.Draw.Cast(Core.Me);
 
             return false;
@@ -187,6 +179,9 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.InCombat)
                 return false;
 
+            if (Casting.LastSpell == Spells.Astrodyne)
+                return false;
+
             if (!Spells.Astrodyne.IsKnownAndReady())
                 return false;
 
@@ -196,22 +191,26 @@ namespace Magitek.Logic.Astrologian
             if (DivinationSeals.All(seal => seal == 0))
                 return false;
 
+            /* NEEDS REWORK: Astrodyne cannot be cast without 3 seals, number of buffs determined by unique seals, needs draw logic for sub-3 astrodyne plays.
+            
             //1 = MP Regen
-
-            if (DivinationSeals.Count(seal => seal != 0) == 1 && (Core.Me.CurrentManaPercent > AstrologianSettings.Instance.LucidDreamingManaPercent || Spells.LucidDreaming.IsReady() || Core.Me.HasAura(Auras.LucidDreaming)))
+            if (DivinationSeals.Count(seal => seal != 0) == 1 && (Core.Me.CurrentManaPercent > 20 || Spells.LucidDreaming.IsReady() || Core.Me.HasAura(Auras.LucidDreaming)))
                 return false;
 
             //2 = MP Regen + Haste
             var hasteThreshold = PartyManager.NumMembers == 4 ? 2 : 3;
 
-            if (DivinationSeals.Count(seal => seal != 0) == 2 && (Spells.EssentialDignity.Charges > 0 || Group.CastableAlliesWithin30.Count(r => r.CurrentManaPercent <= 60) <= hasteThreshold || Spells.Lightspeed.IsReady()))
+            if (DivinationSeals.Count(seal => seal != 0) == 2 && (Core.Me.CurrentManaPercent > 60 || Spells.Lightspeed.IsReady()))
                 return false;
 
             if (Core.Me.HasAura(Auras.Lightspeed))
                 return false;
-
+            */
             //3 = MP Regen + Haste + Dmg (or shortcut from above logic)
-            return await Spells.Astrodyne.Cast(Core.Me);
+            if (DivinationSeals.Count(seal => seal != 0) == 3)
+                return await Spells.Astrodyne.Cast(Core.Me);
+
+            return false;
         }
         private static async Task<bool> MeleeDpsOrTank()
         {
