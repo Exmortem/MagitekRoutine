@@ -56,7 +56,7 @@ namespace Magitek.Logic.Ninja
                 || Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-                if ((Spells.TrickAttack.IsReady() || Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000) && !Core.Me.CurrentTarget.IsBehind)
+                if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000 && !Core.Me.CurrentTarget.IsBehind)
                     return await Spells.TrueNorth.Cast(Core.Me);
 
                 if (ActionManager.LastSpell == Spells.GustSlash 
