@@ -66,8 +66,8 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             //if we're about to refresh Higanbana or cast Midare, we need kenki for Kaiten
-            if ((!Core.Target.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime) || Utilities.Routines.Samurai.SenCount == 3) && ActionResourceManager.Samurai.Kenki < 50)
-                return false;
+            //if ((!Core.Target.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime) || Utilities.Routines.Samurai.SenCount == 3) && ActionResourceManager.Samurai.Kenki < 50)
+            //    return false;
 
             return await Spells.HissatsuSenei.Cast(Core.Me.CurrentTarget);
         }
@@ -135,8 +135,8 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.CurrentTarget == null)
                 return false;
 
-            if (Core.Me.ClassLevel >= 62 && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
-                return false;
+            //if (Core.Me.ClassLevel >= 62 && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
+            //    return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 6)
                 return false;
@@ -144,18 +144,18 @@ namespace Magitek.Logic.Samurai
             if (Utilities.Routines.Samurai.SenCount != 3)
                 return false;
 
-            if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten))
-                return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
+            //if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten))
+            //    return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
 
-            if (BaseSettings.Instance.DebugPlayerCasting)
-                Logger.WriteInfo($"Already have Kaiten buff or too low level to cast, casting {Spells.MidareSetsugekka.LocalizedName} alone...");
+            //if (BaseSettings.Instance.DebugPlayerCasting)
+            //    Logger.WriteInfo($"Already have Kaiten buff or too low level to cast, casting {Spells.MidareSetsugekka.LocalizedName} alone...");
 
             var casted = await Spells.MidareSetsugekka.Cast(Core.Me.CurrentTarget);
-            var hasKaiten = Core.Me.HasAura(Auras.Kaiten);
+            //var hasKaiten = Core.Me.HasAura(Auras.Kaiten);
 
             //If we get interrupted casting Midare and still have Kaiten up, wait until we either succeed casting it, or we lose Kaiten
-            return casted || hasKaiten;
-
+            //return casted || hasKaiten;
+              return casted;
         }
 
         public static async Task<bool> Higanbana()
@@ -178,8 +178,8 @@ namespace Magitek.Logic.Samurai
                     return false;
             }
 
-            if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
-                return false;
+            // if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
+            //    return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
                 return false;
@@ -190,13 +190,14 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, SamuraiSettings.Instance.HiganbanaRefreshTime * 1000))
                 return false;
 
-            if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten))
-                return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
+            //if (Core.Me.ClassLevel >= 52 && !Core.Me.HasAura(Auras.Kaiten))
+            //   return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
 
-            if (BaseSettings.Instance.DebugPlayerCasting) Logger.WriteInfo($"Already have Kaiten buff or too low level to cast, casting {Spells.Higanbana.LocalizedName} alone...");
+            //if (BaseSettings.Instance.DebugPlayerCasting) Logger.WriteInfo($"Already have Kaiten buff or too low level to cast, casting {Spells.Higanbana.LocalizedName} alone...");
 
             //If we get interrupted casting Higanbana and still have Kaiten up, wait until we either succeed casting it, or we lose Kaiten
-            return await Spells.Higanbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+            //return await Spells.Higanbana.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+              return await Spells.Higanbana.Cast(Core.Me.CurrentTarget);
         }
 
         // public static async Task<bool> KaeshiHiganbana()  DON'T USE KAESHIHIGANBANA EVER

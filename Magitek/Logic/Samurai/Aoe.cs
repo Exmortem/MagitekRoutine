@@ -160,16 +160,17 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel < 52)
                 return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
 
-            if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
-                return false;
+            //if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
+            //    return false;
 
-            if (!Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki >= 20)
-                return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
+            //if (!Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki >= 20)
+            //    return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
 
-            if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten))
-                return false;
+            //if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten))
+            //   return false;
 
-            return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+            //return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
+              return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> HissatsuKyuten()
