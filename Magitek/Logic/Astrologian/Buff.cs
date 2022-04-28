@@ -41,53 +41,33 @@ namespace Magitek.Logic.Astrologian
 
             if (!Spells.Lightspeed.IsKnownAndReady())
                 return false;
-            
-            if (Spells.EssentialDignity.Charges > 0)
-                return false;
-            
+
             if (Globals.InParty)
             {
                 if (AstrologianSettings.Instance.FightLogic_Lightspeed && FightLogic.EnemyIsCastingBigAoe() && !Spells.NeutralSect.IsKnownAndReady() && !Spells.Macrocosmos.IsKnownAndReady())
                     return await FightLogic.DoAndBuffer(Spells.Lightspeed.CastAura(Core.Me,Auras.Lightspeed));
-                
-                if (AstrologianSettings.Instance.LightspeedTankOnly && Group.CastableTanks.All(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
-                    return false;
 
-                if (!Spells.Horoscope.IsReady())
-                    return false;
-
-                if (!Spells.CelestialOpposition.IsReady())
-                    return false;
-
-                if (Core.Me.HasAura(Auras.LadyOfCrownsDrawn))
+                             if (AstrologianSettings.Instance.LightspeedTankOnly && Group.CastableTanks.All(r => r.CurrentHealthPercent >= AstrologianSettings.Instance.LightspeedHealthPercent))
                     return false;
 
                 if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.LightspeedHealthPercent) > Heals.AoeThreshold)
                     return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
             }
 
-            if (Core.Me.CurrentHealthPercent >= 40f)
-                return false;
 
             return await Spells.Lightspeed.CastAura(Core.Me, Auras.Lightspeed);
         }
 
         public static async Task<bool> Divination()
         {
-            if (!AstrologianSettings.Instance.Play || !AstrologianSettings.Instance.Divination)
+            if (!AstrologianSettings.Instance.Divination)
+               
                 return false;
 
-            if (!Core.Me.InCombat)
-                return false;
-
+            
             if (!Spells.Divination.IsKnownAndReady())
                 return false;
 
-            if (Combat.CombatTotalTimeLeft <= AstrologianSettings.Instance.DontPlayWhenCombatTimeIsLessThan)
-                return false;
-
-            if (!Combat.Enemies.All(x => x.IsTargetable))
-                return false;
 
             // Added check to see if more than configured allies are around
 

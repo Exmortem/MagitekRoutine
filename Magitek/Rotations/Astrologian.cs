@@ -37,14 +37,15 @@ namespace Magitek.Rotations
 
             if (Globals.OnPvpMap)
                 return false;
-
-            var cardDrawn = ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None
-                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns
-                && ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns;
+            
+            var Arcana = ActionResourceManager.CostTypesStruct.offset_D;
+            var cardDrawn = Arcana != (byte)ActionResourceManager.Astrologian.AstrologianCard.None
+                && Arcana != (byte)ActionResourceManager.Astrologian.AstrologianCard.LordofCrowns
+                && Arcana != (byte)ActionResourceManager.Astrologian.AstrologianCard.LadyofCrowns;
 
             if (!cardDrawn && AstrologianSettings.Instance.UseDraw)
                 if (await Spells.Draw.Cast(Core.Me))
-                    return await Coroutine.Wait(750, () => ActionResourceManager.Astrologian.Arcana != ActionResourceManager.Astrologian.AstrologianCard.None);
+                    return await Coroutine.Wait(750, () => Arcana != (byte)ActionResourceManager.Astrologian.AstrologianCard.None);
 
             return false;
         }
@@ -55,9 +56,10 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
+
             else
             {
                 if (Globals.InParty)
@@ -93,37 +95,47 @@ namespace Magitek.Rotations
 
             if (await Heals.Ascend()) return true;
             if (await Dispel.Execute()) return true;
-
-            if ((AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1)) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds || !Casting.LastSpellTimeFinishAge.IsRunning)
+            
+                
+                if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1))
             {
-                if (await Heals.EssentialDignity()) return true;
+                if (await Buff.Divination()) return true;
                 if (await Buff.LucidDreaming()) return true;
                 if (await Buff.Lightspeed()) return true;
                 if (await Buff.NeutralSect()) return true;
+                if (await Cards.AstroDyne()) return true;
+                if (await Cards.RedrawOrDrawAgain(Cards.GetDrawnCard())) return true;
+                if (await Cards.PlayCards()) return true;
+
+
             }
 
             if (Globals.InActiveDuty || Core.Me.InCombat)
             {
-                if ((AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1)) || Casting.LastSpellTimeFinishAge.ElapsedMilliseconds > Spells.Malefic.AdjustedCooldown.TotalMilliseconds || !Casting.LastSpellTimeFinishAge.IsRunning)
+                if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1))
                 {
+                    if (await Heals.Macrocosmos()) return true;
+                    if (await Heals.EarthlyStar()) return true;
+                    if (await Heals.CollectiveUnconscious()) return true;
+                    if (await Heals.LadyOfCrowns()) return true;
+                    if (await Heals.CelestialOpposition()) return true;
+                    if (await Heals.HoroscopePop()) return true;
+                    if (await Buff.Synastry()) return true;
                     if (await Heals.EssentialDignity()) return true;
                     if (await Heals.CelestialIntersection()) return true;
-                    if (await Heals.Macrocosmos()) return true;
-                    if (await Heals.CelestialOpposition()) return true;
-                    if (await Heals.LadyOfCrowns()) return true;
                     if (await Heals.Horoscope()) return true;
-                    if (await Heals.HoroscopePop()) return true;
                     if (await Heals.Exaltation()) return true;
-                    if (await Heals.CollectiveUnconscious()) return true;
-                    if (await Buff.Synastry()) return true;
+                    if (await Cards.AstroDyne()) return true;
+                    if (await Aoe.LordOfCrown()) return true;
+                    if (await Cards.RedrawOrDrawAgain(Cards.GetDrawnCard())) return true;
+                    if (await Cards.PlayCards()) return true;
                 }
                 
                 if (await Heals.AspectedHelios()) return true;
                 if (await Heals.Helios()) return true;
-                if (await Heals.Benefic2()) return true;
-                if (await Heals.Benefic()) return true;
                 if (await Heals.AspectedBenefic()) return true;
-                if (await Heals.EarthlyStar()) return true;
+                if (await Heals.Benefic2()) return true;
+                if (await Heals.Benefic()) return true;              
                 if (await Heals.DontLetTheDrkDie()) return true;
             }
 
@@ -158,16 +170,45 @@ namespace Magitek.Rotations
 
         public static async Task<bool> CombatBuff()
         {
-            //Added redundancy to make sure buffs go off
-            if (await Buff.LucidDreaming()) return true;
-            if (await Buff.Lightspeed()) return true;
-            if (await Buff.Synastry()) return true;
-            if (await Buff.NeutralSect()) return true;
+          
+            if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1)) 
+                
+            {
+                
+                if (await Buff.Divination()) return true;
+                if (await Buff.LucidDreaming()) return true;
+                if (await Buff.Lightspeed()) return true;
+                if (await Buff.NeutralSect()) return true;
+                if (await Cards.AstroDyne()) return true;
+                if (await Cards.RedrawOrDrawAgain(Cards.GetDrawnCard())) return true;
+                if (await Cards.PlayCards()) return true;
 
 
-            if (await Buff.Divination()) return true;
-            if (await Cards.AstroDyne()) return true;
-            return await Cards.PlayCards();
+            }
+
+            if (Globals.InActiveDuty || Core.Me.InCombat)
+            {
+                if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1))                
+                {
+                    if (await Heals.Macrocosmos()) return true;
+                    if (await Heals.EarthlyStar()) return true;
+                    if (await Heals.CollectiveUnconscious()) return true;
+                    if (await Heals.LadyOfCrowns()) return true;
+                    if (await Heals.CelestialOpposition()) return true;
+                    if (await Heals.HoroscopePop()) return true;
+                    if (await Heals.Horoscope()) return true;
+                    if (await Buff.Synastry()) return true;
+                    if (await Heals.EssentialDignity()) return true;
+                    if (await Heals.CelestialIntersection()) return true;
+                    if (await Heals.Exaltation()) return true;
+                    if (await Cards.AstroDyne()) return true;
+                    if (await Aoe.LordOfCrown()) return true;
+                    if (await Cards.RedrawOrDrawAgain(Cards.GetDrawnCard())) return true;
+                    if (await Cards.PlayCards()) return true;
+                }
+                
+            }
+            return false;
         }
 
         public static async Task<bool> Combat()
@@ -183,14 +224,7 @@ namespace Magitek.Rotations
                     && Core.Target.CombatTimeLeft() > AstrologianSettings.Instance.DoDamageIfTimeLeftLessThan)
                     return false;
             }
-
-            if (!GameSettingsManager.FaceTargetOnAction && !BaseSettings.Instance.AssumeFaceTargetOnAction)
-            {
-                if (!Core.Me.CurrentTarget.InView())
-                    return false;
-
-            }
-
+                        
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -202,15 +236,15 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
-
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
             if (!Core.Me.HasTarget
                 || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
+
+
 
             if (Globals.OnPvpMap)
             {
@@ -219,7 +253,7 @@ namespace Magitek.Rotations
             }
 
             if (await Aoe.AggroAst()) return true;
-            if (await Aoe.LordOfCrown()) return true;
+            //if (await Aoe.LordOfCrown()) return true;
             if (await Aoe.Gravity()) return true;
             if (await SingleTarget.Combust()) return true;
             if (await SingleTarget.CombustMultipleTargets()) return true;
