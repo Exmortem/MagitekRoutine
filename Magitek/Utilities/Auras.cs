@@ -144,7 +144,6 @@ namespace Magitek.Utilities
             Vengeance = 89,
             Holmgang = 409,
             Suiton = 507,
-            ShadowFang = 508,
             Duality = 790,
             TenChiJin = 1186,
             Thunder = 161,
@@ -321,6 +320,8 @@ namespace Magitek.Utilities
             LanceCharge = 1864,
             Equilibrium = 2681,
             Oblation = 2682,
+            RaijuReady = 2690,
+            Meisui = 2689,
             Weakness = 43;
 
         private const int

@@ -44,38 +44,33 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseBunshin)
                 return false;
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 450)
-                return false;
+            
             return await Spells.Bunshin.Cast(Core.Me);
         }
 
         public static async Task<bool> TrueNorth()
         {
-            if (!NinjaSettings.Instance.UseTrueNorth)
-                return false;
-
+                    
             if (Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-            //Do we need to for TA?
-            if (!Core.Me.HasAura(Auras.Suiton))
+            if (!NinjaSettings.Instance.UseTrueNorth
+                || Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-            return await Spells.TrueNorth.Cast(Core.Me);
+                if (Spells.TrickAttack.IsReady() || Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000)
+                    return await Spells.TrueNorth.Cast(Core.Me);
+
+            return false;
         }
 
         public static async Task<bool> Meisui()
         {
 
-            if (!Core.Me.HasAura(Auras.Suiton))
-                return false;
-
-            if (NinkiGauge > 50)
-                return false;
-
-            if (Spells.TrickAttack.Cooldown.Seconds < 30)
-                return false;
-
+            if (!Core.Me.HasAura(Auras.Suiton) 
+                || NinkiGauge > 40)
+                return false;                     
+        
             return await Spells.Meisui.Cast(Core.Me);
         }
 

@@ -105,53 +105,8 @@ namespace Magitek.Rotations
 
             if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
 
-            //if (Core.Me.HasAura(Auras.TenChiJin))
-            //{
-            //    Logger.Error("Capturd TCJ");
-            //    //Let's check which TCJ we will do. 1=Suiton/2-Doton
-            //    if (Utilities.Routines.Ninja.AoeEnemies5Yards > 1 && Utilities.Routines.Ninja.TCJState == 0 && !Core.Me.HasAura(Auras.Doton))
-            //    {
-            //        Utilities.Routines.Ninja.TCJState = 2;
-            //    }
-            //    if (Utilities.Routines.Ninja.AoeEnemies5Yards < 2 && Utilities.Routines.Ninja.TCJState == 0)
-            //    {
-            //        Utilities.Routines.Ninja.TCJState = 1;
-            //    }
-
-            //    if (Utilities.Routines.Ninja.TCJState == 1)
-            //    {
-            //        if (Casting.LastSpell == Spells.Chi)
-            //        {
-            //            Utilities.Routines.Ninja.TCJState = 0;
-            //            return await Spells.Jin.Cast(Core.Me.CurrentTarget);
-            //        }
-
-            //        if (Casting.LastSpell == Spells.Ten)
-            //        {
-            //            return await Spells.Chi.Cast(Core.Me.CurrentTarget);
-            //        }
-
-            //        return await Spells.Ten.Cast(Core.Me.CurrentTarget);
-            //    }
-
-            //    if (Utilities.Routines.Ninja.TCJState == 2)
-            //    {
-            //        if (Casting.LastSpell == Spells.Jin)
-            //        {
-            //            Utilities.Routines.Ninja.TCJState = 0;
-            //            return await Spells.Chi.Cast(Core.Me);
-            //        }
-
-            //        if (Casting.LastSpell == Spells.Ten)
-            //        {
-            //            return await Spells.Jin.Cast(Core.Me.CurrentTarget);
-            //        }
-
-            //        return await Spells.Ten.Cast(Core.Me.CurrentTarget);
-            //    }
-            //}
             if (Ninjutsu.ForceRaiton()) return true;
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > 650)
+            if (NinjaRoutine.GlobalCooldown.CanWeave(1))
             {
                 //Utility Force Toggle
                 if (await PhysicalDps.ArmsLength(NinjaSettings.Instance)) return true;
@@ -164,18 +119,16 @@ namespace Magitek.Rotations
                 if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
 
                 if (await SingleTarget.TrickAttack()) return true;
-                if (await Ninjutsu.TenChiJin()) return true;
-                if (await Buff.Meisui()) return true;
-                //if (await Buff.TrueNorth()) return true;
-                //if (await Buff.ShadeShift()) return true;
-                if (await Buff.Bunshin()) return true;
-                if (await SingleTarget.Assassinate()) return true;
-                if (await Aoe.HellfrogMedium()) return true;
                 if (await SingleTarget.Bhavacakra()) return true;
                 if (await SingleTarget.Mug()) return true;
+                if (await Aoe.HellfrogMedium()) return true;
+                if (await Ninjutsu.TenChiJin()) return true;
+                if (await Buff.Meisui()) return true;
+                if (await Buff.TrueNorth()) return true;
+                if (await Buff.Bunshin()) return true;
                 if (await Buff.Kassatsu()) return true;
                 if (await SingleTarget.DreamWithinADream()) return true;
-                if (await SingleTarget.ShadowFang()) return true;
+                if (await SingleTarget.Assassinate()) return true;
             }
 
             //Ninjutsu
@@ -191,6 +144,8 @@ namespace Magitek.Rotations
                 //if (Ninjutsu.FumaShuriken()) return true;
             }
 
+            if (await SingleTarget.FleetingRaiju()) return true;
+            if (await Aoe.PhantomKamaitachi()) return true;
             if (await Aoe.HakkeMujinsatsu()) return true;
             if (await Aoe.DeathBlossom()) return true;
             if (await SingleTarget.ArmorCrush()) return true;
@@ -207,7 +162,7 @@ namespace Magitek.Rotations
         {
             if (Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000 && Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
             {
-                //Logger.Write("TCJ TEst");
+                //Logger.Write("TCJ Test");
 
 
                 if (Core.Me.HasAura(Auras.Kassatsu))

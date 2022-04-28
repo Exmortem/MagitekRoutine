@@ -36,6 +36,8 @@ namespace Magitek.Logic.Ninja
             SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
             SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
             SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Raiton });
+            if (Spells.ForkedRaiju.IsKnown())
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.ForkedRaiju });
             NinjaSettings.Instance.ForceRaiton = false;
             TogglesManager.ResetToggles();
             return true;
@@ -96,10 +98,7 @@ namespace Magitek.Logic.Ninja
 
             if (!ActionManager.HasSpell(Spells.Huton.Id))
                 return false;
-
-            //if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000)
-            //    return false;
-
+                        
             if (Core.Me.ClassLevel < 45)
                 return false;
 
@@ -350,14 +349,8 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 45000 && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
-                return false;
-
-            if (Spells.ShadowFang.Cooldown.TotalMilliseconds < 5000)
-                return false;
-
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 1200)
-                return false;
-
+                return false;          
+                        
             if (Casting.LastSpell == Spells.Raiton)
                 return false;
 
@@ -366,9 +359,7 @@ namespace Magitek.Logic.Ninja
 
             if (Casting.LastSpell == Spells.DreamWithinaDream || Spells.DreamWithinaDream.Cooldown.TotalMilliseconds < 2000)
                 return false;
-
-            //return await Spells.TenChiJin.Cast(Core.Me);
-
+            
             if (!await Spells.TenChiJin.Cast(Core.Me))
                 return false;
 

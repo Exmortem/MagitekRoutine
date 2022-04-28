@@ -54,34 +54,6 @@ namespace Magitek.Models.Ninja
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseShadowFang { get; set; }
-
-        [Setting]
-        [DefaultValue(6)]
-        public int ShadowFangRefresh { get; set; }
-
-        [Setting]
-        [DefaultValue(12)]
-        public int HutonRefreshTimer { get; set; }
-
-        [Setting]
-        [DefaultValue(5000)]
-        public int ShadowFangMinimumHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float ShadowFangMinimumHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ShadowFangUseTtd { get; set; }
-
-        [Setting]
-        [DefaultValue(25)]
-        public double ShadowFangMinimumTtd { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseAoe { get; set; }
 
         [Setting]

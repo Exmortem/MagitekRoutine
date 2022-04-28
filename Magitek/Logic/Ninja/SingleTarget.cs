@@ -36,12 +36,9 @@ namespace Magitek.Logic.Ninja
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
 
-            if (HutonTimer.TotalSeconds < NinjaSettings.Instance.HutonRefreshTimer)
-                return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
-
             if (!Core.Me.HasAura(Auras.TrueNorth))
             {
-                if (Core.Me.CurrentTarget.IsFlanking)
+                if (Core.Me.CurrentTarget.IsFlanking && HutonTimer.TotalMilliseconds <= 30000)
                     return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
             }
 
@@ -53,23 +50,10 @@ namespace Magitek.Logic.Ninja
 
             return false;
         }
-
-        public static async Task<bool> ShadowFang()
-        {
-            if (!NinjaSettings.Instance.UseShadowFang)
-                return false;
-
-            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 45000)
-                return false;
-
-            return await Spells.ShadowFang.Cast(Core.Me.CurrentTarget);
-        }
-
+              
         public static async Task<bool> Assassinate()
         {
             if (!NinjaSettings.Instance.UseAssassinate)
-                return false;
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
                 return false;
             if (!Core.Me.HasAura(Auras.AssassinateReady))
                 return false;
@@ -84,16 +68,14 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseMug)
                 return false;
-            //if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
-            //    return false;
-
+            
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 55000)
                 return false;
 
             if (Core.Me.HasAura(Auras.VulnerabilityTrickAttack))
                 return false;
 
-            if (NinkiGauge > 60)
+            if (NinkiGauge > 40)
                 return false;
 
             return await Spells.Mug.Cast(Core.Me.CurrentTarget);
@@ -106,10 +88,7 @@ namespace Magitek.Logic.Ninja
 
             if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
-
-            if (Spells.TrickAttack.Cooldown.Seconds > 6)
-                return false;
-
+                    
             //if (!Core.Me.CurrentTarget.IsBehind && !Core.Me.HasAura(Auras.TrueNorth) && Spells.TrueNorth.Charges >0)
             //    return await Spells.TrueNorth.Cast(Core.Me);
 
@@ -127,9 +106,6 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseDreamWithinADream)
                 return false;
 
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds < 850)
-                return false;
-
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 50000)
                 return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);
 
@@ -141,30 +117,23 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseBhavacakra)
                 return false;
 
-            if (Casting.LastSpell == Spells.Bunshin)
-                return false;
-
-            if (Casting.LastSpell == Spells.Assassinate)
-                return false;
-
             if (Casting.LastSpell == Spells.Kassatsu)
                 return false;
 
-
-            //if (Spells.Ten.Charges >= 1 && Spells.Ten.Cooldown.TotalMilliseconds <= 15000)
-            //    return true;
-
             if (NinkiGauge >= 100 && Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds && Spells.TrickAttack.Cooldown.TotalSeconds > 3)
-                return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
 
             if (NinkiGauge >= 50 && Spells.Mug.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds + 1000 && Spells.Bunshin.Cooldown.TotalMilliseconds > Spells.TrickAttack.Cooldown.TotalMilliseconds)
-                return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
+
+            if (NinkiGauge >= 50 && Core.Me.HasAura(Auras.Meisui))
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
 
             if (NinkiGauge < 50)
                 return false;
 
-            if (NinkiGauge < 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000)
-                return false;
+           if (NinkiGauge >= 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000 && Spells.TrickAttack.Cooldown.TotalMilliseconds > 5000)
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
 
             if (Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds)
             {
@@ -246,8 +215,23 @@ namespace Magitek.Logic.Ninja
                     return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
                 }
             }
-
+            
+            
             return false;
+
+
+        }
+        public static async Task<bool> FleetingRaiju()
+        {
+            if (Core.Me.HasAura(Auras.RaijuReady))
+                return await Spells.FleetingRaiju.Cast(Core.Me.CurrentTarget);
+            
+            
+            return false;
+
         }
     }
+    
+
+
 }
