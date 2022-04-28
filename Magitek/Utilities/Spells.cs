@@ -453,6 +453,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ForkedRaiju = DataManager.GetSpellData(25777);
         public static readonly SpellData FleetingRaiju = DataManager.GetSpellData(25778);
         public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
+        public static readonly SpellData Huraijin = DataManager.GetSpellData(25876);
 
         #endregion
 

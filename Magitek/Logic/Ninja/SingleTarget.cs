@@ -230,6 +230,20 @@ namespace Magitek.Logic.Ninja
             return false;
 
         }
+
+        public static async Task<bool> Huraijin()
+        {
+            if (ActionManager.LastSpell != Spells.GustSlash)
+                return false;
+            
+            
+            {
+                if (HutonTimer.TotalMilliseconds == 0)
+                    return await Spells.Huraijin.Cast(Core.Me.CurrentTarget);
+            }
+
+            return false;
+        }
     }
     
 

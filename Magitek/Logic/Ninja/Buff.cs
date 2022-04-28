@@ -3,6 +3,7 @@ using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Threading.Tasks;
+using ff14bot.Managers;
 using static ff14bot.Managers.ActionResourceManager.Ninja;
 
 namespace Magitek.Logic.Ninja
@@ -50,15 +51,22 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> TrueNorth()
         {
-                    
-            if (Core.Me.HasAura(Auras.TrueNorth))
-                return false;
-
+       
             if (!NinjaSettings.Instance.UseTrueNorth
                 || Core.Me.HasAura(Auras.TrueNorth))
                 return false;
 
-                if (Spells.TrickAttack.IsReady() || Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000)
+                if ((Spells.TrickAttack.IsReady() || Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000) && !Core.Me.CurrentTarget.IsBehind)
+                    return await Spells.TrueNorth.Cast(Core.Me);
+
+                if (ActionManager.LastSpell == Spells.GustSlash 
+                                    && !Core.Me.CurrentTarget.IsFlanking 
+                                    && HutonTimer.TotalMilliseconds <= 30000 
+                                    && 
+                                       (Spells.TrueNorth.Charges == 2 
+                                    || (Spells.TrueNorth.Charges > 1 && Spells.TrueNorth.Charges < 2
+                                       && Spells.TrickAttack.Cooldown.TotalMilliseconds > Spells.TrueNorth.Cooldown.TotalMilliseconds)))
+
                     return await Spells.TrueNorth.Cast(Core.Me);
 
             return false;
