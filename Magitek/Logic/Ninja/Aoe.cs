@@ -146,7 +146,19 @@ namespace Magitek.Logic.Ninja
                     return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
                 }
             }
+
             return false;
+
+            
+        }
+        
+        public static async Task<bool> PhantomKamaitachi()
+        {
+            if (!Spells.PhantomKamaitachi.IsReady())
+                return false;
+
+            return await Spells.PhantomKamaitachi.Cast(Core.Me.CurrentTarget);
+
         }
     }
 }

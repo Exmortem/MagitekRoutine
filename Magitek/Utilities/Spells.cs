@@ -424,7 +424,6 @@ namespace Magitek.Utilities
         public static readonly SpellData Mug = DataManager.GetSpellData(2248);
         public static readonly SpellData DeathBlossom = DataManager.GetSpellData(2254);
         public static readonly SpellData AeolianEdge = DataManager.GetSpellData(2255);
-        public static readonly SpellData ShadowFang = DataManager.GetSpellData(2257);
         public static readonly SpellData TrickAttack = DataManager.GetSpellData(2258);
         public static readonly SpellData Ten = DataManager.GetSpellData(2259);
         public static readonly SpellData Ninjutsu = DataManager.GetSpellData(2260);
@@ -452,8 +451,9 @@ namespace Magitek.Utilities
         public static readonly SpellData Bunshin = DataManager.GetSpellData(16493);
         public static readonly SpellData PhantomKamaitachi = DataManager.GetSpellData(25774);
         public static readonly SpellData ForkedRaiju = DataManager.GetSpellData(25777);
-
+        public static readonly SpellData FleetingRaiju = DataManager.GetSpellData(25778);
         public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
+        public static readonly SpellData Huraijin = DataManager.GetSpellData(25876);
 
         #endregion
 
