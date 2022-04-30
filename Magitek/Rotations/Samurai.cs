@@ -91,6 +91,7 @@ namespace Magitek.Rotations
             }
             // Shoha must come out before kaeshi or you overcap
 
+            if (SingleTarget.ForceLimitBreak()) return true;
             if (await SingleTarget.KaeshiSetsugekka()) return true;
             if (await Aoe.KaeshiGoken()) return true;
 

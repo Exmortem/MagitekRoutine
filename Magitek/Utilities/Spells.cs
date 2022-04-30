@@ -41,6 +41,36 @@ namespace Magitek.Utilities
         public static readonly SpellData LowBlow = DataManager.GetSpellData(7540);
         #endregion
 
+        // Tank Limit Breaks
+        #region Tank Limit Breaks
+        public static readonly SpellData ShieldWall = DataManager.GetSpellData(197);
+        public static readonly SpellData Stronghold = DataManager.GetSpellData(198);
+        #endregion
+
+        // Melee DPS Limit Breaks
+        #region Melee DPS Limit Breaks
+        public static readonly SpellData Braver = DataManager.GetSpellData(200);
+        public static readonly SpellData Bladedance = DataManager.GetSpellData(201);
+        #endregion
+
+        // Ranged DPS Limit Breaks
+        #region Ranged DPS Limit Breaks
+        public static readonly SpellData BigShot = DataManager.GetSpellData(4238);
+        public static readonly SpellData Desperado = DataManager.GetSpellData(4239);
+        #endregion
+
+        // Magic DPS Limit Breaks
+        #region Magic DPS Limit Breaks
+        public static readonly SpellData Skyshard = DataManager.GetSpellData(203);
+        public static readonly SpellData Starstorm = DataManager.GetSpellData(204);
+        #endregion
+
+        // Healer Limit Breaks
+        #region Healer Limit Breaks
+        public static readonly SpellData HealingWind = DataManager.GetSpellData(206);
+        public static readonly SpellData BreathoftheEarth = DataManager.GetSpellData(207);
+        #endregion
+
         // ACN
         #region ACN
         public static readonly SpellData Ruin = DataManager.GetSpellData(163);
@@ -118,6 +148,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Microcosmos = DataManager.GetSpellData(25874);
         public static readonly SpellData FallMalefic = DataManager.GetSpellData(25871);
         public static readonly SpellData GravityII = DataManager.GetSpellData(25872);
+        public static readonly SpellData AstralStasis = DataManager.GetSpellData(4248);
         #endregion
 
         // BLM
@@ -151,6 +182,7 @@ namespace Magitek.Utilities
         public static readonly SpellData HighBlizzardII = DataManager.GetSpellData(25795);
         public static readonly SpellData Amplifier = DataManager.GetSpellData(25796);
         public static readonly SpellData Paradox = DataManager.GetSpellData(25797);
+        public static readonly SpellData Meteor = DataManager.GetSpellData(205);
         #endregion
 
         // BRD
@@ -203,6 +235,9 @@ namespace Magitek.Utilities
         public static readonly SpellData Troubadour = DataManager.GetSpellData(7405);
         public static readonly SpellData NaturesMinne = DataManager.GetSpellData(7408);
 
+        // LB3
+        public static readonly SpellData SaggitariusArrow = DataManager.GetSpellData(4244);
+
         #endregion
 
         // DNC
@@ -243,6 +278,7 @@ namespace Magitek.Utilities
         public static readonly SpellData FanDanceIV = DataManager.GetSpellData(25791);
         public static readonly SpellData StarfallDance = DataManager.GetSpellData(25792);
         public static readonly SpellData Tillana = DataManager.GetSpellData(25790);
+        public static readonly SpellData CrimsonLotus = DataManager.GetSpellData(17106);
         #endregion
 
         // DRG
@@ -275,6 +311,7 @@ namespace Magitek.Utilities
         public static readonly SpellData ChaoticSpring = DataManager.GetSpellData(25772);
         public static readonly SpellData WyrmwindThrust = DataManager.GetSpellData(25773);
         public static readonly SpellData DraconianFury = DataManager.GetSpellData(25770);
+        public static readonly SpellData DragonsongDive = DataManager.GetSpellData(4242);
         #endregion
 
         // DRK
@@ -306,6 +343,7 @@ namespace Magitek.Utilities
         public static readonly SpellData LivingShadow = DataManager.GetSpellData(16472);
         public static readonly SpellData Oblation = DataManager.GetSpellData(25754);
         public static readonly SpellData Shadowbringer = DataManager.GetSpellData(25757);
+        public static readonly SpellData DarkForce = DataManager.GetSpellData(4241);
         #endregion
 
         // GNB
@@ -342,6 +380,7 @@ namespace Magitek.Utilities
         public static readonly SpellData HeartOfCorundum = DataManager.GetSpellData(25758);
         public static readonly SpellData DoubleDown = DataManager.GetSpellData(25760);
         public static readonly SpellData Hypervelocity = DataManager.GetSpellData(25759);
+        public static readonly SpellData GunmetalSoul = DataManager.GetSpellData(17105);
         #endregion
 
         // MCH
@@ -374,6 +413,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Hypercharge = DataManager.GetSpellData(17209);
         public static readonly SpellData Scattergun = DataManager.GetSpellData(25786);
         public static readonly SpellData ChainSaw = DataManager.GetSpellData(25788);
+        public static readonly SpellData SatelliteBeam = DataManager.GetSpellData(4245);
 
         public static readonly SpellData PVPDrill = DataManager.GetSpellData(17749);
         public static readonly SpellData PVPRicochet = DataManager.GetSpellData(17753);
@@ -411,6 +451,7 @@ namespace Magitek.Utilities
         public static readonly SpellData TornadoKick = DataManager.GetSpellData(3543);
         public static readonly SpellData MasterfulBlitz = DataManager.GetSpellData(25764);
         public static readonly SpellData ShadowOfTheDestroyer = DataManager.GetSpellData(25767);
+        public static readonly SpellData FinalHeaven = DataManager.GetSpellData(202);
         #endregion
 
         // NIN
@@ -452,9 +493,9 @@ namespace Magitek.Utilities
         public static readonly SpellData PhantomKamaitachi = DataManager.GetSpellData(25774);
         public static readonly SpellData ForkedRaiju = DataManager.GetSpellData(25777);
         public static readonly SpellData FleetingRaiju = DataManager.GetSpellData(25778);
-        public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
         public static readonly SpellData Huraijin = DataManager.GetSpellData(25876);
-
+        public static readonly SpellData LimitBreak = DataManager.GetSpellData(209);
+        public static readonly SpellData Chimatsuri = DataManager.GetSpellData(4243);
         #endregion
 
         // PLD
@@ -490,6 +531,7 @@ namespace Magitek.Utilities
         public static readonly SpellData BladeOfFaith = DataManager.GetSpellData(25748);
         public static readonly SpellData BladeOfTruth = DataManager.GetSpellData(25749);
         public static readonly SpellData BladeOfValor = DataManager.GetSpellData(25750);
+        public static readonly SpellData LastBastion = DataManager.GetSpellData(199);
         #endregion
 
         // RDM
@@ -527,6 +569,7 @@ namespace Magitek.Utilities
         public static readonly SpellData VerthunderIII = DataManager.GetSpellData(25855);
         public static readonly SpellData VeraeroIII = DataManager.GetSpellData(25856);
         public static readonly SpellData MagickBarrier = DataManager.GetSpellData(25857);
+        public static readonly SpellData VermillionScourge = DataManager.GetSpellData(7862);
         #endregion
 
         // SAM
@@ -563,6 +606,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Fuko = DataManager.GetSpellData(25780);
         public static readonly SpellData OgiNamikiri = DataManager.GetSpellData(25781);
         public static readonly SpellData KaeshiNamikiri = DataManager.GetSpellData(25782);
+        public static readonly SpellData DoomoftheLiving = DataManager.GetSpellData(7861);
         #endregion
 
         // SGE
@@ -602,6 +646,7 @@ namespace Magitek.Utilities
         public static readonly SpellData DyskrasiaII = DataManager.GetSpellData(24315);
         public static readonly SpellData Krasis = DataManager.GetSpellData(24317);
         public static readonly SpellData Pneuma = DataManager.GetSpellData(24318);
+        public static readonly SpellData TechneMakre = DataManager.GetSpellData(24859);
         #endregion
 
         // SCH
@@ -641,13 +686,11 @@ namespace Magitek.Utilities
         public static readonly SpellData Expedient = DataManager.GetSpellData(25868);
         public static readonly SpellData Bio = DataManager.GetSpellData(17864);
         public static readonly SpellData Enkindle = DataManager.GetSpellData(184);
-
-
+        public static readonly SpellData AngelFeathers = DataManager.GetSpellData(4247);
         #endregion
 
         // SMN
         #region SMN
-
         public static readonly SpellData SummonIfrit = DataManager.GetSpellData(25805);
         public static readonly SpellData SummonTitan = DataManager.GetSpellData(25806);
         public static readonly SpellData Painflare = DataManager.GetSpellData(3578);
@@ -693,8 +736,7 @@ namespace Magitek.Utilities
         public static readonly SpellData CrimsonStrike = DataManager.GetSpellData(25885);
         public static readonly SpellData MountainBuster = DataManager.GetSpellData(25836);
         public static readonly SpellData Slipstream = DataManager.GetSpellData(25837);
-
-
+        public static readonly SpellData Teraflare = DataManager.GetSpellData(4246);
         #endregion
 
         // WAR
@@ -728,6 +770,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Orogeny = DataManager.GetSpellData(25752);
         public static readonly SpellData PrimalRend = DataManager.GetSpellData(25753);
         public static readonly SpellData NascentFlash = DataManager.GetSpellData(16464);
+        public static readonly SpellData LandWaker = DataManager.GetSpellData(4240);
         #endregion
 
         // WHM
@@ -765,6 +808,7 @@ namespace Magitek.Utilities
         public static readonly SpellData HolyIII = DataManager.GetSpellData(25860);
         public static readonly SpellData Aquaveil = DataManager.GetSpellData(25861);
         public static readonly SpellData LiturgyOfTheBell = DataManager.GetSpellData(25862);
+        public static readonly SpellData PulseofLife = DataManager.GetSpellData(208);
         #endregion
 
         // BLU
@@ -880,7 +924,6 @@ namespace Magitek.Utilities
 
         // RPR
         #region RPR
-
         public static readonly SpellData Slice = DataManager.GetSpellData(24373); // [24373, Slice]
         public static readonly SpellData WaxingSlice = DataManager.GetSpellData(24374); // [24374, Waxing Slice]
         public static readonly SpellData InfernalSlice = DataManager.GetSpellData(24375); // [24375, Infernal Slice]
@@ -914,7 +957,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Regress = DataManager.GetSpellData(24403); // [24403, Regress]
         public static readonly SpellData ArcaneCrest = DataManager.GetSpellData(24404); // [24404, Arcane Crest]
         public static readonly SpellData ArcaneCircle = DataManager.GetSpellData(24405); // [24405, Arcane Circle]
-
+        public static readonly SpellData TheEnd = DataManager.GetSpellData(24858);
         #endregion
 
         //PVP

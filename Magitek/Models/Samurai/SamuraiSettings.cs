@@ -162,5 +162,10 @@ namespace Magitek.Models.Samurai
         [Setting]
         [DefaultValue(3)]
         public int KaeshiNamikiriEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
     }
 }

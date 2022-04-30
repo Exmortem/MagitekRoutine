@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Account;
 using Magitek.Models.Samurai;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -401,6 +402,36 @@ namespace Magitek.Logic.Samurai
         {
             if (Core.Me.CurrentTarget == null) return false;
             return await Spells.Hakaze.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static bool ForceLimitBreak()
+        {
+            if (!SamuraiSettings.Instance.ForceLimitBreak)
+                return false;
+
+            if (PartyManager.NumMembers == 8 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.DoomoftheLiving) && Spells.Hakaze.Cooldown.TotalMilliseconds < 500)
+            {
+
+                ActionManager.DoAction(Spells.DoomoftheLiving, Core.Me.CurrentTarget);
+                SamuraiSettings.Instance.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+
+            }
+
+            if (PartyManager.NumMembers == 4 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Braver) && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Bladedance) && Spells.Hakaze.Cooldown.TotalMilliseconds < 500)
+            {
+               
+                if (!ActionManager.DoAction(Spells.Bladedance, Core.Me.CurrentTarget))
+                    ActionManager.DoAction(Spells.Braver, Core.Me.CurrentTarget);
+                SamuraiSettings.Instance.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+
+            }
+
+            return false;
+
         }
     }
 }
