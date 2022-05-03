@@ -62,7 +62,7 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             // First Mudra of the line
-            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
+            if (!Spells.Ten.CanCast(null))
                 return false;
 
             if (Spells.TrickAttack.Cooldown.Seconds < 22)
@@ -102,7 +102,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Jin, null))
+            if (!Spells.Jin.CanCast(null))
                 return false;
 
             if (ActionResourceManager.Ninja.HutonTimer.TotalMilliseconds > 1)
@@ -139,7 +139,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
+            if (!Spells.Chi.CanCast(null))
                 return false;
 
             if (!Core.Me.HasAura(Auras.Kassatsu) && Casting.LastSpell != Spells.Kassatsu)
@@ -171,16 +171,13 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 22000 && !NinjaSettings.Instance.UseForceNinjutsu)
                 return false;
 
-            if (MovementManager.IsMoving)
-                return false;
-
             if (!ActionManager.HasSpell(Spells.Doton.Id))
                 return false;
 
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
+            if (!Spells.Ten.CanCast(null))
                 return false;
 
             if (Core.Me.HasAura(Auras.Doton))
@@ -222,7 +219,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack, true, 2500))
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
+            if (!Spells.Chi.CanCast(null))
                 return false;
 
             if (Core.Me.CurrentTarget.EnemiesNearby(5 + Core.Me.CurrentTarget.CombatReach).Count() < NinjaSettings.Instance.KatonMinEnemies)
@@ -251,7 +248,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 76)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Chi, null))
+            if (!Spells.Chi.CanCast(null))
                 return false;
 
             if (!Core.Me.HasAura(Auras.Kassatsu) && Casting.LastSpell != Spells.Kassatsu)
@@ -292,7 +289,7 @@ namespace Magitek.Logic.Ninja
             if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
+            if (!Spells.Ten.CanCast(null))
                 return false;
 
             SpellQueueLogic.SpellQueue.Clear();
@@ -321,7 +318,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
+            if (!Spells.Ten.CanCast(null))
                 return false;
 
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 20000)
@@ -344,7 +341,6 @@ namespace Magitek.Logic.Ninja
 
             if (MovementManager.IsMoving)
                 return false;
-
             if (Core.Me.HasAura(Auras.Suiton))
                 return false;
 
