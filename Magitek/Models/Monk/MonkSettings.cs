@@ -176,5 +176,10 @@ namespace Magitek.Models.Monk
         [Setting]
         [DefaultValue(true)]
         public bool HidePositionalToastsWithTn { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
     }
 }

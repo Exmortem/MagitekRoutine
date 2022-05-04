@@ -21,6 +21,10 @@ namespace Magitek.Models.Dragoon
         [Setting]
         [DefaultValue(false)]
         public bool EnemyIsOmni { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
         #endregion
 
         #region Jumps

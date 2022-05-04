@@ -82,6 +82,7 @@ namespace Magitek.Rotations
             if (await CustomOpenerLogic.Opener()) 
                 return true;
 
+            if (SingleTarget.ForceLimitBreak()) return true;
 
             #region Off GCD debugging
             if (DragoonRoutine.JumpsList.Contains(Casting.LastSpell))

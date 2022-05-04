@@ -90,7 +90,7 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
 
-
+            if (SingleTarget.ForceLimitBreak()) return true;
             if (await Buff.Meditate()) return true;
 
             //var count = Utilities.Combat.Enemies.Count;

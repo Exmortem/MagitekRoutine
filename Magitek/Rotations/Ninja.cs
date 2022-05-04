@@ -103,9 +103,10 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            if (SingleTarget.ForceLimitBreak()) return true;
             if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
-
             if (Ninjutsu.ForceRaiton()) return true;
+
             if (NinjaRoutine.GlobalCooldown.CanWeave(1))
             {
                 //Utility Force Toggle

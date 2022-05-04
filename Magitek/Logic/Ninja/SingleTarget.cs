@@ -1,9 +1,13 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using Clio.Common;
 using Magitek.Extensions;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
+using Magitek.Toggles;
+using Magitek.Models.QueueSpell;
 using System.Threading.Tasks;
+using System.Linq;
 using static ff14bot.Managers.ActionResourceManager.Ninja;
 
 namespace Magitek.Logic.Ninja
@@ -50,7 +54,7 @@ namespace Magitek.Logic.Ninja
 
             return false;
         }
-              
+
         public static async Task<bool> Assassinate()
         {
             if (!NinjaSettings.Instance.UseAssassinate)
@@ -68,7 +72,7 @@ namespace Magitek.Logic.Ninja
         {
             if (!NinjaSettings.Instance.UseMug)
                 return false;
-            
+
             if (Spells.TrickAttack.Cooldown.TotalMilliseconds > 55000)
                 return false;
 
@@ -88,9 +92,6 @@ namespace Magitek.Logic.Ninja
 
             if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
-                    
-            //if (!Core.Me.CurrentTarget.IsBehind && !Core.Me.HasAura(Auras.TrueNorth) && Spells.TrueNorth.Charges >0)
-            //    return await Spells.TrueNorth.Cast(Core.Me);
 
             if (Core.Me.HasAura(Auras.Suiton, true, 18000))
                 return false;
@@ -132,7 +133,7 @@ namespace Magitek.Logic.Ninja
             if (NinkiGauge < 50)
                 return false;
 
-           if (NinkiGauge >= 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000 && Spells.TrickAttack.Cooldown.TotalMilliseconds > 5000)
+            if (NinkiGauge >= 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000 && Spells.TrickAttack.Cooldown.TotalMilliseconds > 5000)
                 return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
 
             if (Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds)
@@ -215,8 +216,8 @@ namespace Magitek.Logic.Ninja
                     return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
                 }
             }
-            
-            
+
+
             return false;
 
 
@@ -225,8 +226,8 @@ namespace Magitek.Logic.Ninja
         {
             if (Core.Me.HasAura(Auras.RaijuReady))
                 return await Spells.FleetingRaiju.Cast(Core.Me.CurrentTarget);
-            
-            
+
+
             return false;
 
         }
@@ -235,8 +236,8 @@ namespace Magitek.Logic.Ninja
         {
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
-            
-            
+
+
             {
                 if (HutonTimer.TotalMilliseconds == 0)
                     return await Spells.Huraijin.Cast(Core.Me.CurrentTarget);
@@ -244,8 +245,38 @@ namespace Magitek.Logic.Ninja
 
             return false;
         }
+
+        public static bool ForceLimitBreak()
+        {
+            if (!NinjaSettings.Instance.ForceLimitBreak)
+                return false;
+
+            if (PartyManager.NumMembers == 8 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Chimatsuri) && Spells.SpinningEdge.Cooldown.TotalMilliseconds < 500)
+            {
+               
+                ActionManager.DoAction(Spells.Chimatsuri, Core.Me.CurrentTarget);
+                NinjaSettings.Instance.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+                
+            }
+
+            if (PartyManager.NumMembers == 4 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Braver) && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Bladedance) && Spells.SpinningEdge.Cooldown.TotalMilliseconds < 500)
+            {
+              
+                if (!ActionManager.DoAction(Spells.Bladedance, Core.Me.CurrentTarget))
+                     ActionManager.DoAction(Spells.Braver, Core.Me.CurrentTarget);
+                NinjaSettings.Instance.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+                
+            }
+
+            return false;
+
+        }
+
+
+
     }
-    
-
-
 }

@@ -112,6 +112,7 @@ namespace Magitek.Rotations
 
             if (await Buff.FightLogic_ArcaneCrest()) return true;
             if (await Buff.FightLogic_Feint()) return true;
+            if (SingleTarget.ForceLimitBreak()) return true;
 
             if (Core.Me.HasAura(Auras.Enshrouded)) //Enshroud Mode
             {

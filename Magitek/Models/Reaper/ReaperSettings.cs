@@ -102,6 +102,10 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseLemuresSlice { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
         #endregion
 
         #region AoE-Abilities
