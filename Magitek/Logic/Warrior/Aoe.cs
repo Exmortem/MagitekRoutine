@@ -64,7 +64,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 8 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.OverpowerMinimumEnemies)
                 return false;
 
             return await Spells.Overpower.Cast(Core.Me.CurrentTarget);
