@@ -42,7 +42,7 @@ namespace Magitek.Logic.Paladin
 
             if (!PaladinSettings.Instance.ShieldLobLostAggro)
                 return false;
-            
+
             // Need this in autonomous for dungeons
             //if (BotManager.Current.IsAutonomous)
             //    return false;
@@ -93,8 +93,11 @@ namespace Magitek.Logic.Paladin
             if (!PaladinRoutine.ToggleAndSpellCheck(PaladinSettings.Instance.HolySpirit, Spells.HolySpirit))
                 return false;
 
-            if (PaladinRoutine.RequiescatStackCount <= 1)
+            if (PaladinRoutine.RequiescatStackCount <= 1
+                && Spells.Confiteor.IsKnown())
+            {
                 return false;
+            }
 
             // Before 6.0 PLD would hold Requiestcat until starting the magic combo,
             // but now it's often put up early during physical combo because it lasts
