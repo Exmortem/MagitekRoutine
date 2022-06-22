@@ -33,8 +33,8 @@ namespace MagitekLoader
         private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
         private static volatile bool _updaterStarted, _updaterFinished, _loaded;
         private static string _latestVersion;
-        private const string ZipUrl = "https://d2b9993ey48hbs.cloudfront.net/Magitek.zip";
-        private const string VersionUrl = "https://magitek.s3-us-west-2.amazonaws.com/Version.txt";
+        private const string ZipUrl = "https://ddjx48xxp2d6i.cloudfront.net/Magitek.zip";
+        private const string VersionUrl = "https://ddjx48xxp2d6i.cloudfront.net/Version.txt";
 
         public sealed override CapabilityFlags SupportedCapabilities => CapabilityFlags.All;
 
