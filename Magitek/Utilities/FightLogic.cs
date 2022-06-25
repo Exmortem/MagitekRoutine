@@ -5005,6 +5005,47 @@ namespace Magitek.Utilities
                     }
                 }
             },
+            new Encounter {
+                ZoneId = ZoneId.AlzadaalsLegacy,
+                Name = "Dungeon: Alzadaal's Lagecy",
+                Expansion = FfxivExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 11241,
+                        Name = "Ambujam",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            28512 //Big Wave
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11239,
+                        Name = "Armored Chariot",
+                        TankBusters = new List<uint> {
+                            28447 //Rail Cannon 
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            28446 //Diffusion Ray
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11238,
+                        Name = "Kapikulu",
+                        TankBusters = new List<uint> {
+                            28530 //Crewel Slice
+                        },
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            28528 //Billowing Bolts
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
 
             #endregion
 
@@ -5117,6 +5158,29 @@ namespace Magitek.Utilities
                             27476 //Calculated Combustion
                         },
                         BigAoes = null,
+                    }
+                }
+            },
+            new Encounter {
+                ZoneId = ZoneId.TheMinstrelsBalladEndsingersAria,
+                Name = "Trial: Endsinger (Extreme)",
+                Expansion = FfxivExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 10448,
+                        Name = "The Endsinger",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            28716 //Hubris
+                        },
+                        Aoes = new List<uint> {
+                            28662, //Elegeia
+                            28719, //Eironeia - Healer Group Stack
+                            28720 //Eironeia - Healer Group Stack
+                        },
+                        BigAoes = new List<uint> {
+                            28718, //Telos
+                        }
                     }
                 }
             },
@@ -5328,7 +5392,145 @@ namespace Magitek.Utilities
                         }
                     }
                 }
-            }
+            },
+            #endregion
+            
+            #region Endwalker: Unreals
+            
+            new Encounter {
+                ZoneId = ZoneId.UltimasBaneUnreal,
+                Name = "Unreal: Ultima's Bane (Unreal)",
+                Expansion = FfxivExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 2137,
+                        Name = "The Ultima Weapon",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = null,
+                        BigAoes = new List<uint> {
+                            28409 //Tank Purge
+                        }
+                    }
+                }
+            },
+            
+            #endregion
+            
+            #region Endwalker: Alliance Raids
+            
+            new Encounter {
+                ZoneId = ZoneId.Aglaia,
+                Name = "Alliance Raid: Aglaia",
+                Expansion = FfxivExpansion.Endwalker,
+                Enemies = new List<Enemy> {
+                    new Enemy {
+                        Id = 11281,
+                        Name = "Byregot",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            29045 //Byregot's Ward
+                        },
+                        Aoes = new List<uint> {
+                            29046 //Ordeal of Thunder
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11274,
+                        Name = "Rhalgr's Emmisary",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            28889 //Destructive Strike
+                        },
+                        Aoes = new List<uint> {
+                            28899 //Bolts from the blue
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11273,
+                        Name = "Rhalgr",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            28852 //Destructive Bolt
+                        },
+                        Aoes = new List<uint> {
+                            28837 //Lightning Bolt
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11292,
+                        Name = "Lion of Aglaia",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            29047 //Double Immolation
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11293,
+                        Name = "Lioness of Aglaia",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> {
+                            29047 //Double Immolation
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11277,
+                        Name = "Azeyma",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            28831 //Warden's Warmth
+                        },
+                        Aoes = new List<uint> {
+                            28832 //Warden's Prominence
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11286,
+                        Name = "Nald'thal",
+                        TankBusters = null,
+                        SharedTankBusters = new List<uint> {
+                            28955, //Golden Tenet
+                            28957 //Stygian Tenet
+                        },
+                        Aoes = new List<uint> {
+                            28904, //As above, so below
+                            28905, //As above, so below
+                            28959, //Heaven's trial
+                            28961 //Hell's Trial
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11290,
+                        Name = "Soul Vessel",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> { 
+                            28973 //Soul Vessel Magmatic Spell
+                        },
+                        BigAoes = null
+                    },
+                    new Enemy {
+                        Id = 11291,
+                        Name = "Soul Vessel",
+                        TankBusters = null,
+                        SharedTankBusters = null,
+                        Aoes = new List<uint> { 
+                            28973 //Soul Vessel Magmatic Spell
+                        },
+                        BigAoes = null
+                    }
+                }
+            },
+            
             #endregion
         };
 
@@ -5362,6 +5564,7 @@ namespace Magitek.Utilities
                 ASleepDisturbed = 914,
                 ASpectacleForTheAges = 533,
                 AccrueEnmityFromMultipleTargets = 540,
+                Aglaia = 1054,
                 AirForceOne = 832,
                 AkadaemiaAnyder = 841,
                 AlaMhigo = 689,
@@ -5399,6 +5602,7 @@ namespace Magitek.Utilities
                 AlphascapeV30Savage = 804,
                 AlphascapeV40 = 801,
                 AlphascapeV40Savage = 805,
+                AlzadaalsLegacy = 1050,
                 Amaurot = 838,
                 AmdaporKeep = 167,
                 AmdaporKeepHard = 189,
@@ -5736,6 +5940,7 @@ namespace Magitek.Utilities
                 TheLostCanalsOfUznair = 712,
                 TheLostCityOfAmdapor = 363,
                 TheLostCityOfAmdaporHard = 519,
+                TheMinstrelsBalladEndsingersAria = 998,
                 TheMinstrelsBalladHadessElegy = 885,
                 TheMinstrelsBalladHydaelynsCall = 996,
                 TheMinstrelsBalladNidhoggsRage = 566,
@@ -5844,6 +6049,7 @@ namespace Magitek.Utilities
                 UldahStepsOfNald = 130,
                 UldahStepsOfThal = 131,
                 UltimaThule = 960,
+                UltimasBaneUnreal = 1035,
                 UnderTheArmor = 190,
                 UpperLaNoscea = 139,
                 UrthsFount = 394,

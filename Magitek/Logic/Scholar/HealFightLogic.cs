@@ -40,7 +40,8 @@ namespace Magitek.Logic.Scholar
             if (!Spells.Succor.IsKnownAndReady())
                 return false;
 
-            if (Core.Me.TargetCharacter.SpellCastInfo.RemainingCastTime <= Spells.Succor.AdjustedCastTime)
+            var enemyTarget = (Character) Core.Me.CurrentTarget; 
+            if (enemyTarget.SpellCastInfo.RemainingCastTime <= Spells.Succor.AdjustedCastTime)
                 return false;
 
             if (ScholarSettings.Instance.FightLogicAdloDeployBigAoe && 
@@ -90,9 +91,13 @@ namespace Magitek.Logic.Scholar
             
             if (!Spells.Succor.IsKnownAndReady())
                 return false;
-            
-            if (Core.Me.TargetCharacter.SpellCastInfo.RemainingCastTime <= Spells.Succor.AdjustedCastTime)
+
+            var enemyTarget = (Character) Core.Me.CurrentTarget;
+            if (enemyTarget.SpellCastInfo.RemainingCastTime <= Spells.Succor.AdjustedCastTime)
+            {
+                Logger.WriteInfo($"Enemy Target: ${enemyTarget}\t Remaining Cast Time ${enemyTarget.SpellCastInfo.RemainingCastTime}\t Succor Cast Time ${Spells.Succor.AdjustedCastTime}\t Logic Challenge: ${enemyTarget.SpellCastInfo.RemainingCastTime <= Spells.Succor.AdjustedCastTime}");
                 return false;
+            }
 
             if (Core.Me.HasAura(Auras.EmergencyTactics))
                 return false;
