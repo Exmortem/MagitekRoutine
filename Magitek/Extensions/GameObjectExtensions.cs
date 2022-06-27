@@ -224,15 +224,12 @@ namespace Magitek.Extensions
                 && Tanks.Contains(gameObject.CurrentJob)
                 && (gameObject.BeingTargetedBy(Core.Me.CurrentTarget)
                     || gameObject.BeingTargetedBy(gameObject.TargetGameObject)
-                    || PartyManager.AllMembers.Where(r => r != null).Select(r => r.BattleCharacter).Where(r => Tanks.Contains(r.CurrentJob)).Count() == 1);
+                    || PartyManager.RawMembers.Where(r => r != null).Select(r => r.BattleCharacter).Count(r => Tanks.Contains(r.CurrentJob)) == 1);
         }
 
         public static bool IsTank(this GameObject unit, bool mainTank)
         {
-            if (mainTank)
-                return unit.IsMainTank();
-            else
-                return unit.IsTank();
+            return mainTank ? unit.IsMainTank() : unit.IsTank();
         }
 
         public static bool IsHealer(this GameObject unit)
