@@ -119,8 +119,20 @@ namespace MagitekLoader
 
         public override void Initialize()
         {
+            try
+            {
+                // One user reported an error during auto update that seems to indicate this is needed
+                // https://stackoverflow.com/questions/46950386/sharpziplib-1-is-not-a-supported-code-page
+                ICSharpCode.SharpZipLib.Zip.ZipConstants.DefaultCodePage = 437;
+            }
+            catch
+            {
+                // Do nothing
+            }
+
+
             if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
-           // if (Product != null) { InitFunc.Invoke(Product, null); }
+            // if (Product != null) { InitFunc.Invoke(Product, null); }
         }
 
         public override void OnButtonPress()
