@@ -5375,12 +5375,33 @@ namespace Magitek.Utilities
                         Name = "Hesperos",
                         TankBusters = new List<uint> {
                             27144, //Elegant Evisceration
-                            27174, //Not sure...
-                            27175, //Not sure...
+                            27174, //Nearsight
+                            27175, //Farsight
                             27179 //Heart Stake
                         },
                         SharedTankBusters = new List<uint> {
-                            28280 //Not sure...
+                            28280 //Demigod Double
+                        },
+                        Aoes = new List<uint> {
+                            27145, //Decollation
+                            27096, //Bloodrake
+                            27181 //Searing Stream
+                        },
+                        BigAoes = new List<uint> {
+                            27180 //Ultimate Impulse
+                        }
+                    },
+                    new Enemy {
+                        Id = 10744,
+                        Name = "Hesperos",
+                        TankBusters = new List<uint> {
+                            27144, //Elegant Evisceration
+                            27174, //Nearsight
+                            27175, //Farsight
+                            27179 //Heart Stake
+                        },
+                        SharedTankBusters = new List<uint> {
+                            28280 //Demigod Double
                         },
                         Aoes = new List<uint> {
                             27145, //Decollation
