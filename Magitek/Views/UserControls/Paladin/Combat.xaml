@@ -7,7 +7,7 @@
              xmlns:enums="clr-namespace:Magitek.Enumerations"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="420"
+             d:DesignHeight="550"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -29,102 +29,80 @@
     </UserControl.DataContext>
 
     <StackPanel Margin="10">
-
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Rest When Under  " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.RestHealthPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Spirits Within" IsChecked="{Binding PaladinSettings.SpiritsWithin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Intervene " IsChecked="{Binding PaladinSettings.Intervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Single Target" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Intervene (Dash)  " IsChecked="{Binding PaladinSettings.UseIntervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Only in Melee. Save " IsChecked="{Binding PaladinSettings.InterveneOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding PaladinSettings.SaveInterveneCharges, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" charges" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Holy Spirit   " IsChecked="{Binding PaladinSettings.UseHolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Requiescat" IsChecked="{Binding PaladinSettings.UseRequiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Atonement" IsChecked="{Binding PaladinSettings.UseAtonement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" When Target is out of Melee Range" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use HolySpirit                 " IsChecked="{Binding PaladinSettings.UseHolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use ShieldLob"                   IsChecked="{Binding PaladinSettings.UseShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
 
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Total Eclipse Where There Are " IsChecked="{Binding PaladinSettings.TotalEclipse, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Multi Target" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Aoe (Total Eclipse combo, HolyCircle)" IsChecked="{Binding PaladinSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Eclipse / Prominence combo with at least  " IsChecked="{Binding PaladinSettings.UseEclipseCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.TotalEclipseEnemies, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
-
-                <StackPanel Margin="0" Orientation="Horizontal">
-                    <CheckBox Content="Always Combo with Prominence" IsChecked="{Binding PaladinSettings.Prominance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use HolyCircle with at least " IsChecked="{Binding PaladinSettings.UseHolyCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.HolyCircleEnemies, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
                 </StackPanel>
-
             </StackPanel>
         </controls:SettingsBlock>
 
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="Refresh Goring Blade When There Are " />
-                    <controls:Numeric Grid.Row="1"
-                                      Grid.Column="1"
-                                      Margin="0,3"
-                                      MaxValue="100"
-                                      MinValue="1"
-                                      Value="{Binding PaladinSettings.RefreshGoringBlade, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
-                </Grid>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When Target Has At Least " />
-                    <controls:Numeric MaxValue="100000000" MinValue="1" Value="{Binding PaladinSettings.HealthSetting, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health And At Least " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.HealthSettingPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Multi Target (can be used in Single Target Cycle)" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Confiteor Combo (Blade Of Faith + Blade Of Truth + Blade Of Valor) " IsChecked="{Binding PaladinSettings.UseConfiteorCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use Circle Of Scorn" IsChecked="{Binding PaladinSettings.UseCircleOfScorn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Expiacon / Spirits Within" IsChecked="{Binding PaladinSettings.UseExpiacon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Holy Spirit" IsChecked="{Binding PaladinSettings.HolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="When Target Is Out Of Melee Range" IsChecked="{Binding PaladinSettings.HolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel>
-                <CheckBox Margin="5" Content="HolyCircle AoE" IsChecked="{Binding PaladinSettings.HolyCircle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">

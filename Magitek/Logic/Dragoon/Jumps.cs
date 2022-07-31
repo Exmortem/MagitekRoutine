@@ -47,6 +47,10 @@ namespace Magitek.Logic.Dragoon
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return false;
 
+            //We separate HighJump from MirageDive in 2 different method. So don't want to launch it here.
+            if (Core.Me.HasAura(Auras.DiveReady))
+                return false;
+
             return await DragoonRoutine.HighJump.Cast(Core.Me.CurrentTarget);
         }
 

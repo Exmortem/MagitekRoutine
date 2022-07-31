@@ -119,20 +119,22 @@ namespace Magitek.Rotations
 
             if (DragoonRoutine.GlobalCooldown.CanWeave() && !DragoonRoutine.SingleWeaveJumpsList.Contains(Casting.LastSpell))
             {
+
+                if (await Utility.TrueNorth()) return true;
+
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;
                 if (await Buff.LanceCharge()) return true;
                 if (await Buff.DragonSight()) return true;
                 if (await Buff.BattleLitany()) return true;
                 if (await Buff.LifeSurge()) return true;
-                if (await Utility.TrueNorth()) return true;
 
-                //oGCD - Jump
-                if (await Aoe.WyrmwindThrust()) return true;
-                if (await Jumps.MirageDive()) return true; //DoubleWeave
-                if (await Aoe.Geirskogul()) return true;
-                if (await Aoe.Nastrond()) return true;
+                //oGCD AOE / SingleTarget
+                if (await Aoe.WyrmwindThrust()) return true; //used in Single Target Rotation
+                if (await Aoe.Geirskogul()) return true; //used in Single Target Rotation
+                if (await Aoe.Nastrond()) return true; //used in Single Target Rotation
 
+                //Jumps SingleWeave
                 if (DragoonRoutine.GlobalCooldown.CanWeave(1))
                 {
                     if (await Jumps.HighJump()) return true;  //SingleWeave
@@ -140,6 +142,11 @@ namespace Magitek.Rotations
                     if (await Jumps.SpineshatterDive()) return true; //SingleWeave
                     if (await Jumps.Stardiver()) return true; //SingleWeave
                 }
+
+                //Jump DoubleWeave
+                if (await Jumps.MirageDive()) return true; //DoubleWeave
+
+
             }
 
             if (await Aoe.DraconianFury()) return true;

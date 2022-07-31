@@ -4,6 +4,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -63,8 +64,17 @@ namespace Magitek.Logic.Dragoon
             if (!Core.Me.HasAura(Auras.LanceCharge))
                 return false;
 
-            //Life surge only for HeavensThrust or FangAndClaw or WheelingThrust or CoerthanTorment (AOE) 
-            if (ActionManager.LastSpell.Id != Spells.VorpalThrust.Id && ActionManager.LastSpell.Id != Spells.SonicThrust.Id && !Core.Me.HasAura(Auras.SharperFangandClaw) && !Core.Me.HasAura(Auras.EnhancedWheelingThrust))
+            if (Casting.LastSpell == Spells.LifeSurge)
+                return false;
+
+            //Life surge only for HeavensThrust / FangAndClaw for SingleTarget or DraconianFury / CoerthanTorment for AOE 
+            if (
+                (ActionManager.LastSpell.Id != Spells.WheelingThrust.Id || !Core.Me.HasAura(Auras.SharperFangandClaw))
+                && (ActionManager.LastSpell.Id != Spells.HeavensThrust.Id || !Core.Me.HasAura(Auras.SharperFangandClaw))
+                && ActionManager.LastSpell.Id != Spells.VorpalThrust.Id
+                && (!Spells.CoerthanTorment.IsKnown() || ActionManager.LastSpell.Id != Spells.SonicThrust.Id)
+                && (!Spells.CoerthanTorment.IsKnown() || ActionManager.LastSpell.Id != Spells.CoerthanTorment.Id)
+                && (Spells.CoerthanTorment.IsKnown() || !Spells.SonicThrust.IsKnown() || ActionManager.LastSpell.Id != Spells.DoomSpike.Id))
                 return false;
 
             return await Spells.LifeSurge.Cast(Core.Me);

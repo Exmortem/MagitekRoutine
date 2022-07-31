@@ -521,7 +521,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Intervention = DataManager.GetSpellData(7382);
         public static readonly SpellData HolySpirit = DataManager.GetSpellData(7384);
         public static readonly SpellData Requiescat = DataManager.GetSpellData(7383);
-        public static readonly SpellData Prominance = DataManager.GetSpellData(16457);
+        public static readonly SpellData Prominence = DataManager.GetSpellData(16457);
         public static readonly SpellData HolyCircle = DataManager.GetSpellData(16458);
         public static readonly SpellData Intervene = DataManager.GetSpellData(16461);
         public static readonly SpellData Atonement = DataManager.GetSpellData(16460);

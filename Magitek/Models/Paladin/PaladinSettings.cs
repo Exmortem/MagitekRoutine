@@ -17,40 +17,33 @@ namespace Magitek.Models.Paladin
         public float RestHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool UseFightOrFlight { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool IronWill { get; set; }
-
-        [Setting]
-        [DefaultValue(7)]
-        public int RefreshGoringBlade { get; set; }
-
-        [Setting]
         [DefaultValue(4000)]
         public int HealthSetting { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool FoFFastBlade { get; set; }
 
         [Setting]
         [DefaultValue(20.0f)]
         public float HealthSettingPercent { get; set; }
 
+        #region DamageBuff
         [Setting]
         [DefaultValue(true)]
-        public bool TotalEclipse { get; set; }
+        public bool UseFightOrFlight { get; set; }
+        #endregion
 
+        #region Utility
         [Setting]
-        [DefaultValue(true)]
-        public bool Prominance { get; set; }
+        [DefaultValue(false)]
+        public bool UseIronWill { get; set; }
+        #endregion
 
+        #region AOE
         [Setting]
         [DefaultValue(true)]
-        public bool HolyCircle { get; set; }
+        public bool UseAoe { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEclipseCombo { get; set; }
 
         [Setting]
         [DefaultValue(3)]
@@ -58,41 +51,47 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
-        public bool HolySpirit { get; set; }
+        public bool UseHolyCircle { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int HolyCircleEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HolySpiritWhenOutOfMeleeRange { get; set; }
+        public bool UseCircleOfScorn { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseConfiteor { get; set; }
+        public bool UseConfiteorCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Requiescat { get; set; }
+        public bool UseExpiacon { get; set; }
 
-        [Setting]
-        [DefaultValue(1)]
-        public int RequiescatWithFofSecondsRemaining { get; set; }
+        #endregion
 
+        #region Aggro
         [Setting]
         [DefaultValue(false)]
         public bool UseShieldLob { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool ShieldLobToPull { get; set; }
+        public bool UseShieldLobToPull { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool ShieldLobLostAggro { get; set; }
+        public bool UseShieldLobOnLostAggro { get; set; }
 
         [Setting]
         [DefaultValue(false)]
-        public bool ShieldLobToPullExtraEnemies { get; set; }
+        public bool UseShieldLobToPullExtraEnemies { get; set; }
 
-        [Setting]
+    #endregion
+
+    #region Cover
+    [Setting]
         [DefaultValue(true)]
         public bool UseCover { get; set; }
 
@@ -114,64 +113,6 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
-        public bool HallowGround { get; set; }
-
-        [Setting]
-        [DefaultValue(25.0f)]
-        public float HallowGroundHp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Sentinel { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool FoFFirst { get; set; }
-
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Intervene { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool InterveneOnlyInMelee { get; set; }
-
-        [Setting]
-        [DefaultValue(0)]
-        public int SaveInterveneCharges { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AoE { get; set; }
-
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float SentinelHp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DivineVeil { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float DivineVeilHp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Sheltron { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float SheltronHp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool SpiritsWithin { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool InterventionOnNearbyPartyMember { get; set; }
 
         [Setting]
@@ -185,11 +126,87 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool InterventionPartyAlwaysWithCD { get; set; }
+        #endregion
+
+        #region Defensive
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHallowedGround { get; set; }
+
+        [Setting]
+        [DefaultValue(20.0f)]
+        public float HallowedGroundHp { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool ShieldBash { get; set; }
+        public bool UseSentinel { get; set; }
 
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float SentinelHp { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSheltron { get; set; }
+
+        [Setting]
+        [DefaultValue(80.0f)]
+        public float SheltronHp { get; set; }
+        #endregion
+
+        #region Dash
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseIntervene { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool InterveneOnlyInMelee { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SaveInterveneCharges { get; set; }
+        #endregion
+
+        #region DefensiveGroup
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseDivineVeil { get; set; }
+
+        [Setting]
+        [DefaultValue(80.0f)]
+        public float DivineVeilHp { get; set; }
+
+        #endregion
+
+        #region Damage
+        [Setting]
+        [DefaultValue(15.0f)]
+        public float GoringBladeMpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHolySpirit { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHolySpiritWhenOutOfMeleeRange { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHolySpiritToPull { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRequiescat { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAtonement { get; set; }
+
+        #endregion
+
+        #region Heal
         [Setting]
         [DefaultValue(true)]
         public bool UseClemency { get; set; }
@@ -221,14 +238,11 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(50.0f)]
         public float MinMpClemency { get; set; }
+        #endregion
 
         [Setting]
         [DefaultValue(true)]
-        public bool CircleOfScorn { get; set; }
-
-        [Setting]
-        [DefaultValue(PaladinOpenerStrategy.AlwaysUseOpener)]
-        public PaladinOpenerStrategy PaladinOpenerStrategy { get; set; }
+        public bool ShieldBash { get; set; }
 
         #region PVP
         [Setting]
