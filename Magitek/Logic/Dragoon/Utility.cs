@@ -1,6 +1,7 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 10 + x.CombatReach) >= DragoonSettings.Instance.AoeEnemies)
+                return false;
+
+            if (Spells.TrueThrust.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
             if (ActionManager.LastSpell == Spells.Disembowel)

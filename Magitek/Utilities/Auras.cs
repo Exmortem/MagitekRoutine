@@ -322,7 +322,9 @@ namespace Magitek.Utilities
             Oblation = 2682,
             RaijuReady = 2690,
             Meisui = 2689,
-            Weakness = 43;
+            Weakness = 43,
+            ArmysMuse = 1932,
+            CircleofScorn = 248;
 
         private const int
             Invincibility0 = 981,

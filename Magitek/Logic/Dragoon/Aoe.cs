@@ -80,9 +80,11 @@ namespace Magitek.Logic.Dragoon
         {
             if (!DragoonSettings.Instance.UseGeirskogul)
                 return false;
-          
-            //Geirskogul should only happen with 2 eyes. The only moment when Geirskogul is not executed at 2 eyes is during EW Opener
-            if (ActionResourceManager.Dragoon.DragonGaze < 2)
+
+            if (DragoonSettings.Instance.UseLanceCharge && Spells.LanceCharge.IsKnownAndReady())
+                return false;
+
+            if (DragoonSettings.Instance.UseBattleLitany && Spells.BattleLitany.IsKnownAndReady())
                 return false;
 
             return await Spells.Geirskogul.Cast(Core.Me.CurrentTarget);
