@@ -30,7 +30,7 @@ namespace Magitek.Logic.Gunbreaker
             if (!await Spells.Aurora.Cast(auroraTargets.FirstOrDefault()))
                 return false;
 
-            Logger.WriteInfo($@"Aurora On {auroraTargets.FirstOrDefault().CurrentJob} - {auroraTargets.FirstOrDefault().Name} with HP = {auroraTargets.FirstOrDefault().CurrentHealthPercent}");
+            Logger.WriteInfo($@"Aurora On {auroraTargets.FirstOrDefault().CurrentJob} with HP = {auroraTargets.FirstOrDefault().CurrentHealthPercent}");
             return true;
 
             bool CanGetAurora(Character unit)
@@ -54,8 +54,8 @@ namespace Magitek.Logic.Gunbreaker
                     return true;
 
                 if (unit.IsTank() && GunbreakerSettings.Instance.UseAuroraTank && unit.CurrentHealthPercent < GunbreakerSettings.Instance.AuroraTankHealthPercent)
-                    return true; 
-                
+                    return true;
+
                 if (unit.IsHealer() && GunbreakerSettings.Instance.UseAuroraHealer && unit.CurrentHealthPercent < GunbreakerSettings.Instance.AuroraHealerHealthPercent)
                     return true;
 
@@ -68,7 +68,7 @@ namespace Magitek.Logic.Gunbreaker
             int AuroraPriority(Character unit)
             {
                 if (unit.IsMe)
-                    return GunbreakerSettings.Instance.AuroraPrioritySelf; 
+                    return GunbreakerSettings.Instance.AuroraPrioritySelf;
                 if (unit.IsMainTank())
                     return GunbreakerSettings.Instance.AuroraPriorityMainTank;
                 if (unit.IsTank())
