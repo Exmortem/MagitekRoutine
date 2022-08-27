@@ -326,12 +326,12 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (!Globals.InParty && Core.Me.CurrentHealthPercent <= Core.Me.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent))
-                return await Spells.CrownPlay.Heal(Core.Me);
+                return await Spells.LadyofCrowns.Heal(Core.Me);
 
             if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
                 return false;
 
-            return await Spells.CrownPlay.Heal(Core.Me);
+            return await Spells.LadyofCrowns.Heal(Core.Me);
         }
 
         #endregion
