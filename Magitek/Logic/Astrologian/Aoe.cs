@@ -83,13 +83,12 @@ namespace Magitek.Logic.Astrologian
             if (!Core.Me.HasAura(Auras.LordOfCrownsDrawn))
                 return false;
 
-          
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me.Location) <= Spells.LordofCrowns.Radius) >= AstrologianSettings.Instance.LordOfCrownsEnemies)
-                return await Spells.CrownPlay.Cast(Core.Me);
+                return await Spells.LordofCrowns.Cast(Core.Me);
 
             if (Spells.MinorArcana.IsReady())
-                return await Spells.CrownPlay.Cast(Core.Me);
+                return await Spells.LordofCrowns.Cast(Core.Me);
 
             return false;
         }
