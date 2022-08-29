@@ -34,12 +34,12 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Pull()
         {
-            
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -79,7 +79,7 @@ namespace Magitek.Rotations
             {
                 SpellQueueLogic.InSpellQueue = false;
             }
-                                                
+
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 

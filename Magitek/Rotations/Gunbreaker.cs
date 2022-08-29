@@ -36,7 +36,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -83,7 +83,7 @@ namespace Magitek.Rotations
                 return false;
 
             if (await CustomOpenerLogic.Opener()) return true;
-                        
+
             //Utility
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
             //if (await Buff.RoyalGuard()) return true;
