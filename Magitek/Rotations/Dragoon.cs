@@ -38,7 +38,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -47,14 +47,14 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            if (await Casting.TrackSpellCast()) 
+            if (await Casting.TrackSpellCast())
                 return true;
-            
+
             await Casting.CheckForSuccessfulCast();
 
-            if (await GambitLogic.Gambit()) 
+            if (await GambitLogic.Gambit())
                 return true;
-            
+
             return false;
         }
 
@@ -79,7 +79,7 @@ namespace Magitek.Rotations
             if (!Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) 
+            if (await CustomOpenerLogic.Opener())
                 return true;
 
             if (SingleTarget.ForceLimitBreak()) return true;

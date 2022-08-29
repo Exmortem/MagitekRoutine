@@ -40,7 +40,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
                 }
             }
 
@@ -52,10 +52,10 @@ namespace Magitek.Rotations
             if (Core.Me.IsMounted)
                 return true;
 
-            if (await GambitLogic.Gambit()) 
+            if (await GambitLogic.Gambit())
                 return true;
 
-            if (await Casting.TrackSpellCast()) 
+            if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
@@ -89,7 +89,7 @@ namespace Magitek.Rotations
                 //Utility
                 if (await SingleTarget.Interrupt()) return true;
                 if (await Buff.IronWill()) return true;
-                
+
                 if (PaladinRoutine.GlobalCooldown.CanWeave())
                 {
                     //Aggro switch
@@ -126,7 +126,7 @@ namespace Magitek.Rotations
                 if (await Aoe.Confiteor()) return true;
 
                 //Requiescat
-                if (await Aoe.HolyCircle()) return true; 
+                if (await Aoe.HolyCircle()) return true;
                 if (await SingleTarget.HolySpirit()) return true;
 
                 //Combo AOE (Multi Target only)
@@ -135,11 +135,11 @@ namespace Magitek.Rotations
 
                 //Combo
                 if (await SingleTarget.Atonement()) return true;
-                if (await SingleTarget.GoringBlade()) return true; 
+                if (await SingleTarget.GoringBlade()) return true;
                 if (await SingleTarget.RoyalAuthority()) return true;
                 if (await SingleTarget.RiotBlade()) return true;
                 if (await SingleTarget.FastBlade()) return true;
-               
+
                 return await SingleTarget.ShieldLob();
             }
             else
