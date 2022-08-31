@@ -161,13 +161,14 @@ namespace Magitek.Logic.Bard
             double venomousbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
 
             if (Core.Me.HasAura(Auras.RagingStrikes) && Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice)
-                && ragingStrikesAuraTimeleft > 2500 && radiantFinaleAuraTimeleft > 2500 && battleVoiceAuraTimeleft > 2500)
+                && ragingStrikesAuraTimeleft > 3000 && radiantFinaleAuraTimeleft > 3000 && battleVoiceAuraTimeleft > 3000)
                 return false;
 
             if (BardRoutine.AlreadySnapped)
                 return false;
 
-            if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
+            if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) 
+                return false;
 
             Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name} | Windbite TimeLeft : {windbiteTimeleft} | VenomousBite TimeLeft : {venomousbiteTimeleft} | RS TimeLeft : {ragingStrikesAuraTimeleft}| RF TimeLeft : {radiantFinaleAuraTimeleft} | BV TimeLeft : {battleVoiceAuraTimeleft}");
             return true;
