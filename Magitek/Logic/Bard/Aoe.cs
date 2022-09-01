@@ -41,7 +41,7 @@ namespace Magitek.Logic.Bard
 
                 //Force Apex in MB at 22sec if soulgauge >= 80
                 if (BardSong.MagesBallad.Equals(ActionResourceManager.Bard.ActiveSong) 
-                    && (ActionResourceManager.Bard.SoulVoice == 100 || ActionResourceManager.Bard.SoulVoice >= 80 && ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds - 24000 <= 1) )
+                    && (ActionResourceManager.Bard.SoulVoice == 100 || ActionResourceManager.Bard.SoulVoice >= 80 && ActionResourceManager.Bard.Timer.TotalMilliseconds - Spells.HeavyShot.Cooldown.TotalMilliseconds - 21000 <= 1) )
                 {
                     if(await Spells.ApexArrow.Cast(Core.Me.CurrentTarget))
                     {

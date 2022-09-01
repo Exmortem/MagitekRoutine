@@ -93,7 +93,7 @@ namespace Magitek.Logic.Bard
                     return false;
             }
 
-            if (BardSettings.Instance.UseBarrageOnlyWithRageingStrikes && !Core.Me.HasAura(Auras.RagingStrikes))
+            if (BardSettings.Instance.UseBarrageOnlyWithBuff && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.BattleVoice) || !Core.Me.HasAura(Auras.RadiantFinale)) )
                 return false;
 
             return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);

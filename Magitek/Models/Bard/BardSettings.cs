@@ -262,7 +262,7 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseBarrageOnlyWithRageingStrikes { get; set; }
+        public bool UseBarrageOnlyWithBuff { get; set; }
 
         [Setting]
         [DefaultValue(true)]
