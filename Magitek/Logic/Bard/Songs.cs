@@ -4,6 +4,7 @@ using BardSong = ff14bot.Managers.ActionResourceManager.Bard.BardSong;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using BardRoutine = Magitek.Utilities.Routines.Bard;
@@ -43,8 +44,8 @@ namespace Magitek.Logic.Bard
                     return await songSpellsOrder[2].Cast(Core.Me.CurrentTarget);
             } else
             {
-                if (BardSong.ArmysPaeon.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.HeavyShot.Cooldown.TotalMilliseconds > Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds - 500)
-                    return false;
+                /*if (BardSong.ArmysPaeon.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.HeavyShot.Cooldown.TotalMilliseconds > Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds - 500)
+                    return false;*/
 
                 List<BardSong> songListOrder = SongStrategy.GetSongOrderFromSongStrategy();
                 if (songListOrder.IndexOf(ActionResourceManager.Bard.ActiveSong) == 1)
@@ -52,29 +53,40 @@ namespace Magitek.Logic.Bard
                     if (songSpellsOrder[0].IsKnownAndReady()
                         && songSpellsOrder[1].IsKnown() && !songSpellsOrder[1].IsReady() && songSpellsOrder[1].IsReady(BardRoutine.SongMaxDuration)
                         && songSpellsOrder[2].IsKnown() && !songSpellsOrder[2].IsReady())
-                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0]);
+                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0], songListOrder);
 
                     if (songSpellsOrder[0].IsKnownAndReady()
                         && songSpellsOrder[1].IsKnownAndReady()
                         && songSpellsOrder[2].IsKnown() && !songSpellsOrder[2].IsReady() && !songSpellsOrder[2].IsReady(BardRoutine.SongMaxDuration))
-                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0]);
+                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0], songListOrder);
                 } else
                 {
                     if (songSpellsOrder[0].IsKnownAndReady() 
                         && (!songSpellsOrder[1].IsKnown() || songSpellsOrder[1].IsKnownAndReady(BardRoutine.SongMaxDuration)))
-                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0]);
+                        return await EndCurrentSong(ActionResourceManager.Bard.ActiveSong, songSpellsOrder[0], songListOrder);
                 }   
             }
             return false;
         }
 
-        private static async Task<bool> EndCurrentSong(BardSong currentSong, SpellData nextSong)
+        private static async Task<bool> EndCurrentSong(BardSong currentSong, SpellData nextSong, List<BardSong> songListOrder)
         {
-            if (BardSong.ArmysPaeon.Equals(currentSong) && BardSettings.Instance.EndArmysPaeonEarly && ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXMilliSecondsRemaining
-                || BardSong.MagesBallad.Equals(currentSong) && BardSettings.Instance.EndMagesBalladEarly && ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndMagesBalladEarlyWithXMilliSecondsRemaining
-                || BardSong.WanderersMinuet.Equals(currentSong) && BardSettings.Instance.EndWanderersMinuetEarly && ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndWanderersMinuetEarlyWithXMilliSecondsRemaining
-                )
+            var armysPaeonCheck = BardSong.ArmysPaeon.Equals(currentSong) && BardSettings.Instance.EndArmysPaeonEarly 
+                && (ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndArmysPaeonEarlyWithXMilliSecondsRemaining 
+                || (nextSong.IsReady() && songListOrder.IndexOf(ActionResourceManager.Bard.ActiveSong) == 2));
+            var magesBalladCheck = BardSong.MagesBallad.Equals(currentSong) && BardSettings.Instance.EndMagesBalladEarly 
+                && (ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndMagesBalladEarlyWithXMilliSecondsRemaining
+                || (nextSong.IsReady() && songListOrder.IndexOf(ActionResourceManager.Bard.ActiveSong) == 2));
+            var wanderersMinuetCheck = BardSong.WanderersMinuet.Equals(currentSong) && BardSettings.Instance.EndWanderersMinuetEarly 
+                && (ActionResourceManager.Bard.Timer.TotalMilliseconds <= BardSettings.Instance.EndWanderersMinuetEarlyWithXMilliSecondsRemaining
+                || (nextSong.IsReady() && songListOrder.IndexOf(ActionResourceManager.Bard.ActiveSong) == 2));
+
+            if (armysPaeonCheck || magesBalladCheck || wanderersMinuetCheck)
             {
+                //Force delay WM
+                if (Spells.TheWanderersMinuet.Equals(nextSong) && Spells.HeavyShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
+                    return false;
+
                 Logger.WriteInfo($@"[Cast {nextSong}] Time remaining for {ActionResourceManager.Bard.ActiveSong} : {ActionResourceManager.Bard.Timer.TotalMilliseconds}");
                 return await nextSong.Cast(Core.Me.CurrentTarget);
             }

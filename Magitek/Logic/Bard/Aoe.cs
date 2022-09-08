@@ -25,17 +25,16 @@ namespace Magitek.Logic.Bard
                     return false;
 
                 //Use Apex in Buff windows under WM and delay it as much as possible at the end of buff
-                if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) 
-                    && Core.Me.HasAura(Auras.RagingStrikes) && Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice))
+                if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && BardRoutine.IsUnderBuffWindow)
                 {
                     if (ActionResourceManager.Bard.SoulVoice == 100)
                         return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
 
                     if (BardRoutine.CheckCurrentDamageIncrease(BardSettings.Instance.UseBuffedApexArrowWithAtLeastXBonusDamage)
                         && ActionResourceManager.Bard.SoulVoice >= BardSettings.Instance.UseBuffedApexArrowWithAtLeastXSoulVoice
-                        && (Core.Me.Auras.Any(x => x.Id == Auras.RagingStrikes && x.TimespanLeft.TotalMilliseconds < 6000)
-                            || Core.Me.Auras.Any(x => x.Id == Auras.RadiantFinale && x.TimespanLeft.TotalMilliseconds < 6000)
-                            || Core.Me.Auras.Any(x => x.Id == Auras.BattleVoice && x.TimespanLeft.TotalMilliseconds < 6000)))
+                        && (Core.Me.Auras.Any(x => x.Id == Auras.RagingStrikes && x.TimespanLeft.TotalMilliseconds < 7500)
+                            || Core.Me.Auras.Any(x => x.Id == Auras.RadiantFinale && x.TimespanLeft.TotalMilliseconds < 7500)
+                            || Core.Me.Auras.Any(x => x.Id == Auras.BattleVoice && x.TimespanLeft.TotalMilliseconds < 7500)))
                             return await Spells.ApexArrow.Cast(Core.Me.CurrentTarget);
                 }
 
