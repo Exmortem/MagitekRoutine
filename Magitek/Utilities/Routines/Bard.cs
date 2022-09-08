@@ -17,6 +17,7 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
         public static bool AlreadySnapped = false;
+        public static bool IsUnderBuffWindow = false;
         public static int SongMaxDuration = 45000;
 
         public static SpellData LadonsBite => Core.Me.ClassLevel < 82 ? Spells.QuickNock : Spells.Ladonsbite;
@@ -25,7 +26,6 @@ namespace Magitek.Utilities.Routines
         public static SpellData BurstShot => Core.Me.ClassLevel < 76 ? Spells.HeavyShot : Spells.BurstShot;
         public static uint WindbiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.StormBite);
         public static uint VenomousBiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.VenomousBite : Auras.CausticBite);
-        
 
         public static void RefreshVars()
         {
@@ -35,6 +35,10 @@ namespace Magitek.Utilities.Routines
             EnemiesInCone = Core.Me.EnemiesInCone(15);
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+
+            IsUnderBuffWindow = Spells.RadiantFinale.IsKnown() ? Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice) && Core.Me.HasAura(Auras.RagingStrikes)
+            : Spells.BattleVoice.IsKnown() ? Core.Me.HasAura(Auras.BattleVoice) && Core.Me.HasAura(Auras.RagingStrikes)
+            : Core.Me.HasAura(Auras.RagingStrikes);
 
             if (Casting.LastSpell == Spells.IronJaws && Core.Me.HasAura(Auras.RagingStrikes))
             {

@@ -121,10 +121,10 @@ namespace Magitek.Rotations
 
             if (await DamageOverTime.IronJawsOnCurrentTarget()) return true;
             if (await DamageOverTime.SnapShotIronJawsOnCurrentTarget()) return true;
+            if (await Aoe.BlastArrow()) return true;
             if (await SingleTarget.StraightShotAfterBarrage()) return true;
             if (await DamageOverTime.WindbiteOnCurrentTarget()) return true;
             if (await DamageOverTime.VenomousBiteOnCurrentTarget()) return true;
-            if (await Aoe.BlastArrow()) return true;
             if (await Aoe.ApexArrow()) return true;
             if (await Aoe.ShadowBite()) return true;
             if (await DamageOverTime.IronJawsOnOffTarget()) return true;

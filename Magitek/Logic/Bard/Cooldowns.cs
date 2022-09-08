@@ -59,10 +59,10 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.UseBattleVoice)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.RagingStrikes))
+            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000)
                 return false;
 
-            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000)
+            if (!Core.Me.HasAura(Auras.RagingStrikes))
                 return false;
 
             return await Spells.BattleVoice.CastAura(Core.Me, Auras.BattleVoice, false, 0, false);
@@ -93,7 +93,7 @@ namespace Magitek.Logic.Bard
                     return false;
             }
 
-            if (BardSettings.Instance.UseBarrageOnlyWithBuff && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.BattleVoice) || !Core.Me.HasAura(Auras.RadiantFinale)) )
+            if (BardSettings.Instance.UseBarrageOnlyWithBuff && !BardRoutine.IsUnderBuffWindow )
                 return false;
 
             return await Spells.Barrage.CastAura(Core.Me, Auras.Barrage);
@@ -110,10 +110,10 @@ namespace Magitek.Logic.Bard
             if (ActionResourceManager.Bard.ActiveSong != ActionResourceManager.Bard.BardSong.WanderersMinuet)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.RagingStrikes))
+            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000) 
                 return false;
 
-            if (Spells.RagingStrikes.IsKnown() && Spells.RagingStrikes.Cooldown.TotalMilliseconds > 116000) 
+            if (!Core.Me.HasAura(Auras.RagingStrikes))
                 return false;
 
             return await Spells.RadiantFinale.CastAura(Core.Me, Auras.RadiantFinale);

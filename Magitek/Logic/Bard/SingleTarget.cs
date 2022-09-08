@@ -127,12 +127,17 @@ namespace Magitek.Logic.Bard
             if (Spells.Bloodletter.Charges < 1)
                 return false;
 
-            if (BardSong.ArmysPaeon.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.Bloodletter.Charges < 3)
+            if (BardSong.ArmysPaeon.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.Bloodletter.Charges < 2.8f)
                 return false;
 
-            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.Bloodletter.Charges < 3 && !Spells.RagingStrikes.IsReady(90000)
-                && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.RadiantFinale) || !Core.Me.HasAura(Auras.BattleVoice)))
-                return false;
+            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong)) {
+                if (Spells.Bloodletter.Charges >= 3)
+                    return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
+
+                if (Spells.RagingStrikes.IsKnownAndReady() || Spells.BattleVoice.IsKnownAndReady() || Spells.RadiantFinale.IsKnownAndReady())
+                    return false;
+            }
+
 
             return await Spells.Bloodletter.Cast(Core.Me.CurrentTarget);
         }
@@ -163,6 +168,9 @@ namespace Magitek.Logic.Bard
                         && BardRoutine.CurrentSongDuration() <= 1000 
                         && BardRoutine.NextTickUnderCurrentSong() <= 0)
                         return false;
+
+                    if (Spells.RagingStrikes.IsKnownAndReady())
+                        return false;
                     break;
 
                 case BardSong.ArmysPaeon:
@@ -187,7 +195,7 @@ namespace Magitek.Logic.Bard
             if (!Spells.Sidewinder.IsKnown())
                 return false;
             
-            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && (!Core.Me.HasAura(Auras.RagingStrikes) || !Core.Me.HasAura(Auras.RadiantFinale) || !Core.Me.HasAura(Auras.BattleVoice)))
+            if (BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && !BardRoutine.IsUnderBuffWindow)
                 return false;
 
             if (!BardSong.WanderersMinuet.Equals(ActionResourceManager.Bard.ActiveSong) && Spells.RagingStrikes.IsKnown() && (Spells.RagingStrikes.IsReady(5000) || !Spells.RagingStrikes.IsReady(61000)))

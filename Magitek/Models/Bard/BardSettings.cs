@@ -184,7 +184,7 @@ namespace Magitek.Models.Bard
         public int UseBuffedApexArrowWithAtLeastXBonusDamage { get; set; }
 
         [Setting]
-        [DefaultValue(95)]
+        [DefaultValue(80)]
         public int UseBuffedApexArrowWithAtLeastXSoulVoice { get; set; }
 
         [Setting]
