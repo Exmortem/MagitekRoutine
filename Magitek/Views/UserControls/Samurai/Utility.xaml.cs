@@ -3,11 +3,11 @@
 namespace Magitek.Views.UserControls.Samurai
 {
     /// <summary>
-    /// Interaction logic for Utilities.xaml
+    /// Interaction logic for Utility.xaml
     /// </summary>
-    public partial class Utilities : UserControl
+    public partial class Utility : UserControl
     {
-        public Utilities()
+        public Utility()
         {
             InitializeComponent();
         }

@@ -961,6 +961,9 @@
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <samurai:Buffs />
                         </TabItem>
+                        <TabItem Header="Utilities" Style="{DynamicResource MainTabUtilities}">
+                            <samurai:Utility />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

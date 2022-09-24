@@ -118,7 +118,7 @@ namespace Magitek.Models.Samurai
 
         #region aoe
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseShohaII { get; set; }
         
         [Setting]
