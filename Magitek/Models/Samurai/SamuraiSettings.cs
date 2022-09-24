@@ -13,9 +13,40 @@ namespace Magitek.Models.Samurai
 
         public static SamuraiSettings Instance { get; set; } = new SamuraiSettings();
 
+        #region general
+
         [Setting]
         [DefaultValue(SamuraiOpenerStrategy.OpenerOnlyBosses)]
         public SamuraiOpenerStrategy OpenerStrategy { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool HidePositionalMessage { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnemyIsOmni { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int ReservedKenki { get; set; }
+
+        [Setting]
+        [DefaultValue(SamuraiFillerStrategy.ThreeGCD)]
+        public SamuraiFillerStrategy SamuraiFillerStrategy { get; set; }
+
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseConeBasedAoECalculationMethod { get; set; }
+        
+        #endregion
+
+        #region utility
+
+        [Setting]
+        [DefaultValue(true)] 
+        public bool UseHagakure { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -26,146 +57,126 @@ namespace Magitek.Models.Samurai
         public new float SecondWindHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool Bloodbath { get; set; }
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool MeikyoShisui { get; set; }
+        public bool Bloodbath { get; set; }
 
         [Setting]
         [DefaultValue(50.0f)]
         public float BloodbathHealthPercent { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool AoeCombo { get; set; }
+        #endregion
 
-        [Setting]
-        [DefaultValue(3)]
-        public int AoeComboEnemies { get; set; }
-
+        #region Buff
 
         [Setting]
         [DefaultValue(true)]
-        public bool OnlyAoeComboWithJinpuShifu { get; set; }
+        public bool UseMeikyoShisui { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool TenkaGoken { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int TenkaGokenEnemies { get; set; }
+        public bool UseMeikyoShisuiOnlyWithZeroSen { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HissatsuKyuten { get; set; }
+        public bool UseIkishoten { get; set; }
+        #endregion
 
+        #region singletarget
         [Setting]
-        [DefaultValue(3)]
-        public int HissatsuKyutenEnemies { get; set; }
+        [DefaultValue(true)]
+        public bool UseEnpi { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHissatsuGyoten { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HissatsuGuren { get; set; }
+        public bool UseHissatsuGyotenOnlyWhenOutOfMeleeRange { get; set; }       
 
         [Setting]
         [DefaultValue(true)]
-        public bool HissatsuGurenOnlyWithJinpu { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int HissatsuGurenEnemies { get; set; }
+        public bool UseHissatsuYaten { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HissatsuSeneiOnlyWithJinpu { get; set; }
+        public bool UseHissatsuSenei { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Enpi { get; set; }
+        public bool UseHissatsuShinten { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseShoha { get; set; }
+
+        #endregion
+
+        #region aoe
         [Setting]
         [DefaultValue(false)]
-        public bool OnlyUseTenkaGokenWithKaiten { get; set; }
+        public bool UseShohaII { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAoe { get; set; }
 
         [Setting]
-        [DefaultValue(9)]
-        public int HiganbanaRefreshTime { get; set; }
-
+        [DefaultValue(3)]
+        public int AoeEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HiganbanaOnlyWithJinpu { get; set; }
+        public bool UseOgiNamikiri { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseKaeshiNamikiri { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHissatsuKyuten { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHissatsuGuren { get; set; }
+
+        #endregion
+
+        #region Iaijutsu
         [Setting]
         [DefaultValue(true)]
         public bool UseHigabana { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSenei { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int ReservedKenki { get; set; }
+        public bool UseMidareSetsugekka { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool TrueNorth { get; set; }
+        public bool UseTenkaGoken { get; set; }
 
+        #endregion
+
+        #region Tsubamegaeshi
         [Setting]
         [DefaultValue(false)]
-        public bool MeikyoOnlyWithZeroSen { get; set; }
+        public bool UseKaeshiHiganbana { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseConeBasedAoECalculationMethod { get; set; }
-
-        [Setting]
-        [DefaultValue(700)]
-        public int UseOffGCDAbilitiesWithMoreThanXMSLeft { get; set; }
+        public bool UseKaeshiSetsugekka { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool HissatsuSeigan { get; set; }
+        public bool UseKaeshiGoken { get; set; }
+        #endregion
 
-        [Setting]
-        [DefaultValue(false)]
-        public bool ShohaII { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int ShohaIIEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool Fuko { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int FukoEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool OgiNamikiri { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int OgiNamikiriEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool KaeshiNamikiri { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int KaeshiNamikiriEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
+        
 
     }
 }

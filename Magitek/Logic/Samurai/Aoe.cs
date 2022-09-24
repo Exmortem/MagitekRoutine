@@ -1,8 +1,10 @@
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
+using Auras = Magitek.Utilities.Auras;
 using SamuraiRoutine = Magitek.Utilities.Routines.Samurai;
 using System;
 using System.Linq;
@@ -16,27 +18,17 @@ namespace Magitek.Logic.Samurai
         
         public static async Task<bool> Fuko()
         {
-            if (SamuraiSettings.Instance.OnlyAoeComboWithJinpuShifu && (!Core.Me.HasAura(Auras.Shifu) || !Core.Me.HasAura(Auras.Jinpu)))
-                return false;
-
-            if (!SamuraiSettings.Instance.AoeCombo)
+            if (!SamuraiSettings.Instance.UseAoe)
                 return false;
 
             if (SamuraiRoutine.SenCount == 2)
                 return false;
 
-            //if (!Core.Me.HasAura(Auras.Jinpu, true, 4000) || !Core.Me.HasAura(Auras.Shifu, true, 4000))
-            //    return false;
-
-            if (Core.Me.ClassLevel < 86) // Fuko ( lvl < 86) is a cone based attack
-            {
-                if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod && Core.Me.EnemiesInCone(8.5f) < SamuraiSettings.Instance.AoeComboEnemies)
-                    return false;
-            }
-          
-            if ((!SamuraiSettings.Instance.UseConeBasedAoECalculationMethod || Core.Me.ClassLevel >= 86) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+            if (Core.Me.ClassLevel < 86 && SamuraiRoutine.EnemiesInCone < SamuraiSettings.Instance.AoeEnemies) // Fuga (lvl < 86) is a cone based attack
                 return false;
-            
+          
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                return false;
 
             return await SamuraiRoutine.Fuko.Cast(Core.Me.CurrentTarget);
         }
@@ -46,17 +38,16 @@ namespace Magitek.Logic.Samurai
          * ********************************************************************************************/
         public static async Task<bool> Oka()
         {
-            if (SamuraiRoutine.SenCount == 2)
+            if (SamuraiRoutine.SenCount >= 2)
                 return false;
 
-            if (ActionManager.LastSpell != Spells.Fuga && !Core.Me.HasAura(Auras.MeikyoShisui))
+            if (!Core.Me.HasAura(Auras.MeikyoShisui) && !SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka))
                 return false;
-            if (!Core.Me.HasAura(Auras.Jinpu, true, 7000))
-                return false;
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Oka.Cast(Core.Me);
@@ -70,135 +61,63 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.SenCount == 2)
                 return false;
 
-            if (ActionManager.LastSpell != Spells.Fuga && !Core.Me.HasAura(Auras.MeikyoShisui))
+            if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko) && !Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Shifu, true, 7000))
-                return false;
-
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeComboEnemies)
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Mangetsu.Cast(Core.Me);
         }
 
-        public static async Task<bool> HissatsuGuren()
-        {
-            if (!SamuraiSettings.Instance.HissatsuGuren)
-                return false;
 
-            if (SamuraiSettings.Instance.HissatsuGurenOnlyWithJinpu && !Core.Me.HasAura(Auras.Jinpu))
-                return false;
-
-            if (Core.Me.CurrentTarget == null) return false;
-
-            if (ActionResourceManager.Samurai.Kenki < 50)
-                return false;
-
-            if (!Core.Me.CurrentTarget.InView())
-                return false;
-
-            if (Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 10 + x.CombatReach) < SamuraiSettings.Instance.HissatsuGurenEnemies)
-                return false;
-
-            return await Spells.HissatsuGuren.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> KaeshiGoken()
-        {
-            if (Core.Me.ClassLevel < 76)
-                return false;
-
-            if (Casting.LastSpell != Spells.TenkaGoken || (DateTime.UtcNow - Casting.LastSpellTimeFinishedUtc) > TimeSpan.FromSeconds(14))
-                return false;
-
-            if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)
-            {
-                if (Core.Me.EnemiesInCone(10) < SamuraiSettings.Instance.TenkaGokenEnemies)
-                    return false;
-            }
-            else
-            {
-                if (SamuraiRoutine.AoeEnemies8Yards < SamuraiSettings.Instance.TenkaGokenEnemies)
-                    return false;
-            }
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) + Core.Me.CurrentTarget.CombatReach > 10)
-                return false;
-
-            //Don't go further down the tree, wait for Tsubame if we're over level 76
-            return await Spells.KaeshiGoken.Cast(Core.Me.CurrentTarget) || (Spells.KaeshiGoken.Cooldown.TotalMilliseconds <= 2000 && Casting.LastSpell == Spells.TenkaGoken);
-        }
-
-        public static async Task<bool> TenkaGoken()
-        {
-            if (!SamuraiSettings.Instance.TenkaGoken)
-                return false;
-
-            if (Utilities.Routines.Samurai.SenCount != 2)
-                return false;
-
-            //if (!Core.Me.HasAura(Auras.Jinpu, true, 4000) || !Core.Me.HasAura(Auras.Shifu, true, 4000))
-            //    return false;
-            if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)
-            {
-                if (Core.Me.EnemiesInCone(10) < SamuraiSettings.Instance.TenkaGokenEnemies)
-                    return false;
-            }
-            else
-            {
-                if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.TenkaGokenEnemies)
-                    return false;
-            }
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) + Core.Me.CurrentTarget.CombatReach > 10)
-                return false;
-
-            if (Core.Me.ClassLevel < 52)
-                return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
-
-            //if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki < 20)
-            //    return false;
-
-            //if (!Core.Me.HasAura(Auras.Kaiten) && ActionResourceManager.Samurai.Kenki >= 20)
-            //    return await Spells.HissatsuKaiten.Cast(Core.Me) || Casting.LastSpell == Spells.HissatsuKaiten;
-
-            //if (SamuraiSettings.Instance.OnlyUseTenkaGokenWithKaiten && !Core.Me.HasAura(Auras.Kaiten))
-            //   return false;
-
-            //return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget) || Core.Me.HasAura(Auras.Kaiten);
-              return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
-        }
-
+        /**********************************************************************************************
+         *                                    oGCD using Kenki
+         * ********************************************************************************************/
         public static async Task<bool> HissatsuKyuten()
         {
-            if (!SamuraiSettings.Instance.HissatsuKyuten)
+            if (!SamuraiSettings.Instance.UseHissatsuKyuten)
                 return false;
 
-            if (ActionManager.HasSpell(Spells.HissatsuGuren.Id) && SamuraiSettings.Instance.HissatsuGuren && Spells.HissatsuGuren.Cooldown < TimeSpan.FromSeconds(2))
+            if (ActionResourceManager.Samurai.Kenki < 25 + SamuraiSettings.Instance.ReservedKenki)
                 return false;
 
-            if (ActionResourceManager.Samurai.Kenki < 45)
-                return false;
-
-            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.HissatsuKyutenEnemies)
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.HissatsuKyuten.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> HissatsuGuren()
+        {
+            if (!SamuraiSettings.Instance.UseHissatsuGuren)
+                return false;
+
+            if (ActionResourceManager.Samurai.Kenki < 25 + SamuraiSettings.Instance.ReservedKenki)
+                return false;
+
+            if (!Core.Me.CurrentTarget.InView())
+                return false;
+
+            if (Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 10 + x.CombatReach) < SamuraiSettings.Instance.AoeEnemies)
+                return false;
+
+            return await Spells.HissatsuGuren.Cast(Core.Me.CurrentTarget);
+        }
+
+
+        /**********************************************************************************************
+         *                                   oGCD
+         * ********************************************************************************************/
         public static async Task<bool> ShohaII()
         {
-            if (!SamuraiSettings.Instance.ShohaII)
+            if (!SamuraiSettings.Instance.UseShohaII)
                 return false;
 
-            if (Core.Me.ClassLevel < 82)
-                return false;
-
-            if (Utilities.Routines.Samurai.AoeEnemies5Yards < SamuraiSettings.Instance.ShohaIIEnemies)
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             if (ActionResourceManager.Samurai.Meditation < 3)
@@ -207,42 +126,72 @@ namespace Magitek.Logic.Samurai
             return await Spells.ShohaII.Cast(Core.Me.CurrentTarget);
         }
 
+
+        /**********************************************************************************************
+        *                                    Iaijutsu
+        * ********************************************************************************************/
+        public static async Task<bool> TenkaGoken()
+        {
+            if (!SamuraiSettings.Instance.UseTenkaGoken)
+                return false;
+
+            if (SamuraiRoutine.SenCount != 2)
+                return false;
+
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                return false;
+
+            return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
+        }
+
+
+        /**********************************************************************************************
+         *                              Tsubamegaeshi (after Iaijutsu)
+         * ********************************************************************************************/
+        public static async Task<bool> KaeshiGoken()
+        {
+            if (!SamuraiSettings.Instance.UseKaeshiGoken)
+                return false;
+
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                return false;
+
+            return await Spells.KaeshiGoken.Cast(Core.Me.CurrentTarget);
+        }
+
+
+        /**********************************************************************************************
+         *                                    Namikiri
+         * ********************************************************************************************/
         public static async Task<bool> OgiNamikiri()
         {
+            if (!SamuraiSettings.Instance.UseOgiNamikiri)
+                return false;
+
             if (!Core.Me.HasAura(Auras.OgiReady))
                 return false;
 
-            if (!SamuraiSettings.Instance.OgiNamikiri)
-                return false;
+            var ogiReadyAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.OgiReady && x.CasterId == Core.Player.ObjectId);
+            if (ogiReadyAura != null && ogiReadyAura.TimespanLeft.TotalMilliseconds <= 2700)
+                return await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.ClassLevel < 90)
-                return false;
-
-            if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.OgiNamikiriEnemies)
-                return false;
+            if (!SamuraiSettings.Instance.UseAoe || SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+            {
+                if (!Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, 20000))
+                    return false;
+            }
 
             return await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> KaeshiNamikiri()
         {
-            if (!SamuraiSettings.Instance.KaeshiNamikiri)
+            if (!SamuraiSettings.Instance.UseKaeshiNamikiri)
                 return false;
 
-            if (Core.Me.ClassLevel < 90)
-                return false;
-
-            if (SamuraiSettings.Instance.UseConeBasedAoECalculationMethod)
-            {
-                if (Core.Me.EnemiesInCone(10) < SamuraiSettings.Instance.KaeshiNamikiriEnemies)
-                    return false;
-            }
-            else
-            {
-                if (Utilities.Routines.Samurai.AoeEnemies8Yards < SamuraiSettings.Instance.KaeshiNamikiriEnemies)
-                    return false;
-            }
             return await Spells.KaeshiNamikiri.Cast(Core.Me.CurrentTarget);
         }
+
+
     }
 }

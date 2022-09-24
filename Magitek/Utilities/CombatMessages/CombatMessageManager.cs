@@ -116,6 +116,7 @@ namespace Magitek.Utilities.CombatMessages
                     break;
 
                 case ClassJobType.Samurai:
+                    Rotations.Samurai.RegisterCombatMessages();
                     break;
 
                 case ClassJobType.BlueMage:
