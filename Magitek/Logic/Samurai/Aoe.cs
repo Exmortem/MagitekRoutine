@@ -35,10 +35,16 @@ namespace Magitek.Logic.Samurai
          * ********************************************************************************************/
         public static async Task<bool> Oka()
         {
+            if (!SamuraiSettings.Instance.UseAoe)
+                return false;
+
             if (!Core.Me.HasAura(Auras.MeikyoShisui) && !SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka))
+                return false;
+
+            if (Core.Me.HasAura(Auras.MeikyoShisui) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Oka.Cast(Core.Me);
@@ -49,10 +55,16 @@ namespace Magitek.Logic.Samurai
          * ********************************************************************************************/
         public static async Task<bool> Mangetsu()
         {
+            if (!SamuraiSettings.Instance.UseAoe)
+                return false;
+
             if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko) && !Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
+                return false;
+
+            if (Core.Me.HasAura(Auras.MeikyoShisui) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Mangetsu.Cast(Core.Me);
