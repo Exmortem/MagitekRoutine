@@ -2,7 +2,9 @@
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Models.Samurai;
 using System.Collections.Generic;
 using System.Linq;
 using static ff14bot.Managers.ActionResourceManager.Samurai;
@@ -29,13 +31,21 @@ namespace Magitek.Utilities.Routines
             return true;
         }
 
+        public static bool iaijutsuSuccessful = true;
         public static bool prepareFillerRotation = false;
         public static bool isReadyFillerRotation = false;
 
         public static void InitializeFillerVar(bool prepareFiller, bool readyFiller)
         {
-            prepareFillerRotation = prepareFiller;
-            isReadyFillerRotation = readyFiller;
+            if (SamuraiFillerStrategy.None.Equals(SamuraiSettings.Instance.SamuraiFillerStrategy))
+            {
+                prepareFillerRotation = false;
+                isReadyFillerRotation = false;
+            } else
+            {
+                prepareFillerRotation = prepareFiller;
+                isReadyFillerRotation = readyFiller;
+            }
         }
 
         public static int SenCount

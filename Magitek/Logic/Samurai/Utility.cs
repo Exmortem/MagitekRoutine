@@ -40,10 +40,11 @@ namespace Magitek.Logic.Samurai
             if(!await Spells.Hagakure.Cast(Core.Me))
                 return false;
 
+            // If 4GCD Filler, we need to replay again the 2GCD filler, Otherwise, let's stop it
             if (SamuraiSettings.Instance.SamuraiFillerStrategy.Equals(SamuraiFillerStrategy.FourGCD))
-                SamuraiRoutine.InitializeFillerVar(false, true);
+                SamuraiRoutine.InitializeFillerVar(false, true); //Replay 2GCD Filler
             else
-                SamuraiRoutine.InitializeFillerVar(false, false);
+                SamuraiRoutine.InitializeFillerVar(false, false); //End Filler
 
             return true;
         }

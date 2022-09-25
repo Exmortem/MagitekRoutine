@@ -113,6 +113,8 @@ namespace Magitek.Rotations
                 //if (await SingleTarget.HissatsuYaten()) return true; //dash backward
             }
 
+            //manage case when midare cast is stopped... dont want to use another GCD instead
+
             //Namikiri
             if (await Aoe.OgiNamikiri()) return true;
             if (await Aoe.KaeshiNamikiri()) return true;
@@ -127,20 +129,26 @@ namespace Magitek.Rotations
             if (await Aoe.TenkaGoken()) return true;
             if (await SingleTarget.Higanbana()) return true;
 
-            //Combo AOE
-            if (await Aoe.Oka()) return true;
-            if (await Aoe.Mangetsu()) return true;
-            if (await Aoe.Fuko()) return true;
+            if (SamuraiRoutine.iaijutsuSuccessful)
+            {
+                //Combo AOE
+                if (await Aoe.Oka()) return true;
+                if (await Aoe.Mangetsu()) return true;
+                if (await Aoe.Fuko()) return true;
 
-            //3 Combos Single Target
-            if (await SingleTarget.Gekko()) return true;
-            if (await SingleTarget.Kasha()) return true;
-            if (await SingleTarget.Yukikaze()) return true;
-            if (await SingleTarget.Shifu()) return true;
-            if (await SingleTarget.Jinpu()) return true;
-            if (await SingleTarget.Hakaze()) return true;
+                //3 Combos Single Target
+                if (await SingleTarget.Gekko()) return true;
+                if (await SingleTarget.Kasha()) return true;
+                if (await SingleTarget.Yukikaze()) return true;
+                if (await SingleTarget.Jinpu()) return true;
+                if (await SingleTarget.Shifu()) return true;
+                if (await SingleTarget.Hakaze()) return true;
 
-            return await SingleTarget.Enpi();
+                if (await SingleTarget.Enpi()) return true;
+
+            }
+
+            return false;
         }
 
         public static void RegisterCombatMessages()

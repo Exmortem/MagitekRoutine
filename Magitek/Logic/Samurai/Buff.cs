@@ -20,18 +20,7 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
 
-            if (Spells.MeikyoShisui.Charges >= 2)
-                return await Spells.MeikyoShisui.CastAura(Core.Me, Auras.MeikyoShisui);
-
-            if (SamuraiSettings.Instance.UseMeikyoShisuiOnlyWithZeroSen && SamuraiRoutine.SenCount != 0)
-                return false;
-
-            if (SamuraiRoutine.SenCount == 3)
-                return false;
-
-            //Don't use mid combo
-            if (ActionManager.LastSpell == Spells.Hakaze || ActionManager.LastSpell == Spells.Shifu || ActionManager.LastSpell == Spells.Jinpu || ActionManager.LastSpell == SamuraiRoutine.Fuko
-                || Casting.LastSpell == Spells.Hakaze || Casting.LastSpell == Spells.Shifu || Casting.LastSpell == Spells.Jinpu || Casting.LastSpell == SamuraiRoutine.Fuko)
+            if (SamuraiSettings.Instance.UseMeikyoShisuiOnlyWithZeroSen && SamuraiRoutine.SenCount > 0)
                 return false;
 
             if (!Core.Me.HasAura(Auras.Jinpu, true, 7000) || !Core.Me.HasAura(Auras.Shifu, true, 7000))
@@ -39,6 +28,13 @@ namespace Magitek.Logic.Samurai
 
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
             {
+                if (ActionManager.LastSpell == Spells.Hakaze || ActionManager.LastSpell == Spells.Shifu || ActionManager.LastSpell == Spells.Jinpu
+                || Casting.LastSpell == Spells.Hakaze || Casting.LastSpell == Spells.Shifu || Casting.LastSpell == Spells.Jinpu)
+                    return false;
+
+                if (SamuraiRoutine.SenCount == 3)
+                    return false;
+
                 if (Spells.HissatsuSenei.IsKnownAndReady())
                     return false;
 
@@ -46,15 +42,24 @@ namespace Magitek.Logic.Samurai
                     return false;
             } else
             {
-                if (SamuraiSettings.Instance.UseAoe && Spells.HissatsuGuren.IsKnownAndReady())
-                    return false;
+                if (SamuraiSettings.Instance.UseAoe)
+                {
+                    if (SamuraiRoutine.SenCount == 2)
+                        return false;
+
+                    if (ActionManager.LastSpell == SamuraiRoutine.Fuko || Casting.LastSpell == SamuraiRoutine.Fuko)
+                        return false;
+
+                    if (Spells.HissatsuGuren.IsKnownAndReady())
+                        return false;
+                }
             }
 
             if (!await Spells.MeikyoShisui.CastAura(Core.Me, Auras.MeikyoShisui))
                 return false;
-            
-            SamuraiRoutine.InitializeFillerVar(false, false);
-            
+
+            SamuraiRoutine.InitializeFillerVar(true, false); //Initialize Filler after burst
+
             return true;
         }
 
@@ -78,7 +83,7 @@ namespace Magitek.Logic.Samurai
             if (!await Spells.Ikishoten.Cast(Core.Me))
                 return false;
 
-            SamuraiRoutine.InitializeFillerVar(false, false);
+            SamuraiRoutine.InitializeFillerVar(false, false); // Remove Filler after Even Minutes Burst
 
             return true;
         }

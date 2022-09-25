@@ -21,13 +21,10 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseAoe)
                 return false;
 
-            if (SamuraiRoutine.SenCount == 2)
-                return false;
-
             if (Core.Me.ClassLevel < 86 && SamuraiRoutine.EnemiesInCone < SamuraiSettings.Instance.AoeEnemies) // Fuga (lvl < 86) is a cone based attack
                 return false;
           
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+            if (Core.Me.ClassLevel >= 86 && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await SamuraiRoutine.Fuko.Cast(Core.Me.CurrentTarget);
@@ -38,16 +35,10 @@ namespace Magitek.Logic.Samurai
          * ********************************************************************************************/
         public static async Task<bool> Oka()
         {
-            if (SamuraiRoutine.SenCount >= 2)
-                return false;
-
             if (!Core.Me.HasAura(Auras.MeikyoShisui) && !SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka))
-                return false;
-
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Oka.Cast(Core.Me);
@@ -58,16 +49,10 @@ namespace Magitek.Logic.Samurai
          * ********************************************************************************************/
         public static async Task<bool> Mangetsu()
         {
-            if (SamuraiRoutine.SenCount == 2)
-                return false;
-
             if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko) && !Core.Me.HasAura(Auras.MeikyoShisui))
                 return false;
 
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
-                return false;
-
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Mangetsu.Cast(Core.Me);
@@ -86,6 +71,9 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                return false;
+
+            if (Spells.HissatsuGuren.IsKnownAndReady(10000))
                 return false;
 
             return await Spells.HissatsuKyuten.Cast(Core.Me.CurrentTarget);
@@ -141,7 +129,14 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
-            return await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
+            if (!await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget))
+            {
+                SamuraiRoutine.iaijutsuSuccessful = false;
+                return false;
+            }
+            SamuraiRoutine.iaijutsuSuccessful = true;
+
+            return true;
         }
 
 
@@ -181,7 +176,13 @@ namespace Magitek.Logic.Samurai
                     return false;
             }
 
-            return await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget);
+            if (!await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget))
+                return false;
+
+            SamuraiRoutine.InitializeFillerVar(false, false); // Remove Filler after Even Minutes Burst
+            Logger.WriteInfo($@"[Filler] Remove Filler after Even Minutes Burst");
+
+            return true;
         }
 
         public static async Task<bool> KaeshiNamikiri()

@@ -98,6 +98,9 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.CurrentTarget.Distance() < 10f && !Core.Me.HasAura(Auras.EnhancedEnpi))
                 return false;
 
+            if (SamuraiRoutine.SenCount == 3)
+                return false;
+
             return await Spells.Enpi.Cast(Core.Me.CurrentTarget);
         }
 
@@ -182,7 +185,7 @@ namespace Magitek.Logic.Samurai
 
         public static async Task<bool> HissatsuShinten()
         {
-            Logger.Write($@"Kenki Jauge = {ActionResourceManager.Samurai.Kenki} ");
+            //Logger.Write($@"Kenki Jauge = {ActionResourceManager.Samurai.Kenki} ");
             if (!SamuraiSettings.Instance.UseHissatsuShinten)
                 return false;
 
@@ -218,10 +221,17 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             if(!await Spells.MidareSetsugekka.Cast(Core.Me.CurrentTarget))
+            {
+                SamuraiRoutine.iaijutsuSuccessful = false;
                 return false;
+            }
+            SamuraiRoutine.iaijutsuSuccessful = true;
 
             if (SamuraiRoutine.prepareFillerRotation && (Spells.TsubameGaeshi.Charges < 1 || Spells.KaeshiSetsugekka.Charges < 1))
-                SamuraiRoutine.InitializeFillerVar(false, true);
+            {
+                SamuraiRoutine.InitializeFillerVar(false, true); // Execute Filler
+                Logger.WriteInfo($@"[Filler] Execute Filler {SamuraiSettings.Instance.SamuraiFillerStrategy}");
+            }
 
             return true;
         }
@@ -231,7 +241,7 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseHigabana)
                 return false;
 
-            if (Utilities.Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeEnemies)
+            if (Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeEnemies)
             {
                 if (SamuraiSettings.Instance.UseAoe)
                     return false;
@@ -243,17 +253,19 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.SenCount != 1)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
+            if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, 8000))
                 return false;
 
-            if (Spells.MeikyoShisui.Charges >= 1)
+            if (Spells.TsubameGaeshi.IsKnownAndReady())
                 return false;
 
             if (!await Spells.Higanbana.Cast(Core.Me.CurrentTarget))
+            {
+                SamuraiRoutine.iaijutsuSuccessful = false;
                 return false;
+            }
 
-            SamuraiRoutine.InitializeFillerVar(true, false);
-
+            SamuraiRoutine.iaijutsuSuccessful = true;
             return true;
         }
 
@@ -277,7 +289,7 @@ namespace Magitek.Logic.Samurai
             if (!await Spells.KaeshiSetsugekka.Cast(Core.Me.CurrentTarget))
                 return false;
 
-            SamuraiRoutine.InitializeFillerVar(false, false);
+            SamuraiRoutine.InitializeFillerVar(false, false); //No Filler if TsubameGaeshi is executed
 
             return true;
         }
