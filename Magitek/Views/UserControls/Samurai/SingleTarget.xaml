@@ -11,9 +11,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <ObjectDataProvider x:Key="InterruptStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider x:Key="SamuraiFillerStrategy" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:InterruptStrategy" />
+                    <x:Type TypeName="enums:SamuraiFillerStrategy" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
         </ResourceDictionary>
@@ -25,33 +25,56 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Enpi" IsChecked="{Binding SamuraiSettings.Enpi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-        
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hissatsu: Seigan" IsChecked="{Binding SamuraiSettings.HissatsuSeigan, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Refresh Higanbana When There Are " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SamuraiSettings.HiganbanaRefreshTime, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
-
-            </StackPanel>
-                <CheckBox Content="Only with Jinpu" IsChecked="{Binding SamuraiSettings.HiganbanaOnlyWithJinpu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Filler Strategy:" />
+                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource SamuraiFillerStrategy}}" SelectedValue="{Binding SamuraiSettings.SamuraiFillerStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hissatsu Senei Only with Jinpu" IsChecked="{Binding SamuraiSettings.HissatsuSeneiOnlyWithJinpu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <controls:SettingsBlock Margin="0,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="oGCD - Using kenki" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Hissatsu Gyoten (Dash forward)" IsChecked="{Binding SamuraiSettings.UseHissatsuGyoten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Hissatsu Yaten (Dash backward)" IsChecked="{Binding SamuraiSettings.UseHissatsuYaten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Hissatsu Shinten" IsChecked="{Binding SamuraiSettings.UseHissatsuShinten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Hissatsu Senei" IsChecked="{Binding SamuraiSettings.UseHissatsuSenei, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="oGCD - Using meditation" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Shoha" IsChecked="{Binding SamuraiSettings.UseShoha, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - TsubameGaeshi" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Kaeshi Higanbana" IsChecked="{Binding SamuraiSettings.UseKaeshiHiganbana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Kaeshi Setsugekka" IsChecked="{Binding SamuraiSettings.UseKaeshiSetsugekka, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - Iaijutsu" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Higabana" IsChecked="{Binding SamuraiSettings.UseHigabana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Midare Setsugekka" IsChecked="{Binding SamuraiSettings.UseMidareSetsugekka, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - Other" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Enpi (when not in range)" IsChecked="{Binding SamuraiSettings.UseEnpi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -65,26 +88,5 @@
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel>
-                <StackPanel Margin="5,5,5,0" Orientation="Horizontal">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use oGCD abilities with more than " />
-                <controls:Numeric MaxValue="2500" MinValue="1" Value="{Binding SamuraiSettings.UseOffGCDAbilitiesWithMoreThanXMSLeft, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" ms left" />
-            </StackPanel>
-                <StackPanel Margin="5,0,0,0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="~500-1000ms to attempt to double weave, 1000+ to only single weave" FontSize="8" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Margin="0,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Stun Strategy:" />
-                <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding SamuraiSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>

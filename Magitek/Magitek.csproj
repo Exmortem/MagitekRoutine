@@ -163,6 +163,7 @@
     <Compile Include="Converters\OpenerOrderPositionConverter.cs" />
     <Compile Include="Converters\SpellIdToSpellData.cs" />
     <Compile Include="Enumerations\BuffStrategy.cs" />
+    <Compile Include="Enumerations\SamuraiFillerStrategy.cs" />
     <Compile Include="Enumerations\ChainStrategemStrategy.cs" />
     <Compile Include="Enumerations\ReaperComboStages.cs" />
     <Compile Include="Enumerations\DancePartnerStrategy.cs" />
@@ -340,6 +341,7 @@
     <Compile Include="Logic\Samurai\Aoe.cs" />
     <Compile Include="Logic\Samurai\Buff.cs" />
     <Compile Include="Logic\Samurai\SingleTarget.cs" />
+    <Compile Include="Logic\Samurai\Utility.cs" />
     <Compile Include="Logic\Scholar\Aoe.cs" />
     <Compile Include="Logic\Scholar\Buff.cs" />
     <Compile Include="Logic\Scholar\Dispel.cs" />
@@ -790,6 +792,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Samurai\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Samurai\Utility.xaml.cs">
+      <DependentUpon>Utility.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Scholar\Aetherpact.xaml.cs">
       <DependentUpon>Aetherpact.xaml</DependentUpon>
@@ -1351,6 +1356,10 @@
     <Page Include="Views\UserControls\Samurai\SingleTarget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Samurai\Utility.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Scholar\Aetherpact.xaml">
       <SubType>Designer</SubType>

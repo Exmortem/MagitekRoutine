@@ -452,6 +452,7 @@ namespace Magitek.Utilities
         public static readonly SpellData MasterfulBlitz = DataManager.GetSpellData(25764);
         public static readonly SpellData ShadowOfTheDestroyer = DataManager.GetSpellData(25767);
         public static readonly SpellData FinalHeaven = DataManager.GetSpellData(202);
+        public static readonly SpellData Thunderclap = DataManager.GetSpellData(25762);
         #endregion
 
         // NIN
@@ -593,10 +594,14 @@ namespace Magitek.Utilities
         public static readonly SpellData KaeshiHiganbana = DataManager.GetSpellData(16484);
         public static readonly SpellData HissatsuShinten = DataManager.GetSpellData(7490);
         public static readonly SpellData HissatsuKyuten = DataManager.GetSpellData(7491);
-        public static readonly SpellData HissatsuKaiten = DataManager.GetSpellData(7494);
+        //public static readonly SpellData HissatsuKaiten = DataManager.GetSpellData(7492);
+        public static readonly SpellData HissatsuYaten = DataManager.GetSpellData(7493);
+        public static readonly SpellData HissatsuGyoten = DataManager.GetSpellData(7494);
+        public static readonly SpellData Hagakure = DataManager.GetSpellData(7495);
         public static readonly SpellData Ikishoten = DataManager.GetSpellData(16482);
         public static readonly SpellData HissatsuGuren = DataManager.GetSpellData(7496);
         public static readonly SpellData HissatsuSenei = DataManager.GetSpellData(16481);
+        public static readonly SpellData TsubameGaeshi = DataManager.GetSpellData(16483);
         public static readonly SpellData Meditate = DataManager.GetSpellData(7497);
         public static readonly SpellData ThirdEye = DataManager.GetSpellData(7498);
         public static readonly SpellData MeikyoShisui = DataManager.GetSpellData(7499);

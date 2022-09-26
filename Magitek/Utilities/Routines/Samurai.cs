@@ -1,11 +1,10 @@
 ﻿using ff14bot;
 using ff14bot.Enums;
+using ff14bot.Managers;
 using ff14bot.Objects;
+using Magitek.Enumerations;
 using Magitek.Extensions;
-using Magitek.Logic;
-using Magitek.Models.QueueSpell;
 using Magitek.Models.Samurai;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using static ff14bot.Managers.ActionResourceManager.Samurai;
@@ -14,13 +13,40 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Samurai
     {
-        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Samurai, Spells.Hakaze);
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Samurai, Spells.Hakaze, new List<SpellData>() { Spells.KaeshiGoken, Spells.KaeshiHiganbana, Spells.KaeshiNamikiri, Spells.KaeshiSetsugekka, });
 
-        public static bool OnGcd => Spells.Hakaze.Cooldown > TimeSpan.FromMilliseconds(SamuraiSettings.Instance.UseOffGCDAbilitiesWithMoreThanXMSLeft);
 
         public static SpellData Fuko => Core.Me.ClassLevel < 86
                                                     ? Spells.Fuga
                                                     : Spells.Fuko;
+
+        public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
+        {
+            if (ActionManager.ComboTimeLeft <= 0)
+                return false;
+
+            if (ActionManager.LastSpell.Id != LastSpellExecuted.Id)
+                return false;
+
+            return true;
+        }
+
+        public static bool iaijutsuSuccessful = true;
+        public static bool prepareFillerRotation = false;
+        public static bool isReadyFillerRotation = false;
+
+        public static void InitializeFillerVar(bool prepareFiller, bool readyFiller)
+        {
+            if (SamuraiFillerStrategy.None.Equals(SamuraiSettings.Instance.SamuraiFillerStrategy))
+            {
+                prepareFillerRotation = false;
+                isReadyFillerRotation = false;
+            } else
+            {
+                prepareFillerRotation = prepareFiller;
+                isReadyFillerRotation = readyFiller;
+            }
+        }
 
         public static int SenCount
         {
@@ -45,45 +71,9 @@ namespace Magitek.Utilities.Routines
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
-            EnemiesInCone = Core.Me.EnemiesInCone(10);
-            AoeEnemies5Yards = Combat.Enemies.Count(x => x.WithinSpellRange(5));
-            AoeEnemies8Yards = Combat.Enemies.Count(x => x.WithinSpellRange(8));
-        }
-
-        public static bool QueueKaitenFollowUp(SpellData spell, SpellData tsubame = null)
-        {
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.CancelSpellQueue = () => false;
-
-            Logger.WriteInfo($@"Queueing: {spell.LocalizedName}");
-
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-            {
-                Spell = spell,
-                TargetSelf = false,
-                Wait = new QueueSpellWait() { Name = "Wait for Kaiten", Check = () => Core.Me.HasAura(Auras.Kaiten), WaitTime = 2000, EndQueueIfWaitFailed = true },
-                Checks = new[]
-                {
-                    new QueueSpellCheck { Check = () => Core.Me.HasAura(Auras.Kaiten), Name = "Has Kaiten"}
-                }
-            });
-
-            if (tsubame != null)
-            {
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell
-                {
-                    Spell = tsubame,
-                    TargetSelf = false,
-                    Wait = new QueueSpellWait()
-                    { Name = "Wait for 0 Sen (used Iaijutsu)", Check = () => SenCount == 0, WaitTime = 2000, EndQueueIfWaitFailed = true },
-                    Checks = new[]
-                    {
-                        new QueueSpellCheck {Check = () =>  Casting.LastSpell.Id == spell.Id, Name = "Last spell was Iaijutsu"}
-                    }
-                });
-            }
-
-            return true;
+            EnemiesInCone = Core.Me.EnemiesInCone(8);
+            AoeEnemies5Yards = Combat.Enemies.Count(x => x.WithinSpellRange(5) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
+            AoeEnemies8Yards = Combat.Enemies.Count(x => x.WithinSpellRange(8) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
         }
 
     }
