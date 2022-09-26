@@ -38,13 +38,21 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseAoe)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.MeikyoShisui) && !SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
-                return false;
-
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Ka))
-                return false;
-
-            if (Core.Me.HasAura(Auras.MeikyoShisui) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                return false; 
+            
+            if (Core.Me.HasAura(Auras.MeikyoShisui))
+            {
+                if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                    return false;
+            } 
+            else
+            {
+                if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
+                    return false;
+            }
+                
+            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.Oka.Cast(Core.Me);
@@ -58,14 +66,19 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseAoe)
                 return false;
 
-            if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko) && !Core.Me.HasAura(Auras.MeikyoShisui))
-                return false;
-
             if (ActionResourceManager.Samurai.Sen.HasFlag(Iaijutsu.Getsu))
                 return false;
 
-            if (Core.Me.HasAura(Auras.MeikyoShisui) && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
-                return false;
+            if (Core.Me.HasAura(Auras.MeikyoShisui))
+            {
+                if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+                    return false;
+            }
+            else
+            {
+                if (!SamuraiRoutine.CanContinueComboAfter(SamuraiRoutine.Fuko))
+                    return false;
+            }
 
             return await Spells.Mangetsu.Cast(Core.Me);
         }
@@ -85,7 +98,7 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
-            if (Spells.HissatsuGuren.IsKnownAndReady(10000))
+            if (Spells.HissatsuGuren.IsKnownAndReady(10000) && ActionResourceManager.Samurai.Kenki < 50 + SamuraiSettings.Instance.ReservedKenki)
                 return false;
 
             return await Spells.HissatsuKyuten.Cast(Core.Me.CurrentTarget);
@@ -160,9 +173,6 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseKaeshiGoken)
                 return false;
 
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
-                return false;
-
             return await Spells.KaeshiGoken.Cast(Core.Me.CurrentTarget);
         }
 
@@ -192,7 +202,6 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             SamuraiRoutine.InitializeFillerVar(false, false); // Remove Filler after Even Minutes Burst
-            Logger.WriteInfo($@"[Filler] Remove Filler after Even Minutes Burst");
 
             return true;
         }

@@ -32,7 +32,7 @@ namespace Magitek.Models.Samurai
         public int ReservedKenki { get; set; }
 
         [Setting]
-        [DefaultValue(SamuraiFillerStrategy.ThreeGCD)]
+        [DefaultValue(SamuraiFillerStrategy.TwoGCD)]
         public SamuraiFillerStrategy SamuraiFillerStrategy { get; set; }
 
 

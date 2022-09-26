@@ -12,6 +12,20 @@ namespace Magitek.Logic.Samurai
 {
     internal static class Buff
     {
+        public static async Task<bool> MeikyoShisuiNotInCombat()
+        {
+            if (Core.Me.InCombat)
+                return false; 
+            
+            if (!SamuraiSettings.Instance.UseMeikyoShisui)
+                return false;
+
+            if (Core.Me.HasAura(Auras.MeikyoShisui))
+                return false;
+
+            return await Spells.MeikyoShisui.CastAura(Core.Me, Auras.MeikyoShisui);
+        }
+
         public static async Task<bool> MeikyoShisui()
         {
             if (!SamuraiSettings.Instance.UseMeikyoShisui)
@@ -23,24 +37,15 @@ namespace Magitek.Logic.Samurai
             if (SamuraiSettings.Instance.UseMeikyoShisuiOnlyWithZeroSen && SamuraiRoutine.SenCount > 0)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Jinpu, true, 7000) || !Core.Me.HasAura(Auras.Shifu, true, 7000))
-                return false;
-
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
             {
-                if (ActionManager.LastSpell == Spells.Hakaze || ActionManager.LastSpell == Spells.Shifu || ActionManager.LastSpell == Spells.Jinpu
-                || Casting.LastSpell == Spells.Hakaze || Casting.LastSpell == Spells.Shifu || Casting.LastSpell == Spells.Jinpu)
-                    return false;
-
                 if (SamuraiRoutine.SenCount == 3)
                     return false;
 
-                if (Spells.HissatsuSenei.IsKnownAndReady())
+                if (Casting.LastSpell != Spells.KaeshiSetsugekka && Casting.LastSpell != Spells.KaeshiHiganbana && Casting.LastSpell != null)
                     return false;
-
-                if (Casting.LastSpell != Spells.KaeshiSetsugekka && Casting.LastSpell != Spells.KaeshiHiganbana)
-                    return false;
-            } else
+            } 
+            else
             {
                 if (SamuraiSettings.Instance.UseAoe)
                 {
