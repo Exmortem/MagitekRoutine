@@ -15,12 +15,27 @@ namespace Magitek.Logic.Samurai
         public static async Task<bool> MeikyoShisuiNotInCombat()
         {
             if (Core.Me.InCombat)
-                return false; 
-            
+                return false;
+
+            if (!Core.Me.HasTarget)
+                return false;
+
             if (!SamuraiSettings.Instance.UseMeikyoShisui)
                 return false;
 
             if (Core.Me.HasAura(Auras.MeikyoShisui))
+                return false;
+
+            if (Core.Me.HasAura(Auras.Shifu, true))
+                return false;
+
+            if (Core.Me.HasAura(Auras.Jinpu, true))
+                return false;
+
+            if (SamuraiRoutine.SenCount > 0)
+                return false;
+
+            if (ActionResourceManager.Samurai.Kenki > 0)
                 return false;
 
             return await Spells.MeikyoShisui.CastAura(Core.Me, Auras.MeikyoShisui);
