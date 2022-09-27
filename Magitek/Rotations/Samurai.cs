@@ -82,6 +82,9 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) 
                     return true;
 
+            //Buff for opener
+            if (await Buff.MeikyoShisuiNotInCombat()) return true;
+
             //Utility
             if (await PhysicalDps.Interrupt(SamuraiSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(SamuraiSettings.Instance)) return true;
@@ -132,8 +135,8 @@ namespace Magitek.Rotations
             if (SamuraiRoutine.iaijutsuSuccessful)
             {
                 //Combo AOE
-                if (await Aoe.Oka()) return true;
                 if (await Aoe.Mangetsu()) return true;
+                if (await Aoe.Oka()) return true;
                 if (await Aoe.Fuko()) return true;
 
                 //3 Combos Single Target

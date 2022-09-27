@@ -2,9 +2,9 @@
 {
     public enum SamuraiFillerStrategy
     {
-        None,
         TwoGCD,
         ThreeGCD,
         FourGCD,
+        None,
     }
 }

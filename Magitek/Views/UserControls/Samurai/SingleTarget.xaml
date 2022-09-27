@@ -31,6 +31,15 @@
                     <TextBlock Margin="0,0,10,0" Style="{DynamicResource TextBlockDefault}" Text="Filler Strategy:" />
                     <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource SamuraiFillerStrategy}}" SelectedValue="{Binding SamuraiSettings.SamuraiFillerStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,5,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.15/2.14 => 2 GCD Filler" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.08/2.07/2.06 => 3 GCD Filler" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.01/2.00/1.99 => 4 GCD Filler" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

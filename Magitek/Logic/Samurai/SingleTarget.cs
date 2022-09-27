@@ -185,7 +185,6 @@ namespace Magitek.Logic.Samurai
 
         public static async Task<bool> HissatsuShinten()
         {
-            //Logger.Write($@"Kenki Jauge = {ActionResourceManager.Samurai.Kenki} ");
             if (!SamuraiSettings.Instance.UseHissatsuShinten)
                 return false;
 
