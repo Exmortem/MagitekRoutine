@@ -66,7 +66,7 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await GambitLogic.Gambit()) 
+            if (await GambitLogic.Gambit())
                 return true;
 
             if (!SpellQueueLogic.SpellQueue.Any())
@@ -75,11 +75,11 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) 
+            if (await CustomOpenerLogic.Opener())
                 return true;
 
             if (SpellQueueLogic.SpellQueue.Any())
-                if (await SpellQueueLogic.SpellQueueMethod()) 
+                if (await SpellQueueLogic.SpellQueueMethod())
                     return true;
 
             //Buff for opener
@@ -102,7 +102,7 @@ namespace Magitek.Rotations
                 if (await Buff.Ikishoten()) return true;
 
                 //oGCD Meditation
-                if (await Aoe.ShohaII()) return true; 
+                if (await Aoe.ShohaII()) return true;
                 if (await SingleTarget.Shoha()) return true;
 
                 //oGCD Kenki - AOE
@@ -110,13 +110,11 @@ namespace Magitek.Rotations
                 if (await Aoe.HissatsuKyuten()) return true;
 
                 //oGCD Kenki - SingleTarget
-                if (await SingleTarget.HissatsuShinten()) return true; 
+                if (await SingleTarget.HissatsuShinten()) return true;
                 if (await SingleTarget.HissatsuSenei()) return true; //share recast time with Guren
                 if (await SingleTarget.HissatsuGyoten()) return true; //dash forward
                 //if (await SingleTarget.HissatsuYaten()) return true; //dash backward
             }
-
-            //manage case when midare cast is stopped... dont want to use another GCD instead
 
             //Namikiri
             if (await Aoe.OgiNamikiri()) return true;
@@ -132,26 +130,20 @@ namespace Magitek.Rotations
             if (await Aoe.TenkaGoken()) return true;
             if (await SingleTarget.Higanbana()) return true;
 
-            if (SamuraiRoutine.iaijutsuSuccessful)
-            {
-                //Combo AOE
-                if (await Aoe.Mangetsu()) return true;
-                if (await Aoe.Oka()) return true;
-                if (await Aoe.Fuko()) return true;
+            //Combo AOE
+            if (await Aoe.Mangetsu()) return true;
+            if (await Aoe.Oka()) return true;
+            if (await Aoe.Fuko()) return true;
 
-                //3 Combos Single Target
-                if (await SingleTarget.Gekko()) return true;
-                if (await SingleTarget.Kasha()) return true;
-                if (await SingleTarget.Yukikaze()) return true;
-                if (await SingleTarget.Jinpu()) return true;
-                if (await SingleTarget.Shifu()) return true;
-                if (await SingleTarget.Hakaze()) return true;
+            //3 Combos Single Target
+            if (await SingleTarget.Gekko()) return true;
+            if (await SingleTarget.Kasha()) return true;
+            if (await SingleTarget.Yukikaze()) return true;
+            if (await SingleTarget.Jinpu()) return true;
+            if (await SingleTarget.Shifu()) return true;
+            if (await SingleTarget.Hakaze()) return true;
 
-                if (await SingleTarget.Enpi()) return true;
-
-            }
-
-            return false;
+            return await SingleTarget.Enpi();
         }
 
         public static void RegisterCombatMessages()

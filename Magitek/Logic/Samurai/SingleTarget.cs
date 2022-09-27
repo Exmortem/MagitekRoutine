@@ -17,6 +17,12 @@ namespace Magitek.Logic.Samurai
 
         public static async Task<bool> Hakaze()
         {
+            if (Spells.MidareSetsugekka.CanCast())
+                return false;
+
+            if (Spells.Higanbana.CanCast() && !Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true))
+                return false;
+
             return await Spells.Hakaze.Cast(Core.Me.CurrentTarget);
         }
 
@@ -220,16 +226,12 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             if(!await Spells.MidareSetsugekka.Cast(Core.Me.CurrentTarget))
-            {
-                SamuraiRoutine.iaijutsuSuccessful = false;
                 return false;
-            }
-            SamuraiRoutine.iaijutsuSuccessful = true;
 
             if (SamuraiRoutine.prepareFillerRotation && (Spells.TsubameGaeshi.Charges < 1 || Spells.KaeshiSetsugekka.Charges < 1))
             {
                 SamuraiRoutine.InitializeFillerVar(false, true); // Execute Filler
-                Logger.WriteInfo($@"[Filler] Execute Filler {SamuraiSettings.Instance.SamuraiFillerStrategy}");
+                Logger.WriteInfo($@"[Filler] Execute Filler: {SamuraiSettings.Instance.SamuraiFillerStrategy}");
             }
 
             return true;
@@ -240,31 +242,23 @@ namespace Magitek.Logic.Samurai
             if (!SamuraiSettings.Instance.UseHigabana)
                 return false;
 
-            if (Combat.Enemies.Count(x => x.InView() && x.Distance(Core.Me) <= 6 + x.CombatReach) >= SamuraiSettings.Instance.AoeEnemies)
-            {
-                if (SamuraiSettings.Instance.UseAoe)
-                    return false;
-            }
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
-                return false;
-
             if (SamuraiRoutine.SenCount != 1)
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 6)
+                return false;
+                        
             if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, 8000))
                 return false;
 
             if (Spells.TsubameGaeshi.IsKnownAndReady())
                 return false;
 
-            if (!await Spells.Higanbana.Cast(Core.Me.CurrentTarget))
-            {
-                SamuraiRoutine.iaijutsuSuccessful = false;
+            if (SamuraiRoutine.AoeEnemies5Yards >= SamuraiSettings.Instance.AoeEnemies)
                 return false;
-            }
 
-            SamuraiRoutine.iaijutsuSuccessful = true;
+            await Spells.Higanbana.Cast(Core.Me.CurrentTarget);
+
             return true;
         }
 

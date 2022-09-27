@@ -31,7 +31,6 @@ namespace Magitek.Utilities.Routines
             return true;
         }
 
-        public static bool iaijutsuSuccessful = true;
         public static bool prepareFillerRotation = false;
         public static bool isReadyFillerRotation = false;
 
