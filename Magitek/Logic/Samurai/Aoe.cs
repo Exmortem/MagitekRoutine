@@ -27,6 +27,9 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.ClassLevel >= 86 && SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
+            if (Spells.TenkaGoken.CanCast())
+                return false;
+
             return await SamuraiRoutine.Fuko.Cast(Core.Me.CurrentTarget);
         }
 
@@ -154,12 +157,7 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
-            if (!await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget))
-            {
-                SamuraiRoutine.iaijutsuSuccessful = false;
-                return false;
-            }
-            SamuraiRoutine.iaijutsuSuccessful = true;
+            await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);
 
             return true;
         }
@@ -198,10 +196,8 @@ namespace Magitek.Logic.Samurai
                     return false;
             }
 
-            if (!await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget))
-                return false;
-
-            SamuraiRoutine.InitializeFillerVar(false, false); // Remove Filler after Even Minutes Burst
+            if (await Spells.OgiNamikiri.Cast(Core.Me.CurrentTarget))
+                SamuraiRoutine.InitializeFillerVar(false, false); // Remove Filler after Even Minutes Burst
 
             return true;
         }
@@ -209,6 +205,9 @@ namespace Magitek.Logic.Samurai
         public static async Task<bool> KaeshiNamikiri()
         {
             if (!SamuraiSettings.Instance.UseKaeshiNamikiri)
+                return false;
+
+            if (!Spells.KaeshiNamikiri.CanCast())
                 return false;
 
             return await Spells.KaeshiNamikiri.Cast(Core.Me.CurrentTarget);
