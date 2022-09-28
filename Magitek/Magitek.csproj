@@ -162,6 +162,7 @@
     <Compile Include="Converters\OpenerConditionRemoveConverter.cs" />
     <Compile Include="Converters\OpenerOrderPositionConverter.cs" />
     <Compile Include="Converters\SpellIdToSpellData.cs" />
+    <Compile Include="Enumerations\PotionEnum.cs" />
     <Compile Include="Enumerations\BuffStrategy.cs" />
     <Compile Include="Enumerations\SamuraiFillerStrategy.cs" />
     <Compile Include="Enumerations\ChainStrategemStrategy.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
+    <Compile Include="Utilities\Potion.cs" />
     <Compile Include="Utilities\FightLogic.cs" />
     <Compile Include="Utilities\WeaveWindow.cs" />
     <Compile Include="Utilities\Routines\Reaper.cs" />

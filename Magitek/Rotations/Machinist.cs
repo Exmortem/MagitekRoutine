@@ -102,6 +102,7 @@ namespace Magitek.Rotations
                     //Utility
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
+                    if (await Utility.UsePotion()) return true;
 
                     //Pets
                     if (await Pet.RookQueen()) return true;
@@ -125,6 +126,7 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
+                    if (await Utility.UsePotion()) return true;
 
                     //Pets
                     if (await Pet.RookQueen()) return true;

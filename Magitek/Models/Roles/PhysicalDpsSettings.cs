@@ -17,6 +17,14 @@ namespace Magitek.Models.Roles
 
         [Setting]
         [DefaultValue(true)]
+        public bool UsePotion { get; set; }
+
+        [Setting]
+        [DefaultValue(PotionEnum.Dex_Grade_7)]
+        public PotionEnum PotionTypeAndGradeLevel { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseSecondWind { get; set; }
 
         [Setting]
