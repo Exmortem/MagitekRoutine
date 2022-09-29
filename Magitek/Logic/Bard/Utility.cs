@@ -1,6 +1,7 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Bard;
 using Magitek.Models.Scholar;
 using Magitek.Toggles;
@@ -13,6 +14,13 @@ namespace Magitek.Logic.Bard
 {
     internal static class Utility
     {
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.RagingStrikes.IsKnown() && !Spells.RagingStrikes.IsReady(4000))
+                return false;
+
+            return await PhysicalDps.UsePotion(BardSettings.Instance);
+        }
 
         public static async Task<bool> Troubadour()
         {
