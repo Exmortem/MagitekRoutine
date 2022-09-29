@@ -239,7 +239,7 @@ namespace Magitek.Logic.Samurai
 
         public static async Task<bool> Higanbana()
         {
-            if (!SamuraiSettings.Instance.UseHigabana)
+            if (!SamuraiSettings.Instance.UseHiganbana)
                 return false;
 
             if (SamuraiRoutine.SenCount != 1)

@@ -2,6 +2,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Gambits.Conditions;
+using Magitek.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,12 +23,19 @@ namespace Magitek.Gambits.Actions
 
         public override async Task<bool> Execute(ObservableCollection<IGambitCondition> conditions)
         {
-            var bagSlot = InventoryManager.FilledSlots.FirstOrDefault(r =>
-                string.Equals(r.Name, ItemName, StringComparison.CurrentCultureIgnoreCase) &&
+            Logger.WriteInfo($@"Looking for Item : {ItemName}");
+
+            var bagSlot = InventoryManager.FilledSlots.FirstOrDefault(r => string.Equals(r.Name, ItemName, StringComparison.CurrentCultureIgnoreCase) &&
                 (AnyQuality || HighQualityOnly && r.IsHighQuality || NormalQualityOnly && !r.IsHighQuality));
 
             if (bagSlot == null)
-                return false;
+            {
+                bagSlot = InventoryManager.FilledSlots.FirstOrDefault(r => string.Equals(r.EnglishName, ItemName, StringComparison.CurrentCultureIgnoreCase) &&
+                (AnyQuality || HighQualityOnly && r.IsHighQuality || NormalQualityOnly && !r.IsHighQuality));
+
+                if (bagSlot == null)
+                    return false;
+            }
 
             if (conditions.Any(condition => !condition.Check(Core.Me)))
                 return false;

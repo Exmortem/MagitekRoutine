@@ -109,5 +109,16 @@ namespace Magitek.Logic.Roles
 
             return await Spells.Peloton.CastAura(Core.Me, Auras.Peloton);
         }
+
+        public static async Task<bool> UsePotion<T>(T settings) where T : PhysicalDpsSettings
+        {
+            if (!settings.UsePotion)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Medicated, true))
+                return false;
+
+            return await Potion.UsePotion((int) settings.PotionTypeAndGradeLevel);
+        }
     }
 }

@@ -150,7 +150,7 @@ namespace Magitek.Models.Samurai
         #region Iaijutsu
         [Setting]
         [DefaultValue(true)]
-        public bool UseHigabana { get; set; }
+        public bool UseHiganbana { get; set; }
 
         [Setting]
         [DefaultValue(true)]
