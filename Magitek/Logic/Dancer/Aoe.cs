@@ -21,9 +21,9 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
-            if (!Core.Me.CurrentTarget.InCustomDegreeCone(10)) return false;
+            if (!Core.Me.CurrentTarget.InCustomDegreeCone(15)) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.StarfallDance.Range) return false;
+            //if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.StarfallDance.Range) return false;
 
             return await Spells.StarfallDance.Cast(Core.Me.CurrentTarget);
         }
@@ -40,7 +40,7 @@ namespace Magitek.Logic.Dancer
 
             if (!Core.Me.CurrentTarget.InCustomRadiantCone(Spells.StarfallDance.Radius)) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDanceIV.Range) return false;
+            //if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDanceIV.Range) return false;
 
             return await Spells.FanDanceIV.Cast(Core.Me.CurrentTarget);
         }
@@ -52,6 +52,8 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired) return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
+            if (!Core.Me.HasAura(Auras.ThreefoldFanDance)) return false;
 
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
