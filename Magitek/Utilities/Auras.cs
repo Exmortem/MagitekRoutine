@@ -304,6 +304,7 @@ namespace Magitek.Utilities
             FlourishingSymmetry = 2693,
             FlourshingFlow = 2694,
             FlourishingFinish = 2698,
+            ThreefoldFanDance = 1820,
             FourfoldFanDance = 2699,
             FlourishingStarfall = 2700,
             HeartOfCorundum = 2683,

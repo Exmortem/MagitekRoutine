@@ -20,7 +20,7 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
+            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
 
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
@@ -29,9 +29,11 @@ namespace Magitek.Logic.Dancer
         {
             if (!DancerSettings.Instance.UseStandardStep) return false;
 
+            if (!Spells.StandardStep.IsKnownAndReady()) return false;
+
             if (Core.Me.HasAura(Auras.StandardStep)) return false;
 
-            if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
+            //if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
 
             if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
 
@@ -43,7 +45,7 @@ namespace Magitek.Logic.Dancer
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
                 x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
                 x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
-                x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
+                x.Id == Auras.ThreefoldFanDance || x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
             ));
 
             if (procs.Any())
@@ -60,6 +62,8 @@ namespace Magitek.Logic.Dancer
         {
             if (!DancerSettings.Instance.UseTechnicalStep)
                 return false;
+
+            if (!Spells.TechnicalStep.IsKnownAndReady()) return false;
 
             if (Core.Me.HasAura(Auras.TechnicalFinish, true))
                 return false;
@@ -121,8 +125,10 @@ namespace Magitek.Logic.Dancer
                     case ActionResourceManager.Dancer.DanceStep.Finish:
                         if (Core.Me.HasAura(Auras.StandardStep))
                             return await Spells.DoubleStandardFinish.Cast(Core.Me);
-                        else
+                        else if (Core.Me.HasAura(Auras.TechnicalStep))
                             return await Spells.QuadrupleTechnicalFinish.Cast(Core.Me);
+                        else
+                            return false;
 
                     case ActionResourceManager.Dancer.DanceStep.Emboite:
                         return await Spells.Emboite.Cast(Core.Me);

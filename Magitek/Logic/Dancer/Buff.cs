@@ -24,13 +24,19 @@ namespace Magitek.Logic.Dancer
             if (DancerSettings.Instance.DevilmentWithTechnicalStep)
                 return false;
 
+            if (Spells.StandardStep.IsKnownAndReady())
+                return false;
+
+            if (Spells.TechnicalStep.IsKnownAndReady())
+                return false;
+
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
             if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            if (DancerSettings.Instance.DevilmentWithFlourish && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(52))
+            if (DancerSettings.Instance.DevilmentWithFlourish && !Spells.Flourish.IsKnownAndReady())
                 return false;
 
             return await Spells.Devilment.Cast(Core.Me);
@@ -106,6 +112,18 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAnyAura(FlourishingAuras))
                 return false;
+
+            if (Spells.StandardStep.IsKnownAndReady())
+                return false;
+
+            if (Spells.TechnicalStep.IsKnownAndReady())
+                return false;
+
+            if (DancerSettings.Instance.DevilmentWithFlourish)
+            {
+                if (Spells.Devilment.IsKnownAndReady())
+                    return false;
+            }
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
