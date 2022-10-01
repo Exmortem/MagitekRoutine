@@ -2,6 +2,7 @@
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Samurai;
 using Magitek.Toggles;
@@ -14,6 +15,13 @@ namespace Magitek.Logic.Samurai
 {
     internal static class Utility
     {
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.HissatsuSenei.IsKnown() && !Spells.HissatsuSenei.IsReady(4000))
+                return false;
+
+            return await PhysicalDps.UsePotion(SamuraiSettings.Instance);
+        }
 
         public static async Task<bool> Hagakure()
         {

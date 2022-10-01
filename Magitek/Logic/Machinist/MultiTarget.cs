@@ -98,7 +98,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseRicochet)
                 return false;
 
-            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge || Casting.LastSpell == Spells.Ricochet)
                 return false;
 
             if (Spells.Wildfire.IsKnownAndReady() && Spells.Hypercharge.IsKnownAndReady() && Spells.Ricochet.Charges < 1.5f)

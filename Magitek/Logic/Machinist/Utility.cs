@@ -27,10 +27,7 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> UsePotion()
         {
-            if (Spells.AirAnchor.IsKnown() && !Spells.AirAnchor.IsReady(2500))
-                return false;
-
-            if (Spells.Wildfire.IsKnown() && !Spells.Wildfire.IsReady(10000))
+            if (Spells.BarrelStabilizer.IsKnown() && !Spells.BarrelStabilizer.IsReady(5000))
                 return false;
 
             return await PhysicalDps.UsePotion(MachinistSettings.Instance);

@@ -2,6 +2,8 @@
 {
     public enum PotionEnum : int
     {
+        None = 0,
+
         Dex_Grade_7 = 37841,
         Dex_Grade_6 = 36110,
         Dex_Grade_5 = 36105,
