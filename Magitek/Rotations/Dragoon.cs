@@ -116,11 +116,13 @@ namespace Magitek.Rotations
             if (await PhysicalDps.Interrupt(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(DragoonSettings.Instance)) return true;
+            if (Utility.ForceLimitBreak()) return true;
 
             if (DragoonRoutine.GlobalCooldown.CanWeave() && !DragoonRoutine.SingleWeaveJumpsList.Contains(Casting.LastSpell))
             {
 
                 if (await Utility.TrueNorth()) return true;
+                if (await Buff.UsePotion()) return true;
 
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;

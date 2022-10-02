@@ -96,6 +96,7 @@ namespace Magitek.Rotations
                 //Utility
                 if (await Utility.TrueNorth()) return true;
                 if (await Utility.Hagakure()) return true;
+                if (await Buff.UsePotion()) return true;
 
                 //Buffs
                 if (await Buff.MeikyoShisui()) return true;

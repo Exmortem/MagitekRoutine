@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="400"
+             d:DesignHeight="500"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -25,51 +25,67 @@
                     <x:Type TypeName="enums:DragonSightStrategy" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
+            <ObjectDataProvider x:Key="PotionEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:PotionEnum" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Margin="10">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Potion " IsChecked="{Binding DragoonSettings.UsePotion, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <ComboBox Grid.Row="0" Grid.Column="1" Width="120" ItemsSource="{Binding Source={StaticResource PotionEnum}}" SelectedValue="{Binding DragoonSettings.PotionTypeAndGradeLevel, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" (Item Potion selected should be in your hotkey bar)" />
+            </Grid>
+        </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,10,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Use Buffs" IsChecked="{Binding DragoonSettings.UseBuffs, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Buffs (LanceCharge, LifeSurge, Litany, DragonSight)" IsChecked="{Binding DragoonSettings.UseBuffs, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="True North" IsChecked="{Binding DragoonSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="10,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Lance Charge" IsChecked="{Binding DragoonSettings.UseLanceCharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="10,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Battle Litany" IsChecked="{Binding DragoonSettings.UseBattleLitany, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="10,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Life Surge" IsChecked="{Binding DragoonSettings.UseLifeSurge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="10,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content=" Use Dragon Sight" IsChecked="{Binding DragoonSettings.UseDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Use Dragon Sight" IsChecked="{Binding DragoonSettings.UseDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+
+        <controls:SettingsBlock Margin="0,10,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Smart Dragon Sight (If you're not in a party or if no mate are around you, DragonSight is assigned to yourself)" IsChecked="{Binding DragoonSettings.UseSmartDragonSight, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
+
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
         <Grid Margin="5">
             <Grid.ColumnDefinitions>
@@ -169,5 +185,10 @@
             </Grid>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <CheckBox Content="True North" IsChecked="{Binding DragoonSettings.UseTrueNorth, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            </StackPanel>
+        </controls:SettingsBlock>
     </StackPanel>
 </UserControl>

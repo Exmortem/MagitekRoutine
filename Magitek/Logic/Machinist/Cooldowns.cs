@@ -1,6 +1,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
@@ -130,6 +131,14 @@ namespace Magitek.Logic.Machinist
             }
 
             return await Spells.Reassemble.Cast(Core.Me);
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.BarrelStabilizer.IsKnown() && !Spells.BarrelStabilizer.IsReady(5000))
+                return false;
+
+            return await PhysicalDps.UsePotion(MachinistSettings.Instance);
         }
     }
 }

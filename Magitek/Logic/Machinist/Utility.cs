@@ -1,6 +1,5 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
-using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -23,14 +22,6 @@ namespace Magitek.Logic.Machinist
             MachinistSettings.Instance.ForceTactician = false;
             TogglesManager.ResetToggles();
             return true;
-        }
-
-        public static async Task<bool> UsePotion()
-        {
-            if (Spells.BarrelStabilizer.IsKnown() && !Spells.BarrelStabilizer.IsReady(5000))
-                return false;
-
-            return await PhysicalDps.UsePotion(MachinistSettings.Instance);
         }
 
     }

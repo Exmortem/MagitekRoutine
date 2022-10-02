@@ -116,6 +116,9 @@ namespace Magitek.Rotations
             {
                 if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
+                if (await Buff.UsePotion()) return true;
+
+
                 if (await Buff.CuringWaltz()) return true;
                 if (await Buff.PreTechnicalDevilment()) return true;
                 if (await Aoe.FanDance4()) return true;

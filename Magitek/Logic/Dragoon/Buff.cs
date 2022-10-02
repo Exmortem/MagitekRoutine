@@ -4,7 +4,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Enumerations;
 using Magitek.Extensions;
-using Magitek.Models.Account;
+using Magitek.Logic.Roles;
 using Magitek.Models.Dragoon;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -153,7 +153,13 @@ namespace Magitek.Logic.Dragoon
             return true;
         }
 
-        
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.BattleLitany.IsKnown() && !Spells.BattleLitany.IsReady(5000))
+                return false;
+
+            return await PhysicalDps.UsePotion(DragoonSettings.Instance);
+        }
 
     }
 
