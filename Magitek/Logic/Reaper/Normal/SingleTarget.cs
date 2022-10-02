@@ -2,9 +2,9 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
-using Magitek.Toggles;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -208,34 +208,16 @@ namespace Magitek.Logic.Reaper
             return await Spells.Harpe.Cast(Core.Me.CurrentTarget);
         }
 
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            if (!ReaperSettings.Instance.ForceLimitBreak)
+            if (!Core.Me.HasTarget)
                 return false;
 
-            if (PartyManager.NumMembers == 8 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.TheEnd) && Spells.Slice.Cooldown.TotalMilliseconds < 500)
-            {
-
-                ActionManager.DoAction(Spells.TheEnd, Core.Me.CurrentTarget);
-                ReaperSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            if (PartyManager.NumMembers == 4 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Braver) && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Bladedance) && Spells.Slice.Cooldown.TotalMilliseconds < 500)
-            {
-              
-                if (!ActionManager.DoAction(Spells.Bladedance, Core.Me.CurrentTarget))
-                    ActionManager.DoAction(Spells.Braver, Core.Me.CurrentTarget);
-                ReaperSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            return false;
-
+            return PhysicalDps.ForceLimitBreak(ReaperSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.TheEnd, Spells.Slice);
         }
+
     }
 }

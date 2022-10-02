@@ -1,6 +1,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
 using System.Linq;
@@ -151,6 +152,14 @@ namespace Magitek.Logic.Dancer
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < DancerSettings.Instance.WindmillEnemies) return false;
 
             return await Spells.Windmill.Cast(Core.Me);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return PhysicalDps.ForceLimitBreak(DancerSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.CrimsonLotus, Spells.Cascade);
         }
     }
 }

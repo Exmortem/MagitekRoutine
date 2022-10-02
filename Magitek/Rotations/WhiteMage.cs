@@ -65,17 +65,19 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
-            if (await Casting.TrackSpellCast()) return true;
+            if (await Casting.TrackSpellCast()) 
+                return true;
+            
             await Casting.CheckForSuccessfulCast();
 
             Casting.DoHealthChecks = false;
 
-            if (await GambitLogic.Gambit()) return true;
+            if (await GambitLogic.Gambit()) 
+                return true;
 
-            if (Globals.PartyInCombat && Globals.InParty)
-            {
-                //if (await TankBusters.Execute()) return true;
-            }
+            //LimitBreak
+            if (Logic.WhiteMage.Heal.ForceLimitBreak()) return true;
+
             //force cast logics
             if (await Logic.WhiteMage.Heal.ForceRegen()) return true;
             if (await Logic.WhiteMage.Heal.ForceBenediction()) return true;
@@ -85,18 +87,16 @@ namespace Magitek.Rotations
             if (await Logic.WhiteMage.Heal.ForceAfflatusRapture()) return true;
             if (await Logic.WhiteMage.Heal.ForceCureII()) return true;
             if (await Logic.WhiteMage.Heal.ForceCureIII()) return true;
-
             if (await Logic.WhiteMage.Heal.ForceTetra()) return true;
-
             if (await SingleTarget.ForceAfflatusMisery()) return true;
-
-
             if (await Logic.WhiteMage.Heal.Raise()) return true;
 
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
             {
-                if (await Dispel.Execute()) return true;
+                if (await Dispel.Execute()) 
+                    return true;
+                
                 return false;
             }
 

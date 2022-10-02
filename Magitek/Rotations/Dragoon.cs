@@ -82,8 +82,6 @@ namespace Magitek.Rotations
             if (await CustomOpenerLogic.Opener())
                 return true;
 
-            if (SingleTarget.ForceLimitBreak()) return true;
-
             #region Off GCD debugging
             if (DragoonRoutine.JumpsList.Contains(Casting.LastSpell))
             {
@@ -112,6 +110,9 @@ namespace Magitek.Rotations
             }
             #endregion
 
+            //LimitBreak
+            if (SingleTarget.ForceLimitBreak()) return true;
+
             //Utility
             if (await PhysicalDps.Interrupt(DragoonSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(DragoonSettings.Instance)) return true;
@@ -119,8 +120,8 @@ namespace Magitek.Rotations
 
             if (DragoonRoutine.GlobalCooldown.CanWeave() && !DragoonRoutine.SingleWeaveJumpsList.Contains(Casting.LastSpell))
             {
-
                 if (await Utility.TrueNorth()) return true;
+                if (await Buff.UsePotion()) return true;
 
                 //Buffs
                 if (await Buff.ForceDragonSight()) return true;

@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
 using System.Linq;
@@ -285,6 +286,17 @@ namespace Magitek.Logic.Samurai
             SamuraiRoutine.InitializeFillerVar(false, false); //No Filler if TsubameGaeshi is executed
 
             return true;
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            if (!Core.Me.HasTarget)
+                return false;
+
+            return PhysicalDps.ForceLimitBreak(SamuraiSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.DoomoftheLiving, Spells.Hakaze);
         }
     }
 }

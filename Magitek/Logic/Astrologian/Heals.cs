@@ -4,6 +4,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
 using System.Collections.Generic;
@@ -750,6 +751,14 @@ namespace Magitek.Logic.Astrologian
         }
 
         #endregion
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Healer.ForceLimitBreak(AstrologianSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.AstralStasis, Spells.Malefic);
+        }
 
         public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
     }

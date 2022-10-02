@@ -25,16 +25,10 @@
                     <x:Type TypeName="enums:InterruptStrategy" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-            <ObjectDataProvider x:Key="PotionEnum" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="enums:PotionEnum" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
@@ -61,19 +55,6 @@
                 <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding MachinistSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="0,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Potion :" />
-                    <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource PotionEnum}}" SelectedValue="{Binding MachinistSettings.PotionTypeAndGradeLevel, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,5,0,0" Style="{DynamicResource TextBlockDefault}" Text="Item Potion selected should be in your hotkey bar" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>
 

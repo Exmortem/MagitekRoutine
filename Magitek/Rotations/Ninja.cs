@@ -80,15 +80,11 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!SpellQueueLogic.SpellQueue.Any())
-            {
                 SpellQueueLogic.InSpellQueue = false;
-            }
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
@@ -98,12 +94,15 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            //LimitBreak
             if (SingleTarget.ForceLimitBreak()) return true;
+
             if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
             if (Ninjutsu.ForceRaiton()) return true;
 

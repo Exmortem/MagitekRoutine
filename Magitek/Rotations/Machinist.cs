@@ -80,7 +80,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
 
             if (MachinistSettings.Instance.UseFlamethrower && Core.Me.HasAura(Auras.Flamethrower))
             {
@@ -95,6 +96,9 @@ namespace Magitek.Rotations
                     return true;
             }
 
+            //LimitBreak
+            if (MultiTarget.ForceLimitBreak()) return true;
+
             if (ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero)
             {
                 if (MachinistRoutine.GlobalCooldown.CanWeave(1)) {
@@ -102,7 +106,7 @@ namespace Magitek.Rotations
                     //Utility
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
-                    if (await Utility.UsePotion()) return true;
+                    if (await Cooldowns.UsePotion()) return true;
 
                     //Pets
                     if (await Pet.RookQueen()) return true;
@@ -117,7 +121,8 @@ namespace Magitek.Rotations
                     //Cooldowns
                     if (await Cooldowns.Reassemble()) return true;
                 }
-            } else
+            } 
+            else
             {
                 if (MachinistRoutine.GlobalCooldown.CanWeave()) {
 
@@ -126,21 +131,21 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
-                    if (await Utility.UsePotion()) return true;
-
-                    //Pets
-                    if (await Pet.RookQueen()) return true;
-                    if (await Pet.RookQueenOverdrive()) return true;
+                    if (await Cooldowns.UsePotion()) return true;
 
                     //Cooldowns
-                    if (await Cooldowns.Wildfire()) return true;
-                    if (await Cooldowns.Hypercharge()) return true;
                     if (await Cooldowns.Reassemble()) return true;
                     if (await Cooldowns.BarrelStabilizer()) return true;
+                    if (await Cooldowns.Wildfire()) return true;
+                    if (await Cooldowns.Hypercharge()) return true;
 
                     //oGCDs
                     if (await SingleTarget.GaussRound()) return true;
                     if (await MultiTarget.Ricochet()) return true;
+
+                    //Pets
+                    if (await Pet.RookQueen()) return true;
+                    if (await Pet.RookQueenOverdrive()) return true;
                 }
             }
 
@@ -149,10 +154,12 @@ namespace Magitek.Rotations
             if (await SingleTarget.HeatBlast()) return true;
 
             //Use On CD
-            if (await MultiTarget.ChainSaw()) return true;
             if (await MultiTarget.BioBlaster()) return true;
-            if (await SingleTarget.Drill()) return true;
             if (await SingleTarget.HotAirAnchor()) return true;
+            if (await SingleTarget.Drill()) return true;
+            if (await MultiTarget.ChainSaw()) return true;
+            
+            //AOE
             if (await MultiTarget.Flamethrower()) return true;
             if (await MultiTarget.Scattergun()) return true;
 

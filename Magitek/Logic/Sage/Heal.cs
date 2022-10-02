@@ -3,6 +3,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Sage;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -746,6 +747,14 @@ namespace Magitek.Logic.Sage
                 return false;
 
             return await Spells.Holos.HealAura(Core.Me, Auras.Holos);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Healer.ForceLimitBreak(SageSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.TechneMakre, Spells.Dosis);
         }
     }
 }

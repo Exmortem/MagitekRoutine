@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using BardRoutine = Magitek.Utilities.Routines.Bard;
@@ -117,6 +118,14 @@ namespace Magitek.Logic.Bard
                 return false;
 
             return await Spells.RadiantFinale.CastAura(Core.Me, Auras.RadiantFinale);
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.RagingStrikes.IsKnown() && !Spells.RagingStrikes.IsReady(4000))
+                return false;
+
+            return await PhysicalDps.UsePotion(BardSettings.Instance);
         }
     }
 }

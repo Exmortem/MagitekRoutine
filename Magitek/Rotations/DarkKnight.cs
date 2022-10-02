@@ -65,6 +65,10 @@ namespace Magitek.Rotations
             if (await Buff.Grit())
                 return true;
 
+            //LimitBreak
+            if (Defensive.ForceLimitBreak()) return true;
+
+            //Interrupt
             if (await Tank.Interrupt(DarkKnightSettings.Instance))
                 return true;
 

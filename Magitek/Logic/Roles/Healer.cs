@@ -4,9 +4,9 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Roles;
+using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -103,6 +103,38 @@ namespace Magitek.Logic.Roles
                 return await spell.CastAura(deadTarget, Auras.Raise);
             }
 
+            return false;
+        }
+
+        public static bool ForceLimitBreak<T>(T settings, SpellData limitBreak1Spell, SpellData limitBreak2Spell, SpellData limitBreak3Spell, SpellData gcd) where T : HealerSettings
+        {
+            if (!settings.ForceLimitBreak)
+                return false;
+
+            //LB 3
+            if (PartyManager.NumMembers == 8
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak3Spell)
+                && gcd.Cooldown.TotalMilliseconds < 500)
+            {
+                ActionManager.DoAction(limitBreak3Spell, Core.Me);
+                settings.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+            }
+
+            //LB 2 or LB 1
+            if (PartyManager.NumMembers == 4
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak1Spell)
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak2Spell)
+                && gcd.Cooldown.TotalMilliseconds < 500)
+            {
+                if (!ActionManager.DoAction(limitBreak2Spell, Core.Me))
+                    ActionManager.DoAction(limitBreak1Spell, Core.Me);
+
+                settings.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+            }
             return false;
         }
     }

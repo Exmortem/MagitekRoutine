@@ -3,6 +3,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Scholar;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -715,6 +716,14 @@ namespace Magitek.Logic.Scholar
 
                 return unit.Distance(Core.Me.Pet) <= 20;
             }
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Healer.ForceLimitBreak(ScholarSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.AngelFeathers, Spells.Ruin);
         }
     }
 }

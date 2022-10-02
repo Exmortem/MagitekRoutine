@@ -69,8 +69,11 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener())
+                return true;
 
+            //LimitBreak
+            if (Defensive.ForceLimitBreak()) return true;
 
             //Utility
             if (await Tank.Interrupt(WarriorSettings.Instance)) return true;

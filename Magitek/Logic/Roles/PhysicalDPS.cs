@@ -120,5 +120,37 @@ namespace Magitek.Logic.Roles
 
             return await Potion.UsePotion((int) settings.PotionTypeAndGradeLevel);
         }
+
+        public static bool ForceLimitBreak<T>(T settings, SpellData limitBreak1Spell, SpellData limitBreak2Spell, SpellData limitBreak3Spell, SpellData gcd) where T : PhysicalDpsSettings
+        {
+            if (!settings.ForceLimitBreak)
+                return false;
+
+            //LB 3
+            if (PartyManager.NumMembers == 8
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak3Spell)
+                && gcd.Cooldown.TotalMilliseconds < 500)
+            {
+                ActionManager.DoAction(limitBreak3Spell, Core.Me.CurrentTarget);
+                settings.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+            }
+
+            //LB 2 or LB 1
+            if (PartyManager.NumMembers == 4 
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak1Spell)
+                && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak2Spell)
+                && gcd.Cooldown.TotalMilliseconds < 500)
+            {
+                if (!ActionManager.DoAction(limitBreak2Spell, Core.Me.CurrentTarget))
+                    ActionManager.DoAction(limitBreak1Spell, Core.Me.CurrentTarget);
+
+                settings.ForceLimitBreak = false;
+                TogglesManager.ResetToggles();
+                return true;
+            }
+            return false;
+        }
     }
 }

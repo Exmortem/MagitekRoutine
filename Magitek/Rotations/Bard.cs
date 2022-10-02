@@ -90,8 +90,12 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
-                      
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
+
+            //LimitBreak
+            if (Aoe.ForceLimitBreak()) return true;
+
             if (BardRoutine.GlobalCooldown.CanWeave())
             {
                 // Utility
@@ -102,7 +106,7 @@ namespace Magitek.Rotations
                 if (await PhysicalDps.ArmsLength(BardSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(BardSettings.Instance)) return true;
                 if (await PhysicalDps.Interrupt(BardSettings.Instance)) return true;
-                if (await Utility.UsePotion()) return true;
+                if (await Cooldowns.UsePotion()) return true;
 
                 // Damage
                 if (await SingleTarget.LastPossiblePitchPerfectDuringWM()) return true;

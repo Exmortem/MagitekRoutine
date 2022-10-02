@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using System.Linq;
@@ -115,6 +116,14 @@ namespace Magitek.Logic.Warrior
                 : Auras.RawIntuition;
 
             return await WarriorRoutine.Bloodwhetting.CastAura(Core.Me, (uint)aura);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Tank.ForceLimitBreak(WarriorSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.LandWaker, Spells.HeavySwing);
         }
 
     }

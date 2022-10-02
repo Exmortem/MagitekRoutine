@@ -14,18 +14,6 @@ namespace Magitek.Models.Roles
         [DefaultValue(3)]
         public int StopDamageWhenMoreThanEnemies { get; set; }
 
-        /*[Setting]
-        [DefaultValue(true)]
-        //public bool PrioritizeTankBusters { get; set; }
-
-        /*[Setting]
-        [DefaultValue(true)]
-        //public bool UseTankBusters { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        //public float TankBusterMinimumMpPercent { get; set; }*/
-
         [Setting]
         [DefaultValue(true)]
         public bool UseSafeguard { get; set; }
@@ -41,5 +29,9 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(70.0f)]
         public float MuseManaPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
     }
 }

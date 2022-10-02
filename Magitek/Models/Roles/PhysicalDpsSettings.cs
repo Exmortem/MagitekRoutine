@@ -12,27 +12,27 @@ namespace Magitek.Models.Roles
         protected PhysicalDpsSettings(string path) : base(path) { }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool UsePeloton { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool UsePotion { get; set; }
 
         [Setting]
-        [DefaultValue(PotionEnum.Dex_Grade_7)]
+        [DefaultValue(PotionEnum.None)]
         public PotionEnum PotionTypeAndGradeLevel { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePeloton { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseSecondWind { get; set; }
 
         [Setting]
-        [DefaultValue(40.0f)]
-        public float SecondWindHealthPercent { get; set; }
+        [DefaultValue(50.0f)]
+        public float SecondWindHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(InterruptStrategy.AnyEnemy)]
+        [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
 
         [Setting]
@@ -50,10 +50,6 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(40.0f)]
         public float EnlivenTpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float SecondWindHpPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -74,5 +70,10 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(false)]
         public bool ForceArmsLength { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
     }
 }

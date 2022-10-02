@@ -81,9 +81,6 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.HasAura(Auras.WildfireBuff))
-                return false;
-
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
         }
 
@@ -117,7 +114,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseGaussRound)
                 return false;
 
-            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge)
+            if (Casting.LastSpell == Spells.Wildfire || Casting.LastSpell == Spells.Hypercharge || Casting.LastSpell == Spells.Ricochet)
                 return false;
 
             if (Spells.Wildfire.IsKnownAndReady() && Spells.Hypercharge.IsKnownAndReady() && Spells.GaussRound.Charges < 1.5f)

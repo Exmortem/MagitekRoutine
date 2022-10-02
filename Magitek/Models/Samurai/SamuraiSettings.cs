@@ -54,11 +54,7 @@ namespace Magitek.Models.Samurai
 
         [Setting]
         [DefaultValue(50.0f)]
-        public new float SecondWindHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
+        public new float SecondWindHpPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]

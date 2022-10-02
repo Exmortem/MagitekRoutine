@@ -1,10 +1,9 @@
 ﻿using ff14bot;
 using ff14bot.Objects;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
+using Magitek.Logic.Roles;
 using Magitek.Models.Dragoon;
-using Magitek.Toggles;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
@@ -115,34 +114,16 @@ namespace Magitek.Logic.Dragoon
 
             return await Spells.FangAndClaw.Cast(Core.Me.CurrentTarget);
         }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            if (!DragoonSettings.Instance.ForceLimitBreak)
+            if (!Core.Me.HasTarget)
                 return false;
 
-            if (PartyManager.NumMembers == 8 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.DragonsongDive) && Spells.TrueThrust.Cooldown.TotalMilliseconds < 500)
-            {
-
-                ActionManager.DoAction(Spells.DragonsongDive, Core.Me.CurrentTarget);
-                DragoonSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            if (PartyManager.NumMembers == 4 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Braver) && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Bladedance) && Spells.TrueThrust.Cooldown.TotalMilliseconds < 500)
-            {
-               
-                if (!ActionManager.DoAction(Spells.Bladedance, Core.Me.CurrentTarget))
-                    ActionManager.DoAction(Spells.Braver, Core.Me.CurrentTarget);
-                DragoonSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            return false;
-
+            return PhysicalDps.ForceLimitBreak(DragoonSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.DragonsongDive, Spells.TrueThrust);
         }
 
     }

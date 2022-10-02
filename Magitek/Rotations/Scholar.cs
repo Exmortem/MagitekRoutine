@@ -89,7 +89,10 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit()) return true;
 
             if (CustomOpenerLogic.InOpener) return false;
-            
+
+            //LimitBreak
+            if (Logic.Scholar.Heal.ForceLimitBreak()) return true;
+
             if (await HealFightLogic.Aoe()) return true;
             if (await HealFightLogic.Tankbuster()) return true;
 
