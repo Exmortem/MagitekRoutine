@@ -138,61 +138,66 @@ namespace Magitek.Models.Dancer
         public DancePartnerStrategy SelectedStrategy { get; set; }
 
         #region Partner Weights
+
         [Setting]
         [DefaultValue(1)]
-        public int MnkPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int BlmPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int DrgPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
         public int SamPartnerWeight { get; set; }
 
         [Setting]
-        [DefaultValue(7)]
-        public int MchPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(9)]
-        public int SmnPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(6)]
-        public int BrdPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
+        [DefaultValue(2)]
         public int NinPartnerWeight { get; set; }
 
         [Setting]
-        [DefaultValue(10)]
-        public int RdmPartnerWeight { get; set; }
+        [DefaultValue(3)]
+        public int MnkPartnerWeight { get; set; }
+        
+        [Setting]
+        [DefaultValue(4)]
+        public int RprPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int DrgPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public int BlmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(7)]
+        public int SmnPartnerWeight { get; set; }
 
         [Setting]
         [DefaultValue(8)]
+        public int RdmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(9)]
+        public int MchPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int BrdPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(11)]
         public int DncPartnerWeight { get; set; }
 
         [Setting]
-        [DefaultValue(15)]
-        public int PldPartnerWeight { get; set; }
-
+        [DefaultValue(12)]
+        public int GnbPartnerWeight { get; set; }
+        
+        [Setting]
+        [DefaultValue(13)]
+        public int DrkPartnerWeight { get; set; }
+        
         [Setting]
         [DefaultValue(14)]
         public int WarPartnerWeight { get; set; }
 
         [Setting]
-        [DefaultValue(13)]
-        public int DrkPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(12)]
-        public int GnbPartnerWeight { get; set; }
+        [DefaultValue(15)]
+        public int PldPartnerWeight { get; set; }
 
         [Setting]
         [DefaultValue(16)]
@@ -209,10 +214,6 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(19)]
         public int SagPartnerWeight { get; set; }
-
-        [Setting]
-        [DefaultValue(5)]
-        public int RprPartnerWeight { get; set; }
 
         #endregion
     }

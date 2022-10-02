@@ -37,17 +37,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Rook / Queen at" IsChecked="{Binding MachinistSettings.UseRookQueen, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" Increment="10" MaxValue="100" MinValue="50" Value="{Binding MachinistSettings.MinBatteryForPetSummon, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text="   Battery Gauge" />
-
-                <CheckBox Grid.Row="1" Grid.Column="0" Content="Use Queen inside buffed window with at least " IsChecked="{Binding MachinistSettings.UseBuffedRookQueen, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.UseRookQueenWithAtLeastXBonusDamage, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" % Damage Buff active" />
-
-                <CheckBox Grid.Row="2" Grid.Column="0" Content="Only use when there are fewer than " IsChecked="{Binding MachinistSettings.UseRookQueenEnemyCount, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.RookQueenEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
+                <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Rook / Queen " IsChecked="{Binding MachinistSettings.UseRookQueen, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
     </StackPanel>

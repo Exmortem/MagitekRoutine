@@ -4,7 +4,6 @@
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:enums="clr-namespace:Magitek.Enumerations"
-             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
@@ -34,9 +33,6 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Wildfire " IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="Only use when there are fewer than " IsChecked="{Binding MachinistSettings.UseWildfireEnemyCount, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.WildfireEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
             </StackPanel>
         </controls:SettingsBlock>
 

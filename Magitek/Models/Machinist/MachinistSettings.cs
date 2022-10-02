@@ -12,9 +12,6 @@ namespace Magitek.Models.Machinist
 
         public static MachinistSettings Instance { get; set; } = new MachinistSettings();
 
-        [Setting]
-        [DefaultValue(0)]
-        public int UserLatencyOffset { get; set; }
 
         #region SingleTarget
 
@@ -33,10 +30,6 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseChainSaw { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseHeatBlast { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -90,10 +83,6 @@ namespace Magitek.Models.Machinist
         [DefaultValue(true)]
         public bool UseRicochet { get; set; }
 
-        [Setting]
-        [DefaultValue(1)]
-        public int RicochetEnemyCount { get; set; }
-
         #endregion
 
         #region Pet
@@ -104,27 +93,7 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(false)]
-        public bool UseRookQueenEnemyCount { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int RookQueenEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
         public bool UseRookQueenOverdrive { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        public int MinBatteryForPetSummon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseBuffedRookQueen { get; set; }
-
-        [Setting]
-        [DefaultValue(10)]
-        public int UseRookQueenWithAtLeastXBonusDamage { get; set; }
 
         #endregion
 
@@ -137,14 +106,6 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UseWildfire { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool UseWildfireEnemyCount { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int WildfireEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]

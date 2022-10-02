@@ -1,6 +1,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
 using System.Linq;
@@ -10,6 +11,14 @@ namespace Magitek.Logic.Dancer
 {
     internal static class SingleTarget
     {
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.Devilment.IsKnown() && !Spells.Devilment.IsReady(11000))
+                return false;
+
+            return await PhysicalDps.UsePotion(DancerSettings.Instance);
+        }
 
         public static async Task<bool> FanDance()
         {
