@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
@@ -170,6 +171,14 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             return await Spells.Reprisal.Cast(Core.Me.CurrentTarget);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Tank.ForceLimitBreak(DarkKnightSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.DarkForce, Spells.HardSlash);
         }
     }
 }

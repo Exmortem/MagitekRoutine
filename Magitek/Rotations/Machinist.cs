@@ -80,7 +80,8 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
 
             if (MachinistSettings.Instance.UseFlamethrower && Core.Me.HasAura(Auras.Flamethrower))
             {
@@ -94,6 +95,9 @@ namespace Magitek.Rotations
                 if (Core.Me.EnemiesInCone(8) >= MachinistSettings.Instance.FlamethrowerEnemyCount)
                     return true;
             }
+
+            //LimitBreak
+            if (MultiTarget.ForceLimitBreak()) return true;
 
             if (ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero)
             {

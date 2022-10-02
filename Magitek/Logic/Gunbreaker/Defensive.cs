@@ -1,5 +1,6 @@
 using ff14bot;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Linq;
@@ -123,6 +124,14 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             return await GunbreakerRoutine.HeartOfCorundum.CastAura(Core.Me, Auras.HeartOfCorundum);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Tank.ForceLimitBreak(GunbreakerSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.GunmetalSoul, Spells.KeenEdge);
         }
     }
 }

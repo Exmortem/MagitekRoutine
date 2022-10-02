@@ -80,19 +80,16 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!SpellQueueLogic.SpellQueue.Any())
-            {
                 SpellQueueLogic.InSpellQueue = false;
-            }
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
-                if (await SpellQueueLogic.SpellQueueMethod()) return true;
+                if (await SpellQueueLogic.SpellQueueMethod()) 
+                    return true;
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -100,6 +97,9 @@ namespace Magitek.Rotations
 
             if (await CustomOpenerLogic.Opener()) return true;
             if (await GambitLogic.Gambit()) return true;
+
+            //LimitBreak
+            if (Aoe.ForceLimitBreak()) return true;
 
             if (await Buff.DancePartner()) return true;
 

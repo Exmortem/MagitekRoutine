@@ -97,10 +97,6 @@ namespace Magitek.Models.Ninja
         public bool ForceSecondWind { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseMug { get; set; }
 

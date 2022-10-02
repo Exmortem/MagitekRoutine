@@ -1,8 +1,8 @@
 using ff14bot;
 using ff14bot.Managers;
 using BardSong = ff14bot.Managers.ActionResourceManager.Bard.BardSong;
-using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using BardRoutine = Magitek.Utilities.Routines.Bard;
@@ -132,6 +132,14 @@ namespace Magitek.Logic.Bard
                 return false;
 
             return await Spells.BlastArrow.Cast(Core.Me.CurrentTarget);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return PhysicalDps.ForceLimitBreak(BardSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.SaggitariusArrow, Spells.HeavyShot);
         }
     }
 }

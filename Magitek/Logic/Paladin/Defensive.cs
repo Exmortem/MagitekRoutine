@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using System;
@@ -222,6 +223,14 @@ namespace Magitek.Logic.Paladin
                 return false;
 
             return await Spells.Intervention.Cast(interventionTarget2);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Tank.ForceLimitBreak(PaladinSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.LastBastion, Spells.FastBlade);
         }
 
     }

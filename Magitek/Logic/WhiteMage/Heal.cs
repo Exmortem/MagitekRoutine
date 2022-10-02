@@ -3,6 +3,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -720,6 +721,14 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             return await Spells.AfflatusRapture.Heal(Core.Me, false);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return Healer.ForceLimitBreak(WhiteMageSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.PulseofLife, Spells.Stone);
         }
     }
 }

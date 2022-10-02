@@ -82,11 +82,14 @@ namespace Magitek.Rotations
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
+
+            //LimitBreak
+            if (Defensive.ForceLimitBreak()) return true;
 
             //Utility
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
-            //if (await Buff.RoyalGuard()) return true;
 
             if (GunbreakerRoutine.GlobalCooldown.CanWeave())
             {

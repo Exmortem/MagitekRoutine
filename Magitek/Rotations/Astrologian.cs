@@ -93,11 +93,13 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit())
                 return true;
 
+            //LimitBreak
+            if (Heals.ForceLimitBreak()) return true;
+
             if (await Heals.Ascend()) return true;
             if (await Dispel.Execute()) return true;
-            
-                
-                if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1))
+    
+            if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1))
             {
                 if (await Buff.Divination()) return true;
                 if (await Buff.LucidDreaming()) return true;
@@ -106,8 +108,6 @@ namespace Magitek.Rotations
                 if (await Cards.AstroDyne()) return true;
                 if (await Cards.RedrawOrDrawAgain(Cards.GetDrawnCard())) return true;
                 if (await Cards.PlayCards()) return true;
-
-
             }
 
             if (Globals.InActiveDuty || Core.Me.InCombat)

@@ -68,40 +68,32 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             MonkRoutine.RefreshVars();
 
             if (!SpellQueueLogic.SpellQueue.Any())
-            {
                 SpellQueueLogic.InSpellQueue = false;
-            }
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
-                if (await SpellQueueLogic.SpellQueueMethod()) return true;
+                if (await SpellQueueLogic.SpellQueueMethod()) 
+                    return true;
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
 
+            //LimitBreak
             if (SingleTarget.ForceLimitBreak()) return true;
+            
+            //Buff
             if (await Buff.Meditate()) return true;
 
-            //var count = Utilities.Combat.Enemies.Count;
-            //if (2 >= count && count < 5)
-            //{
-            //    //TODO: Add 2-4 target DPS rotation
-            //}
-            //else if (count >= 5)
-            //{
-            //    //TODO: Add 5+ target DPS rotation
-            //}
             if (!Core.Me.HasAura(Auras.Anatman) || MonkSettings.Instance.UseManualPB && Core.Me.HasAura(Auras.PerfectBalance))
             {
                 if (MonkRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)

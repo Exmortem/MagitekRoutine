@@ -59,10 +59,6 @@
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Hagakure" IsChecked="{Binding SamuraiSettings.UseHagakure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Force Limit break" IsChecked="{Binding SamuraiSettings.ForceLimitBreak, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -80,6 +80,9 @@ namespace Magitek.Rotations
             if (await GambitLogic.Gambit())
                 return true;
 
+            //LimitBreak
+            if (Logic.Sage.Heal.ForceLimitBreak()) return true;
+
             if (await Logic.Sage.Heal.Egeiro()) return true;
             if (await Dispel.Execute()) return true;
 

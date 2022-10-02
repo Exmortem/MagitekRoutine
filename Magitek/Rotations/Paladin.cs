@@ -82,7 +82,11 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener())
+                return true;
+
+            //LimitBreak
+            if (Defensive.ForceLimitBreak()) return true;
 
             if (!Core.Me.HasAura(Auras.PassageOfArms))
             {
@@ -92,9 +96,6 @@ namespace Magitek.Rotations
 
                 if (PaladinRoutine.GlobalCooldown.CanWeave())
                 {
-                    //Aggro switch
-                    //if (await Tank.TankSwap()) return true;
-
                     //Defensive Buff
                     if (await Defensive.HallowedGround()) return true;
                     if (await Defensive.Sentinel()) return true;

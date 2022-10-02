@@ -1,6 +1,7 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using System;
@@ -135,6 +136,14 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return PhysicalDps.ForceLimitBreak(MachinistSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.SatelliteBeam, Spells.SplitShot);
         }
     }
 }

@@ -59,5 +59,12 @@ namespace Magitek.Models.Roles
         [DefaultValue(InterruptStrategy.AnyEnemy)]
         public InterruptStrategy Strategy { get; set; }
         #endregion
+
+        #region limitbreak
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+        #endregion
+
     }
 }

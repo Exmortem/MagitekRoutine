@@ -60,34 +60,5 @@ namespace Magitek.Logic.Dragoon
             return false;
         }
 
-        public static bool ForceLimitBreak()
-        {
-            if (!DragoonSettings.Instance.ForceLimitBreak)
-                return false;
-
-            if (PartyManager.NumMembers == 8 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.DoomoftheLiving) && Spells.TrueThrust.Cooldown.TotalMilliseconds < 500)
-            {
-
-                ActionManager.DoAction(Spells.DoomoftheLiving, Core.Me.CurrentTarget);
-                DragoonSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            if (PartyManager.NumMembers == 4 && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Braver) && !Casting.SpellCastHistory.Any(s => s.Spell == Spells.Bladedance) && Spells.TrueThrust.Cooldown.TotalMilliseconds < 500)
-            {
-
-                if (!ActionManager.DoAction(Spells.Bladedance, Core.Me.CurrentTarget))
-                    ActionManager.DoAction(Spells.Braver, Core.Me.CurrentTarget);
-                DragoonSettings.Instance.ForceLimitBreak = false;
-                TogglesManager.ResetToggles();
-                return true;
-
-            }
-
-            return false;
-        }
-
     }
 }

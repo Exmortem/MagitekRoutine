@@ -70,5 +70,10 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(false)]
         public bool ForceArmsLength { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
+
     }
 }

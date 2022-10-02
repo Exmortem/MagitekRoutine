@@ -90,8 +90,12 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await CustomOpenerLogic.Opener()) return true;
-                      
+            if (await CustomOpenerLogic.Opener()) 
+                return true;
+
+            //LimitBreak
+            if (Aoe.ForceLimitBreak()) return true;
+
             if (BardRoutine.GlobalCooldown.CanWeave())
             {
                 // Utility

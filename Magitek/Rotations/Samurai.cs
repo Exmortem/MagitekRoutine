@@ -82,6 +82,9 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod())
                     return true;
 
+            //LimitBreak
+            if (SingleTarget.ForceLimitBreak()) return true;
+
             //Buff for opener
             if (await Buff.MeikyoShisuiNotInCombat()) return true;
 
@@ -89,7 +92,6 @@ namespace Magitek.Rotations
             if (await PhysicalDps.Interrupt(SamuraiSettings.Instance)) return true;
             if (await PhysicalDps.SecondWind(SamuraiSettings.Instance)) return true;
             if (await PhysicalDps.Bloodbath(SamuraiSettings.Instance)) return true;
-            if (Utility.ForceLimitBreak()) return true;
 
             if (SamuraiRoutine.GlobalCooldown.CanWeave())
             {
