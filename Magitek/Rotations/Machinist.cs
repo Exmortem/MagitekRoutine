@@ -102,33 +102,28 @@ namespace Magitek.Rotations
             if (ActionResourceManager.Machinist.OverheatRemaining != TimeSpan.Zero)
             {
                 if (MachinistRoutine.GlobalCooldown.CanWeave(1)) {
-                    
                     //Utility
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
-                    if (await Cooldowns.UsePotion()) return true;
 
                     //Pets
                     if (await Pet.RookQueen()) return true;
 
                     //Cooldowns
                     if (await Cooldowns.BarrelStabilizer()) return true;
-
+                    if (await Cooldowns.Reassemble()) return true;
+                    
                     //oGCDs
                     if (await SingleTarget.GaussRound()) return true;
                     if (await MultiTarget.Ricochet()) return true;
-
-                    //Cooldowns
-                    if (await Cooldowns.Reassemble()) return true;
                 }
             } 
             else
             {
                 if (MachinistRoutine.GlobalCooldown.CanWeave()) {
-
                     //Utility
-                    if (await Utility.Tactician()) return true;
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
+                    if (await Utility.Tactician()) return true;
                     if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
                     if (await Cooldowns.UsePotion()) return true;
