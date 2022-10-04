@@ -41,23 +41,21 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
+            if (Spells.Wildfire.IsKnown() && (Casting.LastSpell == Spells.Wildfire || Core.Me.HasAura(Auras.WildfireBuff, true)))
+                return await Spells.Hypercharge.Cast(Core.Me);
+
             //Force Delay CD
             if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
-            if (Spells.Drill.IsKnownAndReady(7000) || Spells.AirAnchor.IsKnownAndReady(7000))
+            if (Spells.Drill.IsKnownAndReady(6000) || Spells.AirAnchor.IsKnownAndReady(6000) || Spells.ChainSaw.IsKnownAndReady(6000))
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat < 50) { 
+            if (ActionResourceManager.Machinist.Heat < 50)
                 return false;
-            }
-
-            if (Spells.Wildfire.IsKnown() && (Casting.LastSpell == Spells.Wildfire || Core.Me.HasAura(Auras.WildfireBuff, true)))
-                return await Spells.Hypercharge.Cast(Core.Me);
 
             if (Spells.BarrelStabilizer.IsKnownAndReady(2000))
                 return await Spells.Hypercharge.Cast(Core.Me);
-
 
             if (Spells.ChainSaw.IsKnown())
             {
@@ -84,12 +82,21 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.Heat < 50 && ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                return false;
+
+            if (Spells.Drill.IsKnownAndReady(6000) || Spells.AirAnchor.IsKnownAndReady(6000) || Spells.ChainSaw.IsKnownAndReady(6000))
+                return false;
+
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Reassemble()
         {
             if (!MachinistSettings.Instance.UseReassemble)
+                return false;
+
+            if (Spells.Reassemble.Charges < 1)
                 return false;
 
             // Added check for cooldown, gets stuck at lower levels otherwise.
@@ -119,17 +126,18 @@ namespace Magitek.Logic.Machinist
             {
                 if (Spells.Reassemble.Charges >= Spells.Reassemble.MaxCharges)
                 {
-                    if (MachinistSettings.Instance.UseDrill && !Spells.Drill.IsReady(2000))
-                        return false;
-
-                    if (MachinistSettings.Instance.UseHotAirAnchor && !Spells.AirAnchor.IsReady(2000))
+                    if (MachinistSettings.Instance.UseDrill && Spells.Drill.IsReady(3000)
+                        || MachinistSettings.Instance.UseHotAirAnchor && Spells.AirAnchor.IsReady(3000)
+                        || MachinistSettings.Instance.UseChainSaw && Spells.ChainSaw.IsReady(3000))
+                        return await Spells.Reassemble.Cast(Core.Me);
+                } 
+                else
+                {
+                    if (MachinistSettings.Instance.UseChainSaw && !Spells.ChainSaw.IsReady(2000))
                         return false;
                 }
 
-                if (MachinistSettings.Instance.UseChainSaw && !Spells.ChainSaw.IsReady(2000))
-                    return false;
             }
-
             return await Spells.Reassemble.Cast(Core.Me);
         }
 
