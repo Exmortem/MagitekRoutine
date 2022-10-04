@@ -28,7 +28,6 @@ namespace Magitek.Rotations
                 return false;
 
             if (await Buff.Meditate()) return true;
-            //if (await Buff.FormShiftOOC()) return true;
 
             return false;
         }
@@ -59,7 +58,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> CombatBuff()
         {
-            //if (await Buff.FormShiftOOC()) return true;
             return await Buff.Meditate();
         }
 
@@ -68,13 +66,17 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
+                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                }
             }
 
             MonkRoutine.RefreshVars();
 
             if (!SpellQueueLogic.SpellQueue.Any())
+            {
                 SpellQueueLogic.InSpellQueue = false;
+            }
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
@@ -88,13 +90,15 @@ namespace Magitek.Rotations
             if (await CustomOpenerLogic.Opener()) 
                 return true;
 
-            //LimitBreak
-            if (SingleTarget.ForceLimitBreak()) return true;
-            
-            //Buff
-            if (await Buff.Meditate()) return true;
+            //Limit Break
+            if (SingleTarget.ForceLimitBreak())
+                return true;
 
-            if (!Core.Me.HasAura(Auras.Anatman) || MonkSettings.Instance.UseManualPB && Core.Me.HasAura(Auras.PerfectBalance))
+            //Buff
+            if (await Buff.Meditate()) 
+                return true;
+
+            if (!Core.Me.HasAura(Auras.Anatman))
             {
                 if (MonkRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.Bootshine.Cooldown.TotalMilliseconds > 750 + BaseSettings.Instance.UserLatencyOffset)
                 {
@@ -102,38 +106,38 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.SecondWind(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(MonkSettings.Instance)) return true;
                     if (await PhysicalDps.Feint(MonkSettings.Instance)) return true;
+                    if (await Buff.UsePotion()) return true;
+
                     if (await Buff.RiddleOfFire()) return true;
-                    if (await Buff.Brotherhood()) return true;
-                    if (await SingleTarget.TornadoKick()) return true;
+                    if (await Buff.RiddleOfWind()) return true;
                     if (await Aoe.Enlightenment()) return true;
                     if (await SingleTarget.TheForbiddenChakra()) return true;
+                    if (await Buff.Brotherhood()) return true;
                     if (await Buff.PerfectBalance()) return true;
-                    if (await Buff.TrueNorthRiddleOfEarth()) return true;
-                    //if (await Buff.RiddleOfFire()) return true;
-                    //if (await Buff.Brotherhood()) return true;
-                    if (await SingleTarget.ElixirField()) return true;
+                    if (await Buff.RiddleOfWind()) return true;
+                    if (await Buff.Mantra()) return true;
                 }
-                if (await Aoe.Rockbreaker()) return true;
-                if (await Aoe.FourPointStrike()) return true;
-                if (await Aoe.ArmOfDestroyer()) return true;
+
+                if (await Aoe.MasterfulBlitz()) return true;
+                if (await SingleTarget.PerfectBalancePhoenix()) return true;
+                if (await SingleTarget.PerfectBalanceElixir()) return true;
                 if (await SingleTarget.PerfectBalanceRoT()) return true;
-                //if (await Aoe.Rockbreaker()) return true;
-                //if (await Aoe.FourPointStrike()) return true;
-                //if (await Aoe.ArmOfDestroyer()) return true;
-                if (await SingleTarget.Demolish()) return true;
-                if (await SingleTarget.SnapPunch()) return true;
-                if (await SingleTarget.TwinSnakes()) return true;
-                if (await SingleTarget.TrueStrike()) return true;
-                if (await SingleTarget.Bootshine()) return true;
+
+                if (await Aoe.FourPointStrike()) return true;
+                if (await Aoe.Rockbreaker()) return true;
+                if (await Aoe.ArmOfDestroyer()) return true;
+
                 if (await SingleTarget.DragonKick()) return true;
+                if (await SingleTarget.TwinSnakes()) return true;
+                if (await SingleTarget.Demolish()) return true;
+                if (await SingleTarget.TrueStrike()) return true;
+                if (await SingleTarget.SnapPunch()) return true;
+                if (await SingleTarget.Bootshine()) return true;
+
                 return await Buff.FormShiftIC();
             }
 
             return false;
-        }
-        public static Task<bool> PvP()
-        {
-            return Task.FromResult(false);
         }
 
         public static void RegisterCombatMessages()
@@ -149,37 +153,31 @@ namespace Magitek.Rotations
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(200,
                                           "",
-                                          () => MonkSettings.Instance.HidePositionalToastsWithTn && Core.Me.HasAura(Auras.TrueNorth) || Core.Me.HasAura(Auras.RiddleOfEarth)));
+                                          () => MonkSettings.Instance.HidePositionalMessage && Core.Me.HasAura(Auras.TrueNorth) || MonkSettings.Instance.EnemyIsOmni));
 
-            //Third priority (tie): Bootshine
+            //Third priority (tie): Snap punch
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
-                                          "Bootshine: Get behind Enemy",
-                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.HasAura(Auras.LeadenFist)));
+                                          "Snap punch: Side of Enemy", "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
+                                          () => Core.Me.HasAura(Auras.CoeurlForm) && !Core.Me.HasAura(Auras.PerfectBalance) && MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies && MonkSettings.Instance.DemolishUseTtd && Core.Me.CurrentTarget.CombatTimeLeft() <= MonkSettings.Instance.DemolishMinimumTtd));
 
-            //Third priority (tie): TwinSnakes
+            //fourth priority (tie): Demolish
             CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
-                                          "TwinSnakes: Side of Enemy",
-                                          () => Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1100)));
+                new CombatMessageStrategy(400,
+                                          "Demolish: Get behind Enemy", "/Magitek;component/Resources/Images/General/ArrowDownHighlighted.png",
+                                          () => Core.Me.HasAura(Auras.CoeurlForm) && !(Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000)) && !Core.Me.HasAura(Auras.PerfectBalance) && MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies));
 
-            //Third priority (tie): TrueStrike
+            //fourth priority (tie): Snap punch
             CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
-                                          "TrueStrike: Get behind Enemy",
-                                          () => Core.Me.HasAura(Auras.RaptorForm) && Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000)));
+                new CombatMessageStrategy(400,
+                                          "Snap punch: Side of Enemy", "/Magitek;component/Resources/Images/General/ArrowSidesHighlighted.png",
+                                          () => Core.Me.HasAura(Auras.CoeurlForm) && (Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000)) && !Core.Me.HasAura(Auras.PerfectBalance) && MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies));
 
-            //Third priority (tie): SnapPunch
-            CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
-                                          "SnapPunch: Side of Enemy",
-                                          () => Core.Me.HasAura(Auras.CoeurlForm) && Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000)));
+        }
 
-            //Third priority (tie): DragonKick
-            CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
-                                          "DragonKick: Side of Enemy",
-                                          () => Core.Me.HasAura(Auras.OpoOpoForm) && !Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000)));
+        public static Task<bool> PvP()
+        {
+            return Task.FromResult(false);
         }
     }
 }

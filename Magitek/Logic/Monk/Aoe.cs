@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Monk;
 using Magitek.Utilities;
+using MonkRoutine = Magitek.Utilities.Routines.Monk;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,18 +20,31 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Core.Me.ClassLevel < 74)
+            if (Core.Me.ClassLevel < 40)
+                return false;
+
+            if (MonkRoutine.EnemiesInCone < MonkSettings.Instance.AoeEnemies)
                 return false;
 
             if (ActionResourceManager.Monk.ChakraCount < 5)
                 return false;
 
-            //Logger.Write($@"[Magitek] Enlightenment Check: We have {Utilities.Routines.Monk.EnemiesInCone} Enemies in range we need {MonkSettings.Instance.EnlightenmentEnemies} and Enlightenment is {MonkSettings.Instance.UseEnlightenment}");
+            return await Spells.HowlingFist.Cast(Core.Me.CurrentTarget);
+        }
 
-            if (Utilities.Routines.Monk.EnemiesInCone >= MonkSettings.Instance.EnlightenmentEnemies)
-                return await Spells.Enlightenment.Cast(Core.Me.CurrentTarget);
+        public static async Task<bool> MasterfulBlitz()
+        {
+            if (!MonkSettings.Instance.UseMasterfulBlitz)
+                return false;
 
-            return false;
+            if (Core.Me.ClassLevel < 60)
+                return false;
+
+            if (!Spells.MasterfulBlitz.IsKnownAndReady())
+                return false;
+
+            return await Spells.MasterfulBlitz.Cast(Core.Me.CurrentTarget);
+
         }
 
         public static async Task<bool> Rockbreaker()
@@ -41,7 +55,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
+            if (MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies)
                 return false;
 
             if (!Core.Me.HasAura(Auras.CoeurlForm) && !Core.Me.HasAura(Auras.PerfectBalance))
@@ -58,13 +72,13 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
+            if (MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies)
                 return false;
 
             if (!Core.Me.HasAura(Auras.RaptorForm) && !Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
+            if (!Core.Me.HasAura(Auras.DisciplinedFist, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
                 return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
 
             return await Spells.FourPointFury.Cast(Core.Me);
@@ -78,7 +92,7 @@ namespace Magitek.Logic.Monk
             if (!MonkSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < MonkSettings.Instance.RockbreakerEnemies)
+            if (MonkRoutine.AoeEnemies5Yards < MonkSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.ArmOfTheDestroyer.Cast(Core.Me);

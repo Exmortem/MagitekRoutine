@@ -8,6 +8,7 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using System.Linq;
 using Auras = Magitek.Utilities.Auras;
+using static ff14bot.Managers.ActionResourceManager.Monk;
 
 namespace Magitek.Logic.Monk
 {
@@ -35,7 +36,7 @@ namespace Magitek.Logic.Monk
             if (!Core.Me.HasAura(Auras.RaptorForm))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.TwinSnakes) && Core.Me.ClassLevel >= 18)
+            if (!Core.Me.HasAura(Auras.DisciplinedFist) && Core.Me.ClassLevel >= 18)
                 return false;
 
             return await Spells.TrueStrike.Cast(Core.Me.CurrentTarget);
@@ -65,7 +66,7 @@ namespace Magitek.Logic.Monk
             if (!Core.Me.HasAura(Auras.RaptorForm))
                 return false;
 
-            if (Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
+            if (Core.Me.HasAura(Auras.DisciplinedFist, true, MonkSettings.Instance.TwinSnakesRefresh * 1000))
                 return false;
 
             return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
@@ -77,7 +78,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 50)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.OpoOpoForm))
+            if (!Core.Me.HasAura(Auras.OpoOpoForm) && !Core.Me.HasAura(Auras.FormlessFist))
                 return false;
 
             if (Core.Me.HasAura(Auras.LeadenFist, true, MonkSettings.Instance.DragonKickRefresh * 1000))
@@ -106,7 +107,8 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> TheForbiddenChakra()
         {
-            // Off GCD
+            if (Core.Me.ClassLevel < 15)
+                return false;
 
             if (!MonkSettings.Instance.UseTheForbiddenChakra)
                 return false;
@@ -114,64 +116,163 @@ namespace Magitek.Logic.Monk
             if (ActionResourceManager.Monk.ChakraCount < 5)
                 return false;
 
-            return await Spells.TheForbiddenChakra.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> TornadoKick()
-        {
-            // Off GCD
-
-            if (!MonkSettings.Instance.UseTornadoKick)
+            if (!Core.Me.HasAura(Auras.DisciplinedFist))
                 return false;
 
-            if (Core.Me.ClassLevel < 60 || !ActionManager.HasSpell(Spells.TornadoKick.Id))
-                return false;
-
-            return await Spells.TornadoKick.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> ElixirField()
-        {
-            // Off GCD
-
-            if (!MonkSettings.Instance.UseElixerField)
-                return false;
-
-            //var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 25 && r.InCombat);
-            //var cosCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
-
-            //var canCoS = cosCount >= enemyCount || cosCount > 2;
-
-            //if (!canCoS)
-            //    return false;
-
-            if (Core.Me.CurrentTarget is BattleCharacter target && !target.WithinSpellRange(5))
-                return false;
-
-            if (Spells.ElixirField.Cooldown.Seconds != 0)
-                return false;
-
-            return await Spells.ElixirField.Cast(Core.Me);
+            return await Spells.SteelPeak.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> PerfectBalanceRoT()
         {
+            if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (!MonkSettings.Instance.UsePerfectBalance)
+                return false;
+
             if (!Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.TwinSnakes, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
-                return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+            if (ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Both) || (!ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Both) && ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Solar)))
+            {
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000) && Casting.LastSpell != Spells.Demolish)
-                return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+                if (!Core.Me.HasAura(Auras.FistsofWind) && Spells.RiddleofWind.IsKnownAndReady())
+                    return await Spells.RiddleofWind.Cast(Core.Me);
 
-            if (Core.Me.HasAura(Auras.LeadenFist))
-                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+                if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 2)
+                {
+                    if (!Core.Me.HasAura(Auras.DisciplinedFist, true, 6000) && Casting.LastSpell != Spells.FourPointFury)
+                        return await Spells.FourPointFury.Cast(Core.Me);
 
-            if (!ActionManager.HasSpell(Spells.DragonKick.Id))
-                return await Spells.SnapPunch.Cast(Core.Me.CurrentTarget);
+                    return await Spells.Rockbreaker.Cast(Core.Me);
+                }
+                else
+                {
+  
+                    if (!Core.Me.HasAura(Auras.DisciplinedFist, true, MonkSettings.Instance.TwinSnakesRefresh * 1000) && Casting.LastSpell != Spells.TwinSnakes)
+                        return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+                    if (!Core.Me.CurrentTarget.HasAura(Auras.Demolish, true, MonkSettings.Instance.DemolishRefresh * 1000) && Casting.LastSpell != Spells.Demolish)
+                        return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+
+                    if (!Core.Me.HasAura(Auras.LeadenFist) && Casting.LastSpell != Spells.DragonKick)
+                        return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+
+                    return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+                }
+            }
+
+            return false;
+        }
+
+        public static async Task<bool> PerfectBalancePhoenix()
+        {
+            if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (!MonkSettings.Instance.UsePerfectBalance)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.PerfectBalance))
+                return false;
+
+            if (!ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Lunar) || ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Both))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.FistsofWind) && Spells.RiddleofWind.IsKnownAndReady())
+                return await Spells.RiddleofWind.Cast(Core.Me);
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 2)
+            {
+                if (ActionResourceManager.Monk.MasterGaugeCount == 0)
+                    return await Spells.FourPointFury.Cast(Core.Me);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 1)
+                    return await Spells.Rockbreaker.Cast(Core.Me);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 2)
+                    return await Spells.ArmOfTheDestroyer.Cast(Core.Me);
+            }
+            else
+            {
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 0)
+                    return await Spells.TwinSnakes.Cast(Core.Me.CurrentTarget);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 1)
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 2)
+                    return await Spells.Demolish.Cast(Core.Me.CurrentTarget);
+            }
+            return false;
+        }
+
+        public static async Task<bool> PerfectBalanceElixir()
+        {
+            if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (!MonkSettings.Instance.UsePerfectBalance)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.PerfectBalance))
+                return false;
+
+            if (ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Lunar) || ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Solar) || ActionResourceManager.Monk.ActiveNadi.HasFlag(Nadi.Both))
+                return false;
+
+            if (!Core.Me.HasAura(Auras.FistsofWind) && Spells.RiddleofWind.IsKnownAndReady())
+                return await Spells.RiddleofWind.Cast(Core.Me);
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 2)
+            {
+                if (ActionResourceManager.Monk.MasterGaugeCount == 0)
+                {
+                    if((Core.Me.ClassLevel >= 82)){
+                         return await Spells.ShadowOfTheDestroyer.Cast(Core.Me);
+                    }
+                    else
+                    {
+                        return await Spells.Rockbreaker.Cast(Core.Me);
+                    }
+                }
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 1)
+                {
+                    if ((Core.Me.ClassLevel >= 82))
+                    {
+                        return await Spells.ShadowOfTheDestroyer.Cast(Core.Me);
+                    }
+                    else
+                    {
+                        return await Spells.Rockbreaker.Cast(Core.Me);
+                    }
+                }
+                if (ActionResourceManager.Monk.MasterGaugeCount == 2)
+                {
+                    if ((Core.Me.ClassLevel >= 82))
+                    {
+                        return await Spells.ShadowOfTheDestroyer.Cast(Core.Me);
+                    }
+                    else
+                    {
+                        return await Spells.Rockbreaker.Cast(Core.Me);
+                    }
+                }
+            }
+            else
+            {
+                if (ActionResourceManager.Monk.MasterGaugeCount == 0)
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 1)
+                    return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+
+                if (ActionResourceManager.Monk.MasterGaugeCount == 2)
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+            }
+            return false;
         }
 
         /**********************************************************************************************

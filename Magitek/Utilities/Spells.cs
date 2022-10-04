@@ -453,6 +453,13 @@ namespace Magitek.Utilities
         public static readonly SpellData ShadowOfTheDestroyer = DataManager.GetSpellData(25767);
         public static readonly SpellData FinalHeaven = DataManager.GetSpellData(202);
         public static readonly SpellData Thunderclap = DataManager.GetSpellData(25762);
+        public static readonly SpellData SteelPeak = DataManager.GetSpellData(25761);
+        public static readonly SpellData HowlingFist = DataManager.GetSpellData(25763);
+        public static readonly SpellData CelestialRevolution = DataManager.GetSpellData(25765);
+        public static readonly SpellData RiddleofWind = DataManager.GetSpellData(25766);
+        public static readonly SpellData RisingPhoenix = DataManager.GetSpellData(25768);
+        public static readonly SpellData PhantomRush = DataManager.GetSpellData(25769);
+        public static readonly SpellData FlintStrike = DataManager.GetSpellData(25882);
         #endregion
 
         // NIN

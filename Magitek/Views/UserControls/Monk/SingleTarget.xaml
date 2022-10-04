@@ -29,137 +29,37 @@
     </UserControl.DataContext>
 
     <StackPanel Margin="10">
-
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="4">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Demolish When There Are " />
-                        <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DemolishRefresh, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left Of Damage Over Time" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="1" Margin="0,3" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Use Damage Over Time When The Enemy Has At Least " />
-                        <controls:Numeric MaxValue="99999999" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumHealth, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="2" Margin="0,3" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" And At Least " />
-                        <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumHealthPercent, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Row="3" Orientation="Horizontal">
-                        <CheckBox Margin="5" Content="Do Not Demolish If Our Current Target Is Dying Within " IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumTtd, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-                    </StackPanel>
-
-                </Grid>
-            </Grid>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="4">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Dragon Kick When There Are " />
-                        <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DragonKickRefresh, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left Of Leaden Fist" />
-                    </StackPanel>
-
-                    <!--<StackPanel Grid.Row="1" Margin="0,3" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Use Damage Over Time When The Enemy Has At Least " />
-                        <controls:Numeric MaxValue="99999999" MinValue="1" Value="{Binding MonkSettings.DragonKickMinimumHealth, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health" />
-                    </StackPanel>-->
-
-                    <!--<StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" And At Least " />
-                        <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DragonKickMinimumHealthPercent, Mode=TwoWay}" />
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                    </StackPanel>-->
-                </Grid>
-
-            </Grid>
-        </controls:SettingsBlock>
-
-        <!--<controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                
-            <CheckBox Grid.Column="0" Grid.ColumnSpan="5" Content="Use Time Till Death For Dragon Kick" IsChecked="{Binding MonkSettings.DragonKickUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text=" Do Not Use Damage Over Time Spells If Enemy Is Dying Within  " />
-                <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MonkSettings.DragonKickMinimumTtd, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
-            </Grid>
-        </controls:SettingsBlock>-->
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
+            <StackPanel Margin="3">
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Twin Snakes When It Has " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding MonkSettings.TwinSnakesRefresh, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Leaden Fist When It Has " />
+                    <controls:Numeric MaxValue="15" MinValue="1" Value="{Binding MonkSettings.DragonKickRefresh, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
                 </StackPanel>
-            </Grid>
-
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Disciplined Fist When It Has " />
+                    <controls:Numeric MaxValue="15" MinValue="1" Value="{Binding MonkSettings.TwinSnakesRefresh, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
+                </StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Refresh Demolish When It Has " />
+                    <controls:Numeric MaxValue="17" MinValue="1" Value="{Binding MonkSettings.DemolishRefresh, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds Left" />
+                </StackPanel>
+            </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+        
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <CheckBox Margin="5" Content="Do Not Demolish If Our Current Target Is Dying Within " IsChecked="{Binding MonkSettings.DemolishUseTtd, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding MonkSettings.DemolishMinimumTtd, Mode=TwoWay}" />
+            <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
+        </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock  Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Vertical">
-                <CheckBox Content="Shoulder Tackle" IsChecked="{Binding MonkSettings.UseShoulderTackle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Elixir Field" IsChecked="{Binding MonkSettings.UseElixerField, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Tornado Kick" IsChecked="{Binding MonkSettings.UseTornadoKick, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,3,0,0" Content="The Forbidden Chakra" IsChecked="{Binding MonkSettings.UseTheForbiddenChakra, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 

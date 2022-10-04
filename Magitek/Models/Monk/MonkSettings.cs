@@ -38,6 +38,14 @@ namespace Magitek.Models.Monk
         }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool HidePositionalMessage { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnemyIsOmni { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseMantra { get; set; }
 
@@ -54,80 +62,36 @@ namespace Magitek.Models.Monk
         public bool UseEnlightenment { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int EnlightenmentEnemies { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool UseAutoFormShift { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool AutoFormShiftStopCoeurl { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool UseManualPB { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool AutoFormShiftStopRaptor { get; set; }
-
-        [Setting]
         [DefaultValue(60.0f)]
         public float MantraHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(MonkFists.Fire)]
-        public MonkFists SelectedFist { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(8)]
         public int TwinSnakesRefresh { get; set; }
 
         [Setting]
-        [DefaultValue(5)]
+        [DefaultValue(6)]
         public int DemolishRefresh { get; set; }
-
-        [Setting]
-        [DefaultValue(5000)]
-        public int DemolishMinimumHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float DemolishMinimumHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool DemolishUseTtd { get; set; }
 
         [Setting]
-        [DefaultValue(15)]
+        [DefaultValue(6)]
         public double DemolishMinimumTtd { get; set; }
 
         [Setting]
-        [DefaultValue(5)]
+        [DefaultValue(10)]
         public int DragonKickRefresh { get; set; }
-
-        [Setting]
-        [DefaultValue(5000)]
-        public int DragonKickMinimumHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float DragonKickMinimumHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DragonKickUseTtd { get; set; }
-
-        [Setting]
-        [DefaultValue(25)]
-        public double DragonKickMinimumTtd { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AoeEnemies { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -146,20 +110,8 @@ namespace Magitek.Models.Monk
         public bool UseRiddleOfEarth { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int RockbreakerEnemies { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
-        public bool UseShoulderTackle { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseElixerField { get; set; }
-
-        [Setting]
-        [DefaultValue(1)]
-        public int ElixerFieldEnemies { get; set; }
+        public bool UseRiddleOfWind { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -170,12 +122,8 @@ namespace Magitek.Models.Monk
         public bool UseTornadoKick { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool UsePositionalToasts { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
-        public bool HidePositionalToastsWithTn { get; set; }
+        public bool UseMasterfulBlitz { get; set; }
 
     }
 }

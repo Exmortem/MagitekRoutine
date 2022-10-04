@@ -110,6 +110,7 @@ namespace Magitek.Utilities
             WalkingDead = 811,
             DragonKick = 98,
             TwinSnakes = 101,
+            DisciplinedFist = 3001,
             FistsofFire = 103,
             FistsofEarth = 104,
             FistsofWind = 105,
