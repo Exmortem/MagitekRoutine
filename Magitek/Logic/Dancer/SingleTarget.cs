@@ -29,7 +29,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> Fountainfall()
         {
-            if (!Core.Me.HasAura(Auras.FlourshingFlow) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
+            if (!Core.Me.HasAura(Auras.FlourishingFlow) && !Core.Me.HasAura(Auras.SilkenFlow)) return false;
 
             if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
@@ -43,7 +43,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> ReverseCascade()
         {
-            if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.FlourshingFountain)) return false;
+            if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.SilkenSymmetry)) return false;
 
             if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {

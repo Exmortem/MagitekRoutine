@@ -43,8 +43,8 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
-                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
-                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
+                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourishingFountain || x.Id == Auras.FlourshingShower ||
+                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourishingFlow || x.Id == Auras.FlourishingSymmetry ||
                 x.Id == Auras.ThreefoldFanDance || x.Id == Auras.FourfoldFanDance || x.Id == Auras.FlourishingFinish
             ));
 
@@ -83,8 +83,8 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
-                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourshingFountain || x.Id == Auras.FlourshingShower ||
-                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourshingFlow || x.Id == Auras.FlourishingSymmetry ||
+                x.Id == Auras.FlourshingCascade || x.Id == Auras.FlourishingFountain || x.Id == Auras.FlourshingShower ||
+                x.Id == Auras.FlourshingWindmill || x.Id == Auras.FlourishingFlow || x.Id == Auras.FlourishingSymmetry ||
                 x.Id == Auras.FourfoldFanDance
             ));
 

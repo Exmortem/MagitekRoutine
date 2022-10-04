@@ -101,7 +101,7 @@ namespace Magitek.Logic.Dancer
             return await Spells.Improvisation.Cast(Core.Me);
         }
 
-        private static uint[] FlourishingAuras = { Auras.FlourshingCascade, Auras.FlourshingFountain, Auras.FlourshingShower, Auras.FlourshingWindmill, Auras.FlourishingFanDance };
+        private static uint[] FlourishingAuras = { Auras.FlourishingSymmetry, Auras.FlourishingFlow, Auras.ThreefoldFanDance, Auras.FourfoldFanDance };
 
         public static async Task<bool> Flourish()
         {
