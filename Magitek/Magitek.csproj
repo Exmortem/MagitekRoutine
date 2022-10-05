@@ -316,7 +316,6 @@
     <Compile Include="Logic\Machinist\Pet.cs" />
     <Compile Include="Logic\Monk\Aoe.cs" />
     <Compile Include="Logic\Monk\Buff.cs" />
-    <Compile Include="Logic\Monk\PositionalToast.cs" />
     <Compile Include="Logic\Monk\SingleTarget.cs" />
     <Compile Include="Logic\Ninja\Aoe.cs" />
     <Compile Include="Logic\Ninja\Buff.cs" />
