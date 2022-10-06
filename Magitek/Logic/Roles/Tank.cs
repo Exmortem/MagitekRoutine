@@ -70,6 +70,9 @@ namespace Magitek.Logic.Roles
         //extraStuns and extraInterrupts parameters
         public static async Task<bool> Interrupt(TankSettings settings, IEnumerable<SpellData> extraStuns = null, IEnumerable<SpellData> extraInterrupts = null)
         {
+            if (!settings.UseStunOrInterrupt)
+                return false;
+
             List<SpellData> stuns = new List<SpellData>() { Spells.LowBlow };
             List<SpellData> interrupts = new List<SpellData>() { Spells.Interject };
 
