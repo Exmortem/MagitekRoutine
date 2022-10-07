@@ -56,7 +56,11 @@ namespace Magitek.Models.Roles
 
         #region interrupt
         [Setting]
-        [DefaultValue(InterruptStrategy.AnyEnemy)]
+        [DefaultValue(false)]
+        public bool UseStunOrInterrupt { get; set; }
+
+        [Setting]
+        [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
         #endregion
 

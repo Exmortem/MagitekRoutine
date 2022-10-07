@@ -32,6 +32,10 @@ namespace Magitek.Models.Roles
         public float SecondWindHpPercent { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UseStunOrInterrupt { get; set; }
+
+        [Setting]
         [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
 

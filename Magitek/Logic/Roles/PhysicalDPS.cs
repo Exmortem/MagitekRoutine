@@ -71,6 +71,9 @@ namespace Magitek.Logic.Roles
 
         public static async Task<bool> Interrupt(PhysicalDpsSettings settings)
         {
+            if (!settings.UseStunOrInterrupt)
+                return false;
+
             List<SpellData> stuns = new List<SpellData>();
             List<SpellData> interrupts = new List<SpellData>();
 
