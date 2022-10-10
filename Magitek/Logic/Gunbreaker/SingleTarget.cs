@@ -200,12 +200,12 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (Cartridge < GunbreakerRoutine.RequiredCartridgeForBurstStrike)
-                return false; 
-            
+                return false;
+
             if (GunbreakerRoutine.IsAurasForComboActive())
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= GunbreakerSettings.Instance.PrioritizeFatedCircleOverBurstStrikeEnemies)
+            if (Spells.FatedCircle.IsKnown() && Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= GunbreakerSettings.Instance.PrioritizeFatedCircleOverBurstStrikeEnemies)
                 return false;
 
             if (Core.Me.HasAura(Auras.NoMercy) && Cartridge > 0)

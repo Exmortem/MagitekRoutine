@@ -68,14 +68,14 @@ namespace Magitek.Logic.Dragoon
          * *************************************************************************/
         public static async Task<bool> VorpalThrust()
         {
-            if (!DragoonRoutine.CanContinueComboAfter(Spells.TrueThrust) && !DragoonRoutine.CanContinueComboAfter(Spells.RaidenThrust))
+            if (!DragoonRoutine.CanContinueComboAfter(Spells.TrueThrust) && (!Spells.RaidenThrust.IsKnown() || !DragoonRoutine.CanContinueComboAfter(Spells.RaidenThrust)))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.PowerSurge))
+            if (Spells.Disembowel.IsKnown() && !Core.Me.HasAura(Auras.PowerSurge))
                 return false;
 
             Aura PowerSurgeAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.PowerSurge);
-            if (Core.Me.HasAura(Auras.PowerSurge) && PowerSurgeAura.TimespanLeft.TotalMilliseconds <= 6000)
+            if (Spells.Disembowel.IsKnown() && Core.Me.HasAura(Auras.PowerSurge) && PowerSurgeAura.TimespanLeft.TotalMilliseconds <= 6000)
                 return false;
 
             if (Spells.ChaoticSpring.IsKnown())
@@ -88,14 +88,16 @@ namespace Magitek.Logic.Dragoon
                     return false;
             } else
             {
-                if (!Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust))
-                    return false; 
+                if (Spells.ChaosThrust.IsKnown())
+                {
+                    if (!Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust))
+                        return false; 
                 
-                Aura ChaosThrustAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.ChaosThrust);
-                if (Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust) && ChaosThrustAura.TimespanLeft.TotalMilliseconds <= 6000)
-                    return false;
+                    Aura ChaosThrustAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.ChaosThrust);
+                    if (Core.Me.CurrentTarget.HasAura(Auras.ChaosThrust) && ChaosThrustAura.TimespanLeft.TotalMilliseconds <= 6000)
+                        return false;
+                }
             }
-
             return await Spells.VorpalThrust.Cast(Core.Me.CurrentTarget);
         }
 
