@@ -128,6 +128,26 @@ namespace Magitek.Models.Machinist
         public float RestHealthPercent { get; set; }
         #endregion
 
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedAnalysisOnDrill { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedAnalysisOnBio { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedAnalysisOnAA { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedAnalysisOnChainSaw { get; set; }
+        #endregion
     }
 }

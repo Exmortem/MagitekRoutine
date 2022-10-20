@@ -9,6 +9,7 @@ using Magitek.Utilities;
 using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 using System;
 using System.Threading.Tasks;
+using Magitek.Models.Bard;
 
 namespace Magitek.Rotations
 {
@@ -69,6 +70,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
+            if (MachinistSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -164,9 +169,21 @@ namespace Magitek.Rotations
 
             return await SingleTarget.HeatedSplitShot();
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!MachinistSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await PhysicalDps.Recuperate(MachinistSettings.Instance)) return true;
+            if (await Pvp.Analysis()) return true;
+            if (await Pvp.WildFire()) return true;
+
+            if (await Pvp.ChainSaw()) return true;
+            if (await Pvp.AirAnchor()) return true;
+            if (await Pvp.BioBlaster()) return true;
+            if (await Pvp.Drill()) return true;
+
+            return (await Pvp.BlastedCharge());
         }
     }
 }

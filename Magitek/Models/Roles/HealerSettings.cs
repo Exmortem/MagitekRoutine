@@ -33,5 +33,13 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(false)]
         public bool ForceLimitBreak { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRecuperate { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float RecuperateHealthPercent { get; set; }
     }
 }

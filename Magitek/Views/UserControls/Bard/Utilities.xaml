@@ -50,7 +50,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Grid.Row="0" Grid.Column="0" Content="Second Wind At " IsChecked="{Binding BardSettings.UseSecondWind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BardSettings.SecondWindHealthPercent, Mode=TwoWay}" />
+                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BardSettings.SecondWindHpPercent, Mode=TwoWay}" />
                 <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
             </Grid>

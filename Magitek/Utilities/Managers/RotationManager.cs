@@ -567,10 +567,10 @@ namespace Magitek.Utilities.Managers
             }
         }
 
-        public override Task<bool> PvP()
+        public override async Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActiveCombatRoutine)
-                return Task.FromResult(false);
+                return false;
 
             switch (RotationManager.CurrentRotation)
             {
@@ -578,9 +578,9 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.Paladin:
                 //    return await Rotations.Paladin.PvP();    
 
-                //case ClassJobType.Pugilist:
-                //case ClassJobType.Monk:
-                //    return await Rotations.Monk.PvP();    
+                case ClassJobType.Pugilist:
+                case ClassJobType.Monk:
+                    return await Rotations.Monk.PvP();    
 
                 //case ClassJobType.Marauder:
                 //case ClassJobType.Warrior:
@@ -590,21 +590,21 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.Dragoon:
                 //    return await Rotations.Dragoon.PvP();    
 
-                //case ClassJobType.Archer:
-                //case ClassJobType.Bard:
-                //    return await Rotations.Bard.PvP();    
+                case ClassJobType.Archer:
+                case ClassJobType.Bard:
+                    return await Rotations.Bard.PvP();    
 
                 //case ClassJobType.Conjurer:
                 //case ClassJobType.WhiteMage:
                 //    return await Rotations.WhiteMage.PvP();    
 
-                //case ClassJobType.Thaumaturge:
-                //case ClassJobType.BlackMage:
-                //    return await Rotations.BlackMage.PvP();    
+                case ClassJobType.Thaumaturge:
+                case ClassJobType.BlackMage:
+                    return await Rotations.BlackMage.PvP();    
 
-                //case ClassJobType.Arcanist:
-                //case ClassJobType.Summoner:
-                //    return await Rotations.Summoner.PvP();    
+                case ClassJobType.Arcanist:
+                case ClassJobType.Summoner:
+                    return await Rotations.Summoner.PvP();    
 
                 //case ClassJobType.Scholar:
                 //    return await Rotations.Scholar.PvP();    
@@ -613,8 +613,8 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.Ninja:
                 //    return await Rotations.Ninja.PvP();    
 
-                //case ClassJobType.Machinist:
-                //    return await Rotations.Machinist.PvP();    
+                case ClassJobType.Machinist:
+                    return await Rotations.Machinist.PvP();    
 
                 //case ClassJobType.DarkKnight:
                 //    return await Rotations.DarkKnight.PvP();    
@@ -628,17 +628,17 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.BlueMage:
                 //    return await Rotations.BlueMage.PvP(); 
 
-                //case ClassJobType.RedMage:
-                //    return await Rotations.RedMage.PvP();
+                case ClassJobType.RedMage:
+                    return await Rotations.RedMage.PvP();
 
                 //case ClassJobType.Gunbreaker:
                 //    return await Rotations.Gunbreaker.PvP();    
 
-                //case ClassJobType.Dancer:
-                //    return await Rotations.Dancer.PvP();    
+                case ClassJobType.Dancer:
+                    return await Rotations.Dancer.PvP();    
 
                 default:
-                    return Task.FromResult(false);
+                    return false;
             }
         }
     }

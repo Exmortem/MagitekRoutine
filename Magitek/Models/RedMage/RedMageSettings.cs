@@ -1,5 +1,7 @@
 using ff14bot.Helpers;
 using Magitek.Enumerations;
+using Magitek.Logic.Roles;
+using Magitek.Models.Roles;
 using PropertyChanged;
 using System;
 using System.ComponentModel;
@@ -8,7 +10,7 @@ using System.Configuration;
 namespace Magitek.Models.RedMage
 {
     [AddINotifyPropertyChangedInterface]
-    public class RedMageSettings : JsonSettings, IRoutineSettings
+    public class RedMageSettings : MagicDpsSettings, IRoutineSettings
     {
         public RedMageSettings() : base(CharacterSettingsDirectory + "/Magitek/RedMage/RedMageSettings.json") { }
 
@@ -179,5 +181,55 @@ namespace Magitek.Models.RedMage
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool CorpsacorpsPvp { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DisplacementPvp { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedResolution { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedResolutionWhite { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedResolutionBlack { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedMeleeCombo { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedVerHoly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedVerflare { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedOGCD { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedFazzle { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedMagickBarrier { get; set; }
+        #endregion
     }
 }

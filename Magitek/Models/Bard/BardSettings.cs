@@ -317,5 +317,19 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(70.0f)]
         public float RestHealthPercent { get; set; }
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEmpyrealArrowPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int UseEmpyrealArrowCharges { get; set; }
+        #endregion
     }
 }

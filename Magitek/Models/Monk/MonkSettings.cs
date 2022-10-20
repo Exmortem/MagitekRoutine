@@ -125,5 +125,10 @@ namespace Magitek.Models.Monk
         [DefaultValue(true)]
         public bool UseMasterfulBlitz { get; set; }
 
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+        #endregion
     }
 }

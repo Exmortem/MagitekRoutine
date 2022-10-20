@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using ff14bot.Managers;
 using ff14bot.Objects;
 
@@ -974,50 +975,124 @@ namespace Magitek.Utilities
 
         //PVP
         #region PVP
-        public static readonly SpellData Concentrate = DataManager.GetSpellData(1582);
-        public static readonly SpellData Muse = DataManager.GetSpellData(1583);
-        public static readonly SpellData Safeguard = DataManager.GetSpellData(1585);
-        public static readonly SpellData Enliven = DataManager.GetSpellData(1580);
-        public static readonly SpellData Recuperate = DataManager.GetSpellData(1590);
-        public static readonly SpellData Testudo = DataManager.GetSpellData(1558);
-        public static readonly SpellData GlorySlash = DataManager.GetSpellData(1559);
-        public static readonly SpellData FullSwing = DataManager.GetSpellData(1562);
-        public static readonly SpellData PushBack = DataManager.GetSpellData(1597);
-        public static readonly SpellData EmpyreanRain = DataManager.GetSpellData(3362);
-
-        public static readonly SpellData PvpMalefic3 = DataManager.GetSpellData(8912);
-        public static readonly SpellData PvpEssentialDignity = DataManager.GetSpellData(8916);
-        public static readonly SpellData PvpLightspeed = DataManager.GetSpellData(8917);
-        public static readonly SpellData PvpSynastry = DataManager.GetSpellData(8918);
-        public static readonly SpellData PvpBenefic = DataManager.GetSpellData(8913);
-        public static readonly SpellData PvpBenefic2 = DataManager.GetSpellData(8914);
-        public static readonly SpellData Deorbit = DataManager.GetSpellData(9466);
-        public static readonly SpellData PvpDisable = DataManager.GetSpellData(9623);
-        public static readonly SpellData PvpDraw = DataManager.GetSpellData(10026);
-        public static readonly SpellData PvpPlayDrawn = DataManager.GetSpellData(10026);
-
-        public static readonly SpellData StraightShotPvp = DataManager.GetSpellData(8835);
-        public static readonly SpellData EmpyrealArrowPvp = DataManager.GetSpellData(8838);
-        public static readonly SpellData RepellingShotPvp = DataManager.GetSpellData(8839);
-        public static readonly SpellData BloodletterPvp = DataManager.GetSpellData(9624);
-        public static readonly SpellData SidewinderPvp = DataManager.GetSpellData(8841);
-        public static readonly SpellData BarragePvp = DataManager.GetSpellData(9625);
-        public static readonly SpellData PitchPerfectPvp = DataManager.GetSpellData(8842);
-        public static readonly SpellData TheWanderersMinuetPvp = DataManager.GetSpellData(8843);
-        public static readonly SpellData ArmysPaeonPvp = DataManager.GetSpellData(8844);
-        public static readonly SpellData TroubadourPvp = DataManager.GetSpellData(10023);
-
-        public static readonly SpellData PVPMCH123 = DataManager.GetSpellData(17749);
+        public static readonly SpellData Recuperate = DataManager.GetSpellData(29711);
+        public static readonly SpellData Purify = DataManager.GetSpellData(29056);
+        public static readonly SpellData Guard = DataManager.GetSpellData(29735);
 
         //WHM
-        public static readonly SpellData Purify = DataManager.GetSpellData(1584);
-        public static readonly SpellData Stone3Pvp = DataManager.GetSpellData(8894);
-        public static readonly SpellData CurePvp = DataManager.GetSpellData(8895);
-        public static readonly SpellData Cure2Pvp = DataManager.GetSpellData(8896);
-        public static readonly SpellData RegenPvp = DataManager.GetSpellData(8898);
-        public static readonly SpellData DivineBenisonPvp = DataManager.GetSpellData(9621);
-        public static readonly SpellData AssizePvp = DataManager.GetSpellData(9620);
-        public static readonly SpellData FluidAuraPvp = DataManager.GetSpellData(8900);
+        public static readonly SpellData GlareIIIPvp = DataManager.GetSpellData(29223);
+        public static readonly SpellData CureIIPvp = DataManager.GetSpellData(29224);
+        public static readonly SpellData CureIIIPvp = DataManager.GetSpellData(29225);
+        public static readonly SpellData AfflatusMiseryPvp = DataManager.GetSpellData(29226);
+        public static readonly SpellData AquaveilPvp = DataManager.GetSpellData(29227);
+        public static readonly SpellData MiracleOfNaturePvp = DataManager.GetSpellData(29228);
+        public static readonly SpellData SeraphStrikePvp = DataManager.GetSpellData(29229);
+
+        //SCH
+        public static readonly SpellData BroilIVPvp = DataManager.GetSpellData(29231);
+        public static readonly SpellData AdloquiumPvp = DataManager.GetSpellData(29232);
+        public static readonly SpellData BiolysisPvp = DataManager.GetSpellData(29233);
+        public static readonly SpellData DeploymentTacticsPvp = DataManager.GetSpellData(29234);
+        public static readonly SpellData MummificationPvp = DataManager.GetSpellData(29235);
+        public static readonly SpellData ExpedientPvp = DataManager.GetSpellData(29236);
+        public static readonly SpellData ConsolationPvp = DataManager.GetSpellData(29238);
+        public static readonly SpellData SeraphicVeil = DataManager.GetSpellData(29240);
+
+        //AST
+        public static readonly SpellData FallMaleficPvp = DataManager.GetSpellData(29242);
+        public static readonly SpellData AspectedBeneficPvp = DataManager.GetSpellData(29243);
+        public static readonly SpellData GravityIIPvp = DataManager.GetSpellData(29244);
+        public static readonly SpellData DoubleCastPvp = DataManager.GetSpellData(29245);
+        public static readonly SpellData DrawPvp = DataManager.GetSpellData(29249);
+        public static readonly SpellData MacrocosmosPvp = DataManager.GetSpellData(29253);
+
+        //SAGE
+        public static readonly SpellData DosisIIIPvp = DataManager.GetSpellData(29256);
+        public static readonly SpellData EukrasiaPvp = DataManager.GetSpellData(29258);
+        public static readonly SpellData PhlegmaIIIPvp = DataManager.GetSpellData(29259);
+        public static readonly SpellData PneumaPvp = DataManager.GetSpellData(29260);
+        public static readonly SpellData IcarusPvp = DataManager.GetSpellData(29261);
+        public static readonly SpellData ToxikonPvp = DataManager.GetSpellData(29262);
+        public static readonly SpellData KardiaPvp = DataManager.GetSpellData(29264);
+
+        //Bard
+        public static readonly SpellData PowerfulShotPvp = DataManager.GetSpellData(29391);
+        public static readonly SpellData PitchPerfectPvp = DataManager.GetSpellData(29392);
+        public static readonly SpellData ApexArrowPvp = DataManager.GetSpellData(29393);
+        public static readonly SpellData BlastArrowPvp = DataManager.GetSpellData(29394);
+        public static readonly SpellData SilentNocturnePvp = DataManager.GetSpellData(29395);
+        public static readonly SpellData EmpyrealArrowPvp = DataManager.GetSpellData(29396);
+        public static readonly SpellData EmpyrealArrowIIPvp = DataManager.GetSpellData(29397);
+        public static readonly SpellData EmpyrealArrowIIIPvp = DataManager.GetSpellData(29398);
+        public static readonly SpellData TheWardenPaeanPvp = DataManager.GetSpellData(29400);
+
+        //MCH
+        public static readonly SpellData BlastChargePvp = DataManager.GetSpellData(29402);
+        public static readonly SpellData DrillPvp = DataManager.GetSpellData(29405);
+        public static readonly SpellData BioblasterPvp = DataManager.GetSpellData(29406);
+        public static readonly SpellData AirAnchorPvp = DataManager.GetSpellData(29407);
+        public static readonly SpellData ChainSawPvp = DataManager.GetSpellData(29408);
+        public static readonly SpellData WildfirePvp = DataManager.GetSpellData(29409);
+        public static readonly SpellData AnalysisPvp = DataManager.GetSpellData(29414);
+
+        //DNC
+        public static readonly SpellData CascadePvp = DataManager.GetSpellData(29416);
+        public static readonly SpellData FountainPvp = DataManager.GetSpellData(29417);
+        public static readonly SpellData StarfallDancePvp = DataManager.GetSpellData(29421);
+        public static readonly SpellData HoningDancePvp = DataManager.GetSpellData(29422);
+        public static readonly SpellData FanDancePvp = DataManager.GetSpellData(29428);
+        public static readonly SpellData CuringWaltzPvp = DataManager.GetSpellData(29429);
+        public static readonly SpellData EnAvantPvp = DataManager.GetSpellData(29430);
+        public static readonly SpellData ClosedPositionPvp = DataManager.GetSpellData(29431);
+
+        //MNK
+        public static readonly SpellData BootshinePvp = DataManager.GetSpellData(29472);
+        public static readonly SpellData TrueStrikePvp = DataManager.GetSpellData(29473);
+        public static readonly SpellData SnapPunchPvp = DataManager.GetSpellData(29474);
+        public static readonly SpellData DragonKickPvp = DataManager.GetSpellData(29475);
+        public static readonly SpellData TwinSnakesPvp = DataManager.GetSpellData(29476);
+        public static readonly SpellData DemolishPvp = DataManager.GetSpellData(29477);
+        public static readonly SpellData PhantomRushPvp = DataManager.GetSpellData(29478);
+        public static readonly SpellData RisingPhoenixPvp = DataManager.GetSpellData(29481);
+
+        //BLM
+        public static readonly SpellData FirePvp = DataManager.GetSpellData(29649);
+        public static readonly SpellData BlizzardPvp = DataManager.GetSpellData(29653);
+        public static readonly SpellData BurstPvp = DataManager.GetSpellData(29657);
+        public static readonly SpellData ParadoxPvp = DataManager.GetSpellData(29663);
+        public static readonly SpellData NightWingPvp = DataManager.GetSpellData(29659);
+        public static readonly SpellData AetherialManipulationPvp = DataManager.GetSpellData(29660);
+        public static readonly SpellData SuperFlarePvp = DataManager.GetSpellData(29661);
+
+        //SMN
+        public static readonly SpellData RuinIIIPvp = DataManager.GetSpellData(29664);
+        public static readonly SpellData CrimsonClylonePvp = DataManager.GetSpellData(29667);
+        public static readonly SpellData SlipstreamPvp = DataManager.GetSpellData(29669);
+        public static readonly SpellData RadiantAegisPvp = DataManager.GetSpellData(29670);
+        public static readonly SpellData MountainBusterPvp = DataManager.GetSpellData(29671);
+        public static readonly SpellData FesterPvp = DataManager.GetSpellData(29672);
+        public static readonly SpellData EnkindleBahamutPvp = DataManager.GetSpellData(29674);
+        public static readonly SpellData EnkindlePhoenixPvp = DataManager.GetSpellData(29679);
+        public static readonly SpellData CrimsonStrikePvp = DataManager.GetSpellData(29668);
+
+        //RDM
+        public static readonly SpellData VerstonePvp = DataManager.GetSpellData(29683);
+        public static readonly SpellData EnchantedRiposteWhitePvp = DataManager.GetSpellData(29689);
+        public static readonly SpellData EnchantedZwerchhauWhitePvp = DataManager.GetSpellData(29690);
+        public static readonly SpellData EnchantedRedoublementWhitePvp = DataManager.GetSpellData(29691);
+        public static readonly SpellData EnchantedRiposteBlackPvp = DataManager.GetSpellData(29692);
+        public static readonly SpellData EnchantedZwerchhauBlackPvp = DataManager.GetSpellData(29693);
+        public static readonly SpellData EnchantedRedoublementBlackPvp = DataManager.GetSpellData(29694);
+        public static readonly SpellData ResolutionBlackPvp = DataManager.GetSpellData(29695);
+        public static readonly SpellData ResolutionWhitePvp = DataManager.GetSpellData(29696);
+        public static readonly SpellData MagickBarrierPvp = DataManager.GetSpellData(29697);
+        public static readonly SpellData FazzlePvp = DataManager.GetSpellData(29698);
+        public static readonly SpellData CorpsacorpsPvp = DataManager.GetSpellData(29699);
+        public static readonly SpellData DisplacementPvp = DataManager.GetSpellData(29700);
+        public static readonly SpellData BlackShiftPvp = DataManager.GetSpellData(29702);
+        public static readonly SpellData WhiteShiftPvp = DataManager.GetSpellData(29703);
+        public static readonly SpellData VerHolyPvp = DataManager.GetSpellData(29685);
+        public static readonly SpellData VerFlarePvp = DataManager.GetSpellData(29688);
         #endregion
 
     }

@@ -680,14 +680,6 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool Recuperate { get; set; }
-
-        [Setting]
-        [DefaultValue(60.0f)]
-        public float RecuperateHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool PvpBenefic { get; set; }
 
         [Setting]

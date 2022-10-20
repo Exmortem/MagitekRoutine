@@ -5,7 +5,7 @@ using Magitek.Models.Roles;
 using Magitek.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.Roles
 {
@@ -25,6 +25,23 @@ namespace Magitek.Logic.Roles
             }
 
             return await InterruptAndStunLogic.StunOrInterrupt(stuns, interrupts, settings.Strategy);
+        }
+
+        public static async Task<bool> Recuperate<T>(T settings) where T : MagicDpsSettings
+        {
+            if (!settings.UseRecuperate)
+                return false;
+
+            if (!Spells.Recuperate.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > settings.RecuperateHealthPercent)
+                return false;
+
+            return await Spells.Recuperate.Cast(Core.Me);
         }
 
     }

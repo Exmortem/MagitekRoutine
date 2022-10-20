@@ -11,6 +11,7 @@ using Magitek.Utilities.CombatMessages;
 using MonkRoutine = Magitek.Utilities.Routines.Monk;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Machinist;
 
 namespace Magitek.Rotations
 {
@@ -63,6 +64,11 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
+            if (MonkSettings.Instance.EnabledPVP)
+                return await PvP();
+
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -175,9 +181,15 @@ namespace Magitek.Rotations
 
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!MonkSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await PhysicalDps.Recuperate(MonkSettings.Instance)) return true;
+
+            return false;
+
         }
     }
 }

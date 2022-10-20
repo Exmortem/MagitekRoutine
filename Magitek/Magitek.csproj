@@ -251,15 +251,19 @@
     <Compile Include="Logic\Bard\Aoe.cs" />
     <Compile Include="Logic\Bard\Cooldowns.cs" />
     <Compile Include="Logic\Bard\DamageOverTime.cs" />
+    <Compile Include="Logic\Bard\Pvp.cs" />
     <Compile Include="Logic\Bard\SingleTarget.cs" />
     <Compile Include="Logic\Bard\Songs.cs" />
     <Compile Include="Logic\Bard\Utility.cs" />
     <Compile Include="Logic\BlackMage\Aoe.cs" />
     <Compile Include="Logic\BlackMage\Buff.cs" />
+    <Compile Include="Logic\BlackMage\Pvp.cs" />
     <Compile Include="Logic\BlackMage\SingleTarget.cs" />
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
+    <Compile Include="Logic\Dancer\Pvp.cs" />
     <Compile Include="Logic\Dragoon\Utility.cs" />
+    <Compile Include="Logic\Machinist\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
     <Compile Include="Logic\Reaper\Normal\Buff.cs" />
     <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
@@ -268,6 +272,7 @@
     <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
+    <Compile Include="Logic\RedMage\Pvp.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
     <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
@@ -278,6 +283,7 @@
     <Compile Include="Logic\Sage\SingleTarget.cs" />
     <Compile Include="Logic\Sage\Shield.cs" />
     <Compile Include="Logic\Scholar\HealFightLogic.cs" />
+    <Compile Include="Logic\Summoner\Pvp.cs" />
     <Compile Include="Logic\Warrior\Heal.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
     <Compile Include="Models\Sage\SageSettings.cs" />
@@ -317,6 +323,7 @@
     <Compile Include="Logic\Monk\Aoe.cs" />
     <Compile Include="Logic\Monk\Buff.cs" />
     <Compile Include="Logic\Monk\SingleTarget.cs" />
+    <Compile Include="Logic\Monk\Pvp.cs" />
     <Compile Include="Logic\Ninja\Aoe.cs" />
     <Compile Include="Logic\Ninja\Buff.cs" />
     <Compile Include="Logic\Ninja\Ninjutsu.cs" />
@@ -565,6 +572,9 @@
     <Compile Include="Views\UserControls\Astrologian\NocturnalHealing.xaml.cs">
       <DependentUpon>NocturnalHealing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Bard\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Bard\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
     </Compile>
@@ -591,6 +601,9 @@
     </Compile>
     <Compile Include="Views\UserControls\BlackMage\General.xaml.cs">
       <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BlackMage\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\BlackMage\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
@@ -635,6 +648,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Dancer\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Dancer\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Dancer\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
@@ -688,6 +704,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Machinist\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Machinist\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Machinist\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
@@ -753,6 +772,9 @@
     <Compile Include="Views\UserControls\RedMage\Buffs.xaml.cs" />
     <Compile Include="Views\UserControls\RedMage\Heal.xaml.cs">
       <DependentUpon>Heal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\RedMage\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\RedMage\SingleTarget.xaml.cs" />
     <Compile Include="Views\UserControls\BlueMage\Aoe.xaml.cs">
@@ -835,6 +857,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Summoner\General.xaml.cs">
       <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Summoner\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Warrior\Aggro.xaml.cs">
       <DependentUpon>Aggro.xaml</DependentUpon>
@@ -1055,6 +1080,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Bard\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Bard\Aoe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1088,6 +1117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\BlackMage\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\BlackMage\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1148,6 +1181,10 @@
     <Page Include="Views\UserControls\Dancer\Buffs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Dancer\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Dancer\SingleTarget.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1218,6 +1255,10 @@
     <Page Include="Views\UserControls\Machinist\Buffs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Machinist\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Machinist\SingleTarget.xaml">
       <SubType>Designer</SubType>
@@ -1304,6 +1345,10 @@
     <Page Include="Views\UserControls\RedMage\Heal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\RedMage\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\RedMage\SingleTarget.xaml" />
     <Page Include="Views\UserControls\BlueMage\Aoe.xaml">
@@ -1413,6 +1458,10 @@
     <Page Include="Views\UserControls\Summoner\General.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Summoner\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Warrior\Aggro.xaml">
       <SubType>Designer</SubType>
