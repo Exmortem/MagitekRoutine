@@ -78,7 +78,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (BardSettings.Instance.EnabledPVP)
+            if (DancerSettings.Instance.EnabledPVP)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)

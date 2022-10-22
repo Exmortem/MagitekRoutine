@@ -9,6 +9,7 @@ using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Monk;
 
 namespace Magitek.Rotations
 {
@@ -109,14 +110,20 @@ namespace Magitek.Rotations
             if (NinjaRoutine.GlobalCooldown.CanWeave(1))
             {
                 //Utility Force Toggle
-                if (await PhysicalDps.ArmsLength(NinjaSettings.Instance)) return true;
-                if (await Utility.SecondWindForce()) return true;
-                if (await Utility.ShadeShift()) return true;
-                if (await Utility.TrueNorth()) return true;
-                if (await Utility.Feint()) return true;
-                if (await Utility.BloodBath()) return true;
+                if (await Utility.ForceSecondWind()) return true;
+                if (await Utility.ForceBloodBath()) return true;
+                if (await Utility.ForceFeint()) return true;
+                if (await Utility.ForceTrueNorth()) return true;
+                if (await Utility.ForceShadeShift()) return true;
 
+                if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
+                if (await PhysicalDps.Bloodbath(NinjaSettings.Instance)) return true;
+                if (await PhysicalDps.Feint(NinjaSettings.Instance)) return true;
+                if (await PhysicalDps.TrueNorth(NinjaSettings.Instance)) return true;
+                if (await Utility.ShadeShift()) return true;
+
+                if (await Buff.UsePotion()) return true;
 
                 if (await SingleTarget.TrickAttack()) return true;
                 if (await SingleTarget.Bhavacakra()) return true;

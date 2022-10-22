@@ -12,14 +12,13 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Cascade()
         {
-
-            if(!Spells.CascadePvp.CanCast())
+            if (!Spells.CascadePvp.CanCast())
                 return false;
 
             if(Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            return await Spells.CascadePvp.Cast(Core.Me.CurrentTarget);
+            return await Spells.CascadePvp.Cast(Core.Me.CurrentTarget); ;
         }
 
         public static async Task<bool> Fountain()

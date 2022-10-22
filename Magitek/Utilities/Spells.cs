@@ -1037,6 +1037,7 @@ namespace Magitek.Utilities
 
         //DNC
         public static readonly SpellData CascadePvp = DataManager.GetSpellData(29416);
+        public static readonly SpellData CascadePvp2 = DataManager.GetSpellData(25464);
         public static readonly SpellData FountainPvp = DataManager.GetSpellData(29417);
         public static readonly SpellData StarfallDancePvp = DataManager.GetSpellData(29421);
         public static readonly SpellData HoningDancePvp = DataManager.GetSpellData(29422);
