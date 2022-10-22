@@ -1,6 +1,7 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
 using Magitek.Models.Ninja;
+using Magitek.Models.Roles;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Magitek.Logic.Ninja
 
         //}
 
-        public static async Task<bool> BloodBath()
+        public static async Task<bool> ForceBloodBath()
         {
 
             if (!NinjaSettings.Instance.ForceBloodBath)
@@ -35,7 +36,7 @@ namespace Magitek.Logic.Ninja
             return true;
         }
 
-        public static async Task<bool> TrueNorth()
+        public static async Task<bool> ForceTrueNorth()
         {
 
             if (!NinjaSettings.Instance.ForceTrueNorth)
@@ -48,7 +49,7 @@ namespace Magitek.Logic.Ninja
 
         }
 
-        public static async Task<bool> Feint()
+        public static async Task<bool> ForceFeint()
         {
 
             if (!NinjaSettings.Instance.ForceFeint)
@@ -61,7 +62,7 @@ namespace Magitek.Logic.Ninja
 
         }
 
-        public static async Task<bool> ShadeShift()
+        public static async Task<bool> ForceShadeShift()
         {
 
             if (!NinjaSettings.Instance.ForceShadeShift)
@@ -74,7 +75,18 @@ namespace Magitek.Logic.Ninja
 
         }
 
-        public static async Task<bool> SecondWindForce()
+        public static async Task<bool> ShadeShift()
+        {
+            if (!NinjaSettings.Instance.UseShadeShift)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > NinjaSettings.Instance.ShadeShiftHealthPercent)
+                return false;
+
+            return await Spells.ShadeShift.Cast(Core.Me);
+        }
+
+        public static async Task<bool> ForceSecondWind()
         {
 
             if (!NinjaSettings.Instance.ForceSecondWind)

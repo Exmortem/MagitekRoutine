@@ -3,11 +3,13 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.BlackMage;
+using Magitek.Logic.Roles;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BlackMageRoutine = Magitek.Utilities.Routines.BlackMage;
 
 namespace Magitek.Rotations
 {
@@ -89,6 +91,10 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+
+            if (BlackMageSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -143,9 +149,23 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BlackMageSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            BlackMageRoutine.RefreshVars();
+
+            if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
+
+            if (await Pvp.AetherialManipulation()) return true;
+
+            if (await Pvp.Paradox()) return true;
+            if (await Pvp.SuperFlare()) return true;
+
+            if (await Pvp.Burst()) return true;
+            if (await Pvp.Blizzard()) return true;
+            return (await Pvp.Fire());
         }
     }
 }

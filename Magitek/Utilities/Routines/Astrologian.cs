@@ -81,8 +81,7 @@ namespace Magitek.Utilities.Routines
             if (AstrologianSettings.Instance.InterruptDamageToHeal && !Core.Me.HasAura(1495))
             {
                 if (Casting.CastingSpell == Spells.Malefic || Casting.CastingSpell == Spells.Malefic2 ||
-                    Casting.CastingSpell == Spells.Malefic3 || Casting.CastingSpell == Spells.PvpMalefic3 ||
-                    Casting.CastingSpell == Spells.Gravity)
+                    Casting.CastingSpell == Spells.Malefic3 ||Casting.CastingSpell == Spells.Gravity)
                 {
 
                     var lowestHealthToInterruptList = new[]

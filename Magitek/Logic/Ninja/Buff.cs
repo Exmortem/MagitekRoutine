@@ -5,6 +5,8 @@ using Magitek.Utilities;
 using System.Threading.Tasks;
 using ff14bot.Managers;
 using static ff14bot.Managers.ActionResourceManager.Ninja;
+using Magitek.Logic.Roles;
+using Magitek.Models.Samurai;
 
 namespace Magitek.Logic.Ninja
 {
@@ -80,6 +82,14 @@ namespace Magitek.Logic.Ninja
                 return false;                     
         
             return await Spells.Meisui.Cast(Core.Me);
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.TenChiJin.IsKnown() && !Spells.TenChiJin.IsReady(4000))
+                return false;
+
+            return await PhysicalDps.UsePotion(NinjaSettings.Instance);
         }
 
     }

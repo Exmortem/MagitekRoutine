@@ -9,6 +9,7 @@ using Magitek.Utilities;
 using DancerRoutine = Magitek.Utilities.Routines.Dancer;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Bard;
 
 namespace Magitek.Rotations
 {
@@ -77,6 +78,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (DancerSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -141,9 +145,19 @@ namespace Magitek.Rotations
             return await SingleTarget.Cascade();
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!DancerSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await PhysicalDps.Recuperate(DancerSettings.Instance)) return true;
+            if (await Pvp.CuringWaltzPvp()) return true;
+
+            if (await Pvp.FanDance()) return true;
+            if (await Pvp.StarfallDance()) return true;
+            if (await Pvp.Fountain()) return true;
+            return (await Pvp.Cascade());
+
         }
     }
 }

@@ -244,14 +244,6 @@ namespace Magitek.Rotations
                 || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-
-
-            if (Globals.OnPvpMap)
-            {
-                if (await Pvp.Disable()) return true; //Damage
-                return await Pvp.Malefic(); //Damage
-            }
-
             if (await Aoe.AggroAst()) return true;
             //if (await Aoe.LordOfCrown()) return true;
             if (await Aoe.Gravity()) return true;

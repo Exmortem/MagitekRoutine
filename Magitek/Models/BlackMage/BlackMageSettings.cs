@@ -88,5 +88,39 @@ namespace Magitek.Models.BlackMage
         [Setting]
         [DefaultValue(2)]
         public int TransposeIfMovingAndAstralWillExpireMoving { get; set; }
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ToggleFireOrIceCombo { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseParadoxOnFire { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseParadoxOnIce { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSuperFlareOnFire { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseSuperFlareOnIce { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseAetherialManipulation { get; set; }
+
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float UseAetherialManipulationtHealthPercent { get; set; }
+        #endregion
     }
 }

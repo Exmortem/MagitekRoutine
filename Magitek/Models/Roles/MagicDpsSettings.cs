@@ -27,5 +27,13 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRecuperate { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float RecuperateHealthPercent { get; set; }
     }
 }

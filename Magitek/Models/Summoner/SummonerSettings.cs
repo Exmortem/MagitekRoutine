@@ -1,5 +1,6 @@
 using ff14bot.Helpers;
 using Magitek.Enumerations;
+using Magitek.Models.Roles;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
@@ -7,7 +8,7 @@ using System.Configuration;
 namespace Magitek.Models.Summoner
 {
     [AddINotifyPropertyChangedInterface]
-    public class SummonerSettings : JsonSettings, IRoutineSettings
+    public class SummonerSettings : MagicDpsSettings, IRoutineSettings
     {
         public SummonerSettings() : base(CharacterSettingsDirectory + "/Magitek/Summoner/SummonerSettings.json") { }
 
@@ -18,15 +19,15 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool SummonCarbuncle { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool SummonRubyIfrit { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool SummonTopazTitan { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool SummonEmeraldGaruda { get; set; }
@@ -38,7 +39,7 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool Aethercharge { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool DreadwyrmTrance { get; set; }
@@ -66,8 +67,8 @@ namespace Magitek.Models.Summoner
 
         [Setting]
         [DefaultValue(true)]
-        public bool EnergyDrain { get; set; }     
-        
+        public bool EnergyDrain { get; set; }
+
         [Setting]
         [DefaultValue(true)]
         public bool SwiftRubyRite { get; set; }
@@ -79,27 +80,27 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool Outburst { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Ruin4 { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool EnergySiphon { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Painflare { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool EnkindleBahamut { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool EnkindlePhoenix { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool SmartAoe { get; set; }
@@ -111,31 +112,31 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool Deathflare { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Rekindle { get; set; }
-        
+
         [Setting]
         [DefaultValue(80f)]
         public float RekindleHPThreshold { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool CrimsonCyclone { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool CrimsonStrike { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool MountainBuster { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Slipstream { get; set; }
-        
+
         #endregion
 
         #region Buffs
@@ -143,11 +144,11 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool SearingLight { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool RadiantAegis { get; set; }
-        
+
         [Setting]
         [DefaultValue(80f)]
         public float RadiantAegisHPThreshold { get; set; }
@@ -156,11 +157,11 @@ namespace Magitek.Models.Summoner
 
         #region Heals
 
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool Physick { get; set; }
-        
+
         [Setting]
         [DefaultValue(60f)]
         public float PhysickHPThreshold { get; set; }
@@ -168,11 +169,11 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(true)]
         public bool SwiftcastRes { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool SlowcastRes { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool ResOutOfCombat { get; set; }
@@ -200,15 +201,42 @@ namespace Magitek.Models.Summoner
         [Setting]
         [DefaultValue(60.0f)]
         public float LucidDreamingManaPercent { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool ThrottleEgiSummonsWithTTL { get; set; }
-        
+
         [Setting]
         [DefaultValue(false)]
         public bool ThrottleTranceSummonsWithTTL { get; set; }
-        
+
+        #endregion
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedSlipstream { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedMountainBuster { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedCrimsonStrike { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsedRadiantAegis { get; set; }
+
+        [Setting]
+        [DefaultValue(70.0f)]
+        public float UseRadiantAegisHealthPercent { get; set; }
+
         #endregion
     }
 }

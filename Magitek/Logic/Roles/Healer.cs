@@ -137,5 +137,22 @@ namespace Magitek.Logic.Roles
             }
             return false;
         }
+
+        public static async Task<bool> Recuperate<T>(T settings) where T : HealerSettings
+        {
+            if (!settings.UseRecuperate)
+                return false;
+
+            if (!Spells.Recuperate.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > settings.RecuperateHealthPercent)
+                return false;
+
+            return await Spells.Recuperate.Cast(Core.Me);
+        }
     }
 }

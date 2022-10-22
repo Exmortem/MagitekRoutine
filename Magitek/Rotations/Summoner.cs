@@ -2,7 +2,9 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
+using Magitek.Logic.Roles;
 using Magitek.Logic.Summoner;
+using Magitek.Models.BlackMage;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Linq;
@@ -76,6 +78,10 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+
+            if (SummonerSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -110,9 +116,26 @@ namespace Magitek.Rotations
             if (await Aoe.Outburst()) return true;
             return await SingleTarget.Ruin();
         }
-        public static Task<bool> PvP()
+
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+
+            if (!SummonerSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await MagicDps.Recuperate(SummonerSettings.Instance)) return true;
+
+            if (await Pvp.RadiantAegisPvp()) return true;
+
+            if (await Pvp.EnkindleBahamutPvp()) return true;
+            if (await Pvp.EnkindlePhoenixPvp()) return true;
+
+            if (await Pvp.FesterPvp()) return true;
+            if (await Pvp.CrimsonStrikePvp()) return true;
+
+            if (await Pvp.SlipstreamPvp()) return true;
+            if (await Pvp.MountainBusterPvp()) return true;
+            return (await Pvp.RuinIIIPvp());
         }
     }
 }

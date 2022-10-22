@@ -79,5 +79,6 @@ namespace Magitek.Models.Roles
         [DefaultValue(false)]
         public bool ForceLimitBreak { get; set; }
 
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using Magitek.Extensions;
 using System;
 using System.Linq;
 
@@ -10,22 +11,12 @@ namespace Magitek.Utilities.Routines
 
     internal static class BlackMage
     {
-        public static bool CanQuadFlare;
+        public static int AoeEnemies5Yards;
+        public static int AoeEnemies30Yards;
         public static void RefreshVars()
         {
-            var item = InventoryManager.FilledSlots.FirstOrDefault(r => r.RawItemId == Ether
-            || r.RawItemId == HiEther || r.RawItemId == XEther || r.RawItemId == MegaEther
-            || r.RawItemId == SuperEther);
-
-            if (!Core.Me.InCombat || !Core.Me.HasTarget)
-                return;
-
-            if (Spells.Triplecast.Cooldown == TimeSpan.Zero
-                && Spells.ManaFont.Cooldown == TimeSpan.Zero
-                && Spells.Swiftcast.Cooldown == TimeSpan.Zero
-                && item.CanUse(Core.Me))
-                CanQuadFlare = true;
-            CanQuadFlare = false;
+            AoeEnemies5Yards = Combat.Enemies.Count(x => x.WithinSpellRange(5) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
+            AoeEnemies30Yards = Combat.Enemies.Count(x => x.WithinSpellRange(30) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
         }
         public static bool NeedToInterruptCast()
         {

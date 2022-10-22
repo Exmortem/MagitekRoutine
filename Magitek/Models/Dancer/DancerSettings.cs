@@ -216,5 +216,19 @@ namespace Magitek.Models.Dancer
         public int SagPartnerWeight { get; set; }
 
         #endregion
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnabledPVP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseCuringWaltzPvp { get; set; }
+
+        [Setting]
+        [DefaultValue(80f)]
+        public float CuringWaltzHPPvp { get; set; }
+        #endregion
     }
 }
