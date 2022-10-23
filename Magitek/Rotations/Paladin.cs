@@ -96,6 +96,9 @@ namespace Magitek.Rotations
 
                 if (PaladinRoutine.GlobalCooldown.CanWeave())
                 {
+                    //Potion
+                    if (await Buff.UsePotion()) return true;
+
                     //Defensive Buff
                     if (await Defensive.HallowedGround()) return true;
                     if (await Defensive.Sentinel()) return true;

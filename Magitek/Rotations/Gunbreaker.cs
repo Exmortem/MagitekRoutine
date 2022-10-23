@@ -93,6 +93,9 @@ namespace Magitek.Rotations
 
             if (GunbreakerRoutine.GlobalCooldown.CanWeave())
             {
+                //Potion
+                if (await Buff.UsePotion()) return true;
+
                 //Defensive Buff
                 if (await Defensive.Superbolide()) return true;
                 if (await Healing.Aurora()) return true;

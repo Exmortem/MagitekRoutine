@@ -1,6 +1,7 @@
 using Buddy.Coroutines;
 using ff14bot;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
 using System.Linq;
@@ -54,6 +55,14 @@ namespace Magitek.Logic.DarkKnight
                 return false;
 
             return await Spells.Delirium.Cast(Core.Me);
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.LivingShadow.IsKnown() && !Spells.LivingShadow.IsReady(10000))
+                return false;
+
+            return await Tank.UsePotion(DarkKnightSettings.Instance);
         }
     }
 }

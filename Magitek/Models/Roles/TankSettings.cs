@@ -70,5 +70,14 @@ namespace Magitek.Models.Roles
         public bool ForceLimitBreak { get; set; }
         #endregion
 
+        #region potion
+        [Setting]
+        [DefaultValue(false)]
+        public bool UsePotion { get; set; }
+
+        [Setting]
+        [DefaultValue(PotionEnum.None)]
+        public PotionEnum PotionTypeAndGradeLevel { get; set; }
+        #endregion
     }
 }
