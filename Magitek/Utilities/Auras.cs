@@ -329,7 +329,7 @@ namespace Magitek.Utilities
             Weakness = 43,
             ArmysMuse = 1932,
             CircleofScorn = 248;
-
+        
         private const int
             Invincibility0 = 981,
             Invincibility1 = 969,
@@ -348,7 +348,35 @@ namespace Magitek.Utilities
             PvpSynastrySource = 1336,
             PvpSynastryDestination = 1337,
             Abridged = 1335,
-            PvpLightspeed = 1403;
+            PvpLightspeed = 1403,
+            FireResonance = 3170,
+            EarthResonance = 3171,
+            WindResonance = 2007,
+            DrillPrimed = 3150,
+            BioPrimed = 3151,
+            AirAnchorPrimed = 3152,
+            ChainSawPrimed = 3153,
+            Analysis = 3158,
+            Guard = 3054,
+            CureIIIReady = 3083,
+            Mummification = 3091,
+            PvpExpedience = 3092,
+            PvpGalvanize = 3087,
+            DiurnalBenefic = 3099,
+            PvpMacrocosmos = 3104,
+            BalanceDrawn = 3101,
+            BoleDrawn = 3403,
+            ArrowDrawn = 3404,
+            Addersting = 3115,
+            AstralFireIII = 3381,
+            PvpSwiftcast = 1987,
+            PvpMagickBarrier = 3240,
+            WhiteShift = 3245,
+            BlackShift = 3246,
+            VermilionRadiance = 3233,
+            AstralWarmth = 3216,
+            UmbralFreeze = 3217,
+            DeepFreeze = 3219;
 
         #endregion
 

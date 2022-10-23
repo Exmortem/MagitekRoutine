@@ -72,6 +72,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
+            if (BardSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -141,9 +145,18 @@ namespace Magitek.Rotations
 
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+
+            if (!BardSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await PhysicalDps.Recuperate(BardSettings.Instance)) return true;
+
+            if (await Pvp.EmpyrealArrow()) return true;
+            if (await Pvp.BlastArrow()) return true;
+            if (await Pvp.ApexArrow()) return true;
+            return (await Pvp.PowerfulShot());
         }
     }
 }

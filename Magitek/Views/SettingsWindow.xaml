@@ -652,7 +652,7 @@
                         <TabItem Header="General" Style="{DynamicResource MainTabCombat}">
                             <blackMage:General />
                         </TabItem>
-                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                        <TabItem Header="Single Target" Style="{DynamicResource MainTabCombat}">
                             <blackMage:SingleTarget />
                         </TabItem>
                         <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
@@ -660,6 +660,9 @@
                         </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <blackMage:Buffs />
+                        </TabItem>
+                        <TabItem Header="PVP" Style="{DynamicResource MainTabCombat}">
+                            <blackMage:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
@@ -678,7 +681,7 @@
                         <TabItem Header="Home" Style="{DynamicResource MainTabHome}">
                             <customControls:CurrentNews />
                         </TabItem>
-                        <TabItem Header="General " Style="{DynamicResource MainTabCombat}">
+                        <TabItem Header="General" Style="{DynamicResource MainTabCombat}">
                             <summoner:General />
                         </TabItem>
                         <!--
@@ -696,6 +699,9 @@
                             <summoner:Healing />
                         </TabItem>
                         -->
+                        <TabItem Header="PVP" Style="{DynamicResource MainTabCombat}">
+                            <summoner:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
@@ -716,7 +722,7 @@
                         <TabItem Header="Dispels" Style="{DynamicResource MainTabDispelling}">
                             <lists:Dispelling />
                         </TabItem>
-                        <TabItem Header="Single Target " Style="{DynamicResource MainTabCombat}">
+                        <TabItem Header="Single Target" Style="{DynamicResource MainTabCombat}">
                             <redMage:SingleTarget />
                         </TabItem>
                         <TabItem Header="Area Of Effect" Style="{DynamicResource MainTabAoe}">
@@ -727,6 +733,9 @@
                         </TabItem>
                         <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
                             <redMage:Heal />
+                        </TabItem>
+                        <TabItem Header="PVP" Style="{DynamicResource MainTabCombat}">
+                            <redMage:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
@@ -762,6 +771,9 @@
                         </TabItem>
                         <TabItem Header="Utilities " Style="{DynamicResource MainTabCombat}">
                             <machinist:Utilities />
+                        </TabItem>
+                        <TabItem Header="PVP " Style="{DynamicResource MainTabCombat}">
+                            <machinist:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
@@ -804,6 +816,9 @@
                         <TabItem Header="Utilities" Style="{DynamicResource MainTabUtilities}">
                             <bard:Utilities />
                         </TabItem>
+                        <TabItem Header="PVP" Style="{DynamicResource MainTabCombat}">
+                            <bard:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
@@ -838,6 +853,9 @@
                         </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <dancer:Buffs />
+                        </TabItem>
+                        <TabItem Header="PVP" Style="{DynamicResource MainTabCombat}">
+                            <dancer:Pvp />
                         </TabItem>
                         <TabItem Header="Shared Settings" Style="{DynamicResource MainTabSharedSettings}">
                             <customControls:SharedSettings Routine="Dancer" />

@@ -3,6 +3,9 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.RedMage;
+using Magitek.Logic.Roles;
+using Magitek.Models.BlackMage;
+using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
 using System.Threading.Tasks;
@@ -71,6 +74,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
+            if (RedMageSettings.Instance.EnabledPVP)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -87,14 +94,40 @@ namespace Magitek.Rotations
             return await RdmStateMachine.StateMachine.Pulse();
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!RedMageSettings.Instance.EnabledPVP)
+                return await Combat();
+
+            if (await MagicDps.Recuperate(RedMageSettings.Instance)) return true;
+
+            if (await Pvp.DisplacementPvp()) return true;
+
+            if (await Pvp.VerHolyPvp()) return true;
+            if (await Pvp.EnchantedRedoublementWhitePvp()) return true;
+            if (await Pvp.EnchantedZwerchhauWhitePvp()) return true;
+            if (await Pvp.EnchantedRiposteWhitePvp()) return true;
+
+            if (await Pvp.VerFlarePvp()) return true;
+            if (await Pvp.EnchantedRedoublementBlackPvp()) return true;
+            if (await Pvp.EnchantedZwerchhauBlackPvp()) return true;
+            if (await Pvp.EnchantedRiposteBlackPvp()) return true;
+
+            if (await Pvp.CorpsacorpsPvp()) return true;
+
+            if (await Pvp.ResolutionWhitePvp()) return true;
+            if (await Pvp.ResolutionBlackPvp()) return true;
+
+            if (await Pvp.MagickBarrierPvp()) return true;
+            if (await Pvp.FazzlePvp()) return true;
+
+            return (await Pvp.VerstonePvp());
         }
 
         public static void RegisterCombatMessages()
         {
-            CombatMessages.RegisterCombatMessages(RdmStateMachine.StateMachine);
+            if (!RedMageSettings.Instance.EnabledPVP)
+                CombatMessages.RegisterCombatMessages(RdmStateMachine.StateMachine);
         }
     }
 }

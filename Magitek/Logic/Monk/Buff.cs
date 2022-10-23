@@ -144,6 +144,9 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> FormShiftIC()
         {
+            if (!Spells.FormShift.CanCast())
+                return false;
+
             if (Core.Me.HasAura(Auras.PerfectBalance))
                 return false;
 
