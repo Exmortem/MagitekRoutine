@@ -1,5 +1,6 @@
 using ff14bot;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
@@ -49,6 +50,14 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             return await Spells.Bloodfest.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.NoMercy.IsKnown() && !Spells.NoMercy.IsReady(3000))
+                return false;
+
+            return await Tank.UsePotion(GunbreakerSettings.Instance);
         }
     }
 }

@@ -81,6 +81,9 @@ namespace Magitek.Rotations
 
             if (WarriorRoutine.GlobalCooldown.CanWeave())
             {
+                //Potion
+                if (await Buff.UsePotion()) return true;
+
                 //Defensive Buff
                 if (await Defensive.Holmgang()) return true;
                 if (await Healing.Equilibrium()) return true;

@@ -1,6 +1,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
@@ -58,6 +59,14 @@ namespace Magitek.Logic.Paladin
             return await Spells.FightorFlight.Cast(Core.Me);
 
         }
- 
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.FightorFlight.IsKnown() && !Spells.FightorFlight.IsReady(3000))
+                return false;
+
+            return await Tank.UsePotion(PaladinSettings.Instance);
+        }
+
     }
 }

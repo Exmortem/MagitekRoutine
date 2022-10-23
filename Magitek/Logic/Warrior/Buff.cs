@@ -3,6 +3,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using System.Linq;
@@ -123,6 +124,14 @@ namespace Magitek.Logic.Warrior
 
                 return false;
             }
+        }
+
+        public static async Task<bool> UsePotion()
+        {
+            if (Spells.InnerRelease.IsKnown() && !Spells.InnerRelease.IsReady(3000))
+                return false;
+
+            return await Tank.UsePotion(WarriorSettings.Instance);
         }
     }
 }

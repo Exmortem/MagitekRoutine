@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ff14bot.Managers;
 using static ff14bot.Managers.ActionResourceManager.Ninja;
 using Magitek.Logic.Roles;
-using Magitek.Models.Samurai;
 
 namespace Magitek.Logic.Ninja
 {
