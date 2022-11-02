@@ -248,11 +248,11 @@ namespace Magitek.Logic.Samurai
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 6)
                 return false;
-                        
+
             if (Core.Me.CurrentTarget.HasAura(Auras.Higanbana, true, 8000))
                 return false;
 
-            if (Spells.TsubameGaeshi.IsKnownAndReady())
+            if (Spells.KaeshiHiganbana.CanCast() || Spells.KaeshiGoken.CanCast() || Spells.KaeshiSetsugekka.CanCast())
                 return false;
 
             if (SamuraiRoutine.AoeEnemies5Yards >= SamuraiSettings.Instance.AoeEnemies)
