@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              xmlns:enumerations="clr-namespace:Magitek.Enumerations"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             Width="223">
+             Width="340">
 
     <UserControl.DataContext>
         <Binding Source="{x:Static viewModels:MainOverlayViewModel.Instance}" />
@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid  Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Border VerticalAlignment="Top" CornerRadius="5" Padding="10">
+            <Border VerticalAlignment="Top" CornerRadius="5" Padding="5">
                 <Border.Background>
                     <SolidColorBrush Color="#FF101011" Opacity="0.75" />
                 </Border.Background>
@@ -47,7 +47,6 @@
             </Border.Background>
 
             <Grid>
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
@@ -58,10 +57,8 @@
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Active CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActiveCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Use Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                        <CheckBox Content="Reset Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Use Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Reset Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                     </StackPanel>
                     
                     
@@ -83,7 +80,7 @@
                     </StackPanel>
                 </StackPanel>
                 
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding SettingsToggles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding SettingsToggles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />

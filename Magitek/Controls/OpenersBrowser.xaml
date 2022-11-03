@@ -109,32 +109,30 @@
                                                                         <ColumnDefinition />
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
-
+                                                                        <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-
                                                                         <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Success}" Text="{Binding Name}" />
-
                                                                     </StackPanel>
 
-                                                                    <StackPanel Grid.Column="1" Margin="5,0" Orientation="Horizontal">
+                                                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5,0">
+                                                                        <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Success}" Text="{Binding Created}" />
+                                                                    </StackPanel>
 
+                                                                    <StackPanel Grid.Column="2" Margin="5,0" Orientation="Horizontal">
                                                                         <Border Margin="3,0" Padding="3" Background="{DynamicResource Black50}" CornerRadius="4">
                                                                             <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Light}" Text="Zone:" />
                                                                         </Border>
-
                                                                         <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Light}" Text="{Binding Zone}" />
 
                                                                         <Border Margin="10,0,3,0" Padding="3" Background="{DynamicResource Black50}" CornerRadius="4">
                                                                             <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Light}" Text="Gambits:" />
                                                                         </Border>
-
                                                                         <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Light}" Text="{Binding NumberOfActions}" />
-
                                                                     </StackPanel>
 
-                                                                    <CheckBox Grid.Column="2"
+                                                                    <CheckBox Grid.Column="3"
                                                                               Margin="10,0,5,0"
                                                                               HorizontalAlignment="Right"
                                                                               ClickMode="Press"
@@ -148,17 +146,25 @@
                                                                     <Grid.RowDefinitions>
                                                                         <RowDefinition />
                                                                         <RowDefinition />
+                                                                        <RowDefinition />
                                                                     </Grid.RowDefinitions>
-
-                                                                    <TextBlock Name="BorderTextBlock"
+                                                                    <TextBlock Name="BorderTextBlockFile"
                                                                                Grid.Row="0"
+                                                                               Margin="0,5"
+                                                                               FontSize="11"
+                                                                               Foreground="{DynamicResource Light}"
+                                                                               Text="{Binding File}"
+                                                                               TextWrapping="Wrap" />
+                                                                    
+                                                                    <TextBlock Name="BorderTextBlockDate"
+                                                                               Grid.Row="1"
                                                                                Margin="0,5"
                                                                                FontSize="11"
                                                                                Foreground="{DynamicResource Light}"
                                                                                Text="{Binding Description}"
                                                                                TextWrapping="Wrap" />
 
-                                                                    <StackPanel Grid.Row="1" Margin="0,3,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
+                                                                    <StackPanel Grid.Row="2" Margin="0,3,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
 
                                                                         <Button Width="12"
                                                                                 Height="12"
