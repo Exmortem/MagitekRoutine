@@ -50,6 +50,8 @@
             <ListBox Grid.Column="0" Grid.Row="1" Width="150" SelectedIndex="0" SelectedItem="{Binding SelectedToggle, Mode=OneWayToSource}" ItemsSource="{Binding SettingsToggles}" Style="{DynamicResource ListboxNoBorderSearch}" SelectionMode="Single">
                 <ListBox.Resources>
                     <ContextMenu x:Key="ActionsListContextMenu">
+                        <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.MoveToggleUp}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Move Toggle Up" />
+                        <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.MoveToggleDown}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Move Toggle Down" />
                         <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.Instance.RemoveToggleCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedValue}" Header="Remove Toggle" />
                     </ContextMenu>
                 </ListBox.Resources>

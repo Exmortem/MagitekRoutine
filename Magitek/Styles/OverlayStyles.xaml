@@ -88,13 +88,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
 
-                    <Border Name="Background" Margin="2" Width="85" Height="25" CornerRadius="3" Background="#FF282546">
+                    <Border Name="Background" Margin="1" Width="70" Height="25" CornerRadius="3" Background="#FF282546">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Margin="3" Name="DisplayText" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" SnapsToDevicePixels="True" FontSize="9" TextOptions.TextFormattingMode="Display" Foreground="{DynamicResource ClassSelectorBackground}" />
+                            <TextBlock Margin="0" Name="DisplayText" FontSize="9" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" SnapsToDevicePixels="True" TextOptions.TextFormattingMode="Display" Foreground="{DynamicResource ClassSelectorBackground}" />
                         </Grid>
                     </Border>
 

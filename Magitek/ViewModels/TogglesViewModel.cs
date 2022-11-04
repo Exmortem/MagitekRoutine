@@ -95,6 +95,32 @@ namespace Magitek.ViewModels
                 Logger.Error($@"[Toggles] Failed to Remove Toggle [{settingsToggle.ToggleText}]");
         });
 
+        public ICommand MoveToggleUp=> new DelegateCommand<SettingsToggle>(settingsToggle =>
+        {
+            if (settingsToggle == null)
+                return;
+
+            var position = SettingsToggles.IndexOf(settingsToggle);
+
+            if (position == 0)
+                return;
+
+            SettingsToggles.Move(position, position - 1);
+        });
+
+        public ICommand MoveToggleDown => new DelegateCommand<SettingsToggle>(settingsToggle =>
+        {
+            if (settingsToggle == null)
+                return;
+
+            var position = SettingsToggles.IndexOf(settingsToggle);
+
+            if (position == SettingsToggles.Count - 1)
+                return;
+
+            SettingsToggles.Move(position, position + 1);
+        });
+
         public ICommand RegisterTogglesCommand => new DelegateCommand(RegisterToggles);
 
         public void RegisterToggles()
