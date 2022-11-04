@@ -146,16 +146,7 @@
                                                                     <Grid.RowDefinitions>
                                                                         <RowDefinition />
                                                                         <RowDefinition />
-                                                                        <RowDefinition />
                                                                     </Grid.RowDefinitions>
-                                                                    <TextBlock Name="BorderTextBlockFile"
-                                                                               Grid.Row="0"
-                                                                               Margin="0,5"
-                                                                               FontSize="11"
-                                                                               Foreground="{DynamicResource Light}"
-                                                                               Text="{Binding File}"
-                                                                               TextWrapping="Wrap" />
-                                                                    
                                                                     <TextBlock Name="BorderTextBlockDate"
                                                                                Grid.Row="1"
                                                                                Margin="0,5"
