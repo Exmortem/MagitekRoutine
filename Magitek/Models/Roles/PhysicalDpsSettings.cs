@@ -41,14 +41,6 @@ namespace Magitek.Models.Roles
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseRecuperate { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float RecuperateHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseEnliven { get; set; }
 
         [Setting]
@@ -79,6 +71,27 @@ namespace Magitek.Models.Roles
         [DefaultValue(false)]
         public bool ForceLimitBreak { get; set; }
 
+        #region pvp
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRecuperate { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float RecuperateHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePurify { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseGuard { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float GuardHealthPercent { get; set; }
+        #endregion
 
     }
 }

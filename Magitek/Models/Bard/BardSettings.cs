@@ -320,10 +320,6 @@ namespace Magitek.Models.Bard
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseEmpyrealArrowPVP { get; set; }
 

@@ -214,10 +214,6 @@ namespace Magitek.Models.Summoner
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UsedSlipstream { get; set; }
 

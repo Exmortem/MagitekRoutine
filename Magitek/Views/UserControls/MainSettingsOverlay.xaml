@@ -54,9 +54,10 @@
                 <WrapPanel>
                     <WrapPanel Orientation="Horizontal">
                         <CheckBox Content="Active CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActiveCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                        <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Enable PVP CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActivePvpCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Use Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Reset Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                     </WrapPanel>
 
                     <WrapPanel Orientation="Horizontal">

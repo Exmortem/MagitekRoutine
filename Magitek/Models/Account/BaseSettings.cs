@@ -1,6 +1,5 @@
 ﻿using ff14bot.Enums;
 using ff14bot.Helpers;
-using Magitek.Enumerations;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,6 +14,7 @@ namespace Magitek.Models.Account
         public BaseSettings() : base(CharacterSettingsDirectory + "/Magitek/BaseSettings.json") { }
 
         private static BaseSettings _instance;
+
         public static BaseSettings Instance => _instance ?? (_instance = new BaseSettings());
 
         private const double DefaultOverlayPosX = 60;
@@ -86,6 +86,7 @@ namespace Magitek.Models.Account
         [DefaultValue(false)]
         public bool SettingsWindowTopMost { get; set; }
 
+        #region Debug
         [Setting]
         [DefaultValue(false)]
         public bool DebugPlayerCasting { get; set; }
@@ -137,7 +138,9 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool DebugFightLogicFound { get; set; }
+        #endregion
 
+        #region Overlay
         [Setting]
         [DefaultValue(DefaultOverlayPosX)]
         public double OverlayPosX { get; set; }
@@ -147,20 +150,12 @@ namespace Magitek.Models.Account
         public double OverlayPosY { get; set; }
 
         [Setting]
-        [DefaultValue(140)]
-        public double OverlayHeight { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseOverlay { get; set; }
 
         [Setting]
         [DefaultValue(176)]
         public int OverlayWidth { get; set; }
-
-        [Setting]
-        [DefaultValue(0.8)]
-        public double OverlayOpacity { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -205,6 +200,7 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(DefaultCombatMessageOverlayHeight)]
         public double CombatMessageOverlayHeight { get; set; }
+        #endregion
 
         [Setting]
         [DefaultValue(false)]
@@ -218,6 +214,7 @@ namespace Magitek.Models.Account
         [DefaultValue(false)]
         public bool UseAutoFaceChecks { get; set; }
 
+        #region chocobo
         [Setting]
         [DefaultValue(true)]
         public bool SummonChocobo { get; set; }
@@ -233,7 +230,9 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(CompanionStance.Free)]
         public CompanionStance ChocoboStance { get; set; }
+        #endregion
 
+        #region General Settings
         [Setting]
         [DefaultValue(0)]
         public int UserLatencyOffset { get; set; }
@@ -241,6 +240,11 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(true)]
         public bool ActiveCombatRoutine { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ActivePvpCombatRoutine { get; set; }
+        #endregion
 
         [Setting]
         [DefaultValue(false)]

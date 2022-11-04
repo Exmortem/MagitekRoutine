@@ -219,10 +219,6 @@ namespace Magitek.Models.Dancer
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseCuringWaltzPvp { get; set; }
 

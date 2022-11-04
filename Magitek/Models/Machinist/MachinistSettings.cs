@@ -130,10 +130,6 @@ namespace Magitek.Models.Machinist
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UsedAnalysisOnDrill { get; set; }
 
@@ -148,6 +144,10 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool UsedAnalysisOnChainSaw { get; set; }
-        #endregion
-    }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseMarksmansSpite { get; set; }
+    #endregion
+}
 }

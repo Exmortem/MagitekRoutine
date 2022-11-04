@@ -11,7 +11,6 @@ using Magitek.Utilities.CombatMessages;
 using MonkRoutine = Magitek.Utilities.Routines.Monk;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Machinist;
 
 namespace Magitek.Rotations
 {
@@ -65,7 +64,7 @@ namespace Magitek.Rotations
         public static async Task<bool> Combat()
         {
 
-            if (MonkSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
 
@@ -183,7 +182,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PvP()
         {
-            if (!MonkSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             if (await PhysicalDps.Recuperate(MonkSettings.Instance)) return true;

@@ -172,5 +172,36 @@ namespace Magitek.Logic.Roles
 
             return await Spells.Recuperate.Cast(Core.Me);
         }
+
+        public static async Task<bool> Purify<T>(T settings) where T : PhysicalDpsSettings
+        {
+            if (!settings.UsePurify)
+                return false;
+
+            if (!Spells.Purify.CanCast())
+                return false;
+
+            if (!Core.Me.HasAura("Stun") && !Core.Me.HasAura("Heavy") && !Core.Me.HasAura("Bind") && !Core.Me.HasAura("Silence") && !Core.Me.HasAura("Half-asleep") && !Core.Me.HasAura("Sleep") && !Core.Me.HasAura("Deep Freeze"))
+                return false;
+
+            return await Spells.Purify.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Guard<T>(T settings) where T : PhysicalDpsSettings
+        {
+            if (!settings.UseGuard)
+                return false;
+
+            if (!Spells.Guard.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > settings.GuardHealthPercent)
+                return false;
+
+            return await Spells.Guard.Cast(Core.Me);
+        }
     }
 }
