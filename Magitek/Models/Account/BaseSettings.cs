@@ -1,5 +1,6 @@
 ﻿using ff14bot.Enums;
 using ff14bot.Helpers;
+using Magitek.Enumerations;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
@@ -154,8 +155,8 @@ namespace Magitek.Models.Account
         public bool UseOverlay { get; set; }
 
         [Setting]
-        [DefaultValue(150)]
-        public double OverlayWidth { get; set; }
+        [DefaultValue(176)]
+        public int OverlayWidth { get; set; }
 
         [Setting]
         [DefaultValue(0.8)]
