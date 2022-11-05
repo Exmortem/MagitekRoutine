@@ -148,7 +148,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PvP()
         {
-
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 

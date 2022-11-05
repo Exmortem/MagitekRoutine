@@ -95,7 +95,7 @@ namespace Magitek.Logic
             {
                 if (!await Coroutine.Wait(TimeSpan.FromMilliseconds(_executingGambit.MaxTimeToWaitForCondition), CheckConditions))
                 {
-                    Logger.WriteInfo($@"Opener [{_executingOpener.Name}] Conditions False For Action [{_executingGambit.Order}] [{_executingGambit.Title}]");
+                    Logger.WriteWarning($@"Opener [{_executingOpener.Name}] Conditions False For Action [{_executingGambit.Order}] [{_executingGambit.Title}]");
                     _executingGambit = null;
 
                     if (_currentOpenerQueue.Any())
@@ -105,6 +105,23 @@ namespace Magitek.Logic
                     InOpener = false;
                     return true;
                 }
+            }
+
+            #endregion
+
+            #region Check Enable/Disable
+
+            if (!_executingGambit.IsEnabled)
+            {
+                Logger.WriteWarning($@"Opener [{_executingOpener.Name}] Action [{_executingGambit.Order}][{_executingGambit.Title}] Disabled");
+                _executingGambit = null;
+                
+                if (_currentOpenerQueue.Any())
+                    return true;
+
+                Logger.WriteInfo($@"Finished Opener [{_executingOpener.Name}]");
+                InOpener = false;
+                return true;
             }
 
             #endregion

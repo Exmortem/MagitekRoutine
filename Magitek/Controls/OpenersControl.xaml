@@ -139,6 +139,7 @@
 
                                                             <TextBox Grid.Column="2"
                                                                      VerticalAlignment="Top"
+                                                                     IsReadOnly="True"
                                                                      CaretBrush="White"
                                                                      FontSize="11"
                                                                      Foreground="{DynamicResource Light}"
@@ -1572,6 +1573,7 @@
                                                                             <ColumnDefinition Width="38" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition />
+                                                                            <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                         </Grid.ColumnDefinitions>
@@ -3131,10 +3133,17 @@
                                                                             </StackPanel>
                                                                         </ComboBox>
 
+                                                                        <!--  Gambit Enabled/Disabled  -->
+                                                                        <CheckBox Grid.Row="1" 
+                                                                                  Grid.Column="8" 
+                                                                                  Content="" 
+                                                                                  HorizontalAlignment="Right"
+                                                                                  IsChecked="{Binding IsEnabled, Mode=TwoWay}" 
+                                                                                  Style="{DynamicResource CheckBoxFlat}" />
+                                                                        
                                                                         <!--  Gambit Extra Settings Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="8" Margin="3,0,0,0" HorizontalAlignment="Right" Style="{DynamicResource ComboBoxGambitAdditionalSettings}">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="9" Margin="3,0,0,0" HorizontalAlignment="Right" Style="{DynamicResource ComboBoxGambitAdditionalSettings}">
                                                                             <StackPanel Margin="3">
-
                                                                                 <!--  Remove Gambit  -->
                                                                                 <Button Margin="0,10,0,0"
                                                                                         HorizontalAlignment="Left"
@@ -3142,9 +3151,9 @@
                                                                                         CommandParameter="{Binding}"
                                                                                         Content="DELETE ACTION"
                                                                                         Style="{DynamicResource ButtonGambitAddCondition}" />
+
                                                                             </StackPanel>
                                                                         </ComboBox>
-
                                                                     </Grid>
                                                                 </DataTemplate>
                                                             </ItemsControl.ItemTemplate>
