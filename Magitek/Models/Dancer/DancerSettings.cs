@@ -220,11 +220,27 @@ namespace Magitek.Models.Dancer
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool UseCuringWaltzPvp { get; set; }
+        public bool Pvp_UseCuringWaltz { get; set; }
 
         [Setting]
-        [DefaultValue(80f)]
-        public float CuringWaltzHPPvp { get; set; }
+        [DefaultValue(60f)]
+        public float Pvp_CuringWaltzHP { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseContradance { get; set; }
+        
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_ContradanceMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseHoningDance { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int Pvp_HoningDanceMinimumEnemies { get; set; }
         #endregion
     }
 }

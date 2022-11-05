@@ -89,6 +89,23 @@ namespace Magitek.Logic
                 GambitTimer.Restart();
             }
 
+            #region Check Enable/Disable
+
+            if (!_executingGambit.IsEnabled)
+            {
+                Logger.WriteWarning($@"Opener [{_executingOpener.Name}] Action [{_executingGambit.Order}][{_executingGambit.Title}] Disabled");
+                _executingGambit = null;
+
+                if (_currentOpenerQueue.Any())
+                    return true;
+
+                Logger.WriteInfo($@"Finished Opener [{_executingOpener.Name}]");
+                InOpener = false;
+                return true;
+            }
+
+            #endregion
+
             #region Check Conditions
 
             if (_executingGambit.Conditions.Any())
@@ -109,22 +126,7 @@ namespace Magitek.Logic
 
             #endregion
 
-            #region Check Enable/Disable
-
-            if (!_executingGambit.IsEnabled)
-            {
-                Logger.WriteWarning($@"Opener [{_executingOpener.Name}] Action [{_executingGambit.Order}][{_executingGambit.Title}] Disabled");
-                _executingGambit = null;
-                
-                if (_currentOpenerQueue.Any())
-                    return true;
-
-                Logger.WriteInfo($@"Finished Opener [{_executingOpener.Name}]");
-                InOpener = false;
-                return true;
-            }
-
-            #endregion
+            
 
             #region Execute the gambit
 

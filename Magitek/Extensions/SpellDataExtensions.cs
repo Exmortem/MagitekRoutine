@@ -17,6 +17,67 @@ namespace Magitek.Extensions
 {
     internal static class SpellDataExtensions
     {
+        #region PvpCombo
+        public static async Task<bool> CastPvpCombo(this SpellData spell, uint spellPvpCombo, GameObject target, [CallerMemberName] string caller = null, [CallerLineNumber] int sourceLineNumber = 0, [CallerFilePath] string sourceFilePath = null)
+        {
+            if (BaseSettings.Instance.DebugCastingCallerMemberName)
+            {
+                Logger.WriteInfo($@"[Cast Pvp Combo] [{sourceLineNumber}] {caller}");
+
+                if (BaseSettings.Instance.DebugCastingCallerMemberNameIncludePath)
+                {
+                    Logger.WriteInfo($@"[Path] {sourceFilePath}");
+                }
+            }
+
+            if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
+                GameSettingsManager.FaceTargetOnAction = true;
+
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+                Core.Me.Face(target);
+
+            return await DoPvPCombo(spell, spellPvpCombo, target);
+        }
+
+        private static async Task<bool> DoPvPCombo(SpellData spell, uint pvpComboId, GameObject target)
+        {
+            if (target == null)
+                return false;
+
+            if (target.Distance() > spell.Range)
+                return false;
+
+            if (ActionManager.GetPvPComboCurrentActionId(pvpComboId) != spell.Id)
+                return false;
+
+            if (!ActionManager.DoPvPCombo(pvpComboId, target))
+                return false;
+
+            Logger.WriteCastExecuted($@"Cast PVP Combo: [{pvpComboId}] {spell}");
+
+            if (spell.AdjustedCastTime != TimeSpan.Zero)
+            {
+                if (!await Coroutine.Wait(3000, () => Core.Me.IsCasting))
+                    return false;
+            }
+
+            Casting.CastingSpell = spell;
+            Casting.SpellCastTime = spell.AdjustedCastTime;
+            Casting.CastingHeal = false;
+            Casting.SpellTarget = target;
+            Casting.CastingTime.Restart();
+
+            if (!BaseSettings.Instance.DebugPlayerCasting)
+                return true;
+
+            Debug.Instance.CastingSpell = spell;
+            Debug.Instance.CastingHeal = false;
+            Debug.Instance.SpellTarget = target;
+
+            return true;
+        }
+        #endregion
+
         public static async Task<bool> Cast(this SpellData spell, GameObject target, [CallerMemberName] string caller = null, [CallerLineNumber] int sourceLineNumber = 0, [CallerFilePath] string sourceFilePath = null)
         {
             if (BaseSettings.Instance.DebugCastingCallerMemberName)
@@ -178,7 +239,7 @@ namespace Magitek.Extensions
                     return false;
             }
 
-            Logger.WriteCast($@"Cast: {spell}");
+            Logger.WriteCastExecuted($@"Cast: {spell}");
 
             if (spell.AdjustedCastTime != TimeSpan.Zero)
             {
@@ -220,7 +281,7 @@ namespace Magitek.Extensions
             if (!ActionManager.DoAction(spell, target))
                 return false;
 
-            Logger.WriteCast($@"Cast: {spell}");
+            Logger.WriteCastExecuted($@"Cast: {spell}");
 
             if (spell.AdjustedCastTime != TimeSpan.Zero)
             {

@@ -150,13 +150,29 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            if (await PhysicalDps.Recuperate(DancerSettings.Instance)) return true;
-            if (await Pvp.CuringWaltzPvp()) return true;
+            if (!Core.Me.HasTarget)
+                return false;
 
+            // Utilities
+            if (await PhysicalDps.Guard(DancerSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(DancerSettings.Instance)) return true;
+            if (await PhysicalDps.Recuperate(DancerSettings.Instance)) return true;
+            if (await Pvp.CuringWaltz()) return true;
+
+            //LB
+            if (await Pvp.Contradance()) return true;
+
+            //oGCD
+            if (await Pvp.HoningDance()) return true;
             if (await Pvp.FanDance()) return true;
             if (await Pvp.StarfallDance()) return true;
+
+            //Combo
+            if (await Pvp.SaberDance()) return true;
+            if (await Pvp.FountainFall()) return true;
+            if (await Pvp.ReverseCascade()) return true;
             if (await Pvp.Fountain()) return true;
-            return (await Pvp.Cascade());
+            return await Pvp.Cascade();
 
         }
     }

@@ -131,23 +131,23 @@ namespace Magitek.Models.Machinist
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool UsedAnalysisOnDrill { get; set; }
+        public bool Pvp_UsedAnalysisOnDrill { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedAnalysisOnBio { get; set; }
+        public bool Pvp_UsedAnalysisOnBio { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedAnalysisOnAA { get; set; }
+        public bool Pvp_UsedAnalysisOnAA { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedAnalysisOnChainSaw { get; set; }
+        public bool Pvp_UsedAnalysisOnChainSaw { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseMarksmansSpite { get; set; }
+        public bool Pvp_UseMarksmansSpite { get; set; }
     #endregion
 }
 }

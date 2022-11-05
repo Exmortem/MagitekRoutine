@@ -74,23 +74,23 @@ namespace Magitek.Models.Roles
         #region pvp
         [Setting]
         [DefaultValue(true)]
-        public bool UseRecuperate { get; set; }
+        public bool Pvp_UseRecuperate { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
-        public float RecuperateHealthPercent { get; set; }
+        public float Pvp_RecuperateHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsePurify { get; set; }
+        public bool Pvp_UsePurify { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseGuard { get; set; }
+        public bool Pvp_UseGuard { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
-        public float GuardHealthPercent { get; set; }
+        public float Pvp_GuardHealthPercent { get; set; }
         #endregion
 
     }
