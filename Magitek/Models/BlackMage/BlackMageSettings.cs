@@ -91,10 +91,6 @@ namespace Magitek.Models.BlackMage
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool ToggleFireOrIceCombo { get; set; }
 

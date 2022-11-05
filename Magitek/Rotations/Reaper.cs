@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Reaper;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
@@ -82,6 +83,8 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (Core.Me.IsCasting)
                 return true;
@@ -91,7 +94,7 @@ namespace Magitek.Rotations
 
             await Casting.CheckForSuccessfulCast();
 
-            Utilities.Routines.Reaper.RefreshVars();
+            ReaperRoutine.RefreshVars();
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
             {
@@ -167,9 +170,12 @@ namespace Magitek.Rotations
             return false;
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
 
         public static void RegisterCombatMessages()

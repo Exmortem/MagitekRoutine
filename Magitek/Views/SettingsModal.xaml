@@ -36,49 +36,54 @@
 
         <Border Padding="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Background}" CornerRadius="5">
             <StackPanel>
-
-                <StackPanel Width="400">
-
+                <StackPanel Width="500">
+                    <!-- General Settings -->
                     <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
                         <StackPanel Margin="5">
+                            <TextBlock Margin="5" Style="{DynamicResource TextBlockSection}" Text="General Settings" />
+                            <StackPanel Margin="2" Orientation="Horizontal">
+                                <CheckBox Content="Activate Combat Routine          " IsChecked="{Binding GeneralSettings.ActiveCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                                <CheckBox Content="Activate PVP Routine (only for PVP !!)" IsChecked="{Binding GeneralSettings.ActivePvpCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                            </StackPanel>
+                            <StackPanel Margin="2" Orientation="Horizontal">
+                                <CheckBox Content="Lift Zoom Restrictions" IsChecked="{Binding GeneralSettings.ZoomHack, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                            </StackPanel>
+                            <StackPanel Margin="2" Orientation="Horizontal">
+                                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Latency Offset (Ping):  " />
+                                <controls:Numeric MaxValue="5000" MinValue="0" Value="{Binding GeneralSettings.UserLatencyOffset, Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </controls:SettingsBlock>
+                    
+                    <!-- Overlay Settings -->
+                    <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+                        <StackPanel Margin="5">
+                            <TextBlock Margin="5" Style="{DynamicResource TextBlockSection}" Text="Overlay Settings" />
                             <CheckBox Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
                             <StackPanel Margin="20,4,0,0" Orientation="Horizontal">
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Settings Overlay Size:   " />
                                 <Slider Width="200" Maximum="392" Minimum="176" IsSnapToTickEnabled="True" TickFrequency="72" Value="{Binding GeneralSettings.OverlayWidth, Mode=TwoWay}" />
                             </StackPanel>
-                            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                            <StackPanel Margin="0,5,0,10" Orientation="Horizontal">
                                 <CheckBox Margin ="0,0,15,0" Content="Use The Combat Message Overlay" IsChecked="{Binding GeneralSettings.UseCombatMessageOverlay, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" />
                                 <CheckBox Content="Make Adjustable" IsChecked="{Binding GeneralSettings.CombatMessageOverlayAdjustable, Mode=TwoWay}" Command="{Binding RestartCombatMessageOverlay}" Style="{DynamicResource CheckBoxFlat}" ToolTip="Check to move and resize the combat message overlay. Uncheck when done." ToolTipService.ShowDuration="5000" ToolTipService.InitialShowDelay="0"/>
                             </StackPanel>
-                            <Button Style="{DynamicResource ButtonLists}" Margin="0,10,0,0" Content="Reset Overlay Positions" Padding="0,2" Command="{Binding ResetOverlayPositions}" />
-                        </StackPanel>
-                    </controls:SettingsBlock>
-
-                    <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-                        <StackPanel Margin="5">
-
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Font Size: " />
                                 <ComboBox Width="60" ItemsSource="{Binding FontSizes}" SelectedValue="{Binding GeneralSettings.FontSize, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                             </StackPanel>
-
+                            <Button Style="{DynamicResource ButtonLists}" Margin="0,10,0,0" Content="Reset Overlay Positions" Padding="0,2" Command="{Binding ResetOverlayPositions}" />
                         </StackPanel>
                     </controls:SettingsBlock>
-
-                    <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-                        <StackPanel Margin="5">
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="Lift Zoom Restrictions" IsChecked="{Binding GeneralSettings.ZoomHack, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </controls:SettingsBlock>
-
+                    
+                    <!-- Chocobo Settings -->
                     <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
                         <StackPanel Margin="5">
+                            <TextBlock Margin="5" Style="{DynamicResource TextBlockSection}" Text="Chocobo Settings" />
                             <CheckBox Content="Summon Chocobo" IsChecked="{Binding GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox Margin="0,3" Content="Switch To Healer Stance" IsChecked="{Binding GeneralSettings.ChocoboStanceDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                                <CheckBox Margin="0,3" Content="Chocobo Switch To Healer Stance" IsChecked="{Binding GeneralSettings.ChocoboStanceDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" When Below " />
                                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding GeneralSettings.ChocoboStanceDanceHealthPercent, Mode=TwoWay}" />
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent  " />
@@ -88,12 +93,6 @@
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Chocobo Stance:  " />
                                 <ComboBox Width="130" ItemsSource="{Binding Source={StaticResource ChocoboStances}}" SelectedValue="{Binding GeneralSettings.ChocoboStance, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                             </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Latency Offset (Ping):  " />
-                                <controls:Numeric MaxValue="5000" MinValue="0" Value="{Binding GeneralSettings.UserLatencyOffset, Mode=TwoWay}" />
-                            </StackPanel>
-
                         </StackPanel>
                     </controls:SettingsBlock>
 

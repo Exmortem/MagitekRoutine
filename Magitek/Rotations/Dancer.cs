@@ -4,12 +4,12 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Dancer;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
 using DancerRoutine = Magitek.Utilities.Routines.Dancer;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Bard;
 
 namespace Magitek.Rotations
 {
@@ -78,7 +78,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (DancerSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -147,7 +147,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PvP()
         {
-            if (!DancerSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             if (await PhysicalDps.Recuperate(DancerSettings.Instance)) return true;

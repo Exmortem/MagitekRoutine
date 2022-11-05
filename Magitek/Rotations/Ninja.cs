@@ -4,12 +4,12 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Ninja;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Monk;
 
 namespace Magitek.Rotations
 {
@@ -75,9 +75,11 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
-            Utilities.Routines.Ninja.RefreshVars();
-            //Logger.Write("Ninki:" + Utilities.Routines.Ninja.ninki);
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
+            Utilities.Routines.Ninja.RefreshVars();
+            
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -161,9 +163,12 @@ namespace Magitek.Rotations
             if (await SingleTarget.GustSlash()) return true;
             return await SingleTarget.SpinningEdge();
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
 
         public static bool NinjutsuCheck()

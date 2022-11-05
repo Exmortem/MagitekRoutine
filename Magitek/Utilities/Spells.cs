@@ -1028,12 +1028,15 @@ namespace Magitek.Utilities
 
         //MCH
         public static readonly SpellData BlastChargePvp = DataManager.GetSpellData(29402);
+        public static readonly SpellData HeatBlastPvp = DataManager.GetSpellData(29403);
         public static readonly SpellData DrillPvp = DataManager.GetSpellData(29405);
         public static readonly SpellData BioblasterPvp = DataManager.GetSpellData(29406);
         public static readonly SpellData AirAnchorPvp = DataManager.GetSpellData(29407);
         public static readonly SpellData ChainSawPvp = DataManager.GetSpellData(29408);
         public static readonly SpellData WildfirePvp = DataManager.GetSpellData(29409);
+        public static readonly SpellData BishopAutoturretPvp = DataManager.GetSpellData(29412);
         public static readonly SpellData AnalysisPvp = DataManager.GetSpellData(29414);
+        public static readonly SpellData MarksmansSpitePvp = DataManager.GetSpellData(29415);
 
         //DNC
         public static readonly SpellData CascadePvp = DataManager.GetSpellData(29416);

@@ -4,10 +4,9 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Summoner;
-using Magitek.Models.BlackMage;
+using Magitek.Models.Account;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Rotations
@@ -78,8 +77,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
-
-            if (SummonerSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -120,7 +118,7 @@ namespace Magitek.Rotations
         public static async Task<bool> PvP()
         {
 
-            if (!SummonerSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             if (await MagicDps.Recuperate(SummonerSettings.Instance)) return true;

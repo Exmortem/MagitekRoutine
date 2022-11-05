@@ -20,6 +20,11 @@ namespace Magitek.Utilities
         public static void WriteInfo(string text, params object[] args)
         {
             Logging.Write(Colors.Gold, $@"[Magitek] {text}", args);
+        }
+
+        public static void WriteWarning(string text, params object[] args)
+        {
+            Logging.Write(Colors.DarkOrange, $@"[Magitek] {text}", args);
 
         }
 

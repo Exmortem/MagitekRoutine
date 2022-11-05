@@ -32,20 +32,20 @@
                     <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource SamuraiFillerStrategy}}" SelectedValue="{Binding SamuraiSettings.SamuraiFillerStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,5,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.15/2.14 => 2 GCD Filler" />
+                    <TextBlock Margin="10,5,0,0" Style="{DynamicResource TextBlockInfo}" Text="GCD with Shifu: 2.15/2.14 => 2 GCD Filler" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.08/2.07/2.06 => 3 GCD Filler" />
+                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockInfo}" Text="GCD with Shifu: 2.08/2.07/2.06 => 3 GCD Filler" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockDefault}" Text="GCD with Shifu: 2.01/2.00/1.99 => 4 GCD Filler" />
+                    <TextBlock Margin="10,0,0,0" Style="{DynamicResource TextBlockInfo}" Text="GCD with Shifu: 2.01/2.00/1.99 => 4 GCD Filler" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,0,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="oGCD - Using kenki" />
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="oGCD - Using kenki" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Hissatsu Gyoten (Dash forward)" IsChecked="{Binding SamuraiSettings.UseHissatsuGyoten, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
@@ -58,13 +58,13 @@
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Hissatsu Senei" IsChecked="{Binding SamuraiSettings.UseHissatsuSenei, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                
-                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="oGCD - Using meditation" />
+
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockSection}" Text="oGCD - Using meditation" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Shoha" IsChecked="{Binding SamuraiSettings.UseShoha, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                
-                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - TsubameGaeshi" />
+
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockSection}" Text="GCD - TsubameGaeshi" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Kaeshi Higanbana" IsChecked="{Binding SamuraiSettings.UseKaeshiHiganbana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
@@ -72,15 +72,15 @@
                     <CheckBox Content="Kaeshi Setsugekka" IsChecked="{Binding SamuraiSettings.UseKaeshiSetsugekka, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - Iaijutsu" />
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockSection}" Text="GCD - Iaijutsu" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Higabana" IsChecked="{Binding SamuraiSettings.UseHigabana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Higabana" IsChecked="{Binding SamuraiSettings.UseHiganbana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Midare Setsugekka" IsChecked="{Binding SamuraiSettings.UseMidareSetsugekka, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
-                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockDefault}" Text="GCD - Other" />
+                <TextBlock Margin="0 8 0 0" Style="{DynamicResource TextBlockSection}" Text="GCD - Other" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Enpi (when not in range)" IsChecked="{Binding SamuraiSettings.UseEnpi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
@@ -93,7 +93,6 @@
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Reserve " />
                     <controls:Numeric MaxValue="100" MinValue="0" Value="{Binding SamuraiSettings.ReservedKenki, Mode=TwoWay}" />
                     <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Kenki for Manual Spells (Gyoten/Yaten)" />
-
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

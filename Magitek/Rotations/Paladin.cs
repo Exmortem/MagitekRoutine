@@ -3,7 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Paladin;
-using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
@@ -70,13 +70,13 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -151,9 +151,12 @@ namespace Magitek.Rotations
                 return false;
             }
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
     }
 }

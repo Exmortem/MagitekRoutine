@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Samurai;
+using Magitek.Models.Account;
 using Magitek.Models.Samurai;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
@@ -57,6 +58,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             SamuraiRoutine.RefreshVars();
 
             if (BotManager.Current.IsAutonomous)
@@ -179,9 +183,12 @@ namespace Magitek.Rotations
                                                     || (Core.Me.HasAura(Auras.MeikyoShisui) && ActionManager.LastSpell == Spells.Gekko))));
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if(!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
     }
 }

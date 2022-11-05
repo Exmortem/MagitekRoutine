@@ -1,5 +1,4 @@
 ﻿using ff14bot;
-using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
@@ -19,6 +18,14 @@ namespace Magitek.Logic.Machinist
             return await Spells.BlastChargePvp.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> HeatBlast()
+        {
+            if (!Spells.BlastChargePvp.CanCast())
+                return false;
+
+            return await Spells.HeatBlastPvp.Cast(Core.Me.CurrentTarget);
+        }
+
         public static async Task<bool> WildFire()
         {
             if(!Spells.WildfirePvp.CanCast())
@@ -36,7 +43,7 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (!MachinistSettings.Instance.UsedAnalysisOnDrill && Core.Me.HasAura(Auras.DrillPrimed))
-                   return false;
+                return false;
 
             if (!MachinistSettings.Instance.UsedAnalysisOnBio && Core.Me.HasAura(Auras.BioPrimed))
                 return false;
@@ -81,5 +88,26 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.ChainSawPvp.Cast(Core.Me.CurrentTarget);
         }
+
+        public static async Task<bool> BishopAutoturret()
+        {
+            if (!Spells.BishopAutoturretPvp.CanCast())
+                return false;
+
+            return await Spells.BishopAutoturretPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> MarksmansSpite()
+        {
+            if (!MachinistSettings.Instance.UseMarksmansSpite)
+                return false;
+
+            if (!Spells.MarksmansSpitePvp.CanCast())
+                return false;
+
+            return await Spells.MarksmansSpitePvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        
     }
 }

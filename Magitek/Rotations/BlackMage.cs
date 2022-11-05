@@ -4,9 +4,9 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.BlackMage;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackMageRoutine = Magitek.Utilities.Routines.BlackMage;
@@ -92,7 +92,7 @@ namespace Magitek.Rotations
         public static async Task<bool> Combat()
         {
 
-            if (BlackMageSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -151,7 +151,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> PvP()
         {
-            if (!BlackMageSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             BlackMageRoutine.RefreshVars();

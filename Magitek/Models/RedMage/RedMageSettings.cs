@@ -184,10 +184,6 @@ namespace Magitek.Models.RedMage
 
         #region PVP
         [Setting]
-        [DefaultValue(false)]
-        public bool EnabledPVP { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool CorpsacorpsPvp { get; set; }
 

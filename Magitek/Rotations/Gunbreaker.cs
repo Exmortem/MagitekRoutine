@@ -58,22 +58,20 @@ namespace Magitek.Rotations
             return await Healing.Aurora();
         }
 
-        public static async Task<bool> CombatBuff()
+        public static Task<bool> CombatBuff()
         {
-            if (await Buff.RoyalGuard()) return true;
-            else return false;
+            return Task.FromResult(false);
         }
 
         public static async Task<bool> Combat()
         {
-            await CombatBuff();
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -89,6 +87,7 @@ namespace Magitek.Rotations
             if (Defensive.ForceLimitBreak()) return true;
 
             //Utility
+            if (await Buff.RoyalGuard()) return true;
             if (await Tank.Interrupt(GunbreakerSettings.Instance)) return true;
 
             if (GunbreakerRoutine.GlobalCooldown.CanWeave())
@@ -154,9 +153,12 @@ namespace Magitek.Rotations
 
             return await SingleTarget.KeenEdge();
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
     }
 }

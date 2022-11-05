@@ -50,13 +50,13 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (await CustomOpenerLogic.Opener())
@@ -104,7 +104,14 @@ namespace Magitek.Rotations
 
             return false;
         }
-        public static Task<bool> PvP() => Task.FromResult(false);
+        public static async Task<bool> PvP()
+        {
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
+        }
+
         public static Task<bool> Rest() => Task.FromResult(false);
         public static Task<bool> CombatBuff() => Task.FromResult(false);
     }

@@ -4,7 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Logic.Roles;
-using Magitek.Models.BlackMage;
+using Magitek.Models.Account;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
@@ -74,8 +74,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-
-            if (RedMageSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -96,7 +95,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PvP()
         {
-            if (!RedMageSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             if (await MagicDps.Recuperate(RedMageSettings.Instance)) return true;
@@ -126,7 +125,7 @@ namespace Magitek.Rotations
 
         public static void RegisterCombatMessages()
         {
-            if (!RedMageSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 CombatMessages.RegisterCombatMessages(RdmStateMachine.StateMachine);
         }
     }

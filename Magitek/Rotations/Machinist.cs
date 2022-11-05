@@ -4,12 +4,12 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Machinist;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Machinist;
 using Magitek.Utilities;
 using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 using System;
 using System.Threading.Tasks;
-using Magitek.Models.Bard;
 
 namespace Magitek.Rotations
 {
@@ -71,7 +71,7 @@ namespace Magitek.Rotations
         public static async Task<bool> Combat()
         {
 
-            if (MachinistSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -171,19 +171,34 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> PvP()
         {
-            if (!MachinistSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
+            if (!Core.Me.HasTarget)
+                return false;
+
+            // Utilities
+            if (await PhysicalDps.Guard(MachinistSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Recuperate(MachinistSettings.Instance)) return true;
+
+            //LB
+            if (await Pvp.MarksmansSpite()) return true;
+
+            // Buff
+            if (await Pvp.BishopAutoturret()) return true;
             if (await Pvp.Analysis()) return true;
             if (await Pvp.WildFire()) return true;
 
+            // Tools
             if (await Pvp.ChainSaw()) return true;
             if (await Pvp.AirAnchor()) return true;
             if (await Pvp.BioBlaster()) return true;
             if (await Pvp.Drill()) return true;
 
-            return (await Pvp.BlastedCharge());
+            // Main
+            if (await Pvp.HeatBlast()) return true;
+            return await Pvp.BlastedCharge();
         }
     }
 }

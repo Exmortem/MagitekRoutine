@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Warrior;
 using Healing = Magitek.Logic.Warrior.Heal;
+using Magitek.Models.Account;
 using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
@@ -45,6 +46,7 @@ namespace Magitek.Rotations
             await Casting.CheckForSuccessfulCast();
             return await Combat();
         }
+
         public static async Task<bool> Heal()
         {
             if (await Casting.TrackSpellCast()) return true;
@@ -52,18 +54,21 @@ namespace Magitek.Rotations
 
             return await GambitLogic.Gambit();
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);
         }
+
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
@@ -76,8 +81,8 @@ namespace Magitek.Rotations
             if (Defensive.ForceLimitBreak()) return true;
 
             //Utility
-            if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
             if (await Buff.Defiance()) return true;
+            if (await Tank.Interrupt(WarriorSettings.Instance)) return true;
 
             if (WarriorRoutine.GlobalCooldown.CanWeave())
             {
@@ -127,9 +132,12 @@ namespace Magitek.Rotations
 
             return await SingleTarget.Tomahawk();
         }
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
     }
 }

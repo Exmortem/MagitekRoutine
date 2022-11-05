@@ -18,13 +18,6 @@
     </UserControl.Resources>
 
     <StackPanel Margin="5">
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Enable PVP (This will disable PVE)" IsChecked="{Binding RedMageSettings.EnabledPVP, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>

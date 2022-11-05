@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Bard;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Bard;
 using Magitek.Utilities;
 using BardRoutine = Magitek.Utilities.Routines.Bard;
@@ -73,7 +74,7 @@ namespace Magitek.Rotations
         public static async Task<bool> Combat()
         {
 
-            if (BardSettings.Instance.EnabledPVP)
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
             if (BotManager.Current.IsAutonomous)
@@ -147,8 +148,7 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PvP()
         {
-
-            if (!BardSettings.Instance.EnabledPVP)
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
             if (await PhysicalDps.Recuperate(BardSettings.Instance)) return true;

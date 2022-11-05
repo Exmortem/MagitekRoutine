@@ -4,6 +4,7 @@ using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.Dragoon;
 using Magitek.Logic.Roles;
+using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
@@ -65,12 +66,13 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget && !Core.Me.InCombat)
@@ -170,9 +172,12 @@ namespace Magitek.Rotations
             return await SingleTarget.TrueThrust();
         }
 
-        public static Task<bool> PvP()
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            return false;
         }
 
         public static void RegisterCombatMessages()
