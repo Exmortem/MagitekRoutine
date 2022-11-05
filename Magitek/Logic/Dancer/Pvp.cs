@@ -16,7 +16,7 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Cascade()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             return await Spells.CascadePvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
@@ -24,7 +24,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> Fountain()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
             
             if (!Spells.FountainPvp.CanCast())
@@ -35,7 +35,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> ReverseCascade()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.ReverseCascadePvp.CanCast())
@@ -46,7 +46,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> SaberDance()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.SaberDancePvp.CanCast())
@@ -57,7 +57,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> FountainFall()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.FountainFallPvp.CanCast())
@@ -69,7 +69,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> StarfallDance()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.StarfallDancePvp.CanCast())
@@ -80,7 +80,7 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> FanDance()
         {
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.FanDancePvp.CanCast())
@@ -94,7 +94,7 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.Pvp_UseHoningDance)
                 return false;
 
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.HoningDancePvp.CanCast())
@@ -111,7 +111,7 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.Pvp_UseContradance)
                 return false;
 
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.ContradancePvp.CanCast())
@@ -172,7 +172,7 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.Pvp_UseCuringWaltz)
                 return false;
 
-            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.CuringWaltzPvp.CanCast())

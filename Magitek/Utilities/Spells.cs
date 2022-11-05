@@ -984,7 +984,7 @@ namespace Magitek.Utilities
 
         public static readonly SpellData Recuperate = DataManager.GetSpellData(29711);
         public static readonly SpellData Purify = DataManager.GetSpellData(29056);
-        public static readonly SpellData Guard = DataManager.GetSpellData(29735);
+        public static readonly SpellData Guard = DataManager.GetSpellData(29054);
 
         //WHM
         public static readonly SpellData GlareIIIPvp = DataManager.GetSpellData(29223);
