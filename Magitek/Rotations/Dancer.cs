@@ -175,8 +175,8 @@ namespace Magitek.Rotations
             if (await Pvp.FountainFall()) return true;
             if (await Pvp.ReverseCascade()) return true;
             if (await Pvp.Fountain()) return true;
+            
             return await Pvp.Cascade();
-
         }
     }
 }

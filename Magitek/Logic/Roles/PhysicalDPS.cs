@@ -161,10 +161,10 @@ namespace Magitek.Logic.Roles
             if (!settings.Pvp_UseRecuperate)
                 return false;
 
-            if (!Spells.Recuperate.CanCast())
-                return false;
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false; 
 
-            if (Core.Me.HasAura(Auras.Guard))
+            if (!Spells.Recuperate.CanCast())
                 return false;
 
             if (Core.Me.CurrentHealthPercent > settings.Pvp_RecuperateHealthPercent)
@@ -176,6 +176,9 @@ namespace Magitek.Logic.Roles
         public static async Task<bool> Purify<T>(T settings) where T : PhysicalDpsSettings
         {
             if (!settings.Pvp_UsePurify)
+                return false;
+
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.Purify.CanCast())
@@ -192,16 +195,16 @@ namespace Magitek.Logic.Roles
             if (!settings.Pvp_UseGuard)
                 return false;
 
-            if (!Spells.Guard.CanCast())
-                return false;
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false; 
 
-            if (Core.Me.HasAura(Auras.Guard))
+            if (!Spells.Guard.CanCast())
                 return false;
 
             if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)
                 return false;
 
-            return await Spells.Guard.Cast(Core.Me);
+            return await Spells.Guard.CastAura(Core.Me, Auras.Guard);
         }
     }
 }

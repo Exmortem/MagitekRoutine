@@ -12,6 +12,9 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> BlastedCharge()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BlastChargePvp.CanCast())
                 return false;
 
@@ -20,6 +23,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatBlast()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BlastChargePvp.CanCast())
                 return false;
 
@@ -28,7 +34,10 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> WildFire()
         {
-            if(!Spells.WildfirePvp.CanCast())
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Spells.WildfirePvp.CanCast())
                 return false;
 
             return await Spells.WildfirePvp.Cast(Core.Me.CurrentTarget);
@@ -36,6 +45,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Analysis()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.AnalysisPvp.CanCast())
                 return false;
 
@@ -59,6 +71,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.DrillPvp.CanCast())
                 return false;
 
@@ -67,6 +82,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BioBlaster()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BioblasterPvp.CanCast())
                 return false;
 
@@ -75,6 +93,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AirAnchor()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.AirAnchorPvp.CanCast())
                 return false;
 
@@ -83,6 +104,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> ChainSaw()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.ChainSawPvp.CanCast())
                 return false;
 
@@ -91,6 +115,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BishopAutoturret()
         {
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BishopAutoturretPvp.CanCast())
                 return false;
 
@@ -100,6 +127,9 @@ namespace Magitek.Logic.Machinist
         public static async Task<bool> MarksmansSpite()
         {
             if (!MachinistSettings.Instance.Pvp_UseMarksmansSpite)
+                return false;
+
+            if (Casting.LastSpell == Spells.Guard || Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.MarksmansSpitePvp.CanCast())
