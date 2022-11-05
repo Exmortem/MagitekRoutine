@@ -55,7 +55,7 @@ namespace Magitek.Rotations
             {
                 if (Core.Me.HasTarget)
                 {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
+                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20);
             }
 
             if (!SpellQueueLogic.SpellQueue.Any())
@@ -92,7 +92,7 @@ namespace Magitek.Rotations
 
             if (SpellQueueLogic.SpellQueue.Any())
             {
-                if (await SpellQueueLogic.SpellQueueMethod()) 
+                if (await SpellQueueLogic.SpellQueueMethod())
                     return true;
             }
 
