@@ -150,7 +150,7 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(3)]
         public int MnkPartnerWeight { get; set; }
-        
+
         [Setting]
         [DefaultValue(4)]
         public int RprPartnerWeight { get; set; }
@@ -186,11 +186,11 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(12)]
         public int GnbPartnerWeight { get; set; }
-        
+
         [Setting]
         [DefaultValue(13)]
         public int DrkPartnerWeight { get; set; }
-        
+
         [Setting]
         [DefaultValue(14)]
         public int WarPartnerWeight { get; set; }
@@ -229,7 +229,7 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_UseContradance { get; set; }
-        
+
         [Setting]
         [DefaultValue(1)]
         public int Pvp_ContradanceMinimumEnemies { get; set; }
@@ -241,6 +241,90 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(2)]
         public int Pvp_HoningDanceMinimumEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseClosedPosition { get; set; }
+
+        [Setting]
+        [DefaultValue(DancePartnerStrategy.ClosestDps)]
+        public DancePartnerStrategy Pvp_DancePartnerSelectedStrategy { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_SamPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int Pvp_NinPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int Pvp_MnkPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(4)]
+        public int Pvp_RprPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(5)]
+        public int Pvp_DrgPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public int Pvp_BlmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(7)]
+        public int Pvp_SmnPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(8)]
+        public int Pvp_RdmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(9)]
+        public int Pvp_MchPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int Pvp_BrdPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(11)]
+        public int Pvp_DncPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(12)]
+        public int Pvp_GnbPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(13)]
+        public int Pvp_DrkPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(14)]
+        public int Pvp_WarPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(15)]
+        public int Pvp_PldPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(16)]
+        public int Pvp_WhmPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(17)]
+        public int Pvp_SchPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(18)]
+        public int Pvp_AstPartnerWeight { get; set; }
+
+        [Setting]
+        [DefaultValue(19)]
+        public int Pvp_SagPartnerWeight { get; set; }
         #endregion
     }
 }
