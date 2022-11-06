@@ -54,30 +54,12 @@
                 <WrapPanel>
                     <WrapPanel Orientation="Horizontal">
                         <CheckBox Content="Active CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActiveCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
-                        <CheckBox Content="Enable PVP CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActivePvpCombatRoutine, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
+                        <CheckBox Content="Enable PVP CR" IsChecked="{Binding GeneralSettings.GeneralSettings.ActivePvpCombatRoutine, Mode=TwoWay}" Command="{Binding EnablePvpOverlay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Use Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.UseOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Reset Custom Opener" IsChecked="{Binding GeneralSettings.GeneralSettings.ResetOpeners, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                         <CheckBox Content="Use Chocobo" IsChecked="{Binding GeneralSettings.GeneralSettings.SummonChocobo, Mode=TwoWay}" Style="{DynamicResource CheckBoxOverlayCustomToggle}" />
                     </WrapPanel>
-
-                    <WrapPanel Orientation="Horizontal">
-                        <Grid>
-                            <Grid.Style>
-                                <Style TargetType="{x:Type Grid}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding GeneralSettings.CurrentRoutine}" Value="Summoner">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-
-                            <ComboBox Margin="1,0" Style="{DynamicResource ComboBox}" ItemsSource="{Binding Source={StaticResource SummonerPets}}" SelectedValue="{Binding SummonerSettings.SelectedPet, Mode=TwoWay}" Width="86" Height="26" />
-                        </Grid>
-                    </WrapPanel>
                 </WrapPanel>
-                
                 <ItemsControl Grid.Row="1" ItemsSource="{Binding SettingsToggles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

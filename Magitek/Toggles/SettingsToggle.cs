@@ -23,6 +23,9 @@ namespace Magitek.Toggles
         // Show toggle on overlay?
         public bool ToggleShowOnOverlay { get; set; } = true;
 
+        // Is PVP Toggle ?
+        public bool IsPvpToggle { get; set; } = false;
+
         // Property that's bound to the IsChecked on the toggle
         public bool ToggleChecked { get; set; }
 

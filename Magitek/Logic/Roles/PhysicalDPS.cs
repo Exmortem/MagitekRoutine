@@ -199,6 +199,9 @@ namespace Magitek.Logic.Roles
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (Spells.Guard.IsKnown() && !Spells.Guard.IsReady())
+                return false;
+
             if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)
                 return false;
 

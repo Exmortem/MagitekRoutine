@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Helpers;
+using Magitek.Models.Account;
 using Magitek.Utilities;
 using Magitek.ViewModels;
 using Newtonsoft.Json;
@@ -35,7 +36,10 @@ namespace Magitek.Toggles
                 return;
             }
 
-            MainOverlayViewModel.Instance.SettingsToggles = new ObservableCollection<SettingsToggle>(settingsToggles.Where(r => r.ToggleShowOnOverlay));
+            MainOverlayViewModel.Instance.SettingsToggles =
+                Models.Account.BaseSettings.Instance.ActivePvpCombatRoutine
+                ? new ObservableCollection<SettingsToggle>(settingsToggles.Where(r => r.ToggleShowOnOverlay && r.IsPvpToggle))
+                : new ObservableCollection<SettingsToggle>(settingsToggles.Where(r => r.ToggleShowOnOverlay && !r.IsPvpToggle));
         }
 
         private static void SetToggleHotkeys(IEnumerable<SettingsToggle> settingsToggles)
