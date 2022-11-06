@@ -92,31 +92,31 @@ namespace Magitek.Models.BlackMage
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool ToggleFireOrIceCombo { get; set; }
+        public bool Pvp_ToggleFireOrIceCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseParadoxOnFire { get; set; }
+        public bool Pvp_UseParadoxOnFire { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseParadoxOnIce { get; set; }
+        public bool Pvp_UseParadoxOnIce { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSuperFlareOnFire { get; set; }
+        public bool Pvp_UseSuperFlareOnFire { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseSuperFlareOnIce { get; set; }
+        public bool Pvp_UseSuperFlareOnIce { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseAetherialManipulation { get; set; }
+        public bool Pvp_UseAetherialManipulation { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]
-        public float UseAetherialManipulationtHealthPercent { get; set; }
+        public float Pvp_UseAetherialManipulationtHealthPercent { get; set; }
         #endregion
     }
 }

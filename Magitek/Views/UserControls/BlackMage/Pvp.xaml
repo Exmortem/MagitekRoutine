@@ -19,74 +19,57 @@
 
     <StackPanel Margin="5">
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Utilities" />
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Recuperate At " IsChecked="{Binding BlackMageSettings.UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.RecuperateHealthPercent, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Purify (remove debuffs)" IsChecked="{Binding BlackMageSettings.Pvp_UsePurify, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-            </Grid>
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Guard (Shield) At " IsChecked="{Binding BlackMageSettings.Pvp_UseGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.Pvp_GuardHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Recuperate (Heal) At  " IsChecked="{Binding BlackMageSettings.Pvp_UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.Pvp_RecuperateHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </Grid>
+            </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Fire or Ice Combo (Enabled = Fire, Disabled = Ice)" IsChecked="{Binding BlackMageSettings.ToggleFireOrIceCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Fire or Ice Combo (Enabled = Fire, Disabled = Ice)" IsChecked="{Binding BlackMageSettings.Pvp_ToggleFireOrIceCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Manipulation on Deep Freeze enemy if have at least " IsChecked="{Binding BlackMageSettings.Pvp_UseAetherialManipulation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.Pvp_UseAetherialManipulationtHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Paradox on" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Fire" IsChecked="{Binding BlackMageSettings.UseParadoxOnFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Fire     " IsChecked="{Binding BlackMageSettings.Pvp_UseParadoxOnFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Ice" IsChecked="{Binding BlackMageSettings.Pvp_UseParadoxOnIce, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Ice" IsChecked="{Binding BlackMageSettings.UseParadoxOnIce, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use SuperFlare on" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Fire" IsChecked="{Binding BlackMageSettings.UseSuperFlareOnFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Ice" IsChecked="{Binding BlackMageSettings.UseSuperFlareOnIce, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Fire     " IsChecked="{Binding BlackMageSettings.Pvp_UseSuperFlareOnFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Ice" IsChecked="{Binding BlackMageSettings.Pvp_UseSuperFlareOnIce, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Manipulation on Deep Freeze enemy if have at least " IsChecked="{Binding BlackMageSettings.UseAetherialManipulation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding BlackMageSettings.UseAetherialManipulationtHealthPercent, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
-            </Grid>
-        </controls:SettingsBlock>
-        
     </StackPanel>
 </UserControl>
 

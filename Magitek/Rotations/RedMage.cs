@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
+using Magitek.Models.BlackMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
@@ -98,7 +99,9 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            if (await MagicDps.Recuperate(RedMageSettings.Instance)) return true;
+            if (await MagicDps.Guard(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
             if (await Pvp.DisplacementPvp()) return true;
 

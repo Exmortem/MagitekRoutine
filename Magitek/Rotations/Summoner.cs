@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.Summoner;
 using Magitek.Models.Account;
+using Magitek.Models.BlackMage;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using System.Threading.Tasks;
@@ -121,7 +122,9 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            if (await MagicDps.Recuperate(SummonerSettings.Instance)) return true;
+            if (await MagicDps.Guard(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
             if (await Pvp.RadiantAegisPvp()) return true;
 

@@ -359,6 +359,7 @@ namespace Magitek.Utilities
             Analysis = 3158,
             Guard = 3054,
             CureIIIReady = 3083,
+            PvpAquaveil = 3086,
             Mummification = 3091,
             PvpExpedience = 3092,
             PvpGalvanize = 3087,

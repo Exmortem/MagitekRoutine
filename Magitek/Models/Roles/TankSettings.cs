@@ -79,5 +79,27 @@ namespace Magitek.Models.Roles
         [DefaultValue(PotionEnum.None)]
         public PotionEnum PotionTypeAndGradeLevel { get; set; }
         #endregion
+
+        #region pvp
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseRecuperate { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_RecuperateHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UsePurify { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseGuard { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_GuardHealthPercent { get; set; }
+        #endregion
     }
 }

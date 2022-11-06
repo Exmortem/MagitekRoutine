@@ -215,23 +215,23 @@ namespace Magitek.Models.Summoner
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool UsedSlipstream { get; set; }
+        public bool Pvp_UsedSlipstream { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedMountainBuster { get; set; }
+        public bool Pvp_UsedMountainBuster { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedCrimsonStrike { get; set; }
+        public bool Pvp_UsedCrimsonStrike { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedRadiantAegis { get; set; }
+        public bool Pvp_UsedRadiantAegis { get; set; }
 
         [Setting]
         [DefaultValue(70.0f)]
-        public float UseRadiantAegisHealthPercent { get; set; }
+        public float Pvp_UseRadiantAegisHealthPercent { get; set; }
 
         #endregion
     }

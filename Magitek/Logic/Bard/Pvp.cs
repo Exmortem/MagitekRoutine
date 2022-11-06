@@ -49,13 +49,13 @@ namespace Magitek.Logic.Bard
 
         public static async Task<bool> EmpyrealArrow()
         {
-            if (!BardSettings.Instance.UseEmpyrealArrowPVP)
+            if (!BardSettings.Instance.Pvp_UseEmpyrealArrow)
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            if (BardSettings.Instance.UseEmpyrealArrowCharges == 3)
+            if (BardSettings.Instance.Pvp_UseEmpyrealArrowCharges == 3)
             {
                 if (!Spells.EmpyrealArrowIIIPvp.CanCast())
                     return false;
@@ -63,7 +63,7 @@ namespace Magitek.Logic.Bard
                 return await Spells.EmpyrealArrowIIIPvp.Cast(Core.Me.CurrentTarget);
             }
 
-            if (BardSettings.Instance.UseEmpyrealArrowCharges == 2)
+            if (BardSettings.Instance.Pvp_UseEmpyrealArrowCharges == 2)
             {
                 if (!Spells.EmpyrealArrowIIPvp.CanCast())
                     return false;

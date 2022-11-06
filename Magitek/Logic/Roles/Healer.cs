@@ -138,9 +138,9 @@ namespace Magitek.Logic.Roles
             return false;
         }
 
-        public static async Task<bool> Recuperate<T>(T settings) where T : HealerSettings
+        public static async Task<bool> Recuperate<T>(T settings) where T :HealerSettings
         {
-            if (!settings.UseRecuperate)
+            if (!settings.Pvp_UseRecuperate)
                 return false;
 
             if (!Spells.Recuperate.CanCast())
@@ -149,10 +149,41 @@ namespace Magitek.Logic.Roles
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            if (Core.Me.CurrentHealthPercent > settings.RecuperateHealthPercent)
+            if (Core.Me.CurrentHealthPercent > settings.Pvp_RecuperateHealthPercent)
                 return false;
 
             return await Spells.Recuperate.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Purify<T>(T settings) where T : HealerSettings
+        {
+            if (!settings.Pvp_UsePurify)
+                return false;
+
+            if (!Spells.Purify.CanCast())
+                return false;
+
+            if (!Core.Me.HasAura("Stun") && !Core.Me.HasAura("Heavy") && !Core.Me.HasAura("Bind") && !Core.Me.HasAura("Silence") && !Core.Me.HasAura("Half-asleep") && !Core.Me.HasAura("Sleep") && !Core.Me.HasAura("Deep Freeze"))
+                return false;
+
+            return await Spells.Purify.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Guard<T>(T settings) where T : HealerSettings
+        {
+            if (!settings.Pvp_UseGuard)
+                return false;
+
+            if (!Spells.Guard.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)
+                return false;
+
+            return await Spells.Guard.Cast(Core.Me);
         }
     }
 }

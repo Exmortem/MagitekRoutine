@@ -594,9 +594,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Bard:
                     return await Rotations.Bard.PvP();    
 
-                //case ClassJobType.Conjurer:
-                //case ClassJobType.WhiteMage:
-                //    return await Rotations.WhiteMage.PvP();    
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.PvP();    
 
                 case ClassJobType.Thaumaturge:
                 case ClassJobType.BlackMage:

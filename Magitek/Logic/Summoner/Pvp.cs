@@ -33,7 +33,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.SlipstreamPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedSlipstream)
+            if (!SummonerSettings.Instance.Pvp_UsedSlipstream)
                 return false;
 
             if (MovementManager.IsMoving)
@@ -51,7 +51,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.MountainBusterPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedMountainBuster)
+            if (!SummonerSettings.Instance.Pvp_UsedMountainBuster)
                 return false;
 
             if (MovementManager.IsMoving)
@@ -85,10 +85,10 @@ namespace Magitek.Logic.Summoner
             if (!Spells.RadiantAegisPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedRadiantAegis)
+            if (!SummonerSettings.Instance.Pvp_UsedRadiantAegis)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.UseRadiantAegisHealthPercent)
+            if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.Pvp_UseRadiantAegisHealthPercent)
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
@@ -104,7 +104,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.CrimsonStrikePvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedCrimsonStrike)
+            if (!SummonerSettings.Instance.Pvp_UsedCrimsonStrike)
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
