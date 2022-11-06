@@ -102,6 +102,11 @@
                         <CheckBox Style="{DynamicResource CheckBoxToggleSettings}" IsChecked="{Binding ToggleShowOnOverlay, Mode=TwoWay}" Margin="0,1,0,0" />
                     </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                        <TextBlock Text=" TOGGLE FOR PVP:  " FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource GrayDark}" HorizontalAlignment="Right"  />
+                        <CheckBox Style="{DynamicResource CheckBoxToggleSettings}" IsChecked="{Binding IsPvpToggle, Mode=TwoWay}" Margin="0,1,0,0" />
+                    </StackPanel>
+
                     <local:HotkeyToggles Margin="0,3,0,0" ToggleModKeySetting="{Binding ToggleModifierKey, Mode=TwoWay}" ToggleKeySetting="{Binding ToggleKey, Mode=TwoWay}" />
 
                     <ScrollViewer Margin="0,10,0,0" Height="400" MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}, Path=Height}" VerticalScrollBarVisibility="Visible" Template="{DynamicResource ScrollViewerSearch}">

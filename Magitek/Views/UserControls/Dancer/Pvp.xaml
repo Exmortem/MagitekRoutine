@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:Magitek.Enumerations"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="400"
              d:DesignWidth="500"
@@ -14,49 +16,157 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="DancePartner" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="enums:DancePartnerStrategy" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Margin="5">
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Utilities" />
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Recuperate At " IsChecked="{Binding DancerSettings.UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.RecuperateHealthPercent, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Purify (remove debuffs)" IsChecked="{Binding DancerSettings.Pvp_UsePurify, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-            </Grid>
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Guard (Shield) At " IsChecked="{Binding DancerSettings.Pvp_UseGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.Pvp_GuardHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Recuperate (Heal) At  " IsChecked="{Binding DancerSettings.Pvp_UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.Pvp_RecuperateHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Curing Walz At " IsChecked="{Binding DancerSettings.Pvp_UseCuringWaltz, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="3" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.Pvp_CuringWaltzHP, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </Grid>
+            </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Curing Walz At " IsChecked="{Binding DancerSettings.UseCuringWaltzPvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.CuringWaltzHPPvp, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Contradance / LB with at least " IsChecked="{Binding DancerSettings.Pvp_UseContradance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.Pvp_ContradanceMinimumEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Ennemies around" />
 
-            </Grid>
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Honing Dance with at least " IsChecked="{Binding DancerSettings.Pvp_UseHoningDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.Pvp_HoningDanceMinimumEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Ennemies around" />
+                </Grid>
+            </StackPanel>
         </controls:SettingsBlock>
+
+        <controls:SettingsBlock Grid.Row="1" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Partner Dance" />
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <CheckBox Grid.Column="0" Content="Dance With: " IsChecked="{Binding DancerSettings.Pvp_UseClosedPosition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <ComboBox Width="150" ItemsSource="{Binding Source={StaticResource DancePartner}}" SelectedValue="{Binding DancerSettings.Pvp_DancePartnerSelectedStrategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
+                </StackPanel>
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="MNK: " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.MnkPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="DRG: " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.DrgPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="NIN: " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.NinPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="SAM: " />
+                    <controls:Numeric Grid.Row="1" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SamPartnerWeight, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="RPR: " />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.RprPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="SMN: " />
+                    <controls:Numeric Grid.Row="2" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SmnPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="RDM: " />
+                    <controls:Numeric Grid.Row="2" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.RdmPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="BLM: " />
+                    <controls:Numeric Grid.Row="2" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.BlmPartnerWeight, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="MCH: " />
+                    <controls:Numeric Grid.Row="3" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.MchPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="DNC: " />
+                    <controls:Numeric Grid.Row="3" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.DncPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="BRD: " />
+                    <controls:Numeric Grid.Row="3" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.BrdPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="3" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="WAR: " />
+                    <controls:Numeric Grid.Row="3" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.WarPartnerWeight, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="DRK: " />
+                    <controls:Numeric Grid.Row="4" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.DrkPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="GNB: " />
+                    <controls:Numeric Grid.Row="4" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.GnbPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="PLD: " />
+                    <controls:Numeric Grid.Row="4" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.PldPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="9" Style="{DynamicResource TextBlockDefault}" Text="SCH: " />
+                    <controls:Numeric Grid.Row="4" Grid.Column="10" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SchPartnerWeight, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Style="{DynamicResource TextBlockDefault}" Text="AST: " />
+                    <controls:Numeric Grid.Row="5" Grid.Column="1" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.AstPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="5" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text="SAG: " />
+                    <controls:Numeric Grid.Row="5" Grid.Column="4" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SagPartnerWeight, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="5" Grid.Column="6" Style="{DynamicResource TextBlockDefault}" Text="WHM: " />
+                    <controls:Numeric Grid.Row="5" Grid.Column="7" Margin="0,3,0,0" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.WhmPartnerWeight, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
+
 
     </StackPanel>
 </UserControl>

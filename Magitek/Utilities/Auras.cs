@@ -193,7 +193,7 @@ namespace Magitek.Utilities
             StandardFinish = 1821,
             RaidenReady = 1863,
             TechnicalFinish = 1822,
-            ClosedPosition = 1823,
+            ClosedPosition = 2026,
             DancePartner = 1824,
             Devilment = 1825,
             ShieldSamba = 1826,

@@ -975,9 +975,16 @@ namespace Magitek.Utilities
 
         //PVP
         #region PVP
+        /* How to find Combo uint value ?
+         * 
+         * On rebornBuddy Console, execute : Log("GetPvPComboCurrentActionId = {0}", ActionManager.GetPvPComboCurrentActionId(54)); and replace 54 by other value (decreasing or increasing)
+         * Answer will give you ID of 1st spell combo. For Dancer, we expect "29416", so we change ComboId Value till we find the right ComboID related to the job
+         * 
+         */
+
         public static readonly SpellData Recuperate = DataManager.GetSpellData(29711);
         public static readonly SpellData Purify = DataManager.GetSpellData(29056);
-        public static readonly SpellData Guard = DataManager.GetSpellData(29735);
+        public static readonly SpellData Guard = DataManager.GetSpellData(29054);
 
         //WHM
         public static readonly SpellData GlareIIIPvp = DataManager.GetSpellData(29223);
@@ -1039,15 +1046,20 @@ namespace Magitek.Utilities
         public static readonly SpellData MarksmansSpitePvp = DataManager.GetSpellData(29415);
 
         //DNC
+        public static readonly uint FountainPvpCombo = 54;
         public static readonly SpellData CascadePvp = DataManager.GetSpellData(29416);
         public static readonly SpellData CascadePvp2 = DataManager.GetSpellData(25464);
         public static readonly SpellData FountainPvp = DataManager.GetSpellData(29417);
+        public static readonly SpellData ReverseCascadePvp = DataManager.GetSpellData(29418);
+        public static readonly SpellData FountainFallPvp = DataManager.GetSpellData(29419);
+        public static readonly SpellData SaberDancePvp = DataManager.GetSpellData(29420);
         public static readonly SpellData StarfallDancePvp = DataManager.GetSpellData(29421);
         public static readonly SpellData HoningDancePvp = DataManager.GetSpellData(29422);
         public static readonly SpellData FanDancePvp = DataManager.GetSpellData(29428);
         public static readonly SpellData CuringWaltzPvp = DataManager.GetSpellData(29429);
         public static readonly SpellData EnAvantPvp = DataManager.GetSpellData(29430);
         public static readonly SpellData ClosedPositionPvp = DataManager.GetSpellData(29431);
+        public static readonly SpellData ContradancePvp = DataManager.GetSpellData(29432);
 
         //MNK
         public static readonly SpellData BootshinePvp = DataManager.GetSpellData(29472);

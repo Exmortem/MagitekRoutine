@@ -12,6 +12,9 @@ namespace Magitek.Logic.Machinist
     {
         public static async Task<bool> BlastedCharge()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BlastChargePvp.CanCast())
                 return false;
 
@@ -20,6 +23,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> HeatBlast()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BlastChargePvp.CanCast())
                 return false;
 
@@ -28,7 +34,10 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> WildFire()
         {
-            if(!Spells.WildfirePvp.CanCast())
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Spells.WildfirePvp.CanCast())
                 return false;
 
             return await Spells.WildfirePvp.Cast(Core.Me.CurrentTarget);
@@ -36,22 +45,25 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Analysis()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.AnalysisPvp.CanCast())
                 return false;
 
             if (Core.Me.HasAura(Auras.Analysis))
                 return false;
 
-            if (!MachinistSettings.Instance.UsedAnalysisOnDrill && Core.Me.HasAura(Auras.DrillPrimed))
+            if (!MachinistSettings.Instance.Pvp_UsedAnalysisOnDrill && Core.Me.HasAura(Auras.DrillPrimed))
                 return false;
 
-            if (!MachinistSettings.Instance.UsedAnalysisOnBio && Core.Me.HasAura(Auras.BioPrimed))
+            if (!MachinistSettings.Instance.Pvp_UsedAnalysisOnBio && Core.Me.HasAura(Auras.BioPrimed))
                 return false;
 
-            if (!MachinistSettings.Instance.UsedAnalysisOnAA && Core.Me.HasAura(Auras.AirAnchorPrimed))
+            if (!MachinistSettings.Instance.Pvp_UsedAnalysisOnAA && Core.Me.HasAura(Auras.AirAnchorPrimed))
                 return false;
 
-            if (!MachinistSettings.Instance.UsedAnalysisOnChainSaw && Core.Me.HasAura(Auras.ChainSawPrimed))
+            if (!MachinistSettings.Instance.Pvp_UsedAnalysisOnChainSaw && Core.Me.HasAura(Auras.ChainSawPrimed))
                 return false;
 
             return await Spells.AnalysisPvp.Cast(Core.Me);
@@ -59,6 +71,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> Drill()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.DrillPvp.CanCast())
                 return false;
 
@@ -67,6 +82,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BioBlaster()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BioblasterPvp.CanCast())
                 return false;
 
@@ -75,6 +93,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> AirAnchor()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.AirAnchorPvp.CanCast())
                 return false;
 
@@ -83,6 +104,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> ChainSaw()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.ChainSawPvp.CanCast())
                 return false;
 
@@ -91,6 +115,9 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> BishopAutoturret()
         {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Spells.BishopAutoturretPvp.CanCast())
                 return false;
 
@@ -99,7 +126,10 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> MarksmansSpite()
         {
-            if (!MachinistSettings.Instance.UseMarksmansSpite)
+            if (!MachinistSettings.Instance.Pvp_UseMarksmansSpite)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Spells.MarksmansSpitePvp.CanCast())

@@ -14,7 +14,6 @@ namespace Magitek.Utilities
         public static void Write(string text, params object[] args)
         {
             Logging.Write(Colors.CornflowerBlue, $@"[Magitek] {text}", args);
-
         }
 
         public static void WriteInfo(string text, params object[] args)
@@ -25,13 +24,16 @@ namespace Magitek.Utilities
         public static void WriteWarning(string text, params object[] args)
         {
             Logging.Write(Colors.DarkOrange, $@"[Magitek] {text}", args);
-
         }
 
         public static void WriteCast(string text, params object[] args)
         {
             Logging.Write(Colors.DodgerBlue, $@"[Magitek] {text}", args);
+        }
 
+        public static void WriteCastExecuted(string text, params object[] args)
+        {
+            Logging.Write(Colors.Pink, $@"[Magitek] {text}", args);
         }
     }
 }
