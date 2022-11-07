@@ -67,7 +67,7 @@ namespace Magitek.Toggles
                 var togglesFile = togglesFolder + Core.Me.CurrentJob + "Toggles.json";
 
                 return !File.Exists(togglesFile)
-                    ? null
+                    ? new List<SettingsToggle>()
                     : new List<SettingsToggle>(JsonConvert.DeserializeObject<List<SettingsToggle>>(File.ReadAllText(togglesFile)));
             }
         }

@@ -10,7 +10,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="450"
+             d:DesignHeight="620"
              d:DesignWidth="670"
              FontSize="11"
              mc:Ignorable="d">
@@ -87,6 +87,7 @@
                     <RadioButton Name="Dragoon" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Dragoon, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonDragoon}" />
                     <RadioButton Name="Samurai" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Samurai, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSamurai}" />
                     <RadioButton Name="Reaper" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Reaper, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonReaper}" />
+
                     <RadioButton Name="BlueMage" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=BlueMage, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonBlueMage}" />
                 </StackPanel>
 
@@ -95,7 +96,7 @@
 
             <Rectangle Height="1" Margin="5,3,15,0" HorizontalAlignment="Stretch" Fill="DimGray" Opacity="0.05" />
 
-            <ScrollViewer Height="345" MaxHeight="345" VerticalScrollBarVisibility="Visible">
+            <ScrollViewer Height="500" MaxHeight="500" VerticalScrollBarVisibility="Visible">
 
                 <ItemsControl ItemsSource="{Binding CollectionViewSource}">
                     <ItemsControl.ItemTemplate>
