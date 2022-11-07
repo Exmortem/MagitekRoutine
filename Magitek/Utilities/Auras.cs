@@ -128,7 +128,7 @@ namespace Magitek.Utilities
             EnhancedEnpi = 1236,
             ThinAir = 1217,
             CausticBite = 1200,
-            StormBite = 1201,
+            Stormbite = 1201,
             Bio3 = 1214,
             Miasma3 = 1215,
             Confession = 1219,

@@ -1,12 +1,12 @@
 ﻿using ff14bot;
 using ff14bot.Helpers;
-using Magitek.Models.Account;
 using Magitek.Utilities;
 using Magitek.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Linq;
 
 namespace Magitek.Toggles
@@ -15,10 +15,18 @@ namespace Magitek.Toggles
     {
         public static void LoadTogglesForCurrentJob()
         {
-            var settingsToggles = GetTogglesForJob;
-            Logger.WriteInfo($@"[Toggles] {Core.Me.CurrentJob} Loading...");
-            SetToggleHotkeys(settingsToggles);
-            SetTogglesOnOverlay(settingsToggles);
+            Logger.WriteInfo($@"[Toggles] {Core.Me.CurrentJob} - Loading Toggle...");
+
+            var settingsMagitekToggles = GetBasicTogglesForJob;
+            var settingsCustomToggles = GetCustomTogglesForJob;
+            Logger.WriteInfo($@"[Toggles] {Core.Me.CurrentJob} - Found {(settingsMagitekToggles == null ? 0 : settingsMagitekToggles.Count)} Magitek Toggles and {(settingsCustomToggles == null ? 0 : settingsCustomToggles.Count)} Custom Toggles...");
+
+            var settingsAllToggles = settingsMagitekToggles.Concat(settingsCustomToggles).ToList();
+
+            Logger.WriteInfo($@"[Toggles] {Core.Me.CurrentJob} - Loaded {(settingsAllToggles == null ? 0 : settingsAllToggles.Count)} Toggles...");
+
+            SetToggleHotkeys(settingsAllToggles);
+            SetTogglesOnOverlay(settingsAllToggles);
             ResetToggles();
         }
 
@@ -51,7 +59,7 @@ namespace Magitek.Toggles
                 settingsToggle.RegisterHotkey();
         }
 
-        private static List<SettingsToggle> GetTogglesForJob
+        private static List<SettingsToggle> GetCustomTogglesForJob
         {
             get
             {
@@ -59,8 +67,33 @@ namespace Magitek.Toggles
                 var togglesFile = togglesFolder + Core.Me.CurrentJob + "Toggles.json";
 
                 return !File.Exists(togglesFile)
-                    ? null
+                    ? new List<SettingsToggle>()
                     : new List<SettingsToggle>(JsonConvert.DeserializeObject<List<SettingsToggle>>(File.ReadAllText(togglesFile)));
+            }
+        }
+
+        private static List<SettingsToggle> GetBasicTogglesForJob
+        {
+            get
+            {
+                if (!Models.Account.BaseSettings.Instance.EnableBaseToggle)
+                    return new List<SettingsToggle>();
+
+                var assembly = Assembly.GetExecutingAssembly();
+                string toggleFile = "Magitek.Resources.Toggles." + Core.Me.CurrentJob + "Toggles.json";
+
+                if (assembly.GetManifestResourceNames().FirstOrDefault(p => p.ToLowerInvariant() == toggleFile.ToLowerInvariant()) == null)
+                    return new List<SettingsToggle>();
+
+                string toggleFileString = "";
+                using (var stream = assembly.GetManifestResourceStream(toggleFile))
+                using (var reader = new StreamReader(stream))
+                {
+                    toggleFileString = reader.ReadToEnd();
+                }
+                List<SettingsToggle> toggleList = new List<SettingsToggle>(JsonConvert.DeserializeObject<List<SettingsToggle>>(toggleFileString));
+
+                return toggleList;
             }
         }
     }

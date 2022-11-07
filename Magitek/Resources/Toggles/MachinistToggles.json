@@ -1,0 +1,310 @@
+[
+  {
+    "ToggleText": "Peloton",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UsePeloton",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Second Wind",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseSecondWind",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use Potion",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UsePotion",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use AOEs",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseAoe",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Reassemble",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseReassemble",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Barrel Stab",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseBarrelStabilizer",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "WFire / HCharge",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseWildfire",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "UseHypercharge",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use Queen",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseRookQueen",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Drill / Bio",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseDrill",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "UseBioBlaster",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Anchor",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseHotAirAnchor",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Chainsaw",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseChainSaw",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Flamme Thrower",
+    "ToggleJob": "Machinist",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseFlamethrower",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  }
+]

@@ -59,7 +59,10 @@
                     <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
                         <StackPanel Margin="5">
                             <TextBlock Margin="5" Style="{DynamicResource TextBlockSection}" Text="Overlay Settings" />
-                            <CheckBox Content="Use The Setting Overlay" IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                <CheckBox Content="Use The Setting Overlay with  " IsChecked="{Binding GeneralSettings.UseOverlay, Mode=TwoWay}" Command="{Binding RestartOverlay}" Style="{DynamicResource CheckBoxFlat}" />
+                                <CheckBox Content="Pre-Defined Magitek Toggle Enabled" Command="{Binding ReloadOverlay}" IsChecked="{Binding GeneralSettings.EnableBaseToggle, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                            </StackPanel>
                             <StackPanel Margin="20,4,0,0" Orientation="Horizontal">
                                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Settings Overlay Size:   " />
                                 <Slider Width="200" Maximum="392" Minimum="176" IsSnapToTickEnabled="True" TickFrequency="72" Value="{Binding GeneralSettings.OverlayWidth, Mode=TwoWay}" />

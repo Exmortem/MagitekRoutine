@@ -1,0 +1,266 @@
+[
+  {
+    "ToggleText": "Peloton",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UsePeloton",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Second Wind",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseSecondWind",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use Potion",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UsePotion",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use AOEs",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseAoe",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Standard Step",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseStandardStep",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Technical Step",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseTechnicalStep",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Devilment",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseDevilment",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Flourish",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseFlourish",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "ClosedPosition",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseClosedPosition",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "CurringWaltz",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseCuringWaltz",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "PVP ClosedPosition",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": true,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "Pvp_UseClosedPosition",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  }
+]

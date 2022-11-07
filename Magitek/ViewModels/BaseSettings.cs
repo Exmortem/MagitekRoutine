@@ -22,6 +22,7 @@ using Magitek.Models.Scholar;
 using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
+using Magitek.Toggles;
 using Magitek.Utilities.Overlays;
 using Magitek.Views;
 using PropertyChanged;
@@ -51,6 +52,11 @@ namespace Magitek.ViewModels
         public ICommand RestartOverlay => new DelegateCommand(() =>
         {
             OverlayManager.RestartMainOverlay();
+        });
+
+        public ICommand ReloadOverlay => new DelegateCommand(() =>
+        {
+            TogglesManager.LoadTogglesForCurrentJob();
         });
 
         public ICommand RestartCombatMessageOverlay => new DelegateCommand(() =>

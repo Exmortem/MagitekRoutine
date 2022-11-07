@@ -64,12 +64,6 @@ namespace Magitek.Models.Roles
         public InterruptStrategy Strategy { get; set; }
         #endregion
 
-        #region limitbreak
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
-        #endregion
-
         #region potion
         [Setting]
         [DefaultValue(false)]

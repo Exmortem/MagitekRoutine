@@ -131,7 +131,7 @@ namespace Magitek.Logic.Gunbreaker
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Tank.ForceLimitBreak(GunbreakerSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.GunmetalSoul, Spells.KeenEdge);
+            return Tank.ForceLimitBreak(Spells.ShieldWall, Spells.Stronghold, Spells.GunmetalSoul, Spells.KeenEdge);
         }
     }
 }

@@ -159,7 +159,7 @@ namespace Magitek.Logic.Dancer
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return PhysicalDps.ForceLimitBreak(DancerSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.CrimsonLotus, Spells.Cascade);
+            return PhysicalDps.ForceLimitBreak(Spells.BigShot, Spells.Desperado, Spells.CrimsonLotus, Spells.Cascade);
         }
     }
 }

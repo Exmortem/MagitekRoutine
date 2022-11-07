@@ -35,11 +35,11 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content=" Use Windbite/StormBite" IsChecked="{Binding BardSettings.UseWindBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use Windbite/StormBite" IsChecked="{Binding BardSettings.UseStormbite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite" IsChecked="{Binding BardSettings.UseVenomousBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content=" Use VenomousBite/CausticBite" IsChecked="{Binding BardSettings.UseCausticBite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">

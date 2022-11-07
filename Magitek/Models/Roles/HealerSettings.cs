@@ -30,10 +30,7 @@ namespace Magitek.Models.Roles
         [DefaultValue(70.0f)]
         public float MuseManaPercent { get; set; }
 
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
-
+        #region Pvp
         [Setting]
         [DefaultValue(true)]
         public bool UseRecuperate { get; set; }
@@ -41,5 +38,6 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(50.0f)]
         public float RecuperateHealthPercent { get; set; }
+        #endregion
     }
 }

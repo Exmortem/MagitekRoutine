@@ -296,7 +296,7 @@ namespace Magitek.Logic.Samurai
             if (!Core.Me.HasTarget)
                 return false;
 
-            return PhysicalDps.ForceLimitBreak(SamuraiSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.DoomoftheLiving, Spells.Hakaze);
+            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.DoomoftheLiving, Spells.Hakaze);
         }
     }
 }

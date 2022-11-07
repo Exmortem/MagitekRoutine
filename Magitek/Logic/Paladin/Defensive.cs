@@ -230,7 +230,7 @@ namespace Magitek.Logic.Paladin
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Tank.ForceLimitBreak(PaladinSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.LastBastion, Spells.FastBlade);
+            return Tank.ForceLimitBreak(Spells.ShieldWall, Spells.Stronghold, Spells.LastBastion, Spells.FastBlade);
         }
 
     }

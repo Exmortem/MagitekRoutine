@@ -143,7 +143,7 @@ namespace Magitek.Logic.Machinist
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return PhysicalDps.ForceLimitBreak(MachinistSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.SatelliteBeam, Spells.SplitShot);
+            return PhysicalDps.ForceLimitBreak(Spells.BigShot, Spells.Desperado, Spells.SatelliteBeam, Spells.SplitShot);
         }
     }
 }

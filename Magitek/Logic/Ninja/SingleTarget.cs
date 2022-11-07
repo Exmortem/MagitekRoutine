@@ -253,7 +253,7 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasTarget)
                 return false;
 
-            return PhysicalDps.ForceLimitBreak(NinjaSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.Chimatsuri, Spells.SpinningEdge);
+            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.Chimatsuri, Spells.SpinningEdge);
         }
 
     }
