@@ -236,14 +236,14 @@
     "ToggleModifierKey": 0
   },
   {
-    "ToggleText": "SW/SB",
+    "ToggleText": "Apply DOTs",
     "ToggleJob": "Bard",
     "ToggleShowOnOverlay": true,
     "IsPvpToggle": false,
     "ToggleChecked": true,
     "Settings": [
       {
-        "Name": "UseSidewinder",
+        "Name": "UseStormbite",
         "Type": 1,
         "BoolCheckedValue": true,
         "BoolUncheckedValue": false,
@@ -253,7 +253,7 @@
         "FloatUncheckedValue": 0.0
       },
       {
-        "Name": "UseShadowBite",
+        "Name": "UseCausticBite",
         "Type": 1,
         "BoolCheckedValue": true,
         "BoolUncheckedValue": false,
@@ -270,7 +270,7 @@
     "ToggleModifierKey": 0
   },
   {
-    "ToggleText": "ApexArrow",
+    "ToggleText": "Apex / Blast",
     "ToggleJob": "Bard",
     "ToggleShowOnOverlay": true,
     "IsPvpToggle": false,
