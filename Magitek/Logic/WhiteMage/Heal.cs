@@ -728,7 +728,7 @@ namespace Magitek.Logic.WhiteMage
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Healer.ForceLimitBreak(WhiteMageSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.PulseofLife, Spells.Stone);
+            return Healer.ForceLimitBreak(Spells.HealingWind, Spells.BreathoftheEarth, Spells.PulseofLife, Spells.Stone);
         }
     }
 }

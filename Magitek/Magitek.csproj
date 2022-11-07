@@ -913,6 +913,9 @@
     <EmbeddedResource Include="Resources\ActionList.json" />
     <EmbeddedResource Include="Resources\StatusList.json" />
     <EmbeddedResource Include="Resources\BossDictionary.json" />
+    <EmbeddedResource Include="Resources\Toggles\BardToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\DancerToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\MachinistToggles.json" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\BossFightLog.xaml">

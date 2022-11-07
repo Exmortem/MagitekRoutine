@@ -216,7 +216,7 @@ namespace Magitek.Logic.Reaper
             if (!Core.Me.HasTarget)
                 return false;
 
-            return PhysicalDps.ForceLimitBreak(ReaperSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.TheEnd, Spells.Slice);
+            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.TheEnd, Spells.Slice);
         }
 
     }

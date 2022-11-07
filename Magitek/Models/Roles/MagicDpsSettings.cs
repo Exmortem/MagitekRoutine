@@ -28,6 +28,7 @@ namespace Magitek.Models.Roles
         [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
 
+        #region Pvp
         [Setting]
         [DefaultValue(true)]
         public bool UseRecuperate { get; set; }
@@ -35,5 +36,6 @@ namespace Magitek.Models.Roles
         [Setting]
         [DefaultValue(50.0f)]
         public float RecuperateHealthPercent { get; set; }
+        #endregion
     }
 }

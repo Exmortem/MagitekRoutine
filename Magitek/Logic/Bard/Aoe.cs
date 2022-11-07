@@ -139,7 +139,7 @@ namespace Magitek.Logic.Bard
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return PhysicalDps.ForceLimitBreak(BardSettings.Instance, Spells.BigShot, Spells.Desperado, Spells.SaggitariusArrow, Spells.HeavyShot);
+            return PhysicalDps.ForceLimitBreak(Spells.BigShot, Spells.Desperado, Spells.SaggitariusArrow, Spells.HeavyShot);
         }
     }
 }

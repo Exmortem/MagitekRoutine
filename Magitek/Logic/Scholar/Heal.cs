@@ -723,7 +723,7 @@ namespace Magitek.Logic.Scholar
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Healer.ForceLimitBreak(ScholarSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.AngelFeathers, Spells.Ruin);
+            return Healer.ForceLimitBreak(Spells.HealingWind, Spells.BreathoftheEarth, Spells.AngelFeathers, Spells.Ruin);
         }
     }
 }

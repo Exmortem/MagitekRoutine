@@ -1,0 +1,330 @@
+[
+  {
+    "ToggleText": "Peloton",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UsePeloton",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Second Wind",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseSecondWind",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use Potion",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UsePotion",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Use AOEs",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseAoe",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Songs",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseSongs",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "EndSongEarly",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "EndMagesBalladEarly",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "EndWanderersMinuetEarly",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "EndArmysPaeonEarly",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "BattleVoice",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseBattleVoice",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "RagingStrikes",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseRageingStrikes",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "MultiDotting",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "EnableMultiDotting",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "SW/SB",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseSidewinder",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "UseShadowBite",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "ApexArrow",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "UseApexArrow",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "UseBlastArrow",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Nature Minne",
+    "ToggleJob": "Bard",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": false,
+    "Settings": [
+      {
+        "Name": "NaturesMinne",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  }
+]
