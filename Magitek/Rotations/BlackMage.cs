@@ -160,6 +160,9 @@ namespace Magitek.Rotations
             if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
             if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
+            if (await Pvp.SoulResonancePvp()) return true;
+            if (await Pvp.FoulPvp()) return true;
+
             if (await Pvp.AetherialManipulation()) return true;
 
             if (await Pvp.Paradox()) return true;

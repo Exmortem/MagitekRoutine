@@ -117,6 +117,10 @@ namespace Magitek.Models.BlackMage
         [Setting]
         [DefaultValue(70.0f)]
         public float Pvp_UseAetherialManipulationtHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SoulResonance { get; set; }
         #endregion
     }
 }

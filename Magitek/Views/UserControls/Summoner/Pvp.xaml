@@ -63,6 +63,11 @@
                 <StackPanel Margin="5">
                     <CheckBox Content="MountainBuster" IsChecked="{Binding SummonerSettings.Pvp_UsedMountainBuster, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Summon / LB    " IsChecked="{Binding SummonerSettings.Pvp_Summon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <RadioButton Foreground="White" Content="Bahamut        " GroupName="summonStrategy" IsChecked="{Binding SummonerSettings.Pvp_SummonBahamut, Mode=TwoWay}" />
+                    <RadioButton Foreground="White" Content="Phoenix        " GroupName="summonStrategy" IsChecked="{Binding SummonerSettings.Pvp_SummonPhoenix, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

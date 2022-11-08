@@ -50,9 +50,17 @@
             <StackPanel Margin="5">
                 <TextBlock Margin="0,0,0,5" Style="{DynamicResource TextBlockSection}" Text="General" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Empyreal Arrow At " IsChecked="{Binding BardSettings.Pvp_UseEmpyrealArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Silent Nocturne" IsChecked="{Binding BardSettings.Pvp_SilentNocturne, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use Empyreal Arrow At  " IsChecked="{Binding BardSettings.Pvp_UseEmpyrealArrow, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="3" MinValue="1" Value="{Binding BardSettings.Pvp_UseEmpyrealArrowCharges, Mode=TwoWay}" />
                     <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Charges" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Final Fantasia / LB with at least  " IsChecked="{Binding BardSettings.Pvp_UseFinalFantasia, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="4" MinValue="0" Value="{Binding BardSettings.Pvp_UseFinalFantasiaAlliesCount, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Allies around" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

@@ -284,6 +284,7 @@
     <Compile Include="Logic\Sage\SingleTarget.cs" />
     <Compile Include="Logic\Sage\Shield.cs" />
     <Compile Include="Logic\Scholar\HealFightLogic.cs" />
+    <Compile Include="Logic\Scholar\Pvp.cs" />
     <Compile Include="Logic\Summoner\Pvp.cs" />
     <Compile Include="Logic\Warrior\Heal.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
@@ -730,6 +731,9 @@
     <Compile Include="Views\UserControls\Monk\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Monk\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Monk\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
@@ -846,6 +850,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Scholar\Pets.xaml.cs">
       <DependentUpon>Pets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Scholar\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Summoner\Aoe.xaml.cs">
       <DependentUpon>Aoe.xaml</DependentUpon>
@@ -1295,6 +1302,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Monk\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Monk\SingleTarget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1449,6 +1460,10 @@
     <Page Include="Views\UserControls\Scholar\Pets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Scholar\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Summoner\Aoe.xaml">
       <SubType>Designer</SubType>

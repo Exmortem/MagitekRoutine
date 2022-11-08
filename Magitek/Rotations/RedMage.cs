@@ -105,11 +105,13 @@ namespace Magitek.Rotations
 
             if (await Pvp.DisplacementPvp()) return true;
 
+            if (await Pvp.SouthernCrossWhitePvp()) return true;
             if (await Pvp.VerHolyPvp()) return true;
             if (await Pvp.EnchantedRedoublementWhitePvp()) return true;
             if (await Pvp.EnchantedZwerchhauWhitePvp()) return true;
             if (await Pvp.EnchantedRiposteWhitePvp()) return true;
 
+            if (await Pvp.SouthernCrossBlackPvp()) return true;
             if (await Pvp.VerFlarePvp()) return true;
             if (await Pvp.EnchantedRedoublementBlackPvp()) return true;
             if (await Pvp.EnchantedZwerchhauBlackPvp()) return true;

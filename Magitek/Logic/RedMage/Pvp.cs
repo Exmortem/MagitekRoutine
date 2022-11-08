@@ -284,12 +284,11 @@ namespace Magitek.Logic.RedMage
             if (OutsideComboRange)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
 
             if (RedMageSettings.Instance.Pvp_UsedMeleeCombo && RedMageSettings.Instance.Pvp_UsedVerflare && Core.Me.HasAura(Auras.WhiteShift))
                 return await Spells.BlackShiftPvp.Cast(Core.Me);
-
-            if (Core.Me.HasAura(Auras.Guard))
-                return false;
 
             return await Spells.EnchantedRedoublementBlackPvp.Cast(Core.Me.CurrentTarget);
         }
@@ -303,13 +302,49 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Pvp_UsedMeleeCombo)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (RedMageSettings.Instance.Pvp_UsedMeleeCombo && RedMageSettings.Instance.Pvp_UsedVerflare && Core.Me.HasAura(Auras.WhiteShift))
                 return await Spells.BlackShiftPvp.Cast(Core.Me);
+
+            return await Spells.VerFlarePvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SouthernCrossBlackPvp()
+        {
+
+            if (!Spells.SouthernCrossBlackPvp.CanCast())
+                return false;
+
+            if (!RedMageSettings.Instance.Pvp_SouthernCross)
+                return false;
 
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            return await Spells.VerFlarePvp.Cast(Core.Me.CurrentTarget);
+            if (RedMageSettings.Instance.Pvp_SouthernCross && RedMageSettings.Instance.Pvp_SouthernCrossBlack && Core.Me.HasAura(Auras.WhiteShift))
+                return await Spells.BlackShiftPvp.Cast(Core.Me);
+
+            return await Spells.SouthernCrossBlackPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SouthernCrossWhitePvp()
+        {
+
+            if (!Spells.SouthernCrossWhitePvp.CanCast())
+                return false;
+
+            if (!RedMageSettings.Instance.Pvp_SouthernCross)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (RedMageSettings.Instance.Pvp_SouthernCross && RedMageSettings.Instance.Pvp_SouthernCrossWhite && Core.Me.HasAura(Auras.BlackShift))
+                return await Spells.WhiteShiftPvp.Cast(Core.Me);
+
+            return await Spells.SouthernCrossWhitePvp.Cast(Core.Me.CurrentTarget);
         }
 
 

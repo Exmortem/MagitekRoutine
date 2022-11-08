@@ -326,6 +326,18 @@ namespace Magitek.Models.Bard
         [Setting]
         [DefaultValue(1)]
         public int Pvp_UseEmpyrealArrowCharges { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseFinalFantasia { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_UseFinalFantasiaAlliesCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SilentNocturne { get; set; }
         #endregion
     }
 }

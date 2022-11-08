@@ -56,19 +56,24 @@
                     <CheckBox Content="Displacement (After Melee Combo)" IsChecked="{Binding RedMageSettings.Pvp_Displacement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Melee Combo    " IsChecked="{Binding RedMageSettings.Pvp_UsedMeleeCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Melee Combo            " IsChecked="{Binding RedMageSettings.Pvp_UsedMeleeCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <RadioButton Foreground="White" Content="With VerHoly           " GroupName="MeleeStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedVerHoly, Mode=TwoWay}" />
                     <RadioButton Foreground="White" Content="With Verflare     " GroupName="MeleeStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedVerflare, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Resolution          " IsChecked="{Binding RedMageSettings.Pvp_UsedResolution, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Resolution                  " IsChecked="{Binding RedMageSettings.Pvp_UsedResolution, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <RadioButton Foreground="White" Content="With White Shift     " GroupName="ResolutionStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedResolutionWhite, Mode=TwoWay}" />
                     <RadioButton Foreground="White" Content="With Black Shift     " GroupName="ResolutionStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedResolutionBlack, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="oGCD                  " IsChecked="{Binding RedMageSettings.Pvp_UsedOGCD, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="oGCD                         " IsChecked="{Binding RedMageSettings.Pvp_UsedOGCD, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <RadioButton Foreground="White" Content="Magick Barrier        " GroupName="oGCDStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedMagickBarrier, Mode=TwoWay}" />
                     <RadioButton Foreground="White" Content="Fazzle           " GroupName="oGCDStrategy" IsChecked="{Binding RedMageSettings.Pvp_UsedFazzle, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="SouthernCross / LB    " IsChecked="{Binding RedMageSettings.Pvp_SouthernCross, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <RadioButton Foreground="White" Content="With White Shift     " GroupName="southStrategy" IsChecked="{Binding RedMageSettings.Pvp_SouthernCrossWhite, Mode=TwoWay}" />
+                    <RadioButton Foreground="White" Content="With Black Shift            " GroupName="southStrategy" IsChecked="{Binding RedMageSettings.Pvp_SouthernCrossBlack, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

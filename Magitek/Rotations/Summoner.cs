@@ -126,6 +126,9 @@ namespace Magitek.Rotations
             if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
             if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
+            if (await Pvp.SummonBahamutPvp()) return true;
+            if (await Pvp.SummonPhoenixPvp()) return true;
+
             if (await Pvp.RadiantAegisPvp()) return true;
 
             if (await Pvp.EnkindleBahamutPvp()) return true;

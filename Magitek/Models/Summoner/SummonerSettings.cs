@@ -233,6 +233,18 @@ namespace Magitek.Models.Summoner
         [DefaultValue(70.0f)]
         public float Pvp_UseRadiantAegisHealthPercent { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Summon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SummonBahamut { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_SummonPhoenix { get; set; }
+
         #endregion
     }
 }

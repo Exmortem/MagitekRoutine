@@ -55,7 +55,7 @@ namespace Magitek.Logic.BlackMage
             if (!Spells.BurstPvp.CanCast())
                 return false;
 
-            if (BlackMageRoutine.AoeEnemies5Yards < 1)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < 1)
                 return false;
 
             if (MovementManager.IsMoving)
@@ -91,7 +91,7 @@ namespace Magitek.Logic.BlackMage
             if (!Spells.SuperFlarePvp.CanCast())
                 return false;
 
-            if (BlackMageRoutine.AoeEnemies30Yards < 1)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 30 + x.CombatReach) < 1)
                 return false;
 
             if (Spells.ParadoxPvp.IsKnownAndReady()) 
@@ -128,6 +128,36 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             return await Spells.AetherialManipulationPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> FoulPvp()
+        {
+
+            if (!Spells.FoulPvp.CanCast())
+                return false;
+
+            if (!BlackMageSettings.Instance.Pvp_SoulResonance)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            return await Spells.FoulPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SoulResonancePvp()
+        {
+
+            if (!Spells.SoulResonancePvp.CanCast())
+                return false;
+
+            if (!BlackMageSettings.Instance.Pvp_SoulResonance)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            return await Spells.SoulResonancePvp.Cast(Core.Me);
         }
     }
 }

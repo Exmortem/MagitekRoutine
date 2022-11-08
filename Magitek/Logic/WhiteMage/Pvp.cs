@@ -91,6 +91,8 @@ namespace Magitek.Logic.WhiteMage
             if (cure2Target == null)
                 if (Core.Me.CurrentHealthPercent <= WhiteMageSettings.Instance.Pvp_CureHealthPercent)
                     return await Spells.CureIIPvp.Heal(Core.Me);
+                else
+                    return false;
 
             return await Spells.CureIIPvp.Heal(cure2Target);
         }

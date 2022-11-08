@@ -5,8 +5,12 @@ using Magitek.Logic;
 using Magitek.Logic.Scholar;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
+using ScholarRoutine = Magitek.Utilities.Routines.Scholar;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Account;
+using Magitek.Logic.Roles;
+using Magitek.Models.Sage;
 
 namespace Magitek.Rotations
 {
@@ -71,6 +75,10 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Heal()
         {
+
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (WorldManager.InSanctuary)
                 return false;
 
@@ -190,6 +198,9 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
@@ -230,9 +241,28 @@ namespace Magitek.Rotations
             if (await SingleTarget.EnergyDrain2()) return true;
             return await SingleTarget.Broil();
         }
-        public static Task<bool> PvP()
+
+        public static async Task<bool> PvP()
         {
-            return Task.FromResult(false);
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            ScholarRoutine.RefreshVars();
+
+            if (await Healer.Guard(ScholarSettings.Instance)) return true;
+            if (await Healer.Purify(ScholarSettings.Instance)) return true;
+            if (await Healer.Recuperate(ScholarSettings.Instance)) return true;
+
+            if (await Pvp.DeploymentTacticsEnemyPvp()) return true;
+            if (await Pvp.DeploymentTacticsAlliesPvp()) return true;
+            if (await Pvp.DeploymentTacticsPvp()) return true;
+            if (await Pvp.AdloquiumPvp()) return true;
+
+            if (await Pvp.ExpedientPvp()) return true;
+            if (await Pvp.MummificationPvp()) return true;
+            if (await Pvp.BiolysisPvp()) return true;
+
+            return (await Pvp.BroilIVPvp());
         }
     }
 }

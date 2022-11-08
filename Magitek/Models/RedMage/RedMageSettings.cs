@@ -200,7 +200,7 @@ namespace Magitek.Models.RedMage
         public bool Pvp_UsedResolutionWhite { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Pvp_UsedResolutionBlack { get; set; }
 
         [Setting]
@@ -212,7 +212,7 @@ namespace Magitek.Models.RedMage
         public bool Pvp_UsedVerHoly { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Pvp_UsedVerflare { get; set; }
 
         [Setting]
@@ -220,12 +220,24 @@ namespace Magitek.Models.RedMage
         public bool Pvp_UsedOGCD { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Pvp_UsedFazzle { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_UsedMagickBarrier { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SouthernCross { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SouthernCrossWhite { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_SouthernCrossBlack { get; set; }
         #endregion
     }
 }

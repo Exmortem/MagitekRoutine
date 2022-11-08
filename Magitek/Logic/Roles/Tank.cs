@@ -158,6 +158,9 @@ namespace Magitek.Logic.Roles
             if (!Spells.Purify.CanCast())
                 return false;
 
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
             if (!Core.Me.HasAura("Stun") && !Core.Me.HasAura("Heavy") && !Core.Me.HasAura("Bind") && !Core.Me.HasAura("Silence") && !Core.Me.HasAura("Half-asleep") && !Core.Me.HasAura("Sleep") && !Core.Me.HasAura("Deep Freeze"))
                 return false;
 
@@ -173,6 +176,9 @@ namespace Magitek.Logic.Roles
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.IsAlive)
                 return false;
 
             if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)

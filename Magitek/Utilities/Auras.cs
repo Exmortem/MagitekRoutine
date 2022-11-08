@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace Magitek.Utilities
 {
@@ -352,6 +353,7 @@ namespace Magitek.Utilities
             PvpFireResonance = 3170,
             PvpEarthResonance = 3171,
             PvpWindResonance = 2007,
+            PvpPressurePoint = 3172,
             DrillPrimed = 3150,
             BioPrimed = 3151,
             AirAnchorPrimed = 3152,
@@ -370,7 +372,7 @@ namespace Magitek.Utilities
             ArrowDrawn = 3404,
             PvpKardia = 2871,
             PvpKardion = 2872,
-            PvpEukrasias =  2867,
+            PvpEukrasias = 2867,
             Addersting = 3115,
             AstralFireIII = 3381,
             PvpSwiftcast = 1987,
@@ -380,7 +382,9 @@ namespace Magitek.Utilities
             VermilionRadiance = 3233,
             AstralWarmth = 3216,
             UmbralFreeze = 3217,
-            DeepFreeze = 3219;
+            DeepFreeze = 3219,
+            PvpBiolytic = 3090,
+            PvpCatalyze = 3088;
 
         #endregion
 

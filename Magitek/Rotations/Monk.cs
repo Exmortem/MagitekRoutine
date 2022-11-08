@@ -11,6 +11,7 @@ using Magitek.Utilities.CombatMessages;
 using MonkRoutine = Magitek.Utilities.Routines.Monk;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Scholar;
 
 namespace Magitek.Rotations
 {
@@ -23,6 +24,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> PreCombatBuff()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             await Casting.CheckForSuccessfulCast();
             if (WorldManager.InSanctuary)
                 return false;
@@ -47,6 +51,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
@@ -185,9 +192,30 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
+            MonkRoutine.RefreshVars();
+
+            if (await PhysicalDps.Guard(MonkSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(MonkSettings.Instance)) return true;
             if (await PhysicalDps.Recuperate(MonkSettings.Instance)) return true;
 
-            return false;
+            if (await Pvp.MeteodrivePvp()) return true;
+            if (await Pvp.SixSidedStarPvp()) return true;
+
+            if (await Pvp.EarthReplyPvp()) return true;
+            if (await Pvp.RiddleofEarthPvp()) return true;
+            if (await Pvp.RisingPhoenixPvp()) return true;
+
+            if (await Pvp.ThunderclapPvp()) return true;
+            if (await Pvp.EnlightenmentPvp()) return true;
+
+            if (await Pvp.PhantomRushPvp()) return true;
+            if (await Pvp.DemolishPvp()) return true;
+            if (await Pvp.TwinSnakesPvp()) return true;
+            if (await Pvp.DragonKickPvp()) return true;
+            if (await Pvp.SnapPunchPvp()) return true;
+            if (await Pvp.TrueStrikePvp()) return true;
+
+            return (await Pvp.BootshinePvp());
 
         }
     }

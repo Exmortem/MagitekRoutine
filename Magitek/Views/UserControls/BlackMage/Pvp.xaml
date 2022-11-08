@@ -67,6 +67,9 @@
                     <CheckBox Content="Fire     " IsChecked="{Binding BlackMageSettings.Pvp_UseSuperFlareOnFire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Ice" IsChecked="{Binding BlackMageSettings.Pvp_UseSuperFlareOnIce, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Soul Resonance / LB" IsChecked="{Binding BlackMageSettings.Pvp_SoulResonance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

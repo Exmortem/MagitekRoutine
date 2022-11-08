@@ -137,5 +137,41 @@ namespace Magitek.Logic.Summoner
             return await Spells.EnkindlePhoenixPvp.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> SummonBahamutPvp()
+        {
+
+            if (!Spells.SummonBahamutPvp.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!SummonerSettings.Instance.Pvp_Summon || !SummonerSettings.Instance.Pvp_SummonBahamut)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 30)
+                return false;
+
+            return await Spells.SummonBahamutPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SummonPhoenixPvp()
+        {
+
+            if (!Spells.SummonPhoenixPvp.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!SummonerSettings.Instance.Pvp_Summon || !SummonerSettings.Instance.Pvp_SummonPhoenix)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 30)
+                return false;
+
+            return await Spells.SummonPhoenixPvp.Cast(Core.Me.CurrentTarget);
+        }
+
     }
 }
