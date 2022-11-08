@@ -754,7 +754,7 @@ namespace Magitek.Logic.Sage
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Healer.ForceLimitBreak(SageSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.TechneMakre, Spells.Dosis);
+            return Healer.ForceLimitBreak(Spells.HealingWind, Spells.BreathoftheEarth, Spells.TechneMakre, Spells.Dosis);
         }
     }
 }

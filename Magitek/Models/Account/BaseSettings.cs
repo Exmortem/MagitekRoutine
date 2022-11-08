@@ -244,6 +244,14 @@ namespace Magitek.Models.Account
         [Setting]
         [DefaultValue(false)]
         public bool ActivePvpCombatRoutine { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool EnableBaseToggle { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceLimitBreak { get; set; }
         #endregion
 
         [Setting]

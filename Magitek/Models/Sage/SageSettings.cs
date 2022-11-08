@@ -626,7 +626,27 @@ namespace Magitek.Models.Sage
 
         #endregion
 
+        #region PVP
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Kardia { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Eukrasia { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Pneuma { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Toxikon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_PhlegmaIII { get; set; }
+        #endregion
 
     }
 }

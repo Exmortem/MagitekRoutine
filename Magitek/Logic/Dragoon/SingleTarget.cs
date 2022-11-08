@@ -125,7 +125,7 @@ namespace Magitek.Logic.Dragoon
             if (!Core.Me.HasTarget)
                 return false;
 
-            return PhysicalDps.ForceLimitBreak(DragoonSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.DragonsongDive, Spells.TrueThrust);
+            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.DragonsongDive, Spells.TrueThrust);
         }
 
     }

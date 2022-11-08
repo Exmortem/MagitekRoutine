@@ -67,9 +67,6 @@ namespace Magitek.Models.Roles
         [DefaultValue(false)]
         public bool ForceArmsLength { get; set; }
 
-        [Setting]
-        [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
 
         #region pvp
         [Setting]

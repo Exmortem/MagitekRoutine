@@ -635,7 +635,10 @@ namespace Magitek.Utilities.Managers
                 //    return await Rotations.Gunbreaker.PvP();    
 
                 case ClassJobType.Dancer:
-                    return await Rotations.Dancer.PvP();    
+                    return await Rotations.Dancer.PvP();
+
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.PvP();
 
                 default:
                     return false;

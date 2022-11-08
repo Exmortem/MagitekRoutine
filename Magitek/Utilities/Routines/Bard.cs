@@ -24,8 +24,8 @@ namespace Magitek.Utilities.Routines
         public static SpellData Stormbite => Core.Me.ClassLevel < 64 ? Spells.Windbite : Spells.Stormbite;
         public static SpellData CausticBite => Core.Me.ClassLevel < 64 ? Spells.VenomousBite : Spells.CausticBite;
         public static SpellData BurstShot => Core.Me.ClassLevel < 76 ? Spells.HeavyShot : Spells.BurstShot;
-        public static uint WindbiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.StormBite);
-        public static uint VenomousBiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.VenomousBite : Auras.CausticBite);
+        public static uint StormbiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.Windbite : Auras.Stormbite);
+        public static uint CausticBiteAura => (uint)(Core.Me.ClassLevel < 64 ? Auras.VenomousBite : Auras.CausticBite);
 
         public static void RefreshVars()
         {

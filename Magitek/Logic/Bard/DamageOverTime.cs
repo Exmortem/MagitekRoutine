@@ -16,31 +16,12 @@ namespace Magitek.Logic.Bard
 
         #region MainTargetDoTs
 
-        public static async Task<bool> WindbiteOnCurrentTarget()
+        public static async Task<bool> StormbiteOnCurrentTarget()
         {
-            if (!BardSettings.Instance.UseWindBite)
+            if (!BardSettings.Instance.UseStormbite)
                 return false;
 
-            if (Core.Me.ClassLevel < 64)
-            {
-                if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.Windbite.Id))
-                    return false;
-
-                if (!Core.Me.CurrentTarget.InLineOfSight())
-                    return false;
-
-                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
-                    return false;
-
-                if (Core.Me.CurrentTarget.HasAura(Auras.Windbite, true))
-                    return false;
-
-                if (!await Spells.Windbite.Cast(Core.Me.CurrentTarget)) return false;
-                Logger.WriteInfo($@"[DoT-Effect] Windbite on {Core.Me.CurrentTarget.Name}");
-                return true;
-            }
-
-            if (!ActionManager.HasSpell(Spells.Windbite.Id))
+            if (!BardRoutine.Stormbite.IsKnown())
                 return false;
 
             if (!Core.Me.CurrentTarget.InLineOfSight())
@@ -49,39 +30,22 @@ namespace Magitek.Logic.Bard
             if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.StormBite, true))
+            if (Core.Me.CurrentTarget.HasAura(BardRoutine.StormbiteAura, true))
                 return false;
 
-            if (!await Spells.Stormbite.Cast(Core.Me.CurrentTarget)) return false;
-            Logger.WriteInfo($@"[DoT-Effect] Stormbite on {Core.Me.CurrentTarget.Name}");
+            if (!await BardRoutine.Stormbite.Cast(Core.Me.CurrentTarget))
+                return false;
+            
+            Logger.WriteInfo($@"[DoT-Effect] Stormbite/Windbite on {Core.Me.CurrentTarget.Name}");
             return true;
         }
 
-        public static async Task<bool> VenomousBiteOnCurrentTarget()
+        public static async Task<bool> CausticBiteOnCurrentTarget()
         {
-            if (!BardSettings.Instance.UseVenomousBite)
+            if (!BardSettings.Instance.UseCausticBite)
                 return false;
 
-            if (Core.Me.ClassLevel < 64)
-            {
-                if (Core.Me.ClassLevel < 6 || !ActionManager.HasSpell(Spells.VenomousBite.Id))
-                    return false;
-
-                if (!Core.Me.CurrentTarget.InLineOfSight())
-                    return false;
-
-                if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
-                    return false;
-
-                if (Core.Me.CurrentTarget.HasAura(Auras.VenomousBite, true))
-                    return false;
-
-                if (!await Spells.VenomousBite.Cast(Core.Me.CurrentTarget)) return false;
-                Logger.WriteInfo($@"[DoT-Effect] VenomousBite on {Core.Me.CurrentTarget.Name}");
-                return true;
-            }
-
-            if (!ActionManager.HasSpell(Spells.CausticBite.Id))
+            if (!BardRoutine.CausticBite.IsKnown())
                 return false;
 
             if (!Core.Me.CurrentTarget.InLineOfSight())
@@ -90,41 +54,38 @@ namespace Magitek.Logic.Bard
             if (BardSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= BardSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.CausticBite, true))
+            if (Core.Me.CurrentTarget.HasAura(BardRoutine.CausticBiteAura, true))
                 return false;
 
-            if (!await Spells.CausticBite.Cast(Core.Me.CurrentTarget)) return false;
-            Logger.WriteInfo($@"[DoT-Effect] CausticBite on {Core.Me.CurrentTarget.Name}");
+            if (!await BardRoutine.CausticBite.Cast(Core.Me.CurrentTarget)) 
+                return false;
+            
+            Logger.WriteInfo($@"[DoT-Effect] CausticBite/VenomousBite on {Core.Me.CurrentTarget.Name}");
             return true;
         }
 
         public static async Task<bool> IronJawsOnCurrentTarget()
         {
-            //No Dots at this point
-            if (Core.Me.ClassLevel < 6)
-                return false;
-
             if (!BardSettings.Instance.UseIronJaws)
                 return false;
 
             if (!Spells.IronJaws.IsKnown())
                 return false;
 
-            if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.UseVenomousBite)
+            if (!BardSettings.Instance.UseStormbite || !BardSettings.Instance.UseCausticBite)
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.WindbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.VenomousBiteAura, true))
+            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.StormbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.CausticBiteAura, true))
                 return false;
 
-            Aura windbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId);
-            Aura venomousbite = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId);
-
-            if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
-                && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
+            Aura stormbiteAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.StormbiteAura && x.CasterId == Core.Player.ObjectId);
+            Aura causticbiteAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.CausticBiteAura && x.CasterId == Core.Player.ObjectId);
+            if (stormbiteAura.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
+                && causticbiteAura.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
                 return false;
 
             if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) return false;
-            Logger.WriteInfo($@"[DoT-Refresh] Iron Jaws on {Core.Me.CurrentTarget.Name} | Windbite TimeLeft : {windbite.TimespanLeft.TotalMilliseconds} | VenomousBite TimeLeft : {venomousbite.TimespanLeft.TotalMilliseconds}");
+            Logger.WriteInfo($@"[DoT-Refresh] Iron Jaws on {Core.Me.CurrentTarget.Name} | Stormbite/Windbite TimeLeft : {stormbiteAura.TimespanLeft.TotalMilliseconds} | CausticBite/VenomousBite TimeLeft : {causticbiteAura.TimespanLeft.TotalMilliseconds}");
             return true;
         }
 
@@ -133,21 +94,17 @@ namespace Magitek.Logic.Bard
             if (!BardSettings.Instance.SnapShotWithIronJaws)
                 return false;
 
-            //No Dots at this point
-            if (Core.Me.ClassLevel < 6)
-                return false;
-
             if (!BardSettings.Instance.UseIronJaws)
                 return false;
 
             if (!Spells.IronJaws.IsKnown())
                 return false;
 
-            if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.UseVenomousBite)
+            if (!BardSettings.Instance.UseStormbite || !BardSettings.Instance.UseCausticBite)
                 return false;
 
             //if we dont don't have DOTs, we don't consider any snapshot
-            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.WindbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.VenomousBiteAura, true))
+            if (!Core.Me.CurrentTarget.HasAura(BardRoutine.StormbiteAura, true) || !Core.Me.CurrentTarget.HasAura(BardRoutine.CausticBiteAura, true))
                 return false;
 
             //if we dont don't have 3 buff, we don't consider any snapshot
@@ -157,8 +114,8 @@ namespace Magitek.Logic.Bard
             double ragingStrikesAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.RagingStrikes).TimespanLeft.TotalMilliseconds;
             double radiantFinaleAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.RadiantFinale).TimespanLeft.TotalMilliseconds;
             double battleVoiceAuraTimeleft = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.BattleVoice).TimespanLeft.TotalMilliseconds;
-            double windbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
-            double venomousbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
+            double stormbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.StormbiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
+            double causticbiteTimeleft = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == BardRoutine.CausticBiteAura && x.CasterId == Core.Player.ObjectId).TimespanLeft.TotalMilliseconds;
 
             if (Core.Me.HasAura(Auras.RagingStrikes) && Core.Me.HasAura(Auras.RadiantFinale) && Core.Me.HasAura(Auras.BattleVoice)
                 && ragingStrikesAuraTimeleft > 3000 && radiantFinaleAuraTimeleft > 3000 && battleVoiceAuraTimeleft > 3000)
@@ -170,7 +127,7 @@ namespace Magitek.Logic.Bard
             if (!await Spells.IronJaws.Cast(Core.Me.CurrentTarget)) 
                 return false;
 
-            Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name} | Windbite TimeLeft : {windbiteTimeleft} | VenomousBite TimeLeft : {venomousbiteTimeleft} | RS TimeLeft : {ragingStrikesAuraTimeleft}| RF TimeLeft : {radiantFinaleAuraTimeleft} | BV TimeLeft : {battleVoiceAuraTimeleft}");
+            Logger.WriteInfo($@"[DoT-Refresh] Snap Jaws on {Core.Me.CurrentTarget.Name} | Stormbite/Windbite TimeLeft : {stormbiteTimeleft} | Caustic/VenomousBite TimeLeft : {causticbiteTimeleft} | RS TimeLeft : {ragingStrikesAuraTimeleft}| RF TimeLeft : {radiantFinaleAuraTimeleft} | BV TimeLeft : {battleVoiceAuraTimeleft}");
             return true;
         }
 
@@ -182,95 +139,76 @@ namespace Magitek.Logic.Bard
         {
             if (unit == Core.Me.CurrentTarget)
                 return false;
+
             if (!unit.InLineOfSight())
                 return false;
+            
             if (unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds && BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds != 0)
                 return false;
 
             return !unit.HasAura(spell, true);
         }
 
-        public static async Task<bool> WindbiteOnOffTarget()
+        public static async Task<bool> StormbiteOnOffTarget()
         {
-            if (!BardSettings.Instance.EnableMultiDotting) return false;
-
-            if (!BardSettings.Instance.UseWindBite || !BardSettings.Instance.MultiDotWindBite)
+            if (!BardSettings.Instance.EnableMultiDotting) 
                 return false;
 
-            BattleCharacter windBiteMultiDoTTarget = null;
+            if (!BardSettings.Instance.UseStormbite || !BardSettings.Instance.MultiDotWindBite)
+                return false;
 
-            if (Core.Me.ClassLevel < 64)
-            {
-                if (Core.Me.ClassLevel < 30 || !ActionManager.HasSpell(Spells.Windbite.Id))
-                    return false;
-                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(Auras.Windbite, true) && r != Core.Me.CurrentTarget))
-                    return false;
+            if (!BardRoutine.Stormbite.IsKnown())
+                return false;
 
-                windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, Auras.Windbite));
-            }
-            else
-            {
-                if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(Auras.StormBite, true) && r != Core.Me.CurrentTarget))
-                    return false;
+            if (BardSettings.Instance.MultiDotWindBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(BardRoutine.StormbiteAura, true) && r != Core.Me.CurrentTarget))
+                return false;
 
-                windBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, Auras.StormBite));
-            }
-
-            if (windBiteMultiDoTTarget == null) return false;
-            if (!await Spells.Stormbite.Cast(windBiteMultiDoTTarget)) return false;
-            Logger.WriteInfo($@"[MultiDot] Stormbite on {windBiteMultiDoTTarget.Name}");
+            BattleCharacter multiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, BardRoutine.StormbiteAura));
+            if (multiDoTTarget == null) 
+                return false;
+            
+            if (!await Spells.Stormbite.Cast(multiDoTTarget)) return false;
+            Logger.WriteInfo($@"[MultiDot] Stormbite/WindBite on {multiDoTTarget.Name}");
             return true;
 
         }
 
-        public static async Task<bool> VenomousBiteOnOffTarget()
+        public static async Task<bool> CausticBiteOnOffTarget()
         {
             if (!BardSettings.Instance.EnableMultiDotting)
                 return false;
 
-            if (!BardSettings.Instance.UseVenomousBite || !BardSettings.Instance.MultiDotVenomousBite)
+            if (!BardSettings.Instance.UseCausticBite || !BardSettings.Instance.MultiDotVenomousBite)
                 return false;
 
-            BattleCharacter venomousBiteMultiDoTTarget = null;
+            if (!BardRoutine.CausticBite.IsKnown())
+                return false;
 
-            if (Core.Me.ClassLevel < 64)
-            {
-                if (BardSettings.Instance.MultiDotVenomousBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(Auras.VenomousBite, true) && r != Core.Me.CurrentTarget))
-                    return false;
+            if (BardSettings.Instance.MultiDotVenomousBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(BardRoutine.CausticBiteAura, true) && r != Core.Me.CurrentTarget))
+                return false;
 
-                venomousBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, Auras.VenomousBite));
-
-            }
-            else
-            {
-                if (BardSettings.Instance.MultiDotVenomousBiteUpToXEnemies <= Combat.Enemies.Count(r => r.HasAura(Auras.CausticBite, true) && r != Core.Me.CurrentTarget))
-                    return false;
-
-                venomousBiteMultiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, Auras.CausticBite));
-            }
-
-            if (venomousBiteMultiDoTTarget == null) return false;
-            if (!await Spells.CausticBite.Cast(venomousBiteMultiDoTTarget)) return false;
-            Logger.WriteInfo($@"[MultiDot] Caustic Bite on {venomousBiteMultiDoTTarget.Name}");
+            BattleCharacter multiDoTTarget = Combat.Enemies.FirstOrDefault(r => IsValidTargetToApplyDoT(r, BardRoutine.CausticBiteAura));
+            if (multiDoTTarget == null) 
+                return false;
+            
+            if (!await Spells.CausticBite.Cast(multiDoTTarget)) return false;
+            Logger.WriteInfo($@"[MultiDot] Caustic/Venomous Bite on {multiDoTTarget.Name}");
             return true;
         }
 
         public static async Task<bool> IronJawsOnOffTarget()
         {
-            if (Core.Me.ClassLevel < 6) //No Dots at this point
+            if (!BardSettings.Instance.EnableMultiDotting) 
                 return false;
-
-            if (!BardSettings.Instance.EnableMultiDotting) return false;
 
             //We wont need to IJ when we dont want double DoTs on everything
             if (!BardSettings.Instance.MultiDotVenomousBite || !BardSettings.Instance.MultiDotWindBite)
                 return false;
 
-            if (Core.Me.ClassLevel < 56 || !ActionManager.HasSpell(Spells.IronJaws.Id))
+            if (!Spells.IronJaws.IsKnown())
                 return false;
 
             BattleCharacter multiDotTarget = Combat.Enemies.FirstOrDefault(IsValidIronJawsTarget);
-
             if (multiDotTarget == null)
                 return false;
 
@@ -284,24 +222,25 @@ namespace Magitek.Logic.Bard
             {
                 if (unit == Core.Me.CurrentTarget)
                     return false;
+
                 if (!unit.InLineOfSight())
                     return false;
+
                 if (BardSettings.Instance.DontDotIfMultiDotTargetIsDyingSoon && unit.CombatTimeLeft() <= BardSettings.Instance.DontDotIfMultiDotTargetIsDyingWithinXSeconds)
                     return false;
 
-                if (!unit.HasAura(BardRoutine.WindbiteAura, true) || !unit.HasAura(BardRoutine.VenomousBiteAura, true))
+                if (!unit.HasAura(BardRoutine.StormbiteAura, true) || !unit.HasAura(BardRoutine.CausticBiteAura, true))
                     return false;
 
-                Aura windbite = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.WindbiteAura && x.CasterId == Core.Player.ObjectId);
-                Aura venomousbite = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.VenomousBiteAura && x.CasterId == Core.Player.ObjectId);
+                Aura stormbiteAura = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.StormbiteAura && x.CasterId == Core.Player.ObjectId);
+                Aura causticBiteAura = unit.Auras.FirstOrDefault(x => x.Id == BardRoutine.CausticBiteAura && x.CasterId == Core.Player.ObjectId);
 
-                if (windbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
-                    && venomousbite.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
+                if (stormbiteAura.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD
+                    && causticBiteAura.TimespanLeft.TotalMilliseconds - Spells.HeavyShot.AdjustedCooldown.TotalMilliseconds > BardSettings.Instance.RefreshDotsWithXmsLeftAfterLastGCD)
                     return false;
 
                 return true;
             }
-
         }
 
         #endregion

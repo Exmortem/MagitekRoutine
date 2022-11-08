@@ -123,7 +123,7 @@ namespace Magitek.Logic.Warrior
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Tank.ForceLimitBreak(WarriorSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.LandWaker, Spells.HeavySwing);
+            return Tank.ForceLimitBreak(Spells.ShieldWall, Spells.Stronghold, Spells.LandWaker, Spells.HeavySwing);
         }
 
     }

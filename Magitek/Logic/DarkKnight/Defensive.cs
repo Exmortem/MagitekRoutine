@@ -178,7 +178,7 @@ namespace Magitek.Logic.DarkKnight
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Tank.ForceLimitBreak(DarkKnightSettings.Instance, Spells.ShieldWall, Spells.Stronghold, Spells.DarkForce, Spells.HardSlash);
+            return Tank.ForceLimitBreak(Spells.ShieldWall, Spells.Stronghold, Spells.DarkForce, Spells.HardSlash);
         }
     }
 }

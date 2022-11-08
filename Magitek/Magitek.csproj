@@ -280,6 +280,7 @@
     <Compile Include="Logic\Sage\Dispel.cs" />
     <Compile Include="Logic\Sage\HealFightLogic.cs" />
     <Compile Include="Logic\Sage\Heal.cs" />
+    <Compile Include="Logic\Sage\Pvp.cs" />
     <Compile Include="Logic\Sage\SingleTarget.cs" />
     <Compile Include="Logic\Sage\Shield.cs" />
     <Compile Include="Logic\Scholar\HealFightLogic.cs" />
@@ -804,6 +805,9 @@
     <Compile Include="Views\UserControls\Sage\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Sage\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Sage\Shield.xaml.cs">
       <DependentUpon>Shield.xaml</DependentUpon>
     </Compile>
@@ -913,6 +917,9 @@
     <EmbeddedResource Include="Resources\ActionList.json" />
     <EmbeddedResource Include="Resources\StatusList.json" />
     <EmbeddedResource Include="Resources\BossDictionary.json" />
+    <EmbeddedResource Include="Resources\Toggles\BardToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\DancerToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\MachinistToggles.json" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\BossFightLog.xaml">
@@ -1384,6 +1391,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Sage\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Sage\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

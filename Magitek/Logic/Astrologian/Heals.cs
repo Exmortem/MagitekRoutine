@@ -757,7 +757,7 @@ namespace Magitek.Logic.Astrologian
         * ********************************************************************************************/
         public static bool ForceLimitBreak()
         {
-            return Healer.ForceLimitBreak(AstrologianSettings.Instance, Spells.HealingWind, Spells.BreathoftheEarth, Spells.AstralStasis, Spells.Malefic);
+            return Healer.ForceLimitBreak(Spells.HealingWind, Spells.BreathoftheEarth, Spells.AstralStasis, Spells.Malefic);
         }
 
         public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;

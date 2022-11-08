@@ -19,6 +19,9 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Spells.CascadePvp.CanCast())
+                return false;
+
             return await Spells.CascadePvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
         }
 

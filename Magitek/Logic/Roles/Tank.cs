@@ -2,6 +2,7 @@
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.Account;
 using Magitek.Models.Roles;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -89,9 +90,9 @@ namespace Magitek.Logic.Roles
             return await InterruptAndStunLogic.StunOrInterrupt(stuns, interrupts, settings.Strategy);
         }
 
-        public static bool ForceLimitBreak<T>(T settings, SpellData limitBreak1Spell, SpellData limitBreak2Spell, SpellData limitBreak3Spell, SpellData gcd) where T : TankSettings
+        public static bool ForceLimitBreak(SpellData limitBreak1Spell, SpellData limitBreak2Spell, SpellData limitBreak3Spell, SpellData gcd)
         {
-            if (!settings.ForceLimitBreak)
+            if (!BaseSettings.Instance.ForceLimitBreak)
                 return false;
 
             //LB 3
@@ -100,7 +101,7 @@ namespace Magitek.Logic.Roles
                 && gcd.Cooldown.TotalMilliseconds < 500)
             {
                 ActionManager.DoAction(limitBreak3Spell, Core.Me);
-                settings.ForceLimitBreak = false;
+                BaseSettings.Instance.ForceLimitBreak = false;
                 TogglesManager.ResetToggles();
                 return true;
             }
@@ -114,7 +115,7 @@ namespace Magitek.Logic.Roles
                 if (!ActionManager.DoAction(limitBreak2Spell, Core.Me))
                     ActionManager.DoAction(limitBreak1Spell, Core.Me);
 
-                settings.ForceLimitBreak = false;
+                BaseSettings.Instance.ForceLimitBreak = false;
                 TogglesManager.ResetToggles();
                 return true;
             }

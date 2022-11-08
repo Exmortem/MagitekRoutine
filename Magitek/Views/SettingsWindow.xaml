@@ -632,6 +632,9 @@
                         <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
                             <sage:Alliance />
                         </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <sage:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>

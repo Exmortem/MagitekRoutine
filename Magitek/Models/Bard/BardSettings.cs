@@ -93,11 +93,11 @@ namespace Magitek.Models.Bard
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseWindBite { get; set; }
+        public bool UseStormbite { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseVenomousBite { get; set; }
+        public bool UseCausticBite { get; set; }
 
         [Setting]
         [DefaultValue(true)]

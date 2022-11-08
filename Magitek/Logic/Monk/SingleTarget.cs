@@ -283,7 +283,7 @@ namespace Magitek.Logic.Monk
             if (!Core.Me.HasTarget)
                 return false;
 
-            return PhysicalDps.ForceLimitBreak(MonkSettings.Instance, Spells.Braver, Spells.Bladedance, Spells.FinalHeaven, Spells.Bootshine);
+            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.FinalHeaven, Spells.Bootshine);
         }
     }
 }
