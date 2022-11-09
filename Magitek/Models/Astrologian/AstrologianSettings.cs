@@ -592,132 +592,51 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool Disable { get; set; }
+        public bool Pvp_Draw { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool PvpMalefic { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PvpEssentialDignity { get; set; }
+        public bool Pvp_GravityII { get; set; }
 
         [Setting]
         [DefaultValue(false)]
-        public bool PvpEssentialDignityTankOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(40.0f)]
-        public float PvpEssentialDignityHealthPercent { get; set; }
+        public bool Pvp_HealSelfOnly { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Purify { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AutomaticallyPurifyAnythingThatsDispellable { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PurifyOnlyAbove { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float PurifyOnlyAboveHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Muse { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PvpLightspeed { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool PvpLightspeedTankOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(40.0f)]
-        public float PvpLightspeedHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool PvpSynastry { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool PvpSynastryTankOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(60.0f)]
-        public float PvpSynastryHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool Deorbit { get; set; }
-
-        [Setting]
-        [DefaultValue(30.0f)]
-        public float DeorbitHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DeborbitOnlyIfTargetedByHostile { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EmpyreanRain { get; set; }
+        public bool Pvp_AspectedBenefic { get; set; }
 
         [Setting]
         [DefaultValue(50.0f)]
-        public float EmpyreanRainHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(6)]
-        public int EmpyreanRainAllies { get; set; }
+        public float Pvp_AspectedBeneficHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool PvpBenefic { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float PvpBeneficHealthPercent { get; set; }
+        public bool Pvp_Macrocosmos { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool PvpBenefic2 { get; set; }
+        public bool Pvp_Microcosmos { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
-        public float PvpBenefic2HealthPercent { get; set; }
+        public float Pvp_MicrocosmosHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Benefic2AlwaysWithAbridged { get; set; }
+        public bool Pvp_DoubleCast { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Concentrate { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int ConcentrateEnemiesTargeting { get; set; }
-
-        [Setting]
-        [DefaultValue(60.0f)]
-        public float ConcentrateHealthPercent { get; set; }
+        public bool Pvp_DoubleCastMaleficII { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool Safeguard { get; set; }
+        public bool Pvp_DoubleCastAspectedBenefic { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
-        public int SafeguardEnemiesTargeting { get; set; }
-
+        [DefaultValue(true)]
+        public bool Pvp_DoubleCastFallMalefic { get; set; }
         #endregion
 
     }

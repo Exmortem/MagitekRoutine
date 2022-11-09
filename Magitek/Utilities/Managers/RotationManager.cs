@@ -594,9 +594,9 @@ namespace Magitek.Utilities.Managers
                 case ClassJobType.Bard:
                     return await Rotations.Bard.PvP();    
 
-                //case ClassJobType.Conjurer:
-                //case ClassJobType.WhiteMage:
-                //    return await Rotations.WhiteMage.PvP();    
+                case ClassJobType.Conjurer:
+                case ClassJobType.WhiteMage:
+                    return await Rotations.WhiteMage.PvP();    
 
                 case ClassJobType.Thaumaturge:
                 case ClassJobType.BlackMage:
@@ -619,8 +619,8 @@ namespace Magitek.Utilities.Managers
                 //case ClassJobType.DarkKnight:
                 //    return await Rotations.DarkKnight.PvP();    
 
-                //case ClassJobType.Astrologian:
-                //  return await Rotations.Astrologian.PvP();
+                case ClassJobType.Astrologian:
+                  return await Rotations.Astrologian.PvP();
 
                 //case ClassJobType.Samurai:
                 //    return await Rotations.Samurai.PvP();
@@ -635,7 +635,10 @@ namespace Magitek.Utilities.Managers
                 //    return await Rotations.Gunbreaker.PvP();    
 
                 case ClassJobType.Dancer:
-                    return await Rotations.Dancer.PvP();    
+                    return await Rotations.Dancer.PvP();
+
+                case ClassJobType.Sage:
+                    return await Rotations.Sage.PvP();
 
                 default:
                     return false;

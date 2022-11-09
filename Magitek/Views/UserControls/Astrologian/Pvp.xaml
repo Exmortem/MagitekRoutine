@@ -18,115 +18,80 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="10">
+    <StackPanel Margin="5">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Utilities" />
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Margin="0,0,0,5" Content="Malefic" IsChecked="{Binding AstrologianSettings.PvpMalefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,0,0,0" Content="Disable" IsChecked="{Binding AstrologianSettings.Disable, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Purify (remove debuffs)" IsChecked="{Binding AstrologianSettings.Pvp_UsePurify, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Guard (Shield) At " IsChecked="{Binding AstrologianSettings.Pvp_UseGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.Pvp_GuardHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Recuperate (Heal) At  " IsChecked="{Binding AstrologianSettings.Pvp_UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.Pvp_RecuperateHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </Grid>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Benefic " IsChecked="{Binding AstrologianSettings.PvpBenefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PvpBeneficHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Draw" IsChecked="{Binding AstrologianSettings.Pvp_Draw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Benefic II " IsChecked="{Binding AstrologianSettings.PvpBenefic2, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PvpBenefic2HealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
-                <CheckBox Margin="0,2,0,2" Content="Always Benefic II with abridged" IsChecked="{Binding AstrologianSettings.Benefic2AlwaysWithAbridged, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Empyrean Rain if " IsChecked="{Binding AstrologianSettings.EmpyreanRain, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="1" MaxValue="8" MinValue="1" Value="{Binding AstrologianSettings.EmpyreanRainAllies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" allies are under " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.EmpyreanRainHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Essential Dignity " IsChecked="{Binding AstrologianSettings.PvpEssentialDignity, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PvpEssentialDignityHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
-                    <CheckBox Margin="0,2,0,2" Content="Only On Tank" IsChecked="{Binding AstrologianSettings.PvpEssentialDignityTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Synastry " IsChecked="{Binding AstrologianSettings.PvpSynastry, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PvpSynastryHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
-                    <CheckBox Margin="0,2,0,0" Content="Only On Tank" IsChecked="{Binding AstrologianSettings.PvpSynastryTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Recuperate " IsChecked="{Binding AstrologianSettings.Recuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.RecuperateHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
-            </StackPanel>
-
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,5,5" Content="Purify" IsChecked="{Binding AstrologianSettings.Purify, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="0,0,0,5" Content="Everything Dispellable" IsChecked="{Binding AstrologianSettings.AutomaticallyPurifyAnythingThatsDispellable, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Only if allies are above " IsChecked="{Binding AstrologianSettings.PurifyOnlyAbove, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PurifyOnlyAboveHealth, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Gravity II" IsChecked="{Binding AstrologianSettings.Pvp_GravityII, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,5,0" Content="Muse" IsChecked="{Binding AstrologianSettings.Muse, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.MuseManaPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Lightspeed " IsChecked="{Binding AstrologianSettings.PvpLightspeed, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.PvpLightspeedHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
-                    <CheckBox Margin="0,2,5,2" Content="For Tanks Only" IsChecked="{Binding AstrologianSettings.PvpLightspeedTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Deorbit " IsChecked="{Binding AstrologianSettings.Deorbit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DeorbitHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-                </StackPanel>
-                <CheckBox Margin="0,2,5,2" Content="Only if targeted by an enemy" IsChecked="{Binding AstrologianSettings.DeborbitOnlyIfTargetedByHostile, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Concentrate if " IsChecked="{Binding AstrologianSettings.Concentrate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="1" MaxValue="8" MinValue="1" Value="{Binding AstrologianSettings.ConcentrateEnemiesTargeting, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" enemies are targeting an ally under " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.ConcentrateHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <TextBlock Margin="0,0,0,5" Style="{DynamicResource TextBlockSection}" Text="Buffs" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Double Cast on" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Fall Malefic     " IsChecked="{Binding AstrologianSettings.Pvp_DoubleCastFallMalefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Malefic II     " IsChecked="{Binding AstrologianSettings.Pvp_DoubleCastMaleficII, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Aspected Benefic     " IsChecked="{Binding AstrologianSettings.Pvp_DoubleCastAspectedBenefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="0,0,0,0" Content="Safeguard if " IsChecked="{Binding AstrologianSettings.Safeguard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="1" MaxValue="8" MinValue="1" Value="{Binding AstrologianSettings.SafeguardEnemiesTargeting, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" enemies are targeting me, and I'm under  " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SafeguardHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Healing" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Self Heal Only" IsChecked="{Binding AstrologianSettings.Pvp_HealSelfOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Aspected Benefic At " IsChecked="{Binding AstrologianSettings.Pvp_AspectedBenefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.Pvp_AspectedBeneficHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Macrocosmos" IsChecked="{Binding AstrologianSettings.Pvp_Macrocosmos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Microcosmos At " IsChecked="{Binding AstrologianSettings.Pvp_Microcosmos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.Pvp_MicrocosmosHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
 
     </StackPanel>
 </UserControl>

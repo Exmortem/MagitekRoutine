@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.RedMage;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
+using Magitek.Models.BlackMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
@@ -98,15 +99,19 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            if (await MagicDps.Recuperate(RedMageSettings.Instance)) return true;
+            if (await MagicDps.Guard(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
             if (await Pvp.DisplacementPvp()) return true;
 
+            if (await Pvp.SouthernCrossWhitePvp()) return true;
             if (await Pvp.VerHolyPvp()) return true;
             if (await Pvp.EnchantedRedoublementWhitePvp()) return true;
             if (await Pvp.EnchantedZwerchhauWhitePvp()) return true;
             if (await Pvp.EnchantedRiposteWhitePvp()) return true;
 
+            if (await Pvp.SouthernCrossBlackPvp()) return true;
             if (await Pvp.VerFlarePvp()) return true;
             if (await Pvp.EnchantedRedoublementBlackPvp()) return true;
             if (await Pvp.EnchantedZwerchhauBlackPvp()) return true;

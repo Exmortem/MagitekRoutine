@@ -12,6 +12,8 @@ using Magitek.Models.Account;
 using System.Linq;
 using System.Windows.Controls;
 using static Magitek.Utilities.Routines.Astrologian;
+using Magitek.Logic.Roles;
+using Magitek.Models.WhiteMage;
 
 namespace Magitek.Rotations
 {
@@ -77,6 +79,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
+
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (WorldManager.InSanctuary)
                 return false;
 
@@ -170,7 +176,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> CombatBuff()
         {
-          
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (AstrologianSettings.Instance.WeaveOGCDHeals && GlobalCooldown.CanWeave(1)) 
                 
             {
@@ -213,6 +221,10 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             await CombatBuff();
 
             if (Globals.InParty)
@@ -252,25 +264,27 @@ namespace Magitek.Rotations
             return await SingleTarget.Malefic();
         }
 
-        //public static async Task<bool> PvP()
-        //{
-        //    if (Globals.OnPvpMap)
-        //    {
-        //        if (await Pvp.EssentialDignity()) return true; //Heal
-        //        if (await Pvp.Purify()) return true; //Dispel/Heal
-        //        if (await Pvp.Muse()) return true; //Self-Buff
-        //        if (await Pvp.Lightspeed()) return true; //CombatBuff
-        //        if (await Pvp.Synastry()) return true; //Heal
-        //        if (await Pvp.Deorbit()) return true; //Heal
-        //        if (await Pvp.EmpyreanRain()) return true; //Heal
-        //        if (await Pvp.Recuperate()) return true; //Self-Heal
-        //        if (await Pvp.Benefic2()) return true; //Heal
-        //        if (await Pvp.Benefic()) return true; //Heal
-        //        if (await Pvp.Concentrate()) return true; //CombatBuff/Heal
-        //        return await Pvp.Safeguard();
-        //    }
+        public static async Task<bool> PvP()
+        {
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
 
-        //    return false;
-        //}
+            if (await Healer.Guard(AstrologianSettings.Instance)) return true;
+            if (await Healer.Purify(AstrologianSettings.Instance)) return true;
+            if (await Healer.Recuperate(AstrologianSettings.Instance)) return true;
+
+            if (await Pvp.MacrocosmosPvp()) return true;
+            if (await Pvp.MicrocosmosPvp()) return true;
+
+            if (await Pvp.DoubleAspectedBeneficPvp()) return true;
+            if (await Pvp.DoubleGravityIIPvp()) return true;
+            if (await Pvp.DoubleFallMaleficPvp()) return true;
+
+            if (await Pvp.DrawPvp()) return true;
+            if (await Pvp.AspectedBeneficPvp()) return true;
+            if (await Pvp.GravityIIPvp()) return true;
+
+            return (await Pvp.FallMaleficPvp());
+        }
     }
 }

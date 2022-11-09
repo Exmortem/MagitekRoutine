@@ -503,76 +503,8 @@ namespace Magitek.Models.WhiteMage
         public float StopDpsIfPartyMemberBelowHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(80.0f)]
-        public float CurePvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(50.0f)]
-        public float Cure2PvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool BenedictionPvp { get; set; }
-
-        [Setting]
-        [DefaultValue(20.0f)]
-        public float BenedictionPvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool StonePvp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RegenPvp { get; set; }
-
-        [Setting]
-        [DefaultValue(90.0f)]
-        public float RegenPvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float DivineBenisonPvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DivineBenisonPvp { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int DivineBenisonPvpMinimumLillies { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float AssizePvpHealthPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int AssizePvpAllies { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int AssizePvpMinimumLillies { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AssizePvp { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool AssizePvpForMana { get; set; }
-
-        [Setting]
-        [DefaultValue(70.0f)]
-        public float AssizePvpMinimumManaToAssize { get; set; }
-
-        [Setting]
         [DefaultValue(50.0f)]
         public float ThinAirManaPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool FluidAuraPvp { get; set; }
 
         [Setting]
         [DefaultValue(false)]
@@ -585,5 +517,36 @@ namespace Magitek.Models.WhiteMage
 
             Instance.LoadFrom(path);
         }
+
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_HealSelfOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseMiracleOfNature { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_UseAfflatusMisery { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Cure { get; set; }
+
+        [Setting]
+        [DefaultValue(75.0f)]
+        public float Pvp_CureHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Aquaveil { get; set; }
+
+        [Setting]
+        [DefaultValue(65.0f)]
+        public float Pvp_AquaveilHealthPercent { get; set; }
+
+        #endregion
     }
 }
