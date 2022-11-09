@@ -916,6 +916,10 @@
     <EmbeddedResource Include="Resources\Toggles\BardToggles.json" />
     <EmbeddedResource Include="Resources\Toggles\DancerToggles.json" />
     <EmbeddedResource Include="Resources\Toggles\MachinistToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\DragoonToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\ReaperToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\SageToggles.json" />
+    <EmbeddedResource Include="Resources\Toggles\WarriorToggles.json" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\BossFightLog.xaml">
