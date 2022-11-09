@@ -536,9 +536,47 @@ namespace Magitek.Models.Scholar
         [Setting]
         [DefaultValue(false)]
         public bool FightLogicSoilBigAoe { get; set; }
-        
+
         #endregion
 
+        #region PVP
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_HealSelfOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Mummification { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Biolysis { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Adloquium { get; set; }
+
+        [Setting]
+        [DefaultValue(75.0f)]
+        public float Pvp_AdloquiumHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DeploymentTacticsOnSelf { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DeploymentTacticsOnAllies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DeploymentTacticsOnEnemy { get; set; }
+
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Expedient { get; set; }
+        #endregion
 
         public void Load(string path)
         {

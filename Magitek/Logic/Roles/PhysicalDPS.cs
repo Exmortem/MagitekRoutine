@@ -203,6 +203,9 @@ namespace Magitek.Logic.Roles
             if (Spells.Guard.IsKnown() && !Spells.Guard.IsReady())
                 return false;
 
+            if (!Core.Me.IsAlive)
+                return false;
+
             if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)
                 return false;
 

@@ -19,7 +19,7 @@ namespace Magitek.Logic.Monk
             if (Core.Me.ClassLevel < 6)
                 return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
 
-            if (!Core.Me.HasAura(Auras.OpoOpoForm))
+            if (!Core.Me.HasAura(Auras.OpoOpoForm) && Core.Me.ClassLevel >= 52)
                 return false;
 
             if (!Core.Me.HasAura(Auras.LeadenFist) && Core.Me.ClassLevel >= 50)

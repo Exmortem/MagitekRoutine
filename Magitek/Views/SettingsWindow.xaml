@@ -503,6 +503,9 @@
                         <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
                             <scholar:Alliance />
                         </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <scholar:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
@@ -631,6 +634,9 @@
                         </TabItem>
                         <TabItem Header="Alliance" Style="{DynamicResource MainTabAlliance}">
                             <sage:Alliance />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <sage:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
@@ -917,6 +923,9 @@
                         </TabItem>
                         <TabItem Header="Buffs" Style="{DynamicResource MainTabBuffs}">
                             <monk:Buffs />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <monk:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

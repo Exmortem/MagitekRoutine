@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace Magitek.Utilities
 {
@@ -347,11 +348,12 @@ namespace Magitek.Utilities
 
             PvpSynastrySource = 1336,
             PvpSynastryDestination = 1337,
-            Abridged = 1335,
+            PvpAbridged = 1335,
             PvpLightspeed = 1403,
-            FireResonance = 3170,
-            EarthResonance = 3171,
-            WindResonance = 2007,
+            PvpFireResonance = 3170,
+            PvpEarthResonance = 3171,
+            PvpWindResonance = 2007,
+            PvpPressurePoint = 3172,
             DrillPrimed = 3150,
             BioPrimed = 3151,
             AirAnchorPrimed = 3152,
@@ -359,6 +361,7 @@ namespace Magitek.Utilities
             Analysis = 3158,
             Guard = 3054,
             CureIIIReady = 3083,
+            PvpAquaveil = 3086,
             Mummification = 3091,
             PvpExpedience = 3092,
             PvpGalvanize = 3087,
@@ -367,6 +370,9 @@ namespace Magitek.Utilities
             BalanceDrawn = 3101,
             BoleDrawn = 3403,
             ArrowDrawn = 3404,
+            PvpKardia = 2871,
+            PvpKardion = 2872,
+            PvpEukrasias = 2867,
             Addersting = 3115,
             AstralFireIII = 3381,
             PvpSwiftcast = 1987,
@@ -376,7 +382,9 @@ namespace Magitek.Utilities
             VermilionRadiance = 3233,
             AstralWarmth = 3216,
             UmbralFreeze = 3217,
-            DeepFreeze = 3219;
+            DeepFreeze = 3219,
+            PvpBiolytic = 3090,
+            PvpCatalyze = 3088;
 
         #endregion
 

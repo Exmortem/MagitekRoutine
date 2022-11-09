@@ -127,7 +127,41 @@ namespace Magitek.Models.Monk
 
         #region PVP
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SixSidedStar { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_RisingPhoenix { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Enlightenment { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_RiddleofEarth { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_EarthReply { get; set; }
+
+        [Setting]
+        [DefaultValue(30.0f)]
+        public float Pvp_EarthReplyHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Thunderclap { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Meteodrive { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float Pvp_MeteodriveHealthPercent { get; set; }
         #endregion
     }
 }

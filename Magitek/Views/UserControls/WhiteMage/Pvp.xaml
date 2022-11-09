@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="470"
+             d:DesignHeight="400"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -17,113 +17,66 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="10">
+    <StackPanel Margin="5">
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel>
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Utilities" />
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Stone 3" IsChecked="{Binding WhiteMageSettings.StonePvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Purify (remove debuffs)" IsChecked="{Binding WhiteMageSettings.Pvp_UsePurify, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Guard (Shield) At " IsChecked="{Binding WhiteMageSettings.Pvp_UseGuard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="1" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Pvp_GuardHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Recuperate (Heal) At  " IsChecked="{Binding WhiteMageSettings.Pvp_UseRecuperate, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Pvp_RecuperateHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                </Grid>
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Muse When Under " IsChecked="{Binding WhiteMageSettings.UseMuse, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.MuseManaPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent    " />
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Afflatus Misery" IsChecked="{Binding WhiteMageSettings.Pvp_UseAfflatusMisery, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Safeguard When Under " IsChecked="{Binding WhiteMageSettings.UseSafeguard, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.SafeguardHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent    " />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Cure When Under " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.CurePvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent    " />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Cure 2 When Under " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Cure2PvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent    " />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Benediction When Under " IsChecked="{Binding WhiteMageSettings.BenedictionPvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.BenedictionPvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent    " />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Regen When Under " IsChecked="{Binding WhiteMageSettings.RegenPvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.RegenPvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent    " />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Miracle Of Nature" IsChecked="{Binding WhiteMageSettings.Pvp_UseMiracleOfNature, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Divine Benison When Under " IsChecked="{Binding WhiteMageSettings.DivineBenisonPvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.DivineBenisonPvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent And We Have At Least " />
-                    <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding WhiteMageSettings.DivineBenisonPvpMinimumLillies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Lillies  " />
+                <TextBlock Style="{DynamicResource TextBlockSection}" Text="Healing" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Self Heal Only" IsChecked="{Binding WhiteMageSettings.Pvp_HealSelfOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Assize When Under " IsChecked="{Binding WhiteMageSettings.AssizePvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AssizePvpHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Cure At " IsChecked="{Binding WhiteMageSettings.Pvp_Cure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Pvp_CureHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
-                <StackPanel Margin="0,3" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" When At Least " />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AssizePvpAllies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" People Need Healing And We Have At Least " />
-                    <controls:Numeric MaxValue="3" MinValue="1" Value="{Binding WhiteMageSettings.AssizePvpMinimumLillies, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Lillies  " />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Aquaveil At " IsChecked="{Binding WhiteMageSettings.Pvp_Aquaveil, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.Pvp_AquaveilHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Assize To Regain Mana When Under " IsChecked="{Binding WhiteMageSettings.AssizePvpForMana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.AssizePvpMinimumManaToAssize, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Fluid Aura" IsChecked="{Binding WhiteMageSettings.FluidAuraPvp, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
     </StackPanel>
 </UserControl>
+

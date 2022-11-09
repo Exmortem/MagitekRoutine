@@ -2,7 +2,9 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic;
+using Magitek.Logic.Roles;
 using Magitek.Logic.WhiteMage;
+using Magitek.Models.Account;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using System.Linq;
@@ -65,6 +67,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Heal()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             if (await Casting.TrackSpellCast()) 
                 return true;
             
@@ -179,6 +184,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             //Only stop doing damage when in party
             if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
@@ -211,5 +219,23 @@ namespace Magitek.Rotations
             return await SingleTarget.Stone();
         }
 
+        public static async Task<bool> PvP()
+        {
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            if (await Healer.Guard(WhiteMageSettings.Instance)) return true;
+            if (await Healer.Purify(WhiteMageSettings.Instance)) return true;
+            if (await Healer.Recuperate(WhiteMageSettings.Instance)) return true;
+
+            if (await Pvp.CureIIIPvp()) return true;
+            if (await Pvp.AquaveilPvp()) return true;
+            if (await Pvp.CureIIPvp()) return true;
+
+            if (await Pvp.AfflatusMiseryPvp()) return true;
+            if (await Pvp.MiracleOfNaturePvp()) return true;
+
+            return (await Pvp.GlareIIIPvp());
+        }
     }
 }

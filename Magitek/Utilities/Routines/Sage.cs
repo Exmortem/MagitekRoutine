@@ -22,6 +22,13 @@ namespace Magitek.Utilities.Routines
 
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Sage, Spells.Diagnosis);
 
+        public static int AoeEnemies5Yards;
+        public static int AoeEnemies30Yards;
+        public static void RefreshVars()
+        {
+            AoeEnemies5Yards = Combat.Enemies.Count(x => x.WithinSpellRange(5) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
+            AoeEnemies30Yards = Combat.Enemies.Count(x => x.WithinSpellRange(30) && x.IsTargetable && x.IsValid && !x.HasAnyAura(Auras.Invincibility) && x.NotInvulnerable());
+        }
         public static bool CanWeave()
         {
             if (SageSettings.Instance.WeaveOGCDHeals

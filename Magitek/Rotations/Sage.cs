@@ -7,6 +7,9 @@ using Magitek.Models.Sage;
 using Magitek.Utilities;
 using SageRoutine = Magitek.Utilities.Routines.Sage;
 using System.Threading.Tasks;
+using Magitek.Logic.Roles;
+using Magitek.Models.Account;
+
 namespace Magitek.Rotations
 {
     public static class Sage
@@ -66,6 +69,9 @@ namespace Magitek.Rotations
         {
             if (WorldManager.InSanctuary)
                 return false;
+
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (Core.Me.IsMounted)
                 return false;
@@ -171,6 +177,9 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
+
             //Only stop doing damage when in party
             if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
@@ -219,6 +228,28 @@ namespace Magitek.Rotations
             if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Dyskrasia()) return true;
             return await SingleTarget.Dosis();
+        }
+
+
+        public static async Task<bool> PvP()
+        {
+            if (!BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await Combat();
+
+            SageRoutine.RefreshVars();
+
+            if (await Healer.Guard(SageSettings.Instance)) return true;
+            if (await Healer.Purify(SageSettings.Instance)) return true;
+            if (await Healer.Recuperate(SageSettings.Instance)) return true;
+
+            if (await Pvp.KardiaPvp()) return true;
+            if (await Pvp.PneumaPvp()) return true;
+            if (await Pvp.EukrasiaPvp()) return true;
+
+            if (await Pvp.PhlegmaIIIPvp()) return true;
+            if (await Pvp.ToxikonPvp()) return true;
+
+            return (await Pvp.DosisIIIPvp());
         }
     }
 }

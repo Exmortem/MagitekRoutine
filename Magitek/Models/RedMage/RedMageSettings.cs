@@ -185,47 +185,59 @@ namespace Magitek.Models.RedMage
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool CorpsacorpsPvp { get; set; }
+        public bool Pvp_Corpsacorps { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool DisplacementPvp { get; set; }
+        public bool Pvp_Displacement { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedResolution { get; set; }
+        public bool Pvp_UsedResolution { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedResolutionWhite { get; set; }
+        public bool Pvp_UsedResolutionWhite { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_UsedResolutionBlack { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedResolutionBlack { get; set; }
+        public bool Pvp_UsedMeleeCombo { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedMeleeCombo { get; set; }
+        public bool Pvp_UsedVerHoly { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_UsedVerflare { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedVerHoly { get; set; }
+        public bool Pvp_UsedOGCD { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_UsedFazzle { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedVerflare { get; set; }
+        public bool Pvp_UsedMagickBarrier { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedOGCD { get; set; }
+        public bool Pvp_SouthernCross { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool UsedFazzle { get; set; }
+        public bool Pvp_SouthernCrossWhite { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool UsedMagickBarrier { get; set; }
+        [DefaultValue(false)]
+        public bool Pvp_SouthernCrossBlack { get; set; }
         #endregion
     }
 }

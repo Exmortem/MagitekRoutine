@@ -157,5 +157,16 @@ namespace Magitek.Utilities.Routines
                 ScholarSettings.Instance.ResAllianceTanks
             );
         }
+
+        public static int EnemiesInCone;
+
+        public static void RefreshVars()
+        {
+            if (!Core.Me.InCombat || !Core.Me.HasTarget)
+                return;
+
+            EnemiesInCone = Core.Me.EnemiesInCone(8);
+           
+        }
     }
 }

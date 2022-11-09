@@ -33,7 +33,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.SlipstreamPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedSlipstream)
+            if (!SummonerSettings.Instance.Pvp_UsedSlipstream)
                 return false;
 
             if (MovementManager.IsMoving)
@@ -51,7 +51,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.MountainBusterPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedMountainBuster)
+            if (!SummonerSettings.Instance.Pvp_UsedMountainBuster)
                 return false;
 
             if (MovementManager.IsMoving)
@@ -85,10 +85,10 @@ namespace Magitek.Logic.Summoner
             if (!Spells.RadiantAegisPvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedRadiantAegis)
+            if (!SummonerSettings.Instance.Pvp_UsedRadiantAegis)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.UseRadiantAegisHealthPercent)
+            if (Core.Me.CurrentHealthPercent > SummonerSettings.Instance.Pvp_UseRadiantAegisHealthPercent)
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
@@ -104,7 +104,7 @@ namespace Magitek.Logic.Summoner
             if (!Spells.CrimsonStrikePvp.CanCast())
                 return false;
 
-            if (!SummonerSettings.Instance.UsedCrimsonStrike)
+            if (!SummonerSettings.Instance.Pvp_UsedCrimsonStrike)
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
@@ -135,6 +135,42 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             return await Spells.EnkindlePhoenixPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SummonBahamutPvp()
+        {
+
+            if (!Spells.SummonBahamutPvp.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!SummonerSettings.Instance.Pvp_Summon || !SummonerSettings.Instance.Pvp_SummonBahamut)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 30)
+                return false;
+
+            return await Spells.SummonBahamutPvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> SummonPhoenixPvp()
+        {
+
+            if (!Spells.SummonPhoenixPvp.CanCast())
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!SummonerSettings.Instance.Pvp_Summon || !SummonerSettings.Instance.Pvp_SummonPhoenix)
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 30)
+                return false;
+
+            return await Spells.SummonPhoenixPvp.Cast(Core.Me.CurrentTarget);
         }
 
     }
