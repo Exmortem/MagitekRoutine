@@ -61,6 +61,11 @@
                 <StackPanel Margin="5">
                     <CheckBox Content="Pneuma" IsChecked="{Binding SageSettings.Pvp_Pneuma, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Mesotes / LB with at least  " IsChecked="{Binding SageSettings.Pvp_Mesotes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="4" MinValue="0" Value="{Binding SageSettings.Pvp_MesoteNearbyAllies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Allies around" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -184,6 +184,8 @@ namespace Magitek.Rotations
 
             //LB
             if (await Pvp.MarksmansSpite()) return true;
+            if (await Pvp.HeatBlast()) return true;
+            if (await Pvp.Scattergun()) return true;
 
             // Buff
             if (await Pvp.BishopAutoturret()) return true;
@@ -197,7 +199,6 @@ namespace Magitek.Rotations
             if (await Pvp.Drill()) return true;
 
             // Main
-            if (await Pvp.HeatBlast()) return true;
             return await Pvp.BlastedCharge();
         }
     }

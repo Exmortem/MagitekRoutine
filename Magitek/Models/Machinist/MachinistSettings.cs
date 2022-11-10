@@ -131,6 +131,10 @@ namespace Magitek.Models.Machinist
         #region PVP
         [Setting]
         [DefaultValue(true)]
+        public bool Pvp_Scattergun { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Pvp_UsedAnalysisOnDrill { get; set; }
 
         [Setting]
@@ -148,6 +152,10 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_UseMarksmansSpite { get; set; }
-    #endregion
-}
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_UseMarksmansSpiteHealthPercent { get; set; }
+        #endregion
+    }
 }

@@ -38,8 +38,8 @@ namespace Magitek.Rotations
                 return false;
             }
 
-            if (Globals.OnPvpMap)
-                return false;
+            if (BaseSettings.Instance.ActivePvpCombatRoutine)
+                return await PvP();
 
             if (WorldManager.InSanctuary)
                 return false;

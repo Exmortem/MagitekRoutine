@@ -572,10 +572,17 @@ namespace Magitek.Models.Scholar
         [DefaultValue(true)]
         public bool Pvp_DeploymentTacticsOnEnemy { get; set; }
 
-
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_Expedient { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SummonSeraph { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_SummonSeraphNearbyAllies { get; set; }
         #endregion
 
         public void Load(string path)

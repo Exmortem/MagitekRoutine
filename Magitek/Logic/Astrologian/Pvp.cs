@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
+using Magitek.Models.Sage;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
@@ -196,6 +197,23 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             return await Spells.MicrocosmosPvp.Cast(Core.Me);
+        }
+
+        public static async Task<bool> CelestialRiverPvp()
+        {
+            if (!Spells.CelestialRiverPvp.CanCast())
+                return false;
+
+            if (MovementManager.IsMoving)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Group.CastableAlliesWithin10.Count(x => x.IsValid && x.IsAlive) < AstrologianSettings.Instance.Pvp_CelestialRiverNearbyAllies)
+                return false;
+
+            return await Spells.CelestialRiverPvp.Cast(Core.Me);
         }
     }
 }
