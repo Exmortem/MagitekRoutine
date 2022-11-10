@@ -242,6 +242,8 @@ namespace Magitek.Rotations
             if (await Healer.Purify(SageSettings.Instance)) return true;
             if (await Healer.Recuperate(SageSettings.Instance)) return true;
 
+            if (await Pvp.MesotesPvp()) return true;
+
             if (await Pvp.KardiaPvp()) return true;
             if (await Pvp.PneumaPvp()) return true;
             if (await Pvp.EukrasiaPvp()) return true;

@@ -646,6 +646,14 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_PhlegmaIII { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Mesotes { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_MesoteNearbyAllies { get; set; }
         #endregion
 
     }

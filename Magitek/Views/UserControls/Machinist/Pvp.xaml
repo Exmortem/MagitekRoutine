@@ -50,7 +50,12 @@
             <StackPanel Margin="5">
                 <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="MarksmansSpite / LB" IsChecked="{Binding MachinistSettings.Pvp_UseMarksmansSpite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Scattergun" IsChecked="{Binding MachinistSettings.Pvp_Scattergun, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="MarksmansSpite / LB target at " IsChecked="{Binding MachinistSettings.Pvp_UseMarksmansSpite, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="2" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding MachinistSettings.Pvp_UseMarksmansSpiteHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

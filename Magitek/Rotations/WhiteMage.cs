@@ -228,6 +228,8 @@ namespace Magitek.Rotations
             if (await Healer.Purify(WhiteMageSettings.Instance)) return true;
             if (await Healer.Recuperate(WhiteMageSettings.Instance)) return true;
 
+            if (await Pvp.AfflatusPurgationPvp()) return true;
+
             if (await Pvp.CureIIIPvp()) return true;
             if (await Pvp.AquaveilPvp()) return true;
             if (await Pvp.CureIIPvp()) return true;

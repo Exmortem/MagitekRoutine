@@ -637,6 +637,14 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_DoubleCastFallMalefic { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_CelestialRiver { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_CelestialRiverNearbyAllies { get; set; }
         #endregion
 
     }

@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Sage;
+using Magitek.Models.Scholar;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -142,6 +143,23 @@ namespace Magitek.Logic.Sage
                     return 70;
                 return 0;
             }
+        }
+
+        public static async Task<bool> MesotesPvp()
+        {
+            if (!Spells.MesotesPvp.CanCast())
+                return false;
+
+            if (MovementManager.IsMoving)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Group.CastableAlliesWithin10.Count(x => x.IsValid && x.IsAlive) < SageSettings.Instance.Pvp_MesoteNearbyAllies)
+                return false;
+
+            return await Spells.MesotesPvp.Cast(Core.Me);
         }
     }
 }

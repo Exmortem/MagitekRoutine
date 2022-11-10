@@ -26,7 +26,10 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            if (!Spells.BlastChargePvp.CanCast())
+            if (!Spells.HeatBlast.CanCast())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Overheated))
                 return false;
 
             return await Spells.HeatBlastPvp.Cast(Core.Me.CurrentTarget);
@@ -41,6 +44,20 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             return await Spells.WildfirePvp.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Scattergun()
+        {
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Spells.ScattergunPvp.CanCast())
+                return false;
+
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 12 + x.CombatReach) < 1)
+                return false;
+
+            return await Spells.ScattergunPvp.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Analysis()
@@ -133,6 +150,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (!Spells.MarksmansSpitePvp.CanCast())
+                return false;
+
+            if(Core.Me.CurrentTarget.CurrentHealthPercent > MachinistSettings.Instance.Pvp_UseMarksmansSpiteHealthPercent)
                 return false;
 
             return await Spells.MarksmansSpitePvp.Cast(Core.Me.CurrentTarget);
