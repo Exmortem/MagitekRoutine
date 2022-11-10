@@ -6,6 +6,7 @@ using ff14bot.Objects;
 using ff14bot.Pathing;
 using Magitek.Extensions;
 using System.Threading.Tasks;
+using BaseSettings = Magitek.Models.Account.BaseSettings;
 
 namespace Magitek.Utilities
 {
@@ -13,12 +14,15 @@ namespace Magitek.Utilities
     {
         public static void NavigateToUnitLos(GameObject unit, float distance)
         {
+            if (!BaseSettings.Instance.MagitekMovement)
+                return;
+
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                 return;
 
             if (unit == null)
                 return;
-            
+
             if (AvoidanceManager.IsRunningOutOfAvoid)
                 return;
 
