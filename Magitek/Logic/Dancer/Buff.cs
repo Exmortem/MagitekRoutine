@@ -137,42 +137,48 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseClosedPosition)
                 return false;
 
+           // Logger.Write($@"[Magitek] Has Dance Partner : {Core.Me.HasAura(Auras.ClosedPosition)}");
             if (Core.Me.HasAura(Auras.ClosedPosition))
                 return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)
-                return await Spells.ClosedPosition.Cast(ChocoboManager.Object);
+            if (!Globals.InParty)
+            {
+                if (DancerSettings.Instance.DancePartnerChocobo && ChocoboManager.Summoned)
+                    return await Spells.ClosedPosition.Cast(ChocoboManager.Object);
+                else
+                    return false;
+            }
 
             IEnumerable<Character> allyList = null;
 
             switch (DancerSettings.Instance.SelectedStrategy)
             {
                 case DancePartnerStrategy.ClosestDps:
-                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsDps()).OrderBy(GetWeight);
+                    allyList = Group.CastableAlliesWithin30.Where(a => a.IsAlive && !a.IsMe && a.IsDps()).OrderBy(GetWeight);
                     break;
 
                 case DancePartnerStrategy.MeleeDps:
-                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsMeleeDps()).OrderBy(GetWeight);
+                    allyList = Group.CastableAlliesWithin30.Where(a => a.IsAlive && !a.IsMe && a.IsMeleeDps()).OrderBy(GetWeight);
                     break;
 
                 case DancePartnerStrategy.RangedDps:
-                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsRangedDpsCard()).OrderBy(GetWeight);
+                    allyList = Group.CastableAlliesWithin30.Where(a => a.IsAlive && !a.IsMe && a.IsRangedDpsCard()).OrderBy(GetWeight);
                     break;
 
                 case DancePartnerStrategy.Tank:
-                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsTank()).OrderBy(GetWeight);
+                    allyList = Group.CastableAlliesWithin30.Where(a => a.IsAlive && !a.IsMe && a.IsTank()).OrderBy(GetWeight);
                     break;
 
                 case DancePartnerStrategy.Healer:
-                    allyList = Group.CastableAlliesWithin10.Where(a => a.IsAlive && !a.IsMe && a.IsHealer()).OrderBy(GetWeight);
+                    allyList = Group.CastableAlliesWithin30.Where(a => a.IsAlive && !a.IsMe && a.IsHealer()).OrderBy(GetWeight);
                     break;
             }
 
             if (allyList == null)
-                return false;
+                    return false;
 
             return await Spells.ClosedPosition.CastAura(allyList.FirstOrDefault(), Auras.DancePartner);
         }

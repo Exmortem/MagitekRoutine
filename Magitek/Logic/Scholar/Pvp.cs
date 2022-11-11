@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.Dancer;
 using Magitek.Models.Scholar;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
@@ -179,5 +180,21 @@ namespace Magitek.Logic.Scholar
             return await Spells.ExpedientPvp.Cast(Core.Me);
         }
 
+        public static async Task<bool> SummonSeraphPvp()
+        {
+            if (!Spells.SummonSeraphPvp.CanCast())
+                return false;
+
+            if (MovementManager.IsMoving)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (Group.CastableAlliesWithin30.Count(x => x.IsValid && x.IsAlive) < ScholarSettings.Instance.Pvp_SummonSeraphNearbyAllies)
+                return false;
+
+            return await Spells.SummonSeraphPvp.Cast(Core.Me);
+        }
     }
 }

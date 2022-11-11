@@ -273,6 +273,8 @@ namespace Magitek.Rotations
             if (await Healer.Purify(AstrologianSettings.Instance)) return true;
             if (await Healer.Recuperate(AstrologianSettings.Instance)) return true;
 
+            if (await Pvp.CelestialRiverPvp()) return true;
+
             if (await Pvp.MacrocosmosPvp()) return true;
             if (await Pvp.MicrocosmosPvp()) return true;
 

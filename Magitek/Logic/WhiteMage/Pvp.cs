@@ -136,7 +136,7 @@ namespace Magitek.Logic.WhiteMage
 
         }
 
-            public static async Task<bool> AquaveilPvp()
+        public static async Task<bool> AquaveilPvp()
         {
 
             if (!Spells.AquaveilPvp.CanCast())
@@ -176,6 +176,21 @@ namespace Magitek.Logic.WhiteMage
 
                 return unit.Distance(Core.Me) <= 30;
             }
+        }
+
+        public static async Task<bool> AfflatusPurgationPvp()
+        {
+
+            if (!Spells.AfflatusPurgationPvp.CanCast())
+                return false;
+
+            if (MovementManager.IsMoving)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            return await Spells.AfflatusPurgationPvp.Cast(Core.Me.CurrentTarget);
         }
     }
 }

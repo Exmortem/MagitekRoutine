@@ -994,6 +994,7 @@ namespace Magitek.Utilities
         public static readonly SpellData AquaveilPvp = DataManager.GetSpellData(29227);
         public static readonly SpellData MiracleOfNaturePvp = DataManager.GetSpellData(29228);
         public static readonly SpellData SeraphStrikePvp = DataManager.GetSpellData(29229);
+        public static readonly SpellData AfflatusPurgationPvp = DataManager.GetSpellData(29230);
 
         //SCH
         public static readonly SpellData BroilIVPvp = DataManager.GetSpellData(29231);
@@ -1004,7 +1005,8 @@ namespace Magitek.Utilities
         public static readonly SpellData ExpedientPvp = DataManager.GetSpellData(29236);
         public static readonly SpellData ConsolationPvp = DataManager.GetSpellData(29238);
         public static readonly SpellData SeraphicVeil = DataManager.GetSpellData(29240);
-
+        public static readonly SpellData SummonSeraphPvp = DataManager.GetSpellData(29237);
+        
         //AST
         public static readonly SpellData FallMaleficPvp = DataManager.GetSpellData(29242);
         public static readonly SpellData AspectedBeneficPvp = DataManager.GetSpellData(29243);
@@ -1017,6 +1019,7 @@ namespace Magitek.Utilities
         public static readonly SpellData BalancePvp = DataManager.GetSpellData(29250);
         public static readonly SpellData MacrocosmosPvp = DataManager.GetSpellData(29253);
         public static readonly SpellData MicrocosmosPvp = DataManager.GetSpellData(29254);
+        public static readonly SpellData CelestialRiverPvp = DataManager.GetSpellData(29255);
 
         //SAGE
         public static readonly SpellData DosisIIIPvp = DataManager.GetSpellData(29256);
@@ -1026,6 +1029,7 @@ namespace Magitek.Utilities
         public static readonly SpellData IcarusPvp = DataManager.GetSpellData(29261);
         public static readonly SpellData ToxikonPvp = DataManager.GetSpellData(29262);
         public static readonly SpellData KardiaPvp = DataManager.GetSpellData(29264);
+        public static readonly SpellData MesotesPvp = DataManager.GetSpellData(29266);
 
         //Bard
         public static readonly SpellData PowerfulShotPvp = DataManager.GetSpellData(29391);
@@ -1042,6 +1046,7 @@ namespace Magitek.Utilities
         //MCH
         public static readonly SpellData BlastChargePvp = DataManager.GetSpellData(29402);
         public static readonly SpellData HeatBlastPvp = DataManager.GetSpellData(29403);
+        public static readonly SpellData ScattergunPvp = DataManager.GetSpellData(29404);
         public static readonly SpellData DrillPvp = DataManager.GetSpellData(29405);
         public static readonly SpellData BioblasterPvp = DataManager.GetSpellData(29406);
         public static readonly SpellData AirAnchorPvp = DataManager.GetSpellData(29407);

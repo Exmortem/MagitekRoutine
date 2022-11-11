@@ -547,6 +547,9 @@ namespace Magitek.Models.WhiteMage
         [DefaultValue(65.0f)]
         public float Pvp_AquaveilHealthPercent { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_AfflatusPurgation { get; set; }
         #endregion
     }
 }

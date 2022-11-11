@@ -253,6 +253,8 @@ namespace Magitek.Rotations
             if (await Healer.Purify(ScholarSettings.Instance)) return true;
             if (await Healer.Recuperate(ScholarSettings.Instance)) return true;
 
+            if (await Pvp.SummonSeraphPvp()) return true;
+
             if (await Pvp.DeploymentTacticsEnemyPvp()) return true;
             if (await Pvp.DeploymentTacticsAlliesPvp()) return true;
             if (await Pvp.DeploymentTacticsPvp()) return true;

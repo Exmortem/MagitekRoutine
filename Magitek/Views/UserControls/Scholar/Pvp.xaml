@@ -55,6 +55,11 @@
                 <StackPanel Margin="5">
                     <CheckBox Content="Mummification" IsChecked="{Binding ScholarSettings.Pvp_Mummification, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Summon Seraph / LB with at least  " IsChecked="{Binding ScholarSettings.Pvp_SummonSeraph, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="4" MinValue="0" Value="{Binding ScholarSettings.Pvp_SummonSeraphNearbyAllies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Allies around" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

@@ -55,6 +55,9 @@
                 <StackPanel Margin="5">
                     <CheckBox Content="Miracle Of Nature" IsChecked="{Binding WhiteMageSettings.Pvp_UseMiracleOfNature, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Afflatus Purgation / LB" IsChecked="{Binding WhiteMageSettings.Pvp_AfflatusPurgation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

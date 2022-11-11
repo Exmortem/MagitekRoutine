@@ -56,6 +56,11 @@
                 <StackPanel Margin="5">
                     <CheckBox Content="Gravity II" IsChecked="{Binding AstrologianSettings.Pvp_GravityII, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Celestial River / LB with at least  " IsChecked="{Binding AstrologianSettings.Pvp_CelestialRiver, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="4" MinValue="0" Value="{Binding AstrologianSettings.Pvp_CelestialRiverNearbyAllies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Allies around" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
