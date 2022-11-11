@@ -16,6 +16,7 @@
         <CheckBox Margin="20,0,0,3" Content="Include File Path" IsChecked="{Binding Settings.DebugCastingCallerMemberNameIncludePath, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="0,0,0,3" Content="Debug Enemy Info (Prints Removes/Adds in Log)" IsChecked="{Binding Settings.DebugEnemyInfo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         <CheckBox Margin="0,0,0,3" Content="Enable Casting Debugging" IsChecked="{Binding Settings.DebugPlayerCasting, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <CheckBox Margin="0,0,0,3" Content="Allow Magitek to move in autonomous mode" IsChecked="{Binding Settings.MagitekMovement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
         <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
 

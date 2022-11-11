@@ -4124,7 +4124,7 @@ namespace Magitek.Utilities
                             22727 //Black Halo
                         },
                         SharedTankBusters = null,
-                        Aoes = new List<uint>() { 
+                        Aoes = new List<uint>() {
                             22768 //Shockwave Pulsar
                         },
                         BigAoes = new List<uint>() {
@@ -5534,7 +5534,7 @@ namespace Magitek.Utilities
                         Name = "Soul Vessel",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 
+                        Aoes = new List<uint> {
                             28973 //Soul Vessel Magmatic Spell
                         },
                         BigAoes = null
@@ -5544,7 +5544,7 @@ namespace Magitek.Utilities
                         Name = "Soul Vessel",
                         TankBusters = null,
                         SharedTankBusters = null,
-                        Aoes = new List<uint> { 
+                        Aoes = new List<uint> {
                             28973 //Soul Vessel Magmatic Spell
                         },
                         BigAoes = null
