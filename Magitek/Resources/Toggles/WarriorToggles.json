@@ -194,8 +194,19 @@
     "ToggleJob": "Warrior",
     "ToggleShowOnOverlay": true,
     "IsPvpToggle": false,
-    "ToggleChecked": false,
-    "Settings": [],
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "UseHolmgang",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
