@@ -187,7 +187,10 @@ namespace Magitek.Logic.Roles
             if (Core.Me.CurrentHealthPercent > settings.Pvp_GuardHealthPercent)
                 return false;
 
-            return await Spells.Guard.Cast(Core.Me);
+            if (!await Spells.Guard.CastAura(Core.Me, Auras.Guard))
+                return false;
+
+            return await Coroutine.Wait(1500, () => Core.Me.HasAura(Auras.Guard, true));
         }
     }
 }
