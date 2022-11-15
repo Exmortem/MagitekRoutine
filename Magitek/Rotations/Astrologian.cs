@@ -278,13 +278,16 @@ namespace Magitek.Rotations
             if (await Pvp.MacrocosmosPvp()) return true;
             if (await Pvp.MicrocosmosPvp()) return true;
 
-            if (await Pvp.DoubleAspectedBeneficPvp()) return true;
-            if (await Pvp.DoubleGravityIIPvp()) return true;
-            if (await Pvp.DoubleFallMaleficPvp()) return true;
-
             if (await Pvp.DrawPvp()) return true;
             if (await Pvp.AspectedBeneficPvp()) return true;
-            if (await Pvp.GravityIIPvp()) return true;
+            if (await Pvp.DoubleAspectedBeneficPvp()) return true;
+
+            if (!Healer.GuardCheck())
+            {
+                if (await Pvp.DoubleGravityIIPvp()) return true;
+                if (await Pvp.DoubleFallMaleficPvp()) return true;
+                if (await Pvp.GravityIIPvp()) return true;
+            }
 
             return (await Pvp.FallMaleficPvp());
         }

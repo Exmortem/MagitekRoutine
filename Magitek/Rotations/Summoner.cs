@@ -122,23 +122,27 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            if (await MagicDps.Guard(BlackMageSettings.Instance)) return true;
-            if (await MagicDps.Purify(BlackMageSettings.Instance)) return true;
-            if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
+            if (await MagicDps.Guard(SummonerSettings.Instance)) return true;
+            if (await MagicDps.Purify(SummonerSettings.Instance)) return true;
+            if (await MagicDps.Recuperate(SummonerSettings.Instance)) return true;
 
             if (await Pvp.SummonBahamutPvp()) return true;
             if (await Pvp.SummonPhoenixPvp()) return true;
 
-            if (await Pvp.RadiantAegisPvp()) return true;
+            if (!MagicDps.GuardCheck())
+            {
+                if (await Pvp.RadiantAegisPvp()) return true;
 
-            if (await Pvp.EnkindleBahamutPvp()) return true;
-            if (await Pvp.EnkindlePhoenixPvp()) return true;
+                if (await Pvp.EnkindleBahamutPvp()) return true;
+                if (await Pvp.EnkindlePhoenixPvp()) return true;
 
-            if (await Pvp.FesterPvp()) return true;
-            if (await Pvp.CrimsonStrikePvp()) return true;
+                if (await Pvp.FesterPvp()) return true;
+                if (await Pvp.CrimsonStrikePvp()) return true;
 
-            if (await Pvp.SlipstreamPvp()) return true;
-            if (await Pvp.MountainBusterPvp()) return true;
+                if (await Pvp.SlipstreamPvp()) return true;
+                if (await Pvp.MountainBusterPvp()) return true;
+            }
+
             return (await Pvp.RuinIIIPvp());
         }
     }

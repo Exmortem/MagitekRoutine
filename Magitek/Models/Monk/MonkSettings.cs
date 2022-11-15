@@ -162,6 +162,10 @@ namespace Magitek.Models.Monk
         [Setting]
         [DefaultValue(50.0f)]
         public float Pvp_MeteodriveHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_MeteodriveWithEnlightenment { get; set; }
         #endregion
     }
 }

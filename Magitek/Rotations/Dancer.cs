@@ -165,10 +165,13 @@ namespace Magitek.Rotations
             //LB
             if (await Pvp.Contradance()) return true;
 
-            //oGCD
-            if (await Pvp.HoningDance()) return true;
-            if (await Pvp.FanDance()) return true;
-            if (await Pvp.StarfallDance()) return true;
+            if (!PhysicalDps.GuardCheck())
+            {
+                //oGCD
+                if (await Pvp.HoningDance()) return true;
+                if (await Pvp.FanDance()) return true;
+                if (await Pvp.StarfallDance()) return true;
+            }
 
             //Combo
             if (await Pvp.SaberDance()) return true;

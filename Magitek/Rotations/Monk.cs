@@ -134,6 +134,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.PerfectBalancePhoenix()) return true;
                 if (await SingleTarget.PerfectBalanceElixir()) return true;
                 if (await SingleTarget.PerfectBalanceRoT()) return true;
+                if (await SingleTarget.PerfectBalance()) return true;
 
                 if (await Aoe.FourPointStrike()) return true;
                 if (await Aoe.Rockbreaker()) return true;
@@ -199,15 +200,17 @@ namespace Magitek.Rotations
             if (await PhysicalDps.Recuperate(MonkSettings.Instance)) return true;
 
             if (await Pvp.MeteodrivePvp()) return true;
-            if (await Pvp.SixSidedStarPvp()) return true;
 
-            if (await Pvp.EarthReplyPvp()) return true;
-            if (await Pvp.RiddleofEarthPvp()) return true;
-            if (await Pvp.RisingPhoenixPvp()) return true;
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.SixSidedStarPvp()) return true;
+                if (await Pvp.EarthReplyPvp()) return true;
+                if (await Pvp.RiddleofEarthPvp()) return true;
+                if (await Pvp.RisingPhoenixPvp()) return true;
+                if (await Pvp.ThunderclapPvp()) return true;
+            }
 
-            if (await Pvp.ThunderclapPvp()) return true;
             if (await Pvp.EnlightenmentPvp()) return true;
-
             if (await Pvp.PhantomRushPvp()) return true;
             if (await Pvp.DemolishPvp()) return true;
             if (await Pvp.TwinSnakesPvp()) return true;

@@ -6,6 +6,7 @@ using Magitek.Logic.Dragoon;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.Dragoon;
+using Magitek.Models.Monk;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
 using System;
@@ -177,7 +178,30 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await PhysicalDps.Guard(DragoonSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(DragoonSettings.Instance)) return true;
+            if (await PhysicalDps.Recuperate(DragoonSettings.Instance)) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.SkyHighPvp()) return true;
+
+                if (await Pvp.WyrmwindThrustPvp()) return true;
+                if (await Pvp.HeavensThrustPvp()) return true;
+
+                if (await Pvp.ChaoticSpringPvp()) return true;
+                if (await Pvp.NastrondPvp()) return true;
+                if (await Pvp.GeirskogulPvp()) return true;
+
+                if (await Pvp.HighJumpPvp()) return true;
+                if (await Pvp.ElusiveJumpPvp()) return true;
+            }
+
+            if (await Pvp.HeavensThrustPvp()) return true;
+            if (await Pvp.WheelingThrustPvp()) return true;
+            if (await Pvp.FangandClawPvp()) return true;
+
+            return (await Pvp.RaidenThrustPvp());
         }
 
         public static void RegisterCombatMessages()

@@ -17,53 +17,41 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="10">
+    <StackPanel Margin="5">
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use AOE When There Are " IsChecked="{Binding NinjaSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="10" MinValue="2" Value="{Binding NinjaSettings.AoeEnemies, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
+                </Grid>
+            </StackPanel>
+        </controls:SettingsBlock>
 
-                <CheckBox Grid.Row="1"
-                          Grid.Column="0"
-                          Height="23"
-                          VerticalAlignment="Top"
-                          Content="Death Blossom "
-                          IsChecked="{Binding NinjaSettings.UseDeathBlossom, Mode=TwoWay}"
-                          Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
-                <controls:Numeric Grid.Row="1"
-                                  Grid.Column="2"
-                                  Margin="0,3,0,0"
-                                  MaxValue="100"
-                                  MinValue="1"
-                                  Value="{Binding NinjaSettings.DeathBlossomEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="1" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies Around Us" />
+        <controls:SettingsBlock Margin="0,3,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="3">
+                <StackPanel  Margin="0,3">
+                    <CheckBox Content="Katon" IsChecked="{Binding NinjaSettings.UseKaton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
 
-                <CheckBox Grid.Row="2" Grid.Column="0" Content="Hellfrog Medium " IsChecked="{Binding NinjaSettings.UseHellfrogMedium, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
-                <controls:Numeric Grid.Row="2"
-                                  Grid.Column="2"
-                                  Margin="0,3,0,0"
-                                  MaxValue="100"
-                                  MinValue="1"
-                                  Value="{Binding NinjaSettings.HellfrogMediumEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="2" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies Around Target" />
+                <StackPanel  Margin="0,3">
+                    <CheckBox Content="Doton " IsChecked="{Binding NinjaSettings.UseDoton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
 
-            </Grid>
+                <StackPanel  Margin="0,3">
+                    <CheckBox Content="Goka Mekkyaku " IsChecked="{Binding NinjaSettings.UseGokaMekkyaku, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+
+                <StackPanel  Margin="0,3">
+                    <CheckBox Content="Phantom Kamaitachi " IsChecked="{Binding NinjaSettings.UsePhantomKamaitachi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
         </controls:SettingsBlock>
 
     </StackPanel>

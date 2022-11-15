@@ -22,70 +22,54 @@ namespace Magitek.Logic.Ninja
             return await Spells.ShadeShift.Cast(Core.Me);
         }
 
-        public static async Task<bool> Kassatsu()
+        public static async Task<bool> Meisui()
         {
-            if (!NinjaSettings.Instance.UseKassatsu)
+            if (Core.Me.ClassLevel < 72)
                 return false;
 
-            if (!Core.Me.HasTarget)
+            if (!NinjaSettings.Instance.UseMeisui)
                 return false;
 
             if (!Core.Me.HasAura(Auras.Suiton))
                 return false;
 
-            if (!NinjaSettings.Instance.UseTrickAttack)
+            if(Spells.TrickAttack.IsKnownAndReady(20000))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 9000)
-                return await Spells.Kassatsu.Cast(Core.Me);
-
-            return false;
+            return await Spells.Meisui.Cast(Core.Me);
         }
 
         public static async Task<bool> Bunshin()
         {
+            if (Core.Me.ClassLevel < 80)
+                return false;
+
             if (!NinjaSettings.Instance.UseBunshin)
                 return false;
-            
+
+            if (!Core.Me.CurrentTarget.HasAura(Auras.TrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityUp))
+                return false;
+
             return await Spells.Bunshin.Cast(Core.Me);
         }
 
-        public static async Task<bool> TrueNorth()
+        public static async Task<bool> Kassatsu()
         {
-       
-            if (!NinjaSettings.Instance.UseTrueNorth
-                || Core.Me.HasAura(Auras.TrueNorth))
+            if (Core.Me.ClassLevel < 50)
                 return false;
 
-                if (Spells.TrickAttack.Cooldown.TotalMilliseconds < 3000 && !Core.Me.CurrentTarget.IsBehind)
-                    return await Spells.TrueNorth.Cast(Core.Me);
+            if (!NinjaSettings.Instance.UseKassatsu)
+                return false;
 
-                if (ActionManager.LastSpell == Spells.GustSlash 
-                                    && !Core.Me.CurrentTarget.IsFlanking 
-                                    && HutonTimer.TotalMilliseconds <= 30000 
-                                    && 
-                                       (Spells.TrueNorth.Charges == 2 
-                                    || (Spells.TrueNorth.Charges > 1 && Spells.TrueNorth.Charges < 2
-                                       && Spells.TrickAttack.Cooldown.TotalMilliseconds > Spells.TrueNorth.Cooldown.TotalMilliseconds)))
+            if (!Core.Me.HasAura(Auras.Suiton))
+                return false;
 
-                    return await Spells.TrueNorth.Cast(Core.Me);
-
-            return false;
-        }
-
-        public static async Task<bool> Meisui()
-        {
-
-            if (!Core.Me.HasAura(Auras.Suiton) 
-                || NinkiGauge > 40)
-                return false;                     
-        
-            return await Spells.Meisui.Cast(Core.Me);
+            return await Spells.Kassatsu.Cast(Core.Me);
         }
 
         public static async Task<bool> UsePotion()
         {
-            if (Spells.TenChiJin.IsKnown() && !Spells.TenChiJin.IsReady(4000))
+            if (Spells.Mug.IsKnown() && !Spells.Mug.IsReady(4000))
                 return false;
 
             return await PhysicalDps.UsePotion(NinjaSettings.Instance);

@@ -1089,6 +1089,82 @@ namespace Magitek.Utilities
         public static readonly SpellData ThunderclapPvp = DataManager.GetSpellData(29484);
         public static readonly SpellData MeteodrivePvp = DataManager.GetSpellData(29485);
 
+        //DRG
+        public static readonly uint WheelingThrustPvpCombo = 56;
+        public static readonly SpellData RaidenThrustPvp = DataManager.GetSpellData(29486);
+        public static readonly SpellData FangandClawPvp = DataManager.GetSpellData(29487);
+        public static readonly SpellData WheelingThrustPvp = DataManager.GetSpellData(29488);
+        public static readonly SpellData HeavensThrustPvp = DataManager.GetSpellData(29489);
+        public static readonly SpellData ChaoticSpringPvp = DataManager.GetSpellData(29490);
+        public static readonly SpellData GeirskogulPvp = DataManager.GetSpellData(29491);
+        public static readonly SpellData NastrondPvp = DataManager.GetSpellData(29492);
+        public static readonly SpellData HighJumpPvp = DataManager.GetSpellData(29493);
+        public static readonly SpellData ElusiveJumpPvp = DataManager.GetSpellData(29494);
+        public static readonly SpellData WyrmwindThrustPvp = DataManager.GetSpellData(29495);
+        public static readonly SpellData HorridRoarPvp = DataManager.GetSpellData(29496);
+        public static readonly SpellData SkyHighPvp = DataManager.GetSpellData(29497);
+        public static readonly SpellData SkyShatterPvp = DataManager.GetSpellData(29498);
+        public static readonly SpellData SkyShatter2Pvp = DataManager.GetSpellData(29499);
+
+        //NIN
+        public static readonly uint AeolianEdgePvpCombo = 57;
+        public static readonly SpellData SpinningEdgePvp = DataManager.GetSpellData(29500);
+        public static readonly SpellData GustSlashPvp = DataManager.GetSpellData(29501);
+        public static readonly SpellData AeolianEdgePvp = DataManager.GetSpellData(29502);
+        public static readonly SpellData AssassinatePvp = DataManager.GetSpellData(29503);
+        public static readonly SpellData GokaMekkyakuPvp = DataManager.GetSpellData(29504);
+        public static readonly SpellData FumaShurikenPvp = DataManager.GetSpellData(29505);
+        public static readonly SpellData HyoshoRanryuPvp = DataManager.GetSpellData(29506);
+        public static readonly SpellData ThreeMudraPvp = DataManager.GetSpellData(29507);
+        public static readonly SpellData MeisuiPvp = DataManager.GetSpellData(29508);
+        public static readonly SpellData MugPvp = DataManager.GetSpellData(29509);
+        public static readonly SpellData ForkedRaijuPvp = DataManager.GetSpellData(29510);
+        public static readonly SpellData BunshinPvp = DataManager.GetSpellData(29511);
+        public static readonly SpellData HutonPvp = DataManager.GetSpellData(29512);
+        public static readonly SpellData ShukuchiPvp = DataManager.GetSpellData(29513);
+        public static readonly SpellData DotonPvp = DataManager.GetSpellData(29514);
+        public static readonly SpellData SeitonTenchuPvp = DataManager.GetSpellData(29515);
+        public static readonly SpellData UnsealedSeitonTenchuPvp = DataManager.GetSpellData(29516);
+        public static readonly SpellData FleetingRaijuPvp = DataManager.GetSpellData(29517);
+
+        //SAM
+        public static readonly uint KashaPvpCombo = 58;
+        public static readonly SpellData YukikazePvp = DataManager.GetSpellData(29523);
+        public static readonly SpellData GekkoPvp = DataManager.GetSpellData(29524);
+        public static readonly SpellData KashaPvp = DataManager.GetSpellData(29525);
+        public static readonly SpellData HyosetsuPvp = DataManager.GetSpellData(29526);
+        public static readonly SpellData MangetsuPvp = DataManager.GetSpellData(29527);
+        public static readonly SpellData OkaPvp = DataManager.GetSpellData(29528);
+        public static readonly SpellData MidareSetsugekkaPvp = DataManager.GetSpellData(29529);
+        public static readonly SpellData OgiNamikiriPvp = DataManager.GetSpellData(29530);
+        public static readonly SpellData KaeshiNamikiriPvp = DataManager.GetSpellData(29531);
+        public static readonly SpellData HissatsuSotenPvp = DataManager.GetSpellData(29532);
+        public static readonly SpellData HissatsuChitenPvp = DataManager.GetSpellData(29533);
+        public static readonly SpellData MineuchiPvp = DataManager.GetSpellData(29535);
+        public static readonly SpellData MeikyoShisuiPvp = DataManager.GetSpellData(29536);
+        public static readonly SpellData ZantetsukenPvp = DataManager.GetSpellData(29537);
+
+        //RPR
+        public static readonly uint InfernalSlicePvpCombo = 59;
+        public static readonly SpellData SlicePvp = DataManager.GetSpellData(29538);
+        public static readonly SpellData WaxingSlicePvp = DataManager.GetSpellData(29539);
+        public static readonly SpellData InfernalSlicePvp = DataManager.GetSpellData(29540);
+        public static readonly SpellData GibbetPvp = DataManager.GetSpellData(29541);
+        public static readonly SpellData GallowsPvp = DataManager.GetSpellData(29542);
+        public static readonly SpellData VoidReapingPvp = DataManager.GetSpellData(29543);
+        public static readonly SpellData CrossReapingePvp = DataManager.GetSpellData(29544);
+        public static readonly SpellData HarvestMoonPvp = DataManager.GetSpellData(29545);
+        public static readonly SpellData PlentifulHarvestPvp = DataManager.GetSpellData(29546);
+        public static readonly SpellData GrimSwathePvp = DataManager.GetSpellData(29547);
+        public static readonly SpellData LemureSlicePvp = DataManager.GetSpellData(29548);
+        public static readonly SpellData DeathWarrantPvp = DataManager.GetSpellData(29549);
+        public static readonly SpellData HellIngressPvp = DataManager.GetSpellData(29550);
+        public static readonly SpellData IngressPvp = DataManager.GetSpellData(29551);
+        public static readonly SpellData ArcaneCrestPvp = DataManager.GetSpellData(29552);
+        public static readonly SpellData TenebraeLemurumPvp = DataManager.GetSpellData(29553);
+        public static readonly SpellData CommunioPvp = DataManager.GetSpellData(29554);
+        public static readonly SpellData SoulSlicePvp = DataManager.GetSpellData(29566);
+
         //BLM
         public static readonly SpellData FirePvp = DataManager.GetSpellData(29649);
         public static readonly SpellData BlizzardPvp = DataManager.GetSpellData(29653);

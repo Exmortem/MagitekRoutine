@@ -11,6 +11,7 @@ using Magitek.Utilities.CombatMessages;
 using SamuraiRoutine = Magitek.Utilities.Routines.Samurai;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Models.Monk;
 
 namespace Magitek.Rotations
 {
@@ -188,7 +189,34 @@ namespace Magitek.Rotations
             if(!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await PhysicalDps.Guard(SamuraiSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(SamuraiSettings.Instance)) return true;
+            if (await PhysicalDps.Recuperate(SamuraiSettings.Instance)) return true;
+
+            if (await Pvp.ZantetsukenPvp()) return true;
+            if (await Pvp.MineuchiPvp()) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.HissatsuChitenPvp()) return true;
+                if (await Pvp.HissatsuSotenPvp()) return true;
+
+                if (await Pvp.KaeshiNamikiriPvp()) return true;
+                if (await Pvp.OgiNamikiriPvp()) return true;
+
+                if (await Pvp.MidareSetsugekkaPvp()) return true;
+                if (await Pvp.MeikyoShisuiPvp()) return true;
+
+            }
+
+            if (await Pvp.OkaPvp()) return true;
+            if (await Pvp.MangetsuPvp()) return true;
+            if (await Pvp.HyosetsuPvp()) return true;
+
+            if (await Pvp.KashaPvp()) return true;
+            if (await Pvp.GekkoPvp()) return true;
+
+            return (await Pvp.YukikazePvp());
         }
     }
 }

@@ -163,11 +163,13 @@ namespace Magitek.Rotations
             if (await Pvp.SoulResonancePvp()) return true;
             if (await Pvp.FoulPvp()) return true;
 
-            if (await Pvp.AetherialManipulation()) return true;
+            if (!MagicDps.GuardCheck())
+            {
+                if (await Pvp.AetherialManipulation()) return true;
 
-            if (await Pvp.Paradox()) return true;
-            if (await Pvp.SuperFlare()) return true;
-
+                if (await Pvp.Paradox()) return true;
+                if (await Pvp.SuperFlare()) return true;
+            }
             if (await Pvp.Burst()) return true;
             if (await Pvp.Blizzard()) return true;
             return (await Pvp.Fire());

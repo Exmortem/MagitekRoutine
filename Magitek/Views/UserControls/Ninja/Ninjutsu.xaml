@@ -18,62 +18,22 @@
     </UserControl.Resources>
 
     <StackPanel Margin="10">
-
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <CheckBox Content="Ten Chi Jin" IsChecked="{Binding NinjaSettings.UseTenChiJin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Margin="5">
+                    <CheckBox Content="Ten Chi Jin" IsChecked="{Binding NinjaSettings.UseTenChiJin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Fuma Shuriken" IsChecked="{Binding NinjaSettings.UseFumaShuriken, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Raiton" IsChecked="{Binding NinjaSettings.UseRaiton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <CheckBox Content="Hyosho Ranryu" IsChecked="{Binding NinjaSettings.UseHyoshoRanryu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Kassatsu" IsChecked="{Binding NinjaSettings.UseKassatsu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Fuma Shurkien" IsChecked="{Binding NinjaSettings.UseFumaShuriken, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Hyosho Ranryu" IsChecked="{Binding NinjaSettings.UseHyoshoRanryu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Katon When There Are " IsChecked="{Binding NinjaSettings.UseKaton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding NinjaSettings.KatonMinEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Huton   " IsChecked="{Binding NinjaSettings.UseHuton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="When Out Of Combat   " IsChecked="{Binding NinjaSettings.UseHutonOutsideOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Content="But Only In An Instance" IsChecked="{Binding NinjaSettings.UseHutonOutsideOfCombatOnlyInInstance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Doton When There Are " IsChecked="{Binding NinjaSettings.UseDoton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding NinjaSettings.DotonMinEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Goka Mekkyaku When There Are " IsChecked="{Binding NinjaSettings.UseGokaMekkyaku, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding NinjaSettings.GokaMekkyakuMinEnemies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
+    
 </UserControl>

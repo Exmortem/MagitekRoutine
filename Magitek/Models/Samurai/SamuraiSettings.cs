@@ -172,7 +172,44 @@ namespace Magitek.Models.Samurai
         public bool UseKaeshiGoken { get; set; }
         #endregion
 
-        
+        #region PVP
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_OgiNamikiri { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Mineuchi { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_MeikyoShisui { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_MidareSetsugekka { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HissatsuSoten { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HissatsuChiten { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Zantetsuken { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float Pvp_ZantetsukenHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ZantetsukenWithKuzushi { get; set; }
+        #endregion
 
     }
 }

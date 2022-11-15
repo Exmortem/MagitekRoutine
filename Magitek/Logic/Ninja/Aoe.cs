@@ -16,10 +16,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseAoe)
                 return false;
 
-            if (!NinjaSettings.Instance.UseDeathBlossom)
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.DeathBlossomEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
                 return false;
 
             return await Spells.DeathBlossom.Cast(Core.Me);
@@ -30,131 +27,47 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.UseAoe)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.DeathBlossomEnemies)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.DeathBlossom)
-                return await Spells.HakkeMujinsatsu.Cast(Core.Me);
+            if (ActionManager.LastSpell != Spells.DeathBlossom)
+                return false;
 
-            return false;
+            return await Spells.HakkeMujinsatsu.Cast(Core.Me);
         }
 
         public static async Task<bool> HellfrogMedium()
         {
-            if (!NinjaSettings.Instance.UseAoe)
+            if (Core.Me.ClassLevel < 62)
                 return false;
 
             if (!NinjaSettings.Instance.UseHellfrogMedium)
                 return false;
 
-            if (Core.Me.ClassLevel < 68 && Core.Me.ClassLevel > 62)
-                return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < 2)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
                 return false;
 
-            if (ActionResourceManager.Ninja.NinkiGauge >= 100 && Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds && Spells.TrickAttack.Cooldown.TotalSeconds > 3)
+            if (Spells.Mug.IsKnownAndReady(1000))
                 return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
 
-            if (ActionResourceManager.Ninja.NinkiGauge >= 50 && Spells.Mug.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds + 1000 && Spells.Bunshin.Cooldown.TotalMilliseconds > Spells.TrickAttack.Cooldown.TotalMilliseconds)
-                return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
-
-            if (NinkiGauge < 90 && Spells.TrickAttack.Cooldown.TotalMilliseconds < 46000)
+            if (Spells.Bunshin.IsKnownAndReady())
                 return false;
 
-
-            if (ActionResourceManager.Ninja.NinkiGauge < 50)
+            if (Spells.TrickAttack.IsKnownAndReady(14000))
                 return false;
 
-            if (Spells.Bunshin.Cooldown.TotalMilliseconds < Spells.TrickAttack.Cooldown.TotalMilliseconds)
-            {
-                //Logger.Write("Bunshin Check");
-                int canwesafelycastthis = 0;
-                double cooldown = Spells.Bunshin.Cooldown.TotalMilliseconds;
-                double gcd = 2100;
-                double ninjutsu = Spells.Jin.Cooldown.TotalMilliseconds;
-                double ninadjust = 0;
-
-                //Are we going to Ninjutsu before we Bunshin?
-                if (cooldown > ninjutsu)
-                {
-                    ninadjust = 3;
-                }
-
-                //Check if we have time to use 3rd skill of combo which gives us 10 ninki instead of 5
-                int third = (int)cooldown / 3000;
-                //Logger.Write("Third:" + third);
-
-                ////cooldown = cooldown - third;
-
-                //Logger.Write("Cooldown:" + cooldown);
-
-                double calc = cooldown / gcd;
-
-                calc = calc - third;
-
-                third = third - 2;
-
-                //Logger.Write("Calc:" + calc);
-
-                //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
-                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 >= 90)
-                    canwesafelycastthis = 1;
-
-                if (canwesafelycastthis == 1)
-                {
-
-                    return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
-                }
-            }
-            else
-            {
-                //Logger.Write("Trick Attack Check");
-                int canwesafelycastthis = 0;
-                double cooldown = Spells.TrickAttack.Cooldown.TotalMilliseconds;
-                double gcd = 2100;
-                double ninjutsu = Spells.Jin.Cooldown.TotalMilliseconds;
-                double ninadjust = 0;
-
-                //Are we going to Ninjutsu before we TA?
-                if (cooldown > ninjutsu)
-                {
-                    ninadjust = 3;
-                }
-
-                //Check if we have time to use 3rd skill of combo which gives us 10 ninki instead of 5
-                int third = (int)cooldown / 3000;
-                //Logger.Write("Third:" + third);
-
-
-                //Logger.Write("Cooldown:" + cooldown);
-
-                double calc = cooldown / gcd;
-
-                calc = calc - third;
-
-                third = third - 2;
-
-                //Logger.Write("Calc:" + calc);
-
-                //Logger.Write("First Calc:" + (calc - ninadjust) + "Plus " + third * 10 + "NINKI: " + Utilities.Routines.Ninja.ninki);
-                if ((((calc - ninadjust) * 5) + (third * 10) + Utilities.Routines.Ninja.ninki) - 5 > 70)
-                    canwesafelycastthis = 1;
-
-                if (canwesafelycastthis == 1)
-                {
-                    return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
-                }
-            }
-
-            return false;
-
-            
+            return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
         }
-        
+
         public static async Task<bool> PhantomKamaitachi()
         {
-            if (!Spells.PhantomKamaitachi.IsReady())
+            if (Core.Me.ClassLevel < 82)
+                return false;
+
+            if (!NinjaSettings.Instance.UsePhantomKamaitachi)
+                return false;
+
+            if (!Spells.PhantomKamaitachi.IsKnownAndReady())
                 return false;
 
             return await Spells.PhantomKamaitachi.Cast(Core.Me.CurrentTarget);

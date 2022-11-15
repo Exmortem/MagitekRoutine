@@ -259,10 +259,13 @@ namespace Magitek.Rotations
             if (await Pvp.DeploymentTacticsAlliesPvp()) return true;
             if (await Pvp.DeploymentTacticsPvp()) return true;
             if (await Pvp.AdloquiumPvp()) return true;
-
             if (await Pvp.ExpedientPvp()) return true;
-            if (await Pvp.MummificationPvp()) return true;
-            if (await Pvp.BiolysisPvp()) return true;
+
+            if (!Healer.GuardCheck())
+            {
+                if (await Pvp.MummificationPvp()) return true;
+                if (await Pvp.BiolysisPvp()) return true;
+            }
 
             return (await Pvp.BroilIVPvp());
         }

@@ -182,21 +182,24 @@ namespace Magitek.Rotations
             if (await PhysicalDps.Purify(MachinistSettings.Instance)) return true;
             if (await PhysicalDps.Recuperate(MachinistSettings.Instance)) return true;
 
-            //LB
-            if (await Pvp.MarksmansSpite()) return true;
-            if (await Pvp.HeatBlast()) return true;
-            if (await Pvp.Scattergun()) return true;
+            if (!PhysicalDps.GuardCheck())
+            {
+                //LB
+                if (await Pvp.MarksmansSpite()) return true;
+                if (await Pvp.HeatBlast()) return true;
+                if (await Pvp.Scattergun()) return true;
 
-            // Buff
-            if (await Pvp.BishopAutoturret()) return true;
-            if (await Pvp.Analysis()) return true;
-            if (await Pvp.WildFire()) return true;
+                // Buff
+                if (await Pvp.BishopAutoturret()) return true;
+                if (await Pvp.Analysis()) return true;
+                if (await Pvp.WildFire()) return true;
 
-            // Tools
-            if (await Pvp.ChainSaw()) return true;
-            if (await Pvp.AirAnchor()) return true;
-            if (await Pvp.BioBlaster()) return true;
-            if (await Pvp.Drill()) return true;
+                // Tools
+                if (await Pvp.ChainSaw()) return true;
+                if (await Pvp.AirAnchor()) return true;
+                if (await Pvp.BioBlaster()) return true;
+                if (await Pvp.Drill()) return true;
+            }
 
             // Main
             return await Pvp.BlastedCharge();

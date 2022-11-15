@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace Magitek.Utilities
 {
@@ -182,7 +183,8 @@ namespace Magitek.Utilities
             RegenPvp = 1330,
             DivineBenisonPvp = 1404,
             MagicResistance = 942,
-            VulnerabilityTrickAttack = 638,
+            TrickAttack = 3254,
+            VulnerabilityUp = 638,
             FlourshingCascade = 1814,
             FlourishingFountain = 1815,
             FlourshingWindmill = 1816,
@@ -385,7 +387,18 @@ namespace Magitek.Utilities
             UmbralFreeze = 3217,
             DeepFreeze = 3219,
             PvpBiolytic = 3090,
-            PvpCatalyze = 3088;
+            PvpCatalyze = 3088,
+            PvpHidden = 1316,
+            PvpThreeMudra = 1317,
+            FleetingRaijuReady = 3211,
+            PvpLifeoftheDragon = 3177,
+            PvpHeavensent = 3176,
+            PvpFirstmindsFocus = 3178,
+            PvpOgiNamikiri = 3199,
+            PvpMidare = 3203,
+            PvpKuzushi = 3202,
+            PvpKaiten = 3201;
+
 
         #endregion
 
