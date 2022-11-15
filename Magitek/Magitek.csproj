@@ -260,8 +260,10 @@
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
     <Compile Include="Logic\Dancer\Pvp.cs" />
+    <Compile Include="Logic\Dragoon\Pvp.cs" />
     <Compile Include="Logic\Dragoon\Utility.cs" />
     <Compile Include="Logic\Machinist\Pvp.cs" />
+    <Compile Include="Logic\Ninja\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
     <Compile Include="Logic\Reaper\Normal\Buff.cs" />
     <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Logic\Sage\Pvp.cs" />
     <Compile Include="Logic\Sage\SingleTarget.cs" />
     <Compile Include="Logic\Sage\Shield.cs" />
+    <Compile Include="Logic\Samurai\Pvp.cs" />
     <Compile Include="Logic\Scholar\HealFightLogic.cs" />
     <Compile Include="Logic\Scholar\Pvp.cs" />
     <Compile Include="Logic\Summoner\Pvp.cs" />
@@ -655,6 +658,9 @@
     <Compile Include="Views\UserControls\Dancer\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Dragoon\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Gunbreaker\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
     </Compile>
@@ -744,6 +750,9 @@
     <Compile Include="Views\UserControls\Ninja\Ninjutsu.xaml.cs">
       <DependentUpon>Ninjutsu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Ninja\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Ninja\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
@@ -818,6 +827,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Samurai\Buffs.xaml.cs">
       <DependentUpon>Buffs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Samurai\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Samurai\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
@@ -1206,6 +1218,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\Dragoon\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Gunbreaker\Buffs.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1324,6 +1340,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Ninja\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Ninja\SingleTarget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1422,6 +1442,10 @@
     <Page Include="Views\UserControls\Samurai\Buffs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Samurai\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\Samurai\SingleTarget.xaml">
       <SubType>Designer</SubType>

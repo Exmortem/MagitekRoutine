@@ -156,10 +156,15 @@ namespace Magitek.Rotations
             if (await PhysicalDps.Recuperate(BardSettings.Instance)) return true;
 
             if (await Pvp.FinalFantasiaPvp()) return true;
-            if (await Pvp.SilentNocturnePvp()) return true;
-            if (await Pvp.EmpyrealArrow()) return true;
-            if (await Pvp.BlastArrow()) return true;
-            if (await Pvp.ApexArrow()) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.SilentNocturnePvp()) return true;
+                if (await Pvp.EmpyrealArrow()) return true;
+                if (await Pvp.BlastArrow()) return true;
+                if (await Pvp.ApexArrow()) return true;
+            }
+
             return (await Pvp.PowerfulShot());
         }
     }

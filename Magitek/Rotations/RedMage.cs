@@ -104,23 +104,25 @@ namespace Magitek.Rotations
             if (await MagicDps.Recuperate(BlackMageSettings.Instance)) return true;
 
             if (await Pvp.DisplacementPvp()) return true;
+            if (!MagicDps.GuardCheck())
+            {
+                if (await Pvp.SouthernCrossWhitePvp()) return true;
+                if (await Pvp.VerHolyPvp()) return true;
+                if (await Pvp.EnchantedRedoublementWhitePvp()) return true;
+                if (await Pvp.EnchantedZwerchhauWhitePvp()) return true;
+                if (await Pvp.EnchantedRiposteWhitePvp()) return true;
 
-            if (await Pvp.SouthernCrossWhitePvp()) return true;
-            if (await Pvp.VerHolyPvp()) return true;
-            if (await Pvp.EnchantedRedoublementWhitePvp()) return true;
-            if (await Pvp.EnchantedZwerchhauWhitePvp()) return true;
-            if (await Pvp.EnchantedRiposteWhitePvp()) return true;
+                if (await Pvp.SouthernCrossBlackPvp()) return true;
+                if (await Pvp.VerFlarePvp()) return true;
+                if (await Pvp.EnchantedRedoublementBlackPvp()) return true;
+                if (await Pvp.EnchantedZwerchhauBlackPvp()) return true;
+                if (await Pvp.EnchantedRiposteBlackPvp()) return true;
 
-            if (await Pvp.SouthernCrossBlackPvp()) return true;
-            if (await Pvp.VerFlarePvp()) return true;
-            if (await Pvp.EnchantedRedoublementBlackPvp()) return true;
-            if (await Pvp.EnchantedZwerchhauBlackPvp()) return true;
-            if (await Pvp.EnchantedRiposteBlackPvp()) return true;
+                if (await Pvp.CorpsacorpsPvp()) return true;
 
-            if (await Pvp.CorpsacorpsPvp()) return true;
-
-            if (await Pvp.ResolutionWhitePvp()) return true;
-            if (await Pvp.ResolutionBlackPvp()) return true;
+                if (await Pvp.ResolutionWhitePvp()) return true;
+                if (await Pvp.ResolutionBlackPvp()) return true;
+            }
 
             if (await Pvp.MagickBarrierPvp()) return true;
             if (await Pvp.FazzlePvp()) return true;

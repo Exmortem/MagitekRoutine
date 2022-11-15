@@ -82,5 +82,9 @@ namespace Magitek.Logic.Roles
             return await Coroutine.Wait(1500, () => Core.Me.HasAura(Auras.Guard, true)); ;
         }
 
+        public static bool GuardCheck()
+        {
+            return Core.Me.CurrentTarget.HasAura(Auras.Guard);
+        }
     }
 }

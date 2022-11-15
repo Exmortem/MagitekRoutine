@@ -248,8 +248,11 @@ namespace Magitek.Rotations
             if (await Pvp.PneumaPvp()) return true;
             if (await Pvp.EukrasiaPvp()) return true;
 
-            if (await Pvp.PhlegmaIIIPvp()) return true;
-            if (await Pvp.ToxikonPvp()) return true;
+            if (!Healer.GuardCheck())
+            {
+                if (await Pvp.PhlegmaIIIPvp()) return true;
+                if (await Pvp.ToxikonPvp()) return true;
+            }
 
             return (await Pvp.DosisIIIPvp());
         }

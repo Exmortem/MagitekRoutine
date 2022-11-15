@@ -40,7 +40,7 @@ namespace Magitek.Models.Roles
         public bool Pvp_UseRecuperate { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(70.0f)]
         public float Pvp_RecuperateHealthPercent { get; set; }
 
         [Setting]
@@ -52,7 +52,7 @@ namespace Magitek.Models.Roles
         public bool Pvp_UseGuard { get; set; }
 
         [Setting]
-        [DefaultValue(60.0f)]
+        [DefaultValue(40.0f)]
         public float Pvp_GuardHealthPercent { get; set; }
         #endregion
     }

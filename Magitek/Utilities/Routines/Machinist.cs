@@ -97,8 +97,8 @@ namespace Magitek.Utilities.Routines
                 dmgIncrease *= 1.05;
 
             //From NIN
-            if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityTrickAttack))
-                dmgIncrease *= 1.1;
+            if (Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityUp))
+                dmgIncrease *= 1.05;
 
             //From DRG
             if (Core.Me.HasAura(Auras.LeftEye))

@@ -202,5 +202,34 @@ namespace Magitek.Models.Dragoon
         public int AstEyeWeight { get; set; }
 
         #endregion
+
+        #region PVP
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ChaoticSpring { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Geirskogul { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HighJump { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ElusiveJump { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HorridRoar { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SkyHigh { get; set; }
+
+        #endregion
+
     }
 }

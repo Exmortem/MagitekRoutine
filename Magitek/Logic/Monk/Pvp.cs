@@ -222,6 +222,9 @@ namespace Magitek.Logic.Monk
             if(Core.Me.CurrentTarget.CurrentHealthPercent > MonkSettings.Instance.Pvp_MeteodriveHealthPercent)
                 return false;
 
+            if (!Core.Me.CurrentTarget.HasAura(Auras.PvpPressurePoint) && MonkSettings.Instance.Pvp_MeteodriveWithEnlightenment)
+                return false;
+
             return await Spells.MeteodrivePvp.Cast(Core.Me.CurrentTarget);
         }
     }

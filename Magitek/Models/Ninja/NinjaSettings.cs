@@ -57,6 +57,10 @@ namespace Magitek.Models.Ninja
         public bool UseAoe { get; set; }
 
         [Setting]
+        [DefaultValue(3)]
+        public int AoeEnemies { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseDeathBlossom { get; set; }
 
@@ -102,7 +106,15 @@ namespace Magitek.Models.Ninja
 
         [Setting]
         [DefaultValue(true)]
+        public bool DoNotUseMugDuringAoe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseTrickAttack { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool DoNotUseTrickAttackDuringAoe { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -190,5 +202,89 @@ namespace Magitek.Models.Ninja
         [Setting]
         [DefaultValue(true)]
         public bool UseHyoshoRanryu { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseMeisui { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UsePhantomKamaitachi { get; set; }
+
+        #region PVP
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Assassinate { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Mug { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Bunshin { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_FumaShuriken { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool Pvp_DoNotUseThreeMudra { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Doton { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Huton { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_HutonHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Meisui { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_MeisuiHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ForkedRaiju { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_FleetingRaiju { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HyoshoRanryu { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_GokaMekkyaku { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int Pvp_GokaMekkyakuMinEnemies { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Shukuchi { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SeitonTenchu { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float Pvp_SeitonTenchuHealthPercent { get; set; }
+
+        #endregion
     }
 }

@@ -122,9 +122,39 @@ namespace Magitek.Logic.Monk
             return await Spells.SteelPeak.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> PerfectBalanceRoT()
+        public static async Task<bool> PerfectBalance()
         {
             if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (Core.Me.ClassLevel > 60)
+                return false;
+
+            if (!MonkSettings.Instance.UsePerfectBalance)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.PerfectBalance))
+                return false;
+
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) > 2)
+            {
+                if (!Core.Me.HasAura(Auras.DisciplinedFist, true, 6000) && Casting.LastSpell != Spells.FourPointFury)
+                    return await Spells.FourPointFury.Cast(Core.Me);
+
+                return await Spells.Rockbreaker.Cast(Core.Me);
+            }
+            else 
+            { 
+                if (!Core.Me.HasAura(Auras.LeadenFist) && Casting.LastSpell != Spells.DragonKick)
+                    return await Spells.DragonKick.Cast(Core.Me.CurrentTarget);
+
+                return await Spells.Bootshine.Cast(Core.Me.CurrentTarget);
+            }
+        }
+
+            public static async Task<bool> PerfectBalanceRoT()
+        {
+            if (Core.Me.ClassLevel < 60)
                 return false;
 
             if (!MonkSettings.Instance.UsePerfectBalance)
@@ -167,7 +197,7 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> PerfectBalancePhoenix()
         {
-            if (Core.Me.ClassLevel < 50)
+            if (Core.Me.ClassLevel < 60)
                 return false;
 
             if (!MonkSettings.Instance.UsePerfectBalance)
@@ -210,7 +240,7 @@ namespace Magitek.Logic.Monk
 
         public static async Task<bool> PerfectBalanceElixir()
         {
-            if (Core.Me.ClassLevel < 50)
+            if (Core.Me.ClassLevel < 60)
                 return false;
 
             if (!MonkSettings.Instance.UsePerfectBalance)

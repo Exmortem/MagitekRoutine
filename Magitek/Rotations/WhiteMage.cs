@@ -5,6 +5,7 @@ using Magitek.Logic;
 using Magitek.Logic.Roles;
 using Magitek.Logic.WhiteMage;
 using Magitek.Models.Account;
+using Magitek.Models.Summoner;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using System.Linq;
@@ -234,8 +235,11 @@ namespace Magitek.Rotations
             if (await Pvp.AquaveilPvp()) return true;
             if (await Pvp.CureIIPvp()) return true;
 
-            if (await Pvp.AfflatusMiseryPvp()) return true;
-            if (await Pvp.MiracleOfNaturePvp()) return true;
+            if (!Healer.GuardCheck())
+            {
+                if (await Pvp.AfflatusMiseryPvp()) return true;
+                if (await Pvp.MiracleOfNaturePvp()) return true;
+            }
 
             return (await Pvp.GlareIIIPvp());
         }
