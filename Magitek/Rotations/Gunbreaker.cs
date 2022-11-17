@@ -158,7 +158,33 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await Tank.Guard(GunbreakerSettings.Instance)) return true;
+            if (await Tank.Purify(GunbreakerSettings.Instance)) return true;
+            if (await Tank.Recuperate(GunbreakerSettings.Instance)) return true;
+
+            if (await Pvp.RelentlessRushPvp()) return true;
+            if (await Pvp.NebulaPvp()) return true;
+            if (await Pvp.AuroraPvp()) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.RoughDividePvp()) return true;
+                if (await Pvp.BlastingZonePvp()) return true;
+                if (await Pvp.DoubleDownPvp()) return true;
+
+                if (await Pvp.DrawandJunctionPvp()) return true;
+                if (await Pvp.ContinuationPvp()) return true;
+
+                if (await Pvp.WickedTalonPvp()) return true;
+                if (await Pvp.SavageClawPvp()) return true;
+                if (await Pvp.GnashingFangPvp()) return true;
+                if (await Pvp.BurstStrikePvp()) return true;
+            }
+
+            if (await Pvp.SolidBarrelPvp()) return true;
+            if (await Pvp.BrutalShelPvp()) return true;
+
+            return (await Pvp.KeenEdgePvp());
         }
     }
 }

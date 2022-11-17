@@ -11,6 +11,7 @@ using Magitek.Utilities.CombatMessages;
 using ReaperRoutine = Magitek.Utilities.Routines.Reaper;
 using System.Threading.Tasks;
 using Enshroud = Magitek.Logic.Reaper.Enshroud;
+using Magitek.Models.Monk;
 
 namespace Magitek.Rotations
 {
@@ -175,7 +176,35 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await PhysicalDps.Guard(ReaperSettings.Instance)) return true;
+            if (await PhysicalDps.Purify(ReaperSettings.Instance)) return true;
+            if (await PhysicalDps.Recuperate(ReaperSettings.Instance)) return true;
+
+            if (await Pvp.ArcaneCrestPvp()) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.TenebraeLemurumPvp()) return true;
+                if (await Pvp.LemureSlicePvp()) return true;
+                if (await Pvp.CrossReapingePvp()) return true;
+                if (await Pvp.VoidReapingPvp()) return true;
+                if (await Pvp.CommunioPvp()) return true;
+
+                if (await Pvp.PlentifulHarvestPvp()) return true;
+                if (await Pvp.HarvestMoonPvp()) return true;
+
+                if (await Pvp.DeathWarrantPvp()) return true;
+                if (await Pvp.GrimSwathePvp()) return true;
+                if (await Pvp.SoulSlicePvp()) return true;
+            }
+
+            if (await Pvp.GallowsPvp()) return true;
+            if (await Pvp.GibbetPvp()) return true;
+
+            if (await Pvp.InfernalSlicePvp()) return true;
+            if (await Pvp.WaxingSlicePvp()) return true;
+
+            return (await Pvp.SlicePvp());
         }
 
         public static void RegisterCombatMessages()

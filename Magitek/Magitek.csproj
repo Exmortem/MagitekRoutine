@@ -260,8 +260,10 @@
     <Compile Include="Logic\BlueMage\Dispel.cs" />
     <Compile Include="Logic\BlueMage\Heal.cs" />
     <Compile Include="Logic\Dancer\Pvp.cs" />
+    <Compile Include="Logic\DarkKnight\Pvp.cs" />
     <Compile Include="Logic\Dragoon\Pvp.cs" />
     <Compile Include="Logic\Dragoon\Utility.cs" />
+    <Compile Include="Logic\Gunbreaker\Pvp.cs" />
     <Compile Include="Logic\Machinist\Pvp.cs" />
     <Compile Include="Logic\Ninja\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="Logic\Reaper\Normal\Cooldown.cs" />
     <Compile Include="Logic\Reaper\Enshroud\AoE.cs" />
     <Compile Include="Logic\Reaper\Enshroud\SingleTarget.cs" />
+    <Compile Include="Logic\Reaper\Normal\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
@@ -658,6 +661,9 @@
     <Compile Include="Views\UserControls\Dancer\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\DarkKnight\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Dragoon\Pvp.xaml.cs">
       <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
@@ -702,6 +708,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Gunbreaker\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Gunbreaker\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Lists\Dispelling.xaml.cs" />
     <Compile Include="Views\UserControls\Lists\InterruptsAndStuns.xaml.cs" />
@@ -773,6 +782,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Reaper\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Reaper\Utility.xaml.cs">
       <DependentUpon>Utility.xaml</DependentUpon>
@@ -1218,6 +1230,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\DarkKnight\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Dragoon\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1275,6 +1291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Gunbreaker\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Gunbreaker\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1369,6 +1389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Reaper\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

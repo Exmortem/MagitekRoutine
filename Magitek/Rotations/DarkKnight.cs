@@ -5,6 +5,7 @@ using Magitek.Logic.DarkKnight;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.DarkKnight;
+using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using DarkKnightRoutine = Magitek.Utilities.Routines.DarkKnight;
@@ -109,7 +110,28 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+
+            if (await Tank.Guard(DarkKnightSettings.Instance)) return true;
+            if (await Tank.Purify(DarkKnightSettings.Instance)) return true;
+            if (await Tank.Recuperate(DarkKnightSettings.Instance)) return true;
+
+            if (await Pvp.EventidePvp()) return true;
+            if (await Pvp.BlackestNightPvp()) return true;
+            if (await Pvp.SaltedEarthPvp()) return true;
+
+            if (!PhysicalDps.GuardCheck())
+            {
+                if (await Pvp.PlungePvp()) return true;
+                if (await Pvp.QuietusPvp()) return true;
+                if (await Pvp.BloodspillerPvp()) return true;
+                if (await Pvp.ShadowbringerPvp()) return true;
+
+            }
+
+            if (await Pvp.SouleaterPvp()) return true;
+            if (await Pvp.SyphonStrikePvp()) return true;
+
+            return (await Pvp.HardSlashPvp());
         }
 
         public static Task<bool> Rest() => Task.FromResult(false);

@@ -228,5 +228,56 @@ namespace Magitek.Models.Reaper
 
         #endregion
 
+        #region PVP
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_GrimSwathe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_LemureSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_GibbetNGallows { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_PlentifulHarvest { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SoulSlice { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DeathWarrant { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HarvestMoon { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_VoidReapingNCrossReaping { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_TenebraeLemurum { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Communio { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ArcaneCrest { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_ArcaneCrestNumberOfAllies { get; set; }
+
+        #endregion
     }
 }
