@@ -397,7 +397,15 @@ namespace Magitek.Utilities
             PvpOgiNamikiri = 3199,
             PvpMidare = 3203,
             PvpKuzushi = 3202,
-            PvpKaiten = 3201;
+            PvpKaiten = 3201,
+            PvpSoulsow = 2750, 
+            PvpEnshrouded = 2863,
+            PvpRipeforReaping = 2858,
+            PvpImmortalSacrifice = 3204,
+            PvpNoMercy  = 3042,
+            PvpRelentlessRush = 3052,
+            PvpBlackblood = 3033,
+            PvpDarkArts = 3034;
 
 
         #endregion

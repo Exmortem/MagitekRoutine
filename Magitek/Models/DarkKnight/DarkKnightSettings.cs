@@ -201,5 +201,49 @@ namespace Magitek.Models.DarkKnight
         [DefaultValue(3)]
         public int FloodEnemies { get; set; }
         #endregion
+
+        //Pvp
+        #region
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Bloodspiller { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Shadowbringer { get; set; }
+
+        [Setting]
+        [DefaultValue(40.0f)]
+        public float Pvp_ShadowbringerHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Plunge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SafePlunge { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_BlackestNight { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Quietus { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SaltedEarth { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Eventide { get; set; }
+
+        [Setting]
+        [DefaultValue(90.0f)]
+        public float Pvp_EventideHealthPercent { get; set; }
+        #endregion
+
     }
 }

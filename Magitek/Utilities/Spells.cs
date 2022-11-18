@@ -1209,6 +1209,41 @@ namespace Magitek.Utilities
         public static readonly SpellData VerFlarePvp = DataManager.GetSpellData(29688);
         public static readonly SpellData SouthernCrossBlackPvp = DataManager.GetSpellData(29704);
         public static readonly SpellData SouthernCrossWhitePvp = DataManager.GetSpellData(29705);
+
+        //GBN
+        public static readonly uint SolidBarrelPvpCombo = 53;
+        public static readonly SpellData KeenEdgePvp = DataManager.GetSpellData(29098);
+        public static readonly SpellData BrutalShelPvp = DataManager.GetSpellData(29099);
+        public static readonly SpellData SolidBarrelPvp = DataManager.GetSpellData(29100);
+        public static readonly SpellData BurstStrikePvp = DataManager.GetSpellData(29101);
+        public static readonly SpellData GnashingFangPvp = DataManager.GetSpellData(29102);
+        public static readonly SpellData SavageClawPvp = DataManager.GetSpellData(29103);
+        public static readonly SpellData WickedTalonPvp = DataManager.GetSpellData(29104);
+        public static readonly SpellData DoubleDownPvp = DataManager.GetSpellData(29105);
+        public static readonly SpellData ContinuationPvp = DataManager.GetSpellData(29106);
+        public static readonly SpellData HypervelocityPvp = DataManager.GetSpellData(29107);
+        public static readonly SpellData RoughDividePvp = DataManager.GetSpellData(29123);
+        public static readonly SpellData DrawandJunctionPvp = DataManager.GetSpellData(29124);
+        public static readonly SpellData JunctionedPvp = DataManager.GetSpellData(29125);
+        public static readonly SpellData NebulaPvp = DataManager.GetSpellData(29126);
+        public static readonly SpellData BlastingZonePvp = DataManager.GetSpellData(29128);
+        public static readonly SpellData AuroraPvp = DataManager.GetSpellData(29129);
+        public static readonly SpellData RelentlessRushPvp = DataManager.GetSpellData(29130);
+        public static readonly SpellData TerminalTriggerPvp = DataManager.GetSpellData(29131);
+
+        //DRK
+        public static readonly uint SouleaterPvpCombo = 52;
+        public static readonly SpellData HardSlashPvp = DataManager.GetSpellData(29085);
+        public static readonly SpellData SyphonStrikePvp = DataManager.GetSpellData(29086);
+        public static readonly SpellData SouleaterPvp = DataManager.GetSpellData(29087);
+        public static readonly SpellData BloodspillerPvp = DataManager.GetSpellData(29088);
+        public static readonly SpellData ShadowbringerPvp = DataManager.GetSpellData(29091);
+        public static readonly SpellData PlungePvp = DataManager.GetSpellData(29092);
+        public static readonly SpellData BlackestNightPvp = DataManager.GetSpellData(29093);
+        public static readonly SpellData SaltedEarthPvp = DataManager.GetSpellData(29094);
+        public static readonly SpellData EventidePvp = DataManager.GetSpellData(29097);
+        public static readonly SpellData QuietusPvp = DataManager.GetSpellData(29737);
+
         #endregion
 
     }

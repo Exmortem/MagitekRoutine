@@ -424,6 +424,9 @@
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <darkknight:Defensives />
                         </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <darkknight:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
@@ -455,6 +458,9 @@
                         </TabItem>
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <gunbreaker:Defensives />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <gunbreaker:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
@@ -1025,6 +1031,9 @@
                         </TabItem>
                         <TabItem Header="Utilities " Style="{DynamicResource MainTabUtilities}">
                             <reaper:Utility />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <reaper:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

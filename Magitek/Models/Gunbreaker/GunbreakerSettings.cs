@@ -207,19 +207,6 @@ namespace Magitek.Models.Gunbreaker
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         [Setting]
         [DefaultValue(true)]
         public bool SaveBlastingZone { get; set; }
@@ -228,7 +215,61 @@ namespace Magitek.Models.Gunbreaker
         [DefaultValue(6000)]
         public int SaveBlastingZoneMseconds { get; set; }
 
+        #region PVP
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DoubleDown { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_RoughDivide { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SafeRoughDivide { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_BurstStrike { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_GnashingFangCombo { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Continuation { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Hypervelocity { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_DrawandJunction { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Nebula { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_BlastingZone { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Aurora { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_RelentlessRush { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int Pvp_RelentlessRushEnemyCount { get; set; }
+
+        #endregion
 
 
     }

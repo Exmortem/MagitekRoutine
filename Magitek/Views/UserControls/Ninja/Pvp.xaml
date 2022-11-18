@@ -50,12 +50,11 @@
             <StackPanel Margin="5">
                 <TextBlock Style="{DynamicResource TextBlockSection}" Text="General" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Mug" IsChecked="{Binding NinjaSettings.Pvp_Mug, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Mug                             " IsChecked="{Binding NinjaSettings.Pvp_Mug, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Bunshin" IsChecked="{Binding NinjaSettings.Pvp_Bunshin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Shukuchi                      " IsChecked="{Binding NinjaSettings.Pvp_Shukuchi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Fuma Shuriken" IsChecked="{Binding NinjaSettings.Pvp_FumaShuriken, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
