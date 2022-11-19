@@ -1244,6 +1244,36 @@ namespace Magitek.Utilities
         public static readonly SpellData EventidePvp = DataManager.GetSpellData(29097);
         public static readonly SpellData QuietusPvp = DataManager.GetSpellData(29737);
 
+        //WAR
+        public static readonly uint StormPathPvpCombo = 51;
+        public static readonly SpellData HeavySwingPvp = DataManager.GetSpellData(29074);
+        public static readonly SpellData MaimPvp = DataManager.GetSpellData(29075);
+        public static readonly SpellData StormPathPvp = DataManager.GetSpellData(29076);
+        public static readonly SpellData FellCleavePvp = DataManager.GetSpellData(29078);
+        public static readonly SpellData OnslaughtPvp = DataManager.GetSpellData(29079);
+        public static readonly SpellData OrogenyPvp = DataManager.GetSpellData(29080);
+        public static readonly SpellData BlotaPvp = DataManager.GetSpellData(29081);
+        public static readonly SpellData BloodwhettingPvp = DataManager.GetSpellData(29082);
+        public static readonly SpellData PrimalScreamPvp = DataManager.GetSpellData(29083);
+        public static readonly SpellData PrimalRendPvp = DataManager.GetSpellData(29084);
+        public static readonly SpellData ChaoticCyclonePvp = DataManager.GetSpellData(29736);
+
+        //PLD
+        public static readonly uint RoyalAuthorityPvpCombo = 50;
+        public static readonly SpellData FastBladePvp = DataManager.GetSpellData(29058);
+        public static readonly SpellData RiotBladePvp = DataManager.GetSpellData(29059);
+        public static readonly SpellData RoyalAuthorityPvp = DataManager.GetSpellData(29060);
+        public static readonly SpellData AtonementPvp = DataManager.GetSpellData(29061);
+        public static readonly SpellData ShieldBashPvp = DataManager.GetSpellData(29064);
+        public static readonly SpellData IntervenePvp = DataManager.GetSpellData(29065);
+        public static readonly SpellData GuardianPvp = DataManager.GetSpellData(29066);
+        public static readonly SpellData HolySheltronPvp = DataManager.GetSpellData(29067);
+        public static readonly SpellData PhalanxPvp = DataManager.GetSpellData(29069);
+        public static readonly SpellData ConfiteorPvp = DataManager.GetSpellData(29070);
+        public static readonly SpellData BladeofFaithPvp = DataManager.GetSpellData(29071);
+        public static readonly SpellData BladeofTruthPvp = DataManager.GetSpellData(29072);
+        public static readonly SpellData BladeofValorPvp = DataManager.GetSpellData(29073);
+
         #endregion
 
     }

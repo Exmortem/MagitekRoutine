@@ -18,6 +18,9 @@ namespace Magitek.Logic.Machinist
             if (!Spells.BlastChargePvp.CanCast())
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.BlastChargePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -32,6 +35,9 @@ namespace Magitek.Logic.Machinist
             if (!Core.Me.HasAura(Auras.Overheated))
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.HeatBlastPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -40,7 +46,13 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!MachinistSettings.Instance.Pvp_Wildfire)
+                return false;
+
             if (!Spells.WildfirePvp.CanCast())
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
             return await Spells.WildfirePvp.Cast(Core.Me.CurrentTarget);
@@ -51,10 +63,16 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!MachinistSettings.Instance.Pvp_Scattergun)
+                return false;
+
             if (!Spells.ScattergunPvp.CanCast())
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 12 + x.CombatReach) < 1)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 12)
+                return false;
+
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) < 12) < 1)
                 return false;
 
             return await Spells.ScattergunPvp.Cast(Core.Me.CurrentTarget);
@@ -94,6 +112,9 @@ namespace Magitek.Logic.Machinist
             if (!Spells.DrillPvp.CanCast())
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.DrillPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -103,6 +124,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (!Spells.BioblasterPvp.CanCast())
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 12)
                 return false;
 
             return await Spells.BioblasterPvp.Cast(Core.Me.CurrentTarget);
@@ -116,6 +140,9 @@ namespace Magitek.Logic.Machinist
             if (!Spells.AirAnchorPvp.CanCast())
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.AirAnchorPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -127,6 +154,9 @@ namespace Magitek.Logic.Machinist
             if (!Spells.ChainSawPvp.CanCast())
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.ChainSawPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -135,7 +165,16 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!MachinistSettings.Instance.Pvp_BishopAutoturret)
+                return false;
+
             if (!Spells.BishopAutoturretPvp.CanCast())
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me.CurrentTarget) < 5 ) < MachinistSettings.Instance.Pvp_BishopAutoturretNumberOfEnemy)
                 return false;
 
             return await Spells.BishopAutoturretPvp.Cast(Core.Me.CurrentTarget);
@@ -143,10 +182,10 @@ namespace Magitek.Logic.Machinist
 
         public static async Task<bool> MarksmansSpite()
         {
-            if (!MachinistSettings.Instance.Pvp_UseMarksmansSpite)
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            if (Core.Me.HasAura(Auras.Guard))
+            if (!MachinistSettings.Instance.Pvp_UseMarksmansSpite)
                 return false;
 
             if (!Spells.MarksmansSpitePvp.CanCast())

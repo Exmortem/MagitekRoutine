@@ -166,7 +166,7 @@ namespace Magitek.Rotations
             if (await Pvp.NebulaPvp()) return true;
             if (await Pvp.AuroraPvp()) return true;
 
-            if (!PhysicalDps.GuardCheck())
+            if (!Tank.GuardCheck())
             {
                 if (await Pvp.RoughDividePvp()) return true;
                 if (await Pvp.BlastingZonePvp()) return true;

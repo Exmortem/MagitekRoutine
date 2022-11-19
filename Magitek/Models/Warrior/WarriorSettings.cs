@@ -212,5 +212,54 @@ namespace Magitek.Models.Warrior
         [DefaultValue(true)]
         public bool UseUpheaval { get; set; }
         #endregion
+
+        #region PVP
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_FellCleave { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Onslaught { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_OnslaughtHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Orogeny { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float Pvp_OrogenyHealthPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Blota { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Bloodwhetting { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_ChaoticCyclone { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_PrimalRend { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_SafePrimalRendNOnslaught { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_PrimalScream { get; set; }
+
+        #endregion
+
     }
 }

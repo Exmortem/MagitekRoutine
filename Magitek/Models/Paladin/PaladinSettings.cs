@@ -90,8 +90,8 @@ namespace Magitek.Models.Paladin
 
     #endregion
 
-    #region Cover
-    [Setting]
+        #region Cover
+        [Setting]
         [DefaultValue(true)]
         public bool UseCover { get; set; }
 
@@ -204,6 +204,10 @@ namespace Magitek.Models.Paladin
         [DefaultValue(true)]
         public bool UseAtonement { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool ShieldBash { get; set; }
+
         #endregion
 
         #region Heal
@@ -240,34 +244,39 @@ namespace Magitek.Models.Paladin
         public float MinMpClemency { get; set; }
         #endregion
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool ShieldBash { get; set; }
-
         #region PVP
         [Setting]
         [DefaultValue(true)]
-        public bool Testudo { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int TestudoAllies { get; set; }
-
-        [Setting]
-        [DefaultValue(80.0f)]
-        public float TestudoHealth { get; set; }
+        public bool Pvp_Atonement { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool PushBack { get; set; }
+        public bool Pvp_ShieldBash { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool GlorySlash { get; set; }
+        public bool Pvp_Intervene { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool FullSwing { get; set; }
+        public bool Pvp_SafeIntervene { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Guardian { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_HolySheltron { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Phalanx { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Confiteor { get; set; }
+
         #endregion
     }
 }

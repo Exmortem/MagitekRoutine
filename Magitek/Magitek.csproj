@@ -291,6 +291,7 @@
     <Compile Include="Logic\Scholar\Pvp.cs" />
     <Compile Include="Logic\Summoner\Pvp.cs" />
     <Compile Include="Logic\Warrior\Heal.cs" />
+    <Compile Include="Logic\Warrior\Pvp.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
@@ -780,6 +781,9 @@
     <Compile Include="Views\UserControls\Paladin\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\Paladin\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Reaper\AoE.xaml.cs">
       <DependentUpon>AoE.xaml</DependentUpon>
     </Compile>
@@ -908,6 +912,9 @@
     </Compile>
     <Compile Include="Views\UserControls\Warrior\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Warrior\Pvp.xaml.cs">
+      <DependentUpon>Pvp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\WhiteMage\Alliance.xaml.cs">
       <DependentUpon>Alliance.xaml</DependentUpon>
@@ -1388,6 +1395,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\Paladin\Pvp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserControls\Reaper\AoE.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1556,6 +1567,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Warrior\Healing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Warrior\Pvp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -135,6 +135,18 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(true)]
+        public bool Pvp_BishopAutoturret { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        public int  Pvp_BishopAutoturretNumberOfEnemy { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool Pvp_Wildfire { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Pvp_UsedAnalysisOnDrill { get; set; }
 
         [Setting]

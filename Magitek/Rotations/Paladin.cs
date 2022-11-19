@@ -10,6 +10,8 @@ using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
 using Healing = Magitek.Logic.Paladin.Heal;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using Magitek.Logic.Roles;
+using Magitek.Models.DarkKnight;
 
 namespace Magitek.Rotations
 {
@@ -156,7 +158,28 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await Tank.Guard(PaladinSettings.Instance)) return true;
+            if (await Tank.Purify(PaladinSettings.Instance)) return true;
+            if (await Tank.Recuperate(PaladinSettings.Instance)) return true;
+
+            if (await Pvp.PhalanxPvp()) return true;
+            if (await Pvp.BladeofValorPvp()) return true;
+            if (await Pvp.BladeofTruthPvp()) return true;
+            if (await Pvp.BladeofFaithPvp()) return true;
+            if (await Pvp.HolySheltronPvp()) return true;
+
+            if (!Tank.GuardCheck())
+            {
+                if (await Pvp.IntervenePvp()) return true;
+                if (await Pvp.AtonementPvp()) return true;
+                if (await Pvp.ShieldBashPvp()) return true;
+                if (await Pvp.ConfiteorPvp()) return true;
+            }
+
+            if (await Pvp.RoyalAuthorityPvp()) return true;
+            if (await Pvp.RiotBladePvp()) return true;
+
+            return (await Pvp.FastBladePvp());
         }
     }
 }
