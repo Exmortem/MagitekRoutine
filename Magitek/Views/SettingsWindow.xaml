@@ -353,6 +353,9 @@
                         <TabItem Header="Defensives" Style="{DynamicResource MainTabDefensives}">
                             <paladin:Defensives />
                         </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <paladin:Pvp />
+                        </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />
                         </TabItem>
@@ -389,6 +392,9 @@
                         </TabItem>
                         <TabItem Header="Healing" Style="{DynamicResource MainTabHealing}">
                             <warrior:Healing />
+                        </TabItem>
+                        <TabItem Header="Pvp" Style="{DynamicResource MainTabCombat}">
+                            <warrior:Pvp />
                         </TabItem>
                         <TabItem Header="Toggles" Style="{DynamicResource MainTabHotkeys}">
                             <customControls:TogglesSettings />

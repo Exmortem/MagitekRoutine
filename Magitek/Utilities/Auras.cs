@@ -405,7 +405,11 @@ namespace Magitek.Utilities
             PvpNoMercy  = 3042,
             PvpRelentlessRush = 3052,
             PvpBlackblood = 3033,
-            PvpDarkArts = 3034;
+            PvpDarkArts = 3034,
+            PvpSwordOath = 1991, 
+            PvpHallowedGround  = 1302,
+            PvpOnslaught = 3029,
+            PvpOrogeny = 3256;
 
 
         #endregion

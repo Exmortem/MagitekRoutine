@@ -78,6 +78,9 @@ namespace Magitek.Logic.Dancer
             if (!Spells.StarfallDancePvp.CanCast())
                 return false;
 
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
             return await Spells.StarfallDancePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -87,6 +90,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (!Spells.FanDancePvp.CanCast())
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
                 return false;
 
             return await Spells.FanDancePvp.Cast(Core.Me.CurrentTarget);

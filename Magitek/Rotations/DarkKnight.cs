@@ -119,7 +119,7 @@ namespace Magitek.Rotations
             if (await Pvp.BlackestNightPvp()) return true;
             if (await Pvp.SaltedEarthPvp()) return true;
 
-            if (!PhysicalDps.GuardCheck())
+            if (!Tank.GuardCheck())
             {
                 if (await Pvp.PlungePvp()) return true;
                 if (await Pvp.QuietusPvp()) return true;

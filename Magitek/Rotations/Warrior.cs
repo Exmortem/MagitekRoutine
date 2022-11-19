@@ -10,6 +10,7 @@ using Magitek.Models.Warrior;
 using Magitek.Utilities;
 using WarriorRoutine = Magitek.Utilities.Routines.Warrior;
 using System.Threading.Tasks;
+using Magitek.Models.Paladin;
 
 namespace Magitek.Rotations
 {
@@ -137,7 +138,31 @@ namespace Magitek.Rotations
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
 
-            return false;
+            if (await Tank.Guard(WarriorSettings.Instance)) return true;
+            if (await Tank.Purify(WarriorSettings.Instance)) return true;
+            if (await Tank.Recuperate(WarriorSettings.Instance)) return true;
+
+            if (!Tank.GuardCheck())
+            {
+
+                if (await Pvp.PrimalScreamPvp()) return true;
+
+                if (await Pvp.PrimalRendPvp()) return true;
+                if (await Pvp.OnslaughtPvp()) return true;
+                if (await Pvp.BloodwhettingPvp()) return true;
+                if (await Pvp.ChaoticCyclonePvp()) return true;
+
+                if (await Pvp.FellCleavePvp()) return true;
+
+                if (await Pvp.OrogenyPvp()) return true;
+                if (await Pvp.BlotaPvp()) return true;
+
+            }
+
+            if (await Pvp.StormPathPvp()) return true;
+            if (await Pvp.MaimPvp()) return true;
+
+            return (await Pvp.HeavySwingPvp());
         }
     }
 }
