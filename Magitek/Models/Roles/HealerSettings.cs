@@ -34,6 +34,18 @@ namespace Magitek.Models.Roles
         [DefaultValue(false)]
         public bool ForceLimitBreak { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool SwiftcastRes { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool SlowcastRes { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ResOutOfCombat { get; set; }
+
         #region pvp
         [Setting]
         [DefaultValue(true)]

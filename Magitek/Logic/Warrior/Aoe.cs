@@ -115,6 +115,9 @@ namespace Magitek.Logic.Warrior
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < WarriorSettings.Instance.PrimalRendMinimumEnemies)
                 return false;
 
+            if (WarriorSettings.Instance.UsePrimalRendWhenNotMoving && MovementManager.IsMoving)
+                return false;
+
             return await Spells.PrimalRend.Cast(Core.Me.CurrentTarget);
         }
     }

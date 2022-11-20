@@ -510,9 +510,9 @@ namespace Magitek.Logic.WhiteMage
         {
             return await Roles.Healer.Raise(
                 Spells.Raise,
-                WhiteMageSettings.Instance.RaiseSwiftcast,
-                WhiteMageSettings.Instance.Raise,
-                WhiteMageSettings.Instance.Raise,
+                WhiteMageSettings.Instance.SwiftcastRes,
+                WhiteMageSettings.Instance.SlowcastRes,
+                WhiteMageSettings.Instance.ResOutOfCombat,
                 ThinAir
             );
 

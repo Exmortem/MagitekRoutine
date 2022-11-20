@@ -2,6 +2,7 @@ using ff14bot;
 using ff14bot.Managers;
 using Magitek.Enumerations;
 using Magitek.Extensions;
+using Magitek.Gambits.Conditions;
 using Magitek.Logic.Roles;
 using Magitek.Models.Reaper;
 using Magitek.Utilities;
@@ -188,21 +189,53 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.HasAura(Auras.SoulReaver))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true))
-                return false;
+            //if (!Core.Me.CurrentTarget.HasAura(Auras.DeathsDesign, true))
+            //    return false;
 
             return await Spells.HarvestMoon.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> EnhancedHarpe()
         {
+            if (Core.Me.ClassLevel < 20)
+                return false;
+
             if (!ReaperSettings.Instance.UseEnhancedHarpe)
                 return false;
 
             if (!Core.Me.HasAura(Auras.EnhancedHarpe))
                 return false;
 
-            if (Core.Me.HasAura(Auras.SoulReaver))
+            if (!GameSettingsManager.FaceTargetOnAction && !Core.Me.CurrentTarget.InView())
+                return false;
+
+            if (ReaperSettings.Instance.UseEnhancedHarpeAfterHellEgress && Core.Me.CurrentTarget.Distance(Core.Me) <= 3)
+                return false;
+
+            if (ReaperSettings.Instance.UseEnhancedHarpeAfterHellEgress && !Spells.HellsIngress.IsKnownAndReady(18500))
+                return false;
+
+            return await Spells.Harpe.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> Harpe()
+        {
+            if (Core.Me.ClassLevel < 15)
+                return false;
+
+            if (!ReaperSettings.Instance.UseEnhancedHarpe)
+                return false;
+
+            if (Core.Me.HasAura(Auras.EnhancedHarpe))
+                return false;
+
+            if (MovementManager.IsMoving)
+                return false;
+
+            if (ReaperSettings.Instance.UseRangeHarpe && Core.Me.CurrentTarget.Distance(Core.Me) <= 3)
+                return false;
+
+            if (!ReaperSettings.Instance.UseRangeHarpe && Core.Me.CurrentTarget.Distance(Core.Me) > 3)
                 return false;
 
             return await Spells.Harpe.Cast(Core.Me.CurrentTarget);

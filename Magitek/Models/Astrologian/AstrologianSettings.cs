@@ -154,18 +154,6 @@ namespace Magitek.Models.Astrologian
 
         [Setting]
         [DefaultValue(true)]
-        public bool SwifcastRes { get; set; }
-        
-        [Setting]
-        [DefaultValue(false)]
-        public bool SlowcastRes { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ResOutOfCombat { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool EssentialDignity { get; set; }
 
         [Setting]

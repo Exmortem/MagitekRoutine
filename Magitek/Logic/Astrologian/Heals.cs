@@ -744,7 +744,7 @@ namespace Magitek.Logic.Astrologian
         {
             return await Roles.Healer.Raise(
                 Spells.Ascend,
-                AstrologianSettings.Instance.SwifcastRes,
+                AstrologianSettings.Instance.SwiftcastRes,
                 AstrologianSettings.Instance.SlowcastRes,
                 AstrologianSettings.Instance.ResOutOfCombat
             );

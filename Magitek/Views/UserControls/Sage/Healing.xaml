@@ -46,7 +46,7 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Grid.Column="0" Content="Egeiro" IsChecked="{Binding SageSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Column="1" Margin="5,0" Content="Egeiro With Swiftcast In Combat" IsChecked="{Binding SageSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="1" Margin="5,0" Content="Swiftcast Egeiro" IsChecked="{Binding SageSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <CheckBox Grid.Column="2" Content="Egeiro out of Combat" IsChecked="{Binding SageSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>

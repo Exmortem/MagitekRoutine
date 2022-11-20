@@ -38,10 +38,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Column="0" Content="Slowcast Ascend" IsChecked="{Binding AstrologianSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Column="1" Margin="5,0" Content="Ascend With Swiftcast In Combat" IsChecked="{Binding AstrologianSettings.SwifcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="0" Content="Ascend" IsChecked="{Binding AstrologianSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="1" Margin="5,0" Content="Swiftcast Ascend" IsChecked="{Binding AstrologianSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="2" Margin="5,0" Content="Ascend Out of Combat" IsChecked="{Binding AstrologianSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
         
