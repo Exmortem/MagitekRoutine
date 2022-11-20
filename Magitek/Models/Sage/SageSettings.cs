@@ -555,18 +555,6 @@ namespace Magitek.Models.Sage
         [DefaultValue(60.0f)]
         public float PneumaHpPercent { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool SwiftcastRes { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        public bool SlowcastRes { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool ResOutOfCombat { get; set; }
-
         #endregion
 
         #region Dispels

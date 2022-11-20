@@ -168,6 +168,10 @@ namespace Magitek.Models.Warrior
         public bool UsePrimalRend { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool UsePrimalRendWhenNotMoving { get; set; }
+
+        [Setting]
         [DefaultValue(1)]
         public int PrimalRendMinimumEnemies { get; set; }
 

@@ -26,14 +26,6 @@ namespace Magitek.Models.WhiteMage
         public float InterruptHealingHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
-        public bool Raise { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool RaiseSwiftcast { get; set; }
-
-        [Setting]
         [DefaultValue(false)]
         public bool ForceMedica { get; set; }
 

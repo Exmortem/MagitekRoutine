@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="500"
+             d:DesignHeight="550"
              d:DesignWidth="500"
              mc:Ignorable="d">
 
@@ -52,6 +52,18 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content=" Enable Soul Slice " IsChecked="{Binding ReaperSettings.UseSoulSlice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Enabled Harpe / Enhanced Harpe " IsChecked="{Binding ReaperSettings.UseEnhancedHarpe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Harpe only when not in melee range " IsChecked="{Binding ReaperSettings.UseRangeHarpe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content="Enhanced Harpe Only After Hell's Egress " IsChecked="{Binding ReaperSettings.UseEnhancedHarpeAfterHellEgress, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

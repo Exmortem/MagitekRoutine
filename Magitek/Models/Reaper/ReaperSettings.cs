@@ -102,6 +102,17 @@ namespace Magitek.Models.Reaper
         [DefaultValue(true)]
         public bool UseLemuresSlice { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEnhancedHarpe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRangeHarpe { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseEnhancedHarpeAfterHellEgress { get; set; }
         #endregion
 
         #region AoE-Abilities
@@ -201,10 +212,6 @@ namespace Magitek.Models.Reaper
         [Setting]
         [DefaultValue(true)]
         public bool UseHarvestMoon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseEnhancedHarpe { get; set; }
 
         [Setting]
         [DefaultValue(3)]

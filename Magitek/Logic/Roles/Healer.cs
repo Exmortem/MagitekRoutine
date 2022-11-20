@@ -77,6 +77,9 @@ namespace Magitek.Logic.Roles
             if (deadTarget == null)
                 return false;
 
+            if (!deadTarget.IsTargetable)
+                return false;
+
             if (Globals.PartyInCombat)
             {
                 if (SwiftcastRes && Spells.Swiftcast.IsKnownAndReady())

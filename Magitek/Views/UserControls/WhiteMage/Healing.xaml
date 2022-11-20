@@ -28,10 +28,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Column="0" Content="Raise" IsChecked="{Binding WhiteMageSettings.Raise, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Grid.Column="1" Margin="5,0" Content="Raise With Swiftcast In Combat" IsChecked="{Binding WhiteMageSettings.RaiseSwiftcast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="0" Content="Raise" IsChecked="{Binding WhiteMageSettings.SlowcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="1" Margin="5,0" Content="Swiftcast Raise" IsChecked="{Binding WhiteMageSettings.SwiftcastRes, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Grid.Column="2" Margin="5,0" Content="Raise Out of Combat" IsChecked="{Binding WhiteMageSettings.ResOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </Grid>
         </controls:SettingsBlock>
 

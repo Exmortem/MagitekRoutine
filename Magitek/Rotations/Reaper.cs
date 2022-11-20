@@ -139,6 +139,7 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.Interrupt(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.SecondWind(ReaperSettings.Instance)) return true;
                     if (await PhysicalDps.Bloodbath(ReaperSettings.Instance)) return true;
+
                     if (await Cooldown.ArcaneCircle()) return true;
                     if (await Cooldown.Enshroud()) return true;
                     if (await Cooldown.Gluttony()) return true;
@@ -147,7 +148,10 @@ namespace Magitek.Rotations
                     if (await Utility.TrueNorth()) return true;
                 }
 
+                if (await SingleTarget.HarvestMoon()) return true;
+                if (await SingleTarget.EnhancedHarpe()) return true;
                 if (await Utility.Soulsow()) return true;
+
                 if (await AoE.WhorlofDeath()) return true;
                 if (await SingleTarget.ShadowOfDeath()) return true;
                 if (await AoE.HarvestMoon()) return true;
@@ -164,8 +168,7 @@ namespace Magitek.Rotations
                 if (await AoE.SpinningScythe()) return true;
                 if (await SingleTarget.ShadowOfDeathIdle()) return true;
                 if (await SingleTarget.Slice()) return true;
-                if (await SingleTarget.HarvestMoon()) return true;
-                return await SingleTarget.EnhancedHarpe();
+                return await SingleTarget.Harpe();
             }
 
             return false;
@@ -204,7 +207,7 @@ namespace Magitek.Rotations
             if (await Pvp.InfernalSlicePvp()) return true;
             if (await Pvp.WaxingSlicePvp()) return true;
 
-            return (await Pvp.SlicePvp());
+            return await Pvp.SlicePvp();
         }
 
         public static void RegisterCombatMessages()

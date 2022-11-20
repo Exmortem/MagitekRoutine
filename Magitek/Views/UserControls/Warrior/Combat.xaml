@@ -37,7 +37,8 @@
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Use Primal Rend " IsChecked="{Binding WarriorSettings.UsePrimalRend, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Primal Rend  " IsChecked="{Binding WarriorSettings.UsePrimalRend, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use Primal Rend only when not moving" IsChecked="{Binding WarriorSettings.UsePrimalRendWhenNotMoving, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Use Onslaught " IsChecked="{Binding WarriorSettings.UseOnslaught, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
