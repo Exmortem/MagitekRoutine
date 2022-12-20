@@ -109,6 +109,9 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.FumaShurikenPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -126,6 +129,9 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.ShukuchiPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -141,6 +147,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Core.Me.CurrentTarget.CurrentHealthPercent > NinjaSettings.Instance.Pvp_SeitonTenchuHealthPercent)
@@ -182,6 +191,9 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.HyoshoRanryuPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -200,6 +212,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me.CurrentTarget) <= 5 + x.CombatReach) < NinjaSettings.Instance.Pvp_GokaMekkyakuMinEnemies)
@@ -285,6 +300,9 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.ForkedRaijuPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -303,6 +321,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.FleetingRaijuPvp.Cast(Core.Me.CurrentTarget);

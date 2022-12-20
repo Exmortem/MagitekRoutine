@@ -27,6 +27,9 @@ namespace Magitek.Logic.Bard
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.PowerfulShotPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -39,6 +42,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.ApexArrowPvp.Cast(Core.Me.CurrentTarget);
@@ -55,6 +61,9 @@ namespace Magitek.Logic.Bard
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.BlastArrowPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -67,6 +76,9 @@ namespace Magitek.Logic.Bard
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.SilentNocturnePvp.Cast(Core.Me.CurrentTarget);
@@ -100,6 +112,9 @@ namespace Magitek.Logic.Bard
             }
 
             if (!Spells.EmpyrealArrowPvp.CanCast())
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.EmpyrealArrowPvp.Cast(Core.Me.CurrentTarget);

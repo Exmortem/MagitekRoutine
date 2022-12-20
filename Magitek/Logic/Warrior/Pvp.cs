@@ -148,6 +148,9 @@ namespace Magitek.Logic.Warrior
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (WarriorSettings.Instance.Pvp_SafePrimalRendNOnslaught && Core.Me.CurrentTarget.Distance(Core.Me) > 3)
                 return false;
 
@@ -169,6 +172,9 @@ namespace Magitek.Logic.Warrior
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Core.Me.CurrentHealthPercent < WarriorSettings.Instance.Pvp_OnslaughtHealthPercent)

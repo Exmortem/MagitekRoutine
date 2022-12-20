@@ -21,6 +21,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.BlastChargePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -36,6 +39,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.HeatBlastPvp.Cast(Core.Me.CurrentTarget);
@@ -55,6 +61,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.WildfirePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -72,6 +81,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 12)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) < 12) < 1)
                 return false;
 
@@ -84,6 +96,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (!Spells.AnalysisPvp.CanCast())
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Core.Me.HasAura(Auras.Analysis))
@@ -115,6 +130,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.DrillPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -127,6 +145,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 12)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.BioblasterPvp.Cast(Core.Me.CurrentTarget);
@@ -143,6 +164,9 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.AirAnchorPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -155,6 +179,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.ChainSawPvp.Cast(Core.Me.CurrentTarget);

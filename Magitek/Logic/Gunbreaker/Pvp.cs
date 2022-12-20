@@ -55,6 +55,9 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.Pvp_GnashingFangCombo)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit())
+                return false;
+
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
                 return false;
 
@@ -78,6 +81,9 @@ namespace Magitek.Logic.Gunbreaker
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit())
+                return false;
+
             if (Core.Me.HasAura(Auras.PvpRelentlessRush))
                 return false;
 
@@ -93,6 +99,9 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!GunbreakerSettings.Instance.Pvp_GnashingFangCombo)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit())
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
@@ -135,6 +144,9 @@ namespace Magitek.Logic.Gunbreaker
             if(!GunbreakerSettings.Instance.Pvp_DoubleDown)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit())
+                return false;
+
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
                 return false;
 
@@ -175,7 +187,10 @@ namespace Magitek.Logic.Gunbreaker
             if (!GunbreakerSettings.Instance.Pvp_BurstStrike)
                 return false;
 
-            if(Core.Me.HasAura(Auras.PvpNoMercy))
+            if (!Core.Me.CurrentTarget.ValidAttackUnit())
+                return false;
+
+            if (Core.Me.HasAura(Auras.PvpNoMercy))
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
@@ -199,6 +214,9 @@ namespace Magitek.Logic.Gunbreaker
                 return false;
 
             if (!GunbreakerSettings.Instance.Pvp_DrawandJunction)
+                return false;
+
+            if(!Core.Me.CurrentTarget.ValidAttackUnit())
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)

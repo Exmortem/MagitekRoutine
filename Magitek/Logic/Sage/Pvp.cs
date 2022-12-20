@@ -26,6 +26,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.DosisIIIPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -43,6 +46,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.PhlegmaIIIPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -57,6 +63,9 @@ namespace Magitek.Logic.Sage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.ToxikonPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -69,6 +78,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.PneumaPvp.Cast(Core.Me.CurrentTarget);
