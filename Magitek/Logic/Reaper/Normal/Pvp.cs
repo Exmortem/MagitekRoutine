@@ -57,6 +57,9 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 8)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.GrimSwathePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -72,6 +75,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 8)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.LemureSlicePvp.Cast(Core.Me.CurrentTarget);
@@ -108,6 +114,9 @@ namespace Magitek.Logic.Reaper
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.DeathWarrantPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -123,6 +132,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Core.Me.CurrentTarget.CurrentHealthPercent > 50 && Core.Me.HasAura(Auras.PvpSoulsow, true, 2000))
@@ -163,6 +175,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.PlentifulHarvestPvp.Cast(Core.Me.CurrentTarget);
@@ -275,6 +290,9 @@ namespace Magitek.Logic.Reaper
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (EnshroudedCount != 1 && Core.Me.HasAura(Auras.PvpEnshrouded, true, 3000))

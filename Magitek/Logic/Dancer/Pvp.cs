@@ -22,6 +22,9 @@ namespace Magitek.Logic.Dancer
             if (!Spells.CascadePvp.CanCast())
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.CascadePvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
         }
 
@@ -33,6 +36,9 @@ namespace Magitek.Logic.Dancer
             if (!Spells.FountainPvp.CanCast())
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.FountainPvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
         }
 
@@ -42,6 +48,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (!Spells.ReverseCascadePvp.CanCast())
+                return false;
+            
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.ReverseCascadePvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
@@ -55,6 +64,9 @@ namespace Magitek.Logic.Dancer
             if (!Spells.SaberDancePvp.CanCast())
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.SaberDancePvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
         }
 
@@ -64,6 +76,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (!Spells.FountainFallPvp.CanCast())
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.FountainFallPvp.CastPvpCombo(Spells.FountainPvpCombo, Core.Me.CurrentTarget);
@@ -81,6 +96,9 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.StarfallDancePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -93,6 +111,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.FanDancePvp.Cast(Core.Me.CurrentTarget);
@@ -112,6 +133,9 @@ namespace Magitek.Logic.Dancer
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < DancerSettings.Instance.Pvp_HoningDanceMinimumEnemies)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.HoningDancePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -127,6 +151,9 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 15 + x.CombatReach) < DancerSettings.Instance.Pvp_ContradanceMinimumEnemies)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.ContradancePvp.Cast(Core.Me.CurrentTarget);

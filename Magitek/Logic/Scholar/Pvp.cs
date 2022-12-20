@@ -27,6 +27,9 @@ namespace Magitek.Logic.Scholar
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.BroilIVPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -41,6 +44,9 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.BiolysisPvp.Cast(Core.Me.CurrentTarget);

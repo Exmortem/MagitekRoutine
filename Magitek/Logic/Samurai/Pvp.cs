@@ -156,6 +156,9 @@ namespace Magitek.Logic.Samurai
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 8)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.KaeshiNamikiriPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -211,6 +214,9 @@ namespace Magitek.Logic.Samurai
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (Core.Me.CurrentTarget.CurrentHealthPercent > SamuraiSettings.Instance.Pvp_ZantetsukenHealthPercent && !SamuraiSettings.Instance.Pvp_ZantetsukenWithKuzushi)

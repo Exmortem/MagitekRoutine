@@ -24,6 +24,9 @@ namespace Magitek.Logic.WhiteMage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.GlareIIIPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -36,6 +39,9 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.AfflatusMiseryPvp.Cast(Core.Me.CurrentTarget);
@@ -53,6 +59,12 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.Guard))
+                return false;
+
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 10)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.MiracleOfNaturePvp.Cast(Core.Me.CurrentTarget);
@@ -188,6 +200,9 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.AfflatusPurgationPvp.Cast(Core.Me.CurrentTarget);

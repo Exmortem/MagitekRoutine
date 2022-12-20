@@ -92,6 +92,9 @@ namespace Magitek.Logic.Dragoon
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.GeirskogulPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -109,7 +112,10 @@ namespace Magitek.Logic.Dragoon
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
                 return false;
 
-            if(Core.Me.CurrentTarget.CurrentHealthPercent > 50 && Core.Me.HasAura(Auras.PvpLifeoftheDragon,true,2000))
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
+            if (Core.Me.CurrentTarget.CurrentHealthPercent > 50 && Core.Me.HasAura(Auras.PvpLifeoftheDragon,true,2000))
                 return false;
 
             return await Spells.NastrondPvp.Cast(Core.Me.CurrentTarget);
@@ -136,6 +142,9 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.HighJumpPvp.Cast(Core.Me.CurrentTarget);
@@ -172,6 +181,9 @@ namespace Magitek.Logic.Dragoon
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.WyrmwindThrustPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -198,6 +210,9 @@ namespace Magitek.Logic.Dragoon
                 return false;
 
             if (!Spells.SkyHighPvp.CanCast())
+                return false;
+
+            if (!DragoonSettings.Instance.Pvp_SkyHigh)
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)

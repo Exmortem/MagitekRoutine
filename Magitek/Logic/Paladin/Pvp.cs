@@ -126,6 +126,9 @@ namespace Magitek.Logic.Paladin
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (PaladinSettings.Instance.Pvp_SafeIntervene && Core.Me.CurrentTarget.Distance(Core.Me) > 3)
                 return false;
 

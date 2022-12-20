@@ -24,6 +24,9 @@ namespace Magitek.Logic.Summoner
             if(Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.RuinIIIPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -40,6 +43,9 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.SlipstreamPvp.Cast(Core.Me.CurrentTarget);
@@ -60,6 +66,9 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.MountainBusterPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -74,6 +83,9 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.FesterPvp.Cast(Core.Me.CurrentTarget);
@@ -94,6 +106,9 @@ namespace Magitek.Logic.Summoner
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.RadiantAegisPvp.Cast(Core.Me);
         }
 
@@ -108,6 +123,9 @@ namespace Magitek.Logic.Summoner
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.CrimsonStrikePvp.Cast(Core.Me.CurrentTarget);

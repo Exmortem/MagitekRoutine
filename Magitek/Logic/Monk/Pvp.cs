@@ -119,6 +119,9 @@ namespace Magitek.Logic.Monk
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 10)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.EnlightenmentPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -137,6 +140,9 @@ namespace Magitek.Logic.Monk
                 return false;
 
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20) 
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.ThunderclapPvp.Cast(Core.Me.CurrentTarget);
@@ -219,7 +225,10 @@ namespace Magitek.Logic.Monk
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
-            if(Core.Me.CurrentTarget.CurrentHealthPercent > MonkSettings.Instance.Pvp_MeteodriveHealthPercent)
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
+            if (Core.Me.CurrentTarget.CurrentHealthPercent > MonkSettings.Instance.Pvp_MeteodriveHealthPercent)
                 return false;
 
             if (!Core.Me.CurrentTarget.HasAura(Auras.PvpPressurePoint) && MonkSettings.Instance.Pvp_MeteodriveWithEnlightenment)

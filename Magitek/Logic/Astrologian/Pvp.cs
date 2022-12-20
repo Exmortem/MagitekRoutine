@@ -27,6 +27,9 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.FallMaleficPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -40,6 +43,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.DoubleFallMaleficPvp.Cast(Core.Me.CurrentTarget);
@@ -57,6 +63,9 @@ namespace Magitek.Logic.Astrologian
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.GravityIIPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -70,6 +79,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.DoubleGravityIIPvp.Cast(Core.Me.CurrentTarget);

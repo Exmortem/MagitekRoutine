@@ -82,6 +82,9 @@ namespace Magitek.Logic.DarkKnight
             if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (DarkKnightSettings.Instance.Pvp_SafePlunge && Core.Me.CurrentTarget.Distance(Core.Me) > 3)
                 return false;
 

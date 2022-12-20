@@ -27,6 +27,9 @@ namespace Magitek.Logic.BlackMage
             if(Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.FirePvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -43,6 +46,9 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.BlizzardPvp.Cast(Core.Me.CurrentTarget);
@@ -64,6 +70,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             return await Spells.BurstPvp.Cast(Core.Me.CurrentTarget);
         }
 
@@ -74,6 +83,9 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             if (BlackMageSettings.Instance.Pvp_UseParadoxOnFire && Core.Me.CurrentTarget.HasAura(Auras.AstralWarmth))
@@ -100,6 +112,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (BlackMageSettings.Instance.Pvp_UseSuperFlareOnFire && Core.Me.CurrentTarget.HasAura(Auras.AstralWarmth))
                 return await Spells.SuperFlarePvp.Cast(Core.Me.CurrentTarget);
 
@@ -124,6 +139,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
+                return false;
+
             if (Core.Me.CurrentHealthPercent < BlackMageSettings.Instance.Pvp_UseAetherialManipulationtHealthPercent)
                 return false;
 
@@ -140,6 +158,9 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (Core.Me.HasAura(Auras.Guard))
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
                 return false;
 
             return await Spells.FoulPvp.Cast(Core.Me.CurrentTarget);
