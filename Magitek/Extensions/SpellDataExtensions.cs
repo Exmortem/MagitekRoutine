@@ -195,7 +195,10 @@ namespace Magitek.Extensions
             //    }
             //}
 
-            return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
+            if(!BotManager.Current.IsAutonomous) 
+                return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
+            //we don't care if the bot is moving in Autonomous mode, so we should always return true
+            return true;
         }
 
         public static bool CanCast(this SpellData spell, GameObject target)
