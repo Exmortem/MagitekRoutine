@@ -89,7 +89,7 @@ namespace Magitek.Extensions
                     Logger.WriteInfo($@"[Path] {sourceFilePath}");
                 }
             }
-            
+
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
@@ -152,13 +152,6 @@ namespace Magitek.Extensions
 
         private static bool Check(SpellData spell, GameObject target)
         {
-            // If we're using an autonomous bot base and we're running out of avoidance then don't cast
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (AvoidanceManager.IsRunningOutOfAvoid && !(Core.Me.HasAura(Auras.Swiftcast) || spell.AdjustedCastTime <= TimeSpan.Zero))
-                    return false;
-            }
-
             if (target == null)
                 return false;
 
@@ -195,21 +188,32 @@ namespace Magitek.Extensions
             //    }
             //}
 
-            if(!BotManager.Current.IsAutonomous) 
-                return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
-            //we don't care if the bot is moving in Autonomous mode, so we should always return true
-            return true;
+            if (BotManager.Current.IsAutonomous)
+            {
+                // If we're using an autonomous bot base and we're running out of avoidance then don't cast
+                if (AvoidanceManager.IsRunningOutOfAvoid &&
+                    !(Core.Me.HasAura(Auras.Swiftcast) || spell.AdjustedCastTime <= TimeSpan.Zero))
+                {
+                    return false;
+                }
+
+                // See PR https://github.com/Exmortem/MagitekRoutine/pull/396
+                // we don't care if the bot is moving in Autonomous mode, so we should always return true
+                return true;
+            }
+
+            return Core.Me.HasAura(Auras.Swiftcast) || !MovementManager.IsMoving || spell.AdjustedCastTime <= TimeSpan.Zero;
         }
 
         public static bool CanCast(this SpellData spell, GameObject target)
         {
             if (!BaseSettings.Instance.UseCastOrQueue)
             {
-               return ActionManager.CanCast(spell, target);
+                return ActionManager.CanCast(spell, target);
             }
             else
             {
-               return ActionManager.CanCastOrQueue(spell, target);
+                return ActionManager.CanCastOrQueue(spell, target);
             }
         }
 
@@ -335,7 +339,7 @@ namespace Magitek.Extensions
             {
                 return spell.Cooldown.TotalMilliseconds <= 500;
             }
-            
+
         }
 
         public static bool IsKnownAndReady(this SpellData spell, int remainingTimeInMs = 0)
