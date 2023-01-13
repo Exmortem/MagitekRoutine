@@ -129,6 +129,7 @@ namespace Magitek.Rotations
                     //Utility
                     if (await PhysicalDps.ArmsLength(MachinistSettings.Instance)) return true;
                     if (await Utility.Tactician()) return true;
+                    if (await Utility.Dismantle()) return true;
                     if (await PhysicalDps.SecondWind(MachinistSettings.Instance)) return true;
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
                     if (await Cooldowns.UsePotion()) return true;

@@ -147,6 +147,20 @@ namespace Magitek.Logic.Paladin
             return await Spells.DivineVeil.Cast(Core.Me);
         }
 
+        public static async Task<bool> Bulwark()
+        {
+            if (!PaladinSettings.Instance.UseBulwark)
+                return false;
+
+            if (!UseDefensives())
+                return false;
+
+            if (Core.Me.CurrentHealthPercent > PaladinSettings.Instance.BulwarkHp)
+                return false;
+
+            return await Spells.Bulwark.Cast(Core.Me);
+        }
+
 
         /* ***********************************************************************************************************
          *                                               COVER

@@ -95,6 +95,9 @@ namespace Magitek.Models.Machinist
         [DefaultValue(false)]
         public bool UseRookQueenOverdrive { get; set; }
 
+        [Setting]
+        [DefaultValue(100.0f)]
+        public float UseRookQueenBattery { get; set; }
         #endregion
 
         #region Cooldowns
@@ -122,6 +125,10 @@ namespace Magitek.Models.Machinist
         [Setting]
         [DefaultValue(true)]
         public bool ForceTactician { get; internal set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool ForceDismantle { get; internal set; }
 
         [Setting]
         [DefaultValue(70.0f)]

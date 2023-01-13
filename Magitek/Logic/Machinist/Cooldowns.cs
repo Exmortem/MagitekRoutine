@@ -23,10 +23,10 @@ namespace Magitek.Logic.Machinist
             if (!Spells.BarrelStabilizer.IsReady())
                 return false;
 
-            if (ActionResourceManager.Machinist.Heat > 50)
+            if (Spells.Reassemble.IsReady())
                 return false;
 
-            if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
+            if (ActionResourceManager.Machinist.Heat > 50)
                 return false;
 
             Logger.WriteInfo($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
@@ -38,20 +38,16 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHypercharge)
                 return false;
 
+            if (ActionResourceManager.Machinist.Heat < 50)
+                return false;
+
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Spells.Wildfire.IsKnown() && (Casting.LastSpell == Spells.Wildfire || Core.Me.HasAura(Auras.WildfireBuff, true)))
                 return await Spells.Hypercharge.Cast(Core.Me);
 
-            //Force Delay CD
-            if (Spells.SplitShot.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
-                return false;
-
             if (Spells.Drill.IsKnownAndReady(6000) || Spells.AirAnchor.IsKnownAndReady(6000) || Spells.ChainSaw.IsKnownAndReady(6000))
-                return false;
-
-            if (ActionResourceManager.Machinist.Heat < 50)
                 return false;
 
             if (Spells.BarrelStabilizer.IsKnownAndReady(2000))

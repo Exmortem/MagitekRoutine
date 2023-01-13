@@ -63,6 +63,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <CheckBox Grid.Row="0" Grid.Column="0" Content="Hallowed Ground (Invu)  " IsChecked="{Binding PaladinSettings.UseHallowedGround, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
@@ -87,15 +88,24 @@
                                       Value="{Binding PaladinSettings.RampartHpPercentage, Mode=TwoWay}" />
                     <TextBlock Grid.Row="2" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
 
-
-                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Reprisal" IsChecked="{Binding PaladinSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Bulwark" IsChecked="{Binding PaladinSettings.UseBulwark, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <controls:Numeric Grid.Row="3"
                                       Grid.Column="1"
                                       Margin="0,3"
                                       MaxValue="100"
                                       MinValue="1"
-                                      Value="{Binding PaladinSettings.ReprisalHealthPercent, Mode=TwoWay}" />
+                                      Value="{Binding PaladinSettings.BulwarkHp, Mode=TwoWay}" />
                     <TextBlock Grid.Row="3" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+
+
+                    <CheckBox Grid.Row="4" Grid.Column="0" Content="Reprisal" IsChecked="{Binding PaladinSettings.UseReprisal, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="4"
+                                      Grid.Column="1"
+                                      Margin="0,3"
+                                      MaxValue="100"
+                                      MinValue="1"
+                                      Value="{Binding PaladinSettings.ReprisalHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </Grid>
 
             </StackPanel>

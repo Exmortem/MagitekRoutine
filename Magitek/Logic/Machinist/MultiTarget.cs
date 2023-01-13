@@ -63,6 +63,7 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
         }
+
         public static async Task<bool> Flamethrower()
         {
             if (!MachinistSettings.Instance.UseFlamethrower)
@@ -94,6 +95,7 @@ namespace Magitek.Logic.Machinist
 
             return await Spells.Flamethrower.CastAura(Core.Me, Auras.Flamethrower);
         }
+
         public static async Task<bool> Ricochet()
         {
             if (!MachinistSettings.Instance.UseRicochet)
@@ -130,9 +132,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
-                return false;
-
-            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
