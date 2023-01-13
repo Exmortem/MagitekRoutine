@@ -331,6 +331,8 @@ namespace Magitek.Utilities
             Meisui = 2689,
             Weakness = 43,
             ArmysMuse = 1932,
+            ConfiteorReady = 3019,
+            DivineMight = 2673,
             CircleofScorn = 248;
         
         private const int

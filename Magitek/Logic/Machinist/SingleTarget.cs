@@ -81,6 +81,9 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
+            if (Core.Me.HasAura(Auras.WildfireBuff))
+                return false;
+
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
         }
 
@@ -93,9 +96,6 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
-                return false;
-
-            if (MachinistSettings.Instance.UseRookQueen && ActionResourceManager.Machinist.Battery > 80)
                 return false;
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);

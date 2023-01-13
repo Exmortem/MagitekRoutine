@@ -14,6 +14,9 @@ namespace Magitek.Utilities.Routines
         public static SpellData RoyalAuthority => Core.Me.ClassLevel < 60
                                                     ? Spells.RageofHalone
                                                     : Spells.RoyalAuthority;
+        public static SpellData Expiacion => Core.Me.ClassLevel < 86
+                                            ? Spells.SpiritsWithin
+                                            : Spells.Expiacion;
 
         public static readonly List<uint> Defensives = new List<uint>()
         {

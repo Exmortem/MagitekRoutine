@@ -24,5 +24,19 @@ namespace Magitek.Logic.Machinist
             return true;
         }
 
+        public static async Task<bool> Dismantle()
+        {
+
+            if (!MachinistSettings.Instance.ForceDismantle)
+                return false;
+
+            if (!await Spells.Dismantle.Cast(Core.Me.CurrentTarget))
+                return false;
+
+            MachinistSettings.Instance.ForceDismantle = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
     }
 }

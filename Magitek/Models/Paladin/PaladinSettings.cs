@@ -40,7 +40,7 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
-
+        
         [Setting]
         [DefaultValue(true)]
         public bool UseEclipseCombo { get; set; }
@@ -68,7 +68,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool UseExpiacon { get; set; }
-
         #endregion
 
         #region Aggro
@@ -87,7 +86,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(false)]
         public bool UseShieldLobToPullExtraEnemies { get; set; }
-
         #endregion
 
         #region Cover
@@ -152,6 +150,14 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(80.0f)]
         public float SheltronHp { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseBulwark { get; set; }
+
+        [Setting]
+        [DefaultValue(80.0f)]
+        public float BulwarkHp { get; set; }
         #endregion
 
         #region Dash
@@ -176,13 +182,12 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(80.0f)]
         public float DivineVeilHp { get; set; }
-
         #endregion
 
         #region Damage
         [Setting]
-        [DefaultValue(15.0f)]
-        public float GoringBladeMpPercent { get; set; }
+        [DefaultValue(true)]
+        public bool UseGoringBlade { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -207,7 +212,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool ShieldBash { get; set; }
-
         #endregion
 
         #region Heal
@@ -276,7 +280,6 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool Pvp_Confiteor { get; set; }
-
         #endregion
     }
 }

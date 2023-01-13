@@ -84,23 +84,15 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseHolySpirit)
                 return false;
 
-            //Logger.Write($@"[HolySpirit] Info -> WithinSpellRange = {Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range)} | CombatReach = {Core.Me.CombatReach} / {Core.Me.CurrentTarget.CombatReach}]");
+            if (!Spells.HolySpirit.IsKnownAndReady())
+                return false;
+
             if (PaladinSettings.Instance.UseHolySpiritWhenOutOfMeleeRange && !Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
             {
-                //Logger.Write($@"[HolySpirit] Info -> Ennemies = {Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + Core.Me.CombatReach)} | Distance = {Core.Me.CurrentTarget.Distance(Core.Me) - Core.Me.CombatReach}");
-                return Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + Core.Me.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies ? await Spells.HolySpirit.Cast(Core.Me.CurrentTarget) : false;
+                return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
             }
 
-            if (Core.Me.HasAura(Auras.FightOrFight, true))
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Requiescat, true))
-                return false;
-
-            if (ActionManager.LastSpell != Spells.GoringBlade && Casting.LastSpell != Spells.HolySpirit)
-                return false;
-
-            if (PaladinRoutine.RequiescatStackCount <= 1 && Spells.Confiteor.IsKnown())
+            if (!Core.Me.HasAura(Auras.DivineMight, true))
                 return false;
 
             return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
@@ -119,11 +111,6 @@ namespace Magitek.Logic.Paladin
 
             if (Casting.LastSpell != Spells.CircleofScorn && Casting.LastSpell != Spells.Expiacion)
                 return false;
-
-            /*
-             * if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) > 1)
-                return false; 
-            */
             
             if (PaladinSettings.Instance.InterveneOnlyInMelee && !Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
                 return false;
@@ -143,13 +130,6 @@ namespace Magitek.Logic.Paladin
             if (!Core.Me.HasAura(Auras.FightOrFight, true))
                 return false;
 
-            if (Core.Me.HasAura(Auras.FightOrFight, true) && Spells.FightorFlight.Cooldown.TotalMilliseconds > 49000)
-                return false;
-
-            /*var goringBladeAura = (Core.Me.CurrentTarget as Character).Auras.FirstOrDefault(x => x.Id == Auras.GoringBlade && x.CasterId == Core.Player.ObjectId);
-            if (goringBladeAura == null || goringBladeAura.TimespanLeft.TotalMilliseconds <= 8000)
-                return false;*/
-
             if (Spells.FastBlade.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
@@ -164,16 +144,22 @@ namespace Magitek.Logic.Paladin
             if (!Core.Me.HasAura(Auras.SwordOath))
                 return false;
 
-            if (ActionManager.LastSpell != Spells.RoyalAuthority && ActionManager.LastSpell != Spells.Atonement)
-                return false;
-
-            // If we have a single charge (HasAuraCharge looks for single stack ONLY) and we're not under FoF then don't use attonement.
-            if (!Core.Me.HasAura(Auras.FightOrFight, true) && Core.Me.HasAuraCharge(Auras.SwordOath, true))
+            if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> GoringBlade()
+        {
+            if (!PaladinSettings.Instance.UseGoringBlade)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.FightOrFight, true))
+                return false;
+
+            return await Spells.GoringBlade.Cast(Core.Me.CurrentTarget);
+        }
 
         /*************************************************************************************
          *                                    Combo
@@ -184,26 +170,6 @@ namespace Magitek.Logic.Paladin
                 return false;
 
             return await PaladinRoutine.RoyalAuthority.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> GoringBlade()
-        {
-            if (!PaladinRoutine.CanContinueComboAfter(Spells.RiotBlade))
-                return false;
-
-            //Cant be stacked with Blade Of Valor
-            if (Core.Me.CurrentTarget.HasAura(Auras.BladeOfValor, true, 6500))
-                return false;
-
-            // If Mana is missing
-            if (Core.Me.CurrentManaPercent < PaladinSettings.Instance.GoringBladeMpPercent)
-                return await Spells.GoringBlade.Cast(Core.Me.CurrentTarget);
-
-            //No need to refresh DOT
-            if (Core.Me.CurrentTarget.HasAura(Auras.GoringBlade, true, 6500))
-                return false;
-
-            return await Spells.GoringBlade.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> RiotBlade()

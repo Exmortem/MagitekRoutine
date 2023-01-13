@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.Remoting.Lifetime;
 using ff14bot.Managers;
 using ff14bot.Objects;
 
@@ -323,6 +324,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Unmend = DataManager.GetSpellData(3624);
         public static readonly SpellData BloodWeapon = DataManager.GetSpellData(3625);
         public static readonly SpellData Grit = DataManager.GetSpellData(3629);
+        public static readonly SpellData ReleaseGrit = DataManager.GetSpellData(32067);
         public static readonly SpellData Souleater = DataManager.GetSpellData(3632);
         public static readonly SpellData DarkMind = DataManager.GetSpellData(3634);
         public static readonly SpellData ShadowWall = DataManager.GetSpellData(3636);
@@ -355,6 +357,7 @@ namespace Magitek.Utilities
         public static readonly SpellData Camouflage = DataManager.GetSpellData(16140);
         public static readonly SpellData DemonSlice = DataManager.GetSpellData(16141);
         public static readonly SpellData RoyalGuard = DataManager.GetSpellData(16142);
+        public static readonly SpellData ReleaseRoyalGuard = DataManager.GetSpellData(32068);
         public static readonly SpellData LightningShot = DataManager.GetSpellData(16143);
         public static readonly SpellData DangerZone = DataManager.GetSpellData(16144);
         public static readonly SpellData SolidBarrel = DataManager.GetSpellData(16145);
@@ -415,14 +418,8 @@ namespace Magitek.Utilities
         public static readonly SpellData Scattergun = DataManager.GetSpellData(25786);
         public static readonly SpellData ChainSaw = DataManager.GetSpellData(25788);
         public static readonly SpellData SatelliteBeam = DataManager.GetSpellData(4245);
+        public static readonly SpellData Dismantle = DataManager.GetSpellData(2287);
 
-        public static readonly SpellData PVPDrill = DataManager.GetSpellData(17749);
-        public static readonly SpellData PVPRicochet = DataManager.GetSpellData(17753);
-        public static readonly SpellData PVPGaussRound = DataManager.GetSpellData(18933);
-        public static readonly SpellData PVPHypercharge = DataManager.GetSpellData(17754);
-        public static readonly SpellData PVPWildfire = DataManager.GetSpellData(8855);
-        public static readonly SpellData PVPAirAnchor = DataManager.GetSpellData(17750);
-        public static readonly SpellData PVPSpreadShot = DataManager.GetSpellData(18932);
         #endregion
 
         // MNK
@@ -518,7 +515,9 @@ namespace Magitek.Utilities
         public static readonly SpellData CircleofScorn = DataManager.GetSpellData(23);
         public static readonly SpellData SpiritsWithin = DataManager.GetSpellData(29);
         public static readonly SpellData IronWill = DataManager.GetSpellData(28);
+        public static readonly SpellData ReleaseIronWill = DataManager.GetSpellData(32065);
         public static readonly SpellData Clemency = DataManager.GetSpellData(3541);
+        public static readonly SpellData Bulwark = DataManager.GetSpellData(22);
         public static readonly SpellData FastBlade = DataManager.GetSpellData(9);
         public static readonly SpellData RiotBlade = DataManager.GetSpellData(15);
         public static readonly SpellData ShieldBash = DataManager.GetSpellData(16);
@@ -765,6 +764,7 @@ namespace Magitek.Utilities
         public static readonly SpellData StormsEye = DataManager.GetSpellData(45);
         public static readonly SpellData Tomahawk = DataManager.GetSpellData(46);
         public static readonly SpellData Defiance = DataManager.GetSpellData(48);
+        public static readonly SpellData ReleaseDefiance = DataManager.GetSpellData(32066);
         public static readonly SpellData InnerBeast = DataManager.GetSpellData(49);
         public static readonly SpellData SteelCyclone = DataManager.GetSpellData(51);
         public static readonly SpellData Infuriate = DataManager.GetSpellData(52);

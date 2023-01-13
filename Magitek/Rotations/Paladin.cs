@@ -115,9 +115,9 @@ namespace Magitek.Rotations
 
                     //oGCDS
                     if (await SingleTarget.Intervene()) return true; //dash
+                    if (await SingleTarget.Requiescat()) return true;
                     if (await Aoe.CircleOfScorn()) return true;
                     if (await Aoe.Expiacion()) return true;
-                    if (await SingleTarget.Requiescat()) return true;
 
                     //Damage Buff (was before oGCD)
                     if (await Buff.FightOrFlight()) return true;
@@ -131,17 +131,16 @@ namespace Magitek.Rotations
                 if (await Aoe.BladeOfFaith()) return true;
                 if (await Aoe.Confiteor()) return true;
 
-                //Requiescat
                 if (await Aoe.HolyCircle()) return true;
+                if (await SingleTarget.Atonement()) return true;
                 if (await SingleTarget.HolySpirit()) return true;
+                if (await SingleTarget.GoringBlade()) return true;
 
                 //Combo AOE (Multi Target only)
                 if (await Aoe.Prominence()) return true;
                 if (await Aoe.TotalEclipse()) return true;
 
                 //Combo
-                if (await SingleTarget.Atonement()) return true;
-                if (await SingleTarget.GoringBlade()) return true;
                 if (await SingleTarget.RoyalAuthority()) return true;
                 if (await SingleTarget.RiotBlade()) return true;
                 if (await SingleTarget.FastBlade()) return true;

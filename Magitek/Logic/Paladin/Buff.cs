@@ -36,23 +36,13 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseFightOrFlight)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Requiescat, true))
+            if (Casting.LastSpell == Spells.FastBlade)
                 return false;
 
-            if (Casting.LastSpell == Spells.Requiescat)
+            if (Casting.LastSpell == Spells.RiotBlade)
                 return false;
 
-            // If we're in an aoe situation we want to FoF even if our target doesn't have goring. This is typically in dungeons.
-            if (Combat.Enemies.Count(r => r.ValidAttackUnit() && r.Distance(Core.Me) <= 5 + r.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
-            {
-                if (ActionManager.LastSpell != Spells.FastBlade)
-                    return false;
-            } else
-            {
-                if (Spells.Requiescat.IsKnown() && Spells.Requiescat.IsReady())
-                    return false;
-            }
-
+            //Force Delay CD
             if (Spells.FastBlade.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
                 return false;
 
