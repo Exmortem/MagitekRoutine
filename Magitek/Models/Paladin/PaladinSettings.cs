@@ -32,7 +32,7 @@ namespace Magitek.Models.Paladin
 
         #region Utility
         [Setting]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool UseIronWill { get; set; }
         #endregion
 
@@ -40,7 +40,7 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
-        
+
         [Setting]
         [DefaultValue(true)]
         public bool UseEclipseCombo { get; set; }
@@ -88,7 +88,7 @@ namespace Magitek.Models.Paladin
         [DefaultValue(false)]
         public bool UseShieldLobToPullExtraEnemies { get; set; }
 
-    #endregion
+        #endregion
 
         #region Cover
         [Setting]
