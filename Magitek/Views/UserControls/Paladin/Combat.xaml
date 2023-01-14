@@ -40,22 +40,14 @@
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Holy Spirit   " IsChecked="{Binding PaladinSettings.UseHolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Holy Spirit                       " IsChecked="{Binding PaladinSettings.UseHolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Requiescat " IsChecked="{Binding PaladinSettings.UseRequiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Requiescat" IsChecked="{Binding PaladinSettings.UseRequiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Atonement" IsChecked="{Binding PaladinSettings.UseAtonement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="GoringBlade" IsChecked="{Binding PaladinSettings.UseGoringBlade, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="GoringBlade                    " IsChecked="{Binding PaladinSettings.UseGoringBlade, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Atonement " IsChecked="{Binding PaladinSettings.UseAtonement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -102,6 +94,13 @@
                 <StackPanel Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Use Expiacon / Spirits Within" IsChecked="{Binding PaladinSettings.UseExpiacon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Save Circle Of Scorn / Expiacon when Fight or Flight is Under " IsChecked="{Binding PaladinSettings.SaveCircleOfScorn, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <controls:Numeric Margin="0,3" MaxValue="15" MinValue="1" Value="{Binding PaladinSettings.SaveCircleOfScornMseconds, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" seconds" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

@@ -125,24 +125,24 @@ namespace Magitek.Rotations
 
                 if (await SingleTarget.ShieldLobOnLostAggro()) return true;
 
+                if (await Aoe.HolyCircle()) return true;
+                if (await SingleTarget.GoringBlade()) return true;
+                if (await SingleTarget.HolySpirit()) return true;
+                if (await SingleTarget.Atonement()) return true;
+
+                //Combo Action
+                if (await Aoe.TotalEclipse()) return true;
+                if (await SingleTarget.RoyalAuthority()) return true;
+                if (await SingleTarget.RiotBlade()) return true;
+
                 //Combo AOE (Single Target or Multi Target)
                 if (await Aoe.BladeOfValor()) return true;
                 if (await Aoe.BladeOfTruth()) return true;
                 if (await Aoe.BladeOfFaith()) return true;
                 if (await Aoe.Confiteor()) return true;
-
-                if (await Aoe.HolyCircle()) return true;
-                if (await SingleTarget.Atonement()) return true;
-                if (await SingleTarget.HolySpirit()) return true;
-                if (await SingleTarget.GoringBlade()) return true;
-
-                //Combo AOE (Multi Target only)
-                if (await Aoe.Prominence()) return true;
+ 
+                //Basic Action
                 if (await Aoe.TotalEclipse()) return true;
-
-                //Combo
-                if (await SingleTarget.RoyalAuthority()) return true;
-                if (await SingleTarget.RiotBlade()) return true;
                 if (await SingleTarget.FastBlade()) return true;
 
                 return await SingleTarget.ShieldLob();

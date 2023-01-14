@@ -6,6 +6,7 @@ using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
 
@@ -36,10 +37,7 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseFightOrFlight)
                 return false;
 
-            if (Casting.LastSpell == Spells.FastBlade)
-                return false;
-
-            if (Casting.LastSpell == Spells.RiotBlade)
+            if (ActionManager.LastSpell == Spells.FastBlade)
                 return false;
 
             //Force Delay CD
