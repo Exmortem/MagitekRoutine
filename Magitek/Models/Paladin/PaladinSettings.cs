@@ -63,6 +63,14 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
+        public bool SaveCircleOfScorn { get; set; }
+
+        [Setting]
+        [DefaultValue(6)]
+        public float SaveCircleOfScornMseconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseConfiteorCombo { get; set; }
 
         [Setting]

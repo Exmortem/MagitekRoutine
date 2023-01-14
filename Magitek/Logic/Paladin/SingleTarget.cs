@@ -106,13 +106,19 @@ namespace Magitek.Logic.Paladin
             if (!Spells.Intervene.IsKnown())
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FightOrFight, true))
+            if (Spells.FightorFlight.IsKnownAndReady())
                 return false;
 
-            if (Casting.LastSpell != Spells.CircleofScorn && Casting.LastSpell != Spells.Expiacion)
+            if (Spells.CircleofScorn.IsKnownAndReady())
                 return false;
-            
+
+            if (Spells.Expiacion.IsKnownAndReady())
+                return false;
+
             if (PaladinSettings.Instance.InterveneOnlyInMelee && !Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
+                return false;
+
+            if (Spells.Intervene.Charges < PaladinSettings.Instance.SaveInterveneCharges + 1)
                 return false;
 
             return await Spells.Intervene.Cast(Core.Me.CurrentTarget);
@@ -155,7 +161,7 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseGoringBlade)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FightOrFight, true))
+            if (!Core.Me.HasAura(Auras.FightOrFight))
                 return false;
 
             return await Spells.GoringBlade.Cast(Core.Me.CurrentTarget);
