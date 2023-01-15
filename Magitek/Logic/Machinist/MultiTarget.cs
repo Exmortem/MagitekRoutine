@@ -3,6 +3,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Logic.Roles;
 using Magitek.Models.Machinist;
+using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using System;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Magitek.Logic.Machinist
             if (Casting.LastSpell == Spells.Hypercharge)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.SpreadShotEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < 3)
                 return false;
 
             return await MachinistRoutine.Scattergun.Cast(Core.Me.CurrentTarget);
@@ -58,7 +59,7 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining == TimeSpan.Zero)
                 return false;
 
-            if (Core.Me.EnemiesInCone(12) < MachinistSettings.Instance.AutoCrossbowEnemyCount)
+            if (Core.Me.EnemiesInCone(12) < 3)
                 return false;
 
             return await Spells.AutoCrossbow.Cast(Core.Me.CurrentTarget);
@@ -113,7 +114,7 @@ namespace Magitek.Logic.Machinist
                     return false;
 
                 // Do not run Rico if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.IsKnownAndReady())
+                if (ActionResourceManager.Machinist.Heat > 40 || Spells.Hypercharge.IsKnownAndReady())
                 {
                     if (Spells.Ricochet.Charges < 1.5f && Spells.GaussRound.Charges < 0.5f)
                         return false;
@@ -128,11 +129,24 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseChainSaw)
                 return false;
 
+            if (!Spells.ChainSaw.IsKnownAndReady())
+                return false;
+
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
+
+            if (MachinistSettings.Instance.UseReassembleOnChainSaw && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
+            {
+                SpellQueueLogic.SpellQueue.Clear();
+                SpellQueueLogic.Timeout.Start();
+                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.ChainSaw });
+                return true;
+            }
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
         }

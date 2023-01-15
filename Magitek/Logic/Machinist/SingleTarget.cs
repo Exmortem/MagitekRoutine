@@ -2,6 +2,7 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Machinist;
+using Magitek.Models.QueueSpell;
 using Magitek.Utilities;
 using System;
 using System.Linq;
@@ -78,11 +79,24 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
+            if(!Spells.Drill.IsKnownAndReady())
+                return false;
+
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
+
+            if (MachinistSettings.Instance.UseReassembleOnDrill && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
+            { 
+                SpellQueueLogic.SpellQueue.Clear();
+                SpellQueueLogic.Timeout.Start();
+                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Drill});
+                return true;
+            }
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
         }
@@ -92,11 +106,24 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHotAirAnchor)
                 return false;
 
+            if (!Spells.AirAnchor.IsKnownAndReady())
+                return false;
+
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
+
+            if (MachinistSettings.Instance.UseReassembleOnAA && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
+            {
+                SpellQueueLogic.SpellQueue.Clear();
+                SpellQueueLogic.Timeout.Start();
+                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
+                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = MachinistRoutine.HotAirAnchor });
+                return true;
+            }
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);
         }
@@ -126,7 +153,7 @@ namespace Magitek.Logic.Machinist
                     return false;
 
                 // Do not run Gauss if an hypercharge is almost ready and not enough charges available for Rico and Gauss
-                if (ActionResourceManager.Machinist.Heat > 45 && Spells.Hypercharge.IsKnownAndReady())
+                if (ActionResourceManager.Machinist.Heat > 40 || Spells.Hypercharge.IsKnownAndReady())
                 {
                     if (Spells.GaussRound.Charges < 1.5f && Spells.Ricochet.Charges < 0.5f)
                         return false;

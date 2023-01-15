@@ -7,8 +7,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="400"
-             d:DesignWidth="500"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -52,25 +50,35 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Wildfire " IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Hypercharge          " IsChecked="{Binding MachinistSettings.UseHypercharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Wildfire                     " IsChecked="{Binding MachinistSettings.UseWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Content="Barrel Stabilizer " IsChecked="{Binding MachinistSettings.UseBarrelStabilizer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Hypercharge" IsChecked="{Binding MachinistSettings.UseHypercharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <StackPanel Margin="5">
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Delay Hypercharge when Drill / AA / ChianSaw have " IsChecked="{Binding MachinistSettings.DelayHypercharge, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="10" MinValue="1" Value="{Binding MachinistSettings.DelayHyperchargeSeconds, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" seconds cooldown left" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Delay Wildfire when Drill/Air Anchor/ChianSaw have " IsChecked="{Binding MachinistSettings.DelayWildfire, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="10" MinValue="1" Value="{Binding MachinistSettings.DelayWildfireSeconds, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" seconds cooldown left" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Reassemble" IsChecked="{Binding MachinistSettings.UseReassemble, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Barrel Stabilizer" IsChecked="{Binding MachinistSettings.UseBarrelStabilizer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Reassemble on" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Drill                    " IsChecked="{Binding MachinistSettings.UseReassembleOnDrill, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Air Anchor                  " IsChecked="{Binding MachinistSettings.UseReassembleOnAA, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="ChainSaw" IsChecked="{Binding MachinistSettings.UseReassembleOnChainSaw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

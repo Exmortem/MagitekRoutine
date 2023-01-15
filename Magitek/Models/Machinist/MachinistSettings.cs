@@ -108,11 +108,39 @@ namespace Magitek.Models.Machinist
 
         [Setting]
         [DefaultValue(true)]
+        public bool DelayHypercharge { get; set; }
+
+        [Setting]
+        [DefaultValue(7.0f)]
+        public float DelayHyperchargeSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseWildfire { get; set; }
 
         [Setting]
         [DefaultValue(true)]
+        public bool DelayWildfire { get; set; }
+
+        [Setting]
+        [DefaultValue(7.0f)]
+        public float DelayWildfireSeconds { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool UseReassemble { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseReassembleOnDrill { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseReassembleOnAA { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseReassembleOnChainSaw { get; set; }
 
         [Setting]
         [DefaultValue(true)]

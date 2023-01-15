@@ -23,13 +23,15 @@ namespace Magitek.Logic.Machinist
             if (!Spells.BarrelStabilizer.IsReady())
                 return false;
 
-            if (Spells.Reassemble.IsReady())
-                return false;
-
             if (ActionResourceManager.Machinist.Heat > 50)
                 return false;
 
-            Logger.WriteInfo($@"Using BarrelStabilizer with {ActionResourceManager.Machinist.Heat} Heat.");
+            if (Spells.Reassemble.IsKnown() && Spells.Reassemble.Charges > 1)
+                return false;
+
+            if (Spells.Wildfire.Cooldown.Milliseconds > 0 && Spells.Wildfire.Cooldown.Milliseconds <= 6000)
+                return false;
+
             return await Spells.BarrelStabilizer.Cast(Core.Me);
         }
 
@@ -44,27 +46,27 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
+            if (Spells.Wildfire.IsKnownAndReady())
+                return false;
+
+            //Force cast during wildfire
             if (Spells.Wildfire.IsKnown() && (Casting.LastSpell == Spells.Wildfire || Core.Me.HasAura(Auras.WildfireBuff, true)))
                 return await Spells.Hypercharge.Cast(Core.Me);
 
-            if (Spells.Drill.IsKnownAndReady(6000) || Spells.AirAnchor.IsKnownAndReady(6000) || Spells.ChainSaw.IsKnownAndReady(6000))
-                return false;
 
-            if (Spells.BarrelStabilizer.IsKnownAndReady(2000))
-                return await Spells.Hypercharge.Cast(Core.Me);
-
-            if (Spells.ChainSaw.IsKnown())
+            if (MachinistSettings.Instance.DelayHypercharge)
             {
-                if (!Casting.SpellCastHistory.Take(10).Any(x => x.Spell == Spells.ChainSaw)
-                    && (!Casting.SpellCastHistory.Any(x => x.Spell == Spells.ChainSaw) || !Casting.SpellCastHistory.Any(x => x.Spell == Spells.Wildfire)))
+                if (Spells.Drill.IsKnown() && Spells.Drill.Cooldown.Seconds <= MachinistSettings.Instance.DelayHyperchargeSeconds)
+                    return false;
+
+                if (Spells.AirAnchor.IsKnown() && Spells.AirAnchor.Cooldown.Seconds <= MachinistSettings.Instance.DelayHyperchargeSeconds)
+                    return false;
+
+                if (Spells.ChainSaw.IsKnown() && Spells.ChainSaw.Cooldown.Seconds <= MachinistSettings.Instance.DelayHyperchargeSeconds)
                     return false;
             }
 
-            if (!await Spells.Hypercharge.Cast(Core.Me))
-                return false;
-            
-            Logger.WriteInfo($@"Using Hypercharge at {Spells.SplitShot.Cooldown.TotalMilliseconds} ms before CD.");
-            return true;
+            return await Spells.Hypercharge.Cast(Core.Me);
         }
 
         public static async Task<bool> Wildfire()
@@ -81,8 +83,16 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
-            if (Spells.Drill.IsKnownAndReady(6000) || Spells.AirAnchor.IsKnownAndReady(6000) || Spells.ChainSaw.IsKnownAndReady(6000))
-                return false;
+            if (MachinistSettings.Instance.DelayWildfire) { 
+                if (Spells.Drill.IsKnown() && Spells.Drill.Cooldown.Seconds <= MachinistSettings.Instance.DelayWildfireSeconds)
+                    return false;
+
+                if (Spells.AirAnchor.IsKnown() && Spells.AirAnchor.Cooldown.Seconds <= MachinistSettings.Instance.DelayWildfireSeconds)
+                    return false;
+
+                if (Spells.ChainSaw.IsKnown() && Spells.ChainSaw.Cooldown.Seconds <= MachinistSettings.Instance.DelayWildfireSeconds)
+                    return false;
+            }
 
             return await Spells.Wildfire.Cast(Core.Me.CurrentTarget);
         }
