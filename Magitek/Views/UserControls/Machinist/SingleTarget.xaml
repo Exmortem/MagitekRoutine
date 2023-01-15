@@ -12,32 +12,22 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="10">
-
-        <controls:SettingsBlock Margin="0,0,0,5" Background="{DynamicResource ClassSelectorBackground}">
+    <StackPanel Margin="5">
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="1" Grid.Column="0" Content="Split Shot Combo" IsChecked="{Binding MachinistSettings.UseSplitShotCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Drill" IsChecked="{Binding MachinistSettings.UseDrill, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="3" Grid.Column="0" Content="Hot Shot / Air Anchor" IsChecked="{Binding MachinistSettings.UseHotAirAnchor, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="4" Grid.Column="0" Content="ChainSaw" IsChecked="{Binding MachinistSettings.UseChainSaw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Grid.Row="5" Grid.Column="0" Content="Gauss Round" IsChecked="{Binding MachinistSettings.UseGaussRound, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </Grid>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Split Shot Combo" IsChecked="{Binding MachinistSettings.UseSplitShotCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Drill   " IsChecked="{Binding MachinistSettings.UseDrill, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Hot Shot / Air Anchor   " IsChecked="{Binding MachinistSettings.UseHotAirAnchor, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="ChainSaw   " IsChecked="{Binding MachinistSettings.UseChainSaw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Gauss Round      " IsChecked="{Binding MachinistSettings.UseGaussRound, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Ricochet" IsChecked="{Binding MachinistSettings.UseRicochet, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>

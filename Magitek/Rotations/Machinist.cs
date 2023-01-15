@@ -10,6 +10,7 @@ using Magitek.Utilities;
 using MachinistRoutine = Magitek.Utilities.Routines.Machinist;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Magitek.Rotations
 {
@@ -82,6 +83,14 @@ namespace Magitek.Rotations
                 }
             }
 
+            if (!SpellQueueLogic.SpellQueue.Any())
+                SpellQueueLogic.InSpellQueue = false;
+
+            if (SpellQueueLogic.SpellQueue.Any())
+            {
+                if (await SpellQueueLogic.SpellQueueMethod()) return true;
+            }
+
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
@@ -116,7 +125,7 @@ namespace Magitek.Rotations
 
                     //Cooldowns
                     if (await Cooldowns.BarrelStabilizer()) return true;
-                    if (await Cooldowns.Reassemble()) return true;
+                    //if (await Cooldowns.Reassemble()) return true;
                     
                     //oGCDs
                     if (await SingleTarget.GaussRound()) return true;
@@ -135,10 +144,10 @@ namespace Magitek.Rotations
                     if (await Cooldowns.UsePotion()) return true;
 
                     //Cooldowns
-                    if (await Cooldowns.Reassemble()) return true;
-                    if (await Cooldowns.BarrelStabilizer()) return true;
-                    if (await Cooldowns.Wildfire()) return true;
+                    //if (await Cooldowns.Reassemble()) return true;
                     if (await Cooldowns.Hypercharge()) return true;
+                    if (await Cooldowns.Wildfire()) return true;
+                    if (await Cooldowns.BarrelStabilizer()) return true;
 
                     //oGCDs
                     if (await SingleTarget.GaussRound()) return true;
