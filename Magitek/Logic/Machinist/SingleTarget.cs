@@ -79,7 +79,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseDrill)
                 return false;
 
-            if(!Spells.Drill.IsKnownAndReady())
+            if (!Spells.Drill.IsKnownAndReady())
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -88,14 +88,18 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (MachinistSettings.Instance.UseReassembleOnDrill && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
-            { 
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Drill});
-                return true;
+            if (MachinistSettings.Instance.UseReassembleOnDrill && !Core.Me.HasAura(Auras.Reassembled) && Core.Me.ClassLevel >= 10)
+            {
+               if ((Core.Me.ClassLevel > 83 && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown())
+                   || (Core.Me.ClassLevel < 84 && Spells.Reassemble.IsKnownAndReady()) )
+               {
+                    SpellQueueLogic.SpellQueue.Clear();
+                    SpellQueueLogic.Timeout.Start();
+                    SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Drill });
+                    return true;
+                }
             }
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
@@ -106,7 +110,7 @@ namespace Magitek.Logic.Machinist
             if (!MachinistSettings.Instance.UseHotAirAnchor)
                 return false;
 
-            if (!Spells.AirAnchor.IsKnownAndReady())
+            if (!Spells.AirAnchor.IsKnownAndReady() && !Spells.HotShot.IsKnownAndReady())
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
@@ -115,14 +119,18 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
-            if (MachinistSettings.Instance.UseReassembleOnAA && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
+            if (MachinistSettings.Instance.UseReassembleOnAA && !Core.Me.HasAura(Auras.Reassembled) && Core.Me.ClassLevel >= 10)
             {
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = MachinistRoutine.HotAirAnchor });
-                return true;
+                if ((Core.Me.ClassLevel > 83 && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown())
+                    || (Core.Me.ClassLevel < 84 && Spells.Reassemble.IsKnownAndReady()))
+                {
+                    SpellQueueLogic.SpellQueue.Clear();
+                    SpellQueueLogic.Timeout.Start();
+                    SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 3000;
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Reassemble, TargetSelf = true });
+                    SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = MachinistRoutine.HotAirAnchor });
+                    return true;
+                }
             }
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);
