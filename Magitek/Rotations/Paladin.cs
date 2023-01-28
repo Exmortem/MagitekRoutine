@@ -131,7 +131,7 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Atonement()) return true;
 
                 //Combo Action
-                if (await Aoe.TotalEclipse()) return true;
+                if (await Aoe.Prominence()) return true;
                 if (await SingleTarget.RoyalAuthority()) return true;
                 if (await SingleTarget.RiotBlade()) return true;
 

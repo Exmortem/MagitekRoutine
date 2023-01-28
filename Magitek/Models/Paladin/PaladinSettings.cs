@@ -75,7 +75,7 @@ namespace Magitek.Models.Paladin
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseExpiacon { get; set; }
+        public bool UseExpiacion { get; set; }
         #endregion
 
         #region Aggro
