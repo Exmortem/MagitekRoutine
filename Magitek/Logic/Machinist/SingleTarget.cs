@@ -31,6 +31,9 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Reassembled))
+                return false;
+
             return await MachinistRoutine.HeatedSplitShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -49,6 +52,9 @@ namespace Magitek.Logic.Machinist
                 return false;
 
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Reassembled))
                 return false;
 
             return await MachinistRoutine.HeatedSlugShot.Cast(Core.Me.CurrentTarget);
@@ -71,6 +77,9 @@ namespace Magitek.Logic.Machinist
             if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Reassembled))
+                return false;
+
             return await MachinistRoutine.HeatedCleanShot.Cast(Core.Me.CurrentTarget);
         }
 
@@ -88,6 +97,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
+            /*
             if (MachinistSettings.Instance.UseReassembleOnDrill && !Core.Me.HasAura(Auras.Reassembled) && Core.Me.ClassLevel >= 10)
             {
                if ((Core.Me.ClassLevel > 83 && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown())
@@ -101,6 +111,7 @@ namespace Magitek.Logic.Machinist
                     return true;
                 }
             }
+            */
 
             return await Spells.Drill.Cast(Core.Me.CurrentTarget);
         }
@@ -119,6 +130,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
+            /*
             if (MachinistSettings.Instance.UseReassembleOnAA && !Core.Me.HasAura(Auras.Reassembled) && Core.Me.ClassLevel >= 10)
             {
                 if ((Core.Me.ClassLevel > 83 && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown())
@@ -132,6 +144,7 @@ namespace Magitek.Logic.Machinist
                     return true;
                 }
             }
+            */
 
             return await MachinistRoutine.HotAirAnchor.Cast(Core.Me.CurrentTarget);
         }

@@ -175,6 +175,9 @@ namespace Magitek.Logic.Paladin
             if (!PaladinRoutine.CanContinueComboAfter(Spells.RiotBlade))
                 return false;
 
+            if (Core.Me.HasAura(Auras.SwordOath))
+                return false;
+
             return await PaladinRoutine.RoyalAuthority.Cast(Core.Me.CurrentTarget);
         }
 
@@ -183,11 +186,17 @@ namespace Magitek.Logic.Paladin
             if (!PaladinRoutine.CanContinueComboAfter(Spells.FastBlade))
                 return false;
 
+            if (Core.Me.HasAura(Auras.SwordOath))
+                return false;
+
             return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> FastBlade()
         {
+            if (Core.Me.HasAura(Auras.SwordOath))
+                return false;
+
             return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
         }
     }
