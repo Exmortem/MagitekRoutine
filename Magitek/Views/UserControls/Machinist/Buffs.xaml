@@ -71,16 +71,5 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Reassemble on" />
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Drill                    " IsChecked="{Binding MachinistSettings.UseReassembleOnDrill, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Air Anchor                  " IsChecked="{Binding MachinistSettings.UseReassembleOnAA, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="ChainSaw" IsChecked="{Binding MachinistSettings.UseReassembleOnChainSaw, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>

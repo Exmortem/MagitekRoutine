@@ -138,6 +138,7 @@ namespace Magitek.Logic.Machinist
             if (Core.Me.HasAura(Auras.WildfireBuff))
                 return false;
 
+            /*
             if (MachinistSettings.Instance.UseReassembleOnChainSaw && Spells.Reassemble.Charges >= 1 && Spells.Reassemble.IsKnown() && !Core.Me.HasAura(Auras.Reassembled))
             {
                 SpellQueueLogic.SpellQueue.Clear();
@@ -147,6 +148,7 @@ namespace Magitek.Logic.Machinist
                 SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.ChainSaw });
                 return true;
             }
+            */
 
             return await Spells.ChainSaw.Cast(Core.Me.CurrentTarget);
         }

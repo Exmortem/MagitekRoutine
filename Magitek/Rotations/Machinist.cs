@@ -143,8 +143,12 @@ namespace Magitek.Rotations
                     if (await PhysicalDps.Interrupt(MachinistSettings.Instance)) return true;
                     if (await Cooldowns.UsePotion()) return true;
 
+                    //Pets
+                    if (await Pet.RookQueen()) return true;
+                    if (await Pet.RookQueenOverdrive()) return true;
+
                     //Cooldowns
-                    //if (await Cooldowns.Reassemble()) return true;
+                    if (await Cooldowns.Reassemble()) return true;
                     if (await Cooldowns.Hypercharge()) return true;
                     if (await Cooldowns.Wildfire()) return true;
                     if (await Cooldowns.BarrelStabilizer()) return true;
@@ -153,9 +157,6 @@ namespace Magitek.Rotations
                     if (await SingleTarget.GaussRound()) return true;
                     if (await MultiTarget.Ricochet()) return true;
 
-                    //Pets
-                    if (await Pet.RookQueen()) return true;
-                    if (await Pet.RookQueenOverdrive()) return true;
                 }
             }
 

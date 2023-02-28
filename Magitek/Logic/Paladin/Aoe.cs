@@ -30,6 +30,9 @@ namespace Magitek.Logic.Paladin
             if (Spells.Requiescat.IsKnownAndReady())
                 return false;
 
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.CircleofScorn.Radius + Core.Me.CombatReach) < 1)
+                return false;
+
             return await Spells.CircleofScorn.Cast(Core.Me);
         }
 
@@ -47,7 +50,7 @@ namespace Magitek.Logic.Paladin
             if (!Core.Me.HasAura(Auras.DivineMight, true))
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.HolyCircle.Radius + Core.Me.CombatReach) < PaladinSettings.Instance.HolyCircleEnemies)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.HolyCircle.Radius + Core.Me.CombatReach) <= PaladinSettings.Instance.HolyCircleEnemies)
                 return false;
 
             return await Spells.HolyCircle.Cast(Core.Me);
@@ -58,9 +61,6 @@ namespace Magitek.Logic.Paladin
          * ***********************************************************************************/
         public static async Task<bool> Expiacion() //SpiritsWithin or Expiacion
         {
-
-            if (!PaladinSettings.Instance.UseAoe)
-                return false;
 
             if (!PaladinSettings.Instance.UseExpiacion)
                 return false;
@@ -92,7 +92,7 @@ namespace Magitek.Logic.Paladin
             if (!Spells.TotalEclipse.IsKnownAndReady())
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + Core.Me.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + Core.Me.CombatReach) <= PaladinSettings.Instance.TotalEclipseEnemies)
                 return false;
 
             return await Spells.TotalEclipse.Cast(Core.Me);

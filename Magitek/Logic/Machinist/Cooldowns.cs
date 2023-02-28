@@ -105,6 +105,9 @@ namespace Magitek.Logic.Machinist
             if (Spells.Reassemble.Charges < 1)
                 return false;
 
+            if (ActionResourceManager.Machinist.OverheatRemaining > TimeSpan.Zero)
+                return false;
+
             // Added check for cooldown, gets stuck at lower levels otherwise.
             if (Spells.Reassemble.Charges == 0 && !Spells.Reassemble.IsReady())
                 return false;
@@ -144,6 +147,7 @@ namespace Magitek.Logic.Machinist
                 }
 
             }
+
             return await Spells.Reassemble.Cast(Core.Me);
         }
 
