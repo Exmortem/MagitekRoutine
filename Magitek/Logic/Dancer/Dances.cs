@@ -39,7 +39,7 @@ namespace Magitek.Logic.Dancer
 
             if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000)) return false;
 
-            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+            if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             var procs = Core.Me.Auras.AuraList.Where(x => x.Caster == Core.Me && (
@@ -74,7 +74,7 @@ namespace Magitek.Logic.Dancer
             if (!Core.Me.HasAura(Auras.StandardFinish))
                 return false;
 
-            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
+            if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
 
             if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
@@ -98,7 +98,7 @@ namespace Magitek.Logic.Dancer
             return await Spells.TechnicalStep.Cast(Core.Me);
         }
 
-        public static async Task<bool> DanceFinish() // Just for Gambit Readablity
+        public static async Task<bool> DanceFinish() // Just for Gambit Readability
         {
             return await DanceStep();
         }
@@ -111,18 +111,15 @@ namespace Magitek.Logic.Dancer
 
             if (Casting.LastSpell == Spells.QuadrupleTechnicalFinish) return false;
 
-            if (DancerSettings.Instance.UseRangeAndFacingChecks)
-            {
-                if (Core.Me.CurrentTarget.Distance(Core.Me) > (15 + Core.Me.CurrentTarget.CombatReach))
-                    return false;
-            }
-
             try
             {
-                Logger.Write($@"[Magitek] Dance Log {ActionResourceManager.Dancer.CurrentStep}");
+                Logger.Write($@"[Magitek] Current Step Dance To execute {ActionResourceManager.Dancer.CurrentStep}");
                 switch (ActionResourceManager.Dancer.CurrentStep)
                 {
                     case ActionResourceManager.Dancer.DanceStep.Finish:
+                        if (DancerSettings.Instance.OnlyFinishStepInRange && Core.Me.CurrentTarget.Distance(Core.Me) > 15 + Core.Me.CurrentTarget.CombatReach)
+                            return false;
+
                         if (Core.Me.HasAura(Auras.StandardStep))
                             return await Spells.DoubleStandardFinish.Cast(Core.Me);
                         else if (Core.Me.HasAura(Auras.TechnicalStep))
