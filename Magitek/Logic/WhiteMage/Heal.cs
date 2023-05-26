@@ -338,7 +338,7 @@ namespace Magitek.Logic.WhiteMage
 
             var asylumTarget = Group.CastableTanks.FirstOrDefault(r => r.CurrentHealth > 0 &&
                                                                        r.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent &&
-                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 7 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= WhiteMageSettings.Instance.AsylumAllies - 1);
+                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 15 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= WhiteMageSettings.Instance.AsylumAllies - 1);
 
             if (asylumTarget == null)
                 return false;

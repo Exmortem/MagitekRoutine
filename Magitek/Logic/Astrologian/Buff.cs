@@ -71,7 +71,7 @@ namespace Magitek.Logic.Astrologian
 
             // Added check to see if more than configured allies are around
 
-            var divinationTargets = Group.CastableAlliesWithin15.Count(r => r.IsAlive);
+            var divinationTargets = Group.CastableAlliesWithin30.Count(r => r.IsAlive);
 
             if (divinationTargets >= AstrologianSettings.Instance.DivinationAllies)
                 return await Spells.Divination.CastAura(Core.Me, Auras.Divination);

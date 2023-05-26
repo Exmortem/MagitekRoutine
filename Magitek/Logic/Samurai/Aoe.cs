@@ -154,7 +154,7 @@ namespace Magitek.Logic.Samurai
             if (SamuraiRoutine.SenCount != 2)
                 return false;
 
-            if (SamuraiRoutine.AoeEnemies5Yards < SamuraiSettings.Instance.AoeEnemies)
+            if (SamuraiRoutine.AoeEnemies8Yards < SamuraiSettings.Instance.AoeEnemies)
                 return false;
 
             await Spells.TenkaGoken.Cast(Core.Me.CurrentTarget);

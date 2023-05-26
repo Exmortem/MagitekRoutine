@@ -60,7 +60,7 @@ namespace Magitek.Logic.Reaper
 
             if (Globals.InParty)
             {
-                var couldArcane = Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.ArcaneCircle));
+                var couldArcane = Group.CastableAlliesWithin30.Count(r => !r.HasAura(Auras.ArcaneCircle));
                 var arcaneNeededCount = ReaperSettings.Instance.ArcaneCircleCount;
 
                 if (ReaperSettings.Instance.ArcaneCircleEntireParty)

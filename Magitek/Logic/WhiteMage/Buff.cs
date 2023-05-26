@@ -157,7 +157,7 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.AfflatusRapture)
                 return false;
 
-            var temperance = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.TemperanceHealthPercent);
+            var temperance = Group.CastableAlliesWithin50.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 50 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.TemperanceHealthPercent);
 
             if (temperance < WhiteMageSettings.Instance.TemperanceAllies)
                 return false;
