@@ -12,9 +12,14 @@ namespace Magitek.Logic.Dancer
 {
     internal static class Aoe
     {
+
+        /*************************************************************************************
+         *                       AOE used in Single Target Rotation
+         * ***********************************************************************************/
         public static async Task<bool> StarfallDance()
         {
-            if (!DancerSettings.Instance.UseAoe) return false;
+            if (!DancerSettings.Instance.StarfallDance)
+                return false;
 
             if (Core.Me.ClassLevel < Spells.StarfallDance.LevelAcquired) return false;
 
@@ -31,7 +36,8 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> FanDance4()
         {
-            if (!DancerSettings.Instance.UseAoe) return false;
+            if (!DancerSettings.Instance.FanDance4)
+                return false;
 
             if (Core.Me.ClassLevel < Spells.FanDanceIV.LevelAcquired) return false;
 
@@ -48,7 +54,8 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> FanDance3()
         {
-            if (!DancerSettings.Instance.UseAoe) return false;
+            if (!DancerSettings.Instance.FanDance3)
+                return false;
 
             if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired) return false;
 
@@ -59,6 +66,32 @@ namespace Magitek.Logic.Dancer
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
 
+        public static async Task<bool> SaberDance()
+        {
+            if (!DancerSettings.Instance.SaberDance)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.SaberDance.LevelAcquired)
+                return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+
+            if (DancerSettings.Instance.UseRangeAndFacingChecks)
+                if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.SaberDance.Range) return false;
+
+            if (ActionResourceManager.Dancer.Esprit >= 85)
+                return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
+
+            if (!Core.Me.HasAura(Auras.TechnicalFinish))
+                return false;
+
+            return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
+        }
+
+
+        /*************************************************************************************
+         *                                       AOE
+         * ***********************************************************************************/
         public static async Task<bool> FanDance2()
         {
             if (!DancerSettings.Instance.UseAoe) return false;
@@ -104,26 +137,6 @@ namespace Magitek.Logic.Dancer
             if (!Core.Me.HasAura(Auras.FlourishingSymmetry) && !Core.Me.HasAura(Auras.SilkenSymmetry)) return false;
 
             return await Spells.RisingWindmill.Cast(Core.Me);
-        }
-
-        public static async Task<bool> SaberDance()
-        {
-            if (!DancerSettings.Instance.UseAoe) return false;
-
-            if (!DancerSettings.Instance.SaberDance) return false;
-
-            if (Core.Me.ClassLevel < Spells.SaberDance.LevelAcquired) return false;
-
-            if (ActionResourceManager.Dancer.Esprit < DancerSettings.Instance.SaberDanceEsprit) return false;
-
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 5 + r.CombatReach) < DancerSettings.Instance.SaberDanceEnemies) return false;
-
-            if (DancerSettings.Instance.UseRangeAndFacingChecks)
-                if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.SaberDance.Range) return false;
-
-            return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> Bladeshower()

@@ -13,6 +13,9 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> FanDance()
         {
+            if (!DancerSettings.Instance.FanDance1)
+                return false;
+
             if (ActionResourceManager.Dancer.FourFoldFeathers < 4 && !Core.Me.HasAura(Auras.Devilment) && Core.Me.ClassLevel >= 62) return false;
 
             if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= DancerSettings.Instance.FanDanceTwoEnemies) return false;

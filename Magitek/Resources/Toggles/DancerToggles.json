@@ -192,6 +192,74 @@
     "ToggleModifierKey": 0
   },
   {
+    "ToggleText": "Fan Dance 1 3 4",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "FanDance3",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "FanDance4",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "FanDance1",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
+    "ToggleText": "Starfall Dance",
+    "ToggleJob": "Dancer",
+    "ToggleShowOnOverlay": true,
+    "IsPvpToggle": false,
+    "ToggleChecked": true,
+    "Settings": [
+      {
+        "Name": "StarfallDance",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      }
+    ],
+    "ExecuteToggleCommand": {},
+    "AddToggleSettingCommand": {},
+    "RemoveToggleSettingCommand": {},
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
+  },
+  {
     "ToggleText": "ClosedPosition",
     "ToggleJob": "Dancer",
     "ToggleShowOnOverlay": true,
@@ -216,7 +284,7 @@
     "ToggleModifierKey": 0
   },
   {
-    "ToggleText": "CurringWaltz",
+    "ToggleText": "Heal",
     "ToggleJob": "Dancer",
     "ToggleShowOnOverlay": true,
     "IsPvpToggle": false,
@@ -224,6 +292,16 @@
     "Settings": [
       {
         "Name": "UseCuringWaltz",
+        "Type": 1,
+        "BoolCheckedValue": true,
+        "BoolUncheckedValue": false,
+        "IntCheckedValue": 0,
+        "IntUncheckedValue": 0,
+        "FloatCheckedValue": 0.0,
+        "FloatUncheckedValue": 0.0
+      },
+      {
+        "Name": "UseImprovisation",
         "Type": 1,
         "BoolCheckedValue": true,
         "BoolUncheckedValue": false,

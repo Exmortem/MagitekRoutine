@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Magitek.Gambits.Actions
 {
-    public class DanceFinish : GambitAction
+    public class DanceStep : GambitAction
     {
-        public DanceFinish() : base(GambitActionTypes.DanceFinish)
+        public DanceStep() : base(GambitActionTypes.DanceStep)
         {
         }
 

@@ -260,9 +260,10 @@ namespace Magitek.Logic.Sage
             if (!spell.IsKnownAndReady())
                 return false;
 
-            var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent
-                                                             && !r.HasAura(aura));
-
+            var targets = Spells.PhysisII.IsKnown()
+                ? Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura))
+                : Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura));
+        
             if (targets.Count() < AoeNeedHealing)
                 return false;
 
@@ -511,7 +512,7 @@ namespace Magitek.Logic.Sage
                 if (SageSettings.Instance.FightLogic_Panhaima && FightLogic.EnemyHasAnyAoeLogic())
                     return false;
 
-                var targets = Group.CastableAlliesWithin15.Where(CanPanhaima);
+                var targets = Group.CastableAlliesWithin30.Where(CanPanhaima);
 
                 if (targets.Count() < AoeNeedHealing)
                     return false;
@@ -684,12 +685,12 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var targets = Group.CastableAlliesWithin15.Where(CanKerachole).ToList();
+                var targets = Group.CastableAlliesWithin30.Where(CanKerachole).ToList();
 
                 if (targets.Count < AoeNeedHealing)
                     return false;
 
-                if (SageSettings.Instance.KeracholeOnlyWithTank && !Group.CastableAlliesWithin15.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
+                if (SageSettings.Instance.KeracholeOnlyWithTank && !Group.CastableAlliesWithin30.Any(r => r.IsTank(SageSettings.Instance.KeracholeOnlyWithMainTank)))
                     return false;
 
                 if (!UseAoEHealingBuff(targets))
@@ -714,7 +715,7 @@ namespace Magitek.Logic.Sage
                 if (unit.HasAura(Auras.Kerachole))
                     return false;
 
-                return unit.Distance(Core.Me) <= 15;
+                return unit.Distance(Core.Me) <= Spells.Kerachole.Radius;
             }
         }
         public static async Task<bool> Holos()
@@ -734,7 +735,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Holos.IsKnownAndReady())
                 return false;
 
-            var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.HolosHealthPercent
                                                              && !r.HasAura(Auras.Holos));
 
             if (targets.Count() < AoeNeedHealing)

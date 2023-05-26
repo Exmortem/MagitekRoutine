@@ -105,40 +105,47 @@ namespace Magitek.Rotations
             //LimitBreak
             if (Aoe.ForceLimitBreak()) return true;
 
+            //Buff Partner
             if (await Buff.DancePartner()) return true;
 
-            if (await Aoe.StarfallDance()) return true;
-            if (await Dances.Tillana()) return true;
+            // Dance
+            if (await Dances.DanceStep()) return true;
             if (await Dances.StandardStep()) return true;
             if (await Dances.TechnicalStep()) return true;
-            if (await Dances.DanceStep()) return true;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
             if (DancerRoutine.GlobalCooldown.CanWeave())
             {
+                //utility
                 if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
                 if (await Buff.UsePotion()) return true;
-
-
-                if (await Buff.CuringWaltz()) return true;
+                
+                //Buff
                 if (await Buff.PreTechnicalDevilment()) return true;
+                if (await Buff.Devilment()) return true;
+                if (await Buff.Flourish()) return true;
+
+                //OGCD
                 if (await Aoe.FanDance4()) return true;
                 if (await Aoe.FanDance3()) return true;
                 if (await Aoe.FanDance2()) return true;
                 if (await SingleTarget.FanDance()) return true;
-                if (await Buff.Devilment()) return true;
-                if (await Buff.Flourish()) return true;
+
+                //Heal
+                if (await Buff.CuringWaltz()) return true;
                 if (await Buff.Improvisation()) return true;
             }
 
+            if (await Aoe.StarfallDance()) return true;
+            if (await Dances.Tillana()) return true;
+            if (await SingleTarget.Fountainfall()) return true;
+            if (await SingleTarget.ReverseCascade()) return true; 
             if (await Aoe.SaberDance()) return true;
             if (await Aoe.Bloodshower()) return true;
             if (await Aoe.RisingWindmill()) return true;
-            if (await SingleTarget.Fountainfall()) return true;
-            if (await SingleTarget.ReverseCascade()) return true;
             if (await Aoe.Bladeshower()) return true;
             if (await Aoe.Windmill()) return true;
             if (await SingleTarget.Fountain()) return true;

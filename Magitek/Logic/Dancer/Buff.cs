@@ -34,12 +34,6 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (DancerSettings.Instance.DontDotIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDotIfCurrentTargetIsDyingWithinXSeconds)
-                return false;
-
-            if (DancerSettings.Instance.DevilmentWithFlourish && !Spells.Flourish.IsKnownAndReady())
-                return false;
-
             return await Spells.Devilment.Cast(Core.Me);
         }
 

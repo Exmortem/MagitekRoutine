@@ -195,8 +195,8 @@
     <Compile Include="Gambits\Actions\CastSpellOnCurrentTargetAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnEnemyAction.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnFriendlyNpcAction.cs" />
-    <Compile Include="Gambits\Actions\DanceFinish.cs" />
     <Compile Include="Gambits\Actions\DanceStep.cs" />
+    <Compile Include="Gambits\Actions\DanceFinish.cs" />
     <Compile Include="Gambits\Actions\CastSpellOnSelfAction.cs" />
     <Compile Include="Gambits\Actions\GambitAction.cs" />
     <Compile Include="Gambits\Actions\IGambitAction.cs" />

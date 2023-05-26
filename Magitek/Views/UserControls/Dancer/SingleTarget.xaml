@@ -31,24 +31,36 @@
     <StackPanel Margin="10">
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Dances :" />
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Standard Step" IsChecked="{Binding DancerSettings.UseStandardStep, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content="Use Standard Step" IsChecked="{Binding DancerSettings.UseStandardStep, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Use Technical Step" IsChecked="{Binding DancerSettings.UseTechnicalStep, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content=" Finish Step only when in range" IsChecked="{Binding DancerSettings.OnlyFinishStepInRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Spells :" />
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Technical Step" IsChecked="{Binding DancerSettings.UseTechnicalStep, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content="Use Saber Dance (AOE Spell used in Single Target Rotation)" IsChecked="{Binding DancerSettings.SaberDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Only Finish Step When In Range" IsChecked="{Binding DancerSettings.OnlyFinishStepInRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Margin="5" Content="Use Fan Dance I" IsChecked="{Binding DancerSettings.FanDance1, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Use Fan Dance III (AOE Spell used in Single Target Rotation)" IsChecked="{Binding DancerSettings.FanDance3, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Use Fan Dance IV (AOE Spell used in Single Target Rotation)" IsChecked="{Binding DancerSettings.FanDance4, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="Use Starfall Dance (AOE Spell used in Single Target Rotation)" IsChecked="{Binding DancerSettings.StarfallDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
@@ -61,32 +73,6 @@
             </StackPanel>
         </controls:SettingsBlock>
 
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Row="0" Grid.Column="0" Content="Second Wind At " IsChecked="{Binding DancerSettings.UseSecondWind, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SecondWindHpPercent, Mode=TwoWay}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
-
-            </Grid>
-        </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Use Interrupt and Stun. If activated, use strategy: " IsChecked="{Binding DancerSettings.UseStunOrInterrupt, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <ComboBox Width="170" ItemsSource="{Binding Source={StaticResource InterruptStrategy}}" SelectedValue="{Binding DancerSettings.Strategy, Mode=TwoWay}" Style="{DynamicResource ComboBox}" />
-            </StackPanel>
-        </controls:SettingsBlock>
     </StackPanel>
 
 </UserControl>

@@ -573,13 +573,12 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
-                Group.CastableAlliesWithin15.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) >
-                AoeThreshold)
+                Group.CastableAlliesWithin30.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) > AoeThreshold)
                 return await FightLogic.DoAndBuffer(
                     Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation));
 
 
-            if (Group.CastableAlliesWithin10.Count(r => r.Distance() < 6
+            if (Group.CastableAlliesWithin30.Count(r => r.Distance() <= 30
                                                     && r.IsAlive
                                                     && r.CurrentHealthPercent <= AstrologianSettings.Instance.CollectiveUnconsciousHealth)
                                                     < AstrologianSettings.Instance.CollectiveUnconsciousAllies)

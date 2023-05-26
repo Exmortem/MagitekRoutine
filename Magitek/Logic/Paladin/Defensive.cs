@@ -138,7 +138,7 @@ namespace Magitek.Logic.Paladin
             if (!Globals.InParty)
                 return false;
 
-            if (!Group.CastableAlliesWithin15.Any(r => r.CurrentHealthPercent < PaladinSettings.Instance.DivineVeilHp))
+            if (!Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < PaladinSettings.Instance.DivineVeilHp))
                 return false;
 
             if (!Group.CastableAlliesWithin30.Any(r => r.IsHealer()))

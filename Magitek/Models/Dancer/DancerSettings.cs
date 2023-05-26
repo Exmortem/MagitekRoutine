@@ -13,10 +13,7 @@ namespace Magitek.Models.Dancer
 
         public static DancerSettings Instance { get; set; } = new DancerSettings();
 
-        [Setting]
-        [DefaultValue(true)]
-        public bool UseRangeAndFacingChecks { get; set; }
-
+        #region buff
         [Setting]
         [DefaultValue(true)]
         public bool UseDevilment { get; set; }
@@ -31,20 +28,10 @@ namespace Magitek.Models.Dancer
 
         [Setting]
         [DefaultValue(true)]
-        public bool UseCuringWaltz { get; set; }
-
-        [Setting]
-        [DefaultValue(80f)]
-        public float CuringWaltzHP { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int CuringWaltzCount { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
         public bool UseFlourish { get; set; }
+        #endregion
 
+        #region singletarget
         [Setting]
         [DefaultValue(true)]
         public bool UseStandardStep { get; set; }
@@ -53,6 +40,32 @@ namespace Magitek.Models.Dancer
         [DefaultValue(true)]
         public bool UseTechnicalStep { get; set; }
 
+        [Setting]
+        [DefaultValue(true)]
+        public bool OnlyFinishStepInRange { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FanDance1 { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool StarfallDance { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FanDance3 { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool FanDance4 { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool SaberDance { get; set; }
+        #endregion
+
+        #region aoe
         [Setting]
         [DefaultValue(true)]
         public bool UseAoe { get; set; }
@@ -96,23 +109,33 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(2)]
         public int FanDanceTwoEnemies { get; set; }
+        #endregion
+
+        #region utility
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseRangeAndFacingChecks { get; set; }
+
+
 
         [Setting]
         [DefaultValue(true)]
-        public bool SaberDance { get; set; }
+        public bool UseCuringWaltz { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
-        public int SaberDanceEnemies { get; set; }
+        [DefaultValue(80f)]
+        public float CuringWaltzHP { get; set; }
 
         [Setting]
-        [DefaultValue(50)]
-        public int SaberDanceEsprit { get; set; }
+        [DefaultValue(2)]
+        public int CuringWaltzCount { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool UseImprovisation { get; set; }
+        #endregion
 
+        #region partner
         [Setting]
         [DefaultValue(true)]
         public bool UseClosedPosition { get; set; }
@@ -122,20 +145,9 @@ namespace Magitek.Models.Dancer
         public bool DancePartnerChocobo { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool DontDotIfCurrentTargetIsDyingSoon { get; set; }
-
-        [Setting]
-        [DefaultValue(20)]
-        public int DontDotIfCurrentTargetIsDyingWithinXSeconds { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool OnlyFinishStepInRange { get; set; }
-
-        [Setting]
         [DefaultValue(DancePartnerStrategy.ClosestDps)]
         public DancePartnerStrategy SelectedStrategy { get; set; }
+        #endregion
 
         #region Partner Weights
 
@@ -326,5 +338,14 @@ namespace Magitek.Models.Dancer
         [DefaultValue(19)]
         public int Pvp_SagPartnerWeight { get; set; }
         #endregion
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DontDanceIfCurrentTargetIsDyingSoon { get; set; }
+
+        [Setting]
+        [DefaultValue(10)]
+        public int DontDanceIfCurrentTargetIsDyingWithinXSeconds { get; set; }
+
     }
 }

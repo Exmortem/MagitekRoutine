@@ -96,23 +96,6 @@
                                   Value="{Binding DancerSettings.FanDanceTwoEnemies, Mode=TwoWay}" />
                 <TextBlock Grid.Row="5" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies" />
 
-                <CheckBox Grid.Row="6" Grid.Column="0" Content="Saber Dance " IsChecked="{Binding DancerSettings.SaberDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <TextBlock Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBlockDefault}" Text="When There Are " />
-                <controls:Numeric Grid.Row="6"
-                                  Grid.Column="2"
-                                  Margin="0,3,0,0"
-                                  MaxValue="100"
-                                  MinValue="1"
-                                  Value="{Binding DancerSettings.SaberDanceEnemies, Mode=TwoWay}" />
-                <TextBlock Grid.Row="6" Grid.Column="3" Style="{DynamicResource TextBlockDefault}" Text=" Enemies and with at least " />
-                <controls:Numeric Grid.Row="6"
-                                  Grid.Column="4"
-                                  Margin="0,3,0,0"
-                                  MaxValue="100"
-                                  MinValue="50"
-                                  Value="{Binding DancerSettings.SaberDanceEsprit, Mode=TwoWay}" />
-                <TextBlock Grid.Row="6" Grid.Column="5" Style="{DynamicResource TextBlockDefault}" Text=" Esprit" />
-
             </Grid>
         </controls:SettingsBlock>
 

@@ -203,6 +203,7 @@ namespace Magitek.Utilities
                 CastableDps.Add(ally);
 
             var distance = ally.Distance(Core.Me);
+            if (distance <= 50) { CastableAlliesWithin50.Add(ally); }
             if (distance <= 30) { CastableAlliesWithin30.Add(ally); }
             if (distance <= 25) { CastableAlliesWithin25.Add(ally); }
             if (distance <= 20) { CastableAlliesWithin20.Add(ally); }
@@ -217,6 +218,7 @@ namespace Magitek.Utilities
             CastableTanks.Clear();
             CastableHealers.Clear();
             CastableDps.Clear();
+            CastableAlliesWithin50.Clear();
             CastableAlliesWithin30.Clear();
             CastableAlliesWithin25.Clear();
             CastableAlliesWithin20.Clear();
@@ -230,6 +232,7 @@ namespace Magitek.Utilities
         public static readonly List<Character> CastableTanks = new List<Character>();
         public static readonly List<Character> CastableHealers = new List<Character>();
         public static readonly List<Character> CastableDps = new List<Character>();
+        public static readonly List<Character> CastableAlliesWithin50 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin30 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin25 = new List<Character>();
         public static readonly List<Character> CastableAlliesWithin20 = new List<Character>();
