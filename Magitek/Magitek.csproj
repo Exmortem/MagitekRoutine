@@ -207,6 +207,7 @@
     <Compile Include="Gambits\Actions\UseItemOnSelfAction.cs" />
     <Compile Include="Gambits\Conditions\BardRepertoireCondition.cs" />
     <Compile Include="Gambits\Conditions\CombatTimeCondition.cs" />
+    <Compile Include="Gambits\Conditions\DancerFeatherCondition.cs" />
     <Compile Include="Gambits\Conditions\DoesNotHaveAuraCondition.cs" />
     <Compile Include="Gambits\Conditions\DragoonGaugeTimerCondition.cs" />
     <Compile Include="Gambits\Conditions\DragoonGazeCondition.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Gambits\Conditions\GambitCondition.cs" />
     <Compile Include="Gambits\Conditions\IGambitCondition.cs" />
     <Compile Include="Gambits\Conditions\LastSpellCondition.cs" />
+    <Compile Include="Gambits\Conditions\DancerEspritCondition.cs" />
     <Compile Include="Gambits\Conditions\MachinistHeatCondition.cs" />
     <Compile Include="Gambits\Conditions\MonkChakraCondition.cs" />
     <Compile Include="Gambits\Conditions\MpPercentCondition.cs" />

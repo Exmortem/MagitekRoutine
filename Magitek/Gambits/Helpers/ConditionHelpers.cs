@@ -111,6 +111,14 @@ namespace Magitek.Gambits.Helpers
                     condition = new MachinistHeatCondition();
                     break;
 
+                case "DancerEsprit":
+                    condition = new DancerEspritCondition();
+                    break;
+
+                case "DancerFeather":
+                    condition = new DancerFeatherCondition();
+                    break;
+
                 case "DragoonGaze":
                     condition = new DragoonGazeCondition();
                     break;

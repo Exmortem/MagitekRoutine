@@ -86,6 +86,12 @@ namespace Magitek.Converters
                     case GambitConditionTypes.MachinistHeat:
                         condition = new MachinistHeatCondition();
                         break;
+                    case GambitConditionTypes.DancerEsprit:
+                        condition = new DancerEspritCondition();
+                        break;
+                    case GambitConditionTypes.DancerFeather:
+                        condition = new DancerFeatherCondition();
+                        break;
                     case GambitConditionTypes.DragoonGaze:
                         condition = new DragoonGazeCondition();
                         break;
