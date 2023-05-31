@@ -7,8 +7,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight="400"
-             d:DesignWidth="500"
+             d:DesignHeight="500"
+             d:DesignWidth="700"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -51,6 +51,11 @@
                     <CheckBox Margin="5" Content="Use Saber Dance (AOE Spell used in Single Target Rotation)" IsChecked="{Binding DancerSettings.SaberDance, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When not under Technical Finish, Use SaberDance if Esprit >= " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding DancerSettings.SaberDanceEsprit, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" (85 is recommended value)" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content="Use Fan Dance I" IsChecked="{Binding DancerSettings.FanDance1, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
@@ -67,8 +72,8 @@
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Orientation="Horizontal">
-            <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DancerSettings.DontDotIfMultiDotTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
+                <CheckBox Margin="5" Content="Do Not Dance/Devilment if Target Is Dying Within " IsChecked="{Binding DancerSettings.DontDanceIfCurrentTargetIsDyingSoon, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding DancerSettings.DontDanceIfCurrentTargetIsDyingWithinXSeconds, Mode=TwoWay}" />
             <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Seconds" />
             </StackPanel>
         </controls:SettingsBlock>

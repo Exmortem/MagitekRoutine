@@ -17,12 +17,47 @@ namespace Magitek.Logic.Dancer
 {
     internal static class Buff
     {
+
+        /************************************************************************************************************************
+         *                                                 Damage
+         * **********************************************************************************************************************/
         public static async Task<bool> Devilment()
         {
             if (!DancerSettings.Instance.UseDevilment)
                 return false;
 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
+
             if (DancerSettings.Instance.DevilmentWithTechnicalStep)
+            {
+                if (ActionManager.HasSpell(Spells.TechnicalStep.Id) && Spells.TechnicalStep.Cooldown > TimeSpan.FromMilliseconds(1000))
+                    return false;
+
+                if (!Core.Me.HasAura(Auras.StandardFinish))
+                    return false;
+            }
+            else
+            {
+                if (Spells.StandardStep.IsKnownAndReady())
+                    return false;
+
+                if (Spells.TechnicalStep.IsKnownAndReady())
+                    return false;
+            }
+
+            return await Spells.Devilment.Cast(Core.Me);
+        }
+
+        public static async Task<bool> Flourish()
+        {
+            if (!DancerSettings.Instance.UseFlourish)
+                return false;
+
+            if (!Core.Me.HasAura(Auras.StandardFinish))
+                return false;
+
+            if (Core.Me.HasAnyAura(FlourishingAuras))
                 return false;
 
             if (Spells.StandardStep.IsKnownAndReady())
@@ -31,32 +66,21 @@ namespace Magitek.Logic.Dancer
             if (Spells.TechnicalStep.IsKnownAndReady())
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
-                return false;
-
-            return await Spells.Devilment.Cast(Core.Me);
-        }
-
-        public static async Task<bool> PreTechnicalDevilment()
-        {
-            if (!DancerSettings.Instance.UseDevilment)
-                return false;
-
             if (DancerSettings.Instance.DevilmentWithFlourish)
-                return false;
+            {
+                if (Spells.Devilment.IsKnownAndReady())
+                    return false;
+            }
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (DancerSettings.Instance.DevilmentWithTechnicalStep && ActionManager.HasSpell(Spells.TechnicalStep.Id) && Spells.TechnicalStep.Cooldown > TimeSpan.FromMilliseconds(1000))
-                return false;
-
-            if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.StandardFinish))
-                return false;
-
-            return await Spells.Devilment.Cast(Core.Me);
+            return await Spells.Flourish.Cast(Core.Me);
         }
 
+        /************************************************************************************************************************
+         *                                                 Healing
+         * **********************************************************************************************************************/
         public static async Task<bool> CuringWaltz()
         {
             if (!DancerSettings.Instance.UseCuringWaltz)
@@ -97,35 +121,10 @@ namespace Magitek.Logic.Dancer
 
         private static uint[] FlourishingAuras = { Auras.FlourishingSymmetry, Auras.FlourishingFlow, Auras.ThreefoldFanDance, Auras.FourfoldFanDance };
 
-        public static async Task<bool> Flourish()
-        {
-            if (!DancerSettings.Instance.UseFlourish)
-                return false;
 
-            if (!Core.Me.HasAura(Auras.StandardFinish))
-                return false;
-
-            if (Core.Me.HasAnyAura(FlourishingAuras))
-                return false;
-
-            if (Spells.StandardStep.IsKnownAndReady())
-                return false;
-
-            if (Spells.TechnicalStep.IsKnownAndReady())
-                return false;
-
-            if (DancerSettings.Instance.DevilmentWithFlourish)
-            {
-                if (Spells.Devilment.IsKnownAndReady())
-                    return false;
-            }
-
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
-                return false;
-
-            return await Spells.Flourish.Cast(Core.Me);
-        }
-
+        /************************************************************************************************************************
+         *                                                 Dance Partner
+         * **********************************************************************************************************************/
         public static async Task<bool> DancePartner()
         {
             if (!DancerSettings.Instance.UseClosedPosition)
@@ -251,9 +250,12 @@ namespace Magitek.Logic.Dancer
             return c.CurrentJob == ClassJobType.Adventurer ? 70 : 0;
         }
 
+        /************************************************************************************************************************
+         *                                                 Potion
+         * **********************************************************************************************************************/
         public static async Task<bool> UsePotion()
         {
-            if (Spells.Devilment.IsKnown() && !Spells.Devilment.IsReady(11000))
+            if (Spells.Devilment.IsKnown() && !Spells.Devilment.IsReady(8000))
                 return false;
 
             return await PhysicalDps.UsePotion(DancerSettings.Instance);

@@ -1,5 +1,6 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
@@ -14,30 +15,55 @@ namespace Magitek.Logic.Dancer
     {
         public static async Task<bool> Tillana()
         {
-            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) return false;
+            if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) 
+                return false;
 
-            if (!Core.Me.HasAura(Auras.FlourishingFinish)) return false;
+            if (!Core.Me.HasAura(Auras.FlourishingFinish)) 
+                return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+            if (!Core.Me.HasAura(Auras.Devilment)) 
+                return false;
 
-            //if (Core.Me.CurrentTarget.Distance(Core.Me) > 15) return false;
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) 
+                return false;
+
+            if (ActionResourceManager.Dancer.Esprit >= 100)
+                return false;
 
             return await Spells.Tillana.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> StandardStep()
         {
-            if (!DancerSettings.Instance.UseStandardStep) return false;
+            if (!DancerSettings.Instance.UseStandardStep) 
+                return false;
 
-            if (!Spells.StandardStep.IsKnownAndReady()) return false;
+            if (!Spells.StandardStep.IsKnownAndReady()) 
+                return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep)) return false;
+            //Do not Standard Step if there 3+ Ennemies unless StandardStep Auras is finishing
+            if (DancerSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.StandardFinish.Radius + r.CombatReach) >= 3)
+            {
+                Aura StandardStepAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.CasterId == Core.Player.ObjectId && x.Id == Auras.StandardStep);
+                if (Core.Me.HasAura(Auras.StandardStep, true) && StandardStepAura.TimespanLeft.TotalMilliseconds > 5000)
+                    return false;
+            }
 
-            //if (Core.Me.HasAura(Auras.StandardFinish) && ActionManager.HasSpell(Spells.Flourish.Id) && Spells.Flourish.Cooldown < TimeSpan.FromSeconds(4)) return false;
+            if (Core.Me.HasAura(Auras.StandardStep)) 
+                return false;
 
-            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) 
+                return false;
 
-            if (Core.Me.HasAura(Auras.TechnicalFinish, true) && !Core.Me.HasAura(Auras.TechnicalFinish, true, 4000)) return false;
+            Aura TechnicalFinishAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.CasterId == Core.Player.ObjectId && x.Id == Auras.TechnicalFinish);
+            if (Core.Me.HasAura(Auras.TechnicalFinish, true))
+            {
+                if (Core.Me.HasAura(Auras.SilkenSymmetry, true) || Core.Me.HasAura(Auras.SilkenFlow, true) || ActionResourceManager.Dancer.Esprit >= 50)
+                    return false;
+
+                if (TechnicalFinishAura.TimespanLeft.TotalMilliseconds >= 4000)
+                    return false;
+            }
 
             if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
                 return false;

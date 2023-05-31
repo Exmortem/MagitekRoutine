@@ -63,6 +63,10 @@ namespace Magitek.Models.Dancer
         [Setting]
         [DefaultValue(true)]
         public bool SaberDance { get; set; }
+
+        [Setting]
+        [DefaultValue(85)]
+        public int SaberDanceEsprit { get; set; }
         #endregion
 
         #region aoe
@@ -75,7 +79,7 @@ namespace Magitek.Models.Dancer
         public bool Windmill { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int WindmillEnemies { get; set; }
 
         [Setting]
@@ -83,7 +87,7 @@ namespace Magitek.Models.Dancer
         public bool Bladeshower { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int BladeshowerEnemies { get; set; }
 
         [Setting]
@@ -91,7 +95,7 @@ namespace Magitek.Models.Dancer
         public bool RisingWindmill { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
+        [DefaultValue(3)]
         public int RisingWindmillEnemies { get; set; }
 
         [Setting]
@@ -123,7 +127,7 @@ namespace Magitek.Models.Dancer
         public bool UseCuringWaltz { get; set; }
 
         [Setting]
-        [DefaultValue(80f)]
+        [DefaultValue(40f)]
         public float CuringWaltzHP { get; set; }
 
         [Setting]

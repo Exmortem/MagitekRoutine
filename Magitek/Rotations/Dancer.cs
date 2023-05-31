@@ -124,7 +124,6 @@ namespace Magitek.Rotations
                 if (await Buff.UsePotion()) return true;
                 
                 //Buff
-                if (await Buff.PreTechnicalDevilment()) return true;
                 if (await Buff.Devilment()) return true;
                 if (await Buff.Flourish()) return true;
 
@@ -139,15 +138,24 @@ namespace Magitek.Rotations
                 if (await Buff.Improvisation()) return true;
             }
 
+            //GCD
             if (await Aoe.StarfallDance()) return true;
             if (await Dances.Tillana()) return true;
-            if (await SingleTarget.Fountainfall()) return true;
-            if (await SingleTarget.ReverseCascade()) return true; 
             if (await Aoe.SaberDance()) return true;
-            if (await Aoe.Bloodshower()) return true;
-            if (await Aoe.RisingWindmill()) return true;
-            if (await Aoe.Bladeshower()) return true;
-            if (await Aoe.Windmill()) return true;
+
+            //Silken Flow Aura
+            if (await Aoe.Bloodshower()) return true; //2+ ennemies
+            if (await SingleTarget.Fountainfall()) return true;
+
+            //Silken Symmetry Aura
+            if (await Aoe.RisingWindmill()) return true; //3+ ennemies
+            if (await SingleTarget.ReverseCascade()) return true;
+
+            //Multiple Target Combo
+            if (await Aoe.Bladeshower()) return true; //3+ ennemies
+            if (await Aoe.Windmill()) return true; //3+ ennemies
+
+            //Single Target Combo
             if (await SingleTarget.Fountain()) return true;
             return await SingleTarget.Cascade();
         }
