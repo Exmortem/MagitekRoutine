@@ -66,11 +66,14 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.FanDance3)
                 return false;
 
-            if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired) return false;
+            if (Core.Me.ClassLevel < Spells.FanDance3.LevelAcquired)
+                return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
+                return false;
 
-            if (!Core.Me.HasAura(Auras.ThreefoldFanDance)) return false;
+            if (!Core.Me.HasAura(Auras.ThreefoldFanDance))
+                return false;
 
             return await Spells.FanDance3.Cast(Core.Me.CurrentTarget);
         }
@@ -83,20 +86,20 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.SaberDance.LevelAcquired)
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
             if (DancerSettings.Instance.UseRangeAndFacingChecks)
-                if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.SaberDance.Range) 
+                if (Core.Me.CurrentTarget.Distance(Core.Me) - Core.Me.CurrentTarget.CombatReach > Spells.SaberDance.Range)
                     return false;
 
             if (ActionResourceManager.Dancer.Esprit < 50)
-                return false; 
-            
+                return false;
+
             if (ActionResourceManager.Dancer.Esprit >= 100)
                 return await Spells.SaberDance.Cast(Core.Me.CurrentTarget);
 
-            if (!Core.Me.HasAura(Auras.TechnicalFinish)) 
+            if (!Core.Me.HasAura(Auras.TechnicalFinish))
             {
                 if (ActionResourceManager.Dancer.Esprit >= DancerSettings.Instance.SaberDanceEsprit)
                 {
@@ -141,19 +144,19 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> Bloodshower()
         {
-            if (!DancerSettings.Instance.UseAoe) 
+            if (!DancerSettings.Instance.UseAoe)
                 return false;
 
-            if (!DancerSettings.Instance.Bloodshower) 
+            if (!DancerSettings.Instance.Bloodshower)
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) 
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Bloodshower.Radius + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies) 
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.Bloodshower.Radius + r.CombatReach) < DancerSettings.Instance.BloodshowerEnemies)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.SilkenFlow) && !Core.Me.HasAura(Auras.FlourishingFlow)) 
+            if (!Core.Me.HasAura(Auras.SilkenFlow) && !Core.Me.HasAura(Auras.FlourishingFlow))
                 return false;
 
             return await Spells.Bloodshower.Cast(Core.Me);
