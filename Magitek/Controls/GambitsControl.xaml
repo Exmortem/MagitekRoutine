@@ -1308,6 +1308,62 @@
                                                                                     </ComboBox>
                                                                                 </DataTemplate>
 
+                                                                                <DataTemplate DataType="{x:Type conditions:DancerEspritCondition}">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ESPRIT">
+                                                                                        <StackPanel Width="200">
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MINIMUM ESPRIT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding EspritMinimum, Mode=TwoWay}" />
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MAXIMUM ESPRIT:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding EspritMaximum, Mode=TwoWay}" />
+
+                                                                                            <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveGambitCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                                <Button.CommandParameter>
+                                                                                                    <MultiBinding Converter="{StaticResource ConditionConverter}">
+                                                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                                        <Binding Path="Id" />
+                                                                                                    </MultiBinding>
+                                                                                                </Button.CommandParameter>
+                                                                                            </Button>
+                                                                                        </StackPanel>
+                                                                                    </ComboBox>
+                                                                                </DataTemplate>
+
+                                                                                <DataTemplate DataType="{x:Type conditions:DancerFeatherCondition}">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="FEATHER">
+                                                                                        <StackPanel Width="200">
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MINIMUM FEATHER:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding FeatherMinimum, Mode=TwoWay}" />
+                                                                                            <TextBox CaretBrush="White"
+                                                                                                     FontSize="10"
+                                                                                                     Foreground="{DynamicResource Light}"
+                                                                                                     Tag="MAXIMUM FEATHER:"
+                                                                                                     Template="{DynamicResource TextBoxTemplateGambitConditionTextBox}"
+                                                                                                     Text="{Binding FeatherMaximum, Mode=TwoWay}" />
+
+                                                                                            <Button Margin="0,3,0,0" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveGambitCondition}" Content="REMOVE CONDITION" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                                <Button.CommandParameter>
+                                                                                                    <MultiBinding Converter="{StaticResource ConditionConverter}">
+                                                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}" />
+                                                                                                        <Binding Path="Id" />
+                                                                                                    </MultiBinding>
+                                                                                                </Button.CommandParameter>
+                                                                                            </Button>
+                                                                                        </StackPanel>
+                                                                                    </ComboBox>
+                                                                                </DataTemplate>
+
                                                                                 <DataTemplate DataType="{x:Type conditions:DragoonGazeCondition}">
                                                                                     <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="GAZE">
                                                                                         <StackPanel Width="200">
@@ -1700,6 +1756,42 @@
                                                                                         </Button>
                                                                                     </StackPanel>
 
+                                                                                    <!--  Dancer  -->
+                                                                                    <StackPanel Margin="5,0">
+                                                                                        <StackPanel.Style>
+                                                                                            <Style TargetType="StackPanel">
+                                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedJob}" Value="{x:Static enums:ClassJobType.Dancer}">
+                                                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </StackPanel.Style>
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="ESPRIT" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">DancerEsprit</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+                                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="FEATHER" Style="{DynamicResource ButtonGambitAddCondition}">
+                                                                                            <Button.Resources>
+                                                                                                <sys:String x:Key="Condition">DancerFeather</sys:String>
+                                                                                            </Button.Resources>
+                                                                                            <Button.CommandParameter>
+                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
+                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
+                                                                                                    <Binding Source="{StaticResource Condition}" />
+                                                                                                </MultiBinding>
+                                                                                            </Button.CommandParameter>
+                                                                                        </Button>
+                                                                                    </StackPanel>
+                                                                                    
                                                                                     <!--  Machinist  -->
                                                                                     <StackPanel Margin="5,0">
                                                                                         <StackPanel.Style>
@@ -1712,8 +1804,6 @@
                                                                                                 </Style.Triggers>
                                                                                             </Style>
                                                                                         </StackPanel.Style>
-
-
                                                                                         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="HEAT" Style="{DynamicResource ButtonGambitAddCondition}">
                                                                                             <Button.Resources>
                                                                                                 <sys:String x:Key="Condition">MachinistHeat</sys:String>
@@ -1725,18 +1815,6 @@
                                                                                                 </MultiBinding>
                                                                                             </Button.CommandParameter>
                                                                                         </Button>
-
-                                                                                        <!--<Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddGambitCondition}" Content="AMMO" Style="{DynamicResource ButtonGambitAddCondition}">
-                                                                                            <Button.Resources>
-                                                                                                <sys:String x:Key="Condition">MachinistAmmo</sys:String>
-                                                                                            </Button.Resources>
-                                                                                            <Button.CommandParameter>
-                                                                                                <MultiBinding Converter="{StaticResource ConditionAddConverter}">
-                                                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}" />
-                                                                                                    <Binding Source="{StaticResource Condition}" />
-                                                                                                </MultiBinding>
-                                                                                            </Button.CommandParameter>
-                                                                                        </Button>-->
                                                                                     </StackPanel>
 
                                                                                     <!--  Dragoon  -->

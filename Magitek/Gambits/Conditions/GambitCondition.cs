@@ -42,6 +42,8 @@ namespace Magitek.Gambits.Conditions
         SpellOffCooldown,
         BardRepertoire,
         MachinistHeat,
+        DancerFeather,
+        DancerEsprit,
         DragoonGaze,
         DragoonGaugeTimer,
         NinjaHuton,
