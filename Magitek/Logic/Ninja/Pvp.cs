@@ -106,7 +106,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.Pvp_FumaShuriken)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
@@ -188,7 +188,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.Pvp_HyoshoRanryu)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
@@ -211,7 +211,7 @@ namespace Magitek.Logic.Ninja
             if (!NinjaSettings.Instance.Pvp_GokaMekkyaku)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 25)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 20)
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())

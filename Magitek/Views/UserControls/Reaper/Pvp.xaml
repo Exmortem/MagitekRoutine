@@ -54,7 +54,7 @@
                     <CheckBox Content="Lemure Slice" IsChecked="{Binding ReaperSettings.Pvp_LemureSlice, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Gibbet and Gallows        " IsChecked="{Binding ReaperSettings.Pvp_GibbetNGallows, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Guillotine                        " IsChecked="{Binding ReaperSettings.Pvp_Guillotine, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Void and Cross Reaping" IsChecked="{Binding ReaperSettings.Pvp_VoidReapingNCrossReaping, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">

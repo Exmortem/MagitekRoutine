@@ -61,7 +61,7 @@ namespace Magitek.Logic.WhiteMage
             if (Core.Me.CurrentTarget.HasAura(Auras.Guard))
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 10)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 15)
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())

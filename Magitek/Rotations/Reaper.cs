@@ -189,6 +189,7 @@ namespace Magitek.Rotations
             {
                 if (await Pvp.TenebraeLemurumPvp()) return true;
                 if (await Pvp.LemureSlicePvp()) return true;
+                if (await Pvp.GuillotinePvp()) return true;
                 if (await Pvp.CrossReapingePvp()) return true;
                 if (await Pvp.VoidReapingPvp()) return true;
                 if (await Pvp.CommunioPvp()) return true;
@@ -200,9 +201,6 @@ namespace Magitek.Rotations
                 if (await Pvp.GrimSwathePvp()) return true;
                 if (await Pvp.SoulSlicePvp()) return true;
             }
-
-            if (await Pvp.GallowsPvp()) return true;
-            if (await Pvp.GibbetPvp()) return true;
 
             if (await Pvp.InfernalSlicePvp()) return true;
             if (await Pvp.WaxingSlicePvp()) return true;
