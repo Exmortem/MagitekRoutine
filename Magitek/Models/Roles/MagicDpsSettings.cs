@@ -28,6 +28,14 @@ namespace Magitek.Models.Roles
         [DefaultValue(InterruptStrategy.Never)]
         public InterruptStrategy Strategy { get; set; }
 
+        [Setting]
+        [DefaultValue(false)]
+        public bool UsePotion { get; set; }
+
+        [Setting]
+        [DefaultValue(PotionEnum.None)]
+        public PotionEnum PotionTypeAndGradeLevel { get; set; }
+
         #region pvp
         [Setting]
         [DefaultValue(true)]

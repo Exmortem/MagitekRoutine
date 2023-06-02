@@ -142,6 +142,21 @@ namespace Magitek.Logic.Roles
             return false;
         }
 
+        public static async Task<bool> UsePotion<T>(T settings) where T : HealerSettings
+        {
+            if (!settings.UsePotion)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Medicated, true))
+                return false;
+
+            return await Potion.UsePotion((int)settings.PotionTypeAndGradeLevel);
+        }
+
+
+        /****************************************************************************************************
+         *                                                 PVP
+         * **************************************************************************************************/
         public static async Task<bool> Recuperate<T>(T settings) where T :HealerSettings
         {
             if (!settings.Pvp_UseRecuperate)

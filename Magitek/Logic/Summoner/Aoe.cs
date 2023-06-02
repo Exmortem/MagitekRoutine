@@ -4,14 +4,12 @@ using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
-using Pathfinding;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 using ArcResources = ff14bot.Managers.ActionResourceManager.Arcanist;
 using SmnResources = ff14bot.Managers.ActionResourceManager.Summoner;
 using static Magitek.Utilities.Routines.Summoner;
@@ -320,6 +318,14 @@ namespace Magitek.Logic.Summoner
                 return false;
             
             return await Spells.Ruin4.Cast(target);
+        }
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
+        {
+            return MagicDps.ForceLimitBreak(Spells.Skyshard, Spells.Starstorm, Spells.Teraflare, Spells.Ruin);
         }
     }
 }

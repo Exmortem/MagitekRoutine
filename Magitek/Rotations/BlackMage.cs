@@ -98,16 +98,21 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
+
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
-            if (await CustomOpenerLogic.Opener()) return true;
+
+            if (await CustomOpenerLogic.Opener())
+                return true;
+
+
+            //LimitBreak
+            if (Aoe.ForceLimitBreak()) return true;
 
             //DON'T CHANGE THE ORDER OF THESE
             //if (await Buff.Enochian()) return true;
@@ -120,7 +125,6 @@ namespace Magitek.Rotations
             //if (await Buff.Transpose()) return true;
 
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
-
             {
                 //Umbral
                 if (await Aoe.Freeze()) return true;
@@ -133,6 +137,7 @@ namespace Magitek.Rotations
                 if (await Aoe.Fire4()) return true;
                 if (await Aoe.Flare()) return true;
             }
+
             if (await SingleTarget.ParadoxUmbral()) return true;
             if (await SingleTarget.Blizzard4()) return true;
             if (await SingleTarget.Fire()) return true;
@@ -149,6 +154,7 @@ namespace Magitek.Rotations
 
             return false;
         }
+
         public static async Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)

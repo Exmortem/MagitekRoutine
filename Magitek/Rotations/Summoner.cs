@@ -44,9 +44,7 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             return await Combat();
@@ -72,10 +70,12 @@ namespace Magitek.Rotations
             return await Logic.Summoner.Heal.Physick();
 
         }
+
         public static Task<bool> CombatBuff()
         {
             return Task.FromResult(false);
         }
+
         public static async Task<bool> Combat()
         {
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
@@ -84,22 +84,23 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-
-            if (await CustomOpenerLogic.Opener()) return true;
+            if (await CustomOpenerLogic.Opener())
+                return true;
 
             if (Core.Me.CurrentTarget.HasAura(Auras.MagicResistance))
                 return false;
 
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
+
+            //LimitBreak
+            if (Aoe.ForceLimitBreak()) return true;
 
             if (await Buff.LucidDreaming()) return true;
             if (await Pets.SummonCarbuncleOrEgi()) return true;
