@@ -61,8 +61,8 @@ namespace Magitek.Logic.Paladin
             {
                 Aura DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
 
-                if (Spells.FightorFlight.IsReady((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
-                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                if (Spells.FightorFlight.IsReady((int)PaladinRoutine.GCDTimeMilliseconds)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * PaladinRoutine.GCDTimeMilliseconds))
                     return false;
             }
 
@@ -144,11 +144,11 @@ namespace Magitek.Logic.Paladin
                 if (FightOrFlightAura != null && FightOrFlightAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.Confiteor.AdjustedCooldown.TotalMilliseconds))
                 {
                     var SwordOathAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SwordOath && x.CasterId == Core.Player.ObjectId);
-                    if (SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds <= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                    if (SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds <= (3 * PaladinRoutine.GCDTimeMilliseconds))
                         return false;
 
                     var DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
-                    if (DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds <= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                    if (DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds <= (3 * PaladinRoutine.GCDTimeMilliseconds))
                         return false;
                 }
             }

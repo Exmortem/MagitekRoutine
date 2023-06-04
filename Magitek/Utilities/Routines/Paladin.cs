@@ -10,6 +10,7 @@ namespace Magitek.Utilities.Routines
     internal static class Paladin
     {
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Paladin, Spells.FastBlade);
+        public static double GCDTimeMilliseconds = Spells.FastBlade.AdjustedCooldown.TotalMilliseconds;
 
         public static SpellData RoyalAuthority => Core.Me.ClassLevel < 60
                                                     ? Spells.RageofHalone

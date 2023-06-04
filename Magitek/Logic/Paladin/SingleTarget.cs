@@ -109,12 +109,12 @@ namespace Magitek.Logic.Paladin
             {
                 Aura DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
 
-                if (Spells.FightorFlight.IsReady(((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds) * 2)
-                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                if (Spells.FightorFlight.IsReady(((int)PaladinRoutine.GCDTimeMilliseconds) * 2)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (4 * PaladinRoutine.GCDTimeMilliseconds))
                     return false;
 
-                if (Spells.FightorFlight.IsReady((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
-                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                if (Spells.FightorFlight.IsReady((int) PaladinRoutine.GCDTimeMilliseconds)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * PaladinRoutine.GCDTimeMilliseconds))
                     return false;
             }
             return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
@@ -179,20 +179,14 @@ namespace Magitek.Logic.Paladin
                 Aura SwordOathAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SwordOath && x.CasterId == Core.Player.ObjectId);
                 
                 if (SwordOathRemainingStack == 2 
-                    && Spells.FightorFlight.IsReady( ((int) Spells.FastBlade.AdjustedCooldown.TotalMilliseconds) * 2)
-                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
-                {
-                    Logger.Write($@"[Magitek][Info] Atonement delayed to FoF (SwordOath Stack =  {SwordOathRemainingStack} | FoF Ready  =  {Spells.FightorFlight.Cooldown.TotalSeconds} | SwordOathRemainingTime = {SwordOathAura.TimespanLeft.TotalMilliseconds})");
+                    && Spells.FightorFlight.IsReady( ((int)PaladinRoutine.GCDTimeMilliseconds) * 2)
+                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (4 * PaladinRoutine.GCDTimeMilliseconds))
                     return false;
-                }
                 
                 if (SwordOathRemainingStack == 1 
-                    && Spells.FightorFlight.IsReady( (int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
-                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
-                {
-                    Logger.Write($@"[Magitek][Info] Atonement delayed to FoF (SwordOath Stack =  {SwordOathRemainingStack} | FoF Ready in  =  {Spells.FightorFlight.Cooldown.TotalSeconds} | SwordOathRemainingTime = {SwordOathAura.TimespanLeft.TotalMilliseconds})");
+                    && Spells.FightorFlight.IsReady( (int)PaladinRoutine.GCDTimeMilliseconds)
+                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (3 * PaladinRoutine.GCDTimeMilliseconds))
                     return false;
-                }
             }
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);
         }
