@@ -302,8 +302,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 51,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Force Prognosis",
@@ -326,8 +326,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 49,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Use Druochole",
@@ -398,8 +398,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 50,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Force Panhaima",
@@ -422,8 +422,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 52,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Force Haima",
@@ -446,7 +446,7 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 53,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   }
 ]
