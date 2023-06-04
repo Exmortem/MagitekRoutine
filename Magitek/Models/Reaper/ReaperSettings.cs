@@ -247,7 +247,7 @@ namespace Magitek.Models.Reaper
 
         [Setting]
         [DefaultValue(true)]
-        public bool Pvp_GibbetNGallows { get; set; }
+        public bool Pvp_Guillotine { get; set; }
 
         [Setting]
         [DefaultValue(true)]

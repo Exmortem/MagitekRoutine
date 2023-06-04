@@ -183,38 +183,21 @@ namespace Magitek.Logic.Reaper
             return await Spells.PlentifulHarvestPvp.Cast(Core.Me.CurrentTarget);
         }
 
-        public static async Task<bool> GibbetPvp()
+        public static async Task<bool> GuillotinePvp()
         {
             if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
-            if (!Spells.GibbetPvp.CanCast())
+            if (!Spells.GuillotinePvp.CanCast())
                 return false;
 
-            if (!ReaperSettings.Instance.Pvp_GibbetNGallows)
+            if (!ReaperSettings.Instance.Pvp_Guillotine)
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
+            if (Core.Me.CurrentTarget.Distance(Core.Me) > 8)
                 return false;
 
-            return await Spells.GibbetPvp.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> GallowsPvp()
-        {
-            if (Core.Me.HasAura(Auras.Guard))
-                return false;
-
-            if (!Spells.GallowsPvp.CanCast())
-                return false;
-
-            if (!ReaperSettings.Instance.Pvp_GibbetNGallows)
-                return false;
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > 5)
-                return false;
-
-            return await Spells.GallowsPvp.Cast(Core.Me.CurrentTarget);
+            return await Spells.GuillotinePvp.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> VoidReapingPvp()

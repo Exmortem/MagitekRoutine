@@ -1149,8 +1149,6 @@ namespace Magitek.Utilities
         public static readonly SpellData SlicePvp = DataManager.GetSpellData(29538);
         public static readonly SpellData WaxingSlicePvp = DataManager.GetSpellData(29539);
         public static readonly SpellData InfernalSlicePvp = DataManager.GetSpellData(29540);
-        public static readonly SpellData GibbetPvp = DataManager.GetSpellData(29541);
-        public static readonly SpellData GallowsPvp = DataManager.GetSpellData(29542);
         public static readonly SpellData VoidReapingPvp = DataManager.GetSpellData(29543);
         public static readonly SpellData CrossReapingePvp = DataManager.GetSpellData(29544);
         public static readonly SpellData HarvestMoonPvp = DataManager.GetSpellData(29545);
@@ -1164,6 +1162,7 @@ namespace Magitek.Utilities
         public static readonly SpellData TenebraeLemurumPvp = DataManager.GetSpellData(29553);
         public static readonly SpellData CommunioPvp = DataManager.GetSpellData(29554);
         public static readonly SpellData SoulSlicePvp = DataManager.GetSpellData(29566);
+        public static readonly SpellData GuillotinePvp = DataManager.GetSpellData(34786);
 
         //BLM
         public static readonly SpellData FirePvp = DataManager.GetSpellData(29649);
