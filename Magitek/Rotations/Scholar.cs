@@ -58,21 +58,26 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
-            }
-            else
-            {
-                if (!ScholarSettings.Instance.DoDamage)
-                    return false;
             }
 
-            if (Core.Me.InCombat)
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > ScholarSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            return await SingleTarget.Broil();
+            if (!ScholarSettings.Instance.DoDamage)
+                return false;
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            return await Combat();
         }
+
         public static async Task<bool> Heal()
         {
 
@@ -196,6 +201,7 @@ namespace Magitek.Rotations
         {
             return Task.FromResult(false);
         }
+
         public static async Task<bool> Combat()
         {
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
@@ -204,12 +210,12 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            if (await Casting.TrackSpellCast()) return true;
+            if (await Casting.TrackSpellCast()) 
+                return true;
+
             await Casting.CheckForSuccessfulCast();
 
             if (Core.Me.CurrentManaPercent <= ScholarSettings.Instance.MinimumManaPercent)

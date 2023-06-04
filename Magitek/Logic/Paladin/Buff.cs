@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using PaladinRoutine = Magitek.Utilities.Routines.Paladin;
 
 namespace Magitek.Logic.Paladin
 {
@@ -37,13 +38,16 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseFightOrFlight)
                 return false;
 
-            if (ActionManager.LastSpell == Spells.FastBlade)
+            if (Spells.Requiescat.IsKnown() && !Spells.Requiescat.IsReady(1000))
                 return false;
 
-            //Force Delay CD
-            if (Spells.FastBlade.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
+            //if you're not in Range for your burst (Req Range, do not launch it
+            if (!Core.Me.CurrentTarget.WithinSpellRange(Spells.Requiescat.Range))
                 return false;
 
+            if (!PaladinRoutine.GlobalCooldown.CanDoubleWeave() || !PaladinRoutine.GlobalCooldown.CanWeave(2))
+                return false;
+ 
             return await Spells.FightorFlight.Cast(Core.Me);
 
         }

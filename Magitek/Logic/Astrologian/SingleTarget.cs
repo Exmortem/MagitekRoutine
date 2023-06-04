@@ -16,6 +16,9 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Malefic)
                 return false;
 
+            if (!AstrologianSettings.Instance.DoDamage)
+                return false;
+
             if (!Spells.Malefic.IsReady())
                 return false;
 
@@ -28,6 +31,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (!AstrologianSettings.Instance.CombustMultipleTargets)
+                return false;
+
+            if (!AstrologianSettings.Instance.DoDamage)
                 return false;
 
             var combustTarget = Combat.Enemies.FirstOrDefault(NeedsCombust);
@@ -57,6 +63,9 @@ namespace Magitek.Logic.Astrologian
         public static async Task<bool> Combust()
         {
             if (!AstrologianSettings.Instance.Combust)
+                return false;
+
+            if (!AstrologianSettings.Instance.DoDamage)
                 return false;
 
             if (!Spells.Combust.IsKnownAndReady())

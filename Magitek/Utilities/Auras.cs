@@ -201,7 +201,7 @@ namespace Magitek.Utilities
             Devilment = 1825,
             ShieldSamba = 1826,
             SwordOath = 1902,
-            FightOrFight = 76,
+            FightOrFlight = 76,
             Ruination = 1291,
             Dia = 1871,
             Biolysis = 1895,

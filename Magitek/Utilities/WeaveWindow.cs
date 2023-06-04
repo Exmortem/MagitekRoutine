@@ -85,6 +85,17 @@ namespace Magitek.Utilities
             return maxWeaveCount > 0;
         }
 
+        /*
+         * This method is checking if there is enough time to launch 2 oGCD in current remaining GCD Time
+         */
+        public bool CanDoubleWeave()
+        {
+            if (_gcd.IsReady((Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset) * 2))
+                return false;
+
+            return true;
+        }
+
         public bool CanWeaveLate(int ogcdPlacement = 1)
         {
             if (!CanWeave(ogcdPlacement))

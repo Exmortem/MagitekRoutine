@@ -116,8 +116,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 50,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Use AOEs",
@@ -232,8 +232,8 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 49,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   },
   {
     "ToggleText": "Use Soul Slice",
@@ -280,7 +280,7 @@
     "ExecuteToggleCommand": {},
     "AddToggleSettingCommand": {},
     "RemoveToggleSettingCommand": {},
-    "ToggleKey": 53,
-    "ToggleModifierKey": 2
+    "ToggleKey": 0,
+    "ToggleModifierKey": 0
   }
 ]

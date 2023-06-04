@@ -134,6 +134,10 @@ namespace Magitek.Logic.Roles
             return await Potion.UsePotion((int)settings.PotionTypeAndGradeLevel);
         }
 
+
+        /****************************************************************************************************
+         *                                                 PVP
+         * **************************************************************************************************/
         public static async Task<bool> Recuperate<T>(T settings) where T : TankSettings
         {
             if (!settings.Pvp_UseRecuperate)
