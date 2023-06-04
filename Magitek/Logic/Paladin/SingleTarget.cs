@@ -1,9 +1,7 @@
 using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Logic.Roles;
-using Magitek.Models.Account;
 using Magitek.Models.Paladin;
 using Magitek.Utilities;
 using System.Collections.Generic;
@@ -78,23 +76,47 @@ namespace Magitek.Logic.Paladin
 
         public static async Task<bool> HolySpirit()
         {
+            if (!Spells.HolySpirit.IsKnownAndReady())
+                return false;
+
             if (PaladinSettings.Instance.UseHolySpiritToPull && !Core.Me.InCombat)
                 return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
+
+            if (PaladinSettings.Instance.UseHolySpiritWhenOutOfMeleeRange)
+            {
+                if (!Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
+                {
+                    if (Core.Me.CurrentManaPercent < PaladinSettings.Instance.HolySpiritWhenOutOfMeleeRangeMinMpPercent)
+                        return false;
+
+                    if (PaladinSettings.Instance.UseHolySpiritWhenOutOfMeleeRangeWithDivineMightOnly)
+                    {
+                        if (!Core.Me.HasAura(Auras.DivineMight))
+                            return false;
+                    }
+                    return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
+                }
+            }
 
             if (!PaladinSettings.Instance.UseHolySpirit)
                 return false;
 
-            if (!Spells.HolySpirit.IsKnownAndReady())
+            if (!Core.Me.HasAura(Auras.DivineMight))
                 return false;
 
-            if (PaladinSettings.Instance.UseHolySpiritWhenOutOfMeleeRange && !Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
+            //EXPERIMENTAL - In case we have DivineMight before FOF, it is better to start Basic combo (FastBlade + RiotBlade) and Keep HolySpirit + Atonement inside FOF
+            if (PaladinSettings.Instance.KeepHolySpiritAtonementinFoF && Spells.FightorFlight.IsKnown())
             {
-                return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
+                Aura DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
+
+                if (Spells.FightorFlight.IsReady(((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds) * 2)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                    return false;
+
+                if (Spells.FightorFlight.IsReady((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                    return false;
             }
-
-            if (!Core.Me.HasAura(Auras.DivineMight, true))
-                return false;
-
             return await Spells.HolySpirit.Cast(Core.Me.CurrentTarget);
         }
 
@@ -106,19 +128,19 @@ namespace Magitek.Logic.Paladin
             if (!Spells.Intervene.IsKnown())
                 return false;
 
-            if (Spells.FightorFlight.IsKnownAndReady())
+            if (Spells.FightorFlight.IsKnown() && !Core.Me.HasAura(Auras.FightOrFlight))
                 return false;
 
-            if (Spells.CircleofScorn.IsKnownAndReady())
+            if (Spells.Requiescat.IsKnown() && !Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
-            if (Spells.Expiacion.IsKnownAndReady())
+            if (PaladinRoutine.RequiescatStackCount >= 4)
+                return false;
+
+            if (Casting.LastSpell == Spells.Intervene)
                 return false;
 
             if (PaladinSettings.Instance.InterveneOnlyInMelee && !Core.Me.CurrentTarget.WithinSpellRange(Spells.FastBlade.Range))
-                return false;
-
-            if (Spells.Intervene.Charges < PaladinSettings.Instance.SaveInterveneCharges + 1)
                 return false;
 
             return await Spells.Intervene.Cast(Core.Me.CurrentTarget);
@@ -130,13 +152,10 @@ namespace Magitek.Logic.Paladin
                 return false;
 
             //If many target, cast Requiescat outside FoF
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) >= PaladinSettings.Instance.TotalEclipseEnemies)
+            /*if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) >= PaladinSettings.Instance.TotalEclipseEnemies)
                 return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
-
-            if (!Core.Me.HasAura(Auras.FightOrFight, true))
-                return false;
-
-            if (Spells.FastBlade.Cooldown.TotalMilliseconds > Globals.AnimationLockMs + BaseSettings.Instance.UserLatencyOffset + 100)
+            */
+            if (Casting.LastSpell != Spells.FightorFlight)
                 return false;
 
             return await Spells.Requiescat.Cast(Core.Me.CurrentTarget);
@@ -145,14 +164,36 @@ namespace Magitek.Logic.Paladin
         public static async Task<bool> Atonement()
         {
             if (!PaladinSettings.Instance.UseAtonement)
-                return false; 
-            
+                return false;
+
             if (!Core.Me.HasAura(Auras.SwordOath))
                 return false;
 
             if (Core.Me.HasAura(Auras.Requiescat))
                 return false;
 
+            //EXPERIMENTAL - In case we have 1 or 2 atonement remaining before FOF, it is better to start Basic combo (FastBlade + RiotBlade) and Keep atonment inside FOF
+            if (PaladinSettings.Instance.KeepHolySpiritAtonementinFoF && Spells.FightorFlight.IsKnown())
+            {
+                var SwordOathRemainingStack = Core.Me.CharacterAuras.GetAuraStacksById(Auras.SwordOath);
+                Aura SwordOathAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SwordOath && x.CasterId == Core.Player.ObjectId);
+                
+                if (SwordOathRemainingStack == 2 
+                    && Spells.FightorFlight.IsReady( ((int) Spells.FastBlade.AdjustedCooldown.TotalMilliseconds) * 2)
+                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                {
+                    Logger.Write($@"[Magitek][Info] Atonement delayed to FoF (SwordOath Stack =  {SwordOathRemainingStack} | FoF Ready  =  {Spells.FightorFlight.Cooldown.TotalSeconds} | SwordOathRemainingTime = {SwordOathAura.TimespanLeft.TotalMilliseconds})");
+                    return false;
+                }
+                
+                if (SwordOathRemainingStack == 1 
+                    && Spells.FightorFlight.IsReady( (int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
+                    && SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                {
+                    Logger.Write($@"[Magitek][Info] Atonement delayed to FoF (SwordOath Stack =  {SwordOathRemainingStack} | FoF Ready in  =  {Spells.FightorFlight.Cooldown.TotalSeconds} | SwordOathRemainingTime = {SwordOathAura.TimespanLeft.TotalMilliseconds})");
+                    return false;
+                }
+            }
             return await Spells.Atonement.Cast(Core.Me.CurrentTarget);
         }
 
@@ -161,7 +202,7 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseGoringBlade)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FightOrFight))
+            if (!Core.Me.HasAura(Auras.FightOrFlight))
                 return false;
 
             return await Spells.GoringBlade.Cast(Core.Me.CurrentTarget);
@@ -186,17 +227,11 @@ namespace Magitek.Logic.Paladin
             if (!PaladinRoutine.CanContinueComboAfter(Spells.FastBlade))
                 return false;
 
-            if (Core.Me.HasAura(Auras.SwordOath))
-                return false;
-
             return await Spells.RiotBlade.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> FastBlade()
         {
-            if (Core.Me.HasAura(Auras.SwordOath))
-                return false;
-
             return await Spells.FastBlade.Cast(Core.Me.CurrentTarget);
         }
     }

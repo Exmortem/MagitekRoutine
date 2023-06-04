@@ -36,10 +36,11 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
-                }
             }
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
 
             if (await Casting.TrackSpellCast())
                 return true;
@@ -73,6 +74,9 @@ namespace Magitek.Rotations
             }
 
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
 
             if (await CustomOpenerLogic.Opener())
@@ -133,6 +137,7 @@ namespace Magitek.Rotations
 
             return await SingleTarget.Tomahawk();
         }
+
         public static async Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)

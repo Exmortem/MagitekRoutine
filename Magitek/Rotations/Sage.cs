@@ -45,24 +45,24 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            else
-            {
-                if (Globals.InParty)
-                {
-                    if (!SageSettings.Instance.DoDamage)
-                        return false;
-                }
-            }
-
-            if (Core.Me.InCombat)
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            return await SingleTarget.Dosis();
+            if (!SageSettings.Instance.DoDamage)
+                return false;
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            return await Combat();
         }
 
         public static async Task<bool> Heal()
@@ -184,8 +184,8 @@ namespace Magitek.Rotations
             if (Globals.InParty && Utilities.Combat.Enemies.Count > SageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            if (Globals.InParty && !SageSettings.Instance.DoDamage)
-                return true;
+            if (!SageSettings.Instance.DoDamage)
+                return false;
 
             if (!GameSettingsManager.FaceTargetOnAction
                 && !Core.Me.CurrentTarget.InView())
@@ -199,8 +199,7 @@ namespace Magitek.Rotations
                 }
             }
 
-            if (!Core.Me.HasTarget
-                || !Core.Me.CurrentTarget.ThoroughCanAttack())
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
             if (Globals.OnPvpMap)
@@ -227,6 +226,7 @@ namespace Magitek.Rotations
             if (await SingleTarget.EukrasianDosis()) return true;
             if (await SingleTarget.DotMultipleTargets()) return true;
             if (await AoE.Dyskrasia()) return true;
+
             return await SingleTarget.Dosis();
         }
 

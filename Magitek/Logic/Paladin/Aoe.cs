@@ -30,7 +30,10 @@ namespace Magitek.Logic.Paladin
             if (Spells.Requiescat.IsKnownAndReady())
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.CircleofScorn.Radius + Core.Me.CombatReach) < 1)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.CircleofScorn.Radius + x.CombatReach) < 1)
+                return false;
+
+            if (!PaladinRoutine.GlobalCooldown.CanDoubleWeave() || !PaladinRoutine.GlobalCooldown.CanWeave(2))
                 return false;
 
             return await Spells.CircleofScorn.Cast(Core.Me);
@@ -47,11 +50,21 @@ namespace Magitek.Logic.Paladin
             if (!Spells.HolyCircle.IsKnownAndReady())
                 return false;
 
-            if (!Core.Me.HasAura(Auras.DivineMight, true))
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.HolyCircle.Radius + x.CombatReach) < PaladinSettings.Instance.HolyCircleEnemies)
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.HolyCircle.Radius + Core.Me.CombatReach) <= PaladinSettings.Instance.HolyCircleEnemies)
+            if (!Core.Me.HasAura(Auras.DivineMight))
                 return false;
+
+            //EXPERIMENTAL - In case we have DivineMight before FOF, it is better to start Basic combo (FastBlade + RiotBlade) and Keep HolySpirit + Atonement inside FOF
+            if (PaladinSettings.Instance.KeepHolySpiritAtonementinFoF && Spells.FightorFlight.IsKnown())
+            {
+                Aura DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
+
+                if (Spells.FightorFlight.IsReady((int)Spells.FastBlade.AdjustedCooldown.TotalMilliseconds)
+                    && DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds >= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                    return false;
+            }
 
             return await Spells.HolyCircle.Cast(Core.Me);
         }
@@ -67,11 +80,6 @@ namespace Magitek.Logic.Paladin
 
             if (PaladinSettings.Instance.SaveCircleOfScorn && Spells.FightorFlight.Cooldown.Seconds <= PaladinSettings.Instance.SaveCircleOfScornMseconds)
                 return false;
-
-            /*
-            if (Spells.Requiescat.IsKnownAndReady())
-                return false;
-            */
 
             return await PaladinRoutine.Expiacion.Cast(Core.Me.CurrentTarget);
         }
@@ -89,10 +97,10 @@ namespace Magitek.Logic.Paladin
             if (!PaladinSettings.Instance.UseEclipseCombo)
                 return false;
 
-            if (!Spells.TotalEclipse.IsKnownAndReady())
+            if (!Spells.TotalEclipse.IsKnown())
                 return false;
 
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + Core.Me.CombatReach) <= PaladinSettings.Instance.TotalEclipseEnemies)
+            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= Spells.TotalEclipse.Radius + x.CombatReach) < PaladinSettings.Instance.TotalEclipseEnemies)
                 return false;
 
             return await Spells.TotalEclipse.Cast(Core.Me);
@@ -125,6 +133,25 @@ namespace Magitek.Logic.Paladin
 
             if (!Spells.Confiteor.IsKnown())
                 return false;
+
+            if (!Core.Me.HasAura(Auras.FightOrFlight))
+                return false;
+
+            //EXPERIMENTAL - In case we have DivineMight before FOF, it is better to start Basic combo (FastBlade + RiotBlade) and Keep HolySpirit + Atonement inside FOF
+            if (PaladinSettings.Instance.KeepHolySpiritAtonementinFoF)
+            {
+                var FightOrFlightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.FightOrFlight && x.CasterId == Core.Player.ObjectId);
+                if (FightOrFlightAura != null && FightOrFlightAura.TimespanLeft.TotalMilliseconds >= (4 * Spells.Confiteor.AdjustedCooldown.TotalMilliseconds))
+                {
+                    var SwordOathAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.SwordOath && x.CasterId == Core.Player.ObjectId);
+                    if (SwordOathAura != null && SwordOathAura.TimespanLeft.TotalMilliseconds <= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                        return false;
+
+                    var DivineMightAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.Id == Auras.DivineMight && x.CasterId == Core.Player.ObjectId);
+                    if (DivineMightAura != null && DivineMightAura.TimespanLeft.TotalMilliseconds <= (3 * Spells.FastBlade.AdjustedCooldown.TotalMilliseconds))
+                        return false;
+                }
+            }
 
             return await Spells.Confiteor.Cast(Core.Me.CurrentTarget);
         }
