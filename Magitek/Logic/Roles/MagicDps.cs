@@ -42,7 +42,7 @@ namespace Magitek.Logic.Roles
                 && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak3Spell)
                 && gcd.Cooldown.TotalMilliseconds < 500)
             {
-                ActionManager.DoAction(limitBreak3Spell, Core.Me);
+                ActionManager.DoActionLocation(limitBreak3Spell.Id, Core.Me.CurrentTarget.Location);
                 BaseSettings.Instance.ForceLimitBreak = false;
                 TogglesManager.ResetToggles();
                 return true;
@@ -54,8 +54,8 @@ namespace Magitek.Logic.Roles
                 && !Casting.SpellCastHistory.Any(s => s.Spell == limitBreak2Spell)
                 && gcd.Cooldown.TotalMilliseconds < 500)
             {
-                if (!ActionManager.DoAction(limitBreak2Spell, Core.Me))
-                    ActionManager.DoAction(limitBreak1Spell, Core.Me);
+                if (!ActionManager.DoActionLocation(limitBreak2Spell.Id, Core.Me.CurrentTarget.Location))
+                    ActionManager.DoActionLocation(limitBreak1Spell.Id, Core.Me.CurrentTarget.Location); ;
 
                 BaseSettings.Instance.ForceLimitBreak = false;
                 TogglesManager.ResetToggles();
