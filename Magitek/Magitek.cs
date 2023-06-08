@@ -6,8 +6,6 @@ using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
-//using Magitek.Models;
-//using Magitek.Models.Account;
 using Magitek.Models.Astrologian;
 using Magitek.Models.Bard;
 using Magitek.Models.BlackMage;
@@ -29,6 +27,7 @@ using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using Magitek.Utilities.CombatMessages;
+using Magitek.Utilities.GamelogManager;
 using Magitek.Utilities.Managers;
 using Magitek.Utilities.Overlays;
 using Magitek.ViewModels;
@@ -41,12 +40,17 @@ using TreeSharp;
 using Application = System.Windows.Application;
 using BaseSettings = Magitek.Models.Account.BaseSettings;
 using Debug = Magitek.ViewModels.Debug;
+using Regexp = System.Text.RegularExpressions;
 
 namespace Magitek
 {
     public class Magitek
     {
+        private static SettingsWindow _form;
         private DateTime _pulseLimiter, _saveFormTime;
+        private ClassJobType CurrentJob { get; set; }
+        private ushort CurrentZone { get; set; }
+
         public void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
@@ -92,6 +96,8 @@ namespace Magitek
             OverlayManager.StartCombatMessageOverlay();
             CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
             HookBehaviors();
+
+            GamelogManager.MessageRecevied += GamelogManagerCountdownRecevied;
         }
 
         public void OnStop(BotBase bot)
@@ -99,10 +105,8 @@ namespace Magitek
             OverlayManager.StopMainOverlay();
             OverlayManager.StopCombatMessageOverlay();
             TogglesViewModel.Instance.SaveToggles();
+            GamelogManagerCountdown.StopCooldown();
         }
-
-        private ClassJobType CurrentJob { get; set; }
-        private ushort CurrentZone { get; set; }
 
         public void SaveJobSettings()
         {
@@ -123,6 +127,7 @@ namespace Magitek
             RedMageSettings.Instance.Save();
             SummonerSettings.Instance.Save();
             SageSettings.Instance.Save();
+            ReaperSettings.Instance.Save();
         }
 
         public void Pulse()
@@ -249,6 +254,32 @@ namespace Magitek
             //Form?.Close();
         }
 
+        private void GamelogManagerCountdownRecevied(object sender, ChatEventArgs e)
+        {
+            if ((int)e.ChatLogEntry.MessageType == 313 || (int)e.ChatLogEntry.MessageType == 185 || MessageType.SystemMessages.Equals(e.ChatLogEntry.MessageType))
+            {
+                //Start countdown
+                var StartCountdownRegex = new Regexp.Regex(@"(Battle commencing in|Début du combat dans|Noch) ([\d]+) (seconds|secondes|Sekunden bis Kampfbeginn!)!(.*)", Regexp.RegexOptions.Compiled);
+                var matchStart = StartCountdownRegex.Match(e.ChatLogEntry.FullLine);
+                if (matchStart.Success)
+                {
+                    var groups = matchStart.Groups;
+                    var time = groups[2].ToString() != "" ? int.Parse(groups[2].ToString()) : -1;
+                    Logger.WriteInfo($@"Fight starting in {time} seconds");
+                    GamelogManagerCountdown.RegisterAndStartCountdown(time);
+                }
+
+                //Abort countdown
+                var AbortCountdownRegex = new Regexp.Regex(@"(.*)(Countdown canceled by|Le compte à rebours a été interrompu|hat den Countdown abgebrochen)(.*)", Regexp.RegexOptions.Compiled);
+                var matchAbort = AbortCountdownRegex.Match(e.ChatLogEntry.FullLine);
+                if (matchAbort.Success)
+                {
+                    Logger.WriteInfo($@"Countdown aborted!");
+                    GamelogManagerCountdown.StopCooldown();
+                }
+            }
+        }
+
         public static void OnButtonPress()
         {
             if (Form.IsVisible)
@@ -258,8 +289,6 @@ namespace Magitek
 
             OverlayManager.StartMainOverlay();
         }
-
-        private static SettingsWindow _form;
 
         public static SettingsWindow Form
         {
@@ -274,6 +303,7 @@ namespace Magitek
                 return _form;
             }
         }
+
 
         #region Behavior Composites
 
