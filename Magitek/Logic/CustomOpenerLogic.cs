@@ -24,6 +24,7 @@ namespace Magitek.Logic
         private static Gambit _executingGambit = null;
         private static Stopwatch GambitTimer { get; set; }
 
+        
         internal static async Task<bool> Opener()
         {
             // Reset Openers from the overlay
@@ -90,7 +91,6 @@ namespace Magitek.Logic
             }
 
             #region Check Enable/Disable
-
             if (!_executingGambit.IsEnabled)
             {
                 Logger.WriteWarning($@"Opener [{_executingOpener.Name}] Action [{_executingGambit.Order}][{_executingGambit.Title}] Disabled");
@@ -103,12 +103,19 @@ namespace Magitek.Logic
                 InOpener = false;
                 return true;
             }
+            #endregion
 
+            #region Check Conditions Pre-Opener Countdown
+            if (_executingGambit.Conditions.Any(condition => "Magitek.Gambits.Conditions.CountdownTimerCondition".Equals(condition.ToString())))
+            {
+                if (!CheckConditions()) {
+                    return true;
+                }
+            }
             #endregion
 
             #region Check Conditions
-
-            if (_executingGambit.Conditions.Any())
+            if (_executingGambit.Conditions.Any(condition => !"Magitek.Gambits.Conditions.CountdownTimerCondition".Equals(condition.ToString())))
             {
                 if (!await Coroutine.Wait(TimeSpan.FromMilliseconds(_executingGambit.MaxTimeToWaitForCondition), CheckConditions))
                 {
@@ -123,10 +130,7 @@ namespace Magitek.Logic
                     return true;
                 }
             }
-
             #endregion
-
-            
 
             #region Execute the gambit
 
@@ -208,6 +212,7 @@ namespace Magitek.Logic
             return true;
         }
 
+
         private static bool CheckConditions()
         {
             if (!_executingGambit.Conditions.Any())
@@ -267,7 +272,6 @@ namespace Magitek.Logic
                 default:
                     return true;
             }
-
             return true;
         }
     }

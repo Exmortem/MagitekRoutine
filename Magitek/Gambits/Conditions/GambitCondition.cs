@@ -51,6 +51,7 @@ namespace Magitek.Gambits.Conditions
         SamuraiSen,
         SamuraiKenki,
         HasPet,
+        CountdownTimer,
         CombatTime,
     }
 }

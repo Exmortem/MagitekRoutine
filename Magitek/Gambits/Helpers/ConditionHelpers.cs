@@ -151,6 +151,10 @@ namespace Magitek.Gambits.Helpers
                     condition = new HasPetCondition();
                     break;
 
+                case "CountdownTimer":
+                    condition = new CountdownTimerCondition();
+                    break;
+
                 case "CombatTime":
                     condition = new CombatTimeCondition();
                     break;

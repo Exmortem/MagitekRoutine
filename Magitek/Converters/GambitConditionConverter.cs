@@ -116,6 +116,9 @@ namespace Magitek.Converters
                     case GambitConditionTypes.HasPet:
                         condition = new HasPetCondition();
                         break;
+                    case GambitConditionTypes.CountdownTimer:
+                        condition = new CountdownTimerCondition();
+                        break;
                     case GambitConditionTypes.CombatTime:
                         condition = new CombatTimeCondition();
                         break;

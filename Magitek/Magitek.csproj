@@ -206,6 +206,7 @@
     <Compile Include="Gambits\Actions\ToastMessageAction.cs" />
     <Compile Include="Gambits\Actions\UseItemOnSelfAction.cs" />
     <Compile Include="Gambits\Conditions\BardRepertoireCondition.cs" />
+    <Compile Include="Gambits\Conditions\CountdownTimerCondition.cs" />
     <Compile Include="Gambits\Conditions\CombatTimeCondition.cs" />
     <Compile Include="Gambits\Conditions\DancerFeatherCondition.cs" />
     <Compile Include="Gambits\Conditions\DoesNotHaveAuraCondition.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
     <Compile Include="Rotations\Sage.cs" />
+    <Compile Include="Utilities\GameLog\GamelogManagerCountdown.cs" />
     <Compile Include="Utilities\Potion.cs" />
     <Compile Include="Utilities\FightLogic.cs" />
     <Compile Include="Utilities\WeaveWindow.cs" />
