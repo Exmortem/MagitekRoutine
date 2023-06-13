@@ -30,7 +30,7 @@ namespace Magitek.Logic.Roles
             if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft <= 20)
+            if (Core.Me.CurrentTarget.CombatTimeLeft() <= 20)
                 return false;
 
             return await Spells.LucidDreaming.CastAura(Core.Me, Auras.LucidDreaming);
