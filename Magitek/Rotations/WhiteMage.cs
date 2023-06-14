@@ -49,21 +49,24 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            else
-            {
-                if (!WhiteMageSettings.Instance.DoDamage)
-                    return false;
-            }
-
-            if (Core.Me.InCombat)
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            return await SingleTarget.Stone();
+            if (!WhiteMageSettings.Instance.DoDamage)
+                return false;
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            return await Combat();
         }
 
         public static async Task<bool> Heal()
@@ -188,33 +191,32 @@ namespace Magitek.Rotations
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
-            //Only stop doing damage when in party
-            if (Globals.InParty && Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
-                return false;
-
             if (Globals.InParty)
             {
-                if (!WhiteMageSettings.Instance.DoDamage)
+                if (Utilities.Combat.Enemies.Count > WhiteMageSettings.Instance.StopDamageWhenMoreThanEnemies)
                     return false;
 
                 if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.MinimumManaPercentToDoDamage && !Core.Me.HasAura(Auras.ThinAir))
                     return false;
             }
 
+            if (!WhiteMageSettings.Instance.DoDamage)
+                return false;
+
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
 
             if (await SingleTarget.AfflatusMisery()) return true;
             if (await Aoe.Holy()) return true;
             if (await Aoe.AssizeDamage()) return true;
 
-            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
-                return false;
+            
 
             if (await SingleTarget.Dots()) return true;
             return await SingleTarget.Stone();

@@ -35,14 +35,19 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            if (GunbreakerSettings.Instance.LightningShotToPullAggro)
-                await Spells.LightningShot.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
 
+            /*if (GunbreakerSettings.Instance.LightningShotToPullAggro)
+                await Spells.LightningShot.Cast(Core.Me.CurrentTarget);*/
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
             return await Combat();
         }
 
@@ -153,6 +158,7 @@ namespace Magitek.Rotations
 
             return await SingleTarget.KeenEdge();
         }
+
         public static async Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)

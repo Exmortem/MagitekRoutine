@@ -34,21 +34,20 @@
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Single Target" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <CheckBox Content="Intervene (Dash)  " IsChecked="{Binding PaladinSettings.UseIntervene, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Only in Melee. Save " IsChecked="{Binding PaladinSettings.InterveneOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Margin="0,3" MaxValue="5" MinValue="0" Value="{Binding PaladinSettings.SaveInterveneCharges, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" charges" />
+                    <CheckBox Content="Only in Melee." IsChecked="{Binding PaladinSettings.InterveneOnlyInMelee, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Holy Spirit                       " IsChecked="{Binding PaladinSettings.UseHolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Content="Requiescat " IsChecked="{Binding PaladinSettings.UseRequiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </StackPanel>
+                    <CheckBox Content="GoringBlade" IsChecked="{Binding PaladinSettings.UseGoringBlade, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="GoringBlade                    " IsChecked="{Binding PaladinSettings.UseGoringBlade, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                        <CheckBox Content="Atonement " IsChecked="{Binding PaladinSettings.UseAtonement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    </StackPanel>
+                    <CheckBox Content="Requiescat " IsChecked="{Binding PaladinSettings.UseRequiescat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Holy Spirit            " IsChecked="{Binding PaladinSettings.UseHolySpirit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Atonement " IsChecked="{Binding PaladinSettings.UseAtonement, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="25 0 0 0" Orientation="Horizontal">
+                    <CheckBox Content="Keep Atonement and HolySpirit in FOF (Experimental)" IsChecked="{Binding PaladinSettings.KeepHolySpiritAtonementinFoF, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
@@ -57,10 +56,16 @@
             <StackPanel Margin="5">
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" When Target is out of Melee Range" />
                 <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox Content="Use HolySpirit                 " IsChecked="{Binding PaladinSettings.UseHolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Use ShieldLob"                   IsChecked="{Binding PaladinSettings.UseShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use HolySpirit as long as Mana is >= " IsChecked="{Binding PaladinSettings.UseHolySpiritWhenOutOfMeleeRange, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Increment="5" MaxValue="100" MinValue="1" Value="{Binding PaladinSettings.HolySpiritWhenOutOfMeleeRangeMinMpPercent, Mode=TwoWay}" />
                 </StackPanel>
+                <StackPanel Margin="25 0 0 0" Orientation="Horizontal">
+                    <CheckBox Content=" Only under Divine Might Aura." IsChecked="{Binding PaladinSettings.UseHolySpiritWhenOutOfMeleeRangeWithDivineMightOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <CheckBox Content="Use ShieldLob" IsChecked="{Binding PaladinSettings.UseShieldLob, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
             </StackPanel>
+    </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
@@ -93,7 +98,7 @@
                 </StackPanel>
                 <StackPanel Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Use Expiacon / Spirits Within" IsChecked="{Binding PaladinSettings.UseExpiacion, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                        <CheckBox Content="Use Expiacion / Spirits Within" IsChecked="{Binding PaladinSettings.UseExpiacion, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Margin="5">

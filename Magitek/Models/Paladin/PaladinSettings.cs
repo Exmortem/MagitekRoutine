@@ -177,9 +177,9 @@ namespace Magitek.Models.Paladin
         [DefaultValue(true)]
         public bool InterveneOnlyInMelee { get; set; }
 
-        [Setting]
+        /*[Setting]
         [DefaultValue(0)]
-        public int SaveInterveneCharges { get; set; }
+        public int SaveInterveneCharges { get; set; }*/
         #endregion
 
         #region DefensiveGroup
@@ -206,6 +206,14 @@ namespace Magitek.Models.Paladin
         public bool UseHolySpiritWhenOutOfMeleeRange { get; set; }
 
         [Setting]
+        [DefaultValue(50.0f)]
+        public float HolySpiritWhenOutOfMeleeRangeMinMpPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseHolySpiritWhenOutOfMeleeRangeWithDivineMightOnly { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseHolySpiritToPull { get; set; }
 
@@ -216,6 +224,10 @@ namespace Magitek.Models.Paladin
         [Setting]
         [DefaultValue(true)]
         public bool UseAtonement { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool KeepHolySpiritAtonementinFoF { get; set; }
 
         [Setting]
         [DefaultValue(true)]

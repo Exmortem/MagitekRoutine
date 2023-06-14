@@ -520,27 +520,6 @@ namespace Magitek.ViewModels
 
             #endregion
 
-            #region Check If The Magitek Key Is Valid
-
-            var posterId = "";
-
-            if (!string.IsNullOrWhiteSpace(AuthenticationSettings.Instance.MagitekKey) && !string.IsNullOrEmpty(AuthenticationSettings.Instance.MagitekKey))
-            {
-                posterId = AuthenticationSettings.Instance.MagitekKey.Substring(AuthenticationSettings.Instance.MagitekKey.Length - 5);
-            }
-            else if (!string.IsNullOrWhiteSpace(AuthenticationSettings.Instance.MagitekLegacyKey) && !string.IsNullOrEmpty(AuthenticationSettings.Instance.MagitekLegacyKey))
-            {
-                posterId = AuthenticationSettings.Instance.MagitekLegacyKey.Substring(AuthenticationSettings.Instance.MagitekLegacyKey.Length - 5);
-            }
-
-            if (posterId == "")
-            {
-                Status = $"You Do Not Have A Valid Magitek Key";
-                return;
-            }
-
-            #endregion
-
             try
             {
                 var zone = group.ZoneId == 1 ? "Any" : group.ZoneName;
@@ -557,7 +536,7 @@ namespace Magitek.ViewModels
                     File = gambitString,
                     Created = DateTime.Now.ToString(CultureInfo.InvariantCulture),
                     IsGambitGroup = true,
-                    PosterId = posterId,
+                    PosterId = "Anonymous",
                     Zone = zone,
                     NumberOfGambits = numberOfGambits
                 };

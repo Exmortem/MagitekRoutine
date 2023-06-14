@@ -75,7 +75,7 @@ namespace Magitek.Logic.Gunbreaker
             if (!await Spells.LightningShot.Cast(lightningShotTarget))
                 return false;
 
-            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} to pull");
+            Logger.WriteInfo($@"Lightning Shot On {lightningShotTarget.Name} to pull or get back aggro");
             return true;
         }
 

@@ -1,4 +1,5 @@
 ﻿using ff14bot.Helpers;
+using Magitek.Enumerations;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Configuration;
@@ -32,7 +33,11 @@ namespace Magitek.Models.Roles
 
         [Setting]
         [DefaultValue(false)]
-        public bool ForceLimitBreak { get; set; }
+        public bool UsePotion { get; set; }
+
+        [Setting]
+        [DefaultValue(PotionEnum.None)]
+        public PotionEnum PotionTypeAndGradeLevel { get; set; }
 
         [Setting]
         [DefaultValue(true)]

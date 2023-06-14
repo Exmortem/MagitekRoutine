@@ -64,11 +64,10 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Gravity)
                 return false;
 
-            if (Core.Me.CurrentTarget == null)
+            if (!AstrologianSettings.Instance.DoDamage)
                 return false;
 
             var target = Combat.SmartAoeTarget(Spells.Gravity, AstrologianSettings.Instance.SmartAoe);
-
             if (target == null)
                 return false;
             

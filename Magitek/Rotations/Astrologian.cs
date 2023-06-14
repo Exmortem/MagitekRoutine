@@ -57,24 +57,24 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            else
-            {
-                if (Globals.InParty)
-                {
-                    if (!AstrologianSettings.Instance.DoDamage)
-                        return false;
-                }
-            }
-
-            if (Core.Me.InCombat)
+            if (Globals.InParty && Utilities.Combat.Enemies.Count > AstrologianSettings.Instance.StopDamageWhenMoreThanEnemies)
                 return false;
 
-            return await SingleTarget.Malefic();
+            if (!AstrologianSettings.Instance.DoDamage)
+                return false;
+
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
+
+            if (await Casting.TrackSpellCast())
+                return true;
+
+            await Casting.CheckForSuccessfulCast();
+
+            return await Combat();
         }
 
         public static async Task<bool> Heal()
@@ -221,7 +221,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
@@ -229,14 +228,17 @@ namespace Magitek.Rotations
 
             if (Globals.InParty)
             {
-                if (!AstrologianSettings.Instance.DoDamage)
+                if (Utilities.Combat.Enemies.Count > AstrologianSettings.Instance.StopDamageWhenMoreThanEnemies)
                     return false;
 
                 if (Core.Me.CurrentManaPercent < AstrologianSettings.Instance.MinimumManaPercentToDoDamage
                     && Core.Target.CombatTimeLeft() > AstrologianSettings.Instance.DoDamageIfTimeLeftLessThan)
                     return false;
             }
-                        
+
+            if (!AstrologianSettings.Instance.DoDamage)
+                return false;
+
             if (await Casting.TrackSpellCast())
                 return true;
 
@@ -247,13 +249,10 @@ namespace Magitek.Rotations
             if (BotManager.Current.IsAutonomous)
             {
                 if (Core.Me.HasTarget)
-                {
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
-                }
             }
 
-            if (!Core.Me.HasTarget
-                || !Core.Me.CurrentTarget.ThoroughCanAttack())
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
             if (await Aoe.AggroAst()) return true;
