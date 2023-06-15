@@ -42,6 +42,16 @@
             </StackPanel>
         </controls:SettingsBlock>
 
+        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5" Orientation="Horizontal">
+
+
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Don't Do Damage If There Are More Than " />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.StopDamageWhenMoreThanEnemies, Mode=TwoWay}" />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Combat" />
+            </StackPanel>
+        </controls:SettingsBlock>
+
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5">
                 <CheckBox Content="Malefic" IsChecked="{Binding AstrologianSettings.Malefic, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
