@@ -47,7 +47,7 @@
 
 
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Don't Do Damage If There Are More Than " />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.StopDamageWhenMoreThanEnemies, Mode=TwoWay}" />
+                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.StopDamageWhenMoreThanEnemies, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Combat" />
             </StackPanel>
         </controls:SettingsBlock>
