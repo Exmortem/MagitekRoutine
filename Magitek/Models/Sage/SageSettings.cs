@@ -32,6 +32,10 @@ namespace Magitek.Models.Sage
         [Setting]
         [DefaultValue(false)]
         public bool ForceHaima { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceEukrasianDiagnosis { get; set; }
         #endregion
 
         #region FightLogic

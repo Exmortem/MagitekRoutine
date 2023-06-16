@@ -176,7 +176,29 @@ namespace Magitek.Logic.Sage
             return await Spells.EukrasianDiagnosis.HealAura(Core.Me, Auras.EukrasianDiagnosis);
         }
 
-        public static async Task<bool> Prognosis()
+            public static async Task<bool> ForceEukrasianDiagnosis()
+        {
+
+            if (!SageSettings.Instance.ForceEukrasianDiagnosis)
+                return false;
+
+            if (!IsEukrasiaReady())
+                return false;
+
+            var target = Core.Me.CurrentTarget;
+
+            if (!await UseEukrasia(Spells.EukrasianDiagnosis.Id,targetObject: target))
+                 return false;
+
+            if (!await Spells.EukrasianDiagnosis.HealAura(target, Auras.EukrasianDiagnosis))
+                return false;
+
+            SageSettings.Instance.ForceEukrasianDiagnosis = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+            public static async Task<bool> Prognosis()
         {
             if (!SageSettings.Instance.Prognosis)
                 return false;
