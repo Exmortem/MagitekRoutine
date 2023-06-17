@@ -16,15 +16,16 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.FanDance1)
                 return false;
 
-            if (ActionResourceManager.Dancer.FourFoldFeathers < 4 && !Core.Me.HasAura(Auras.Devilment) && Core.Me.ClassLevel >= 62) return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= DancerSettings.Instance.FanDanceTwoEnemies) return false;
+            if (ActionResourceManager.Dancer.FourFoldFeathers < 4 && !Core.Me.HasAura(Auras.Devilment) && Core.Me.ClassLevel >= 62) 
+                return false;
 
             if (DancerSettings.Instance.UseRangeAndFacingChecks)
             {
-                if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) return false;
-                //if (Core.Me.CurrentTarget.Distance(Core.Me) > Spells.FanDance.Range) return false;
-                if (!GameSettingsManager.FaceTargetOnAction && !Core.Me.CurrentTarget.InView()) return false;
+                if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) 
+                    return false;
+
+                if (!GameSettingsManager.FaceTargetOnAction && !Core.Me.CurrentTarget.InView()) 
+                    return false;
             }
 
             return await Spells.FanDance.Cast(Core.Me.CurrentTarget);

@@ -184,6 +184,9 @@ namespace Magitek.Logic
             // Look for an Opener that meets the opening conditions
             foreach (var opener in OpenerGroups)
             {
+                if (!opener.IsActive)
+                    continue;
+
                 if (opener.Gambits.Count == 0)
                     continue;
 

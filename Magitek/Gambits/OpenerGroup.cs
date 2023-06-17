@@ -8,6 +8,7 @@ namespace Magitek.Gambits
     [AddINotifyPropertyChangedInterface]
     public class OpenerGroup
     {
+        public bool IsActive { get; set; }
         public string Name { get; set; }
         public int Id { get; set; } = 1;
         public int ZoneId { get; set; }

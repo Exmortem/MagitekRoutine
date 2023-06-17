@@ -25,7 +25,7 @@ namespace Magitek.Utilities
             {
                 Logger.WriteInfo($@"Use potion : {potionItem.Name}");
                 potionItem.UseItem(Core.Me);
-                await Coroutine.Wait(100, () => false);
+                await Coroutine.Wait(700, () => false);
 
                 if (potionItem == null || !potionItem.CanUse())
                     return true;
