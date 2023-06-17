@@ -1,5 +1,6 @@
 using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.DarkKnight;
 using Magitek.Utilities;
@@ -49,65 +50,6 @@ namespace Magitek.Logic.DarkKnight
 
             return await Spells.Bloodspiller.Cast(Core.Me.CurrentTarget);
 
-        }
-
-        public static async Task<bool> UnmendForAggro()
-        {
-            if (Globals.OnPvpMap)
-                return false;
-            
-            //need this in autonomous for dungeon profiles
-            //if (BotManager.Current.IsAutonomous)
-            //    return false;
-
-            if (!DarkKnightSettings.Instance.UnmendToPullAggro)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Delirium))
-                return false;
-
-            // If we're in AOE situation we're going to likely use Unleash which has a 5y range
-            // but if we're not then we're going to melee which has a 0.66 (CombatReach) range
-            // This extra bit of complexity helps make this do the right thing in more scenarios
-            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
-            var enoughEnemies = enemyCount >= DarkKnightSettings.Instance.UnleashEnemies;
-            var calculatedCombatReach = (DarkKnightSettings.Instance.UseUnleash && enoughEnemies)
-                ? 5
-                : Core.Me.CombatReach;
-
-            var unmendTarget = Combat.Enemies.FirstOrDefault(r =>
-                r.Distance2D(Core.Me) >= calculatedCombatReach
-                && r.Distance2D(Core.Me) <= 20 + r.CombatReach
-                && r.TargetGameObject != null
-                && !r.TargetGameObject.IsMe);
-
-            if (unmendTarget == null)
-                return false;
-
-            if (await Spells.Unmend.Cast(unmendTarget))
-            {
-                Logger.Write($@"Unmend On {unmendTarget.Name} To Pull Aggro");
-                return true;
-            }
-
-            return false;
-        }
-
-        public static async Task<bool> Unmend()
-        {
-            if (!DarkKnightSettings.Instance.UnmendWhenOutOfMelee)
-                return false;
-
-            if (Core.Me.CurrentTarget == null)
-                return false;
-
-            if (await Spells.Unmend.Cast(Core.Me.CurrentTarget))
-            {
-                Logger.Write($@"Unmend On {Core.Me.CurrentTarget.Name} because I'm out of melee range");
-                return true;
-            }
-
-            return false;
         }
 
         public static async Task<bool> Shadowbringer()
@@ -162,6 +104,74 @@ namespace Magitek.Logic.DarkKnight
             }
 
             return await Spells.Plunge.Cast(Core.Me.CurrentTarget);
+        }
+
+        /*********************************************************************
+         *                         Unmend
+         *********************************************************************/
+
+        public static async Task<bool> UnmendToDps()
+        {
+            if (!DarkKnightSettings.Instance.UnmendToDps)
+                return false;
+
+            if (!Core.Me.CurrentTarget.ValidAttackUnit()
+                        || !Core.Me.CurrentTarget.NotInvulnerable()
+                        || Core.Me.CurrentTarget.TimeInCombat() <= 0
+                        || Core.Me.CurrentTarget.Distance(Core.Me) < Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach + DarkKnightSettings.Instance.UnmendMinDistance
+                        || Core.Me.CurrentTarget.Distance(Core.Me) > 20 + Core.Me.CurrentTarget.CombatReach
+                        || (Core.Me.CurrentTarget as BattleCharacter).TargetGameObject == null)
+                return false;
+
+            if (!await Spells.Unmend.Cast(Core.Me.CurrentTarget))
+                return false;
+
+            Logger.WriteInfo($@"Unmend On {Core.Me.CurrentTarget.Name} To DPS");
+            return true;
+        }
+
+
+        public static async Task<bool> UnmendToPullOrAggro()
+        {
+            if (!DarkKnightSettings.Instance.UnmendToPullOrAggro)
+                return false;
+
+            if (Core.Me.HasAura(Auras.Delirium))
+                return false;
+
+            // If we're in AOE situation we're going to likely use Unleash which has a 5y range
+            // but if we're not then we're going to melee which has a 0.66 (CombatReach) range
+            // This extra bit of complexity helps make this do the right thing in more scenarios
+            var enemyCount = Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach);
+            var enoughEnemies = enemyCount >= DarkKnightSettings.Instance.UnleashEnemies;
+            var calculatedCombatReach = (DarkKnightSettings.Instance.UseUnleash && enoughEnemies)
+                ? 5
+                : Core.Me.CombatReach + DarkKnightSettings.Instance.UnmendMinDistance;
+
+            //find target already pulled on which I lose aggro
+            var unmendTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
+                                                                    && r.NotInvulnerable()
+                                                                    && r.Distance(Core.Me) >= calculatedCombatReach + r.CombatReach
+                                                                    && r.Distance(Core.Me) <= 20 + r.CombatReach
+                                                                    && r.TargetGameObject != Core.Me);
+
+            if (unmendTarget == null)
+            {
+                unmendTarget = (BattleCharacter)Core.Me.CurrentTarget;
+
+                if (!unmendTarget.ValidAttackUnit()
+                    || !unmendTarget.NotInvulnerable()
+                    || unmendTarget.Distance(Core.Me) < Core.Me.CombatReach + unmendTarget.CombatReach + DarkKnightSettings.Instance.UnmendMinDistance
+                    || unmendTarget.Distance(Core.Me) > 20 + unmendTarget.CombatReach
+                    || unmendTarget.TargetGameObject != null)
+                    return false;
+            }
+
+            if (!await Spells.Unmend.Cast(unmendTarget))
+                return false;
+
+            Logger.WriteInfo($@"Unmend On {unmendTarget.Name} to pull or get back aggro");
+            return true;
         }
     }
 }

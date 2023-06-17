@@ -47,7 +47,7 @@
 
                 <StackPanel Grid.Row="2" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Lightning Shot When Mob Is At Least "  />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Lightning Shot When Ennemy Is At Least "  />
                         <controls:Numeric Margin="0,3" MaxValue="15" MinValue="0" Value="{Binding GunbreakerSettings.LightningShotMinDistance, Mode=TwoWay}" />
                         <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Yalms Away" />
                     </StackPanel>

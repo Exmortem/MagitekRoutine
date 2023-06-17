@@ -31,15 +31,15 @@ namespace Magitek.Models.DarkKnight
 
         [Setting]
         [DefaultValue(true)]
-        public bool UnmendWhenOutOfMelee { get; set; }
+        public bool UnmendToDps { get; set; }
 
         [Setting]
         [DefaultValue(false)]
-        public bool UnmendToPullAggro { get; set; }
+        public bool UnmendToPullOrAggro { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool UnmendToPull { get; set; }
+        [DefaultValue(3)]
+        public int UnmendMinDistance { get; set; }
 
         [Setting]
         [DefaultValue(true)]

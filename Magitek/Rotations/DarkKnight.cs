@@ -1,11 +1,11 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using Magitek.Extensions;
 using Magitek.Logic;
 using Magitek.Logic.DarkKnight;
 using Magitek.Logic.Roles;
 using Magitek.Models.Account;
 using Magitek.Models.DarkKnight;
-using Magitek.Models.Gunbreaker;
 using Magitek.Utilities;
 using System.Threading.Tasks;
 using DarkKnightRoutine = Magitek.Utilities.Routines.DarkKnight;
@@ -60,26 +60,28 @@ namespace Magitek.Rotations
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 2 + Core.Me.CurrentTarget.CombatReach);
             }
 
-            if (await CustomOpenerLogic.Opener())
-                return true;
+            if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
+                return false;
 
-            if (await Buff.Grit())
-                return true;
+            if (await CustomOpenerLogic.Opener()) return true;
 
             //LimitBreak
             if (Defensive.ForceLimitBreak()) return true;
 
-            //Interrupt
+            //Utility
+            if (await Buff.Grit()) return true;
             if (await Tank.Interrupt(DarkKnightSettings.Instance)) return true;
 
             if (DarkKnightRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.HardSlash.Cooldown.TotalMilliseconds > 650 + BaseSettings.Instance.UserLatencyOffset)
             {
-                if (await Tank.Provoke(DarkKnightSettings.Instance)) return true;
+                //Potion
                 if (await Buff.UsePotion()) return true;
 
+                //Defensive Buff
                 if (await Defensive.Execute()) return true;
                 if (await Defensive.Oblation(true)) return true;
                 if (await Defensive.Reprisal()) return true;
+
                 if (await SingleTarget.CarveAndSpit()) return true;
                 if (await Aoe.SaltedEarth()) return true;
                 if (await Aoe.AbyssalDrain()) return true;
@@ -92,7 +94,10 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Shadowbringer()) return true;
             }
 
-            if (await SingleTarget.UnmendForAggro()) return true;
+            //Pull or get back aggro with LightningShot
+            if (await SingleTarget.UnmendToPullOrAggro()) return true;
+            if (await SingleTarget.UnmendToDps()) return true;
+
             if (await Aoe.Quietus()) return true;
             if (await Aoe.StalwartSoul()) return true;
             if (await Aoe.Unleash()) return true;
@@ -100,16 +105,13 @@ namespace Magitek.Rotations
             if (await SingleTarget.Bloodspiller()) return true;
             if (await SingleTarget.SoulEater()) return true;
             if (await SingleTarget.SyphonStrike()) return true;
-            if (await SingleTarget.HardSlash()) return true;
-            if (await SingleTarget.Unmend()) return true;
 
-            return false;
+            return await SingleTarget.HardSlash();
         }
         public static async Task<bool> PvP()
         {
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await Combat();
-
 
             if (await Tank.Guard(DarkKnightSettings.Instance)) return true;
             if (await Tank.Purify(DarkKnightSettings.Instance)) return true;
