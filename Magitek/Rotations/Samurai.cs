@@ -71,9 +71,6 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            if (await GambitLogic.Gambit())
-                return true;
-
             if (!SpellQueueLogic.SpellQueue.Any())
                 SpellQueueLogic.InSpellQueue = false;
 

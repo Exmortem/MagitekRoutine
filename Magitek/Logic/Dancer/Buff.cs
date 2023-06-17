@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using Buddy.Coroutines;
+using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
@@ -7,7 +8,6 @@ using Magitek.Extensions;
 using Magitek.Logic.Roles;
 using Magitek.Models.Dancer;
 using Magitek.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +17,7 @@ namespace Magitek.Logic.Dancer
 {
     internal static class Buff
     {
+        private static uint[] FlourishingAuras = { Auras.FlourishingSymmetry, Auras.FlourishingFlow, Auras.ThreefoldFanDance, Auras.FourfoldFanDance };
 
         /************************************************************************************************************************
          *                                                 Damage
@@ -29,22 +30,8 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (DancerSettings.Instance.DevilmentWithTechnicalStep)
-            {
-                if (ActionManager.HasSpell(Spells.TechnicalStep.Id) && Spells.TechnicalStep.Cooldown > TimeSpan.FromMilliseconds(1000))
-                    return false;
-
-                if (!Core.Me.HasAura(Auras.StandardFinish))
-                    return false;
-            }
-            else
-            {
-                if (Spells.StandardStep.IsKnownAndReady())
-                    return false;
-
-                if (Spells.TechnicalStep.IsKnownAndReady())
-                    return false;
-            }
+            if (Casting.LastSpell != Spells.QuadrupleTechnicalFinish)
+                return false;
 
             return await Spells.Devilment.Cast(Core.Me);
         }
@@ -66,11 +53,8 @@ namespace Magitek.Logic.Dancer
             if (Spells.TechnicalStep.IsKnownAndReady())
                 return false;
 
-            if (DancerSettings.Instance.DevilmentWithFlourish)
-            {
-                if (Spells.Devilment.IsKnownAndReady())
-                    return false;
-            }
+            if (Spells.Devilment.IsKnownAndReady())
+                return false;
 
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
@@ -119,8 +103,6 @@ namespace Magitek.Logic.Dancer
             return await Spells.Improvisation.Cast(Core.Me);
         }
 
-        private static uint[] FlourishingAuras = { Auras.FlourishingSymmetry, Auras.FlourishingFlow, Auras.ThreefoldFanDance, Auras.FourfoldFanDance };
-
 
         /************************************************************************************************************************
          *                                                 Dance Partner
@@ -130,7 +112,6 @@ namespace Magitek.Logic.Dancer
             if (!DancerSettings.Instance.UseClosedPosition)
                 return false;
 
-           // Logger.Write($@"[Magitek] Has Dance Partner : {Core.Me.HasAura(Auras.ClosedPosition)}");
             if (Core.Me.HasAura(Auras.ClosedPosition))
                 return false;
 

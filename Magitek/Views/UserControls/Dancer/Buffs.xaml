@@ -57,9 +57,7 @@
                     <CheckBox Margin="5" Content="Use Flourish" IsChecked="{Binding DancerSettings.UseFlourish, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Margin="5" Content="Use Devilment    " IsChecked="{Binding DancerSettings.UseDevilment, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <RadioButton Margin="5" Foreground="White" Content="With Flourish        " GroupName="DevilmentStrategy" IsChecked="{Binding DancerSettings.DevilmentWithFlourish, Mode=TwoWay}" />
-                    <RadioButton Margin="5" Foreground="White" Content="Before Technical Step" GroupName="DevilmentStrategy" IsChecked="{Binding DancerSettings.DevilmentWithTechnicalStep, Mode=TwoWay}" />
+                    <CheckBox Margin="5" Content="Use Devilment" IsChecked="{Binding DancerSettings.UseDevilment, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>

@@ -62,9 +62,6 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Combat()
         {
-            if (await GambitLogic.Gambit())
-                return true;
-
             if (!SpellQueueLogic.SpellQueue.Any())
             {
                 SpellQueueLogic.InSpellQueue = false;
