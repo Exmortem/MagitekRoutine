@@ -139,7 +139,7 @@
 
                                                             <Rectangle Grid.Column="1" Width="2" VerticalAlignment="Stretch" Fill="Black" Opacity="0.10" />
 
-                                                            <CheckBox Grid.Column="2" Margin="3" Content="" IsChecked="{Binding IsActive, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                                                            <CheckBox Grid.Column="2" Margin="3" Content="" IsChecked="{Binding IsActive, Mode=TwoWay}" Style="{DynamicResource CheckBoxIsActiveFlat}" />
 
                                                             <TextBox Grid.Column="3"
                                                                      VerticalAlignment="Top"
@@ -1699,12 +1699,12 @@
                                                                             <ColumnDefinition Width="17" />
                                                                             <ColumnDefinition Width="17" />
                                                                             <ColumnDefinition Width="30" />
-                                                                            <ColumnDefinition Width="100" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="150" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="38" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition />
-                                                                            <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                             <ColumnDefinition Width="Auto" />
                                                                         </Grid.ColumnDefinitions>
@@ -1739,9 +1739,18 @@
                                                                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Light}" Text="{Binding Order, Mode=TwoWay}" />
                                                                         </Grid>
 
+                                                                        <!--  Gambit Enabled/Disabled  -->
+                                                                        <CheckBox Grid.Row="1" 
+                                                                                  Grid.Column="3" 
+                                                                                  Margin="2,0,0,0"
+                                                                                  Content="" 
+                                                                                  HorizontalAlignment="Right"
+                                                                                  IsChecked="{Binding IsEnabled, Mode=TwoWay}" 
+                                                                                  Style="{DynamicResource CheckBoxIsActiveFlat}" />
+                                                                        
                                                                         <!--  Name  -->
                                                                         <TextBox Grid.Row="1"
-                                                                                 Grid.Column="3"
+                                                                                 Grid.Column="4"
                                                                                  CaretBrush="White"
                                                                                  Foreground="{DynamicResource GrayDark}"
                                                                                  Template="{DynamicResource TextBoxTemplateGambit}"
@@ -1750,7 +1759,7 @@
                                                                         <!--  Action Type  -->
                                                                         <ComboBox Name="GambitActionType"
                                                                                   Grid.Row="1"
-                                                                                  Grid.Column="4"
+                                                                                  Grid.Column="5"
                                                                                   Margin="5,0,2,0"
                                                                                   HorizontalAlignment="Center"
                                                                                   FontSize="9"
@@ -1785,7 +1794,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Gambit Action Settings Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="5" Margin="3,0,2,0" HorizontalAlignment="Center">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="6" Margin="3,0,2,0" HorizontalAlignment="Center">
                                                                             <ComboBox.Style>
                                                                                 <Style TargetType="{x:Type ComboBox}">
 
@@ -2036,7 +2045,7 @@
                                                                         </ComboBox>
 
                                                                         <!--  Conditions  -->
-                                                                        <ItemsControl Grid.Row="1" Grid.Column="6" Margin="5,0,0,0" ItemsSource="{Binding Conditions}">
+                                                                        <ItemsControl Grid.Row="1" Grid.Column="7" Margin="5,0,0,0" ItemsSource="{Binding Conditions}">
                                                                             <ItemsControl.ItemsPanel>
                                                                                 <ItemsPanelTemplate>
                                                                                     <!--  Make the items display horizontally  -->
@@ -2046,7 +2055,7 @@
 
                                                                             <ItemsControl.Resources>
                                                                                 <DataTemplate DataType="{x:Type conditions:EnemyCastingSpellCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ENEMY CASTING">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ENEMY CASTING">
                                                                                         <StackPanel Width="200" Margin="3">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2082,7 +2091,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:SpellOffCooldownCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="SPELL OFF CD">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="SPELL OFF CD">
                                                                                         <StackPanel Width="200" Margin="3">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2106,7 +2115,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:CountdownTimerCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="COUNTDOWN TIMER">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="COUNTDOWN TIMER">
                                                                                         <StackPanel Width="200" Margin="3">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2128,7 +2137,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:LastSpellCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="LAST SPELL">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="LAST SPELL">
                                                                                         <StackPanel Width="200" Margin="3">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2150,7 +2159,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:TargetNameCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET NAME">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET NAME">
                                                                                         <StackPanel Width="200" Margin="3">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2171,7 +2180,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:HasAuraCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET HAS AURA">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET HAS AURA">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2212,7 +2221,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:PlayerHasAuraCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER HAS AURA">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER HAS AURA">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2253,7 +2262,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:PlayerDoesNotHaveAuraCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER NO AURA">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="PLAYER NO AURA">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2283,7 +2292,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:DoesNotHaveAuraCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO AURA">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO AURA">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2313,7 +2322,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:HpPercentBelowCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HP % BELOW">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HP % BELOW">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2334,7 +2343,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:HpPercentBetweenCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HP % BETWEEN">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HP % BETWEEN">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2361,7 +2370,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:InInstanceCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN INSTANCE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN INSTANCE">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2382,7 +2391,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:HasPetCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HAS PET">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HAS PET">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2403,7 +2412,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:PlayerInCombatCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN COMBAT">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IN COMBAT">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2424,7 +2433,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:PlayerNotInCombatCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO COMBAT">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NO COMBAT">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2445,7 +2454,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:IsJobCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IS JOB">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IS JOB">
                                                                                         <StackPanel>
                                                                                             <StackPanel Orientation="Horizontal">
                                                                                                 <StackPanel>
@@ -2481,7 +2490,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:IsRoleCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IS ROLE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="IS ROLE">
                                                                                         <StackPanel Width="150">
                                                                                             <CheckBox Margin="3,0,0,0" Content="IS TANK" IsChecked="{Binding IsTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
                                                                                             <CheckBox Margin="3,3" Content="IS HEALER" IsChecked="{Binding IsHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
@@ -2499,7 +2508,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:EnemiesNearbyCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ENEMIES NEARBY">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ENEMIES NEARBY">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2534,7 +2543,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:TargetIsBossCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET BOSS">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="TARGET BOSS">
                                                                                         <StackPanel Width="200">
 
                                                                                             <TextBox CaretBrush="White"
@@ -2557,7 +2566,7 @@
                                                                                 </DataTemplate>
                                                                                 
                                                                                 <DataTemplate DataType="{x:Type conditions:MonkChakraCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="CHAKRA">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="CHAKRA">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2585,7 +2594,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:BardRepertoireCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="REPERTOIRE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="REPERTOIRE">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2613,7 +2622,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:MachinistHeatCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HEAT">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HEAT">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2641,7 +2650,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:DancerEspritCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ESPRIT">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="ESPRIT">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2669,7 +2678,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:DancerFeatherCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="FEATHER">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="FEATHER">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2697,7 +2706,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:DragoonGazeCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="GAZE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="GAZE">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2725,7 +2734,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:DragoonGaugeTimerCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="DRAGOON GAUGE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="DRAGOON GAUGE">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2753,7 +2762,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:NinjaHutonCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HUTON">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="HUTON">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2782,7 +2791,7 @@
 
 
                                                                                 <DataTemplate DataType="{x:Type conditions:NinjaNinkiCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NINKI">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NINKI">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2811,7 +2820,7 @@
 
 
                                                                                 <DataTemplate DataType="{x:Type conditions:SamuraiKenkiCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="KENKI">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="KENKI">
                                                                                         <StackPanel Width="200">
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2839,7 +2848,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:SamuraiSenCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="SEN">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="SEN">
                                                                                         <StackPanel Width="250">
                                                                                             <StackPanel Orientation="Horizontal">
                                                                                                 <CheckBox Margin="3" Content="HAS GETSU" IsChecked="{Binding HasGetsu, Mode=TwoWay}" Style="{DynamicResource CheckBoxGambits}" />
@@ -2860,7 +2869,7 @@
                                                                                 </DataTemplate>
 
                                                                                 <DataTemplate DataType="{x:Type conditions:NotInInstanceCondition}">
-                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Success}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NOT IN INSTANCE">
+                                                                                    <ComboBox Margin="3,0,0,0" Background="{DynamicResource Info}" Style="{DynamicResource ComboBoxGambitCondition}" Tag="NOT IN INSTANCE">
                                                                                         <StackPanel>
                                                                                             <TextBox CaretBrush="White"
                                                                                                      FontSize="10"
@@ -2885,7 +2894,7 @@
                                                                         </ItemsControl>
 
                                                                         <!--  Gambit Add Conditions Button  -->
-                                                                        <ComboBox Grid.Row="1" Grid.Column="7" Margin="3,0,0,0" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxGambitAddCondition}">
+                                                                        <ComboBox Grid.Row="1" Grid.Column="8" Margin="3,0,0,0" HorizontalAlignment="Left" Style="{DynamicResource ComboBoxGambitAddCondition}">
                                                                             <StackPanel>
                                                                                 <StackPanel Margin="3" Orientation="Horizontal">
                                                                                     <StackPanel>
@@ -3389,15 +3398,7 @@
                                                                                 </StackPanel>
                                                                             </StackPanel>
                                                                         </ComboBox>
-
-                                                                        <!--  Gambit Enabled/Disabled  -->
-                                                                        <CheckBox Grid.Row="1" 
-                                                                                  Grid.Column="8" 
-                                                                                  Content="" 
-                                                                                  HorizontalAlignment="Right"
-                                                                                  IsChecked="{Binding IsEnabled, Mode=TwoWay}" 
-                                                                                  Style="{DynamicResource CheckBoxFlat}" />
-                                                                        
+                                                                       
                                                                         <!--  Gambit Extra Settings Button  -->
                                                                         <ComboBox Grid.Row="1" Grid.Column="9" Margin="3,0,0,0" HorizontalAlignment="Right" Style="{DynamicResource ComboBoxGambitAdditionalSettings}">
                                                                             <StackPanel Margin="3">
