@@ -332,6 +332,14 @@ namespace Magitek.Models.Sage
         public int AoeNeedHealingFullParty { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool DisableSingleHealWhenAoeNeedHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float AoEHealHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool HealingBuffsLimitAtOnce { get; set; }
 

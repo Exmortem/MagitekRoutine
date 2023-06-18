@@ -93,12 +93,27 @@ namespace Magitek.Logic.Sage
             return true;
         }
 
-        public static async Task<bool> Diagnosis()
+        public static bool NeedAoEHealing()
+        {
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.AoEHealHealthPercent);
+
+            var needAoEHealing = targets.Count() >= AoeNeedHealing;
+
+            if (needAoEHealing)
+                return true;
+
+            return false;
+        }
+
+            public static async Task<bool> Diagnosis()
         {
             if (!SageSettings.Instance.Diagnosis)
                 return false;
 
             if (SageSettings.Instance.DiagnosisOnlyBelowXAddersgall && Addersgall > SageSettings.Instance.DiagnosisOnlyAddersgallValue)
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -123,6 +138,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!IsEukrasiaReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -282,6 +300,9 @@ namespace Magitek.Logic.Sage
             if (!spell.IsKnownAndReady())
                 return false;
 
+            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+                return false;
+
             var targets = Spells.PhysisII.IsKnown()
                 ? Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura))
                 : Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura));
@@ -303,6 +324,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!Spells.Druochole.IsKnownAndReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -430,6 +454,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!Spells.Taurochole.IsKnownAndReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
