@@ -51,7 +51,9 @@
                 <StackPanel  Margin="0,3">
                     <CheckBox Content="Phantom Kamaitachi " IsChecked="{Binding NinjaSettings.UsePhantomKamaitachi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
+
             </StackPanel>
+          
         </controls:SettingsBlock>
 
     </StackPanel>

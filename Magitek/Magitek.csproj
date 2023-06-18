@@ -180,7 +180,6 @@
     <Compile Include="Enumerations\SummonerPets.cs" />
     <Compile Include="Enumerations\SummonerState.cs" />
     <Compile Include="Enumerations\TankBusterStrategies.cs" />
-    <Compile Include="Enumerations\TcjMode.cs" />
     <Compile Include="Extensions\CharacterExtensions.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />

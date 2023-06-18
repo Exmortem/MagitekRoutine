@@ -1,8 +1,11 @@
 ﻿using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.Objects;
+using Magitek.Enumerations;
 using Magitek.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Magitek.Utilities.Routines
@@ -13,10 +16,8 @@ namespace Magitek.Utilities.Routines
 
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
-        public static int TCJState = 0;
-        public static double ninki;
-        public static bool OnGcd => Spells.SpinningEdge.Cooldown > TimeSpan.FromMilliseconds(100);
-        public static bool CanCastNinjutsu => SpellDataExtensions.CanCast(Spells.Ninjutsu, null);
+
+        public static List<SpellData> UsedMudras = new List<SpellData>();
 
         public static void RefreshVars()
         {
@@ -25,7 +26,7 @@ namespace Magitek.Utilities.Routines
 
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
-            ninki = ActionResourceManager.Ninja.NinkiGauge;
+
         }
     }
 }

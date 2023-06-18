@@ -38,16 +38,7 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
-            if (!NinjaSettings.Instance.UseHutonOutsideOfCombat)
-                return false;
-
-            if (NinjaSettings.Instance.UseHutonOutsideOfCombat)
-            {
-                if (WorldManager.InSanctuary)
-                    return false;
-            }
-
-            return Ninjutsu.Huton();
+            return true;
         }
 
         public static async Task<bool> Pull()
@@ -76,6 +67,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
@@ -104,67 +96,14 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            //LimitBreak
-            if (SingleTarget.ForceLimitBreak()) return true;
+            #region Ninjustsus
 
-            //GCD Huton
-            if (await SingleTarget.Huraijin()) return true;
+            if (await Ninjutsu.Huton()) return true;
 
-            //Buff
-            if (Ninjutsu.Huton()) return true;
-            if (Ninjutsu.Suiton()) return true;
+            #endregion
 
-            //Utility
-            if (await Utility.ForceShadeShift()) return true;
-            if (await Utility.ForceTrueNorth()) return true;
-            if (await Utility.ForceSecondWind()) return true;
-            if (await Utility.ForceBloodBath()) return true;
-            if (await Utility.ForceFeint()) return true;
-
-            if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
-            if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
-            if (await PhysicalDps.Bloodbath(NinjaSettings.Instance)) return true;
-
-            if (NinjaRoutine.GlobalCooldown.CanWeave(1))
-            {
-                if (await Utility.ShadeShift()) return true;
-                if (await Utility.TrueNorth()) return true;
-                if (await Buff.UsePotion()) return true;
-
-                if (await Buff.Bunshin()) return true;
-                if (await Buff.Meisui()) return true;
-                if (await Buff.Kassatsu()) return true;
-
-                if (await SingleTarget.Mug()) return true;
-                if (await SingleTarget.TrickAttack()) return true;
-            }
-
-            //AOE
-            if (await Aoe.PhantomKamaitachi()) return true;
-            if (await Aoe.HellfrogMedium()) return true;
-            if (Ninjutsu.GokaMekkyaku()) return true;
-            if (Ninjutsu.Doton()) return true;
-            if (Ninjutsu.Katon()) return true;
-
-            //Single Target
-            if (await SingleTarget.DreamWithinADream()) return true;
-            if (await SingleTarget.FleetingRaiju()) return true;
-            if (await SingleTarget.Bhavacakra()) return true;
-            if (Ninjutsu.HyoshoRanryu()) return true;
-            if (Ninjutsu.Raiton()) return true;
-            if (Ninjutsu.FumaShuriken()) return true;
-
-            //TCJ
-            if (await Ninjutsu.TenChiJin()) return true;
-
-            if (await Aoe.HakkeMujinsatsu()) return true;
-            if (await Aoe.DeathBlossom()) return true;
-
-            //Melee Combo
-            if (await SingleTarget.ArmorCrush()) return true;
-            if (await SingleTarget.AeolianEdge()) return true;
-            if (await SingleTarget.GustSlash()) return true;
-            return await SingleTarget.SpinningEdge();
+            return false;
+            
         }
 
         public static async Task<bool> PvP()
