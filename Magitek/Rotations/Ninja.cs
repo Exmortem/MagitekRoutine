@@ -36,7 +36,9 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
-            return true;
+            if (await Ninjutsu.Huton()) return true;
+
+            return false;
         }
 
         public static async Task<bool> Pull()
@@ -94,6 +96,31 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
+            
+
+            #region oGCD
+
+            if (NinjaRoutine.GlobalCooldown.CanWeave())
+            {
+                if (await SingleTarget.Mug()) return true;
+                if (await SingleTarget.TrickAttack()) return true;
+                if (await SingleTarget.DreamWithinaDream()) return false;
+
+                if (await Ninjutsu.TenChiJin()) return true;
+                if (await Buff.Kassatsu()) return true;
+                //Ninki Spender
+                if (await Buff.Bunshin()) return true;
+                if (await Buff.Meisui()) return true;
+            }
+
+            #endregion
+
+            #region ForceSkills GCD
+
+
+
+            #endregion
+
             #region Ninjustsus
 
             #region TenChiJin Nunjutsus
@@ -113,22 +140,6 @@ namespace Magitek.Rotations
             if (await Ninjutsu.Huton()) return true;
             if (await Ninjutsu.Suiton()) return true;
             if (await Ninjutsu.Raiton()) return true;
-
-            #endregion
-
-            #region oGCD
-
-            if (NinjaRoutine.GlobalCooldown.CanWeave())
-            {
-                if (await SingleTarget.Mug()) return true;
-                if (await SingleTarget.TrickAttack()) return true;
-
-                if (await Ninjutsu.TenChiJin()) return true;
-                if (await Buff.Kassatsu()) return true;
-                //Ninki Spender
-                if (await Buff.Bunshin()) return true;
-                if (await Buff.Meisui()) return true;
-            }
 
             #endregion
 
