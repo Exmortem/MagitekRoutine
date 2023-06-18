@@ -23,7 +23,8 @@ namespace Magitek.Utilities.Routines
         public static void RefreshVars()
         {
 
-            if (!Core.Me.HasMyAura(Auras.Mudra) && !TenChiJin && UsedMudras.Count() > 0)
+            if (UsedMudras.Count() > 0 && !new List<SpellData>() { Spells.Ten, Spells.Chi, Spells.Jin }.Contains(Casting.SpellCastHistory.First().Spell) && !Core.Me.HasMyAura(Auras.Mudra)
+                && !TenChiJin )
             {
                 UsedMudras.Clear();
             }
@@ -31,7 +32,7 @@ namespace Magitek.Utilities.Routines
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
-            if (!TenChiJin && Casting.SpellCastHistory.First().Spell == Spells.TenChiJin)
+            if (!TenChiJin && Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell == Spells.TenChiJin)
             {
                 TenChiJin = true;
             }
