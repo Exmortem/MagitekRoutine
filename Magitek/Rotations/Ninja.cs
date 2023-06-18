@@ -114,6 +114,7 @@ namespace Magitek.Rotations
             {
                 if (await Ninjutsu.TenChiJin()) return true;
                 if (await Buff.Kassatsu()) return true;
+                if (await Buff.Bunshin()) return true;
             }
 
             #endregion
