@@ -120,6 +120,7 @@ namespace Magitek.Rotations
 
             #region GCD
 
+            if (await Aoe.HellfrogMedium()) return true;
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
