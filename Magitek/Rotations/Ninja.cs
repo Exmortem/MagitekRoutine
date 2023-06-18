@@ -104,6 +104,12 @@ namespace Magitek.Rotations
 
             #endregion
 
+            #region Kassatsu Ninjutsus
+
+            if (await Ninjutsu.HyoshoRanryu()) return true;
+
+            #endregion
+
             if (await Ninjutsu.Huton()) return true;
 
             #endregion
@@ -114,15 +120,20 @@ namespace Magitek.Rotations
             {
                 if (await Ninjutsu.TenChiJin()) return true;
                 if (await Buff.Kassatsu()) return true;
+                //Ninki Spender
                 if (await Buff.Bunshin()) return true;
             }
 
             #endregion
 
             #region GCD
+            //Ninki Spender
             //Both missing logic for target count
             if (await SingleTarget.Bhavacakra()) return true;
             if (await Aoe.HellfrogMedium()) return true;
+
+            //Non Ninki
+            if (await Aoe.PhantomKamaitachi()) return true;
 
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
