@@ -114,5 +114,21 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        public static async Task<bool> ForkedRaiju()
+        {
+
+            if (Core.Me.ClassLevel < 90)
+                return false;
+
+            if (!Spells.ForkedRaiju.IsKnown())
+                return false;
+
+            if (!Core.Me.HasMyAura(Auras.RaijuReady))
+                return false;
+
+            return await Spells.ForkedRaiju.Cast(Core.Me.CurrentTarget);
+
+        }
+
     }
 }
