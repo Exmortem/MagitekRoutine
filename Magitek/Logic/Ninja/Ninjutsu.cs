@@ -102,7 +102,8 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             //Dont use TCJ when under the affect of kassatsu or in process building a ninjutsu
-            if (Core.Me.HasMyAura(Auras.Kassatsu) || Core.Me.HasMyAura(Auras.Mudra))
+            if ( ( Core.Me.HasMyAura(Auras.Kassatsu) || (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell == Spells.Kassatsu) )
+                || Core.Me.HasMyAura(Auras.Mudra) || NinjaRoutine.UsedMudras.Count() > 0)
                 return false;
 
             if (!Spells.TenChiJin.IsKnown())
@@ -161,6 +162,12 @@ namespace Magitek.Logic.Ninja
             }
             return false;
         }
+
+        #endregion
+
+        #region Kassatsu
+
+
 
         #endregion
 
