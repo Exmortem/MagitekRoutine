@@ -270,6 +270,9 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
                 return false;
 
+            if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
             switch (NinjaRoutine.UsedMudras.Count)
             {
 
