@@ -90,8 +90,8 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Bhavacakra.IsKnown())
                 return false;
 
-            //dumping ninki before mug is missung
-            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90)
+            //dumping Bhavacakra during Burst Window is missing
+            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90 || (Spells.Mug.Cooldown > new TimeSpan(0, 0, 7) && MagitekActionResourceManager.Ninja.NinkiGauge + 40 < 90 ))
                 return false;
 
             //Smart Target Logic needs to be addded
