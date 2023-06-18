@@ -56,6 +56,7 @@ namespace Magitek.Logic.Ninja
         }
 
         //Flank Modifier
+        //should be used over aeolian edge if no true north or not in rear
         public static async Task<bool> ArmorCrush()
         {
 
