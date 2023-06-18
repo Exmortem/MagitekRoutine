@@ -21,6 +21,11 @@ namespace Magitek.Utilities.Routines
 
         public static void RefreshVars()
         {
+            if (!Core.Me.InCombat && UsedMudras.Count() > 0 && !Core.Me.HasMyAura(Auras.Mudra))
+            {
+                UsedMudras.Clear();
+            }
+
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
 
