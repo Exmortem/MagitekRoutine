@@ -232,6 +232,71 @@ namespace Magitek.Logic.Ninja
 
         #endregion
 
+        public static async Task<bool> Raiton()
+        {
+
+            //if (!NinjaSettings.Instance.UseHuton)
+            //    return false;
+
+            if (Core.Me.ClassLevel < 35)
+                return false;
+
+            if (!Spells.Chi.IsKnown())
+                return false;
+
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
+                return false;
+
+            if ( Spells.Chi.Charges < 1.8 && NinjaRoutine.UsedMudras.Count() == 0)
+                return false;
+
+            switch (NinjaRoutine.UsedMudras.Count)
+            {
+
+                case 0:
+                    if (await Spells.Ten.Cast(Core.Me))
+                    {
+                        NinjaRoutine.UsedMudras.Add(Spells.Ten);
+                        return true;
+                    }
+                    return false;
+
+                case 1:
+                    if (NinjaRoutine.UsedMudras.Last() == Spells.Ten)
+                    {
+                        if (await Spells.Chi.Cast(Core.Me))
+                        {
+                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
+                            return true;
+                        }
+                    }
+                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Jin)
+                    {
+                        if (await Spells.Chi.Cast(Core.Me))
+                        {
+                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
+                            return true;
+                        }
+                    }
+                    return false;
+
+
+                case 2:
+                    if (await Spells.Ninjutsu.Cast(Core.Me.CurrentTarget))
+                    {
+                        NinjaRoutine.UsedMudras.Clear();
+                        return true;
+                    }
+                    return false;
+
+                default:
+                    break;
+            }
+
+            return false;
+
+        }
+
 
     }
 }
