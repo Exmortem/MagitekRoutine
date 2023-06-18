@@ -123,6 +123,7 @@ namespace Magitek.Rotations
                 if (await Buff.Kassatsu()) return true;
                 //Ninki Spender
                 if (await Buff.Bunshin()) return true;
+                if (await Buff.Meisui()) return true;
             }
 
             #endregion
