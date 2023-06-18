@@ -1,8 +1,9 @@
-﻿using ff14bot;
-using Magitek.Extensions;
-using Magitek.Utilities;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ff14bot;
+using Magitek.Extensions;
+using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 
 
@@ -50,6 +51,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (MagitekActionResourceManager.Ninja.NinkiGauge + 50 > 100)
+                return false;
+
+            if (Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 20))
                 return false;
 
             //what about trick and mug?
