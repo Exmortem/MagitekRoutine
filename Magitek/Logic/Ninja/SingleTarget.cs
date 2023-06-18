@@ -97,5 +97,22 @@ namespace Magitek.Logic.Ninja
             return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
         }
 
+        //Missing range check
+        public static async Task<bool> FleetingRaiju()
+        {
+
+            if (Core.Me.ClassLevel < 90)
+                return false;
+
+            if (!Spells.FleetingRaiju.IsKnown())
+                return false;
+
+            if (!Core.Me.HasMyAura(Auras.RaijuReady))
+                return false;
+
+            return await Spells.FleetingRaiju.Cast(Core.Me.CurrentTarget);
+
+        }
+
     }
 }
