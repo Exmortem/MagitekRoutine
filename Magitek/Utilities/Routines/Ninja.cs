@@ -12,7 +12,7 @@ namespace Magitek.Utilities.Routines
 {
     internal static class Ninja
     {
-        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Ninja, Spells.SpinningEdge);
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Ninja, Spells.SpinningEdge, new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi, Spells.Ninjutsu });
 
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
