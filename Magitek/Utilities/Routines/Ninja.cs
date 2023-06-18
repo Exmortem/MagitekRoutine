@@ -2,7 +2,6 @@
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using System;
 using System.Collections.Generic;
@@ -17,17 +16,29 @@ namespace Magitek.Utilities.Routines
         public static int AoeEnemies5Yards;
         public static int AoeEnemies8Yards;
 
+        private static bool TenChiJin = false;
+
         public static List<SpellData> UsedMudras = new List<SpellData>();
 
         public static void RefreshVars()
         {
-            if (!Core.Me.InCombat && UsedMudras.Count() > 0 && !Core.Me.HasMyAura(Auras.Mudra))
+
+            if (!Core.Me.HasMyAura(Auras.Mudra) && !TenChiJin && UsedMudras.Count() > 0)
             {
                 UsedMudras.Clear();
             }
 
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
                 return;
+
+            if (!TenChiJin && Casting.SpellCastHistory.First().Spell == Spells.TenChiJin)
+            {
+                TenChiJin = true;
+            }
+            if (TenChiJin && Core.Me.HasMyAura(Auras.TenChiJin))
+            {
+                TenChiJin = false;
+            }
 
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
             AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
