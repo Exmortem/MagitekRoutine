@@ -131,6 +131,19 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        public static async Task<bool> Mug()
+        {
+
+            if (Core.Me.ClassLevel < 15)
+                return false;
+
+            if (!Spells.Mug.IsKnown())
+                return false;
+
+            return await Spells.Mug.Cast(Core.Me.CurrentTarget);
+
+        }
+
         public static async Task<bool> TrickAttack()
         {
 
