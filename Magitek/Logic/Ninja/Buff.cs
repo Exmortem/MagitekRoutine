@@ -40,5 +40,23 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        public static async Task<bool> Meisui()
+        {
+
+            if (Core.Me.ClassLevel < 72)
+                return false;
+
+            if (!Spells.Meisui.IsKnown())
+                return false;
+
+            if (MagitekActionResourceManager.Ninja.NinkiGauge + 50 > 100)
+                return false;
+
+            //what about trick and mug?
+
+            return await Spells.Meisui.Cast(Core.Me);
+
+        }
+
     }
 }
