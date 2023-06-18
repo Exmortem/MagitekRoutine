@@ -98,5 +98,77 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        #region TenChiJin
+
+        public static async Task<bool> TenChiJin()
+        {
+
+            if (Core.Me.ClassLevel < 70)
+                return false;
+
+            //Dont use TCJ when under the affect of kassatsu or in process building a ninjutsu
+            if (Core.Me.HasMyAura(Auras.Kassatsu) || Core.Me.HasMyAura(Auras.Mudra))
+                return false;
+
+            if (!Spells.TenChiJin.IsKnown())
+                return false;
+
+            return await Spells.TenChiJin.Cast(Core.Me);
+        }
+
+        public static async Task<bool> TenChiJin_FumaShuriken()
+        {
+
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count() >= 1)
+                return false;
+
+            if (await Spells.Ten.Cast(Core.Me.CurrentTarget))
+            {
+                NinjaRoutine.UsedMudras.Add(Spells.Ten);
+                return true;
+            }
+            return false;
+        }
+
+        public static async Task<bool> TenChiJin_Raiton()
+        {
+
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count() >= 2)
+                return false;
+
+            if (await Spells.Chi.Cast(Core.Me.CurrentTarget))
+            {
+                NinjaRoutine.UsedMudras.Add(Spells.Chi);
+                return true;
+            }
+            return false;
+        }
+
+        public static async Task<bool> TenChiJin_Suiton()
+        {
+
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count() >= 3)
+                return false;
+
+            if (await Spells.Jin.Cast(Core.Me.CurrentTarget))
+            {
+                NinjaRoutine.UsedMudras.Add(Spells.Jin);
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
+
+
     }
 }
