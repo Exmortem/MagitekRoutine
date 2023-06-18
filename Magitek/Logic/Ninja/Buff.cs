@@ -20,10 +20,23 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Kassatsu.IsKnown())
                 return false;
 
-            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || NinjaRoutine.UsedMudras.Count() > 0)
+            if (Core.Me.HasAura(Auras.TenChiJin) || NinjaRoutine.UsedMudras.Count() > 0)
                 return false;
 
             return await Spells.Kassatsu.Cast(Core.Me);
+
+        }
+
+        public static async Task<bool> Bunshin()
+        {
+
+            if (Core.Me.ClassLevel < 80)
+                return false;
+
+            if (!Spells.Bunshin.IsKnown())
+                return false;
+
+            return await Spells.Bunshin.Cast(Core.Me);
 
         }
 
