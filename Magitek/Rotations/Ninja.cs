@@ -98,7 +98,24 @@ namespace Magitek.Rotations
 
             #region Ninjustsus
 
+            #region TenChiJin Nunjutsus
+
+            if (await Ninjutsu.TenChiJin_FumaShuriken()) return true;
+            if (await Ninjutsu.TenChiJin_Raiton()) return true;
+            if (await Ninjutsu.TenChiJin_Suiton()) return true;
+
+            #endregion
+
             if (await Ninjutsu.Huton()) return true;
+
+            #endregion
+
+            #region oGCD
+
+            if (NinjaRoutine.GlobalCooldown.CanWeave())
+            {
+                if (await Ninjutsu.TenChiJin()) return true;
+            }
 
             #endregion
 
