@@ -167,6 +167,8 @@ namespace Magitek.Logic.Ninja
 
         #region Kassatsu
 
+
+        //Missing target count logic
         public static async Task<bool> HyoshoRanryu()
         {
 

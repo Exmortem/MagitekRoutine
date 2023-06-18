@@ -127,6 +127,9 @@ namespace Magitek.Rotations
             #endregion
 
             #region GCD
+
+            if (await SingleTarget.FleetingRaiju()) return true;
+
             //Ninki Spender
             //Both missing logic for target count
             if (await SingleTarget.Bhavacakra()) return true;
