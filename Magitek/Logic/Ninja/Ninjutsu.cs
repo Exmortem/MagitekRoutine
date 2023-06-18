@@ -110,7 +110,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            if (Spells.TrickAttack.AdjustedCooldown >= new TimeSpan(0, 0, 12))
+            if (Spells.TrickAttack.Cooldown >= new TimeSpan(0, 0, 12))
                 return false;
 
             if (Core.Me.HasMyAura(Auras.Suiton))
@@ -140,7 +140,7 @@ namespace Magitek.Logic.Ninja
                     {
                         if (await Spells.Ten.Cast(Core.Me))
                         {
-                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
+                            NinjaRoutine.UsedMudras.Add(Spells.Ten);
                             return true;
                         }
                     }
