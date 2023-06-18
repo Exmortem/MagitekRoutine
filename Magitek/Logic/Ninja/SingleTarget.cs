@@ -1,10 +1,11 @@
-﻿using ff14bot;
+﻿using System.Threading.Tasks;
+using System.Linq;
+using System;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
-using System.Threading.Tasks;
-using System.Linq;
-using System;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
@@ -128,6 +129,24 @@ namespace Magitek.Logic.Ninja
 
             return await Spells.ForkedRaiju.Cast(Core.Me.CurrentTarget);
 
+        }
+
+        public static async Task<bool> TrickAttack()
+        {
+
+            if (Core.Me.ClassLevel < 18)
+                return false;
+
+            if (!Spells.TrickAttack.IsKnown())
+                return false;
+
+            if (!NinjaRoutine.GlobalCooldown.CanWeaveLate(2))
+                return false;
+
+            if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
+            return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
         }
 
     }
