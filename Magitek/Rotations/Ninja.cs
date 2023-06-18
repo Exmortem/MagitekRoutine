@@ -10,8 +10,6 @@ using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Samurai;
-using Magitek.Models.Monk;
 
 namespace Magitek.Rotations
 {

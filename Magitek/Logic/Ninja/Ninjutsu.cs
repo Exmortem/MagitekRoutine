@@ -1,11 +1,6 @@
-﻿using Buddy.Coroutines;
-using Clio.Utilities.Helpers;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.Ninja;
-using Magitek.Models.QueueSpell;
-using Magitek.Toggles;
 using Magitek.Utilities;
 using System;
 using System.Linq;
