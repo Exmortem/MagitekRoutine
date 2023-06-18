@@ -1,18 +1,30 @@
 ﻿using ff14bot;
 using Magitek.Extensions;
-using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Threading.Tasks;
-using ff14bot.Managers;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
-using Magitek.Logic.Roles;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
+
 
 namespace Magitek.Logic.Ninja
 {
     internal static class Buff
     {
         
+        public static async Task<bool> Kassatsu()
+        {
 
+            if (Core.Me.ClassLevel < 50)
+                return false;
+
+            if (!Spells.Kassatsu.IsKnown())
+                return false;
+
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || NinjaRoutine.)
+                return false;
+
+            return await Spells.Kassatsu.Cast(Core.Me);
+
+        }
 
     }
 }
