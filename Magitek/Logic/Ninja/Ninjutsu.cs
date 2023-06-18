@@ -167,7 +167,66 @@ namespace Magitek.Logic.Ninja
 
         #region Kassatsu
 
+        public static async Task<bool> HyoshoRanryu()
+        {
 
+            //if (!NinjaSettings.Instance.UseHuton)
+            //    return false;
+
+            if (Core.Me.ClassLevel < 76)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
+                return false;
+
+            switch (NinjaRoutine.UsedMudras.Count)
+            {
+
+                case 0:
+                    if (await Spells.Chi.Cast(Core.Me))
+                    {
+                        NinjaRoutine.UsedMudras.Add(Spells.Chi);
+                        return true;
+                    }
+                    return false;
+
+                case 1:
+                    if (NinjaRoutine.UsedMudras.Last() == Spells.Ten)
+                    {
+                        if (await Spells.Jin.Cast(Core.Me))
+                        {
+                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
+                            return true;
+                        }
+                    }
+                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
+                    {
+                        if (await Spells.Jin.Cast(Core.Me))
+                        {
+                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
+                            return true;
+                        }
+                    }
+                    return false;
+
+                case 2:
+                    if (await Spells.Ninjutsu.Cast(Core.Me.CurrentTarget))
+                    {
+                        NinjaRoutine.UsedMudras.Clear();
+                        return true;
+                    }
+                    return false;
+
+                default:
+                    break;
+            }
+
+            return false;
+
+        }
 
         #endregion
 
