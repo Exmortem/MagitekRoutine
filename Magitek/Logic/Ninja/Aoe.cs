@@ -5,6 +5,7 @@ using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Magitek.Logic.Ninja
 {
@@ -26,6 +27,25 @@ namespace Magitek.Logic.Ninja
 
             //Smart Target Logic needs to be addded
             return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> PhantomKamaitachi()
+        {
+
+            if (Core.Me.ClassLevel < 82)
+                return false;
+
+            if (!Spells.PhantomKamaitachi.IsKnown())
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer.Add(new TimeSpan(0, 0, 10)) > new TimeSpan(0, 1, 0))
+                return false;
+
+            if (!Core.Me.HasMyAura(Auras.PhantomKamaitachiReady) && Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Bunshin)
+                return false;
+
+            return await Spells.PhantomKamaitachi.Cast(Core.Me.CurrentTarget);
+
         }
 
     }
