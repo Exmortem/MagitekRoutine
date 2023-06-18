@@ -130,6 +130,7 @@ namespace Magitek.Rotations
             #region GCD
 
             if (await SingleTarget.FleetingRaiju()) return true;
+            if (await SingleTarget.ForkedRaiju()) return true;
 
             //Ninki Spender
             //Both missing logic for target count
