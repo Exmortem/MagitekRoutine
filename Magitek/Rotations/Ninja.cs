@@ -102,6 +102,15 @@ namespace Magitek.Rotations
 
             #endregion
 
+            #region GCD
+
+            if (await SingleTarget.ArmorCrush()) return true;
+            if (await SingleTarget.AeolianEdge()) return true;
+            if (await SingleTarget.GustSlash()) return true;
+            if (await SingleTarget.SpinningEdge()) return true;
+
+            #endregion
+
             return false;
             
         }
