@@ -5,7 +5,6 @@ using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
@@ -22,7 +21,7 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             //dumping ninki before mug is missung
-            if (ActionResourceManager.Ninja.NinkiGauge < 90)
+            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90)
                 return false;
 
             //Smart Target Logic needs to be addded
