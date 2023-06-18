@@ -37,6 +37,9 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Bunshin.IsKnown())
                 return false;
 
+            if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
             return await Spells.Bunshin.Cast(Core.Me);
 
         }
