@@ -102,12 +102,14 @@ namespace Magitek.Rotations
 
             if (NinjaRoutine.GlobalCooldown.CanWeave())
             {
+                if (await Buff.Kassatsu()) return true;
+
                 if (await SingleTarget.Mug()) return true;
                 if (await SingleTarget.TrickAttack()) return true;
                 if (await SingleTarget.DreamWithinaDream()) return false;
 
                 if (await Ninjutsu.TenChiJin()) return true;
-                if (await Buff.Kassatsu()) return true;
+                
                 //Ninki Spender
                 if (await Buff.Bunshin()) return true;
                 if (await Buff.Meisui()) return true;
