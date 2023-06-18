@@ -113,6 +113,7 @@ namespace Magitek.Rotations
             if (NinjaRoutine.GlobalCooldown.CanWeave())
             {
                 if (await Ninjutsu.TenChiJin()) return true;
+                if (await Buff.Kassatsu()) return true;
             }
 
             #endregion
