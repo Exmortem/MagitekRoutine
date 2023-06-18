@@ -119,8 +119,10 @@ namespace Magitek.Rotations
             #endregion
 
             #region GCD
-
+            //Both missing logic for target count
+            if (await SingleTarget.Bhavacakra()) return true;
             if (await Aoe.HellfrogMedium()) return true;
+
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
