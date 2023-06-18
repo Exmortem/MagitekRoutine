@@ -140,6 +140,9 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Mug.IsKnown())
                 return false;
 
+            if (MagitekActionResourceManager.Ninja.NinkiGauge + 40 > 100)
+                return false;
+
             return await Spells.Mug.Cast(Core.Me.CurrentTarget);
 
         }
@@ -153,8 +156,7 @@ namespace Magitek.Logic.Ninja
             if (!Spells.TrickAttack.IsKnown())
                 return false;
 
-            if (!NinjaRoutine.GlobalCooldown.CanWeaveLate(2))
-                return false;
+            //Missing logic for weaving late
 
             if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
