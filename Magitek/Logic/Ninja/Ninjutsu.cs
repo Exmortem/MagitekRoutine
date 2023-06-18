@@ -192,6 +192,9 @@ namespace Magitek.Logic.Ninja
             if (!Spells.TenChiJin.IsKnown())
                 return false;
 
+            if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
             return await Spells.TenChiJin.Cast(Core.Me);
         }
 
