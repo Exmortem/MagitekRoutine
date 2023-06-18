@@ -1,4 +1,5 @@
-﻿using ff14bot;
+﻿using Buddy.Coroutines;
+using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -18,13 +19,16 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.ClassLevel < Spells.Tillana.LevelAcquired) 
                 return false;
 
-            if (!Core.Me.HasAura(Auras.FlourishingFinish)) 
+            if (!Core.Me.HasAura(Auras.FlourishingFinish))
+                return false;
+
+            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
             if (!Core.Me.HasAura(Auras.Devilment)) 
                 return false;
 
-            if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep)) 
+            if (Spells.Flourish.IsKnownAndReady())
                 return false;
 
             if (ActionResourceManager.Dancer.Esprit >= 100)
@@ -35,35 +39,28 @@ namespace Magitek.Logic.Dancer
 
         public static async Task<bool> StandardStep()
         {
-            if (!DancerSettings.Instance.UseStandardStep) 
+            if (!DancerSettings.Instance.UseStandardStep)
                 return false;
 
-            if (!Spells.StandardStep.IsKnownAndReady()) 
+            if (!Spells.StandardStep.IsKnown())
+                return false;
+
+            if (!Spells.StandardStep.IsReady(400))
                 return false;
 
             //Do not Standard Step if there 3+ Ennemies unless StandardStep Auras is finishing
             if (DancerSettings.Instance.UseAoe && Combat.Enemies.Count(r => r.Distance(Core.Me) <= Spells.StandardFinish.Radius + r.CombatReach) >= 3)
             {
-                Aura StandardStepAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.CasterId == Core.Player.ObjectId && x.Id == Auras.StandardStep);
+                var StandardStepAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.CasterId == Core.Player.ObjectId && x.Id == Auras.StandardStep);
                 if (Core.Me.HasAura(Auras.StandardStep, true) && StandardStepAura.TimespanLeft.TotalMilliseconds > 5000)
                     return false;
             }
 
-            if (Core.Me.HasAura(Auras.StandardStep)) 
+            if (Core.Me.HasAura(Auras.StandardStep))
                 return false;
 
-            if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) 
+            if (Core.Me.HasAura(Auras.FlourishingStarfall, true))
                 return false;
-
-            Aura TechnicalFinishAura = (Core.Me as Character).Auras.FirstOrDefault(x => x.CasterId == Core.Player.ObjectId && x.Id == Auras.TechnicalFinish);
-            if (Core.Me.HasAura(Auras.TechnicalFinish, true))
-            {
-                if (Core.Me.HasAura(Auras.SilkenSymmetry, true) || Core.Me.HasAura(Auras.SilkenFlow, true) || ActionResourceManager.Dancer.Esprit >= 50)
-                    return false;
-
-                if (TechnicalFinishAura.TimespanLeft.TotalMilliseconds >= 4000)
-                    return false;
-            }
 
             if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
                 return false;
@@ -80,16 +77,22 @@ namespace Magitek.Logic.Dancer
                     return false;
             }
 
+            if (!await Coroutine.Wait(1000, () => ActionManager.CanCast(Spells.StandardStep.Id, Core.Me)))
+                return false;
+
             return await Spells.StandardStep.Cast(Core.Me);
         }
-
 
         public static async Task<bool> TechnicalStep()
         {
             if (!DancerSettings.Instance.UseTechnicalStep)
                 return false;
 
-            if (!Spells.TechnicalStep.IsKnownAndReady()) return false;
+            if (!Spells.TechnicalStep.IsKnown())
+                return false;
+
+            if (!Spells.TechnicalStep.IsReady(400))
+                return false;
 
             if (Core.Me.HasAura(Auras.TechnicalFinish, true))
                 return false;
@@ -101,9 +104,6 @@ namespace Magitek.Logic.Dancer
                 return false;
 
             if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
-                return false;
-
-            if (DancerSettings.Instance.DevilmentWithTechnicalStep && !Core.Me.HasAura(Auras.Devilment))
                 return false;
 
             if (Core.Me.HasAura(Auras.FlourishingStarfall, true)) return false;
@@ -118,8 +118,10 @@ namespace Magitek.Logic.Dancer
             {
                 if (6500 + (Spells.Cascade.AdjustedCooldown.TotalMilliseconds * procs.Count()) < procs.Min(x => x.TimeLeft))
                     return false;
-
             }
+
+            if (!await Coroutine.Wait(400, () => ActionManager.CanCast(Spells.TechnicalStep.Id, Core.Me)))
+                return false;
 
             return await Spells.TechnicalStep.Cast(Core.Me);
         }

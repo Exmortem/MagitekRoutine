@@ -19,14 +19,6 @@ namespace Magitek.Models.Dancer
         public bool UseDevilment { get; set; }
 
         [Setting]
-        [DefaultValue(false)]
-        public bool DevilmentWithFlourish { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool DevilmentWithTechnicalStep { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool UseFlourish { get; set; }
         #endregion

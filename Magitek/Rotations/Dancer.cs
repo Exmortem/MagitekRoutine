@@ -67,7 +67,9 @@ namespace Magitek.Rotations
             if (await Casting.TrackSpellCast()) return true;
             await Casting.CheckForSuccessfulCast();
 
-            if (await GambitLogic.Gambit()) return true;
+            if (await GambitLogic.Gambit())
+                return true;
+
             return false;
         }
 
@@ -100,7 +102,6 @@ namespace Magitek.Rotations
                 return false;
 
             if (await CustomOpenerLogic.Opener()) return true;
-            if (await GambitLogic.Gambit()) return true;
 
             //LimitBreak
             if (Aoe.ForceLimitBreak()) return true;
@@ -116,18 +117,19 @@ namespace Magitek.Rotations
             if (Core.Me.HasAura(Auras.StandardStep) || Core.Me.HasAura(Auras.TechnicalStep))
                 return false;
 
-            if (DancerRoutine.GlobalCooldown.CanWeave())
+            if ( (DancerRoutine.GlobalCooldown.CanWeave() && !Casting.SpellCastHistory.Take(2).Any(s => s.Spell == Spells.Tillana || s.Spell == Spells.DoubleStandardFinish || s.Spell == Spells.QuadrupleTechnicalFinish))
+                || (DancerRoutine.GlobalCooldown.CanWeave(1) && Casting.SpellCastHistory.Take(2).Any(s => s.Spell == Spells.Tillana || s.Spell == Spells.DoubleStandardFinish || s.Spell == Spells.QuadrupleTechnicalFinish)) )
             {
                 //utility
                 if (await PhysicalDps.Interrupt(DancerSettings.Instance)) return true;
                 if (await PhysicalDps.SecondWind(DancerSettings.Instance)) return true;
-                if (await Buff.UsePotion()) return true;
-                
+
                 //Buff
+                if (await Buff.UsePotion()) return true;
                 if (await Buff.Devilment()) return true;
-                if (await Buff.Flourish()) return true;
 
                 //OGCD
+                if (await Buff.Flourish()) return true;
                 if (await Aoe.FanDance4()) return true;
                 if (await Aoe.FanDance3()) return true;
                 if (await Aoe.FanDance2()) return true;

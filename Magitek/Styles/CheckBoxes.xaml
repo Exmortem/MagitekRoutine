@@ -140,6 +140,69 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CheckBoxIsActiveFlat" TargetType="{x:Type CheckBox}">
+        <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{DynamicResource Light}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Name="CheckboxBorder" Grid.Column="0" Width="16" Height="16" CornerRadius="2">
+                            <Grid>
+                                <Path Name="Checked"
+                                      Height="8"
+                                      Data="F1 M 0,110L 47.6667,62L 102,117.333L 218.667,0L 266,48L 102,212.333L 0,110 Z"
+                                      Fill="{DynamicResource Background}"
+                                      Opacity="0.90"
+                                      Stretch="Uniform"
+                                      UseLayoutRounding="False"
+                                      Visibility="Hidden">
+                                </Path>
+
+                                <Path Name="Unchecked"
+                                      Height="8"
+                                      Data="M7.1999998,0L16,8.7999997 24.799999,0 32,7.1999998 23.2,16 32,24.799999 24.799999,32 16,23.2 7.1999998,32 0,24.799999 8.7999997,16 0,7.1999998z"
+                                      Fill="{DynamicResource Background}"
+                                      Opacity="0.90"
+                                      Stretch="Uniform"
+                                      UseLayoutRounding="False"
+                                      Visibility="Hidden">
+                                </Path>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Padding="5,0,0,0">
+                            <ContentPresenter VerticalAlignment="Center" Content="{TemplateBinding Content}" />
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.Setters>
+                                <Setter TargetName="Checked" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="CheckboxBorder" Property="Background" Value="{DynamicResource Success}" />
+                                <Setter TargetName="CheckboxBorder" Property="BorderBrush" Value="{DynamicResource Success}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Trigger.Setters>
+                                <Setter TargetName="Unchecked" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="CheckboxBorder" Property="Background" Value="{DynamicResource Danger}" />
+                                <Setter TargetName="CheckboxBorder" Property="BorderBrush" Value="{DynamicResource Danger}" />
+                            </Trigger.Setters>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CheckBoxFlatSmall" TargetType="{x:Type CheckBox}">
         <Setter Property="FontFamily" Value="Segoe UI Symbol" />
         <Setter Property="FontWeight" Value="Normal" />
