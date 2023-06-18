@@ -6,6 +6,7 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
+using Magitek.Gambits.Conditions;
 
 namespace Magitek.Logic.Ninja
 {
@@ -138,6 +139,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (!Spells.Mug.IsKnown())
+                return false;
+
+            if (Combat.CombatTime.ElapsedMilliseconds < Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds * 2)
                 return false;
 
             if (MagitekActionResourceManager.Ninja.NinkiGauge + 40 > 100)
