@@ -161,7 +161,25 @@ namespace Magitek.Logic.Ninja
             if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
+            if (Spells.Bunshin.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
             return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> DreamWithinaDream()
+        {
+
+            if (Core.Me.ClassLevel < 56)
+                return false;
+
+            if (!Spells.DreamWithinaDream.IsKnown())
+                return false;
+
+            if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
+            return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);
         }
 
     }
