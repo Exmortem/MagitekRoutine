@@ -78,6 +78,24 @@ namespace Magitek.Logic.Ninja
         }
 
         #endregion
+        
+        //Missing logic for st and mt
+        public static async Task<bool> Bhavacakra()
+        {
+
+            if (Core.Me.ClassLevel < 68)
+                return false;
+
+            if (!Spells.Bhavacakra.IsKnown())
+                return false;
+
+            //dumping ninki before mug is missung
+            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90)
+                return false;
+
+            //Smart Target Logic needs to be addded
+            return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
+        }
 
     }
 }
