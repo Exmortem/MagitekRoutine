@@ -23,10 +23,34 @@ namespace Magitek.Utilities.Routines
         public static void RefreshVars()
         {
 
-            if (UsedMudras.Count() > 0 && !new List<SpellData>() { Spells.Ten, Spells.Chi, Spells.Jin }.Contains(Casting.SpellCastHistory.First().Spell) && !Core.Me.HasMyAura(Auras.Mudra)
-                && !TenChiJin )
+            switch (UsedMudras.Count)
             {
-                UsedMudras.Clear();
+                case 0:
+                    break; 
+
+                case 1:
+
+                    if (Core.Me.HasMyAura(Auras.Mudra))
+                        break;
+
+                    if (!Core.Me.HasMyAura(Auras.Mudra) && new List<SpellData>() { Spells.Ten, Spells.Chi, Spells.Jin }.Contains(Casting.SpellCastHistory.First().Spell))
+                        break;
+
+                    UsedMudras.Clear();
+                    break;
+
+                case 2:
+
+                case 3:
+
+                    if (Core.Me.HasMyAura(Auras.Mudra))
+                        break;
+
+                    UsedMudras.Clear();
+                    break;
+
+                default:
+                    break;
             }
 
             if (!Core.Me.InCombat || !Core.Me.HasTarget)
