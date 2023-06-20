@@ -195,6 +195,9 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
+            if (Spells.Chi.Charges >= 1f)
+                return false;
+
             return await Spells.TenChiJin.Cast(Core.Me);
         }
 
@@ -253,7 +256,6 @@ namespace Magitek.Logic.Ninja
 
         #region Kassatsu
 
-
         //Missing target count logic
         public static async Task<bool> HyoshoRanryu()
         {
@@ -271,6 +273,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
+            if (ActionManager.LastSpell == Spells.GustSlash) 
                 return false;
 
             switch (NinjaRoutine.UsedMudras.Count)
@@ -336,7 +341,10 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            if ( Spells.Chi.Charges < 1.8 && NinjaRoutine.UsedMudras.Count() == 0)
+            if ( Spells.Chi.Charges < 1.8 && NinjaRoutine.UsedMudras.Count() == 0 && Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+                return false;
+
+            if ( Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
                 return false;
 
             switch (NinjaRoutine.UsedMudras.Count)

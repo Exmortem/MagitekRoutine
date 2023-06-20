@@ -23,7 +23,6 @@ namespace Magitek.Rotations
         public static async Task<bool> PreCombatBuff()
         {
 
-
             await Casting.CheckForSuccessfulCast();
 
             if (!SpellQueueLogic.SpellQueue.Any())
@@ -153,7 +152,7 @@ namespace Magitek.Rotations
             //Ninki Spender
             //Both missing logic for target count
             if (await SingleTarget.Bhavacakra()) return true;
-            if (await Aoe.HellfrogMedium()) return true;
+            //if (await Aoe.HellfrogMedium()) return true;
 
             //Non Ninki
             if (await Aoe.PhantomKamaitachi()) return true;

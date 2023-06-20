@@ -6,7 +6,6 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
-using Magitek.Gambits.Conditions;
 
 namespace Magitek.Logic.Ninja
 {
@@ -91,6 +90,12 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Bhavacakra.IsKnown())
                 return false;
 
+            if (!NinjaRoutine.GlobalCooldown.IsWeaveWindow(1))
+                return false;
+
+            if (Spells.TrickAttack.Cooldown >= new TimeSpan(0, 0, 45))
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
+
             //dumping Bhavacakra during Burst Window is missing
             if (MagitekActionResourceManager.Ninja.NinkiGauge < 90 || (Spells.Mug.Cooldown > new TimeSpan(0, 0, 7) && MagitekActionResourceManager.Ninja.NinkiGauge + 40 < 90 ))
                 return false;
@@ -141,7 +146,7 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Mug.IsKnown())
                 return false;
 
-            if (Combat.CombatTime.ElapsedMilliseconds < Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds * 2)
+            if (Combat.CombatTime.ElapsedMilliseconds < Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds * 1.7)
                 return false;
 
             if (MagitekActionResourceManager.Ninja.NinkiGauge + 40 > 100)
@@ -166,6 +171,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Spells.Bunshin.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 2.85 )
                 return false;
 
             return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
