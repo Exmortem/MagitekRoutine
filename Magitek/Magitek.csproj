@@ -267,6 +267,7 @@
     <Compile Include="Logic\Dragoon\Utility.cs" />
     <Compile Include="Logic\Gunbreaker\Pvp.cs" />
     <Compile Include="Logic\Machinist\Pvp.cs" />
+    <Compile Include="Logic\Ninja\Cooldown.cs" />
     <Compile Include="Logic\Ninja\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
     <Compile Include="Logic\Reaper\Normal\Buff.cs" />
