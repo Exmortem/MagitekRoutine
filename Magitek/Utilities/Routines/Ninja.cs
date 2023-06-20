@@ -30,14 +30,22 @@ namespace Magitek.Utilities.Routines
             if (UsedMudras.Count < ninjustsuLength)
             {
 
-                List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
-
-                if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
+                if (UsedMudras.Count < ninjustsuLength - 1) 
                 {
-                    UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
-                    return true;
+                    List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
+
+                    if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
+                    {
+                        UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
+                        return true;
+                    }
                 }
 
+                else if (await endMudra.Cast(Core.Me))
+                {
+                    UsedMudras.Add(endMudra);
+                    return true;
+                }
             }
 
             return await Spells.Ninjutsu.Cast(target);
