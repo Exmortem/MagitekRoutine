@@ -10,6 +10,7 @@ using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
+using Magitek.Utilities.GamelogManager;
 
 namespace Magitek.Rotations
 {
@@ -35,7 +36,17 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
-            if (await Ninjutsu.Huton()) return true;
+            Utilities.Routines.Ninja.RefreshVars();
+
+            if (await Ninjutsu.PrePullHutonRamp()) return true;
+            if (await Ninjutsu.PrePullHutonUse()) return true;
+            if (await Utility.PrePullHide()) return true;
+            
+            if (await Ninjutsu.PrePullSuitonRamp()) return true;
+            if (await Ninjutsu.PrePullSuitonUse()) return true;
+
+            if (GamelogManagerCountdown.IsCountdownRunning())
+                return true;
 
             return false;
         }
@@ -95,8 +106,10 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            
 
+
+            /*
+            
             #region oGCD
 
             if (NinjaRoutine.GlobalCooldown.CanWeave())
@@ -117,8 +130,6 @@ namespace Magitek.Rotations
             #endregion
 
             #region ForceSkills GCD
-
-
 
             #endregion
 
@@ -157,12 +168,16 @@ namespace Magitek.Rotations
             //Non Ninki
             if (await Aoe.PhantomKamaitachi()) return true;
 
+            
+
+            #endregion
+
+            */
+
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
             if (await SingleTarget.SpinningEdge()) return true;
-
-            #endregion
 
             return false;
             
