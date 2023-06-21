@@ -40,8 +40,6 @@ namespace Magitek.Logic.Ninja
             if (!Spells.TrickAttack.IsKnown())
                 return false;
 
-            //Missing logic for weaving late
-
             if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 

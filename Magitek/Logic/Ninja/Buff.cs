@@ -59,8 +59,6 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 20))
                 return false;
 
-            //what about trick and mug?
-
             return await Spells.Meisui.Cast(Core.Me);
 
         }

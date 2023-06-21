@@ -21,7 +21,7 @@ namespace Magitek.Utilities.Routines
         public static List<SpellData> UsedMudras = new List<SpellData>();
         public static int OpenerBurstAfterGCD = 2;
 
-        private static List<SpellData> Mudras = new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi };
+        private static readonly List<SpellData> Mudras = new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi };
 
         public static async Task<bool> PrepareNinjutsu(SpellData endMudra, int ninjustsuLength, GameObject target)
         {
