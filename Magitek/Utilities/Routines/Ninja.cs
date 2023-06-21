@@ -2,7 +2,6 @@
 using ff14bot.Enums;
 using ff14bot.Objects;
 using Magitek.Extensions;
-using Magitek.Views.UserControls.Bugs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +22,7 @@ namespace Magitek.Utilities.Routines
         public static int OpenerBurstAfterGCD = 2;
 
         private static List<SpellData> Mudras = new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi };
+        private static DateTime noSpam = DateTime.Now;
 
         public static async Task<bool> PrepareNinjutsu(SpellData endMudra, int ninjustsuLength, GameObject target)
         {
@@ -34,7 +34,22 @@ namespace Magitek.Utilities.Routines
                 {
                     List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
 
+                    if(DateTime.Now.Subtract(noSpam) >= new TimeSpan(0,0,1))
+                    {
+                        noSpam = DateTime.Now;
+                        foreach (var x in availableMudras)
+                            Logger.Error(x.Name + " " + x.Id);
+                    }
+
+                    /*
                     if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
+                    {
+                        UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
+                        return true;
+                    }
+                    */
+
+                    if (await availableMudras[0].Cast(Core.Me))
                     {
                         UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
                         return true;
