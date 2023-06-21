@@ -22,7 +22,6 @@ namespace Magitek.Utilities.Routines
         public static int OpenerBurstAfterGCD = 2;
 
         private static List<SpellData> Mudras = new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi };
-        private static DateTime noSpam = DateTime.Now;
 
         public static async Task<bool> PrepareNinjutsu(SpellData endMudra, int ninjustsuLength, GameObject target)
         {
@@ -30,30 +29,52 @@ namespace Magitek.Utilities.Routines
             if (UsedMudras.Count < ninjustsuLength)
             {
 
-                if (UsedMudras.Count < ninjustsuLength - 1) 
+                if (UsedMudras.Count < ninjustsuLength - 1)
                 {
                     List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
 
-                    if(DateTime.Now.Subtract(noSpam) >= new TimeSpan(0,0,1))
-                    {
-                        noSpam = DateTime.Now;
-                        foreach (var x in availableMudras)
-                            Logger.Error(x.Name + " " + x.Id);
-                    }
-
-                    /*
                     if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
                     {
+                        await Casting.CheckForSuccessfulCast();
                         UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
                         return true;
                     }
-                    */
 
-                    if (await availableMudras[0].Cast(Core.Me))
+                }
+
+                else if (await endMudra.Cast(Core.Me))
+                {
+                    UsedMudras.Add(endMudra);
+                    return true;
+                }
+            }
+
+            return await Spells.Ninjutsu.Cast(target);
+
+        }
+
+        public static async Task<bool> PrepareNinjutsu(SpellData ninjutsu)
+        {
+
+            Dictionary<SpellData, Dictionary<SpellData, int>> Ninjutsus = new Dictionary<SpellData, Dictionary<SpellData, uint>>()
+            {
+                { Spells.Raiton, new Dictionary<SpellData, int>() { Spells.Chi, 2 } }
+            };
+
+            if (UsedMudras.Count < ninjustsuLength)
+            {
+
+                if (UsedMudras.Count < ninjustsuLength - 1)
+                {
+                    List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
+
+                    if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
                     {
+                        await Casting.CheckForSuccessfulCast();
                         UsedMudras.Add(Casting.SpellCastHistory.First().Spell);
                         return true;
                     }
+
                 }
 
                 else if (await endMudra.Cast(Core.Me))
