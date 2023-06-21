@@ -53,20 +53,46 @@ namespace Magitek.Utilities.Routines
 
         }
 
-        public static async Task<bool> PrepareNinjutsu(SpellData ninjutsu)
+        public static async Task<bool> PrepareNinjutsu(SpellData ninjutsu, GameObject target)
         {
 
-            Dictionary<SpellData, Dictionary<SpellData, int>> Ninjutsus = new Dictionary<SpellData, Dictionary<SpellData, uint>>()
+            Dictionary<SpellData, SpellData> NinjutsuEndMudra = new Dictionary<SpellData, SpellData>
             {
-                { Spells.Raiton, new Dictionary<SpellData, int>() { Spells.Chi, 2 } }
+                { Spells.FumaShuriken   , Spells.Ten },
+                { Spells.Raiton         , Spells.Chi },
+                { Spells.Katon          , Spells.Ten },
+                //Kassatsu Ninjutsu
+                { Spells.GokaMekkyaku   , Spells.Ten },
+                { Spells.Hyoton         , Spells.Jin },
+                //Kassatsu Ninjutsu
+                { Spells.HyoshoRanryu   , Spells.Jin },
+                { Spells.Suiton         , Spells.Jin },
+                { Spells.Doton          , Spells.Chi },
+                { Spells.Huton          , Spells.Ten }
             };
 
-            if (UsedMudras.Count < ninjustsuLength)
+            Dictionary<SpellData, int> NinjutsuComplexity = new Dictionary<SpellData, int>
+            {
+                { Spells.FumaShuriken   , 1 },
+                { Spells.Raiton         , 2 },
+                { Spells.Katon          , 2 },
+                //Kassatsu Ninjutsu
+                { Spells.GokaMekkyaku   , 2 },
+                { Spells.Hyoton         , 2 },
+                //Kassatsu Ninjutsu
+                { Spells.HyoshoRanryu   , 2 },
+                { Spells.Suiton         , 3 },
+                { Spells.Doton          , 3 },
+                { Spells.Huton          , 3 }
+            };
+
+
+            if (UsedMudras.Count < NinjutsuComplexity[ninjutsu])
             {
 
-                if (UsedMudras.Count < ninjustsuLength - 1)
+                if (UsedMudras.Count < NinjutsuComplexity[ninjutsu] - 1)
                 {
-                    List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
+                    List<SpellData> availableMudras = Mudras.FindAll(x => x != NinjutsuEndMudra[ninjutsu] && !UsedMudras.Contains(x));
 
                     if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
                     {
@@ -77,14 +103,14 @@ namespace Magitek.Utilities.Routines
 
                 }
 
-                else if (await endMudra.Cast(Core.Me))
+                else if (await NinjutsuEndMudra[ninjutsu].Cast(Core.Me))
                 {
-                    UsedMudras.Add(endMudra);
+                    UsedMudras.Add(NinjutsuEndMudra[ninjutsu]);
                     return true;
                 }
             }
 
-            return await Spells.Ninjutsu.Cast(target);
+            return await ninjutsu.Cast(target);
 
         }
 

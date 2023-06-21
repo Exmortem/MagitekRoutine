@@ -275,7 +275,7 @@ namespace Magitek.Logic.Ninja
             if ( Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Chi, 2, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Raiton, Core.Me.CurrentTarget);
 
         }
 
