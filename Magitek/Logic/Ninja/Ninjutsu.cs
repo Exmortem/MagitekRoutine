@@ -14,13 +14,8 @@ namespace Magitek.Logic.Ninja
     internal static class Ninjutsu
     {
 
-        #region Utility Ninjustsus
-
         public static async Task<bool> Huton()
         {
-
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
 
             if (Core.Me.ClassLevel < 45)
                 return false;
@@ -31,187 +26,15 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            /*
-             * Missing condition for death
-             * fight duration according to guides you want to use Huraijin if you dropped huton by accident
-             */
             if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
                 return false;
 
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
-
-                case 0:
-                    if (await Spells.Chi.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                        return true;
-                    }
-                    return false;
-
-                case 1:
-                    if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
-                    {
-                        if (await Spells.Jin.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                            return true;
-                        }
-                    }
-                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Jin)
-                    {
-                        if (await Spells.Chi.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case 2:
-
-                    if (!NinjaRoutine.UsedMudras.Contains(Spells.Ten))
-                    {
-                        if (await Spells.Ten.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case 3:
-                    if (await Spells.Ninjutsu.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Clear();
-                        return true;
-                    }
-                    return false;
-
-                default:
-                    break;
-            }
-
-            return false;
-
-        }
-
-        public static async Task<bool> PrePullHutonRamp()
-        {
-
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
-
-            if (Core.Me.ClassLevel < 45)
-                return false;
-
-            if (!Spells.Jin.IsKnown())
-                return false;
-
-            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
-                return false;
-
-            if(!GamelogManagerCountdown.IsCountdownRunning())
-                return false;
-
-            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
-                return false;
-
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
-
-                case 0:
-                    if (await Spells.Chi.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                        return true;
-                    }
-                    return false;
-
-                case 1:
-                    if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
-                    {
-                        if (await Spells.Jin.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                            return true;
-                        }
-                    }
-                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Jin)
-                    {
-                        if (await Spells.Chi.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case 2:
-
-                    if (!NinjaRoutine.UsedMudras.Contains(Spells.Ten))
-                    {
-                        if (await Spells.Ten.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                            return true;
-                        }
-                    }
-                    return false;
-
-                default:
-                    break;
-            }
-
-            return false;
-
-        }
-
-        public static async Task<bool> PrePullHutonUse()
-        {
-
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
-
-            if (Core.Me.ClassLevel < 45)
-                return false;
-
-            if (!Spells.Jin.IsKnown())
-                return false;
-
-            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
-                return false;
-
-            if (!GamelogManagerCountdown.IsCountdownRunning())
-                return false;
-
-            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
-                return false;
-
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
-
-                case 3:
-                    if (await Spells.Ninjutsu.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Clear();
-                        return true;
-                    }
-                    return false;
-
-                default:
-                    break;
-            }
-
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
 
         }
 
         public static async Task<bool> Suiton()
         {
-
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
 
             if (Core.Me.ClassLevel < 45)
                 return false;
@@ -228,69 +51,64 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasMyAura(Auras.Suiton))
                 return false;
 
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
 
-                case 0:
-                    if (await Spells.Ten.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                        return true;
-                    }
-                    return false;
+        }
 
-                case 1:
-                    if (NinjaRoutine.UsedMudras.Last() == Spells.Ten)
-                    {
-                        if (await Spells.Chi.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                            return true;
-                        }
-                    }
-                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
-                    {
-                        if (await Spells.Ten.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                            return true;
-                        }
-                    }
-                    return false;
+        #region PrePull
 
-                case 2:
+        public static async Task<bool> PrePullHutonRamp()
+        {
 
-                    if (!NinjaRoutine.UsedMudras.Contains(Spells.Jin))
-                    {
-                        if (await Spells.Jin.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                            return true;
-                        }
-                    }
-                    return false;
+            if (Core.Me.ClassLevel < 45)
+                return false;
 
-                case 3:
-                    if (await Spells.Ninjutsu.Cast(Core.Me.CurrentTarget))
-                    {
-                        NinjaRoutine.UsedMudras.Clear();
-                        return true;
-                    }
-                    return false;
+            if (!Spells.Jin.IsKnown())
+                return false;
 
-                default:
-                    break;
-            }
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
+                return false;
 
-            return false;
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
+
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count >= 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
+
+        }
+
+        public static async Task<bool> PrePullHutonUse()
+        {
+
+            if (Core.Me.ClassLevel < 45)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
+                return false;
+
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
+
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count != 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
 
         }
 
         public static async Task<bool> PrePullSuitonRamp()
         {
-
-            //if (!NinjaSettings.Instance.UsePrePullSuiton)
-            //    return false;
 
             if (Core.Me.ClassLevel < 45)
                 return false;
@@ -304,61 +122,14 @@ namespace Magitek.Logic.Ninja
             if (GamelogManagerCountdown.GetCurrentCooldown() > 6 || GamelogManagerCountdown.GetCurrentCooldown() < 1)
                 return false;
 
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
+            if (NinjaRoutine.UsedMudras.Count >= 3)
+                return false;
 
-                    case 0:
-                        if (await Spells.Ten.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                            return true;
-                        }
-                        return false;
-
-                    case 1:
-                        if (NinjaRoutine.UsedMudras.Last() == Spells.Ten)
-                        {
-                            if (await Spells.Chi.Cast(Core.Me))
-                            {
-                                NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                                return true;
-                            }
-                        }
-                        else if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
-                        {
-                            if (await Spells.Ten.Cast(Core.Me))
-                            {
-                                NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                                return true;
-                            }
-                        }
-                        return false;
-
-                    case 2:
-
-                        if (!NinjaRoutine.UsedMudras.Contains(Spells.Jin))
-                        {
-                            if (await Spells.Jin.Cast(Core.Me))
-                            {
-                                NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                                return true;
-                            }
-                        }
-                        return false;
-
-                    default:
-                        break;
-                }
-
-            return false;
-
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> PrePullSuitonUse()
         {
-
-            //if (!NinjaSettings.Instance.UsePrePullSuiton)
-            //    return false;
 
             if (Core.Me.ClassLevel < 45)
                 return false;
@@ -372,22 +143,10 @@ namespace Magitek.Logic.Ninja
             if (GamelogManagerCountdown.GetCurrentCooldown() > 1)
                 return false;
 
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
-
-                case 3:
-                    if (await Spells.Ninjutsu.Cast(Core.Me.CurrentTarget))
-                    {
-                        NinjaRoutine.UsedMudras.Clear();
-                        return true;
-                    }
+            if (NinjaRoutine.UsedMudras.Count != 3)
                 return false;
 
-                default:
-                    break;
-            }
-
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
 
         }
 
@@ -477,9 +236,6 @@ namespace Magitek.Logic.Ninja
         public static async Task<bool> HyoshoRanryu()
         {
 
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
-
             if (Core.Me.ClassLevel < 76)
                 return false;
 
@@ -489,55 +245,13 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
                 return false;
 
-            if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
-                return false;
+            //if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+            //    return false;
 
             if (ActionManager.LastSpell == Spells.GustSlash) 
                 return false;
 
-            switch (NinjaRoutine.UsedMudras.Count)
-            {
-
-                case 0:
-                    if (await Spells.Chi.Cast(Core.Me))
-                    {
-                        NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                        return true;
-                    }
-                    return false;
-
-                case 1:
-                    if (NinjaRoutine.UsedMudras.Last() == Spells.Ten)
-                    {
-                        if (await Spells.Jin.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                            return true;
-                        }
-                    }
-                    else if (NinjaRoutine.UsedMudras.Last() == Spells.Chi)
-                    {
-                        if (await Spells.Jin.Cast(Core.Me))
-                        {
-                            NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case 2:
-                    if (await Spells.Ninjutsu.Cast(Core.Me.CurrentTarget))
-                    {
-                        NinjaRoutine.UsedMudras.Clear();
-                        return true;
-                    }
-                    return false;
-
-                default:
-                    break;
-            }
-
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 2, Core.Me.CurrentTarget);
 
         }
 
@@ -545,9 +259,6 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> Raiton()
         {
-
-            //if (!NinjaSettings.Instance.UseHuton)
-            //    return false;
 
             if (Core.Me.ClassLevel < 35)
                 return false;
