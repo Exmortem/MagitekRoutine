@@ -2,6 +2,7 @@
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
+using Magitek.Utilities.GamelogManager;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,6 +13,9 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> PrePullHide()
         {
+
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
 
             if (ActionResourceManager.Ninja.HutonTimer.TotalSeconds <= 0)
                 return false;
