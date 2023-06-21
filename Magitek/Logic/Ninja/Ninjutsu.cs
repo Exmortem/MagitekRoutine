@@ -29,7 +29,7 @@ namespace Magitek.Logic.Ninja
             if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
 
         }
 
@@ -51,7 +51,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasMyAura(Auras.Suiton))
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
 
         }
 
@@ -78,7 +78,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count >= 3)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
 
         }
 
@@ -103,7 +103,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count != 3)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Ten, 3, Core.Me);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
 
         }
 
@@ -125,7 +125,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count >= 3)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> PrePullSuitonUse()
@@ -146,7 +146,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count != 3)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 3, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
 
         }
 
@@ -168,8 +168,8 @@ namespace Magitek.Logic.Ninja
             if (!Spells.TenChiJin.IsKnown())
                 return false;
 
-            if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
-                return false;
+            //if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+            //    return false;
 
             if (Spells.Chi.Charges >= 1f)
                 return false;
@@ -186,12 +186,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count() >= 1)
                 return false;
 
-            if (await Spells.Ten.Cast(Core.Me.CurrentTarget))
-            {
-                NinjaRoutine.UsedMudras.Add(Spells.Ten);
-                return true;
-            }
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.FumaShuriken, Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> TenChiJin_Raiton()
@@ -203,12 +198,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count() >= 2)
                 return false;
 
-            if (await Spells.Chi.Cast(Core.Me.CurrentTarget))
-            {
-                NinjaRoutine.UsedMudras.Add(Spells.Chi);
-                return true;
-            }
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Raiton, Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> TenChiJin_Suiton()
@@ -220,12 +210,7 @@ namespace Magitek.Logic.Ninja
             if (NinjaRoutine.UsedMudras.Count() >= 3)
                 return false;
 
-            if (await Spells.Jin.Cast(Core.Me.CurrentTarget))
-            {
-                NinjaRoutine.UsedMudras.Add(Spells.Jin);
-                return true;
-            }
-            return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
         }
 
         #endregion
@@ -250,8 +235,7 @@ namespace Magitek.Logic.Ninja
 
             if (ActionManager.LastSpell == Spells.GustSlash) 
                 return false;
-
-            return await NinjaRoutine.PrepareNinjutsu(Spells.Jin, 2, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.HyoshoRanryu, Core.Me.CurrentTarget);
 
         }
 
