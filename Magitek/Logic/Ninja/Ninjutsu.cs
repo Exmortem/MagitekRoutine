@@ -168,8 +168,8 @@ namespace Magitek.Logic.Ninja
             if (!Spells.TenChiJin.IsKnown())
                 return false;
 
-            //if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
-            //    return false;
+            if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+                return false;
 
             if (Spells.Chi.Charges >= 1f)
                 return false;
@@ -230,8 +230,8 @@ namespace Magitek.Logic.Ninja
             if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
                 return false;
 
-            //if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
-            //    return false;
+            if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+                return false;
 
             if (ActionManager.LastSpell == Spells.GustSlash) 
                 return false;
@@ -253,10 +253,13 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            if ( Spells.Chi.Charges < 1.8 && NinjaRoutine.UsedMudras.Count() == 0 && Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+            if ( Spells.Chi.Charges < 1.8 && NinjaRoutine.UsedMudras.Count() == 0 && Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 43))
                 return false;
 
             if ( Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
+                return false;
+
+            if (Spells.TenChiJin.Cooldown >= new TimeSpan(0, 1, 10) && Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 1).Count() != 0)
                 return false;
 
             return await NinjaRoutine.PrepareNinjutsu(Spells.Raiton, Core.Me.CurrentTarget);
