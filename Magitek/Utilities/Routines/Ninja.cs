@@ -86,6 +86,25 @@ namespace Magitek.Utilities.Routines
                 { Spells.Huton          , 3 }
             };
 
+            if (TenChiJin)
+            {
+                NinjutsuEndMudra = new Dictionary<SpellData, SpellData>
+                {
+                    { Spells.FumaShuriken   , Spells.Ten },
+                    { Spells.Raiton         , Spells.Chi },
+                    { Spells.Suiton         , Spells.Jin }
+                };
+
+                NinjutsuComplexity = new Dictionary<SpellData, int>
+                {
+                    { Spells.FumaShuriken   , 1 },
+                    { Spells.Raiton         , 1 },
+                    { Spells.Suiton         , 1 }
+                };
+            }
+
+            if (!NinjutsuEndMudra.ContainsKey(ninjutsu))
+                return false;
 
             if (UsedMudras.Count < NinjutsuComplexity[ninjutsu])
             {
