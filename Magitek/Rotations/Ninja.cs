@@ -174,6 +174,30 @@ namespace Magitek.Rotations
 
             */
 
+            if (NinjaRoutine.GlobalCooldown.CanWeave())
+            {
+                if (await Buff.Kassatsu()) return true;
+                if (await Cooldown.Mug()) return true;
+                if (await Cooldown.TrickAttack()) return true;
+                if (await Ninjutsu.TenChiJin()) return true;
+                if (await Cooldown.DreamWithinaDream()) return false;
+                if (await Buff.Meisui()) return true;
+                if (await SingleTarget.Bhavacakra()) return true;
+                if (await Buff.Bunshin()) return true;
+            }
+
+            if (await Ninjutsu.TenChiJin_FumaShuriken()) return true;
+            if (await Ninjutsu.TenChiJin_Raiton()) return true;
+            if (await Ninjutsu.TenChiJin_Suiton()) return true;
+
+            if (await Ninjutsu.HyoshoRanryu()) return true;
+            if (await Ninjutsu.Raiton()) return true;
+
+            if (await SingleTarget.FleetingRaiju()) return true;
+            if (await SingleTarget.ForkedRaiju()) return true;
+
+            if (await Aoe.PhantomKamaitachi()) return true;
+
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
