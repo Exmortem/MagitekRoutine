@@ -129,6 +129,9 @@ namespace Magitek.Utilities.Routines
                 }
             }
 
+            if (TenChiJin)
+                return await NinjutsuEndMudra[ninjutsu].Cast(target);
+
             return await ninjutsu.Cast(target);
 
         }
@@ -143,12 +146,12 @@ namespace Magitek.Utilities.Routines
 
                 case 1:
 
-                    if (Core.Me.HasMyAura(Auras.Mudra))
+                    if (Core.Me.HasMyAura(Auras.Mudra) || Core.Me.HasMyAura(Auras.TenChiJin))
                         break;
 
-                    if (!Core.Me.HasMyAura(Auras.Mudra) && new List<SpellData>() { Spells.Ten, Spells.Chi, Spells.Jin }.Contains(Casting.SpellCastHistory.First().Spell))
+                    if (!Core.Me.HasMyAura(Auras.TenChiJin) && !Core.Me.HasMyAura(Auras.Mudra) && new List<SpellData>() { Spells.Ten, Spells.Chi, Spells.Jin }.Contains(Casting.SpellCastHistory.First().Spell))
                         break;
-
+                                       
                     UsedMudras.Clear();
                     break;
 
@@ -173,7 +176,7 @@ namespace Magitek.Utilities.Routines
             {
                 TenChiJin = true;
             }
-            if (TenChiJin && Core.Me.HasMyAura(Auras.TenChiJin))
+            if (TenChiJin && !Core.Me.HasMyAura(Auras.TenChiJin) && Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.TenChiJin)
             {
                 TenChiJin = false;
             }
