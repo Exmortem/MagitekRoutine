@@ -333,7 +333,9 @@ namespace Magitek.Utilities
             ArmysMuse = 1932,
             ConfiteorReady = 3019,
             DivineMight = 2673,
-            CircleofScorn = 248;
+            CircleofScorn = 248,
+            Bunshin = 1954,
+            PhantomKamaitachiReady = 2723;
         
         private const int
             Invincibility0 = 981,
