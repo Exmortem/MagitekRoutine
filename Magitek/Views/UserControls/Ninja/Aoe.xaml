@@ -17,44 +17,9 @@
         <ResourceDictionary Source="/Magitek;component/Styles/Magitek.xaml" />
     </UserControl.Resources>
 
-    <StackPanel Margin="5">
+    <StackPanel Margin="10">
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
 
-        <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Use AOE When There Are " IsChecked="{Binding NinjaSettings.UseAoe, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric Grid.Row="0" Grid.Column="1" MaxValue="10" MinValue="2" Value="{Binding NinjaSettings.AoeEnemies, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{DynamicResource TextBlockDefault}" Text=" Enemies In Range" />
-                </Grid>
-            </StackPanel>
         </controls:SettingsBlock>
-
-        <controls:SettingsBlock Margin="0,3,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="3">
-                <StackPanel  Margin="0,3">
-                    <CheckBox Content="Katon" IsChecked="{Binding NinjaSettings.UseKaton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-                <StackPanel  Margin="0,3">
-                    <CheckBox Content="Doton " IsChecked="{Binding NinjaSettings.UseDoton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-                <StackPanel  Margin="0,3">
-                    <CheckBox Content="Goka Mekkyaku " IsChecked="{Binding NinjaSettings.UseGokaMekkyaku, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-                <StackPanel  Margin="0,3">
-                    <CheckBox Content="Phantom Kamaitachi " IsChecked="{Binding NinjaSettings.UsePhantomKamaitachi, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-            </StackPanel>
-          
-        </controls:SettingsBlock>
-
     </StackPanel>
 </UserControl>
