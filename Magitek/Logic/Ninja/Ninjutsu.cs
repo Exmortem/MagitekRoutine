@@ -1,4 +1,4 @@
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
@@ -248,15 +248,15 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Chi.IsKnown())
                 return false;
 
-            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu) && Core.Me.ClassLevel >= 76)
                 return false;
 
-            if ( Spells.Chi.Charges < Spells.Chi.MaxCharges - (Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 20000) 
+            if (Spells.Chi.Charges < Spells.Chi.MaxCharges - (Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 20000)
                 && NinjaRoutine.UsedMudras.Count() == 0
                 && Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 45))
                 return false;
 
-            if ( Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
+            if (Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
                 return false;
 
             if (Spells.TenChiJin.Cooldown >= new TimeSpan(0, 1, 10) && Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 1).Count() != 0)
