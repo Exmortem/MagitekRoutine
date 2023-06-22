@@ -1,344 +1,283 @@
-﻿using Buddy.Coroutines;
-using Clio.Utilities.Helpers;
-using ff14bot;
+﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Models.Ninja;
-using Magitek.Models.QueueSpell;
-using Magitek.Toggles;
 using Magitek.Utilities;
+using Magitek.Utilities.GamelogManager;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
+
 
 namespace Magitek.Logic.Ninja
 {
     internal static class Ninjutsu
     {
-        public static bool ForceRaiton()
+
+        public static async Task<bool> Huton()
         {
-            if (!NinjaSettings.Instance.ForceRaiton)
+
+            if (Core.Me.ClassLevel < 45 || Core.Me.ClassLevel >= 60)
                 return false;
 
-            if (!ActionManager.HasSpell(Spells.Chi.Id))
+            if (!Spells.Jin.IsKnown())
                 return false;
 
-            if (Core.Me.ClassLevel < 35)
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            if (Casting.SpellCastHistory.Take(5).All(s => s.Spell == Spells.Raiton) /*&& Spells.TenChiJin.Cooldown.TotalMilliseconds < 5000*/)
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
                 return false;
 
-            if (!SpellDataExtensions.CanCast(Spells.Ten, null))
-                return false;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
 
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Raiton });
-            if (Spells.ForkedRaiju.IsKnown())
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.ForkedRaiju });
-            NinjaSettings.Instance.ForceRaiton = false;
-            TogglesManager.ResetToggles();
-            return true;
         }
 
-        #region BUFF
-
-        public static bool Huton()
+        public static async Task<bool> Suiton()
         {
+
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!NinjaSettings.Instance.UseHuton)
+            if (!Spells.Jin.IsKnown())
                 return false;
 
-            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu))
                 return false;
 
-            if (HutonTimer.TotalMilliseconds != 0)
+            if (Spells.TrickAttack.Cooldown >= new TimeSpan(0, 0, 15))
                 return false;
 
-            if (!Spells.Jin.CanCast(null))
+            if (Core.Me.HasMyAura(Auras.Suiton))
                 return false;
 
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Huton, TargetSelf = true });
-            return true;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
+
         }
 
-        public static bool Suiton()
+        #region PrePull
+
+        public static async Task<bool> PrePullHutonRamp()
         {
+
             if (Core.Me.ClassLevel < 45)
                 return false;
 
-            if (!NinjaSettings.Instance.UseTrickAttack)
+            if (!Spells.Jin.IsKnown())
                 return false;
 
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
                 return false;
 
-            if (!Spells.TrickAttack.IsKnownAndReady(20000))
+            if (!GamelogManagerCountdown.IsCountdownRunning())
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= NinjaSettings.Instance.AoeEnemies && NinjaSettings.Instance.DoNotUseTrickAttackDuringAoe)
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
                 return false;
 
-            if (!Spells.Ten.CanCast(null))
+            if (NinjaRoutine.UsedMudras.Count >= 3)
                 return false;
 
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Suiton });
-            return true;
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
+
+        }
+
+        public static async Task<bool> PrePullHutonUse()
+        {
+
+            if (Core.Me.ClassLevel < 45)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
+                return false;
+
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
+
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 11)
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count != 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Huton, Core.Me);
+
+        }
+
+        public static async Task<bool> PrePullSuitonRamp()
+        {
+
+            if (Core.Me.ClassLevel < 45)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
+
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 6 || GamelogManagerCountdown.GetCurrentCooldown() < 1)
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count >= 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> PrePullSuitonUse()
+        {
+
+            if (Core.Me.ClassLevel < 45)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (!GamelogManagerCountdown.IsCountdownRunning())
+                return false;
+
+            if (GamelogManagerCountdown.GetCurrentCooldown() > 1)
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count != 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
+
         }
 
         #endregion
 
-        #region Single Target
-
-        public static bool FumaShuriken()
-        {
-            if (Core.Me.ClassLevel < 30)
-                return false;
-
-            if (!NinjaSettings.Instance.UseFumaShuriken)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            if (!Spells.Ten.CanCast(null))
-                return false;
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.FumaShuriken });
-            return true;
-        }
-
-        public static bool Raiton()
-        {
-            if (Core.Me.ClassLevel < 35)
-                return false;
-
-            if (!NinjaSettings.Instance.UseRaiton)
-                return false;
-
-            if (ActionManager.LastSpell == Spells.Raiton)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            if (!Spells.Ten.CanCast(null))
-                return false;
-
-            Logger.Write($@"[Magitek] Raiton : {SpellQueueLogic.InSpellQueue}");
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Raiton });
-            return true;
-        }
-
-        public static bool HyoshoRanryu()
-        {
-            if (Core.Me.ClassLevel < 76)
-                return false;
-
-            if (!NinjaSettings.Instance.UseHyoshoRanryu)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra))
-                return false;
-
-            if(!Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            if (!Core.Me.CurrentTarget.HasAura(Auras.TrickAttack))
-                return false;
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.HyoshoRanryu });
-            return true;
-        }
-
-        #endregion
-
-        #region AOE
-
-        public static bool Doton()
-        {
-            if (Core.Me.ClassLevel < 45)
-                return false;
-
-            if (!NinjaSettings.Instance.UseAoe || !NinjaSettings.Instance.UseDoton)
-                return false;
-
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < NinjaSettings.Instance.AoeEnemies)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Doton) || Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            if (!Spells.Ten.CanCast(null))
-                return false;
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Doton, TargetSelf = true });
-            return true;
-        }
-
-        public static bool Katon()
-        {
-            if (Core.Me.ClassLevel < 35)
-                return false;
-
-            if (!NinjaSettings.Instance.UseAoe || !NinjaSettings.Instance.UseKaton)
-                return false;
-
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < NinjaSettings.Instance.AoeEnemies)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            if (!Spells.Chi.CanCast(null))
-                return false;
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Katon });
-            return true;
-        }
-
-        public static bool GokaMekkyaku()
-        {
-            if (Core.Me.ClassLevel < 76)
-                return false;
-
-            if (!NinjaSettings.Instance.UseGokaMekkyaku)
-                return false;
-
-            if (Combat.Enemies.Count(x => x.Distance(Core.Me) <= 5 + x.CombatReach) < NinjaSettings.Instance.AoeEnemies)
-                return false;
-
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Mudra))
-                return false;
-
-            if(!Core.Me.HasAura(Auras.Kassatsu))
-                return false;
-
-            SpellQueueLogic.SpellQueue.Clear();
-            SpellQueueLogic.Timeout.Start();
-            SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, TargetSelf = true });
-            SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.GokaMekkyaku });
-            return true;
-        }
-
-        #endregion
-
-        #region TCJ
+        #region TenChiJin
 
         public static async Task<bool> TenChiJin()
         {
+
             if (Core.Me.ClassLevel < 70)
                 return false;
 
-            if (!NinjaSettings.Instance.UseTenChiJin)
+            //Dont use TCJ when under the affect of kassatsu or in process building a ninjutsu
+            if ( ( Core.Me.HasMyAura(Auras.Kassatsu) || (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell == Spells.Kassatsu) )
+                || Core.Me.HasMyAura(Auras.Mudra) || NinjaRoutine.UsedMudras.Count() > 0)
                 return false;
 
-            if (MovementManager.IsMoving)
+            if (!Spells.TenChiJin.IsKnown())
                 return false;
 
-            if (Core.Me.HasAura(Auras.Suiton) || Core.Me.HasAura(Auras.Mudra) || Core.Me.HasAura(Auras.Kassatsu))
+            if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.TrickAttack))
+            if (Spells.Chi.Charges >= (Spells.Chi.MaxCharges - (6000 / 20000)))
                 return false;
 
-            if (!await Spells.TenChiJin.Cast(Core.Me))
+            return await Spells.TenChiJin.Cast(Core.Me);
+        }
+
+        public static async Task<bool> TenChiJin_FumaShuriken()
+        {
+
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
                 return false;
 
-            if (!await Coroutine.Wait(2000, () => Core.Me.HasAura(Auras.TenChiJin)))
+            if (NinjaRoutine.UsedMudras.Count() >= 1)
                 return false;
 
-            if (Utilities.Routines.Ninja.AoeEnemies5Yards > 1 && Utilities.Routines.Ninja.TCJState == 0 && !Core.Me.HasAura(Auras.Doton))
-            {
-                Utilities.Routines.Ninja.TCJState = 1;
-            }
+            return await NinjaRoutine.PrepareNinjutsu(Spells.FumaShuriken, Core.Me.CurrentTarget);
+        }
 
-            if (Utilities.Routines.Ninja.AoeEnemies5Yards < 2 && Utilities.Routines.Ninja.TCJState == 0)
-            {
-                Utilities.Routines.Ninja.TCJState = 1;
-            }
+        public static async Task<bool> TenChiJin_Raiton()
+        {
 
-            Logger.Error("State is: " + Utilities.Routines.Ninja.TCJState);
-
-            if (Utilities.Routines.Ninja.TCJState == 1)
-            {
-                Logger.Error("Queuing TCJ");
-
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-                SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Shuriken", Check = () => SpellDataExtensions.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Raiton", Check = () => SpellDataExtensions.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Suiton", Check = () => SpellDataExtensions.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                Utilities.Routines.Ninja.TCJState = 0;
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
                 return false;
-            }
 
-            if (Utilities.Routines.Ninja.TCJState == 2)
-            {
-                Logger.Error("Queuing TCJ");
-
-                SpellQueueLogic.SpellQueue.Clear();
-                SpellQueueLogic.Timeout.Start();
-                SpellQueueLogic.CancelSpellQueue = () => SpellQueueLogic.Timeout.ElapsedMilliseconds > 5000;
-                SpellQueueLogic.CancelSpellQueue = () => MovementManager.IsMoving;
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Ten, Wait = new QueueSpellWait() { Name = "Wait for Mudra1", Check = () => SpellDataExtensions.CanCast(Spells.Ten, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Jin, Wait = new QueueSpellWait() { Name = "Wait for Mudra2", Check = () => SpellDataExtensions.CanCast(Spells.Jin, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                SpellQueueLogic.SpellQueue.Enqueue(new QueueSpell { Spell = Spells.Chi, Wait = new QueueSpellWait() { Name = "Wait for Mudra3", Check = () => SpellDataExtensions.CanCast(Spells.Chi, null), WaitTime = 2000, EndQueueIfWaitFailed = true }, });
-                Utilities.Routines.Ninja.TCJState = 0;
+            if (NinjaRoutine.UsedMudras.Count() >= 2)
                 return false;
-            }
-            return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Raiton, Core.Me.CurrentTarget);
+        }
+
+        public static async Task<bool> TenChiJin_Suiton()
+        {
+
+            if (!Core.Me.HasMyAura(Auras.TenChiJin))
+                return false;
+
+            if (NinjaRoutine.UsedMudras.Count() >= 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Suiton, Core.Me.CurrentTarget);
         }
 
         #endregion
+
+        #region Kassatsu
+
+        //Missing target count logic
+        public static async Task<bool> HyoshoRanryu()
+        {
+
+            if (Core.Me.ClassLevel < 76)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
+                return false;
+
+            if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.HyoshoRanryu, Core.Me.CurrentTarget);
+
+        }
+
+        #endregion
+
+        public static async Task<bool> Raiton()
+        {
+
+            if (Core.Me.ClassLevel < 35)
+                return false;
+
+            if (!Spells.Chi.IsKnown())
+                return false;
+
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu) && Core.Me.ClassLevel >= 76)
+                return false;
+
+            if (Spells.Chi.Charges < Spells.Chi.MaxCharges - (Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 20000)
+                && NinjaRoutine.UsedMudras.Count() == 0
+                && Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 45))
+                return false;
+
+            if (Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 2).Count() != 0)
+                return false;
+
+            if (Spells.TenChiJin.Cooldown >= new TimeSpan(0, 1, 10) && Core.Me.Auras.Where(x => x.Id == Auras.RaijuReady && x.Value == 1).Count() != 0)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Raiton, Core.Me.CurrentTarget);
+
+        }
+
+        public static async Task<bool> FumaShuriken()
+        {
+
+            if (Core.Me.ClassLevel < 30 || Core.Me.ClassLevel > 34)
+                return false;
+
+            if (!Spells.Ten.IsKnown())
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.FumaShuriken, Core.Me.CurrentTarget);
+
+        }
 
     }
 }

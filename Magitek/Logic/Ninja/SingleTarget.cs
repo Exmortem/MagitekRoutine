@@ -1,168 +1,144 @@
-﻿using ff14bot;
+﻿using System.Threading.Tasks;
+using System.Linq;
+using System;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
-using Magitek.Logic.Roles;
-using Magitek.Models.Ninja;
 using Magitek.Utilities;
-using Magitek.Toggles;
-using System.Threading.Tasks;
-using System.Linq;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
     internal static class SingleTarget
     {
+
+        #region Base Combo
+
         public static async Task<bool> SpinningEdge()
         {
+            if (!Spells.SpinningEdge.CanCast(Core.Me.CurrentTarget))
+                return false;
+
+
             return await Spells.SpinningEdge.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> GustSlash()
         {
+
+            if (Core.Me.ClassLevel < 4)
+                return false;
+
             if (ActionManager.LastSpell != Spells.SpinningEdge)
                 return false;
 
+            if (!Spells.GustSlash.CanCast(Core.Me.CurrentTarget))
+                return false;
+
             return await Spells.GustSlash.Cast(Core.Me.CurrentTarget);
+
         }
 
+        //Rear Modifier
         public static async Task<bool> AeolianEdge()
         {
+
             if (Core.Me.ClassLevel < 26)
                 return false;
 
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
 
+            if (!Spells.AeolianEdge.CanCast(Core.Me.CurrentTarget))
+                return false;
+
             return await Spells.AeolianEdge.Cast(Core.Me.CurrentTarget);
+
         }
 
+        //Flank Modifier
+        //should be used over aeolian edge if no true north or not in rear
         public static async Task<bool> ArmorCrush()
         {
-            if (Core.Me.ClassLevel < 54)
+
+            if (Core.Me.ClassLevel < 54 || !Spells.ArmorCrush.IsKnown())
                 return false;
 
             if (ActionManager.LastSpell != Spells.GustSlash)
                 return false;
-
-            if (HutonTimer.TotalMilliseconds > 30000 || HutonTimer.TotalMilliseconds == 0)
+            
+            //Dont cast if current huton timer plus 30 seconds is greater than 60 seconds
+            if (ActionResourceManager.Ninja.HutonTimer.Add(new TimeSpan(0, 0, 30)) > new TimeSpan(0,1,0) )
                 return false;
 
-            if (Core.Me.CurrentTarget.HasAura(Auras.TrickAttack))
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0, 16, 0) && Spells.TrickAttack.Cooldown > new TimeSpan(0, 0, 45))
+                return false;
+
+            if (!Spells.ArmorCrush.CanCast(Core.Me.CurrentTarget))
                 return false;
 
             return await Spells.ArmorCrush.Cast(Core.Me.CurrentTarget);
+
         }
 
-
-        public static async Task<bool> DreamWithinADream()
-        {
-            if (Core.Me.ClassLevel < 40)
-                return false;
-
-            if (!NinjaSettings.Instance.UseDreamWithinADream)
-                return false;
-
-            if(!Core.Me.CurrentTarget.HasAura(Auras.TrickAttack))
-                return false;
-
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
-                return false;
-
-            if (Spells.DreamWithinaDream.IsKnownAndReady())
-                return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);
-
-            return await Spells.Assassinate.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> Mug()
-        {
-            if (Core.Me.ClassLevel < 15)
-                return false;
-
-            if (!NinjaSettings.Instance.UseMug)
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= NinjaSettings.Instance.AoeEnemies && NinjaSettings.Instance.DoNotUseMugDuringAoe)
-                return false;
-
-            return await Spells.Mug.Cast(Core.Me.CurrentTarget);
-        }
-
-        public static async Task<bool> TrickAttack()
-        {
-            if (Core.Me.ClassLevel < 18)
-                return false;
-
-            if (!NinjaSettings.Instance.UseTrickAttack)
-                return false;
-
-            if (!Core.Me.HasAura(Auras.Suiton))
-                return false;
-
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) >= NinjaSettings.Instance.AoeEnemies && NinjaSettings.Instance.DoNotUseTrickAttackDuringAoe)
-                return false;
-
-            return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
-        }
-
-
+        #endregion
+        
+        //Missing logic for st and mt
         public static async Task<bool> Bhavacakra()
         {
+
             if (Core.Me.ClassLevel < 68)
                 return false;
 
-            if (!NinjaSettings.Instance.UseBhavacakra)
+            if (!Spells.Bhavacakra.IsKnown())
                 return false;
 
-            if (Spells.Mug.IsKnownAndReady(1000))
-                return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
+            if (Spells.TrickAttack.Cooldown >= new TimeSpan(0, 0, 45))
+                return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
 
-            if (Spells.Bunshin.IsKnownAndReady())
+            //dumping Bhavacakra during Burst Window is missing
+            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90 || (Spells.Mug.Cooldown > new TimeSpan(0, 0, 7) && MagitekActionResourceManager.Ninja.NinkiGauge + 40 < 90 ))
                 return false;
 
-            if (Spells.TrickAttack.IsKnownAndReady(14000))
+            if (NinjaRoutine.AoeEnemies6Yards > 2 && !Core.Me.HasMyAura(Auras.Meisui)
+                || NinjaRoutine.AoeEnemies6Yards > 3 && Core.Me.HasMyAura(Auras.Meisui))
                 return false;
 
-            return await (Spells.Bhavacakra.Cast(Core.Me.CurrentTarget));
+            //Smart Target Logic needs to be addded
+            return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
         }
 
-            public static async Task<bool> FleetingRaiju()
+        //Missing range check
+        public static async Task<bool> FleetingRaiju()
         {
+
             if (Core.Me.ClassLevel < 90)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.RaijuReady))
+            if (!Spells.FleetingRaiju.IsKnown())
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance(Core.Me) > Core.Me.CurrentTarget.CombatReach + 3)
+            if (!Core.Me.HasMyAura(Auras.RaijuReady))
                 return false;
 
             return await Spells.FleetingRaiju.Cast(Core.Me.CurrentTarget);
 
         }
 
-        public static async Task<bool> Huraijin()
+        public static async Task<bool> ForkedRaiju()
         {
-            if (Core.Me.ClassLevel < 60)
+
+            if (Core.Me.ClassLevel < 90)
                 return false;
 
-            if (HutonTimer.TotalMilliseconds != 0)
+            if (!Spells.ForkedRaiju.IsKnown())
                 return false;
 
-            return await Spells.Huraijin.Cast(Core.Me.CurrentTarget);
+            if (!Core.Me.HasMyAura(Auras.RaijuReady))
+                return false;
+
+            return await Spells.ForkedRaiju.Cast(Core.Me.CurrentTarget);
+
         }
-
-        /**********************************************************************************************
-        *                              Limit Break
-        * ********************************************************************************************/
-        public static bool ForceLimitBreak()
-        {
-            if (!Core.Me.HasTarget)
-                return false;
-
-            return PhysicalDps.ForceLimitBreak(Spells.Braver, Spells.Bladedance, Spells.Chimatsuri, Spells.SpinningEdge);
-        }
-
     }
 }

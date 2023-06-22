@@ -19,20 +19,7 @@
 
     <StackPanel Margin="10">
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Margin="5">
-                    <CheckBox Content="Ten Chi Jin" IsChecked="{Binding NinjaSettings.UseTenChiJin, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Margin="5">
-                    <CheckBox Content="Fuma Shuriken" IsChecked="{Binding NinjaSettings.UseFumaShuriken, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Margin="5">
-                    <CheckBox Content="Raiton" IsChecked="{Binding NinjaSettings.UseRaiton, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-                <StackPanel Margin="5">
-                    <CheckBox Content="Hyosho Ranryu" IsChecked="{Binding NinjaSettings.UseHyoshoRanryu, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-            </StackPanel>
+            
         </controls:SettingsBlock>
     </StackPanel>
     

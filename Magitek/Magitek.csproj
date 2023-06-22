@@ -180,7 +180,6 @@
     <Compile Include="Enumerations\SummonerPets.cs" />
     <Compile Include="Enumerations\SummonerState.cs" />
     <Compile Include="Enumerations\TankBusterStrategies.cs" />
-    <Compile Include="Enumerations\TcjMode.cs" />
     <Compile Include="Extensions\CharacterExtensions.cs" />
     <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
@@ -268,6 +267,7 @@
     <Compile Include="Logic\Dragoon\Utility.cs" />
     <Compile Include="Logic\Gunbreaker\Pvp.cs" />
     <Compile Include="Logic\Machinist\Pvp.cs" />
+    <Compile Include="Logic\Ninja\Cooldown.cs" />
     <Compile Include="Logic\Ninja\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\AoE.cs" />
     <Compile Include="Logic\Reaper\Normal\Buff.cs" />
