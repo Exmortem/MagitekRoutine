@@ -183,7 +183,7 @@ namespace Magitek.Utilities.Routines
                 TenChiJin = false;
             }
 
-            AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
+            AoeEnemies5Yards = Core.Me.EnemiesNearby(5).Count();
             AoeEnemies6Yards = Core.Me.CurrentTarget.EnemiesNearby(6).Count();
 
         }

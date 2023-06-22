@@ -12,7 +12,24 @@ namespace Magitek.Logic.Ninja
 {
     internal static class Aoe
     {
-        
+
+        public static async Task<bool> DeathBlossom()
+        {
+            if (Core.Me.ClassLevel < 38)
+                return false;
+
+            if (!Spells.DeathBlossom.IsKnown())
+                return false;
+
+            if (!Spells.DeathBlossom.CanCast(Core.Me))
+                return false;
+
+            if (NinjaRoutine.AoeEnemies5Yards < 3)
+                return false;
+
+            return await Spells.DeathBlossom.Cast(Core.Me);
+        }
+
         public static async Task<bool> HellfrogMedium()
         {
 

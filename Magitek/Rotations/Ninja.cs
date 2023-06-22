@@ -153,6 +153,8 @@ namespace Magitek.Rotations
 
             if (await Buff.Huraijin()) return true;
 
+            if (await Aoe.DeathBlossom()) return true;
+
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
