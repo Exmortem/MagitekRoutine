@@ -6,6 +6,7 @@ using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
@@ -23,6 +24,9 @@ namespace Magitek.Logic.Ninja
 
             //dumping ninki before mug is missung
             if (MagitekActionResourceManager.Ninja.NinkiGauge < 90)
+                return false;
+
+            if (NinjaRoutine.AoeEnemies6Yards < 3)
                 return false;
 
             //Smart Target Logic needs to be addded

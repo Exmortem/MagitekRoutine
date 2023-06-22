@@ -100,6 +100,10 @@ namespace Magitek.Logic.Ninja
             if (MagitekActionResourceManager.Ninja.NinkiGauge < 90 || (Spells.Mug.Cooldown > new TimeSpan(0, 0, 7) && MagitekActionResourceManager.Ninja.NinkiGauge + 40 < 90 ))
                 return false;
 
+            if (NinjaRoutine.AoeEnemies6Yards > 2 && !Core.Me.HasMyAura(Auras.Meisui)
+                || NinjaRoutine.AoeEnemies6Yards > 3 && Core.Me.HasMyAura(Auras.Meisui))
+                return false;
+
             //Smart Target Logic needs to be addded
             return await Spells.Bhavacakra.Cast(Core.Me.CurrentTarget);
         }

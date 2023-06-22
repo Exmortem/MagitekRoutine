@@ -14,7 +14,7 @@ namespace Magitek.Utilities.Routines
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Ninja, Spells.SpinningEdge, new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi, Spells.Ninjutsu });
 
         public static int AoeEnemies5Yards;
-        public static int AoeEnemies8Yards;
+        public static int AoeEnemies6Yards;
 
         private static bool TenChiJin = false;
 
@@ -184,7 +184,7 @@ namespace Magitek.Utilities.Routines
             }
 
             AoeEnemies5Yards = Core.Me.CurrentTarget.EnemiesNearby(5).Count();
-            AoeEnemies8Yards = Core.Me.CurrentTarget.EnemiesNearby(8).Count();
+            AoeEnemies6Yards = Core.Me.CurrentTarget.EnemiesNearby(6).Count();
 
         }
     }

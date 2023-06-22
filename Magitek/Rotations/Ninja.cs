@@ -112,16 +112,6 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-
-
-            /*
-
-            if (await Ninjutsu.Huton()) return true;
-
-            //if (await Aoe.HellfrogMedium()) return true;
-
-            */
-
             if (NinjaRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.SpinningEdge.Cooldown.TotalMilliseconds >= 770
                 && DateTime.Now >= NinjaRoutine.oGCD)
             {
@@ -135,6 +125,7 @@ namespace Magitek.Rotations
                 if (!usedOGCD && await Cooldown.DreamWithinaDream()) usedOGCD = true;
                 if (!usedOGCD && await Buff.Meisui()) usedOGCD = true;
                 if (!usedOGCD && await SingleTarget.Bhavacakra()) usedOGCD = true;
+                if (!usedOGCD && await Aoe.HellfrogMedium()) usedOGCD = true;
                 if (!usedOGCD && await Buff.Bunshin()) usedOGCD = true;
 
                 if (usedOGCD)
