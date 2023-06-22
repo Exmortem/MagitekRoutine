@@ -160,6 +160,8 @@ namespace Magitek.Rotations
 
             if (await Aoe.PhantomKamaitachi()) return true;
 
+            if (await Buff.Huraijin()) return true;
+
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;

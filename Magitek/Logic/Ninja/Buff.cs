@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ff14bot;
+using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
@@ -66,6 +67,22 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             return await Spells.Meisui.Cast(Core.Me);
+
+        }
+
+        public static async Task<bool> Huraijin()
+        {
+
+            if (Core.Me.ClassLevel < 60)
+                return false;
+
+            if (!Spells.Huraijin.IsKnown())
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
+                return false;
+
+            return await Spells.Huraijin.Cast(Core.Me.CurrentTarget);
 
         }
 
