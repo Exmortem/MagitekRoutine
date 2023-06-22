@@ -17,7 +17,7 @@ namespace Magitek.Logic.Ninja
         public static async Task<bool> Huton()
         {
 
-            if (Core.Me.ClassLevel < 45)
+            if (Core.Me.ClassLevel < 45 || Core.Me.ClassLevel >= 60)
                 return false;
 
             if (!Spells.Jin.IsKnown())
