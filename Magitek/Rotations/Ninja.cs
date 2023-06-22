@@ -145,6 +145,7 @@ namespace Magitek.Rotations
             if (await Ninjutsu.HyoshoRanryu()) return true;
             if (await Ninjutsu.Suiton()) return true;
             if (await Ninjutsu.Raiton()) return true;
+            if (await Ninjutsu.FumaShuriken()) return true;
 
             if (await SingleTarget.FleetingRaiju()) return true;
             if (await SingleTarget.ForkedRaiju()) return true;
