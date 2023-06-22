@@ -151,7 +151,7 @@ namespace Magitek.Logic.Scholar
             return false;
         }
         
-        public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
-        
+        public static int AoeThreshold => PartyManager.NumMembers > 4 ? ScholarSettings.Instance.AoeNeedHealingFullParty : ScholarSettings.Instance.AoeNeedHealingLightParty;
+
     }
 }

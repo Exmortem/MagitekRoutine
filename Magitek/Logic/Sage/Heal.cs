@@ -93,12 +93,27 @@ namespace Magitek.Logic.Sage
             return true;
         }
 
-        public static async Task<bool> Diagnosis()
+        public static bool NeedAoEHealing()
+        {
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.AoEHealHealthPercent);
+
+            var needAoEHealing = targets.Count() >= AoeNeedHealing;
+
+            if (needAoEHealing)
+                return true;
+
+            return false;
+        }
+
+            public static async Task<bool> Diagnosis()
         {
             if (!SageSettings.Instance.Diagnosis)
                 return false;
 
             if (SageSettings.Instance.DiagnosisOnlyBelowXAddersgall && Addersgall > SageSettings.Instance.DiagnosisOnlyAddersgallValue)
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -123,6 +138,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!IsEukrasiaReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -176,7 +194,29 @@ namespace Magitek.Logic.Sage
             return await Spells.EukrasianDiagnosis.HealAura(Core.Me, Auras.EukrasianDiagnosis);
         }
 
-        public static async Task<bool> Prognosis()
+            public static async Task<bool> ForceEukrasianDiagnosis()
+        {
+
+            if (!SageSettings.Instance.ForceEukrasianDiagnosis)
+                return false;
+
+            if (!IsEukrasiaReady())
+                return false;
+
+            var target = Core.Me.CurrentTarget;
+
+            if (!await UseEukrasia(Spells.EukrasianDiagnosis.Id,targetObject: target))
+                 return false;
+
+            if (!await Spells.EukrasianDiagnosis.HealAura(target, Auras.EukrasianDiagnosis))
+                return false;
+
+            SageSettings.Instance.ForceEukrasianDiagnosis = false;
+            TogglesManager.ResetToggles();
+            return true;
+        }
+
+            public static async Task<bool> Prognosis()
         {
             if (!SageSettings.Instance.Prognosis)
                 return false;
@@ -260,6 +300,9 @@ namespace Magitek.Logic.Sage
             if (!spell.IsKnownAndReady())
                 return false;
 
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             var targets = Spells.PhysisII.IsKnown()
                 ? Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura))
                 : Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent && !r.HasAura(aura));
@@ -281,6 +324,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!Spells.Druochole.IsKnownAndReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -408,6 +454,9 @@ namespace Magitek.Logic.Sage
                 return false;
 
             if (!Spells.Taurochole.IsKnownAndReady())
+                return false;
+
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)

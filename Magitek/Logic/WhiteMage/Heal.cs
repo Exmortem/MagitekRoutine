@@ -17,9 +17,26 @@ namespace Magitek.Logic.WhiteMage
 {
     public class Heal
     {
+        public static int AoeNeedHealing => PartyManager.NumMembers > 4 ? WhiteMageSettings.Instance.AoeNeedHealingFullParty : WhiteMageSettings.Instance.AoeNeedHealingLightParty;
+
+        public static bool NeedAoEHealing()
+        {
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.AoEHealHealthPercent);
+
+            var needAoEHealing = targets.Count() >= AoeNeedHealing;
+
+            if (needAoEHealing)
+                return true;
+
+            return false;
+        }
+
         public static async Task<bool> Cure()
         {
             if (!WhiteMageSettings.Instance.Cure)
+                return false;
+
+            if (WhiteMageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -102,6 +119,9 @@ namespace Magitek.Logic.WhiteMage
             if (Core.Me.ClassLevel < Spells.Cure2.LevelAcquired)
                 return false;
 
+            if (WhiteMageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             if (Globals.InParty)
             {
                 if (Core.Me.HasAura(Auras.Freecure) && Globals.HealTarget?.CurrentHealthPercent <= WhiteMageSettings.Instance.CureHealthPercent)
@@ -154,7 +174,7 @@ namespace Magitek.Logic.WhiteMage
                 List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 6).ToList();
                 int nearbyTargets = nearby.Count(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent);
                 long totalHealthDown = nearby.Sum(r => r.MaxHealth - r.CurrentHealth);
-                if (nearbyTargets >= WhiteMageSettings.Instance.Cure3Allies
+                if (nearbyTargets >= AoeNeedHealing
                     && (nearbyTargets > bestTargetCount
                         || (nearbyTargets == bestTargetCount
                             && totalHealthDown > mostHealthDown)))
@@ -232,6 +252,9 @@ namespace Magitek.Logic.WhiteMage
             if (!Core.Me.InCombat)
                 return false;
 
+            if (WhiteMageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             if (Globals.InParty)
             {
                 if (WhiteMageSettings.Instance.TetragrammatonTankOnly)
@@ -285,7 +308,7 @@ namespace Magitek.Logic.WhiteMage
 
             var medicaCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.MedicaHealthPercent);
 
-            if (medicaCount < WhiteMageSettings.Instance.MedicaAllies)
+            if (medicaCount < AoeNeedHealing)
                 return false;
 
             return await Spells.Medica.Heal(Core.Me, false);
@@ -338,7 +361,7 @@ namespace Magitek.Logic.WhiteMage
 
             var asylumTarget = Group.CastableTanks.FirstOrDefault(r => r.CurrentHealth > 0 &&
                                                                        r.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent &&
-                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 15 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= WhiteMageSettings.Instance.AsylumAllies - 1);
+                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 15 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= AoeNeedHealing - 1);
 
             if (asylumTarget == null)
                 return false;
@@ -367,7 +390,7 @@ namespace Magitek.Logic.WhiteMage
             {
                 var liturgyTargets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.LiturgyOfTheBellHealthPercent);
 
-                if (liturgyTargets.Count() < WhiteMageSettings.Instance.LiturgyOfTheBellAllies)
+                if (liturgyTargets.Count() < AoeNeedHealing)
                     return false;
 
                 Character target = liturgyTargets.FirstOrDefault();
@@ -404,7 +427,7 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.Medica2)
                 return false;
 
-            if (Group.CastableAlliesWithin30.Count(CanMedica2) < WhiteMageSettings.Instance.Medica2Allies)
+            if (Group.CastableAlliesWithin30.Count(CanMedica2) < AoeNeedHealing)
                 return false;
 
             if (!await Spells.Medica2.Heal(Core.Me, false))
@@ -412,7 +435,7 @@ namespace Magitek.Logic.WhiteMage
                 return false;
             }
 
-            return await Coroutine.Wait(5000, () => MovementManager.IsMoving || Group.CastableAlliesWithin30.Count(CanMedica2) < WhiteMageSettings.Instance.Medica2Allies);
+            return await Coroutine.Wait(5000, () => MovementManager.IsMoving || Group.CastableAlliesWithin30.Count(CanMedica2) < AoeNeedHealing);
 
             bool CanMedica2(GameObject unit)
             {
@@ -536,7 +559,7 @@ namespace Magitek.Logic.WhiteMage
 
             var canPlenaryIndulgence = Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent < WhiteMageSettings.Instance.PlenaryIndulgenceHealthPercent);
 
-            if (canPlenaryIndulgence < WhiteMageSettings.Instance.PlenaryIndulgenceAllies)
+            if (canPlenaryIndulgence < AoeNeedHealing)
                 return false;
 
             if (await Spells.PlenaryIndulgence.Cast(Core.Me))
@@ -560,6 +583,9 @@ namespace Magitek.Logic.WhiteMage
                 return false;
 
             if (ActionResourceManager.WhiteMage.Lily < 1)
+                return false;
+
+            if (WhiteMageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -717,7 +743,7 @@ namespace Magitek.Logic.WhiteMage
 
             var afflatusRaptureCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AfflatusRaptureHealthPercent);
 
-            if (afflatusRaptureCount < WhiteMageSettings.Instance.AfflatusRaptureAllies)
+            if (afflatusRaptureCount < AoeNeedHealing)
                 return false;
 
             return await Spells.AfflatusRapture.Heal(Core.Me, false);

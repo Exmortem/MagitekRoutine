@@ -72,7 +72,7 @@ namespace Magitek.Logic.Astrologian
             if (!cardDrawn)
                 return false;
 
-            if (Core.Me.InCombat && Spells.MinorArcana.IsKnownAndReady())
+            if (Core.Me.InCombat && Spells.MinorArcana.IsKnownAndReady() && AstrologianSettings.Instance.UseMinorArcana)
                 if (!Core.Me.HasAnyAura(new uint[] { Auras.LadyOfCrownsDrawn, Auras.LordOfCrownsDrawn }))
                     return await Spells.MinorArcana.Cast(Core.Me);
 
