@@ -28,12 +28,19 @@
         </controls:SettingsBlock>-->
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
+            <StackPanel Margin="5">
+            <StackPanel Margin="5,0" Orientation="Horizontal">
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text="AoE Heal When Allies Need Healing -" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Light Party: " />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.AoeNeedHealingLightParty, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Full Party: " />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.AoeNeedHealingFullParty, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Margin="5,0" Orientation="Horizontal">
+                    <CheckBox Grid.Column="0" Content="Disable Single Healing When allies need heal below " IsChecked="{Binding SageSettings.DisableSingleHealWhenNeedAoeHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding SageSettings.AoEHealHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
 

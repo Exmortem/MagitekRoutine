@@ -10,8 +10,10 @@ using Magitek.Utilities;
 using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Models.Samurai;
-using Magitek.Models.Monk;
+using Magitek.Utilities.GamelogManager;
+using ff14bot.Helpers;
+using System.Windows.Forms;
+using System;
 
 namespace Magitek.Rotations
 {
@@ -25,7 +27,6 @@ namespace Magitek.Rotations
         public static async Task<bool> PreCombatBuff()
         {
 
-
             await Casting.CheckForSuccessfulCast();
 
             if (!SpellQueueLogic.SpellQueue.Any())
@@ -38,16 +39,19 @@ namespace Magitek.Rotations
                 if (await SpellQueueLogic.SpellQueueMethod()) return true;
             }
 
-            if (!NinjaSettings.Instance.UseHutonOutsideOfCombat)
-                return false;
+            Utilities.Routines.Ninja.RefreshVars();
 
-            if (NinjaSettings.Instance.UseHutonOutsideOfCombat)
-            {
-                if (WorldManager.InSanctuary)
-                    return false;
-            }
+            if (await Ninjutsu.PrePullHutonRamp()) return true;
+            if (await Ninjutsu.PrePullHutonUse()) return true;
+            if (await Utility.PrePullHide()) return true;
+            
+            if (await Ninjutsu.PrePullSuitonRamp()) return true;
+            if (await Ninjutsu.PrePullSuitonUse()) return true;
 
-            return Ninjutsu.Huton();
+            if (GamelogManagerCountdown.IsCountdownRunning())
+                return true;
+
+            return false;
         }
 
         public static async Task<bool> Pull()
@@ -59,6 +63,9 @@ namespace Magitek.Rotations
                     Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CurrentTarget.CombatReach);
                 }
             }
+
+            if (GamelogManagerCountdown.IsCountdownRunning())
+                return true;
 
             return await Combat();
         }
@@ -76,6 +83,7 @@ namespace Magitek.Rotations
         }
         public static async Task<bool> Combat()
         {
+
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
@@ -104,67 +112,58 @@ namespace Magitek.Rotations
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
 
-            //LimitBreak
-            if (SingleTarget.ForceLimitBreak()) return true;
-
-            //GCD Huton
-            if (await SingleTarget.Huraijin()) return true;
-
-            //Buff
-            if (Ninjutsu.Huton()) return true;
-            if (Ninjutsu.Suiton()) return true;
-
-            //Utility
-            if (await Utility.ForceShadeShift()) return true;
-            if (await Utility.ForceTrueNorth()) return true;
-            if (await Utility.ForceSecondWind()) return true;
-            if (await Utility.ForceBloodBath()) return true;
-            if (await Utility.ForceFeint()) return true;
-
-            if (await PhysicalDps.Interrupt(NinjaSettings.Instance)) return true;
-            if (await PhysicalDps.SecondWind(NinjaSettings.Instance)) return true;
-            if (await PhysicalDps.Bloodbath(NinjaSettings.Instance)) return true;
-
-            if (NinjaRoutine.GlobalCooldown.CanWeave(1))
+            if (NinjaRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.SpinningEdge.Cooldown.TotalMilliseconds >= 770
+                && DateTime.Now >= NinjaRoutine.oGCD)
             {
-                if (await Utility.ShadeShift()) return true;
-                if (await Utility.TrueNorth()) return true;
-                if (await Buff.UsePotion()) return true;
 
-                if (await Buff.Bunshin()) return true;
-                if (await Buff.Meisui()) return true;
-                if (await Buff.Kassatsu()) return true;
+                bool usedOGCD = false;
 
-                if (await SingleTarget.Mug()) return true;
-                if (await SingleTarget.TrickAttack()) return true;
+                if (!usedOGCD && await Buff.Kassatsu()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.Mug()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.TrickAttack()) usedOGCD = true;
+                if (!usedOGCD && await Ninjutsu.TenChiJin()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.DreamWithinaDream()) usedOGCD = true;
+                if (!usedOGCD && await Buff.Meisui()) usedOGCD = true;
+                if (!usedOGCD && await SingleTarget.Bhavacakra()) usedOGCD = true;
+                if (!usedOGCD && await Aoe.HellfrogMedium()) usedOGCD = true;
+                if (!usedOGCD && await Buff.Bunshin()) usedOGCD = true;
+
+                if (usedOGCD)
+                {
+
+                    NinjaRoutine.oGCD = DateTime.Now.AddMilliseconds(770);
+                    return true;
+
+                }
             }
 
-            //AOE
-            if (await Aoe.PhantomKamaitachi()) return true;
-            if (await Aoe.HellfrogMedium()) return true;
-            if (Ninjutsu.GokaMekkyaku()) return true;
-            if (Ninjutsu.Doton()) return true;
-            if (Ninjutsu.Katon()) return true;
+            if (await Ninjutsu.TenChiJin_FumaShuriken()) return true;
+            if (await Ninjutsu.TenChiJin_Raiton()) return true;
+            if (await Ninjutsu.TenChiJin_Suiton()) return true;
 
-            //Single Target
-            if (await SingleTarget.DreamWithinADream()) return true;
+            if (await Ninjutsu.Huton()) return true;
+            if (await Ninjutsu.HyoshoRanryu()) return true;
+            if (await Ninjutsu.Suiton()) return true;
+            if (await Ninjutsu.Raiton()) return true;
+            if (await Ninjutsu.FumaShuriken()) return true;
+
             if (await SingleTarget.FleetingRaiju()) return true;
-            if (await SingleTarget.Bhavacakra()) return true;
-            if (Ninjutsu.HyoshoRanryu()) return true;
-            if (Ninjutsu.Raiton()) return true;
-            if (Ninjutsu.FumaShuriken()) return true;
+            if (await SingleTarget.ForkedRaiju()) return true;
 
-            //TCJ
-            if (await Ninjutsu.TenChiJin()) return true;
+            if (await Aoe.PhantomKamaitachi()) return true;
 
-            if (await Aoe.HakkeMujinsatsu()) return true;
+            if (await Buff.Huraijin()) return true;
+
             if (await Aoe.DeathBlossom()) return true;
+            if (await Aoe.HakkeMujinsatsu()) return true;
 
-            //Melee Combo
             if (await SingleTarget.ArmorCrush()) return true;
             if (await SingleTarget.AeolianEdge()) return true;
             if (await SingleTarget.GustSlash()) return true;
-            return await SingleTarget.SpinningEdge();
+            if (await SingleTarget.SpinningEdge()) return true;
+
+            return false;
+            
         }
 
         public static async Task<bool> PvP()

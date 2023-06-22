@@ -5,18 +5,26 @@ using Magitek.Models.Ninja;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
+using System;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 
 namespace Magitek.Logic.Ninja
 {
     internal static class Aoe
     {
+
         public static async Task<bool> DeathBlossom()
         {
-            if (!NinjaSettings.Instance.UseAoe)
+            if (Core.Me.ClassLevel < 38)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
+            if (!Spells.DeathBlossom.IsKnown())
+                return false;
+
+            if (!Spells.DeathBlossom.CanCast(Core.Me))
+                return false;
+
+            if (NinjaRoutine.AoeEnemies5Yards < 3)
                 return false;
 
             return await Spells.DeathBlossom.Cast(Core.Me);
@@ -24,13 +32,16 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> HakkeMujinsatsu()
         {
-            if (!NinjaSettings.Instance.UseAoe)
+            if (Core.Me.ClassLevel < 52)
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
+            if (!Spells.HakkeMujinsatsu.IsKnown())
                 return false;
 
-            if (ActionManager.LastSpell != Spells.DeathBlossom)
+            if (!Spells.HakkeMujinsatsu.CanCast(Core.Me))
+                return false;
+
+            if (NinjaRoutine.AoeEnemies5Yards < 3)
                 return false;
 
             return await Spells.HakkeMujinsatsu.Cast(Core.Me);
@@ -38,40 +49,42 @@ namespace Magitek.Logic.Ninja
 
         public static async Task<bool> HellfrogMedium()
         {
+
             if (Core.Me.ClassLevel < 62)
                 return false;
 
-            if (!NinjaSettings.Instance.UseHellfrogMedium)
+            if (!Spells.HellfrogMedium.IsKnown())
                 return false;
 
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me.CurrentTarget) <= 6 + r.CombatReach) < NinjaSettings.Instance.AoeEnemies)
+            //dumping ninki before mug is missung
+            if (MagitekActionResourceManager.Ninja.NinkiGauge < 90)
                 return false;
 
-            if (Spells.Mug.IsKnownAndReady(1000))
-                return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
-
-            if (Spells.Bunshin.IsKnownAndReady())
+            if (NinjaRoutine.AoeEnemies6Yards < 3)
                 return false;
 
-            if (Spells.TrickAttack.IsKnownAndReady(14000))
-                return false;
-
-            return await (Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget));
+            //Smart Target Logic needs to be addded
+            return await Spells.HellfrogMedium.Cast(Core.Me.CurrentTarget);
         }
 
         public static async Task<bool> PhantomKamaitachi()
         {
+
             if (Core.Me.ClassLevel < 82)
                 return false;
 
-            if (!NinjaSettings.Instance.UsePhantomKamaitachi)
+            if (!Spells.PhantomKamaitachi.IsKnown())
                 return false;
 
-            if (!Spells.PhantomKamaitachi.IsKnownAndReady())
+            if (ActionResourceManager.Ninja.HutonTimer.Add(new TimeSpan(0, 0, 10)) > new TimeSpan(0, 1, 0))
+                return false;
+
+            if (!Core.Me.HasMyAura(Auras.PhantomKamaitachiReady) && Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Bunshin)
                 return false;
 
             return await Spells.PhantomKamaitachi.Cast(Core.Me.CurrentTarget);
 
         }
+
     }
 }

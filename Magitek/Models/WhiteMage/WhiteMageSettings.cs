@@ -18,6 +18,22 @@ namespace Magitek.Models.WhiteMage
         public bool Stone { get; set; }
 
         [Setting]
+        [DefaultValue(2)]
+        public int AoeNeedHealingLightParty { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AoeNeedHealingFullParty { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DisableSingleHealWhenNeedAoeHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float AoEHealHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool InterruptHealing { get; set; }
 
@@ -70,20 +86,12 @@ namespace Magitek.Models.WhiteMage
         public bool Asylum { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int AsylumAllies { get; set; }
-
-        [Setting]
         [DefaultValue(85.0f)]
         public float AsylumHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool LiturgyOfTheBell { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        public int LiturgyOfTheBellAllies { get; set; }
 
         [Setting]
         [DefaultValue(85.0f)]
@@ -104,10 +112,6 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(false)]
         public bool AssizeHealOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int AssizeAllies { get; set; }
 
         [Setting]
         [DefaultValue(80.0f)]
@@ -134,10 +138,6 @@ namespace Magitek.Models.WhiteMage
         public float Cure3HealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(2)]
-        public int Cure3Allies { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Benediction { get; set; }
 
@@ -148,7 +148,6 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(20.0f)]
         public float BenedictionHealthPercent { get; set; }
-
 
         [Setting]
         [DefaultValue(true)]
@@ -167,20 +166,12 @@ namespace Magitek.Models.WhiteMage
         public bool Medica { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int MedicaAllies { get; set; }
-
-        [Setting]
         [DefaultValue(75)]
         public float MedicaHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool Medica2 { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int Medica2Allies { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
@@ -197,10 +188,6 @@ namespace Magitek.Models.WhiteMage
         [Setting]
         [DefaultValue(true)]
         public bool AfflatusRapture { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int AfflatusRaptureAllies { get; set; }
 
         [Setting]
         [DefaultValue(75)]

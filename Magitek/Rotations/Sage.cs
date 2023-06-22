@@ -97,6 +97,7 @@ namespace Magitek.Rotations
             if (await Logic.Sage.Heal.ForceHaima()) return true;
             if (await Logic.Sage.Heal.ForcePanhaima()) return true;
             if (await Logic.Sage.Heal.ForcePepsisEukrasianPrognosis()) return true;
+            if (await Logic.Sage.Heal.ForceEukrasianDiagnosis()) return true;
 
             if (await Logic.Sage.HealFightLogic.Aoe()) return true;
             if (await Logic.Sage.HealFightLogic.Tankbuster()) return true;

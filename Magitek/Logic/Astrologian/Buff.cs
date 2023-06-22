@@ -4,6 +4,7 @@ using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using Magitek.Utilities;
+using ff14bot.Managers;
 using System.Linq;
 using System.Threading.Tasks;
 using AstroUtils =  Magitek.Utilities.Routines.Astrologian;
@@ -13,6 +14,8 @@ namespace Magitek.Logic.Astrologian
 {
     internal static class Buff
     {
+        public static int AoeThreshold => PartyManager.NumMembers > 4 ? AstrologianSettings.Instance.AoeNeedHealingFullParty : AstrologianSettings.Instance.AoeNeedHealingLightParty;
+
         public static async Task<bool> Swiftcast()
         {
             if (await Spells.Swiftcast.CastAura(Core.Me, Auras.Swiftcast))
@@ -130,7 +133,7 @@ namespace Magitek.Logic.Astrologian
             var neutral = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.NeutralSectHealthPercent);
 
-            if (neutral < AstrologianSettings.Instance.NeutralSectAllies)
+            if (neutral < AoeThreshold)
                 return false;
 
             return await Spells.NeutralSect.CastAura(Core.Me,Auras.NeutralSect);

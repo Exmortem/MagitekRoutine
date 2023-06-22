@@ -1,78 +1,89 @@
-﻿using ff14bot;
-using Magitek.Extensions;
-using Magitek.Models.Ninja;
-using Magitek.Utilities;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using ff14bot;
 using ff14bot.Managers;
-using static ff14bot.Managers.ActionResourceManager.Ninja;
-using Magitek.Logic.Roles;
+using Magitek.Extensions;
+using Magitek.Utilities;
+using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
+
 
 namespace Magitek.Logic.Ninja
 {
     internal static class Buff
     {
-        public static async Task<bool> ShadeShift()
+        
+        public static async Task<bool> Kassatsu()
         {
-            if (!NinjaSettings.Instance.UseShadeShift)
+
+            if (Core.Me.ClassLevel < 50)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent > NinjaSettings.Instance.ShadeShiftHealthPercent)
+            if (!Spells.Kassatsu.IsKnown())
                 return false;
 
-            return await Spells.ShadeShift.Cast(Core.Me);
-        }
-
-        public static async Task<bool> Meisui()
-        {
-            if (Core.Me.ClassLevel < 72)
+            if (Core.Me.HasAura(Auras.TenChiJin) || NinjaRoutine.UsedMudras.Count() > 0)
                 return false;
 
-            if (!NinjaSettings.Instance.UseMeisui)
-                return false;
+            return await Spells.Kassatsu.Cast(Core.Me);
 
-            if (!Core.Me.HasAura(Auras.Suiton))
-                return false;
-
-            if(Spells.TrickAttack.IsKnownAndReady(20000))
-                return false;
-
-            return await Spells.Meisui.Cast(Core.Me);
         }
 
         public static async Task<bool> Bunshin()
         {
+
             if (Core.Me.ClassLevel < 80)
                 return false;
 
-            if (!NinjaSettings.Instance.UseBunshin)
+            if (!Spells.Bunshin.IsKnown())
                 return false;
 
-            if (!Core.Me.CurrentTarget.HasAura(Auras.TrickAttack) && !Core.Me.CurrentTarget.HasAura(Auras.VulnerabilityUp))
+            if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
             return await Spells.Bunshin.Cast(Core.Me);
+
         }
 
-        public static async Task<bool> Kassatsu()
+        public static async Task<bool> Meisui()
         {
-            if (Core.Me.ClassLevel < 50)
+
+            if (Core.Me.ClassLevel < 72)
                 return false;
 
-            if (!NinjaSettings.Instance.UseKassatsu)
+            if (!Spells.Meisui.IsKnown())
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Suiton))
+            if (MagitekActionResourceManager.Ninja.NinkiGauge + 50 > 100)
                 return false;
 
-            return await Spells.Kassatsu.Cast(Core.Me);
+            if (Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 20))
+                return false;
+
+            if (Casting.SpellCastHistory.First().Spell == Spells.TrickAttack)
+                return false;
+
+            if (!NinjaRoutine.GlobalCooldown.IsWeaveWindow(1))
+                return false;
+
+            return await Spells.Meisui.Cast(Core.Me);
+
         }
 
-        public static async Task<bool> UsePotion()
+        public static async Task<bool> Huraijin()
         {
-            if (Spells.Mug.IsKnown() && !Spells.Mug.IsReady(4000))
+
+            if (Core.Me.ClassLevel < 60)
                 return false;
 
-            return await PhysicalDps.UsePotion(NinjaSettings.Instance);
+            if (!Spells.Huraijin.IsKnown())
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0))
+                return false;
+
+            return await Spells.Huraijin.Cast(Core.Me.CurrentTarget);
+
         }
 
     }

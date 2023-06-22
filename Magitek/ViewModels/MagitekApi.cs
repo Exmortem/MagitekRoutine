@@ -63,6 +63,7 @@ namespace Magitek.ViewModels
         {
             SpinnerVisible = true;
 
+            
             var result = await _webClient.GetAsync($@"{ApiAddress}/news/");
 
             if (!result.IsSuccessStatusCode)
@@ -71,8 +72,31 @@ namespace Magitek.ViewModels
                 return;
             }
 
-            var responseContent = await result.Content.ReadAsStringAsync();
-            NewsList = new AsyncObservableCollection<MagitekNews>(JsonConvert.DeserializeObject<List<MagitekNews>>(responseContent).OrderByDescending(r => r.Id));
+            //var responseContent = await result.Content.ReadAsStringAsync();
+            //NewsList = new AsyncObservableCollection<MagitekNews>(JsonConvert.DeserializeObject<List<MagitekNews>>(responseContent).OrderByDescending(r => r.Id));
+            
+
+            MagitekNews CurrentVersion = new MagitekNews
+            {
+                Created = "01/01/9999"
+            };
+            if (File.Exists(Path.Combine(Environment.CurrentDirectory, $@"Routines\Magitek\Version.txt")))
+            {
+                try
+                {
+                    var version = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, $@"Routines\Magitek\Version.txt"));
+                    CurrentVersion.Title = "Current Version";
+                    CurrentVersion.Message = version;
+                }
+                catch 
+                {
+                    CurrentVersion.Title = "Current Version";
+                    CurrentVersion.Message = "UNKNOWN";
+                }
+            }
+
+            NewsList = new AsyncObservableCollection<MagitekNews>() { CurrentVersion };
+            
             SpinnerVisible = false;
         }
 

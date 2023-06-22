@@ -25,6 +25,7 @@ namespace Magitek.Utilities.Routines
         public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.Astrologian, Spells.Malefic);
 
         public static List<Character> AllianceBeneficOnly = new List<Character>();
+        public static int AoeThreshold => PartyManager.NumMembers > 4 ? AstrologianSettings.Instance.AoeNeedHealingFullParty : AstrologianSettings.Instance.AoeNeedHealingLightParty;
 
         public static bool NeedToInterruptCast()
         {
@@ -52,8 +53,7 @@ namespace Magitek.Utilities.Routines
             {
                 if (Casting.CastingSpell == Spells.Helios && PartyManager.VisibleMembers.Select(r => r.BattleCharacter).Count(r =>
                         r.CurrentHealth > 0 && r.Distance(Core.Me) <= Spells.Helios.Radius && r.CurrentHealthPercent <=
-                        AstrologianSettings.Instance.HeliosHealthPercent) <
-                    AstrologianSettings.Instance.HeliosAllies)
+                        AstrologianSettings.Instance.HeliosHealthPercent) < AoeThreshold)
                 {
                     Logger.Error($@"Stopped Healing: Party's Health Too High");
                     return true;
@@ -65,7 +65,7 @@ namespace Magitek.Utilities.Routines
                             r.Distance(Core.Me) <= Spells.AspectedHelios.Radius &&
                             r.CurrentHealthPercent <=
                             AstrologianSettings.Instance.DiurnalHeliosHealthPercent &&
-                            !r.HasAura(Auras.AspectedHelios, true)) < AstrologianSettings.Instance.DiurnalHeliosAllies)
+                            !r.HasAura(Auras.AspectedHelios, true)) < AoeThreshold)
                     {
                         Logger.Error($@"Stopped Healing: Party's Health Too High");
                         return true;

@@ -18,10 +18,28 @@ namespace Magitek.Logic.Astrologian
     internal static class Heals
     {
 
+        public static int AoeThreshold => PartyManager.NumMembers > 4 ? AstrologianSettings.Instance.AoeNeedHealingFullParty : AstrologianSettings.Instance.AoeNeedHealingLightParty;
+
+        public static bool NeedAoEHealing()
+        {
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.AoEHealHealthPercent);
+
+            var needAoEHealing = targets.Count() >= AoeThreshold;
+
+            if (needAoEHealing)
+                return true;
+
+            return false;
+        }
+
+
         #region Single Target No Regen Heals
         public static async Task<bool> Benefic()
         {
             if (!AstrologianSettings.Instance.Benefic)
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -105,6 +123,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (!Spells.Benefic2.IsKnownAndReady())
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             var shouldBenefic2WithEnhancedBenefic2 = AstrologianSettings.Instance.Benefic2AlwaysWithEnhancedBenefic2
@@ -191,6 +212,9 @@ namespace Magitek.Logic.Astrologian
             if (Casting.LastSpell == Spells.CelestialIntersection)
                 return false;
 
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             if (AstrologianSettings.Instance.CelestialIntersectionTankOnly)
             {
                 var celestialIntersectionTank = Group.CastableTanks.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontCelestialIntersection.Contains(r.Name)
@@ -222,6 +246,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -266,11 +293,13 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Exaltation)
                 return false;
 
-          
             if (!Globals.InParty)
                 return false;
 
             if (!Spells.Exaltation.IsKnownAndReady())
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (AstrologianSettings.Instance.FightLogic_Exaltation)
@@ -329,7 +358,7 @@ namespace Magitek.Logic.Astrologian
             if (!Globals.InParty && Core.Me.CurrentHealthPercent <= Core.Me.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent))
                 return await Spells.LadyofCrowns.Heal(Core.Me);
 
-            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AoeThreshold)
                 return false;
 
             return await Spells.LadyofCrowns.Heal(Core.Me);
@@ -345,6 +374,9 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (!Core.Me.InCombat)
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (MovementManager.IsMoving)
@@ -415,6 +447,12 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalHelios)
                 return false;
 
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             // Add check to ensure we don't double cast
             if (Casting.LastSpell == Spells.AspectedHelios)
                 return false;
@@ -439,6 +477,9 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.DiurnalBeneficOnHealers)
                 return false;
 
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             var aspectedBeneficTarget = AstrologianSettings.Instance.DiurnalBeneficKeepUpOnHealers
                 ? Group.CastableAlliesWithin30.FirstOrDefault(r => !Utilities.Routines.Astrologian.DontDiurnalBenefic.Contains(r.Name)
                 && r.CurrentHealth > 0
@@ -459,6 +500,9 @@ namespace Magitek.Logic.Astrologian
         private static async Task<bool> AspectedBeneficDps()
         {
             if (!AstrologianSettings.Instance.DiurnalBeneficOnDps)
+                return false;
+
+            if (AstrologianSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             var aspectedBeneficTarget = AstrologianSettings.Instance.DiurnalBeneficKeepUpOnDps
@@ -512,7 +556,7 @@ namespace Magitek.Logic.Astrologian
                                                         AstrologianSettings.Instance.DiurnalHeliosHealthPercent &&
                                                         !r.HasAura(Auras.AspectedHelios, true));
 
-            if (diurnalHeliosCount >= AstrologianSettings.Instance.DiurnalHeliosAllies)
+            if (diurnalHeliosCount >= AoeThreshold)
             {
                 if (await SwiftCastAspectedHelios())
                     return true;
@@ -555,7 +599,7 @@ namespace Magitek.Logic.Astrologian
             var celestialOppositionCount = Group.CastableAlliesWithin15.Count(r => r.CurrentHealth > 0
             && r.CurrentHealthPercent <= AstrologianSettings.Instance.CelestialOppositionHealthPercent);
 
-            if (celestialOppositionCount < AstrologianSettings.Instance.CelestialOppositionAllies)
+            if (celestialOppositionCount < AoeThreshold)
                 return false;
 
             return await Spells.CelestialOpposition.HealAura(Core.Me, Auras.Opposition, false);
@@ -573,7 +617,7 @@ namespace Magitek.Logic.Astrologian
                 return false;
 
             if (AstrologianSettings.Instance.FightLogic_CollectiveUnconscious && FightLogic.EnemyIsCastingAoe() &&
-                Group.CastableAlliesWithin30.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) > AoeThreshold)
+                Group.CastableAlliesWithin30.Count(x => x.WithinSpellRange(Spells.CollectiveUnconscious.Radius)) >= AoeThreshold)
                 return await FightLogic.DoAndBuffer(
                     Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.CollectiveUnconsciousMitigation));
 
@@ -581,7 +625,7 @@ namespace Magitek.Logic.Astrologian
             if (Group.CastableAlliesWithin30.Count(r => r.Distance() <= 30
                                                     && r.IsAlive
                                                     && r.CurrentHealthPercent <= AstrologianSettings.Instance.CollectiveUnconsciousHealth)
-                                                    < AstrologianSettings.Instance.CollectiveUnconsciousAllies)
+                                                    < AoeThreshold)
                 return false;
 
             return await Spells.CollectiveUnconscious.HealAura(Core.Me, Auras.WheelOfFortune, false);
@@ -659,7 +703,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
 
-            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AoeThreshold)
                 return false;
 
             if (await Spells.Horoscope.Cast(Core.Me))
@@ -674,7 +718,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
                         
-            if (Group.CastableAlliesWithin20.Count(r => r.HasAura(Auras.HoroscopeHelios) && r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.HasAura(Auras.HoroscopeHelios) && r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AoeThreshold)
                 return false;
 
             return await Spells.Horoscope.Cast(Core.Me);
@@ -759,6 +803,6 @@ namespace Magitek.Logic.Astrologian
             return Healer.ForceLimitBreak(Spells.HealingWind, Spells.BreathoftheEarth, Spells.AstralStasis, Spells.Malefic);
         }
 
-        public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
+        //public static int AoeThreshold => PartyManager.NumMembers == 4 ? 2 : 3;
     }
 }
