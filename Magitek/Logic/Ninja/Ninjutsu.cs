@@ -1,4 +1,4 @@
-﻿using ff14bot;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Utilities;
@@ -266,8 +266,18 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        public static async Task<bool> FumaShuriken()
+        {
 
+            if (Core.Me.ClassLevel < 30 || Core.Me.ClassLevel > 34)
+                return false;
 
+            if (!Spells.Ten.IsKnown())
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.FumaShuriken, Core.Me.CurrentTarget);
+
+        }
 
     }
 }
