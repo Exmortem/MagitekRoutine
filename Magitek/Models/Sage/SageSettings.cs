@@ -333,7 +333,7 @@ namespace Magitek.Models.Sage
 
         [Setting]
         [DefaultValue(false)]
-        public bool DisableSingleHealWhenAoeNeedHealing { get; set; }
+        public bool DisableSingleHealWhenNeedAoeHealing { get; set; }
 
         [Setting]
         [DefaultValue(50.0f)]

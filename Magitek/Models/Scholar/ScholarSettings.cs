@@ -66,6 +66,22 @@ namespace Magitek.Models.Scholar
         public bool InterruptHealing { get; set; }
 
         [Setting]
+        [DefaultValue(2)]
+        public int AoeNeedHealingLightParty { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AoeNeedHealingFullParty { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DisableSingleHealWhenNeedAoeHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(50.0f)]
+        public float AoEHealHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(false)]
         public bool ForceWhispDawn { get; set; }
 

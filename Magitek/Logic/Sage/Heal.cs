@@ -113,7 +113,7 @@ namespace Magitek.Logic.Sage
             if (SageSettings.Instance.DiagnosisOnlyBelowXAddersgall && Addersgall > SageSettings.Instance.DiagnosisOnlyAddersgallValue)
                 return false;
 
-            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -140,7 +140,7 @@ namespace Magitek.Logic.Sage
             if (!IsEukrasiaReady())
                 return false;
 
-            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -300,7 +300,7 @@ namespace Magitek.Logic.Sage
             if (!spell.IsKnownAndReady())
                 return false;
 
-            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             var targets = Spells.PhysisII.IsKnown()
@@ -326,7 +326,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Druochole.IsKnownAndReady())
                 return false;
 
-            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -456,7 +456,7 @@ namespace Magitek.Logic.Sage
             if (!Spells.Taurochole.IsKnownAndReady())
                 return false;
 
-            if (SageSettings.Instance.DisableSingleHealWhenAoeNeedHealing && NeedAoEHealing())
+            if (SageSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)

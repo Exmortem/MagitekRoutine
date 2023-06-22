@@ -28,6 +28,10 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <CheckBox Margin="5" Content="Use MinorArcana" IsChecked="{Binding AstrologianSettings.UseMinorArcana, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+        </controls:SettingsBlock>
+
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <CheckBox Margin="5" Content="Use AstroDyne" IsChecked="{Binding AstrologianSettings.AstroDyne, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         </controls:SettingsBlock>
 

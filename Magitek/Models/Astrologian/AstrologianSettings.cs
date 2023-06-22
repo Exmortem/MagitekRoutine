@@ -125,6 +125,22 @@ namespace Magitek.Models.Astrologian
         #region Heals
 
         [Setting]
+        [DefaultValue(2)]
+        public int AoeNeedHealingLightParty { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        public int AoeNeedHealingFullParty { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool DisableSingleHealWhenNeedAoeHealing { get; set; }
+
+        [Setting]
+        [DefaultValue(60.0f)]
+        public float AoEHealHealthPercent { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Synastry { get; set; }
 
@@ -485,6 +501,10 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool UseReDraw { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseMinorArcana { get; set; }
 
         [Setting]
         [DefaultValue(true)]

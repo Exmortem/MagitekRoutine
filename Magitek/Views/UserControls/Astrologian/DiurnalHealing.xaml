@@ -77,9 +77,7 @@
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Aspected Helios " IsChecked="{Binding AstrologianSettings.DiurnalHelios, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DiurnalHeliosHealthPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent When " />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.DiurnalHeliosAllies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent and " />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.DiurnalHeliosMinManaPercent, Mode=TwoWay}" />
                 <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Minimum Mana To Use" />
             </StackPanel>
@@ -89,9 +87,7 @@
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox Content="Celestial Opposition " IsChecked="{Binding AstrologianSettings.CelestialOpposition, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.CelestialOppositionHealthPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent When " />
-                <controls:Numeric MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.CelestialOppositionAllies, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing " />
+                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
             </StackPanel>
         </controls:SettingsBlock>
 

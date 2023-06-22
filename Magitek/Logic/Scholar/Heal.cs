@@ -16,6 +16,23 @@ namespace Magitek.Logic.Scholar
 {
     internal static class Heal
     {
+
+        public static int AoeNeedHealing => PartyManager.NumMembers > 4 ? ScholarSettings.Instance.AoeNeedHealingFullParty : ScholarSettings.Instance.AoeNeedHealingLightParty;
+
+        public static bool NeedAoEHealing()
+        {
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= ScholarSettings.Instance.AoEHealHealthPercent);
+
+            var needAoEHealing = targets.Count() >= AoeNeedHealing;
+
+            if (needAoEHealing)
+                return true;
+
+            return false;
+        }
+
+        #region ForceToggle
+
         public static async Task<bool> ForceWhispDawn()
         {
             if (!ScholarSettings.Instance.ForceWhispDawn)
@@ -60,9 +77,14 @@ namespace Magitek.Logic.Scholar
             return true;
         }
 
+        #endregion
+
         public static async Task<bool> Physick()
         {
             if (!ScholarSettings.Instance.Physick)
+                return false;
+
+            if (ScholarSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
                 return false;
 
             if (Globals.InParty)
@@ -148,6 +170,9 @@ namespace Magitek.Logic.Scholar
             if (!ScholarSettings.Instance.AdloOutOfCombat && !Core.Me.InCombat)
                 return false;
 
+            if (ScholarSettings.Instance.DisableSingleHealWhenNeedAoeHealing && NeedAoEHealing())
+                return false;
+
             if (Globals.InParty)
             {
                 // If the lowest heal target is higher than Adloquium health, check to see if the user wants us to Galvanize the tank
@@ -229,7 +254,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             var needSuccor = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
-                                                                     r.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsSuccorHealthPercent) >= ScholarSettings.Instance.SuccorNeedHealing;
+                                                                     r.CurrentHealthPercent <= ScholarSettings.Instance.EmergencyTacticsSuccorHealthPercent) >= AoeNeedHealing;
 
             if (!needSuccor)
                 return false;
@@ -256,7 +281,7 @@ namespace Magitek.Logic.Scholar
 
             var needSuccor = Group.CastableAlliesWithin15.Count(r => r.IsAlive &&
                                                                      r.CurrentHealthPercent <= ScholarSettings.Instance.SuccorHpPercent &&
-                                                                     !r.HasAura(Auras.Galvanize)) >= ScholarSettings.Instance.SuccorNeedHealing;
+                                                                     !r.HasAura(Auras.Galvanize)) >= AoeNeedHealing;
 
             if (!needSuccor)
                 return false;
@@ -363,7 +388,7 @@ namespace Magitek.Logic.Scholar
             if (Spells.Lustrate.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) > ScholarSettings.Instance.IndomitabilityNeedHealing)
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) > AoeNeedHealing)
                 return false;
 
             if (Globals.InParty)
@@ -446,7 +471,7 @@ namespace Magitek.Logic.Scholar
             if (Spells.Indomitability.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) < ScholarSettings.Instance.IndomitabilityNeedHealing)
+            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= ScholarSettings.Instance.IndomitabilityHpPercent) < AoeNeedHealing)
                 return false;
 
             await UseRecitation();
@@ -490,7 +515,7 @@ namespace Magitek.Logic.Scholar
                 return false;
 
             var sacredSoilTarget = Group.CastableAlliesWithin30.FirstOrDefault(r => PartyManager.VisibleMembers.Count(x => x.BattleCharacter.CurrentHealthPercent < ScholarSettings.Instance.SacredSoilHpPercent
-                    && x.BattleCharacter.Distance(r) <= 15) >= ScholarSettings.Instance.SacredSoilNeedHealing);
+                    && x.BattleCharacter.Distance(r) <= 15) >= AoeNeedHealing);
 
             if (sacredSoilTarget == null)
                 return false;
@@ -532,7 +557,7 @@ namespace Magitek.Logic.Scholar
             {
                 var canWhisperingDawnTargets = Group.CastableAlliesWithin30.Where(CanWhisperingDawn).ToList();
 
-                if (canWhisperingDawnTargets.Count < ScholarSettings.Instance.WhisperingDawnNeedHealing)
+                if (canWhisperingDawnTargets.Count < AoeNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.WhisperingDawnOnlyWithTank && !canWhisperingDawnTargets.Any(r => r.IsTank()))
@@ -582,7 +607,7 @@ namespace Magitek.Logic.Scholar
             {
                 var canFeyIlluminationTargets = Group.CastableAlliesWithin30.Where(CanFeyIllumination).ToList();
 
-                if (canFeyIlluminationTargets.Count < ScholarSettings.Instance.FeyIlluminationNeedHealing)
+                if (canFeyIlluminationTargets.Count < AoeNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.FeyIlluminationOnlyWithTank && !canFeyIlluminationTargets.Any(r => r.IsTank()))
@@ -632,7 +657,7 @@ namespace Magitek.Logic.Scholar
             {
                 var canFeyBlessingTargets = Group.CastableAlliesWithin30.Where(CanFeyBlessing).ToList();
 
-                if (canFeyBlessingTargets.Count < ScholarSettings.Instance.FeyBlessingNeedHealing)
+                if (canFeyBlessingTargets.Count < AoeNeedHealing)
                     return false;
 
                 if (ScholarSettings.Instance.FeyBlessingOnlyWithTank && !canFeyBlessingTargets.Any(r => r.IsTank()))
@@ -685,7 +710,7 @@ namespace Magitek.Logic.Scholar
             {
                 var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
 
-                if (canConsolationTargets.Count < ScholarSettings.Instance.ConsolationNeedHealing)
+                if (canConsolationTargets.Count < AoeNeedHealing)
                     return false;
 
                 if (Utilities.Routines.Scholar.SeraphTimeRemaining() >= 10 && ScholarSettings.Instance.ConsolationOnlyWithTank && !canConsolationTargets.Any(r => r.IsTank()))

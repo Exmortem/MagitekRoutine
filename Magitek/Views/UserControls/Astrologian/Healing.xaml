@@ -19,18 +19,26 @@
 
     <StackPanel Margin="10">
 
-        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Grid.Column="0" Content="Interrupt Healing If Target HP Gets Over" IsChecked="{Binding AstrologianSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Grid.Column="1" Margin="3,0" Value="{Binding AstrologianSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="11" Foreground="White" Text="Percent" />
-            </Grid>
+        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="5">
+                <StackPanel Margin="5,0" Orientation="Horizontal">
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="AoE Heal When Allies Need Healing -" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Light Party: " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.AoeNeedHealingLightParty, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Full Party: " />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.AoeNeedHealingFullParty, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Margin="5,0" Orientation="Horizontal">
+                    <CheckBox Grid.Column="0" Content="Disable Single Healing When allies need heal below " IsChecked="{Binding AstrologianSettings.DisableSingleHealWhenNeedAoeHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.AoEHealHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent " />
+                </StackPanel>
+                <StackPanel Margin="5,0" Orientation="Horizontal">
+                    <CheckBox Grid.Column="0" Content="Interrupt Healing If Target HP Gets Over" IsChecked="{Binding AstrologianSettings.InterruptHealing, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:Numeric Grid.Column="1" Margin="3,0" Value="{Binding AstrologianSettings.InterruptHealingHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="11" Foreground="White" Text="Percent" />
+                </StackPanel>
+            </StackPanel>
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
@@ -121,10 +129,8 @@
 
                         <CheckBox Grid.Column="0" Content="Helios" IsChecked="{Binding AstrologianSettings.Helios, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.HeliosHealthPercent, Mode=TwoWay}" />
-                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
-                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.HeliosAllies, Mode=TwoWay}" />
-                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
-                        <controls:Numeric Grid.Column="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.HeliosMinManaPercent, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent and " />
+                            <controls:Numeric Grid.Column="5" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.HeliosMinManaPercent, Mode=TwoWay}" />
                         <TextBlock Grid.Column="6" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Minimum Mana To Use" />
                     </Grid>
                 </Border>
@@ -142,10 +148,8 @@
                         
                         <CheckBox Grid.Column="0" Content="Collective Unco." IsChecked="{Binding AstrologianSettings.CollectiveUnconscious, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.CollectiveUnconsciousHealth, Mode=TwoWay}" />
-                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
-                        <controls:Numeric Grid.Column="3" MaxValue="30" MinValue="1" Value="{Binding AstrologianSettings.CollectiveUnconsciousAllies, Mode=TwoWay}" />
-                        <TextBlock Grid.Column="4" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Allies Need Healing" />
-                    </Grid>
+                            <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
+                        </Grid>
                 </Border>
 
                 <Border Grid.Row="5" Padding="5,2">
@@ -161,7 +165,7 @@
                         
                         <CheckBox Grid.Column="0" Content="Exaltation" IsChecked="{Binding AstrologianSettings.Exaltation, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                         <controls:Numeric Grid.Column="1" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.ExaltationHealthPercent, Mode=TwoWay}" />
-                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent When" />
+                        <TextBlock Grid.Column="2" Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="6" Padding="5,2">
