@@ -358,7 +358,7 @@ namespace Magitek.Logic.Astrologian
             if (!Globals.InParty && Core.Me.CurrentHealthPercent <= Core.Me.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent))
                 return await Spells.LadyofCrowns.Heal(Core.Me);
 
-            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AstrologianSettings.Instance.LadyOfCrownsAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= r.AdjustHealthThresholdByRegen(AstrologianSettings.Instance.LadyOfCrownsHealthPercent)) <= AoeThreshold)
                 return false;
 
             return await Spells.LadyofCrowns.Heal(Core.Me);
@@ -703,7 +703,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
 
-            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AoeThreshold)
                 return false;
 
             if (await Spells.Horoscope.Cast(Core.Me))
@@ -718,7 +718,7 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.Horoscope)
                 return false;
                         
-            if (Group.CastableAlliesWithin20.Count(r => r.HasAura(Auras.HoroscopeHelios) && r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AstrologianSettings.Instance.HoroscopeAllies)
+            if (Group.CastableAlliesWithin20.Count(r => r.HasAura(Auras.HoroscopeHelios) && r.CurrentHealthPercent <= AstrologianSettings.Instance.HoroscopeHealthPercent) < AoeThreshold)
                 return false;
 
             return await Spells.Horoscope.Cast(Core.Me);

@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
-             d:DesignHeight=""
-             d:DesignWidth=""
+             d:DesignHeight="550"
+             d:DesignWidth="500"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -188,18 +188,16 @@
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Synastry When " IsChecked="{Binding AstrologianSettings.Synastry, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Margin="2,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SynastryAmountOfPeople, Mode=TwoWay}" />
-                <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" People Are Below " />
+                    <CheckBox Content="Synastry When " IsChecked="{Binding AstrologianSettings.Synastry, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Allies Are Below " />
                 <controls:Numeric Margin="2,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.SynastryHealthPercent, Mode=TwoWay}" />
                 <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 <CheckBox Margin="10,0" Content="On Tank Only" IsChecked="{Binding AstrologianSettings.SynastryTankOnly, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Horoscope When " IsChecked="{Binding AstrologianSettings.Horoscope, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric Margin="2,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.HoroscopeAllies, Mode=TwoWay}" />
-                <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" People Are Below " />
+                    <CheckBox Content="Horoscope When " IsChecked="{Binding AstrologianSettings.Horoscope, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text="Allies Are Below " />
                 <controls:Numeric Margin="2,0" MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.HoroscopeHealthPercent, Mode=TwoWay}" />
                 <TextBlock Margin="2,0,3,0" Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
                 </StackPanel>

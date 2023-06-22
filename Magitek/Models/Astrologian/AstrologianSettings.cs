@@ -161,10 +161,6 @@ namespace Magitek.Models.Astrologian
         public bool NeutralSect { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
-        public int NeutralSectAllies { get; set; }
-
-        [Setting]
         [DefaultValue(60.0f)]
         public float NeutralSectHealthPercent { get; set; }
 
@@ -185,10 +181,6 @@ namespace Magitek.Models.Astrologian
         public bool Helios { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int HeliosAllies { get; set; }
-
-        [Setting]
         [DefaultValue(60)]
         public float HeliosHealthPercent { get; set; }
 
@@ -199,10 +191,6 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool DiurnalHelios { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        public int DiurnalHeliosAllies { get; set; }
 
         [Setting]
         [DefaultValue(80.0f)]
@@ -221,10 +209,6 @@ namespace Magitek.Models.Astrologian
         public float LadyOfCrownsHealthPercent { get; set; }
 
         [Setting]
-        [DefaultValue(1)]
-        public int LadyOfCrownsAllies { get; set; }
-
-        [Setting]
         [DefaultValue(3)]
         public int LordOfCrownsEnemies { get; set; }
 
@@ -233,20 +217,12 @@ namespace Magitek.Models.Astrologian
         public bool Horoscope { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int HoroscopeAllies { get; set; }
-
-        [Setting]
         [DefaultValue(70.0f)]
         public float HoroscopeHealthPercent { get; set; }
 
         [Setting]
         [DefaultValue(true)]
         public bool CelestialOpposition { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int CelestialOppositionAllies { get; set; }
 
         [Setting]
         [DefaultValue(75)]
@@ -323,7 +299,6 @@ namespace Magitek.Models.Astrologian
         [Setting]
         [DefaultValue(true)]
         public bool Benefic2 { get; set; }
-
 
         [Setting]
         [DefaultValue(true)]

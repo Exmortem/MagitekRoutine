@@ -162,10 +162,6 @@ namespace Magitek.Models.Scholar
         public float SuccorHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int SuccorNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(false)]
         public bool SacredSoil { get; set; }
 
@@ -174,20 +170,12 @@ namespace Magitek.Models.Scholar
         public float SacredSoilHpPercent { get; set; }
 
         [Setting]
-        [DefaultValue(4)]
-        public int SacredSoilNeedHealing { get; set; }
-
-        [Setting]
         [DefaultValue(true)]
         public bool Indomitability { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
         public float IndomitabilityHpPercent { get; set; }
-
-        [Setting]
-        [DefaultValue(4)]
-        public int IndomitabilityNeedHealing { get; set; }
 
         [Setting]
         [DefaultValue(true)]
