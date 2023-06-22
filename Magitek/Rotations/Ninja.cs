@@ -11,6 +11,9 @@ using NinjaRoutine = Magitek.Utilities.Routines.Ninja;
 using System.Linq;
 using System.Threading.Tasks;
 using Magitek.Utilities.GamelogManager;
+using ff14bot.Helpers;
+using System.Windows.Forms;
+using System;
 
 namespace Magitek.Rotations
 {
@@ -61,6 +64,9 @@ namespace Magitek.Rotations
                 }
             }
 
+            if (GamelogManagerCountdown.IsCountdownRunning())
+                return true;
+
             return await Combat();
         }
         public static async Task<bool> Heal()
@@ -109,81 +115,35 @@ namespace Magitek.Rotations
 
 
             /*
-            
-            #region oGCD
-
-            if (NinjaRoutine.GlobalCooldown.CanWeave())
-            {
-                if (await Buff.Kassatsu()) return true;
-
-                if (await SingleTarget.Mug()) return true;
-                if (await SingleTarget.TrickAttack()) return true;
-                if (await SingleTarget.DreamWithinaDream()) return false;
-
-                if (await Ninjutsu.TenChiJin()) return true;
-                
-                //Ninki Spender
-                if (await Buff.Bunshin()) return true;
-                if (await Buff.Meisui()) return true;
-            }
-
-            #endregion
-
-            #region ForceSkills GCD
-
-            #endregion
-
-            #region Ninjustsus
-
-            #region TenChiJin Nunjutsus
-
-            if (await Ninjutsu.TenChiJin_FumaShuriken()) return true;
-            if (await Ninjutsu.TenChiJin_Raiton()) return true;
-            if (await Ninjutsu.TenChiJin_Suiton()) return true;
-
-            #endregion
-
-            #region Kassatsu Ninjutsus
-
-            if (await Ninjutsu.HyoshoRanryu()) return true;
-
-            #endregion
 
             if (await Ninjutsu.Huton()) return true;
-            if (await Ninjutsu.Suiton()) return true;
-            if (await Ninjutsu.Raiton()) return true;
 
-            #endregion
-
-            #region GCD
-
-            if (await SingleTarget.FleetingRaiju()) return true;
-            if (await SingleTarget.ForkedRaiju()) return true;
-
-            //Ninki Spender
-            //Both missing logic for target count
-            if (await SingleTarget.Bhavacakra()) return true;
             //if (await Aoe.HellfrogMedium()) return true;
-
-            //Non Ninki
-            if (await Aoe.PhantomKamaitachi()) return true;
-
-            
-
-            #endregion
 
             */
 
-            if (NinjaRoutine.GlobalCooldown.CanWeave())
+            if (NinjaRoutine.GlobalCooldown.CountOGCDs() < 2 && Spells.SpinningEdge.Cooldown.TotalMilliseconds >= 770
+                && DateTime.Now >= NinjaRoutine.oGCD)
             {
-                if (await Buff.Kassatsu()) return true;
-                if (await Cooldown.Mug()) return true;
-                if (await Cooldown.TrickAttack()) return true;
-                if (await Ninjutsu.TenChiJin()) return true;
-                if (await Cooldown.DreamWithinaDream()) return false;
-                if (await Buff.Meisui()) return true;
-                if (await SingleTarget.Bhavacakra()) return true;
-                if (await Buff.Bunshin()) return true;
+
+                bool usedOGCD = false;
+
+                if (!usedOGCD && await Buff.Kassatsu()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.Mug()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.TrickAttack()) usedOGCD = true;
+                if (!usedOGCD && await Ninjutsu.TenChiJin()) usedOGCD = true;
+                if (!usedOGCD && await Cooldown.DreamWithinaDream()) usedOGCD = true;
+                if (!usedOGCD && await Buff.Meisui()) usedOGCD = true;
+                if (!usedOGCD && await SingleTarget.Bhavacakra()) usedOGCD = true;
+                if (!usedOGCD && await Buff.Bunshin()) usedOGCD = true;
+
+                if (usedOGCD)
+                {
+
+                    NinjaRoutine.oGCD = DateTime.Now.AddMilliseconds(770);
+                    return true;
+
+                }
             }
 
             if (await Ninjutsu.TenChiJin_FumaShuriken()) return true;
@@ -191,6 +151,7 @@ namespace Magitek.Rotations
             if (await Ninjutsu.TenChiJin_Suiton()) return true;
 
             if (await Ninjutsu.HyoshoRanryu()) return true;
+            if (await Ninjutsu.Suiton()) return true;
             if (await Ninjutsu.Raiton()) return true;
 
             if (await SingleTarget.FleetingRaiju()) return true;

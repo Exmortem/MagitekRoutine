@@ -23,6 +23,8 @@ namespace Magitek.Utilities.Routines
 
         private static readonly List<SpellData> Mudras = new List<SpellData>() { Spells.Ten, Spells.Jin, Spells.Chi };
 
+        public static DateTime oGCD = DateTime.Now;
+
         public static async Task<bool> PrepareNinjutsu(SpellData endMudra, int ninjustsuLength, GameObject target)
         {
 

@@ -21,7 +21,7 @@ namespace Magitek.Logic.Ninja
             if (!Spells.Mug.IsKnown())
                 return false;
 
-            if (Combat.CombatTime.ElapsedMilliseconds < Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds * NinjaRoutine.OpenerBurstAfterGCD)
+            if (Combat.CombatTime.ElapsedMilliseconds < Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds * NinjaRoutine.OpenerBurstAfterGCD - 770)
                 return false;
 
             if (MagitekActionResourceManager.Ninja.NinkiGauge + 40 > 100)
@@ -46,7 +46,7 @@ namespace Magitek.Logic.Ninja
             if (Spells.Bunshin.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
-            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds > Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 2.85)
+            if (Spells.SpinningEdge.Cooldown.TotalMilliseconds >= 800)
                 return false;
 
             return await Spells.TrickAttack.Cast(Core.Me.CurrentTarget);
@@ -62,6 +62,9 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (Spells.TrickAttack.Cooldown == new TimeSpan(0, 0, 0))
+                return false;
+
+            if (Casting.SpellCastHistory.First().Spell == Spells.TrickAttack && Spells.SpinningEdge.Cooldown.TotalMilliseconds < 800)
                 return false;
 
             return await Spells.DreamWithinaDream.Cast(Core.Me.CurrentTarget);

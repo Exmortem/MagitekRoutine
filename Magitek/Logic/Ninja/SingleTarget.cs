@@ -68,7 +68,10 @@ namespace Magitek.Logic.Ninja
                 return false;
             
             //Dont cast if current huton timer plus 30 seconds is greater than 60 seconds
-            if (ActionResourceManager.Ninja.HutonTimer.Add(new TimeSpan(0, 0, 30)) >  new TimeSpan(0,1,0) )
+            if (ActionResourceManager.Ninja.HutonTimer.Add(new TimeSpan(0, 0, 30)) > new TimeSpan(0,1,0) )
+                return false;
+
+            if (ActionResourceManager.Ninja.HutonTimer > new TimeSpan(0, 16, 0) && Spells.TrickAttack.Cooldown > new TimeSpan(0, 0, 45))
                 return false;
 
             if (!Spells.ArmorCrush.CanCast(Core.Me.CurrentTarget))
@@ -88,9 +91,6 @@ namespace Magitek.Logic.Ninja
                 return false;
 
             if (!Spells.Bhavacakra.IsKnown())
-                return false;
-
-            if (!NinjaRoutine.GlobalCooldown.IsWeaveWindow(1))
                 return false;
 
             if (Spells.TrickAttack.Cooldown >= new TimeSpan(0, 0, 45))

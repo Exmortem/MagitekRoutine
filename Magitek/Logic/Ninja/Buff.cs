@@ -59,6 +59,12 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 20))
                 return false;
 
+            if (Casting.SpellCastHistory.First().Spell == Spells.TrickAttack)
+                return false;
+
+            if (!NinjaRoutine.GlobalCooldown.IsWeaveWindow(1))
+                return false;
+
             return await Spells.Meisui.Cast(Core.Me);
 
         }
