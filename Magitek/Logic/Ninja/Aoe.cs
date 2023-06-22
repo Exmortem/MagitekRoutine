@@ -30,6 +30,23 @@ namespace Magitek.Logic.Ninja
             return await Spells.DeathBlossom.Cast(Core.Me);
         }
 
+        public static async Task<bool> HakkeMujinsatsu()
+        {
+            if (Core.Me.ClassLevel < 52)
+                return false;
+
+            if (!Spells.HakkeMujinsatsu.IsKnown())
+                return false;
+
+            if (!Spells.HakkeMujinsatsu.CanCast(Core.Me))
+                return false;
+
+            if (NinjaRoutine.AoeEnemies5Yards < 3)
+                return false;
+
+            return await Spells.HakkeMujinsatsu.Cast(Core.Me);
+        }
+
         public static async Task<bool> HellfrogMedium()
         {
 
