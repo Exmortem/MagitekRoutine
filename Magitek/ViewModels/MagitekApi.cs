@@ -19,13 +19,15 @@ using Magitek.Models.Summoner;
 using Magitek.Models.Warrior;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
-using Newtonsoft.Json;
+using System.Text.Json;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -35,71 +37,19 @@ namespace Magitek.ViewModels
     public class MagitekApi
     {
         private static MagitekApi _instance;
-        public static MagitekApi Instance => _instance ?? (_instance = new MagitekApi());
-
-        public MagitekApi()
-        {
-            try
-            {
-                UpdateNews();
-            }
-            catch (Exception)
-            { }
-        }
-
         private readonly HttpClient _webClient = new HttpClient();
         private const string ApiAddress = "https://api.magitek.io";
+        private const string GithubAddress = "https://api.github.com";
+        private const string VersionUrl = "https://ddjx48xxp2d6i.cloudfront.net/Version.txt";
 
+        public static MagitekApi Instance => _instance ?? (_instance = new MagitekApi());
         public string Status { get; set; }
         public string SettingsName { get; set; }
         public string SettingsDescription { get; set; }
         public bool SpinnerVisible { get; set; } = false;
-
         public AsyncObservableCollection<MagitekNews> NewsList { get; set; }
-
+        public MagitekVersion MagitekVersion { get; set; }
         public ICommand RefreshNewsList => new DelegateCommand(UpdateNews);
-
-        private async void UpdateNews()
-        {
-            SpinnerVisible = true;
-
-            
-            var result = await _webClient.GetAsync($@"{ApiAddress}/news/");
-
-            if (!result.IsSuccessStatusCode)
-            {
-                SpinnerVisible = false;
-                return;
-            }
-
-            //var responseContent = await result.Content.ReadAsStringAsync();
-            //NewsList = new AsyncObservableCollection<MagitekNews>(JsonConvert.DeserializeObject<List<MagitekNews>>(responseContent).OrderByDescending(r => r.Id));
-            
-
-            MagitekNews CurrentVersion = new MagitekNews
-            {
-                Created = "01/01/9999"
-            };
-            if (File.Exists(Path.Combine(Environment.CurrentDirectory, $@"Routines\Magitek\Version.txt")))
-            {
-                try
-                {
-                    var version = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, $@"Routines\Magitek\Version.txt"));
-                    CurrentVersion.Title = "Current Version";
-                    CurrentVersion.Message = version;
-                }
-                catch 
-                {
-                    CurrentVersion.Title = "Current Version";
-                    CurrentVersion.Message = "UNKNOWN";
-                }
-            }
-
-            NewsList = new AsyncObservableCollection<MagitekNews>() { CurrentVersion };
-            
-            SpinnerVisible = false;
-        }
-
         public AsyncObservableCollection<MagitekSettings> AstrologianSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> WhiteMageSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> ScholarSettingsList { get; set; }
@@ -118,6 +68,339 @@ namespace Magitek.ViewModels
         public AsyncObservableCollection<MagitekSettings> BlueMageSettingsList { get; set; }
         public AsyncObservableCollection<MagitekSettings> GunbreakerSettingsList { get; set; }
 
+        public class Base
+        {
+            public string label { get; set; }
+            public string @ref { get; set; }
+            public string sha { get; set; }
+            public User user { get; set; }
+            public Repo repo { get; set; }
+        }
+
+        public class Comments
+        {
+            public string href { get; set; }
+        }
+
+        public class Commits
+        {
+            public string href { get; set; }
+        }
+
+        public class Head
+        {
+            public string label { get; set; }
+            public string @ref { get; set; }
+            public string sha { get; set; }
+            public User user { get; set; }
+            public Repo repo { get; set; }
+        }
+
+        public class Html
+        {
+            public string href { get; set; }
+        }
+
+        public class Issue
+        {
+            public string href { get; set; }
+        }
+
+        public class License
+        {
+            public string key { get; set; }
+            public string name { get; set; }
+            public string spdx_id { get; set; }
+            public string url { get; set; }
+            public string node_id { get; set; }
+        }
+
+        public class Links
+        {
+            public Self self { get; set; }
+            public Html html { get; set; }
+            public Issue issue { get; set; }
+            public Comments comments { get; set; }
+            public ReviewComments review_comments { get; set; }
+            public ReviewComment review_comment { get; set; }
+            public Commits commits { get; set; }
+            public Statuses statuses { get; set; }
+        }
+
+        public class Owner
+        {
+            public string login { get; set; }
+            public int id { get; set; }
+            public string node_id { get; set; }
+            public string avatar_url { get; set; }
+            public string gravatar_id { get; set; }
+            public string url { get; set; }
+            public string html_url { get; set; }
+            public string followers_url { get; set; }
+            public string following_url { get; set; }
+            public string gists_url { get; set; }
+            public string starred_url { get; set; }
+            public string subscriptions_url { get; set; }
+            public string organizations_url { get; set; }
+            public string repos_url { get; set; }
+            public string events_url { get; set; }
+            public string received_events_url { get; set; }
+            public string type { get; set; }
+            public bool site_admin { get; set; }
+        }
+
+        public class Repo
+        {
+            public int id { get; set; }
+            public string node_id { get; set; }
+            public string name { get; set; }
+            public string full_name { get; set; }
+            public bool @private { get; set; }
+            public Owner owner { get; set; }
+            public string html_url { get; set; }
+            public string description { get; set; }
+            public bool fork { get; set; }
+            public string url { get; set; }
+            public string forks_url { get; set; }
+            public string keys_url { get; set; }
+            public string collaborators_url { get; set; }
+            public string teams_url { get; set; }
+            public string hooks_url { get; set; }
+            public string issue_events_url { get; set; }
+            public string events_url { get; set; }
+            public string assignees_url { get; set; }
+            public string branches_url { get; set; }
+            public string tags_url { get; set; }
+            public string blobs_url { get; set; }
+            public string git_tags_url { get; set; }
+            public string git_refs_url { get; set; }
+            public string trees_url { get; set; }
+            public string statuses_url { get; set; }
+            public string languages_url { get; set; }
+            public string stargazers_url { get; set; }
+            public string contributors_url { get; set; }
+            public string subscribers_url { get; set; }
+            public string subscription_url { get; set; }
+            public string commits_url { get; set; }
+            public string git_commits_url { get; set; }
+            public string comments_url { get; set; }
+            public string issue_comment_url { get; set; }
+            public string contents_url { get; set; }
+            public string compare_url { get; set; }
+            public string merges_url { get; set; }
+            public string archive_url { get; set; }
+            public string downloads_url { get; set; }
+            public string issues_url { get; set; }
+            public string pulls_url { get; set; }
+            public string milestones_url { get; set; }
+            public string notifications_url { get; set; }
+            public string labels_url { get; set; }
+            public string releases_url { get; set; }
+            public string deployments_url { get; set; }
+            public DateTime created_at { get; set; }
+            public DateTime updated_at { get; set; }
+            public DateTime pushed_at { get; set; }
+            public string git_url { get; set; }
+            public string ssh_url { get; set; }
+            public string clone_url { get; set; }
+            public string svn_url { get; set; }
+            public object homepage { get; set; }
+            public int size { get; set; }
+            public int stargazers_count { get; set; }
+            public int watchers_count { get; set; }
+            public string language { get; set; }
+            public bool has_issues { get; set; }
+            public bool has_projects { get; set; }
+            public bool has_downloads { get; set; }
+            public bool has_wiki { get; set; }
+            public bool has_pages { get; set; }
+            public bool has_discussions { get; set; }
+            public int forks_count { get; set; }
+            public object mirror_url { get; set; }
+            public bool archived { get; set; }
+            public bool disabled { get; set; }
+            public int open_issues_count { get; set; }
+            public License license { get; set; }
+            public bool allow_forking { get; set; }
+            public bool is_template { get; set; }
+            public bool web_commit_signoff_required { get; set; }
+            public List<object> topics { get; set; }
+            public string visibility { get; set; }
+            public int forks { get; set; }
+            public int open_issues { get; set; }
+            public int watchers { get; set; }
+            public string default_branch { get; set; }
+        }
+
+        public class ReviewComment
+        {
+            public string href { get; set; }
+        }
+
+        public class ReviewComments
+        {
+            public string href { get; set; }
+        }
+
+        public class Root
+        {
+            public string url { get; set; }
+            public int id { get; set; }
+            public string node_id { get; set; }
+            public string html_url { get; set; }
+            public string diff_url { get; set; }
+            public string patch_url { get; set; }
+            public string issue_url { get; set; }
+            public int number { get; set; }
+            public string state { get; set; }
+            public bool locked { get; set; }
+            public string title { get; set; }
+            public User user { get; set; }
+            public string body { get; set; }
+            public DateTime created_at { get; set; }
+            public DateTime updated_at { get; set; }
+            public DateTime closed_at { get; set; }
+            public DateTime merged_at { get; set; }
+            public string merge_commit_sha { get; set; }
+            public object assignee { get; set; }
+            public List<object> assignees { get; set; }
+            public List<object> requested_reviewers { get; set; }
+            public List<object> requested_teams { get; set; }
+            public List<object> labels { get; set; }
+            public object milestone { get; set; }
+            public bool draft { get; set; }
+            public string commits_url { get; set; }
+            public string review_comments_url { get; set; }
+            public string review_comment_url { get; set; }
+            public string comments_url { get; set; }
+            public string statuses_url { get; set; }
+            public Head head { get; set; }
+            public Base @base { get; set; }
+            public Links _links { get; set; }
+            public string author_association { get; set; }
+            public object auto_merge { get; set; }
+            public object active_lock_reason { get; set; }
+        }
+
+        public class Self
+        {
+            public string href { get; set; }
+        }
+
+        public class Statuses
+        {
+            public string href { get; set; }
+        }
+
+        public class User
+        {
+            public string login { get; set; }
+            public int id { get; set; }
+            public string node_id { get; set; }
+            public string avatar_url { get; set; }
+            public string gravatar_id { get; set; }
+            public string url { get; set; }
+            public string html_url { get; set; }
+            public string followers_url { get; set; }
+            public string following_url { get; set; }
+            public string gists_url { get; set; }
+            public string starred_url { get; set; }
+            public string subscriptions_url { get; set; }
+            public string organizations_url { get; set; }
+            public string repos_url { get; set; }
+            public string events_url { get; set; }
+            public string received_events_url { get; set; }
+            public string type { get; set; }
+            public bool site_admin { get; set; }
+        }
+
+
+
+        public MagitekApi()
+        {
+            SpinnerVisible = true;
+            try
+            {
+                NewsList = new AsyncObservableCollection<MagitekNews>();
+                UpdateVersion();
+                UpdateNews();
+            }
+            catch (Exception)
+            { }
+            SpinnerVisible = false;
+        }
+
+        private async void UpdateVersion()
+        {
+            var local = "UNKNOWN";
+            var distant = "UNKNOWN";
+            
+            try
+            {
+                local = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, $@"Routines\Magitek\Version.txt"));
+            }
+            catch
+            {
+                Logger.Error("Can't read local Magitek version. Please reinstall it");
+            }
+
+            try
+            {
+                distant = await _webClient.GetStringAsync(VersionUrl);
+            }
+            catch
+            {
+                Logger.Error("Can't read distant Magitek version. Please reinstall it");
+            }
+            MagitekVersion = new MagitekVersion()
+            {
+                LocalVersion = local,
+                DistantVersion = distant
+            };
+        }
+
+        private async void UpdateNews()
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(GithubAddress);
+                    httpClient.DefaultRequestHeaders.Add("User-Agent", "Anything");
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var response = await httpClient.GetFromJsonAsync<List<Root>>("repos/Exmortem/Magitekroutine/pulls?state=closed&page=1&per_page=8");
+
+                    if (response == null)
+                        return;
+
+                    //var result = httpResponse.Content.ReadFromJsonAsync<Root>();
+                    response.ForEach(x =>
+                    {
+                        NewsList.Add(new MagitekNews
+                                            {
+                                                Created = x?.merged_at.ToString("d"),
+                                                Title = "Changelog",
+                                                Message = "" + x?.body
+                                            });
+                    });
+                    
+                            
+                    
+                };
+            }
+            catch(Exception e)
+            {
+                Logger.Error(e.Message);
+            }
+
+
+
+
+            SpinnerVisible = false;
+        }
+
+
         public ICommand RefreshSettingsList => new AwaitableDelegateCommand<string>(async job =>
         {
             SpinnerVisible = true;
@@ -131,7 +414,7 @@ namespace Magitek.ViewModels
             }
 
             var responseContent = await result.Content.ReadAsStringAsync();
-            var settingsList = new AsyncObservableCollection<MagitekSettings>(JsonConvert.DeserializeObject<List<MagitekSettings>>(responseContent));
+            var settingsList = new AsyncObservableCollection<MagitekSettings>(JsonSerializer.Deserialize<List<MagitekSettings>>(responseContent));
 
             switch (job)
             {
@@ -264,7 +547,7 @@ namespace Magitek.ViewModels
             {
                 try
                 {
-                    Status = JsonConvert.DeserializeObject<MagitekApiResult>(contributorResponseContent).Description;
+                    Status = JsonSerializer.Deserialize<MagitekApiResult>(contributorResponseContent).Description;
                 }
                 catch (Exception)
                 {
@@ -280,7 +563,7 @@ namespace Magitek.ViewModels
 
             try
             {
-                contributor = JsonConvert.DeserializeObject<MagitekContributor>(contributorResponseContent);
+                contributor = JsonSerializer.Deserialize<MagitekContributor>(contributorResponseContent);
             }
             catch (Exception)
             {
@@ -295,71 +578,71 @@ namespace Magitek.ViewModels
             switch (job)
             {
                 case "Astrologian":
-                    settingString = JsonConvert.SerializeObject(AstrologianSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(AstrologianSettings.Instance);
                     break;
 
                 case "WhiteMage":
-                    settingString = JsonConvert.SerializeObject(WhiteMageSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(WhiteMageSettings.Instance);
                     break;
 
                 case "Scholar":
-                    settingString = JsonConvert.SerializeObject(ScholarSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(ScholarSettings.Instance);
                     break;
 
                 case "Paladin":
-                    settingString = JsonConvert.SerializeObject(PaladinSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(PaladinSettings.Instance);
                     break;
 
                 case "Warrior":
-                    settingString = JsonConvert.SerializeObject(WarriorSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(WarriorSettings.Instance);
                     break;
 
                 case "DarkKnight":
-                    settingString = JsonConvert.SerializeObject(DarkKnightSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(DarkKnightSettings.Instance);
                     break;
 
                 case "Bard":
-                    settingString = JsonConvert.SerializeObject(BardSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(BardSettings.Instance);
                     break;
 
                 case "Machinist":
-                    settingString = JsonConvert.SerializeObject(MachinistSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(MachinistSettings.Instance);
                     break;
 
                 case "BlackMage":
-                    settingString = JsonConvert.SerializeObject(BlackMageSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(BlackMageSettings.Instance);
                     break;
 
                 case "RedMage":
-                    settingString = JsonConvert.SerializeObject(RedMageSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(RedMageSettings.Instance);
                     break;
 
                 case "Summoner":
-                    settingString = JsonConvert.SerializeObject(SummonerSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(SummonerSettings.Instance);
                     break;
 
                 case "Dragoon":
-                    settingString = JsonConvert.SerializeObject(DragoonSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(DragoonSettings.Instance);
                     break;
 
                 case "Monk":
-                    settingString = JsonConvert.SerializeObject(MonkSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(MonkSettings.Instance);
                     break;
 
                 case "Ninja":
-                    settingString = JsonConvert.SerializeObject(NinjaSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(NinjaSettings.Instance);
                     break;
 
                 case "Samurai":
-                    settingString = JsonConvert.SerializeObject(SamuraiSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(SamuraiSettings.Instance);
                     break;
 
                 case "BlueMage":
-                    settingString = JsonConvert.SerializeObject(BlueMageSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(BlueMageSettings.Instance);
                     break;
 
                 case "Gunbreaker":
-                    settingString = JsonConvert.SerializeObject(GunbreakerSettings.Instance, Formatting.None);
+                    settingString = JsonSerializer.Serialize(GunbreakerSettings.Instance);
                     break;
                 default:
                     SpinnerVisible = false;
@@ -377,7 +660,7 @@ namespace Magitek.ViewModels
             };
 
             var result = await HttpHelpers.Post($"{ApiAddress}/magiteksettings/add", newMagitekSettings);
-            var response = JsonConvert.DeserializeObject<MagitekApiResult>(result.Content);
+            var response = JsonSerializer.Deserialize<MagitekApiResult>(result.Content);
             Status = response.Description;
 
             SpinnerVisible = false;
@@ -396,103 +679,103 @@ namespace Magitek.ViewModels
             switch (settings.Job)
             {
                 case "Paladin":
-                    var paladinSettings = JsonConvert.DeserializeObject<PaladinSettings>(settings.File);
+                    var paladinSettings = JsonSerializer.Deserialize<PaladinSettings>(settings.File);
                     PaladinSettings.Instance = paladinSettings;
                     BaseSettings.Instance.PaladinSettings = PaladinSettings.Instance;
                     break;
 
                 case "Scholar":
-                    var scholarSettings = JsonConvert.DeserializeObject<ScholarSettings>(settings.File);
+                    var scholarSettings = JsonSerializer.Deserialize<ScholarSettings>(settings.File);
                     ScholarSettings.Instance = scholarSettings;
                     BaseSettings.Instance.ScholarSettings = ScholarSettings.Instance;
                     break;
 
                 case "Astrologian":
-                    var astrologianSettings = JsonConvert.DeserializeObject<AstrologianSettings>(settings.File);
+                    var astrologianSettings = JsonSerializer.Deserialize<AstrologianSettings>(settings.File);
                     AstrologianSettings.Instance = astrologianSettings;
                     BaseSettings.Instance.AstrologianSettings = AstrologianSettings.Instance;
                     break;
 
                 case "WhiteMage":
-                    var whiteMageSettings = JsonConvert.DeserializeObject<WhiteMageSettings>(settings.File);
+                    var whiteMageSettings = JsonSerializer.Deserialize<WhiteMageSettings>(settings.File);
                     WhiteMageSettings.Instance = whiteMageSettings;
                     BaseSettings.Instance.WhiteMageSettings = WhiteMageSettings.Instance;
                     break;
 
                 case "Bard":
-                    var bardSettings = JsonConvert.DeserializeObject<BardSettings>(settings.File);
+                    var bardSettings = JsonSerializer.Deserialize<BardSettings>(settings.File);
                     BardSettings.Instance = bardSettings;
                     BaseSettings.Instance.BardSettings = BardSettings.Instance;
                     break;
 
                 case "RedMage":
-                    var redMageSettings = JsonConvert.DeserializeObject<RedMageSettings>(settings.File);
+                    var redMageSettings = JsonSerializer.Deserialize<RedMageSettings>(settings.File);
                     RedMageSettings.Instance = redMageSettings;
                     BaseSettings.Instance.RedMageSettings = RedMageSettings.Instance;
                     break;
 
                 case "Dragoon":
-                    var dragoonSettings = JsonConvert.DeserializeObject<DragoonSettings>(settings.File);
+                    var dragoonSettings = JsonSerializer.Deserialize<DragoonSettings>(settings.File);
                     DragoonSettings.Instance = dragoonSettings;
                     BaseSettings.Instance.DragoonSettings = DragoonSettings.Instance;
                     break;
 
                 case "Samurai":
-                    var samuraiSettings = JsonConvert.DeserializeObject<SamuraiSettings>(settings.File);
+                    var samuraiSettings = JsonSerializer.Deserialize<SamuraiSettings>(settings.File);
                     SamuraiSettings.Instance = samuraiSettings;
                     BaseSettings.Instance.SamuraiSettings = SamuraiSettings.Instance;
                     break;
 
                 case "BlueMage":
-                    var blueMageSettings = JsonConvert.DeserializeObject<BlueMageSettings>(settings.File);
+                    var blueMageSettings = JsonSerializer.Deserialize<BlueMageSettings>(settings.File);
                     BlueMageSettings.Instance = blueMageSettings;
                     BaseSettings.Instance.BlueMageSettings = BlueMageSettings.Instance;
                     break;
 
                 case "DarkKnight":
-                    var darkKnightSettings = JsonConvert.DeserializeObject<DarkKnightSettings>(settings.File);
+                    var darkKnightSettings = JsonSerializer.Deserialize<DarkKnightSettings>(settings.File);
                     DarkKnightSettings.Instance = darkKnightSettings;
                     BaseSettings.Instance.DarkKnightSettings = DarkKnightSettings.Instance;
                     break;
 
                 case "Machinist":
-                    var machinistSettings = JsonConvert.DeserializeObject<MachinistSettings>(settings.File);
+                    var machinistSettings = JsonSerializer.Deserialize<MachinistSettings>(settings.File);
                     MachinistSettings.Instance = machinistSettings;
                     BaseSettings.Instance.MachinistSettings = MachinistSettings.Instance;
                     break;
 
                 case "Warrior":
-                    var warriorSettings = JsonConvert.DeserializeObject<WarriorSettings>(settings.File);
+                    var warriorSettings = JsonSerializer.Deserialize<WarriorSettings>(settings.File);
                     WarriorSettings.Instance = warriorSettings;
                     BaseSettings.Instance.WarriorSettings = WarriorSettings.Instance;
                     break;
 
                 case "Summoner":
-                    var summonerSettings = JsonConvert.DeserializeObject<SummonerSettings>(settings.File);
+                    var summonerSettings = JsonSerializer.Deserialize<SummonerSettings>(settings.File);
                     SummonerSettings.Instance = summonerSettings;
                     BaseSettings.Instance.SummonerSettings = SummonerSettings.Instance;
                     break;
 
                 case "BlackMage":
-                    var blackMageSettings = JsonConvert.DeserializeObject<BlackMageSettings>(settings.File);
+                    var blackMageSettings = JsonSerializer.Deserialize<BlackMageSettings>(settings.File);
                     BlackMageSettings.Instance = blackMageSettings;
                     BaseSettings.Instance.BlackMageSettings = BlackMageSettings.Instance;
                     break;
 
                 case "Monk":
-                    var monkSettings = JsonConvert.DeserializeObject<MonkSettings>(settings.File);
+                    var monkSettings = JsonSerializer.Deserialize<MonkSettings>(settings.File);
                     MonkSettings.Instance = monkSettings;
                     BaseSettings.Instance.MonkSettings = MonkSettings.Instance;
                     break;
 
                 case "Ninja":
-                    var ninjaSettings = JsonConvert.DeserializeObject<NinjaSettings>(settings.File);
+                    var ninjaSettings = JsonSerializer.Deserialize<NinjaSettings>(settings.File);
                     NinjaSettings.Instance = ninjaSettings;
                     BaseSettings.Instance.NinjaSettings = NinjaSettings.Instance;
                     break;
 
                 case "Gunbreaker":
-                    var gunbreakerSettings = JsonConvert.DeserializeObject<GunbreakerSettings>(settings.File);
+                    var gunbreakerSettings = JsonSerializer.Deserialize<GunbreakerSettings>(settings.File);
                     GunbreakerSettings.Instance = gunbreakerSettings;
                     BaseSettings.Instance.GunbreakerSettings = GunbreakerSettings.Instance;
                     break;
@@ -523,7 +806,7 @@ namespace Magitek.ViewModels
             if (saveFile.ShowDialog() != DialogResult.OK)
                 return;
 
-            var jsonText = JsonConvert.SerializeObject(settings.File, Formatting.Indented);
+            var jsonText = JsonSerializer.Serialize(settings.File);
             File.WriteAllText(saveFile.FileName, jsonText);
         });
     }
