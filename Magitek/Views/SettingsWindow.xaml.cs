@@ -34,98 +34,104 @@ namespace Magitek.Views
 
             Loaded += SettingsWindow_OnLoaded;
 
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (RotationManager.CurrentRotation)
+            if (BaseSettings.Instance.SettingsFirstInitialization)
             {
-                case ClassJobType.Gladiator:
-                    Paladin.IsSelected = true;
-                    break;
-                case ClassJobType.Pugilist:
-                    Monk.IsSelected = true;
-                    break;
-                case ClassJobType.Marauder:
-                    Warrior.IsSelected = true;
-                    break;
-                case ClassJobType.Lancer:
-                    Dragoon.IsSelected = true;
-                    break;
-                case ClassJobType.Archer:
-                    Bard.IsSelected = true;
-                    break;
-                case ClassJobType.Conjurer:
-                    WhiteMage.IsSelected = true;
-                    break;
-                case ClassJobType.Thaumaturge:
-                    BlackMage.IsSelected = true;
-                    break;
-                case ClassJobType.Paladin:
-                    Paladin.IsSelected = true;
-                    break;
-                case ClassJobType.Monk:
-                    Monk.IsSelected = true;
-                    break;
-                case ClassJobType.Warrior:
-                    Warrior.IsSelected = true;
-                    break;
-                case ClassJobType.Dragoon:
-                    Dragoon.IsSelected = true;
-                    break;
-                case ClassJobType.Bard:
-                    Bard.IsSelected = true;
-                    break;
-                case ClassJobType.WhiteMage:
-                    WhiteMage.IsSelected = true;
-                    break;
-                case ClassJobType.BlackMage:
-                    BlackMage.IsSelected = true;
-                    break;
-                case ClassJobType.Arcanist:
-                    Scholar.IsSelected = true;
-                    break;
-                case ClassJobType.Summoner:
-                    Summoner.IsSelected = true;
-                    break;
-                case ClassJobType.Scholar:
-                    Scholar.IsSelected = true;
-                    break;
-                case ClassJobType.Rogue:
-                    Ninja.IsSelected = true;
-                    break;
-                case ClassJobType.Ninja:
-                    Ninja.IsSelected = true;
-                    break;
-                case ClassJobType.Machinist:
-                    Machinist.IsSelected = true;
-                    break;
-                case ClassJobType.DarkKnight:
-                    DarkKnight.IsSelected = true;
-                    break;
-                case ClassJobType.Astrologian:
-                    Astrologian.IsSelected = true;
-                    break;
-                case ClassJobType.Samurai:
-                    Samurai.IsSelected = true;
-                    break;
-                case ClassJobType.BlueMage:
-                    BlueMage.IsSelected = true;
-                    break;
-                case ClassJobType.RedMage:
-                    RedMage.IsSelected = true;
-                    break;
-                case ClassJobType.Dancer:
-                    Dancer.IsSelected = true;
-                    break;
-                case ClassJobType.Gunbreaker:
-                    Gunbreaker.IsSelected = true;
-                    break;
-                case ClassJobType.Reaper:
-                    Reaper.IsSelected = true;
-                    break;
-                case ClassJobType.Sage:
-                    Sage.IsSelected = true;
-                    break;
-                default:
-                    return;
+                Home.IsSelected = true;
+            } else
+            {
+                switch (RotationManager.CurrentRotation)
+                {
+                    case ClassJobType.Gladiator:
+                        Paladin.IsSelected = true;
+                        break;
+                    case ClassJobType.Pugilist:
+                        Monk.IsSelected = true;
+                        break;
+                    case ClassJobType.Marauder:
+                        Warrior.IsSelected = true;
+                        break;
+                    case ClassJobType.Lancer:
+                        Dragoon.IsSelected = true;
+                        break;
+                    case ClassJobType.Archer:
+                        Bard.IsSelected = true;
+                        break;
+                    case ClassJobType.Conjurer:
+                        WhiteMage.IsSelected = true;
+                        break;
+                    case ClassJobType.Thaumaturge:
+                        BlackMage.IsSelected = true;
+                        break;
+                    case ClassJobType.Paladin:
+                        Paladin.IsSelected = true;
+                        break;
+                    case ClassJobType.Monk:
+                        Monk.IsSelected = true;
+                        break;
+                    case ClassJobType.Warrior:
+                        Warrior.IsSelected = true;
+                        break;
+                    case ClassJobType.Dragoon:
+                        Dragoon.IsSelected = true;
+                        break;
+                    case ClassJobType.Bard:
+                        Bard.IsSelected = true;
+                        break;
+                    case ClassJobType.WhiteMage:
+                        WhiteMage.IsSelected = true;
+                        break;
+                    case ClassJobType.BlackMage:
+                        BlackMage.IsSelected = true;
+                        break;
+                    case ClassJobType.Arcanist:
+                        Scholar.IsSelected = true;
+                        break;
+                    case ClassJobType.Summoner:
+                        Summoner.IsSelected = true;
+                        break;
+                    case ClassJobType.Scholar:
+                        Scholar.IsSelected = true;
+                        break;
+                    case ClassJobType.Rogue:
+                        Ninja.IsSelected = true;
+                        break;
+                    case ClassJobType.Ninja:
+                        Ninja.IsSelected = true;
+                        break;
+                    case ClassJobType.Machinist:
+                        Machinist.IsSelected = true;
+                        break;
+                    case ClassJobType.DarkKnight:
+                        DarkKnight.IsSelected = true;
+                        break;
+                    case ClassJobType.Astrologian:
+                        Astrologian.IsSelected = true;
+                        break;
+                    case ClassJobType.Samurai:
+                        Samurai.IsSelected = true;
+                        break;
+                    case ClassJobType.BlueMage:
+                        BlueMage.IsSelected = true;
+                        break;
+                    case ClassJobType.RedMage:
+                        RedMage.IsSelected = true;
+                        break;
+                    case ClassJobType.Dancer:
+                        Dancer.IsSelected = true;
+                        break;
+                    case ClassJobType.Gunbreaker:
+                        Gunbreaker.IsSelected = true;
+                        break;
+                    case ClassJobType.Reaper:
+                        Reaper.IsSelected = true;
+                        break;
+                    case ClassJobType.Sage:
+                        Sage.IsSelected = true;
+                        break;
+                    default:
+                        Home.IsSelected = true;
+                        break;
+                }
             }
         }
 
@@ -136,13 +142,11 @@ namespace Magitek.Views
 
         private void Close(object sender, RoutedEventArgs e)
         {
+            BaseSettings.Instance.SettingsFirstInitialization = false;
             Dispelling.Instance.Save();
             InterruptsAndStuns.Instance.Save();
-            //TankBusters.Instance.Save();
             DispelManager.Reset();
             InterruptsAndStunsManager.Reset();
-            //TankBusterManager.ResetHealers();
-            //TankBusterManager.ResetTanks();
             GambitsViewModel.Instance.SaveGambits();
             GambitsViewModel.Instance.ApplyGambits();
             OpenersViewModel.Instance.SaveOpeners();
@@ -217,11 +221,6 @@ namespace Magitek.Views
 
             BaseSettings.Instance.RoutineSelectedInUi = selectedTab.Name;
             TogglesViewModel.Instance.ResetJob(selectedTab.Name);
-        }
-
-        private void BossFightLogClick(object sender, RoutedEventArgs e)
-        {
-            BossFightLog.IsSelected = true;
         }
     }
 }

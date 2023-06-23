@@ -116,8 +116,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BossFightLog\BossFight.cs" />
-    <Compile Include="BossFightLog\BossFightLogItem.cs" />
     <Compile Include="Commands\AwaitableDelegateCommand.cs" />
     <Compile Include="Commands\AwaitableDelegateCommandT.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
@@ -125,9 +123,6 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IAsyncCommandT.cs" />
     <Compile Include="Commands\IRaiseCanExecuteChanged.cs" />
-    <Compile Include="Controls\BossFightLog.xaml.cs">
-      <DependentUpon>BossFightLog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CurrentNews.xaml.cs">
       <DependentUpon>CurrentNews.xaml</DependentUpon>
     </Compile>
@@ -160,12 +155,6 @@
     </Compile>
     <Compile Include="Controls\SettingsBlock.xaml.cs">
       <DependentUpon>SettingsBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SharedSettings.xaml.cs">
-      <DependentUpon>SharedSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SubmitSettings.xaml.cs">
-      <DependentUpon>SubmitSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SwirlSpinner.xaml.cs">
       <DependentUpon>SwirlSpinner.xaml</DependentUpon>
@@ -398,13 +387,11 @@
     <Compile Include="Logic\Scholar\Dispel.cs" />
     <Compile Include="Logic\Scholar\Heal.cs" />
     <Compile Include="Logic\Scholar\SingleTarget.cs" />
-    <Compile Include="Logic\Scholar\TankBusters.cs" />
     <Compile Include="Logic\Astrologian\Aoe.cs" />
     <Compile Include="Logic\Astrologian\Buff.cs" />
     <Compile Include="Logic\Astrologian\Dispel.cs" />
     <Compile Include="Logic\Astrologian\Heals.cs" />
     <Compile Include="Logic\Astrologian\SingleTarget.cs" />
-    <Compile Include="Logic\Astrologian\TankBusters.cs" />
     <Compile Include="Logic\Astrologian\Pvp.cs" />
     <Compile Include="Logic\Summoner\Aoe.cs" />
     <Compile Include="Logic\Summoner\Buff.cs" />
@@ -422,19 +409,12 @@
     <Compile Include="Logic\WhiteMage\Heal.cs" />
     <Compile Include="Logic\WhiteMage\Pvp.cs" />
     <Compile Include="Logic\WhiteMage\SingleTarget.cs" />
-    <Compile Include="Logic\WhiteMage\TankBusters.cs" />
     <Compile Include="Magitek.cs" />
-    <Compile Include="Models\Account\AuthenticationSettings.cs" />
     <Compile Include="Models\Account\ZoneSetting.cs" />
     <Compile Include="Models\Account\ZoneSettingEntry.cs" />
     <Compile Include="Models\Astrologian\AstrologianZoneSettings.cs" />
-    <Compile Include="Models\Authentication\ClientSession.cs" />
     <Compile Include="Models\Bard\BardSettings.cs" />
     <Compile Include="Models\Account\BaseSettings.cs" />
-    <Compile Include="Models\BitBucket\Issue.cs" />
-    <Compile Include="Models\BitBucket\Issues.cs" />
-    <Compile Include="Models\BitBucket\MetaData.cs" />
-    <Compile Include="Models\BitBucket\ReportedBy.cs" />
     <Compile Include="Models\BlackMage\BlackMageSettings.cs" />
     <Compile Include="Models\CombatMessageModel.cs" />
     <Compile Include="Models\Gunbreaker\GunbreakerSettings.cs" />
@@ -450,9 +430,7 @@
     <Compile Include="Models\QueueSpell\JobSpell.cs" />
     <Compile Include="Models\Machinist\MachinistSettings.cs" />
     <Compile Include="Models\MagitekApi\MagitekApiResult.cs" />
-    <Compile Include="Models\MagitekApi\MagitekContributor.cs" />
     <Compile Include="Models\MagitekApi\MagitekNews.cs" />
-    <Compile Include="Models\MagitekApi\MagitekSettings.cs" />
     <Compile Include="Models\Monk\MonkSettings.cs" />
     <Compile Include="Models\Ninja\NinjaSettings.cs" />
     <Compile Include="Models\QueueSpell\QueueSpellCheck.cs" />
@@ -548,7 +526,6 @@
     <Compile Include="Utilities\Managers\DispelManager.cs" />
     <Compile Include="Utilities\Managers\InterruptsAndStunsManager.cs" />
     <Compile Include="Utilities\Managers\RotationManager.cs" />
-    <Compile Include="Utilities\Managers\TankBusterManager.cs" />
     <Compile Include="Utilities\Movement.cs" />
     <Compile Include="Utilities\Routines\Bard.cs" />
     <Compile Include="Utilities\Routines\BlackMage.cs" />
@@ -580,7 +557,6 @@
     <Compile Include="ViewModels\MainOverlayViewModel.cs" />
     <Compile Include="ViewModels\OpenersBrowser.cs" />
     <Compile Include="ViewModels\OpenersViewModel.cs" />
-    <Compile Include="ViewModels\TankBusters.cs" />
     <Compile Include="ViewModels\TogglesViewModel.cs" />
     <Compile Include="Views\SettingsModal.xaml.cs">
       <DependentUpon>SettingsModal.xaml</DependentUpon>
@@ -677,9 +653,6 @@
       <DependentUpon>HealingLists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bugs\PartyMemberAuras.xaml.cs" />
-    <Compile Include="Views\UserControls\Bugs\ReportNewIssue.xaml.cs">
-      <DependentUpon>ReportNewIssue.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Bugs\SpellCastHistory.xaml.cs">
       <DependentUpon>SpellCastHistory.xaml</DependentUpon>
     </Compile>
@@ -739,9 +712,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Dragoon\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\GeneralSettings.xaml.cs">
-      <DependentUpon>GeneralSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Gunbreaker\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
@@ -998,10 +968,6 @@
     <EmbeddedResource Include="Resources\Toggles\WarriorToggles.json" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\BossFightLog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\CurrentNews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1043,14 +1009,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SharedSettings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SubmitSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1245,10 +1203,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bugs\PartyMemberAuras.xaml" />
-    <Page Include="Views\UserControls\Bugs\ReportNewIssue.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\UserControls\Bugs\SpellCastHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1326,10 +1280,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Dragoon\SingleTarget.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\GeneralSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

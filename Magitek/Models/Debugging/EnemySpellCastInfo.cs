@@ -68,36 +68,6 @@ namespace Magitek.Models.Debugging
             {
                 InterruptsAndStuns.Instance.ActionList.Add(newXivItem);
             });
-        });
-
-        /*public ICommand AddToTankBusters => new DelegateCommand<EnemySpellCastInfo>(info =>
-        {
-            if (info == null)
-                return;
-
-            var newXivItem = new XivDbItem()
-            {
-                Id = info.Id,
-                Name = info.Name,
-                Icon = info.Icon
-            };
-
-            if (!TankBusters.Instance.ActionListHealers.Select(r => r.Id).Contains(info.Id))
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    TankBusters.Instance.ActionListHealers.Add(newXivItem);
-                });
-            }
-
-            if (!TankBusters.Instance.ActionListTanks.Select(r => r.Id).Contains(info.Id))
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    TankBusters.Instance.ActionListTanks.Add(newXivItem);
-                });
-            }
-
-        });*/
+        }); 
     }
 }

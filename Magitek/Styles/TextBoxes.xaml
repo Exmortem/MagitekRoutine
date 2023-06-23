@@ -164,85 +164,6 @@
         </Border>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="TextBoxTemplateBugTitle" TargetType="{x:Type TextBoxBase}">
-
-        <Border BorderThickness="0.5" CornerRadius="2">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="Black" />
-                    <GradientStop Offset="1" Color="#FF0A0A0A" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-            <Border Background="{TemplateBinding Background}" BorderThickness="0.5" CornerRadius="2">
-                <Border.BorderBrush>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FF040404" />
-                        <GradientStop Offset="1" Color="#FF1D1D1D" />
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-
-                    <Border Grid.Column="0" VerticalAlignment="Stretch" Background="{DynamicResource ClassSelectorBackgroundSelectedBug}" CornerRadius="2, 0, 0, 2">
-                        <TextBlock VerticalAlignment="Center" FontFamily="Helvetica" FontWeight="Bold" Foreground="{DynamicResource BlueOnBlueText}" Text="  Issue Subject:   " />
-                    </Border>
-
-
-                    <Rectangle Grid.Column="1" Width="2" HorizontalAlignment="Right">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
-                                <GradientStop Offset="0.5" Color="Black" />
-                                <GradientStop Offset="0.5" Color="#FF131212" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
-                    <ScrollViewer x:Name="PART_ContentHost" Grid.Column="2" VerticalAlignment="Center" Foreground="White" />
-                </Grid>
-            </Border>
-        </Border>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="TextBoxTemplateBugDescription" TargetType="{x:Type TextBoxBase}">
-
-        <Border BorderThickness="0.5" CornerRadius="2">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="Black" />
-                    <GradientStop Offset="1" Color="#FF0A0A0A" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-            <Border Background="{TemplateBinding Background}" BorderThickness="0.5" CornerRadius="2">
-                <Border.BorderBrush>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FF040404" />
-                        <GradientStop Offset="1" Color="#FF1D1D1D" />
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="160" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0" VerticalAlignment="Stretch" Background="{DynamicResource ClassSelectorBackgroundSelectedBug}" CornerRadius="2, 2, 0, 0">
-                        <TextBlock VerticalAlignment="Center" FontFamily="Helvetica" FontWeight="Bold" Foreground="{DynamicResource BlueOnBlueText}" Text="  Please Describe The Issue In Detail:   " />
-                    </Border>
-
-                    <Rectangle Grid.Row="1" Height="2" Fill="{DynamicResource TabDivider}" />
-
-                    <ScrollViewer x:Name="PART_ContentHost" Grid.Row="2" />
-                </Grid>
-            </Border>
-        </Border>
-    </ControlTemplate>
-
     <Style x:Key="NumericTextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="FontFamily" Value="Segoe UI Symbol" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -260,85 +181,6 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource NumericTextBoxBorderColorFocused}" />
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="TextBoxTemplateSettingsTitle" TargetType="{x:Type TextBoxBase}">
-
-        <Border BorderThickness="0.5" CornerRadius="2">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="Black" />
-                    <GradientStop Offset="1" Color="#FF0A0A0A" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-            <Border Background="{TemplateBinding Background}" BorderThickness="0.5" CornerRadius="2">
-                <Border.BorderBrush>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FF040404" />
-                        <GradientStop Offset="1" Color="#FF1D1D1D" />
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-
-                    <Border Grid.Column="0" VerticalAlignment="Stretch" Background="{DynamicResource ClassSelectorBackgroundSelectedBug}" CornerRadius="2, 0, 0, 2">
-                        <TextBlock VerticalAlignment="Center" FontFamily="Helvetica" FontWeight="Bold" Foreground="{DynamicResource BlueOnBlueText}" Text="  Settings Name:   " />
-                    </Border>
-
-
-                    <Rectangle Grid.Column="1" Width="2" HorizontalAlignment="Right">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
-                                <GradientStop Offset="0.5" Color="Black" />
-                                <GradientStop Offset="0.5" Color="#FF131212" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-
-                    <ScrollViewer x:Name="PART_ContentHost" Grid.Column="2" VerticalAlignment="Center" Foreground="White" />
-                </Grid>
-            </Border>
-        </Border>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="TextBoxTemplateSettingsDescription" TargetType="{x:Type TextBoxBase}">
-
-        <Border BorderThickness="0.5" CornerRadius="2">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="Black" />
-                    <GradientStop Offset="1" Color="#FF0A0A0A" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-            <Border Background="{TemplateBinding Background}" BorderThickness="0.5" CornerRadius="2">
-                <Border.BorderBrush>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0" Color="#FF040404" />
-                        <GradientStop Offset="1" Color="#FF1D1D1D" />
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="160" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0" VerticalAlignment="Stretch" Background="{DynamicResource ClassSelectorBackgroundSelectedBug}" CornerRadius="2, 2, 0, 0">
-                        <TextBlock VerticalAlignment="Center" FontFamily="Helvetica" FontWeight="Bold" Foreground="{DynamicResource BlueOnBlueText}" Text="  Describe The Settings:   " />
-                    </Border>
-
-                    <Rectangle Grid.Row="1" Height="2" Fill="{DynamicResource TabDivider}" />
-
-                    <ScrollViewer x:Name="PART_ContentHost" Grid.Row="2" />
-                </Grid>
-            </Border>
-        </Border>
     </ControlTemplate>
 
     <ControlTemplate x:Key="TextBoxTemplatePlayerName" TargetType="{x:Type TextBox}">
@@ -366,7 +208,6 @@
 
         <ControlTemplate.Triggers>
             <Trigger Property="IsFocused" Value="True">
-                <!--<Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource TextBoxBorderColorFocused}" />-->
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

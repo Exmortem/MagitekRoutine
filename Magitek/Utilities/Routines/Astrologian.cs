@@ -3,7 +3,6 @@ using ff14bot;
 using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
 using System.Collections.Generic;
@@ -29,9 +28,6 @@ namespace Magitek.Utilities.Routines
 
         public static bool NeedToInterruptCast()
         {
-            /*if (Casting.CastingTankBuster)
-                return false;*/
-
             // Scalebound Extreme Rathalos
             if (Core.Me.HasAura(1495))
                 return false;
