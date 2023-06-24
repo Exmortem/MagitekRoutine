@@ -258,7 +258,7 @@ namespace Magitek.Logic.Ninja
             if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
                 return false;
 
-            return await NinjaRoutine.PrepareNinjutsu(Spells.HyoshoRanryu, Core.Me.CurrentTarget);
+            return await NinjaRoutine.PrepareNinjutsu(Spells.GokaMekkyaku, Core.Me.CurrentTarget);
 
         }
 
