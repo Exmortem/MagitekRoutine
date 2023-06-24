@@ -38,6 +38,9 @@ namespace Magitek.Logic.Ninja
             if (!Spells.HakkeMujinsatsu.IsKnown())
                 return false;
 
+            if (ActionManager.LastSpell != Spells.DeathBlossom)
+                return false;
+
             if (!Spells.HakkeMujinsatsu.CanCast(Core.Me))
                 return false;
 
