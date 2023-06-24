@@ -33,7 +33,7 @@ namespace Magitek.Utilities.Routines
 
                 if (UsedMudras.Count < ninjustsuLength - 1)
                 {
-                    List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x));
+                    List<SpellData> availableMudras = Mudras.FindAll(x => x != endMudra && !UsedMudras.Contains(x) && x.IsKnown());
 
                     if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
                     {
@@ -113,7 +113,7 @@ namespace Magitek.Utilities.Routines
 
                 if (UsedMudras.Count < NinjutsuComplexity[ninjutsu] - 1)
                 {
-                    List<SpellData> availableMudras = Mudras.FindAll(x => x != NinjutsuEndMudra[ninjutsu] && !UsedMudras.Contains(x));
+                    List<SpellData> availableMudras = Mudras.FindAll(x => x != NinjutsuEndMudra[ninjutsu] && !UsedMudras.Contains(x) && x.IsKnown());
 
                     if (await availableMudras[new Random().Next(availableMudras.Count)].Cast(Core.Me))
                     {
