@@ -291,6 +291,34 @@ namespace Magitek.Logic.Ninja
 
         }
 
+        public static async Task<bool> Katon()
+        {
+
+            if (Core.Me.ClassLevel < 35)
+                return false;
+
+            if (!Spells.Ten.IsKnown())
+                return false;
+
+            if (Core.Me.HasAura(Auras.TenChiJin) || Core.Me.HasAura(Auras.Kassatsu) && Core.Me.ClassLevel >= 76)
+                return false;
+
+            if (Spells.Chi.Charges < Spells.Chi.MaxCharges - (Spells.SpinningEdge.AdjustedCooldown.TotalMilliseconds / 20000)
+                && NinjaRoutine.UsedMudras.Count() == 0
+                && Spells.TrickAttack.Cooldown <= new TimeSpan(0, 0, 45))
+                return false;
+
+            if (Core.Me.ClassLevel >= 90 
+                && Spells.Mug.Cooldown >= new TimeSpan(0, 1, 40))
+                return false;
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.Katon, Core.Me.CurrentTarget);
+
+        }
+
         public static async Task<bool> FumaShuriken()
         {
 
