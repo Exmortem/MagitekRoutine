@@ -43,7 +43,7 @@ namespace Magitek.Logic.Ninja
             if (Spells.Mug.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
-            if (Spells.Bunshin.Cooldown == new TimeSpan(0, 0, 0))
+            if (Core.Me.ClassLevel >= 80 && Spells.Bunshin.Cooldown == new TimeSpan(0, 0, 0))
                 return false;
 
             if (Spells.SpinningEdge.Cooldown.TotalMilliseconds >= 800)

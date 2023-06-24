@@ -131,7 +131,7 @@ namespace Magitek.Rotations
                 if (usedOGCD)
                 {
 
-                    NinjaRoutine.oGCD = DateTime.Now.AddMilliseconds(770);
+                    NinjaRoutine.oGCD = DateTime.Now.AddMilliseconds(620);
                     return true;
 
                 }
