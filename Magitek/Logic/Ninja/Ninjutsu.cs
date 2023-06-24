@@ -233,6 +233,31 @@ namespace Magitek.Logic.Ninja
             if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
                 return false;
 
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= 3)
+                return false;
+
+            return await NinjaRoutine.PrepareNinjutsu(Spells.HyoshoRanryu, Core.Me.CurrentTarget);
+
+        }
+
+        public static async Task<bool> GokaMekkyaku()
+        {
+
+            if (Core.Me.ClassLevel < 76)
+                return false;
+
+            if (!Spells.Jin.IsKnown())
+                return false;
+
+            if (!Core.Me.HasAura(Auras.Kassatsu) && (Casting.SpellCastHistory.Count() > 0 && Casting.SpellCastHistory.First().Spell != Spells.Kassatsu))
+                return false;
+
+            if (Spells.TrickAttack.Cooldown < new TimeSpan(0, 0, 45))
+                return false;
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() < 3)
+                return false;
+
             return await NinjaRoutine.PrepareNinjutsu(Spells.HyoshoRanryu, Core.Me.CurrentTarget);
 
         }
