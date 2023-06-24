@@ -76,16 +76,6 @@ namespace Magitek.ViewModels
             try
             {
                 var posterId = "";
-
-                if (!string.IsNullOrWhiteSpace(AuthenticationSettings.Instance.MagitekKey) && !string.IsNullOrEmpty(AuthenticationSettings.Instance.MagitekKey))
-                {
-                    posterId = AuthenticationSettings.Instance.MagitekKey.Substring(AuthenticationSettings.Instance.MagitekKey.Length - 5);
-                }
-                else if (!string.IsNullOrWhiteSpace(AuthenticationSettings.Instance.MagitekLegacyKey) && !string.IsNullOrEmpty(AuthenticationSettings.Instance.MagitekLegacyKey))
-                {
-                    posterId = AuthenticationSettings.Instance.MagitekLegacyKey.Substring(AuthenticationSettings.Instance.MagitekLegacyKey.Length - 5);
-                }
-
                 if (posterId == "")
                 {
                     return;

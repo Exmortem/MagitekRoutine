@@ -64,14 +64,6 @@
                                 <RadioButton Name="Samurai" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Samurai, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonSamurai}" />
                                 <RadioButton Name="Reaper" Command="{Binding JobSelectionChanged}" CommandParameter="{Binding ElementName=Reaper, Path=Name}" GroupName="JobFilter" Style="{DynamicResource RadioButtonReaper}" />
                             </StackPanel>
-
-                            <!--<ToggleButton Margin="15,0,0,0"
-                                          HorizontalAlignment="Right"
-                                          Command="{Binding UpdateDisplayedGambitsCommand}"
-                                          Content="Show All"
-                                          IsChecked="{Binding ShowAll, Mode=TwoWay}"
-                                          Style="{DynamicResource ToggleButtonGambitFilter}" />-->
-
                         </StackPanel>
 
                         <controls:SwirlSpinner Margin="0,1,50,0" HorizontalAlignment="Right" Visibility="{Binding Path=SpinnerVisible, Converter={StaticResource BoolToVis}}" />
@@ -156,7 +148,6 @@
                                                                                TextWrapping="Wrap" />
 
                                                                     <StackPanel Grid.Row="2" Margin="0,3,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
-
                                                                         <Button Width="12"
                                                                                 Height="12"
                                                                                 Margin="0,0,5,0"
@@ -166,8 +157,11 @@
                                                                                 Foreground="{DynamicResource ClassSelectorBackground}"
                                                                                 Style="{DynamicResource DeleteButton}"
                                                                                 ToolTip="Delete" />
-
-                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DownloadOpenerGroupCommand}" CommandParameter="{Binding File}" Foreground="{DynamicResource ClassSelectorBackground}" Style="{DynamicResource ButtonLoad}" ToolTip="Download" />
+                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DownloadOpenerGroupCommand}" 
+                                                                                CommandParameter="{Binding File}" 
+                                                                                Foreground="{DynamicResource ClassSelectorBackground}" 
+                                                                                Style="{DynamicResource ButtonLoad}" 
+                                                                                ToolTip="Download" />
                                                                     </StackPanel>
 
                                                                 </Grid>

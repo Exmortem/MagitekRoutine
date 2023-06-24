@@ -61,16 +61,47 @@
       <HintPath>packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="GreyMagic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
-      <HintPath>packages\RebornBuddy.Assemblies.1.0.531\lib\net461\GreyMagic.dll</HintPath>
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.552\lib\net461\GreyMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
     </Reference>
-    <Reference Include="RebornBuddy, Version=1.0.531.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
-      <HintPath>packages\RebornBuddy.Assemblies.1.0.531\lib\net461\RebornBuddy.exe</HintPath>
+    <Reference Include="RebornBuddy, Version=1.0.552.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.552\lib\net461\RebornBuddy.exe</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.Json.7.0.1\lib\net462\System.Net.Http.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,8 +116,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BossFightLog\BossFight.cs" />
-    <Compile Include="BossFightLog\BossFightLogItem.cs" />
     <Compile Include="Commands\AwaitableDelegateCommand.cs" />
     <Compile Include="Commands\AwaitableDelegateCommandT.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
@@ -94,9 +123,6 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IAsyncCommandT.cs" />
     <Compile Include="Commands\IRaiseCanExecuteChanged.cs" />
-    <Compile Include="Controls\BossFightLog.xaml.cs">
-      <DependentUpon>BossFightLog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CurrentNews.xaml.cs">
       <DependentUpon>CurrentNews.xaml</DependentUpon>
     </Compile>
@@ -129,12 +155,6 @@
     </Compile>
     <Compile Include="Controls\SettingsBlock.xaml.cs">
       <DependentUpon>SettingsBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SharedSettings.xaml.cs">
-      <DependentUpon>SharedSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SubmitSettings.xaml.cs">
-      <DependentUpon>SubmitSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SwirlSpinner.xaml.cs">
       <DependentUpon>SwirlSpinner.xaml</DependentUpon>
@@ -295,6 +315,7 @@
     <Compile Include="Logic\Summoner\Pvp.cs" />
     <Compile Include="Logic\Warrior\Heal.cs" />
     <Compile Include="Logic\Warrior\Pvp.cs" />
+    <Compile Include="Models\MagitekApi\MagitekVersion.cs" />
     <Compile Include="Models\Reaper\ReaperSettings.cs" />
     <Compile Include="Models\Sage\SageSettings.cs" />
     <Compile Include="Rotations\Reaper.cs" />
@@ -366,13 +387,11 @@
     <Compile Include="Logic\Scholar\Dispel.cs" />
     <Compile Include="Logic\Scholar\Heal.cs" />
     <Compile Include="Logic\Scholar\SingleTarget.cs" />
-    <Compile Include="Logic\Scholar\TankBusters.cs" />
     <Compile Include="Logic\Astrologian\Aoe.cs" />
     <Compile Include="Logic\Astrologian\Buff.cs" />
     <Compile Include="Logic\Astrologian\Dispel.cs" />
     <Compile Include="Logic\Astrologian\Heals.cs" />
     <Compile Include="Logic\Astrologian\SingleTarget.cs" />
-    <Compile Include="Logic\Astrologian\TankBusters.cs" />
     <Compile Include="Logic\Astrologian\Pvp.cs" />
     <Compile Include="Logic\Summoner\Aoe.cs" />
     <Compile Include="Logic\Summoner\Buff.cs" />
@@ -390,19 +409,12 @@
     <Compile Include="Logic\WhiteMage\Heal.cs" />
     <Compile Include="Logic\WhiteMage\Pvp.cs" />
     <Compile Include="Logic\WhiteMage\SingleTarget.cs" />
-    <Compile Include="Logic\WhiteMage\TankBusters.cs" />
     <Compile Include="Magitek.cs" />
-    <Compile Include="Models\Account\AuthenticationSettings.cs" />
     <Compile Include="Models\Account\ZoneSetting.cs" />
     <Compile Include="Models\Account\ZoneSettingEntry.cs" />
     <Compile Include="Models\Astrologian\AstrologianZoneSettings.cs" />
-    <Compile Include="Models\Authentication\ClientSession.cs" />
     <Compile Include="Models\Bard\BardSettings.cs" />
     <Compile Include="Models\Account\BaseSettings.cs" />
-    <Compile Include="Models\BitBucket\Issue.cs" />
-    <Compile Include="Models\BitBucket\Issues.cs" />
-    <Compile Include="Models\BitBucket\MetaData.cs" />
-    <Compile Include="Models\BitBucket\ReportedBy.cs" />
     <Compile Include="Models\BlackMage\BlackMageSettings.cs" />
     <Compile Include="Models\CombatMessageModel.cs" />
     <Compile Include="Models\Gunbreaker\GunbreakerSettings.cs" />
@@ -418,9 +430,7 @@
     <Compile Include="Models\QueueSpell\JobSpell.cs" />
     <Compile Include="Models\Machinist\MachinistSettings.cs" />
     <Compile Include="Models\MagitekApi\MagitekApiResult.cs" />
-    <Compile Include="Models\MagitekApi\MagitekContributor.cs" />
     <Compile Include="Models\MagitekApi\MagitekNews.cs" />
-    <Compile Include="Models\MagitekApi\MagitekSettings.cs" />
     <Compile Include="Models\Monk\MonkSettings.cs" />
     <Compile Include="Models\Ninja\NinjaSettings.cs" />
     <Compile Include="Models\QueueSpell\QueueSpellCheck.cs" />
@@ -516,7 +526,6 @@
     <Compile Include="Utilities\Managers\DispelManager.cs" />
     <Compile Include="Utilities\Managers\InterruptsAndStunsManager.cs" />
     <Compile Include="Utilities\Managers\RotationManager.cs" />
-    <Compile Include="Utilities\Managers\TankBusterManager.cs" />
     <Compile Include="Utilities\Movement.cs" />
     <Compile Include="Utilities\Routines\Bard.cs" />
     <Compile Include="Utilities\Routines\BlackMage.cs" />
@@ -548,7 +557,6 @@
     <Compile Include="ViewModels\MainOverlayViewModel.cs" />
     <Compile Include="ViewModels\OpenersBrowser.cs" />
     <Compile Include="ViewModels\OpenersViewModel.cs" />
-    <Compile Include="ViewModels\TankBusters.cs" />
     <Compile Include="ViewModels\TogglesViewModel.cs" />
     <Compile Include="Views\SettingsModal.xaml.cs">
       <DependentUpon>SettingsModal.xaml</DependentUpon>
@@ -645,9 +653,6 @@
       <DependentUpon>HealingLists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Bugs\PartyMemberAuras.xaml.cs" />
-    <Compile Include="Views\UserControls\Bugs\ReportNewIssue.xaml.cs">
-      <DependentUpon>ReportNewIssue.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\Bugs\SpellCastHistory.xaml.cs">
       <DependentUpon>SpellCastHistory.xaml</DependentUpon>
     </Compile>
@@ -707,9 +712,6 @@
     </Compile>
     <Compile Include="Views\UserControls\Dragoon\SingleTarget.xaml.cs">
       <DependentUpon>SingleTarget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\GeneralSettings.xaml.cs">
-      <DependentUpon>GeneralSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Gunbreaker\Healing.xaml.cs">
       <DependentUpon>Healing.xaml</DependentUpon>
@@ -966,10 +968,6 @@
     <EmbeddedResource Include="Resources\Toggles\WarriorToggles.json" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\BossFightLog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\CurrentNews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1011,14 +1009,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SharedSettings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SubmitSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1213,10 +1203,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Bugs\PartyMemberAuras.xaml" />
-    <Page Include="Views\UserControls\Bugs\ReportNewIssue.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\UserControls\Bugs\SpellCastHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1294,10 +1280,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Dragoon\SingleTarget.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\GeneralSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

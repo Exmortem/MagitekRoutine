@@ -48,10 +48,6 @@ namespace Magitek.Logic.Gunbreaker
             if (!Core.Me.HasAura(Auras.RoyalGuard))
                 return false;
 
-            //need this in autonomous for dungeon profiles
-            //if (BotManager.Current.IsAutonomous)
-            //    return false;
-
             //find target already pulled on which I lose aggro
             var lightningShotTarget = Combat.Enemies.FirstOrDefault(r => r.ValidAttackUnit()
                                                                     && r.NotInvulnerable()

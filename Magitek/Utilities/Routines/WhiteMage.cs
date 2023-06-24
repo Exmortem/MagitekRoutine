@@ -1,5 +1,4 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
@@ -30,64 +29,8 @@ namespace Magitek.Utilities.Routines
             Spells.Stone4.Id,
         };
 
-        /*private static bool NeedCure2TankBuster
-        {
-            get
-            {
-                var a = Combat.Enemies.FirstOrDefault(r => r.IsCasting && TankBusterManager.Cure2List.Contains(r.CastingSpellId))?.TargetCharacter;
-
-                if (a == null)
-                    return false;
-
-                return Casting.LastSpell != Spells.Cure2 || Casting.LastSpellTarget != a || DateTime.Now >= Casting.LastTankBusterTime.AddSeconds(5);
-            }   
-        }
-
-        private static bool NeedMedicaTankBuster
-        {
-            get
-            {
-                if (Casting.LastSpell == Spells.Medica && Casting.LastSpellTarget == Core.Me && DateTime.Now < Casting.LastTankBusterTime.AddSeconds(5))
-                    return false;
-
-                return Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.MedicaList.Contains(r.CastingSpellId));
-            }
-        }
-        
-        private static bool NeedMedica2TankBuster
-        {
-            get
-            {
-                var enemyCasting = Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.Medica2List.Contains(r.CastingSpellId));
-                return enemyCasting && Group.CastableAlliesWithin15.Count(r => !r.HasAura(Auras.Medica2)) < WhiteMageSettings.Instance.Medica2Allies;
-            }
-        }
-
-        private static bool NeedDivineBenisonTankBuster
-        {
-            get
-            {
-                return ActionResourceManager.WhiteMage.Lily != 0 && Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.DivineBenison.Contains(r.CastingSpellId) && r.HasTarget &&
-                                                                                            !r.TargetGameObject.HasAura(Auras.DivineBenison) && !r.TargetGameObject.HasAura(Auras.DivineBenison2));
-            }
-        }
-
-        private static bool NeedAfflatusRaptureTankBuster
-        {
-            get
-            {
-                if (Casting.LastSpell == Spells.AfflatusRapture && Casting.LastSpellTarget == Core.Me && DateTime.Now < Casting.LastTankBusterTime.AddSeconds(5))
-                    return false;
-
-                return Combat.Enemies.Any(r => r.IsCasting && TankBusterManager.AfflatusRaptureList.Contains(r.CastingSpellId));
-            }
-        }
-        */
         public static bool NeedToInterruptCast()
         {
-            //if (Casting.CastingTankBuster)
-            //    return false;
-
             if (Casting.CastingSpell != Spells.Raise && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -119,17 +62,8 @@ namespace Magitek.Utilities.Routines
                 }
             }
 
-            //if (!WhiteMageSettings.Instance.UseTankBusters || !WhiteMageSettings.Instance.PrioritizeTankBusters)
-            //    return false;
-
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
-
-            //if (Core.Me.CurrentManaPercent < WhiteMageSettings.Instance.TankBusterMinimumMpPercent)
-            //    return false;
-
-            //if (!NeedCure2TankBuster && !NeedMedicaTankBuster && !NeedMedica2TankBuster && !NeedDivineBenisonTankBuster &&!NeedAfflatusRaptureTankBuster)
-            //    return false;
 
             //Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");
             return false;

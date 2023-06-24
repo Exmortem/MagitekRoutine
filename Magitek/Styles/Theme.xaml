@@ -51,6 +51,8 @@
 
     <SolidColorBrush x:Key="ClassSelectorBackgroundMouseOver" Color="Black" />
 
+    <SolidColorBrush x:Key="ClassSelectorBackgroundVersion" Color="#404040" />
+
     <LinearGradientBrush x:Key="ClassSelectorBackgroundSelected" StartPoint="0,0.55" EndPoint="1,0.55">
         <GradientStop Offset="1" Color="#FF072E72" />
         <GradientStop Offset="0.067" Color="#FF0080FF" />

@@ -270,18 +270,6 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <!-- <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Tank Busters" IsChecked="{Binding WhiteMageSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="5,0" Content="Prioritize Tank Busters" IsChecked="{Binding WhiteMageSettings.PrioritizeTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Only Use Tank Busters When Over " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding WhiteMageSettings.TankBusterMinimumMpPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-            </StackPanel>-->
         </controls:SettingsBlock>
 
 

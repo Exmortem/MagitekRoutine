@@ -337,60 +337,6 @@
         </Setter>
     </Style>
 
-
-    <Style x:Key="TabButtonIssuesList" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border Name="Background" Background="Transparent" IsHitTestVisible="True">
-
-                        <Path Name="Path"
-                              Width="15"
-                              Height="15"
-                              VerticalAlignment="Center"
-                              Data="M8.3810682,0C9.883068,-2.379893E-07 11.485043,0.39998543 12.786056,1.1009901 15.589983,2.6029432 16.890996,5.3058903 16.490975,7.9098408 21.195949,10.512784 29.606879,15.1177 31.308888,16.018683 33.610869,17.320658 29.606879,22.426541 27.403897,21.225577 25.801923,20.323586 17.291993,15.718671 12.586045,13.115727 9.9830427,14.5167 6.5790829,14.5167 3.7750935,13.015723 0.97214188,11.513771 -0.32984767,8.9108274 0.071149342,6.3078839L7.580111,10.41278 11.385068,8.8108232 11.585078,5.2058866 3.9761412,1.0009861C5.2770934,0.3000119,6.8790679,-2.379893E-07,8.3810682,0z"
-                              Fill="{DynamicResource MainTabUnselected}"
-                              Stretch="Uniform" />
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.Setters>
-                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource MainTabButtonIconBackgroundHover}" />
-                            </Trigger.Setters>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ButtonSubmit" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border Name="Background" Background="{DynamicResource ButtonSubmitBackground}" CornerRadius="2">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.Setters>
-                                <Setter TargetName="Background" Property="Background" Value="{DynamicResource ButtonSubmitBackgroundHover}" />
-                            </Trigger.Setters>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="ButtonIncrement" TargetType="{x:Type Button}">
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Template">

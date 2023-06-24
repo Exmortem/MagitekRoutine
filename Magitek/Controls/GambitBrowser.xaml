@@ -159,7 +159,6 @@
                                                                                TextWrapping="Wrap" />
 
                                                                     <StackPanel Grid.Row="1" Margin="0,3,5,0" HorizontalAlignment="Right" Orientation="Horizontal">
-
                                                                         <Button Width="12"
                                                                                 Height="12"
                                                                                 Margin="0,0,5,0"
@@ -169,8 +168,11 @@
                                                                                 Foreground="{DynamicResource ClassSelectorBackground}"
                                                                                 Style="{DynamicResource DeleteButton}"
                                                                                 ToolTip="Delete" />
-
-                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DownloadGambitGroupCommand}" CommandParameter="{Binding File}" Foreground="{DynamicResource ClassSelectorBackground}" Style="{DynamicResource ButtonLoad}" ToolTip="Download" />
+                                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DownloadGambitGroupCommand}" 
+                                                                                CommandParameter="{Binding File}" 
+                                                                                Foreground="{DynamicResource ClassSelectorBackground}" 
+                                                                                Style="{DynamicResource ButtonLoad}" 
+                                                                                ToolTip="Download" />
                                                                     </StackPanel>
 
                                                                 </Grid>

@@ -1,5 +1,4 @@
 ﻿using ff14bot;
-using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Scholar;
@@ -17,70 +16,9 @@ namespace Magitek.Utilities.Routines
         {
             return Math.Max(Spells.SummonSeraph.Cooldown.TotalSeconds - 98, 0);
         }
-        /*private static bool NeedAdloquiumTankBuster
-        {
-            get
-            {
-                var castingTarget = Combat.Enemies.FirstOrDefault(r => r.IsCasting);
-
-                if (castingTarget == null)
-                    return false;
-
-                var castingInfo = castingTarget.SpellCastInfo;
-
-                if (!TankBusterManager.AdloquiumList.ContainsKey(castingInfo.ActionId))
-                    return false;
-
-                var adloquiumTankBuster = TankBusterManager.AdloquiumList.FirstOrDefault(r => r.Key == castingInfo.ActionId);
-
-                if (castingInfo.CurrentCastTime.TotalMilliseconds < adloquiumTankBuster.Value)
-                    return false;
-
-                return !castingTarget.HasAura(Auras.Galvanize);
-            }   
-        }
-
-        private static bool NeedExcogitationTankBuster
-        {
-            get
-            {
-                var excogitationTarget = Combat.Enemies.FirstOrDefault(r => r.IsCasting && TankBusterManager.ExcogitationList.ContainsKey(r.CastingSpellId))?.TargetCharacter;
-
-                if (excogitationTarget == null)
-                    return false;
-
-                return !excogitationTarget.HasAura(Auras.Exogitation);
-            }
-        }
-
-        private static bool NeedSuccorTankBuster
-        {
-            get
-            {
-                var castingTarget = Combat.Enemies.FirstOrDefault(r => r.IsCasting);
-
-                if (castingTarget == null)
-                    return false;
-
-                var castingInfo = castingTarget.SpellCastInfo;
-
-                if (!TankBusterManager.SuccorList.ContainsKey(castingInfo.ActionId))
-                    return false;
-
-                var succorTankBuster = TankBusterManager.SuccorList.FirstOrDefault(r => r.Key == castingInfo.ActionId);
-
-                if (castingInfo.CurrentCastTime.TotalMilliseconds < succorTankBuster.Value)
-                    return false;
-
-                return !Group.CastableAlliesWithin15.All(r => r.HasAura(Auras.Galvanize));
-            }
-        }*/
 
         public static bool NeedToInterruptCast()
         {
-            /*if (Casting.CastingTankBuster)
-                return false;
-                */
             if (Casting.CastingSpell != Spells.Resurrection && Casting.SpellTarget?.CurrentHealth < 1)
             {
                 Logger.Error($@"Stopped Cast: Unit Died");
@@ -122,26 +60,9 @@ namespace Magitek.Utilities.Routines
                 }
             }
 
-            //if (ScholarSettings.Instance.SlowcastRes) {
-            //    if (Casting.CastingSpell == Spells.Resurrection && Casting.SpellTarget?.CurrentHealth > 1) {
-            //        Logger.Error($@"Stopped Cast: Target is not Dead");
-            //        return true;
-            //    }
-            //}
-
-            /*if (!ScholarSettings.Instance.UseTankBusters || !ScholarSettings.Instance.PrioritizeTankBusters)
-                return false;*/
-
             if (!Globals.InParty || !Globals.PartyInCombat)
                 return false;
 
-            /*if (Core.Me.CurrentManaPercent < ScholarSettings.Instance.TankBusterMinimumMpPercent)
-                return false;
-
-            if (!NeedAdloquiumTankBuster && !NeedSuccorTankBuster && !NeedExcogitationTankBuster)
-                return false;
-
-            Logger.Error($@"Stopping Cast: Need To Use A Tank Buster");*/
             return false;
         }
 

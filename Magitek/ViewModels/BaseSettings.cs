@@ -67,8 +67,6 @@ namespace Magitek.ViewModels
         public AsyncObservableCollection<double> FontSizes { get; set; } = new AsyncObservableCollection<double>() { 9, 10, 11, 12 };
 
         public Models.Account.BaseSettings GeneralSettings => Models.Account.BaseSettings.Instance;
-        public AuthenticationSettings AuthenticationSettings => AuthenticationSettings.Instance;
-
         public ScholarSettings ScholarSettings { get; set; } = ScholarSettings.Instance;
         public WhiteMageSettings WhiteMageSettings { get; set; } = WhiteMageSettings.Instance;
         public AstrologianSettings AstrologianSettings { get; set; } = AstrologianSettings.Instance;
@@ -91,6 +89,7 @@ namespace Magitek.ViewModels
         public SageSettings SageSettings { get; set; } = SageSettings.Instance;
         public string CurrentRoutine { get; set; }
         public string RoutineSelectedInUi { get; set; }
+        public bool SettingsFirstInitialization { get; set; }
         public bool InPvp { get; set; }
 
         public string PositionalText { get; set; } = "Positional!";

@@ -239,7 +239,7 @@
 
 
         </controls:SettingsBlock>
-        
+
         <controls:SettingsBlock Margin="0,5,0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel>
                 <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
@@ -252,26 +252,10 @@
                     <CheckBox Margin="0,0,5,0" Content="Macrocosmos" IsChecked="{Binding AstrologianSettings.FightLogic_Macrocosmos, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" ToolTip="This will automatically cast Macrocosmos for Big AOEs.&#x0a;Does not work if Lightspeed is disabled."/>
                     <CheckBox Margin="0,0,5,0" Content="Neutral Sect" IsChecked="{Binding AstrologianSettings.FightLogic_NeutralSectAspectedHelios, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" ToolTip="This will automatically cast Neutral Sect and Aspected Helios for Big AOEs if Macrocosmos Fight Logic is enabled but unavailable.&#x0a;Does not work if Neutral Sect is disabled."/>
                     <CheckBox Margin="0,0,5,0" Content="Lightspeed" IsChecked="{Binding AstrologianSettings.FightLogic_Lightspeed, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" ToolTip="This will automatically cast Lightspeed for Big AOEs if Macrocosmos and Neutral Sect FightLogic are enabled but unavailable.&#x0a;Does not work if Lightspeed is disabled."/>
-                    
+
                 </StackPanel>
             </StackPanel>
         </controls:SettingsBlock>
-        
-        <!--<controls:SettingsBlock Margin="0,5,0,0" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use Tank Busters" IsChecked="{Binding AstrologianSettings.UseTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Margin="5,0" Content="Prioritize Tank Busters" IsChecked="{Binding AstrologianSettings.PrioritizeTankBusters, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                </StackPanel>
-
-                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Only Use Tank Busters When Over " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding AstrologianSettings.TankBusterMinimumMpPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
-                </StackPanel>
-            </StackPanel>
-        </controls:SettingsBlock>-->
-
     </StackPanel>
 
 </UserControl>

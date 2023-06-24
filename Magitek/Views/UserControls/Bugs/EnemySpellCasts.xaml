@@ -50,12 +50,6 @@
                                 CommandParameter="{Binding Value}"
                                 Content="Add Interrupt/Stun"
                                 Style="{DynamicResource ButtonLists}" />
-                        <!--<Button Grid.Column="5"
-                                HorizontalAlignment="Left"
-                                Command="{Binding Value.AddToTankBusters}"
-                                CommandParameter="{Binding Value}"
-                                Content="Add Tank Buster"
-                                Style="{DynamicResource ButtonLists}" />-->
                     </Grid>
 
                 </DataTemplate>

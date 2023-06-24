@@ -36,7 +36,6 @@ namespace Magitek.Models.WebResources
         public WhiteMageTbStrategies WhiteMageTbStrategy { get; set; } = WhiteMageTbStrategies.None;
         public AstrologianTbStrategies AstrologianTbStrategy { get; set; } = AstrologianTbStrategies.None;
 
-        //public uint TankBusterTimeIntoCast { get; set; }
 
         public string IconUrl
         {
@@ -53,9 +52,6 @@ namespace Magitek.Models.WebResources
         public bool Sentinel { get; set; }
         public bool Rampart { get; set; }
         public bool Reprisal { get; set; }
-
-        //public bool PaladinTankBuster => DivineVeil || Sheltron || HallowedGround || Sentinel  || Rampart;
-
         public bool RampartDk { get; set; }
         public bool LivingDead { get; set; }
         public bool ShadowWall { get; set; }
@@ -63,18 +59,12 @@ namespace Magitek.Models.WebResources
         public bool DarkMissionary { get; set; }
         public bool TheBlackestNight { get; set; }
         public bool ReprisalDk { get; set; }
-
-        //public bool DarkKnightTankBuster => LivingDead || DarkMissionary || TheBlackestNight || RampartDk || ShadowWall || DarkMind;
-
         public bool RampartWar { get; set; }
         public bool ReprisalWar { get; set; }
         public bool InnerBeast { get; set; }
         public bool Holmgang { get; set; }
         public bool Vengeance { get; set; }
         public bool RawIntuition { get; set; }
-
-        //public bool WarriorTankBuster => RampartWar || ReprisalWar || InnerBeast || Holmgang || Vengeance || RawIntuition;
-
         public bool RampartGnb { get; set; }
         public bool ReprisalGnb { get; set; }
         public bool Camouflage { get; set; }
@@ -83,7 +73,5 @@ namespace Magitek.Models.WebResources
         public bool HeartofLight { get; set; }
         public bool HeartofStone { get; set; }
         public bool Superbolide { get; set; }
-
-        //public bool GunbreakerTankBuster => RampartGnb || ReprisalGnb || HeartofLight || HeartofStone || Camouflage || Nebula || Aurora || Superbolide;
     }
 }

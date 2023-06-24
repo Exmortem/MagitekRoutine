@@ -3,10 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Magitek.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:enums="clr-namespace:Magitek.Enumerations"
-             xmlns:local="clr-namespace:Magitek.Views.UserControls.Scholar"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModels="clr-namespace:Magitek.ViewModels"
              d:DesignHeight="400"
              d:DesignWidth="500"
@@ -22,19 +19,40 @@
 
     <StackPanel Margin="10">
         <StackPanel Margin="5" Orientation="Horizontal">
-            <CheckBox Grid.Column="0" Content="Grit  " IsChecked="{Binding DarkKnightSettings.Grit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+            <CheckBox Grid.Column="0" Content="Grit (Tank Stance)" IsChecked="{Binding DarkKnightSettings.Grit, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
         </StackPanel>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Provoke" IsChecked="{Binding DarkKnightSettings.UseProvoke, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
-        </controls:SettingsBlock>
-        <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
-                <CheckBox Content="Pull With Unmend" IsChecked="{Binding DarkKnightSettings.UnmendToPull, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <CheckBox Margin="0,3,0,0" Content="Unmend To Regain Aggro" IsChecked="{Binding DarkKnightSettings.UnmendToPullAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Use Unmend if not in melee to deal damage " IsChecked="{Binding DarkKnightSettings.UnmendToDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Margin="0,3,0,0" Content="Use Unmend To Pull or Regain Aggro " IsChecked="{Binding DarkKnightSettings.UnmendToPullOrAggro, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Use Unmend When Ennemy Is At Least "  />
+                        <controls:Numeric Margin="0,3" MaxValue="15" MinValue="0" Value="{Binding DarkKnightSettings.UnmendMinDistance, Mode=TwoWay}" />
+                        <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Yalms Away" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="5">
+                </StackPanel>
+            </Grid>
         </controls:SettingsBlock>
     </StackPanel>
 </UserControl>

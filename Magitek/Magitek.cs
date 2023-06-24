@@ -55,10 +55,9 @@ namespace Magitek
         {
             Logger.WriteInfo("Initializing ...");
             ViewModels.BaseSettings.Instance.RoutineSelectedInUi = RotationManager.CurrentRotation.ToString();
+            ViewModels.BaseSettings.Instance.SettingsFirstInitialization = true;
             DispelManager.Reset();
             InterruptsAndStunsManager.Reset();
-            //TankBusterManager.ResetHealers();
-            //TankBusterManager.ResetTanks();
             TreeRoot.OnStart += OnStart;
             TreeRoot.OnStop += OnStop;
             CurrentZone = WorldManager.ZoneId;
@@ -151,8 +150,6 @@ namespace Magitek
                 DispelManager.Reset();
                 InterruptsAndStunsManager.Reset();
                 CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
-                //TankBusterManager.ResetHealers();
-                //TankBusterManager.ResetTanks();
             }
             #endregion
 
@@ -212,7 +209,6 @@ namespace Magitek
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
                 BaseSettings.Instance.Save();
-                //TankBusters.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
                 
                 #region Save Settings For All Routines
@@ -241,7 +237,6 @@ namespace Magitek
             Dispelling.Instance.Save();
             BaseSettings.Instance.Save();
             InterruptsAndStuns.Instance.Save();
-            //TankBusters.Instance.Save();
             TogglesViewModel.Instance.SaveToggles();
 
             var hotkeys = HotkeyManager.RegisteredHotkeys.Select(r => r.Name).Where(r => r.Contains("Magitek"));
@@ -250,8 +245,6 @@ namespace Magitek
             {
                 HotkeyManager.Unregister(hk);
             }
-
-            //Form?.Close();
         }
 
         private void GamelogManagerCountdownRecevied(object sender, ChatEventArgs e)

@@ -36,11 +36,7 @@ namespace Magitek.Utilities
         public static bool UseRefreshTime;
         public static int RefreshTime;
         public static readonly Stopwatch CastingTime = new Stopwatch();
-        //public static bool CastingTankBuster;
         public static bool CastingGambit;
-        //public static GameObject LastTankBusterTarget;
-        //public static DateTime LastTankBusterTime;
-        //public static SpellData LastTankBusterSpell;
         public static List<SpellCastHistoryItem> SpellCastHistory = new List<SpellCastHistoryItem>();
         #endregion
 
@@ -200,12 +196,10 @@ namespace Magitek.Utilities
             // If the timer isn't running it means it's already been stopped and the variables have already been set
             if (!CastingTime.IsRunning)
             {
-                //CastingTankBuster = false;
                 NeedAura = false;
                 UseRefreshTime = false;
                 DoHealthChecks = false;
                 CastingHeal = false;
-                //CastingTankBuster = false;
                 CastingGambit = false;
                 return;
             }
@@ -233,7 +227,6 @@ namespace Magitek.Utilities
                 UseRefreshTime = false;
                 DoHealthChecks = false;
                 CastingHeal = false;
-                //CastingTankBuster = false;
                 CastingGambit = false;
                 LastSpellSucceeded = false;
                 return;
@@ -286,18 +279,10 @@ namespace Magitek.Utilities
 
             #region Fill Variables
 
-            /*if (CastingTankBuster)
-            {
-                LastTankBusterTarget = SpellTarget;
-                LastTankBusterSpell = CastingSpell;
-                LastTankBusterTime = DateTime.Now;
-            }*/
-
             NeedAura = false;
             UseRefreshTime = false;
             DoHealthChecks = false;
             CastingHeal = false;
-            //CastingTankBuster = false;
             CastingGambit = false;
 
             #endregion
