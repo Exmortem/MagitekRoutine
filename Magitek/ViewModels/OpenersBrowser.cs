@@ -69,6 +69,35 @@ namespace Magitek.ViewModels
 
         #endregion
 
+        #region Remove Gambit Group
+
+        public ICommand RemoveOpenerGroup => new AwaitableDelegateCommand<SharedOpener>(async openers =>
+        {
+            try
+            {
+                var posterId = "";
+                if (posterId == "")
+                {
+                    return;
+                }
+
+                var result = await _webClient.GetAsync($@"{ApiAddress}/sharedopeners/remove/{openers.Id}/{posterId}");
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    return;
+                }
+
+                UpdateDisplayedOpeners();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+            }
+        });
+
+        #endregion
+
         #region Download
 
         public ICommand DownloadOpenerGroupCommand => new DelegateCommand<string>(openerString =>

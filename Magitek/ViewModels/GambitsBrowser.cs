@@ -70,6 +70,35 @@ namespace Magitek.ViewModels
 
         #endregion
 
+        #region Remove Gambit Group
+
+        public ICommand RemoveGambitGroup => new AwaitableDelegateCommand<SharedGambit>(async gambitGroup =>
+        {
+            try
+            {
+                var posterId = "";
+                if (posterId == "")
+                {
+                    return;
+                }
+
+                var result = await _webClient.GetAsync($@"{ApiAddress}/sharedgambits/remove/{gambitGroup.Id}/{posterId}");
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    return;
+                }
+
+                UpdateDisplayedGambits();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+            }
+        });
+
+        #endregion
+
         #region Download
 
         public ICommand DownloadGambitGroupCommand => new DelegateCommand<string>(gambitGroupString =>
