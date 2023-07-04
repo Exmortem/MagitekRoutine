@@ -1,6 +1,7 @@
 using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.Scholar;
 using Magitek.Models.WhiteMage;
 using Magitek.Utilities;
 using Magitek.Utilities.Managers;
@@ -34,14 +35,18 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Esuna.Cast(dispelTarget);
             }
 
-            if (!WhiteMageSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
+            if (!ScholarSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
                 return false;
 
             // Check to see if we need to heal people before we Dispel anyone
-            if (WhiteMageSettings.Instance.DispelOnlyAbove && Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < WhiteMageSettings.Instance.DispelOnlyAboveHealth))
+            if (ScholarSettings.Instance.DispelOnlyAbove && Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth))
                 return false;
 
-            dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura()).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
+            if (Casting.LastSpell == Spells.Esuna)
+                dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura() && Casting.LastSpellTarget != a).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
+
+            else
+                dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura()).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
 
             if (dispelTarget == null)
                 return false;
@@ -56,10 +61,13 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Esuna.Cast(Core.Me);
             }
 
-            if (!WhiteMageSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
+            if (Casting.LastSpell == Spells.Esuna && Casting.LastSpellTarget == Core.Me)
                 return false;
 
-            if (Core.Me.CurrentHealthPercent < WhiteMageSettings.Instance.DispelOnlyAboveHealth)
+            if (!ScholarSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
+                return false;
+
+            if (Core.Me.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth)
                 return false;
 
             if (!Core.Me.HasAnyDispellableAura())

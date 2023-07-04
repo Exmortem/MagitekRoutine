@@ -41,7 +41,11 @@ namespace Magitek.Logic.Scholar
             if (ScholarSettings.Instance.DispelOnlyAbove && Group.CastableAlliesWithin30.Any(r => r.CurrentHealthPercent < ScholarSettings.Instance.DispelOnlyAboveHealth))
                 return false;
 
-            dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura()).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
+            if(Casting.LastSpell == Spells.Esuna)
+                dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura() && Casting.LastSpellTarget != a).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
+
+            else
+                dispelTarget = Group.CastableAlliesWithin30.Where(a => a.HasAnyDispellableAura()).OrderByDescending(DispelManager.GetWeight).FirstOrDefault();
 
             if (dispelTarget == null)
                 return false;
@@ -55,6 +59,9 @@ namespace Magitek.Logic.Scholar
             {
                 return await Spells.Esuna.Cast(Core.Me);
             }
+
+            if (Casting.LastSpell == Spells.Esuna && Casting.LastSpellTarget == Core.Me)
+                return false;
 
             if (!ScholarSettings.Instance.AutomaticallyDispelAnythingThatsDispellable)
                 return false;
