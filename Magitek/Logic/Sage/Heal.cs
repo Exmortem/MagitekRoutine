@@ -130,7 +130,8 @@ namespace Magitek.Logic.Sage
             if (!SageSettings.Instance.Prognosis)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < SageSettings.Instance.PrognosisNeedHealing)
+            //Updated to 30y
+            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PrognosisHpPercent) < SageSettings.Instance.PrognosisNeedHealing)
                 return false;
 
             return await Spells.Prognosis.Cast(Core.Me);
@@ -143,7 +144,8 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Eukrasia.LevelAcquired)
                 return false;
 
-            var targets = Group.CastableAlliesWithin15.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHealthPercent &&
+            //Changed to 30y
+            var targets = Group.CastableAlliesWithin30.Where(r => r.CurrentHealthPercent <= SageSettings.Instance.EukrasianPrognosisHealthPercent &&
                                                                 !r.HasAura(Auras.EukrasianDiagnosis) &&
                                                                 !r.HasAura(Auras.EukrasianPrognosis) &&
                                                                 !r.HasAura(Auras.Galvanize));
@@ -193,7 +195,8 @@ namespace Magitek.Logic.Sage
             if (Spells.Physis.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent) < SageSettings.Instance.PhysisNeedHealing)
+            //Updated to 30 per patch 6.4 change
+            if (Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PhysisHpPercent) < SageSettings.Instance.PhysisNeedHealing)
                 return false;
 
             return await Spells.Physis.Cast(Core.Me);
@@ -441,7 +444,8 @@ namespace Magitek.Logic.Sage
             if (Core.Me.ClassLevel < Spells.Panhaima.LevelAcquired)
                 return false;
 
-            var needPanhaima = Group.CastableAlliesWithin15.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PanhaimaHpPercent) >= SageSettings.Instance.PanhaimaNeedHealing;
+            //Updated to 30y per patch 6.4 change
+            var needPanhaima = Group.CastableAlliesWithin30.Count(r => r.CurrentHealthPercent <= SageSettings.Instance.PanhaimaHpPercent) >= SageSettings.Instance.PanhaimaNeedHealing;
 
             if (!needPanhaima)
                 return false;
@@ -451,7 +455,8 @@ namespace Magitek.Logic.Sage
 
             if (Globals.InParty)
             {
-                var CanPanhaimaTargets = Group.CastableAlliesWithin15.Where(CanPanhaima).ToList();
+                //Updated to 30y per patch 6.4 change
+                var CanPanhaimaTargets = Group.CastableAlliesWithin30.Where(CanPanhaima).ToList();
 
                 if (CanPanhaimaTargets.Count < SageSettings.Instance.PanhaimaNeedHealing)
                     return false;
@@ -472,7 +477,8 @@ namespace Magitek.Logic.Sage
                 if (unit.CurrentHealthPercent > SageSettings.Instance.PanhaimaHpPercent)
                     return false;
 
-                return unit.Distance(Core.Me) <= 15;
+                //Updated to 30y per patch 6.4 change
+                return unit.Distance(Core.Me) <= 30;
             }
         }
         public static async Task<bool> ForcePanhaima()

@@ -520,7 +520,8 @@ namespace Magitek.Logic.Astrologian
             if (!AstrologianSettings.Instance.CollectiveUnconscious)
                 return false;
 
-            if (Group.CastableAlliesWithin10.Count(r => r.Distance() < 6
+            //Updated range to 30 per patch 6.4 change
+            if (Group.CastableAlliesWithin30.Count(r => r.Distance() < 30
                                                     && r.IsAlive
                                                     && r.CurrentHealthPercent <= AstrologianSettings.Instance.CollectiveUnconsciousHealth)
                                                     < AstrologianSettings.Instance.CollectiveUnconsciousAllies)

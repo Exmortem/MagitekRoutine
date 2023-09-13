@@ -175,7 +175,8 @@ namespace Magitek.Logic.Scholar
             var deploymentTacticsTarget = Group.CastableAlliesWithin30.FirstOrDefault(r =>
                 r.HasAura(Auras.Galvanize, true)
                 && r.HasAura(Auras.Catalyze, true)
-                && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 15 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
+                //Updated range to 30 per patch 6.4 change
+                && Group.CastableAlliesWithin30.Count(x => x.Distance(r) <= 30 + x.CombatReach) >= ScholarSettings.Instance.DeploymentTacticsAllyInRange);
 
             if (deploymentTacticsTarget == null)
                 return false;
@@ -368,7 +369,8 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.ExpedientHealthPercent)
                     return false;
 
-                return unit.Distance(Core.Me) <= 15;
+                //Updated range to 30 per patch 6.4 change
+                return unit.Distance(Core.Me) <= 30;
             }
         }
 

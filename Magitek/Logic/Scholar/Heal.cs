@@ -600,7 +600,8 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyIlluminationHpPercent)
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 15;
+                //Updated range to 30 per 6.4 patch change
+                return unit.Distance(Core.Me.Pet) <= 30;
             }
         }
 
@@ -710,7 +711,8 @@ namespace Magitek.Logic.Scholar
                 if (unit.HasAura(Auras.SeraphicVeil))
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 20;
+                //Updated range to 30 per patch 6.4 change
+                return unit.Distance(Core.Me.Pet) <= 30;
             }
         }
     }

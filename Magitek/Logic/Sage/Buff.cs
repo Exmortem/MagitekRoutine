@@ -214,7 +214,8 @@ namespace Magitek.Logic.Sage
                 if (unit.CurrentHealthPercent > SageSettings.Instance.KeracholeHealthPercent)
                     return false;
 
-                return unit.Distance(Core.Me) <= 15;
+                //Updated to 30y
+                return unit.Distance(Core.Me) <= 30;
             }
         }
         public static async Task<bool> Rhizomata()

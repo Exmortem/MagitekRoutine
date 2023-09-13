@@ -150,7 +150,7 @@ namespace Magitek.Logic.WhiteMage
             long mostHealthDown = 0;
             foreach (Character ally in Group.CastableAlliesWithin30.Where(r => r.IsAlive))
             {
-                List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 6).ToList();
+                List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 10).ToList(); //Updated range to 10 since patch 6.1 changed this
                 int nearbyTargets = nearby.Count(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent);
                 long totalHealthDown = nearby.Sum(r => r.MaxHealth - r.CurrentHealth);
                 if (nearbyTargets >= WhiteMageSettings.Instance.Cure3Allies
@@ -335,9 +335,10 @@ namespace Magitek.Logic.WhiteMage
             if (Combat.CombatTotalTimeLeft < 20)
                 return false;
 
+            //Updated range to 15 to be in line with 6.4 patch
             var asylumTarget = Group.CastableTanks.FirstOrDefault(r => r.CurrentHealth > 0 &&
                                                                        r.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent &&
-                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 7 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= WhiteMageSettings.Instance.AsylumAllies - 1);
+                                                                       Group.CastableAlliesWithin30.Count(x => x.CurrentHealth > 0 && x.Distance(r) <= 15 && x.CurrentHealthPercent <= WhiteMageSettings.Instance.AsylumHealthPercent) >= WhiteMageSettings.Instance.AsylumAllies - 1);
 
             if (asylumTarget == null)
                 return false;
