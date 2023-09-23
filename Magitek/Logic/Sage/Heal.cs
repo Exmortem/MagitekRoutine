@@ -590,8 +590,8 @@ namespace Magitek.Logic.Sage
 
                 if (unit.HasAura(Auras.Panhaimatinon))
                     return false;
-
-                return unit.Distance(Core.Me) <= 15;
+                //Range is now 30y
+                return unit.Distance(Core.Me) <= 30;
             }
         }
         public static async Task<bool> ForcePanhaima()

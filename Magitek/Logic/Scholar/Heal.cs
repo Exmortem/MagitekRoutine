@@ -629,7 +629,8 @@ namespace Magitek.Logic.Scholar
                 if (unit.CurrentHealthPercent > ScholarSettings.Instance.FeyIlluminationHpPercent)
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 15;
+                //Radius is now 30y
+                return unit.Distance(Core.Me.Pet) <= 30;
             }
         }
 
@@ -708,7 +709,7 @@ namespace Magitek.Logic.Scholar
 
             if (Globals.InParty)
             {
-                var canConsolationTargets = Group.CastableAlliesWithin20.Where(CanConsolation).ToList();
+                var canConsolationTargets = Group.CastableAlliesWithin30.Where(CanConsolation).ToList();
 
                 if (canConsolationTargets.Count < AoeNeedHealing)
                     return false;
@@ -739,7 +740,9 @@ namespace Magitek.Logic.Scholar
                 if (unit.HasAura(Auras.SeraphicVeil))
                     return false;
 
-                return unit.Distance(Core.Me.Pet) <= 20;
+
+                //Range is now 30y
+                return unit.Distance(Core.Me.Pet) <= 30;
             }
         }
 

@@ -54,7 +54,8 @@ namespace Magitek.Logic.Sage
                 && Spells.Panhaima.IsKnownAndReady()
                 && useAoEBuffs)
             {
-                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Panhaimatinon));
+                //Radius is now 30y
+                var targets = Group.CastableAlliesWithin30.Where(r => !r.HasAura(Auras.Panhaimatinon));
                 var tankCheck = !SageSettings.Instance.FightLogic_RespectOnlyTank
                     || !SageSettings.Instance.PanhaimaOnlyWithTank
                     || targets.Any(r => r.IsTank(SageSettings.Instance.PanhaimaOnlyWithMainTank));
@@ -72,7 +73,8 @@ namespace Magitek.Logic.Sage
                 && Spells.Holos.IsKnownAndReady()
                 && useAoEBuffs)
             {
-                var targets = Group.CastableAlliesWithin15.Where(r => !r.HasAura(Auras.Holos));
+                //Radius is now 30y
+                var targets = Group.CastableAlliesWithin30.Where(r => !r.HasAura(Auras.Holos));
                 var tankCheck = !SageSettings.Instance.FightLogic_RespectOnlyTank
                     || !SageSettings.Instance.HolosTankOnly
                     || targets.Any(r => r.IsTank(SageSettings.Instance.HolosMainTankOnly));
