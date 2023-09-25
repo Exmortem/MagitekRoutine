@@ -33,7 +33,7 @@ namespace Magitek.ViewModels
             public DateTime created_at { get; set; }
             public DateTime updated_at { get; set; }
             public DateTime closed_at { get; set; }
-            public DateTime merged_at { get; set; }
+            public DateTime? merged_at { get; set; }
         }
 
         public MagitekApi()
@@ -96,10 +96,12 @@ namespace Magitek.ViewModels
 
                     response.ForEach(x =>
                     {
+                        if (x?.merged_at == null)
+                            return;
                         NewsList.Add(new MagitekNews{
-                            Created = x?.merged_at.ToString("d"),
+                            Created = x.merged_at?.ToString("d"),
                             Title = "Changelog",
-                            Message = "" + x?.body
+                            Message = "" + x.body
                         });
                     });
                 };
