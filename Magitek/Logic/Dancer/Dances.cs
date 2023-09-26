@@ -100,8 +100,9 @@ namespace Magitek.Logic.Dancer
             if (Core.Me.HasAura(Auras.TechnicalStep, true))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.StandardFinish))
-                return false;
+            //This is a DPS loss as Standard Finish does stack with Technical
+            //if (!Core.Me.HasAura(Auras.StandardFinish))
+            //    return false;
 
             if (DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingSoon && Core.Me.CurrentTarget.CombatTimeLeft() <= DancerSettings.Instance.DontDanceIfCurrentTargetIsDyingWithinXSeconds)
                 return false;

@@ -38,7 +38,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => WithinManaOf(11, 50)
+                                          () => WithinManaOf(6, 50)
                                                 && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired
                                                 && !InMeleeCombo()
                                                 && bossPresenceOk()));
@@ -50,7 +50,7 @@ namespace Magitek.Logic.RedMage
                                           () => !WithinManaOf(0, RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
                                                 && ((WithinManaOf(0, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && Spells.Manafication.Cooldown.TotalMilliseconds <= 1000)
-                                                    || (WithinManaOf(11, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                                                    || (WithinManaOf(6, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && !WithinManaOf(0, RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
                                                         && Spells.Manafication.Cooldown.TotalMilliseconds <= 5000))
                                                 && ManaficationEnabled
@@ -62,7 +62,7 @@ namespace Magitek.Logic.RedMage
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
-                                          () => WithinManaOf(11, 35)
+                                          () => WithinManaOf(6, 35)
                                                 && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired
                                                 && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired
                                                 && !InMeleeCombo()

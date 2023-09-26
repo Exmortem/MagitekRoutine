@@ -171,7 +171,8 @@ namespace Magitek.Logic.WhiteMage
             long mostHealthDown = 0;
             foreach (Character ally in Group.CastableAlliesWithin30.Where(r => r.IsAlive))
             {
-                List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 6).ToList();
+                //Patch 6.4 updated this to 8y from 6y
+                List<Character> nearby = Group.CastableAlliesWithin30.Where(r => r.IsAlive && ally.Distance(r) <= 8).ToList();
                 int nearbyTargets = nearby.Count(r => r.CurrentHealthPercent <= WhiteMageSettings.Instance.Cure3HealthPercent);
                 long totalHealthDown = nearby.Sum(r => r.MaxHealth - r.CurrentHealth);
                 if (nearbyTargets >= AoeNeedHealing
@@ -439,7 +440,8 @@ namespace Magitek.Logic.WhiteMage
 
             bool CanMedica2(GameObject unit)
             {
-                if (unit.Distance(Core.Me) > 15)
+                //Medica II has always been 20y iirc
+                if (unit.Distance(Core.Me) > 20)
                     return false;
 
                 if (unit.CurrentHealthPercent > WhiteMageSettings.Instance.Medica2HealthPercent)
@@ -741,7 +743,8 @@ namespace Magitek.Logic.WhiteMage
             if (Casting.LastSpell == Spells.Assize)
                 return false;
 
-            var afflatusRaptureCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 15 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AfflatusRaptureHealthPercent);
+            //Radius is 20 not 15
+            var afflatusRaptureCount = Group.CastableAlliesWithin30.Count(r => r.CurrentHealth > 0 && r.Distance(Core.Me) <= 20 && r.CurrentHealthPercent <= WhiteMageSettings.Instance.AfflatusRaptureHealthPercent);
 
             if (afflatusRaptureCount < AoeNeedHealing)
                 return false;

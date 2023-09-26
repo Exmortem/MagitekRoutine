@@ -49,7 +49,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
                 return false;
 
-            if (Spells.Sharpcast.Cooldown != TimeSpan.Zero)
+            if (Spells.Sharpcast.Cooldown != TimeSpan.Zero
+                //Sharpcast now has charges after level 88
+                && Spells.Sharpcast.Charges == 0)
                 return false;
 
             if (!BlackMageSettings.Instance.Sharpcast)
@@ -59,6 +61,8 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Thunder3
+                || Casting.LastSpell == Spells.Fire2
+                || Casting.LastSpell == Spells.Thunder4
                 || Core.Me.HasAura(Auras.Triplecast))
                 return await Spells.Sharpcast.Cast(Core.Me);
 
@@ -100,6 +104,13 @@ namespace Magitek.Logic.BlackMage
             //if (Casting.LastSpell == Spells.Blizzard3)// Thunder3 only opens up the GCD if it is using Thundercloud || Casting.LastSpell == Spells.Thunder3 || Core.Me.HasAura(Auras.Triplecast) || Casting.LastSpell == Spells.Xenoglossy)
             //return await Spells.LeyLines.Cast(Core.Me);
 
+            //Use in AoE rotation as well
+            if (Casting.LastSpell == Spells.Flare
+                && ActionResourceManager.BlackMage.UmbralHearts == 3
+                || Core.Me.HasAura(Auras.Triplecast))
+                // Fire 3 is always used at the start of Astral
+                return await Spells.LeyLines.Cast(Core.Me);
+
             return false;
         }
 
@@ -138,6 +149,12 @@ namespace Magitek.Logic.BlackMage
 
             if (Casting.LastSpell == Spells.Fire3
                 && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
+                return await Spells.ManaFont.Cast(Core.Me);
+
+            //Test and see if we can get it to go off during AoE also
+            if (Casting.LastSpell == Spells.Flare
+                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && Core.Me.CurrentMana == 0)
                 return await Spells.ManaFont.Cast(Core.Me);
 
             return false;

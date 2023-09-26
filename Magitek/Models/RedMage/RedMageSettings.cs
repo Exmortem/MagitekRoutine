@@ -21,6 +21,10 @@ namespace Magitek.Models.RedMage
         public bool UseAoe { get; set; }
 
         [Setting]
+        [DefaultValue(3)]
+        public int AoeEnemies { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseMelee { get; set; }
 
