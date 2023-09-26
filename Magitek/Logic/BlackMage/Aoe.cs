@@ -101,9 +101,17 @@ namespace Magitek.Logic.BlackMage
                 return false;
             }
 
+            //Wait until at least two high fire II have gone off first
+            if (Core.Me.CurrentMana > 7000)
+                return false;
+
             //Only cast Flare if you have enough mp
             if (Core.Me.CurrentMana < 800)
                 return false;
+
+            //Force flare after manafont
+            if (Casting.LastSpell == Spells.ManaFont)
+                return await Spells.Flare.Cast(Core.Me.CurrentTarget);
 
             return await Spells.Flare.Cast(Core.Me.CurrentTarget);
         }
@@ -140,17 +148,29 @@ namespace Magitek.Logic.BlackMage
         {
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
+            
+            //Cast any time thundercloud procs - moved up as TC procs do full damage up front and it doesn't matter how much time in combat is left
+            if (Core.Me.HasAura(Auras.ThunderCloud))
+                return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
 
             // Don't dot if time in combat less than 30 seconds
             if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
-            //Cast any time thundercloud procs
-            if (Core.Me.HasAura(Auras.ThunderCloud))
-                return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
+            //Only cast in Umbral 3 - should be cast in either if needed
+            //if (ActionResourceManager.BlackMage.UmbralStacks != 3)
+            //    return false;
 
-            //Only cast in Umbral 3
-            if (ActionResourceManager.BlackMage.UmbralStacks != 3)
+            // If we need to refresh stack timer, stop
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
+                return false;
+
+            // If the last spell we cast is triple cast, stop
+            if (Casting.LastSpell == Spells.Triplecast)
+                return false;
+
+            // If we have the triplecast aura, stop
+            if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
 
             //If we don't need to refresh Thunder, skip
@@ -226,6 +246,15 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.UmbralHearts == 3 && ActionResourceManager.BlackMage.UmbralStacks == 3 && Core.Me.CurrentMana == 10000)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 
+                //If we have flare and umbral hearts just cast twice
+                if (Core.Me.ClassLevel >= 58)
+                {
+                    if (Core.Me.CurrentMana > 7000)
+                        return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
+
+                    return false;
+                }
+                
                 if (Core.Me.CurrentMana > 3000)
                     return await Spells.Fire2.Cast(Core.Me.CurrentTarget);
 

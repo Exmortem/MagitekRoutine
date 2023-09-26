@@ -187,7 +187,7 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             //Use if we're at the end of Astral phase and we have a Fire3 proc
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana <= 1200)
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -247,14 +247,15 @@ namespace Magitek.Logic.BlackMage
             // If we have the triplecast aura, stop
             if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
+            
+            //Moved this up to see if it stops the doublecast
+            if (Casting.LastSpell == Spells.Thunder3)
+                return false;
 
             if (Core.Me.HasAura(Auras.Sharpcast) && !Core.Me.HasAura(Auras.Sharpcast, true, 5000))
             {
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
             }
-
-            if (Casting.LastSpell == Spells.Thunder3)
-                return false;
 
             // If we have thunder cloud, but we don't have at least 5 seconds of it left, use the proc
             if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 5000))
@@ -263,7 +264,7 @@ namespace Magitek.Logic.BlackMage
             // Refresh thunder if it's about to run out
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500)
                 && Casting.LastSpell != Spells.Thunder3)
-                await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
             return false;
         }
@@ -311,12 +312,20 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
-            // If our mana is less than 800 while in astral
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 800)
+            //Post 72 logic
+            if (Core.Me.ClassLevel > 71)
+            {
+                // If our mana is 0 then we have completed rotation with despair
+                if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana == 0)
+                    return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
+            }
+
+            // If our mana is below 1600 in AF then we have no more mana for fire spells
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 1600)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
 
             if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
-                return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
+                return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);           
 
             return false;
         }

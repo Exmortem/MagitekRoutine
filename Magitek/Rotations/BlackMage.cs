@@ -115,7 +115,6 @@ namespace Magitek.Rotations
             if (Aoe.ForceLimitBreak()) return true;
 
             //DON'T CHANGE THE ORDER OF THESE
-            //if (await Buff.Enochian()) return true;
             if (await Buff.Amplifier()) return true;
             if (await Buff.Triplecast()) return true;
             if (await Buff.Sharpcast()) return true;
@@ -126,11 +125,20 @@ namespace Magitek.Rotations
 
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
             {
+                //Adding buffs as they are not going off in AoE currently
+                if (await Buff.Triplecast()) return true;
+                if (await Buff.Sharpcast()) return true;
+                if (await Buff.ManaFont()) return true;
+                if (await Buff.LeyLines()) return true;
+
                 //Umbral
                 if (await Aoe.Freeze()) return true;
                 if (await Aoe.Blizzard2()) return true;
                 if (await Aoe.Foul()) return true;
+
+                //Either
                 if (await Aoe.Thunder4()) return true;
+
                 //Astral
                 if (await Aoe.Fire2()) return true;
                 if (await Aoe.Fire3()) return true;

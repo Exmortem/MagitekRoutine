@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props" Condition="Exists('packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props')" />
+  <Import Project="packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
+  <Import Project="packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props" Condition="Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,9 +55,54 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConfigureAwait, Version=3.3.1.0, Culture=neutral, PublicKeyToken=233850a516558a98, processorArchitecture=MSIL">
+      <HintPath>packages\ConfigureAwait.Fody.3.3.1\lib\net452\ConfigureAwait.dll</HintPath>
+    </Reference>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="GreyMagic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=260525fa2b0e778a, processorArchitecture=AMD64">
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.552\lib\net461\GreyMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="RebornBuddy, Version=1.0.552.0, Culture=neutral, PublicKeyToken=48d7174f8a943034, processorArchitecture=AMD64">
+      <HintPath>packages\RebornBuddy.Assemblies.1.0.552\lib\net461\RebornBuddy.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.Json.7.0.1\lib\net462\System.Net.Http.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -250,12 +298,9 @@
     <Compile Include="Logic\Reaper\Normal\Pvp.cs" />
     <Compile Include="Logic\Reaper\Normal\SingleTarget.cs" />
     <Compile Include="Logic\Reaper\Normal\Utility.cs" />
-    <Compile Include="Logic\RedMage\Aoe.cs" />
-    <Compile Include="Logic\RedMage\Buff.cs" />
     <Compile Include="Logic\RedMage\CombatMessages.cs" />
     <Compile Include="Logic\RedMage\Pvp.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
-    <Compile Include="Logic\RedMage\SingleTarget.cs" />
     <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
     <Compile Include="Logic\Sage\Buff.cs" />
@@ -907,6 +952,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1561,28 +1607,15 @@
     <Resource Include="Resources\Images\Dragoon\FangAndClaw.png" />
     <Resource Include="Resources\Images\Dragoon\WheelingThrust.png" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ConfigureAwait.Fody">
-      <Version>3.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="Costura.Fody">
-      <Version>4.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="NamedPipeWrapper">
-      <Version>1.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="RebornBuddy.Assemblies">
-      <Version>1.0.552</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http.Json">
-      <Version>7.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>7.0.3</Version>
-    </PackageReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('packages\Fody.6.3.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.3.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ConfigureAwait.Fody.3.3.1\build\ConfigureAwait.Fody.props'))" />
+  </Target>
 </Project>
