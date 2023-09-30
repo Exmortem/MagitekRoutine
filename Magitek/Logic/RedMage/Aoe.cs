@@ -37,6 +37,9 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.ContreSixte.LevelAcquired)
                 return false;
 
+            if (InCombo())
+                return false;
+
             return await Spells.ContreSixte.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Scatter()
@@ -52,6 +55,9 @@ namespace Magitek.Logic.RedMage
 
             if (WhiteMana == 100
                 && BlackMana == 100)
+                return false;
+
+            if (InCombo())
                 return false;
 
             return await Spells.Scatter.Cast(Core.Me.CurrentTarget);
@@ -71,6 +77,9 @@ namespace Magitek.Logic.RedMage
 
             if (WhiteMana == 100
                 && BlackMana == 100)
+                return false;
+
+            if (InCombo())
                 return false;
 
             if (Core.Me.HasAura(Auras.Acceleration))
@@ -93,6 +102,9 @@ namespace Magitek.Logic.RedMage
                 && BlackMana == 100)
                 return false;
 
+            if (InCombo())
+                return false;
+
             return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Veraero2()
@@ -110,7 +122,23 @@ namespace Magitek.Logic.RedMage
                 && BlackMana == 100)
                 return false;
 
+            if (InCombo())
+                return false;
+
             return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
+        }
+        private static bool InCombo()
+        {
+            if (Casting.LastSpell == Spells.CorpsACorps
+                || Casting.LastSpell == Spells.Riposte
+                || Casting.LastSpell == Spells.Zwerchhau
+                || Casting.LastSpell == Spells.Redoublement
+                || Casting.LastSpell == Spells.Verholy
+                || Casting.LastSpell == Spells.Verflare
+                || Casting.LastSpell == Spells.Scorch)
+                return true;
+
+            return false;
         }
         /**********************************************************************************************
         *                              Limit Break
