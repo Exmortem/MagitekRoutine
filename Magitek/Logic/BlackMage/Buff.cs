@@ -64,8 +64,11 @@ namespace Magitek.Logic.BlackMage
 
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
-            // If we used something that opens the GCD
 
+            if (Core.Me.HasAura(Auras.Sharpcast))
+                return false;
+
+            // If we used something that opens the GCD
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Blizzard4
