@@ -63,13 +63,14 @@ namespace Magitek.Logic.RedMage
                 || BlackMana < 31)
                 return false;
 
-            if (Casting.LastSpell == Spells.Redoublement
-                || Casting.LastSpell == Spells.Manafication)
-            {
-                return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
-            }
+            //if (Casting.LastSpell == Spells.Redoublement
+            //    || Casting.LastSpell == Spells.Manafication)
+            //{
+            //Just use on CD I guess
+            return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
+            //}
 
-            return false;
+            //return false;
         }
         public static async Task<bool> Manafication()
         {
@@ -89,6 +90,7 @@ namespace Magitek.Logic.RedMage
                 || BlackMana >  50)
                 return false;
 
+            //Manafication cancels any combo
             if (InCombo())
                 return false;
 
@@ -99,8 +101,8 @@ namespace Magitek.Logic.RedMage
         }
         public static async Task<bool> MagickBarrier()
         {
-            //if (!RedMageSettings.Instance.MagickBarrier)
-             //   return false;
+            if (!RedMageSettings.Instance.MagickBarrier)
+               return false;
 
             if (Core.Me.ClassLevel < Spells.MagickBarrier.LevelAcquired)
                 return false;

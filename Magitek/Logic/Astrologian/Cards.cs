@@ -162,7 +162,8 @@ namespace Magitek.Logic.Astrologian
             if (drawnCard == NewAstroCards.Spire && DivinationSeals.All(seal => seal != AstrologianSeal.Celestial_Seal))
                 return false;
 
-            if (Spells.Redraw.IsKnownAndReady() && Spells.Redraw.Charges >= 1 && AstrologianSettings.Instance.UseReDraw &&Core.Me.HasAura(Auras.ClarifyingDraw))
+            //Redraw no longer has charges
+            if (Spells.Redraw.IsKnownAndReady() && AstrologianSettings.Instance.UseReDraw && Core.Me.HasAura(Auras.ClarifyingDraw))
                 return await Spells.Redraw.Cast(Core.Me);
 
             if (Spells.Draw.IsKnownAndReady() && Spells.Draw.Charges >= 1)

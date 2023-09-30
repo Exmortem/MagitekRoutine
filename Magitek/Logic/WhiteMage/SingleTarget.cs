@@ -1,6 +1,8 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
+using ff14bot.Objects;
 using Magitek.Extensions;
+using Magitek.Models.WhiteMage;
 using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
@@ -70,7 +72,40 @@ namespace Magitek.Logic.WhiteMage
 
             return await Aero();
         }
+        public static async Task<bool> DotMultipleTargets()
+        {
+            if (!WhiteMageSettings.Instance.Aero)
+                return false;
 
+            if (!WhiteMageSettings.Instance.DotMultipleTargets)
+                return false;
+
+            if (!WhiteMageSettings.Instance.DoDamage)
+                return false;
+
+            var dotTarget = Combat.Enemies.FirstOrDefault(NeedsDot);
+
+            if (dotTarget == null)
+                return false;
+
+            return await Spells.Aero.Cast(dotTarget);
+
+            bool NeedsDot(BattleCharacter unit)
+            {
+                if (!CanDot(unit))
+                    return false;
+
+                return !unit.HasAnyAura(DotAuras, true, msLeft: WhiteMageSettings.Instance.DotRefreshSeconds * 1000);
+            }
+
+            bool CanDot(GameObject unit)
+            {
+                if (!WhiteMageSettings.Instance.UseTTDForDot)
+                    return true;
+
+                return unit.CombatTimeLeft() >= WhiteMageSettings.Instance.DontDotIfEnemyDyingWithin;
+            }
+        }
         private static async Task<bool> Aero()
         {
             if (!WhiteMageSettings.Instance.Aero)
@@ -101,5 +136,11 @@ namespace Magitek.Logic.WhiteMage
                 return await Spells.Dia.CastAura(Core.Me.CurrentTarget, Auras.Dia, true, WhiteMageSettings.Instance.DotRefreshSeconds * 1000);
             }
         }
+        private static readonly uint[] DotAuras =
+        {
+            Auras.Aero,
+            Auras.Aero2,
+            Auras.Dia
+        };
     }
 }

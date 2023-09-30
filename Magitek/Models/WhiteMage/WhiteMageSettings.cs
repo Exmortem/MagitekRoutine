@@ -359,7 +359,15 @@ namespace Magitek.Models.WhiteMage
 
         [Setting]
         [DefaultValue(true)]
+        public bool DotMultipleTargets { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
         public bool Aero { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool UseTTDForDot { get; set; }
 
         [Setting]
         [DefaultValue(true)]
