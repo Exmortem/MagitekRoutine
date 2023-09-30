@@ -18,6 +18,10 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.TripleCast)
                 return false;
 
+            // Don't dot if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
+                return false;
+
             // Add check for charges with new update
             if (Spells.Triplecast.Cooldown != TimeSpan.Zero
                 && Spells.Triplecast.Charges == 0)
@@ -49,6 +53,10 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < Spells.Sharpcast.LevelAcquired)
                 return false;
 
+            // Don't use if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
+                return false;
+
             if (Spells.Sharpcast.Cooldown != TimeSpan.Zero
                 //Sharpcast now has charges after level 88
                 && Spells.Sharpcast.Charges == 0)
@@ -60,9 +68,7 @@ namespace Magitek.Logic.BlackMage
 
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
-                || Casting.LastSpell == Spells.Thunder3
-                || Casting.LastSpell == Spells.Fire2
-                || Casting.LastSpell == Spells.Thunder4
+                || Casting.LastSpell == Spells.Blizzard4
                 || Core.Me.HasAura(Auras.Triplecast))
                 return await Spells.Sharpcast.Cast(Core.Me);
 
@@ -82,6 +88,10 @@ namespace Magitek.Logic.BlackMage
 
             if (BlackMageSettings.Instance.LeyLinesBossOnly
                 && !Core.Me.CurrentTarget.IsBoss())
+                return false;
+
+            // Don't use if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
             //Don't use while moving
@@ -105,10 +115,10 @@ namespace Magitek.Logic.BlackMage
             //return await Spells.LeyLines.Cast(Core.Me);
 
             //Use in AoE rotation as well
-            if (Casting.LastSpell == Spells.Flare
+            if (Casting.LastSpell == Spells.HighFireII
                 && ActionResourceManager.BlackMage.UmbralHearts == 3
                 || Core.Me.HasAura(Auras.Triplecast))
-                // Fire 3 is always used at the start of Astral
+                // High Fire II is always used at the start of Astral
                 return await Spells.LeyLines.Cast(Core.Me);
 
             return false;
@@ -123,7 +133,7 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             // Do not Umbral Soul unless we have 1 umbral stack
-            if (ActionResourceManager.BlackMage.UmbralStacks != 1)
+            if (ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return false;
 
             if (!Core.Me.InCombat
@@ -142,6 +152,10 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
+                return false;
+
+            // Don't use if time in combat less than 30 seconds
+            if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
             if (Core.Me.CurrentMana >= 7000)

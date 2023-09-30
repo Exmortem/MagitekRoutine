@@ -219,6 +219,7 @@ namespace Magitek.Rotations
             
 
             if (await SingleTarget.Dots()) return true;
+            if (await SingleTarget.DotMultipleTargets()) return true;
             return await SingleTarget.Stone();
         }
 
