@@ -136,11 +136,15 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return false;
 
+            if (Core.Me.CurrentTarget != null)
+                return false;
+
             if (!Core.Me.InCombat
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.UmbralSoul.Cast(Core.Me);
 
-            return await Spells.UmbralSoul.Cast(Core.Me);
+            return false;
+
         }
 
         public static async Task<bool> ManaFont()
