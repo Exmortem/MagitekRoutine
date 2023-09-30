@@ -165,6 +165,10 @@ namespace Magitek.Models.RedMage
         public bool UseReprise { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool MagickBarrier { get; set; }
+
+        [Setting]
         [DefaultValue(RedMageOpenerStrategy.AlwaysUseOpener)]
         public RedMageOpenerStrategy RedMageOpenerStrategy { get; set; }
 
