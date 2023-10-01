@@ -109,7 +109,7 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Swiftcast)
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
-
+          
             return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Veraero2()
