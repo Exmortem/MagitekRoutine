@@ -64,8 +64,11 @@ namespace Magitek.Logic.BlackMage
 
             if (!BlackMageSettings.Instance.Sharpcast)
                 return false;
-            // If we used something that opens the GCD
 
+            if (Core.Me.HasAura(Auras.Sharpcast))
+                return false;
+
+            // If we used something that opens the GCD
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Blizzard4
@@ -136,11 +139,15 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return false;
 
+            if (Core.Me.CurrentTarget != null)
+                return false;
+
             if (!Core.Me.InCombat
                 && ActionResourceManager.BlackMage.UmbralStacks > 0)
                 return await Spells.UmbralSoul.Cast(Core.Me);
 
-            return await Spells.UmbralSoul.Cast(Core.Me);
+            return false;
+
         }
 
         public static async Task<bool> ManaFont()

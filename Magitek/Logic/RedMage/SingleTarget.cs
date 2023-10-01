@@ -200,12 +200,12 @@ namespace Magitek.Logic.RedMage
             {
                 if (BlackMana < WhiteMana)
                     return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
-
+                
+                if (Math.Abs(BlackMana - WhiteMana) > 15)                    
+                    return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+                
                 return false;
-            }
-
-            if (Math.Abs(BlackMana - WhiteMana) > 15)
-                return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+            }            
 
             return false;
         }
@@ -278,12 +278,12 @@ namespace Magitek.Logic.RedMage
             {
                 if (WhiteMana <= BlackMana)
                     return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
-
+                
+                if (Math.Abs(WhiteMana - BlackMana) > 15)
+                    return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+                
                 return false;
-            }
-
-            if (Math.Abs(WhiteMana - BlackMana) > 15)
-                return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+            }            
 
             return false;
         }
