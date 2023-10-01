@@ -164,8 +164,49 @@ namespace Magitek.Logic.RedMage
         }
         private static bool InCombo()
         {
-            if (Casting.LastSpell == Spells.Engagement
-                || Casting.LastSpell == Spells.CorpsACorps
+            if (Core.Me.ClassLevel >= 6
+                && Core.Me.ClassLevel < 35)
+            {
+                if (Casting.LastSpell == Spells.CorpsACorps)
+                    return true;
+            }
+            if (Core.Me.ClassLevel >= 35
+                && Core.Me.ClassLevel < 50)
+            {
+                if (Casting.LastSpell == Spells.CorpsACorps
+                || Casting.LastSpell == Spells.Riposte)
+                    return true;
+            }
+            if (Core.Me.ClassLevel >= 50
+                && Core.Me.ClassLevel < 68)
+            {
+                if (Casting.LastSpell == Spells.CorpsACorps
+                || Casting.LastSpell == Spells.Riposte
+                || Casting.LastSpell == Spells.Zwerchhau)
+                    return true;
+            }
+            if (Core.Me.ClassLevel >= 68
+                && Core.Me.ClassLevel < 80)
+            {
+                if (Casting.LastSpell == Spells.CorpsACorps
+                || Casting.LastSpell == Spells.Riposte
+                || Casting.LastSpell == Spells.Zwerchhau
+                || Casting.LastSpell == Spells.Redoublement)
+                    return true;
+            }
+            if (Core.Me.ClassLevel >= 80
+                && Core.Me.ClassLevel < 90)
+            {
+                if (Casting.LastSpell == Spells.CorpsACorps
+                || Casting.LastSpell == Spells.Riposte
+                || Casting.LastSpell == Spells.Zwerchhau
+                || Casting.LastSpell == Spells.Redoublement
+                || Casting.LastSpell == Spells.Verholy
+                || Casting.LastSpell == Spells.Verflare)
+                    return true;
+            }
+
+            if (Casting.LastSpell == Spells.CorpsACorps
                 || Casting.LastSpell == Spells.Riposte
                 || Casting.LastSpell == Spells.Zwerchhau
                 || Casting.LastSpell == Spells.Redoublement

@@ -1,4 +1,5 @@
 using ff14bot;
+using ff14bot.Enums;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
@@ -12,6 +13,8 @@ namespace Magitek.Utilities.Routines
 {
     internal static class RedMage
     {
+        public static WeaveWindow GlobalCooldown = new WeaveWindow(ClassJobType.RedMage, Spells.Jolt);
+
         #region Constants
         public const int GcdBufferMs = 350;
 

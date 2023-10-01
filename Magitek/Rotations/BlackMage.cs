@@ -130,14 +130,14 @@ namespace Magitek.Rotations
                 if (await Buff.Sharpcast()) return true;
                 if (await Buff.ManaFont()) return true;
                 if (await Buff.LeyLines()) return true;
-
+                
+                //Either
+                if (await Aoe.Thunder4()) return true;
+                
                 //Umbral
                 if (await Aoe.Freeze()) return true;
                 if (await Aoe.Blizzard2()) return true;
                 if (await Aoe.Foul()) return true;
-
-                //Either
-                if (await Aoe.Thunder4()) return true;
 
                 //Astral
                 if (await Aoe.Fire2()) return true;
