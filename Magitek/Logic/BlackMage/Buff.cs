@@ -36,9 +36,6 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             // Why cast after bliz 3? Should only be used in AF
-            if (Casting.LastSpell == Spells.Xenoglossy || Casting.LastSpell == Spells.Fire3)
-                return await Spells.Triplecast.Cast(Core.Me);
-
             if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
                 return await Spells.Triplecast.Cast(Core.Me);
 
@@ -72,6 +69,8 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Fire3
                 || Casting.LastSpell == Spells.Blizzard3
                 || Casting.LastSpell == Spells.Blizzard4
+                || Casting.LastSpell == Spells.Blizzard2
+                || Casting.LastSpell == Spells.HighBlizzardII
                 || Core.Me.HasAura(Auras.Triplecast))
                 return await Spells.Sharpcast.Cast(Core.Me);
 
@@ -157,7 +156,13 @@ namespace Magitek.Logic.BlackMage
 
             if (Spells.ManaFont.Cooldown != TimeSpan.Zero)
                 return false;
-
+            
+            //Moved this up as it should go off regardless of toggle
+            if (Casting.LastSpell == Spells.Flare
+                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && Core.Me.CurrentMana == 0)
+                return await Spells.ManaFont.Cast(Core.Me);
+            
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
                 return false;
 
@@ -170,12 +175,6 @@ namespace Magitek.Logic.BlackMage
 
             if (Casting.LastSpell == Spells.Fire3
                 && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
-                return await Spells.ManaFont.Cast(Core.Me);
-
-            //Test and see if we can get it to go off during AoE also
-            if (Casting.LastSpell == Spells.Flare
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
-                && Core.Me.CurrentMana == 0)
                 return await Spells.ManaFont.Cast(Core.Me);
 
             return false;

@@ -8,6 +8,7 @@ using Magitek.Models.Account;
 using Magitek.Models.BlackMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
+using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
 using Magitek.Utilities.Routines;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,34 +100,41 @@ namespace Magitek.Rotations
             //LimitBreak
             if (Aoe.ForceLimitBreak()) return true;
 
-            //Buffs
-            if (await Buff.Acceleration()) return true;
-            if (await Buff.Embolden()) return true;
-            if (await Buff.Manafication()) return true;
-            if (await Buff.Swiftcast()) return true;
-            if (await Buff.LucidDreaming()) return true;
-            //TODO: implement this at some point
-            //if (await Buff.MagickBarrier()) return true;
+            if (RedMageRoutine.GlobalCooldown.CanWeave())
+            {
+                //Buffs
+                if (await Buff.Acceleration()) return true;
+                if (await Buff.Embolden()) return true;
+                if (await Buff.Manafication()) return true;
+                if (await Buff.Swiftcast()) return true;
+                if (await Buff.LucidDreaming()) return true;
+
+                //oGCD Abilities
+                if (await Aoe.ContreSixte()) return true;
+                if (await SingleTarget.Fleche()) return true;
+
+                //Movement Abilities
+                if (await SingleTarget.Engagement()) return true;
+                if (await SingleTarget.Displacement()) return true;
+                if (await SingleTarget.CorpsACorps()) return true;
+
+                //TODO: implement this at some point
+                //if (await Buff.MagickBarrier()) return true;
+            }                
 
             //Melee
             if (await SingleTarget.Riposte()) return true;
             if (await SingleTarget.Zwerchhau()) return true;
             if (await SingleTarget.Redoublement()) return true;
-            if (await SingleTarget.Engagement()) return true;
-            if (await SingleTarget.Displacement()) return true;
-            if (await SingleTarget.CorpsACorps()) return true;
             if (await SingleTarget.Reprise()) return true;
-            if (await SingleTarget.Fleche()) return true;
-            if (await Aoe.ContreSixte()) return true;
-
+            
             if (RedMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= RedMageSettings.Instance.AoeEnemies)
             {
                 if (await Aoe.Veraero2()) return true;
                 if (await Aoe.Verthunder2()) return true;
                 if (await Aoe.Moulinet()) return true;
                 if (await Aoe.Impact()) return true;
-                if (await Aoe.Scatter()) return true;
-                if (await Aoe.ContreSixte()) return true;
+                if (await Aoe.Scatter()) return true;                
             }
             if (await SingleTarget.Verstone()) return true;
             if (await SingleTarget.Verthunder()) return true;
