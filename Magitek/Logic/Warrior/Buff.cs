@@ -41,8 +41,7 @@ namespace Magitek.Logic.Warrior
             if (!WarriorSettings.Instance.UseInnerRelease)
                 return false;
 
-            //Radius of WAR AoEs is 5y not 3y, adding combat reach should be okay
-            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 5 + r.CombatReach) < 1)
+            if (Combat.Enemies.Count(r => r.Distance(Core.Me) <= 3 + r.CombatReach) < 1)
                 return false;
 
             //Added level check as this skill is available as berserk at lvl 6 and AoE combo isnt until lvl 40
