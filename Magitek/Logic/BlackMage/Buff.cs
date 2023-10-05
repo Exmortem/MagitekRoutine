@@ -65,13 +65,23 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Sharpcast))
                 return false;
 
-            // If we used something that opens the GCD
-            if (Casting.LastSpell == Spells.Fire3
-                || Casting.LastSpell == Spells.Blizzard3
-                || Casting.LastSpell == Spells.Blizzard4
-                || Casting.LastSpell == Spells.Blizzard2
+            //Check to see if we already have both buffs
+            if (Core.Me.HasAura(Auras.ThunderCloud)
+                && Core.Me.HasAura(Auras.FireStarter))
+                return false;
+
+            //Let's start planning our uses of Sharpcast better
+            if (Casting.LastSpell == Spells.Paradox
+                && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return await Spells.Sharpcast.Cast(Core.Me);
+                        
+            if (!ActionResourceManager.BlackMage.Paradox
+                && Casting.LastSpell == Spells.Blizzard4)
+                return await Spells.Sharpcast.Cast(Core.Me);
+
+            if (Casting.LastSpell == Spells.Blizzard2
                 || Casting.LastSpell == Spells.HighBlizzardII
-                || Core.Me.HasAura(Auras.Triplecast))
+                || Casting.LastSpell == Spells.Freeze)
                 return await Spells.Sharpcast.Cast(Core.Me);
 
             return false;
@@ -156,15 +166,6 @@ namespace Magitek.Logic.BlackMage
 
             if (Spells.ManaFont.Cooldown != TimeSpan.Zero)
                 return false;
-            
-            //Moved this up as it should go off regardless of toggle
-            if (Casting.LastSpell == Spells.Flare
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
-                && Core.Me.CurrentMana == 0)
-                return await Spells.ManaFont.Cast(Core.Me);
-            
-            if (!BlackMageSettings.Instance.ConvertAfterFire3)
-                return false;
 
             // Don't use if time in combat less than 30 seconds
             if (Combat.CombatTotalTimeLeft <= 30)
@@ -173,8 +174,20 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.CurrentMana >= 7000)
                 return false;
 
+            //Moved this up as it should go off regardless of toggle
+            if (Casting.LastSpell == Spells.Flare
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && Core.Me.CurrentMana == 0)
+                return await Spells.ManaFont.Cast(Core.Me);
+
+            if (Casting.LastSpell == Spells.Despair)
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
+                return await Spells.ManaFont.Cast(Core.Me);
+
             if (Casting.LastSpell == Spells.Fire3
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && BlackMageSettings.Instance.ConvertAfterFire3
+                && Core.Me.CurrentMana < 7000)
                 return await Spells.ManaFont.Cast(Core.Me);
 
             return false;
@@ -186,7 +199,7 @@ namespace Magitek.Logic.BlackMage
 
             if (Spells.Transpose.Cooldown != TimeSpan.Zero)
                 return false;
-
+            
             if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana < 1600
                 && ActionResourceManager.BlackMage.AstralStacks > 0)

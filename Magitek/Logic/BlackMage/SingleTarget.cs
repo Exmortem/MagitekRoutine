@@ -19,6 +19,10 @@ namespace Magitek.Logic.BlackMage
             if (!ActionResourceManager.BlackMage.PolyglotStatus)
                 return false;
 
+            // If we need to refresh stack timer, stop
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
+                return false;
+
             if (Casting.LastSpell == Spells.Xenoglossy)
                 return false;
             
@@ -139,10 +143,11 @@ namespace Magitek.Logic.BlackMage
             // If we have 3 astral stacks and our mana is equal to or greater than 2400
             if (ActionResourceManager.BlackMage.AstralStacks == 3 && Core.Me.CurrentMana >= 2400)
                 return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
-            //if we cast Manafont, make sure it doesn't skip ahead before we actually get mp
-            if (Casting.LastSpell == Spells.ManaFont)
-                return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
 
+            //if we cast Manafont, make sure it doesn't skip ahead before we actually get mp
+            if (Casting.LastSpell == Spells.ManaFont
+                && ActionResourceManager.BlackMage.AstralStacks > 0)
+                return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
 
             return false;
         }
@@ -207,6 +212,10 @@ namespace Magitek.Logic.BlackMage
             if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
+            // If we need to refresh stack timer, stop
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
+                return false;
+
             //Low level logic
             if (Core.Me.ClassLevel < 35)
             {
@@ -236,9 +245,6 @@ namespace Magitek.Logic.BlackMage
 
                 return false;
             }
-            // If we need to refresh stack timer, stop
-            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
-                return false;
 
             // If the last spell we cast is triple cast, stop
             if (Casting.LastSpell == Spells.Triplecast)
@@ -252,7 +258,9 @@ namespace Magitek.Logic.BlackMage
             if (Casting.LastSpell == Spells.Thunder3)
                 return false;
 
-            if (Core.Me.HasAura(Auras.Sharpcast) && !Core.Me.HasAura(Auras.Sharpcast, true, 5000))
+            //Let's not wait for sharpcast to almost run out before trying to cast. Just use it right away in UI
+            if (Core.Me.HasAura(Auras.Sharpcast)// && !Core.Me.HasAura(Auras.Sharpcast, true, 5000))
+                && ActionResourceManager.BlackMage.UmbralStacks > 0)
             {
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
             }
@@ -315,10 +323,15 @@ namespace Magitek.Logic.BlackMage
             //Post 72 logic
             if (Core.Me.ClassLevel > 71)
             {
+                if (await Spells.ManaFont.Cast(Core.Me))
+                    return false;
+
                 // If our mana is 0 then we have completed rotation with despair
                 if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana == 0)
                     return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
             }
+            if (await Spells.ManaFont.Cast(Core.Me))
+                return false;
 
             // If our mana is below 1600 in AF then we have no more mana for fire spells
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 1600)
@@ -366,11 +379,16 @@ namespace Magitek.Logic.BlackMage
             if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500))
                 return false;
 
-            if (!Spells.Paradox.IsReady())
-                return false;
+            //if (!Spells.Paradox.IsReady())
+            //    return false;
             
+            //Better check would be to look for the paradox marker
+            if (!ActionResourceManager.BlackMage.Paradox)
+                return false;
+
+            //Should be cast after bliz 4 to ensure we can get sharpcast off
             if (ActionResourceManager.BlackMage.UmbralStacks > 0
-                && Casting.LastSpell == Spells.Thunder3)
+                && Casting.LastSpell == Spells.Blizzard4)
                 return await Spells.Paradox.Cast(Core.Me.CurrentTarget);
 
             return false;
