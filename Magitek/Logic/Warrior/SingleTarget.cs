@@ -157,7 +157,8 @@ namespace Magitek.Logic.Warrior
                 return false;
             }
 
-            if (Spells.Onslaught.Charges < WarriorSettings.Instance.SaveOnslaughtCharges + 1)
+            //Why + 1 just keep the number of charges specified - also if you want to keep that number it should be <= not just <
+            if (Spells.Onslaught.Charges <= WarriorSettings.Instance.SaveOnslaughtCharges)
             {
                 return false;
             }
