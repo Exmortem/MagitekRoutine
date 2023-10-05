@@ -166,6 +166,15 @@ namespace Magitek.Logic.BlackMage
 
             if (Spells.ManaFont.Cooldown != TimeSpan.Zero)
                 return false;
+            
+            //Moved this up as it should go off regardless of toggle
+            if (Casting.LastSpell == Spells.Flare
+                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && Core.Me.CurrentMana == 0)
+                return await Spells.ManaFont.Cast(Core.Me);
+            
+            if (!BlackMageSettings.Instance.ConvertAfterFire3)
+                return false;
 
             // Don't use if time in combat less than 30 seconds
             if (Combat.CombatTotalTimeLeft <= 30)
@@ -173,12 +182,6 @@ namespace Magitek.Logic.BlackMage
 
             if (Core.Me.CurrentMana >= 7000)
                 return false;
-
-            //Moved this up as it should go off regardless of toggle
-            if (Casting.LastSpell == Spells.Flare
-                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
-                && Core.Me.CurrentMana == 0)
-                return await Spells.ManaFont.Cast(Core.Me);
 
             if (Casting.LastSpell == Spells.Despair)
                 //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
