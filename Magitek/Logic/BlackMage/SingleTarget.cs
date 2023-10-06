@@ -319,19 +319,19 @@ namespace Magitek.Logic.BlackMage
                 // If we have no umbral or astral stacks, cast 
                 if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
+            
+            if (await Spells.ManaFont.Cast(Core.Me))
+                    return false;
 
             //Post 72 logic
             if (Core.Me.ClassLevel > 71)
             {
-                if (await Spells.ManaFont.Cast(Core.Me))
-                    return false;
+                
 
                 // If our mana is 0 then we have completed rotation with despair
                 if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana == 0)
                     return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
             }
-            if (await Spells.ManaFont.Cast(Core.Me))
-                return false;
 
             // If our mana is below 1600 in AF then we have no more mana for fire spells
             if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 1600)
