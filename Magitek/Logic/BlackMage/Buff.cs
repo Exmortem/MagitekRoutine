@@ -169,7 +169,7 @@ namespace Magitek.Logic.BlackMage
             
             //Moved this up as it should go off regardless of toggle
             if (Casting.LastSpell == Spells.Flare
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
                 && Core.Me.CurrentMana == 0)
                 return await Spells.ManaFont.Cast(Core.Me);
             
@@ -183,9 +183,12 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.CurrentMana >= 7000)
                 return false;
 
-            if (Casting.LastSpell == Spells.Despair)
-                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
-                return await Spells.ManaFont.Cast(Core.Me);
+            if (Casting.LastSpell == Spells.Despair
+                || Casting.LastSpell == Spells.Xenoglossy)
+                if (Core.Me.CurrentMana == 0)
+                {
+                    return await Spells.ManaFont.Cast(Core.Me);
+                }
 
             if (Casting.LastSpell == Spells.Fire3
                 //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs

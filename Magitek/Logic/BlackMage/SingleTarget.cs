@@ -103,7 +103,6 @@ namespace Magitek.Logic.BlackMage
                 return false;
             }
 
-
             if (Core.Me.CurrentMana < 1600)
                 return false;
             //Low level logic w/firestarter
@@ -326,8 +325,6 @@ namespace Magitek.Logic.BlackMage
             //Post 72 logic
             if (Core.Me.ClassLevel > 71)
             {
-                
-
                 // If our mana is 0 then we have completed rotation with despair
                 if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana == 0)
                     return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
