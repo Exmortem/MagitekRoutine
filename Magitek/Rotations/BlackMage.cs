@@ -121,19 +121,11 @@ namespace Magitek.Rotations
             if (await Buff.ManaFont()) return true;
             if (await Buff.LeyLines()) return true;
             if (await Buff.UmbralSoul()) return true;
+            if (await Buff.UseEther()) return true;
             //if (await Buff.Transpose()) return true;
 
             if (BlackMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
-            {
-                //Adding buffs as they are not going off in AoE currently
-                if (await Buff.Triplecast()) return true;
-                if (await Buff.Sharpcast()) return true;
-                if (await Buff.ManaFont()) return true;
-                if (await Buff.LeyLines()) return true;
-                
-                //Either
-                if (await Aoe.Thunder4()) return true;
-                
+            {                
                 //Umbral
                 if (await Aoe.Freeze()) return true;
                 if (await Aoe.Blizzard2()) return true;
@@ -144,6 +136,9 @@ namespace Magitek.Rotations
                 if (await Aoe.Fire3()) return true;
                 if (await Aoe.Fire4()) return true;
                 if (await Aoe.Flare()) return true;
+                
+                //Either
+                if (await Aoe.Thunder4()) return true;
             }
 
             if (await SingleTarget.ParadoxUmbral()) return true;

@@ -73,10 +73,10 @@ namespace Magitek.Logic.BlackMage
             if (ActionResourceManager.BlackMage.AstralStacks != 3)
                 return false;
 
-            // If our mana is lower than 2400, and we have despair unlocked cast
-            if (Core.Me.ClassLevel > 71 && Core.Me.CurrentMana < 2400 && Core.Me.CurrentMana != 0)
+            // If our mana is lower than 2400
+            if (Core.Me.CurrentMana < 2400 && Core.Me.CurrentMana != 0)
                 return await Spells.Despair.Cast(Core.Me.CurrentTarget);
-
+            
             return false;
         }
 
@@ -145,7 +145,8 @@ namespace Magitek.Logic.BlackMage
 
             //if we cast Manafont, make sure it doesn't skip ahead before we actually get mp
             if (Casting.LastSpell == Spells.ManaFont
-                && ActionResourceManager.BlackMage.AstralStacks > 0)
+                && ActionResourceManager.BlackMage.AstralStacks > 0
+                && Core.Me.CurrentTarget.EnemiesNearby(10).Count() < BlackMageSettings.Instance.AoeEnemies)
                 return await Spells.Fire4.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -191,9 +192,10 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
 
             //Use if we're at the end of Astral phase and we have a Fire3 proc
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana < 2400)
+            //We actually want to save this for a quick UI > AF transition
+            /*if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.HasAura(Auras.FireStarter) && Core.Me.CurrentMana < 2400)
                 return await Spells.Fire3.Cast(Core.Me.CurrentTarget);
-
+            */
             return false;
         }
 
@@ -202,17 +204,20 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
 
+            if (Combat.CombatTotalTimeLeft <= BlackMageSettings.Instance.ThunderTimeTillDeathSeconds)
+                return false;
+
             // Try to keep from double-casting thunder
             if (Casting.LastSpell == Spells.Thunder
                 || Casting.LastSpell == Spells.Thunder3)
                 return false;
 
-            // Don't dot if time in combat less than 30 seconds
-            if (Combat.CombatTotalTimeLeft <= 30)
-                return false;
-
+            // If we have thunder cloud, but we don't have at least 5 seconds of it left, use the proc
+            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 5500))
+                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
+            
             // If we need to refresh stack timer, stop
-            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5500)
                 return false;
 
             //Low level logic
@@ -221,7 +226,7 @@ namespace Magitek.Logic.BlackMage
                 if (Casting.LastSpell != Spells.Thunder
                         && Casting.LastSpell == Spells.Transpose
                         && ActionResourceManager.BlackMage.UmbralStacks > 0
-                        && !Core.Me.CurrentTarget.HasAura(Auras.Thunder, true, 4500))
+                        && !Core.Me.CurrentTarget.HasAura(Auras.Thunder, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500))
                     return await Spells.Thunder.Cast(Core.Me.CurrentTarget);
 
                 if (Core.Me.HasAura(Auras.ThunderCloud))
@@ -264,12 +269,8 @@ namespace Magitek.Logic.BlackMage
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
             }
 
-            // If we have thunder cloud, but we don't have at least 5 seconds of it left, use the proc
-            if (Core.Me.HasAura(Auras.ThunderCloud) && !Core.Me.HasAura(Auras.ThunderCloud, true, 5000))
-                return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
-
             // Refresh thunder if it's about to run out
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500)
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500)
                 && Casting.LastSpell != Spells.Thunder3)
                 return await Spells.Thunder3.Cast(Core.Me.CurrentTarget);
 
@@ -302,12 +303,17 @@ namespace Magitek.Logic.BlackMage
         public static async Task<bool> Blizzard3()
         {
 
-            if (Casting.LastSpell == Spells.Blizzard3)
+            if (Casting.LastSpell == Spells.Blizzard3
+                || Casting.LastSpell == Spells.ManaFont)
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Blizzard3.LevelAcquired)
                 return false;
 
+            if (BlackMageSettings.Instance.UseAoe
+                && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= BlackMageSettings.Instance.AoeEnemies)
+                return false;
+            
             //35-59 logic
             if (Core.Me.ClassLevel >= 35
                && Core.Me.ClassLevel <= 59)
@@ -319,9 +325,6 @@ namespace Magitek.Logic.BlackMage
                 if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
                 return await Spells.Blizzard3.Cast(Core.Me.CurrentTarget);
             
-            if (await Spells.ManaFont.Cast(Core.Me))
-                    return false;
-
             //Post 72 logic
             if (Core.Me.ClassLevel > 71)
             {
