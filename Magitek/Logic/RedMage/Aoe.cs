@@ -3,13 +3,10 @@ using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Magitek.Logic.Roles;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
-
 
 namespace Magitek.Logic.RedMage
 {
@@ -23,11 +20,16 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Moulinet.LevelAcquired)
                 return false;
 
+            //Hopefully cast 3 moulinet in a row so we can combo
+            if (InAoeCombo())
+                return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+
+            //As to not overcap on black/white mana
             if (WhiteMana == 100
                 && BlackMana == 100)
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
+            return false;
         }
         public static async Task<bool> ContreSixte()
         {
@@ -35,6 +37,12 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (Core.Me.ClassLevel < Spells.ContreSixte.LevelAcquired)
+                return false;
+
+            if (Spells.ContreSixte.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (InAoeCombo())
                 return false;
 
             if (InCombo())
@@ -45,6 +53,9 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> Scatter()
         {
             if (!RedMageSettings.Instance.Scatter)
+                return false;
+
+            if (InAoeCombo())
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Scatter.LevelAcquired)
@@ -70,22 +81,29 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Impact.LevelAcquired)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Dualcast)
-                || !Core.Me.HasAura(Auras.Swiftcast)
-                || !Core.Me.HasAura(Auras.Acceleration))
+            if (InAoeCombo())
+                return false;
+
+            if (InCombo())
                 return false;
 
             if (WhiteMana == 100
                 && BlackMana == 100)
                 return false;
 
-            if (InCombo())
+            if (Casting.LastSpell == Spells.Impact)
                 return false;
+
+            if (Core.Me.HasAura(Auras.Dualcast))
+                return await Spells.Impact.Cast(Core.Me.CurrentTarget);
+
+            if (Core.Me.HasAura(Auras.Swiftcast))
+                return await Spells.Impact.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Acceleration))
                 return await Spells.Impact.Cast(Core.Me.CurrentTarget);
 
-            return await Spells.Impact.Cast(Core.Me.CurrentTarget);
+            return false;
         }
         public static async Task<bool> Verthunder2()
         {
@@ -95,11 +113,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Verthunder2.LevelAcquired)
                 return false;
 
-            if (Math.Abs(BlackMana - WhiteMana) > 15)
-                return false;
-
-            if (WhiteMana == 100
-                && BlackMana == 100)
+            if (InAoeCombo())
                 return false;
 
             if (InCombo())
@@ -109,7 +123,14 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Swiftcast)
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
-          
+
+            if (BlackMana + 7 - WhiteMana > 15)
+                return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
+
+            if (WhiteMana == 100
+                && BlackMana == 100)
+                return false;
+
             return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Veraero2()
@@ -120,11 +141,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Veraero2.LevelAcquired)
                 return false;
 
-            if (Math.Abs(WhiteMana - BlackMana) > 15)
-                return false;
-
-            if (WhiteMana == 100
-                && BlackMana == 100)
+            if (InAoeCombo())
                 return false;
 
             if (InCombo())
@@ -133,6 +150,13 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast)
                 || Core.Me.HasAura(Auras.Swiftcast)
                 || Core.Me.HasAura(Auras.Acceleration))
+                return false;
+
+            if (WhiteMana + 7 - BlackMana > 15)
+                return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
+
+            if (WhiteMana == 100
+                && BlackMana == 100)
                 return false;
 
             return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
@@ -189,6 +213,28 @@ namespace Magitek.Logic.RedMage
                 || Casting.LastSpell == Spells.Verflare
                 || Casting.LastSpell == Spells.Scorch)
                 return true;
+
+            return false;
+        }
+        public static bool InAoeCombo()
+        {
+            if (!RedMageSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.EnemiesNearby(10).Count() < RedMageSettings.Instance.AoeEnemies)
+                return false;
+
+            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet))
+                return true;
+
+            if (WhiteMana >= 60
+                    && BlackMana >= 60)
+                return true;
+
+            if (Casting.LastSpell == Spells.Moulinet)
+                if (WhiteMana >= 20
+                    && BlackMana >= 20)
+                    return true;
 
             return false;
         }

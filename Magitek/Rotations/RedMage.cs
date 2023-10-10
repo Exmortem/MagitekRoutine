@@ -9,7 +9,6 @@ using Magitek.Models.BlackMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
-using Magitek.Utilities.Routines;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -34,7 +34,7 @@ namespace Magitek.Models.BlackMage
         public float ScatheOnlyAboveManaPercent { get; set; }
 
         [Setting]
-        [DefaultValue(3)]
+        [DefaultValue(5)]
         public int ThunderRefreshSecondsLeft { get; set; }
 
         [Setting]

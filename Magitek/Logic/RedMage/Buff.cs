@@ -3,9 +3,7 @@ using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using Magitek.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 
@@ -24,6 +22,9 @@ namespace Magitek.Logic.RedMage
 
             if (Spells.Acceleration.Cooldown != TimeSpan.Zero
                 && Spells.Acceleration.Charges == 0)
+                return false;
+
+            if (InAoeCombo())
                 return false;
 
             if (Combat.CombatTotalTimeLeft <= 30)
@@ -63,14 +64,8 @@ namespace Magitek.Logic.RedMage
                 || BlackMana < 31)
                 return false;
 
-            //if (Casting.LastSpell == Spells.Redoublement
-            //    || Casting.LastSpell == Spells.Manafication)
-            //{
             //Just use on CD I guess
             return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
-            //}
-
-            //return false;
         }
         public static async Task<bool> Manafication()
         {
@@ -88,6 +83,9 @@ namespace Magitek.Logic.RedMage
 
             if (WhiteMana > 50
                 || BlackMana >  50)
+                return false;
+
+            if (InAoeCombo())
                 return false;
 
             //Manafication cancels any combo
@@ -113,6 +111,9 @@ namespace Magitek.Logic.RedMage
             if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
+            if (InAoeCombo())
+                return false;
+
             if (InCombo())
                 return false;
 
@@ -132,7 +133,7 @@ namespace Magitek.Logic.RedMage
             if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (Combat.CombatTotalTimeLeft <= 30)
+            if (InAoeCombo())
                 return false;
 
             if (InCombo())
@@ -146,6 +147,9 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (Spells.Swiftcast.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (InAoeCombo())
                 return false;
 
             if (Core.Me.HasAura(Auras.Dualcast)
@@ -214,6 +218,28 @@ namespace Magitek.Logic.RedMage
                 || Casting.LastSpell == Spells.Verflare
                 || Casting.LastSpell == Spells.Scorch)
                 return true;
+
+            return false;
+        }
+        public static bool InAoeCombo()
+        {
+            if (!RedMageSettings.Instance.UseAoe)
+                return false;
+
+            if (Core.Me.EnemiesNearby(10).Count() < RedMageSettings.Instance.AoeEnemies)
+                return false;
+
+            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet))
+                return true;
+
+            if (WhiteMana >= 60
+                    && BlackMana >= 60)
+                return true;
+
+            if (Casting.LastSpell == Spells.Moulinet)
+                if (WhiteMana >= 20
+                    && BlackMana >= 20)
+                    return true;
 
             return false;
         }

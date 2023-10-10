@@ -21,6 +21,10 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 70)
                 return false;
 
+            // If we need to refresh stack timer, stop
+            if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
+                return false;
+
             //if you don't have Aspect Mastery, just SMASH THAT FOUL BUTTON
             if (Core.Me.ClassLevel < 80)
                 if (ActionResourceManager.BlackMage.UmbralStacks == 3)
@@ -149,18 +153,6 @@ namespace Magitek.Logic.BlackMage
             if (!BlackMageSettings.Instance.ThunderSingle)
                 return false;
             
-            //Cast any time thundercloud procs - moved up as TC procs do full damage up front and it doesn't matter how much time in combat is left
-            if (Core.Me.HasAura(Auras.ThunderCloud))
-                return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
-
-            // Don't dot if time in combat less than 30 seconds
-            if (Combat.CombatTotalTimeLeft <= 30)
-                return false;
-
-            //Only cast in Umbral 3 - should be cast in either if needed
-            //if (ActionResourceManager.BlackMage.UmbralStacks != 3)
-            //    return false;
-
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -173,20 +165,34 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Triplecast))
                 return false;
 
+            //Cast any time thundercloud procs - moved up as TC procs do full damage up front and it doesn't matter how much time in combat is left
+            if (Core.Me.HasAura(Auras.ThunderCloud)
+                //Also cast if we have Sharpcast active
+                || Core.Me.HasAura(Auras.Sharpcast))
+                return await Spells.Thunder2.Cast(Core.Me.CurrentTarget);
+
+            // Don't dot if time in combat less than configured seconds left
+            if (Combat.CombatTotalTimeLeft <= BlackMageSettings.Instance.ThunderTimeTillDeathSeconds)
+                return false;
+
+            //Only cast in Umbral 3 - should be cast in either if needed
+            //if (ActionResourceManager.BlackMage.UmbralStacks != 3)
+            //    return false;
+
             //If we don't need to refresh Thunder, skip
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 4500))
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500))
                 return false;
 
             //Same for Thunder2
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder2, true, 4500))
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder2, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500))
                 return false;
 
             //Same for Thunder3
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, 4500))
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder3, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500))
                 return false;
 
             //Same for Thunder
-            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder, true, 4500))
+            if (!Core.Me.CurrentTarget.HasAura(Auras.Thunder, true, BlackMageSettings.Instance.ThunderRefreshSecondsLeft * 1000 + 500))
                 return false;
 
             if (Core.Me.ClassLevel < 68)
@@ -208,14 +214,8 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel >= 72)
             {
                 if (Casting.LastSpell != Spells.Thunder4)
-                {
-                    if (Casting.LastSpell == Spells.Freeze
-                        || Casting.LastSpell == Spells.Foul)
                         return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
-
-                    return false;
-                }
-                return false;
+                
             }
             return false;
         }
@@ -287,18 +287,20 @@ namespace Magitek.Logic.BlackMage
 
             }
 
-            if ((Casting.LastSpell == Spells.Blizzard2)
-                || (Casting.LastSpell == Spells.HighBlizzardII))
+            if (Casting.LastSpell == Spells.Blizzard2
+                || Casting.LastSpell == Spells.HighBlizzardII
+                || Casting.LastSpell == Spells.ManaFont)
                 return false;
 
+            // If our mana is less than 3000 while in astral and can not cast flare
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 3000 && Core.Me.ClassLevel < Spells.Flare.LevelAcquired)
+                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+
+            // If our mana is 0 then we have completed rotation with flare
+            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana == 0)
+                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
+
             // If we have no umbral or astral stacks, cast 
-            if (ActionResourceManager.BlackMage.AstralStacks <= 0 && ActionResourceManager.BlackMage.UmbralStacks == 0)
-                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
-
-            // If our mana is less than 1500 while in astral
-            if (ActionResourceManager.BlackMage.AstralStacks > 0 && Core.Me.CurrentMana < 1500)
-                return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
-
             if (ActionResourceManager.BlackMage.AstralStacks <= 1 && ActionResourceManager.BlackMage.UmbralStacks <= 1)
                 return await Spells.Blizzard2.Cast(Core.Me.CurrentTarget);
 

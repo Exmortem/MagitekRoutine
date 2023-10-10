@@ -1,9 +1,11 @@
-﻿using ff14bot;
+﻿using Buddy.Coroutines;
+using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.BlackMage;
 using Magitek.Utilities;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Magitek.Logic.BlackMage
@@ -36,12 +38,14 @@ namespace Magitek.Logic.BlackMage
                 return false;
 
             // Why cast after bliz 3? Should only be used in AF
-            if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.Fire3)
-                return await Spells.Triplecast.Cast(Core.Me);
+            if (ActionResourceManager.BlackMage.UmbralHearts == 3)
+            {
+                if (Casting.LastSpell == Spells.Fire3
+                    || Casting.LastSpell == Spells.HighFireII)
+                    return await Spells.Triplecast.Cast(Core.Me);
 
-            // Add new condition for AoE rotation
-            if (ActionResourceManager.BlackMage.UmbralHearts == 3 && Casting.LastSpell == Spells.HighFireII)
-                return await Spells.Triplecast.Cast(Core.Me);
+                return false;
+            }
 
             return false;
         }
@@ -65,13 +69,23 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.HasAura(Auras.Sharpcast))
                 return false;
 
-            // If we used something that opens the GCD
-            if (Casting.LastSpell == Spells.Fire3
-                || Casting.LastSpell == Spells.Blizzard3
-                || Casting.LastSpell == Spells.Blizzard4
-                || Casting.LastSpell == Spells.Blizzard2
+            //Check to see if we already have both buffs
+            if (Core.Me.HasAura(Auras.ThunderCloud)
+                && Core.Me.HasAura(Auras.FireStarter))
+                return false;
+
+            //Let's start planning our uses of Sharpcast better
+            if (Casting.LastSpell == Spells.Paradox
+                && ActionResourceManager.BlackMage.UmbralStacks > 0)
+                return await Spells.Sharpcast.Cast(Core.Me);
+                        
+            if (!ActionResourceManager.BlackMage.Paradox
+                && Casting.LastSpell == Spells.Blizzard4)
+                return await Spells.Sharpcast.Cast(Core.Me);
+
+            if (Casting.LastSpell == Spells.Blizzard2
                 || Casting.LastSpell == Spells.HighBlizzardII
-                || Core.Me.HasAura(Auras.Triplecast))
+                || Casting.LastSpell == Spells.Freeze)
                 return await Spells.Sharpcast.Cast(Core.Me);
 
             return false;
@@ -158,11 +172,18 @@ namespace Magitek.Logic.BlackMage
                 return false;
             
             //Moved this up as it should go off regardless of toggle
-            if (Casting.LastSpell == Spells.Flare
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
-                && Core.Me.CurrentMana == 0)
+            //Swapped mana check to be first as this was going off before we had 0 mana
+            if (Core.Me.CurrentMana == 0
+                && (Casting.LastSpell == Spells.Flare
+                || Casting.LastSpell == Spells.Foul))
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs                
+            {
+                Logger.WriteInfo($@"[Debug] If we get to this point we should have cast flare and have 0 mana - actual last spell is {Casting.LastSpell} and we have {Core.Me.CurrentMana} mana.");
+
                 return await Spells.ManaFont.Cast(Core.Me);
-            
+
+            }
+
             if (!BlackMageSettings.Instance.ConvertAfterFire3)
                 return false;
 
@@ -173,9 +194,26 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.CurrentMana >= 7000)
                 return false;
 
-            if (Casting.LastSpell == Spells.Fire3
-                && Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs)
+            Logger.WriteInfo($@"[Debug] If we get to this point we should have less than 7000 mana - actual current mana is {Core.Me.CurrentMana}.");
+
+            if (Core.Me.CurrentMana == 0
+                && (Casting.LastSpell == Spells.Despair
+                || Casting.LastSpell == Spells.Xenoglossy))
+            {
+                Logger.WriteInfo($@"[Debug] If we get to this point we should have cast xeno or despair - actual last spell is {Casting.LastSpell}.");
+
                 return await Spells.ManaFont.Cast(Core.Me);
+            }   
+            if (Casting.LastSpell == Spells.Fire3
+                //&& Spells.Fire.Cooldown.TotalMilliseconds > Globals.AnimationLockMs
+                && BlackMageSettings.Instance.ConvertAfterFire3
+                && Core.Me.CurrentMana < 7000)
+            {
+                Logger.WriteInfo($@"[Debug] If we get to this point we should have cast fire III - actual last spell is {Casting.LastSpell}.");
+
+                return await Spells.ManaFont.Cast(Core.Me);
+
+            }
 
             return false;
         }
@@ -186,7 +224,7 @@ namespace Magitek.Logic.BlackMage
 
             if (Spells.Transpose.Cooldown != TimeSpan.Zero)
                 return false;
-
+            
             if (Core.Me.ClassLevel < 40
                 && Core.Me.CurrentMana < 1600
                 && ActionResourceManager.BlackMage.AstralStacks > 0)
@@ -223,6 +261,45 @@ namespace Magitek.Logic.BlackMage
 
             return await Spells.Amplifier.Cast(Core.Me);
         }
+        public static async Task<bool> UseEther()
+        {
+            if (!BlackMageSettings.Instance.QuadFlare)
+                return false;
+
+            if (!Core.Me.InCombat)
+                return false;
+
+            if (Spells.ManaFont.Cooldown == TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.CurrentMana != 0)
+                return false;
+
+            if (Casting.LastSpell != Spells.Flare)
+                return false;
+
+            var etherItem = InventoryManager.FilledSlots.FirstOrDefault(s => s.RawItemId == Ether 
+            || s.RawItemId == HiEther 
+            || s.RawItemId == XEther 
+            || s.RawItemId == MegaEther 
+            || s.RawItemId == SuperEther);
+
+            while (etherItem.CanUse())
+            {
+                Logger.WriteInfo($@"Use ether : {etherItem.Name}");
+                etherItem.UseItem(Core.Me);
+                await Coroutine.Wait(1500, () => false);
+
+                if (etherItem == null || !etherItem.CanUse())
+                    return true;
+            }
+            return false;
+        }
+        public static readonly uint Ether = 4555;
+        public static readonly uint HiEther = 4556;
+        public static readonly uint XEther = 4558;
+        public static readonly uint MegaEther = 13638;
+        public static readonly uint SuperEther = 23168;
 
     }
 

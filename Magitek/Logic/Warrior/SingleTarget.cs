@@ -157,7 +157,7 @@ namespace Magitek.Logic.Warrior
                 return false;
             }
 
-            if (Spells.Onslaught.Charges < WarriorSettings.Instance.SaveOnslaughtCharges + 1)
+            if (Spells.Onslaught.Charges <= WarriorSettings.Instance.SaveOnslaughtCharges + 1)
             {
                 return false;
             }
