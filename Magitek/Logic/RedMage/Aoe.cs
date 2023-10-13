@@ -20,6 +20,11 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Moulinet.LevelAcquired)
                 return false;
 
+            //If embolden coming off cd soon, wait
+            if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
+                && Spells.Embolden.Cooldown.Seconds >= 10)
+                return false;
+
             //Hopefully cast 3 moulinet in a row so we can combo
             if (InAoeCombo())
                 return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
@@ -64,6 +69,10 @@ namespace Magitek.Logic.RedMage
             if (!Core.Me.HasAura(Auras.Dualcast))
                 return false;
 
+            if (!Core.Me.HasAura(Auras.Swiftcast)
+                && !RedMageSettings.Instance.SwiftcastScatter)
+                return false;
+
             if (WhiteMana == 100
                 && BlackMana == 100)
                 return false;
@@ -97,7 +106,8 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return await Spells.Impact.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.Swiftcast))
+            if (Core.Me.HasAura(Auras.Swiftcast)
+                && RedMageSettings.Instance.SwiftcastScatter)
                 return await Spells.Impact.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Acceleration))
