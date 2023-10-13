@@ -49,7 +49,7 @@ namespace Magitek.Logic.Summoner
 
             var target = Combat.SmartAoeTarget(Spells.Deathflare, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
                 
             return await Spells.Deathflare.Cast(target);
@@ -91,7 +91,6 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.CrimsonCyclone, SummonerSettings.Instance.SmartAoe);
 
-            //Add another target check so it works if SmartAoe is not enabled
             if (target == null)
                 return false;
 
@@ -132,7 +131,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.MountainBuster, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
 
             if (Spells.MountainBuster.IsKnownAndReady())
@@ -157,7 +156,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.Slipstream, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
             
             return await Spells.Slipstream.Cast(target);
@@ -184,7 +183,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.EnergySiphon, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
 
             return await Spells.EnergySiphon.Cast(target);
@@ -207,7 +206,7 @@ namespace Magitek.Logic.Summoner
             {
                 target = Combat.SmartAoeTarget(Spells.BrandofPurgatory, SummonerSettings.Instance.SmartAoe);
 
-                if (target == null)
+                if (target == null || Core.Me.CurrentTarget == null)
                     return false;
                 
                 return await Spells.BrandofPurgatory.Cast(target);
@@ -215,7 +214,7 @@ namespace Magitek.Logic.Summoner
 
             target = Combat.SmartAoeTarget(Spells.PreciousBrilliance, SummonerSettings.Instance.SmartAoe);
             
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
 
             if (Core.Me.SummonedPet() == SmnPets.Bahamut)
@@ -286,7 +285,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.Painflare, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
             
             return await Spells.Painflare.Cast(target);
@@ -318,7 +317,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.Ruin4, SummonerSettings.Instance.SmartAoe);
 
-            if (target == null)
+            if (target == null || Core.Me.CurrentTarget == null)
                 return false;
             
             return await Spells.Ruin4.Cast(target);

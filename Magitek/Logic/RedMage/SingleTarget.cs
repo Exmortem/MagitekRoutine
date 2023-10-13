@@ -25,7 +25,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
                 && Spells.Embolden.Cooldown.Seconds >= 10)
                 return false;
-
+          
             if (Core.Me.ClassLevel < 35)
             {
                 if (BlackMana >= 20 
@@ -266,10 +266,6 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (!Core.Me.HasAura(Auras.VerfireReady))
-                return false;
-
-            if (Core.Me.HasAura(Auras.Dualcast)
-                || Core.Me.HasAura(Auras.Swiftcast))
                 return false;
 
             if (WhiteMana == 100
