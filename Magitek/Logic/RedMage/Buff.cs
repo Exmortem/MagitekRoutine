@@ -64,6 +64,12 @@ namespace Magitek.Logic.RedMage
                 || BlackMana < 31)
                 return false;
 
+            if (InAoeCombo())
+                return false;
+
+            if (InCombo())
+                return false;
+
             //Just use on CD I guess
             return await Spells.Embolden.Cast(Core.Me.CurrentTarget);
         }
@@ -133,9 +139,6 @@ namespace Magitek.Logic.RedMage
             if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
                 return false;
 
-            if (InAoeCombo())
-                return false;
-
             if (InCombo())
                 return false;
 
@@ -162,6 +165,14 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (InCombo())
+                return false;
+
+            if (RedMageSettings.Instance.SwiftcastVerthunderVeraero
+                && RedMageSettings.Instance.SwiftcastScatter)
+                return false;
+
+            if (WhiteMana >= 50
+                && BlackMana >= 50)
                 return false;
 
             return await Spells.Swiftcast.Cast(Core.Me.CurrentTarget);

@@ -21,6 +21,11 @@ namespace Magitek.Logic.RedMage
             if (InAoeCombo())
                 return false;
 
+            //If embolden coming off cd soon, wait
+            if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
+                && Spells.Embolden.Cooldown.Seconds >= 10)
+                return false;
+          
             if (Core.Me.ClassLevel < 35)
             {
                 if (BlackMana >= 20 
@@ -242,10 +247,12 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.Swiftcast))
+            if (Core.Me.HasAura(Auras.Swiftcast)
+                && !RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.Acceleration))
+            if (Core.Me.HasAura(Auras.Acceleration)
+                && !Core.Me.HasAura(Auras.VerfireReady))
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -260,7 +267,7 @@ namespace Magitek.Logic.RedMage
 
             if (!Core.Me.HasAura(Auras.VerfireReady))
                 return false;
-                        
+
             if (WhiteMana == 100
                 && BlackMana == 100)
                 return false;
@@ -299,16 +306,17 @@ namespace Magitek.Logic.RedMage
                 || Casting.LastSpell == Spells.Scorch)
                 return false;
 
-            if (BlackMana + 11 - WhiteMana > 15
-                && BlackMana > WhiteMana
+            if (BlackMana > WhiteMana
                 && Core.Me.ClassLevel >= Spells.Verholy.LevelAcquired)
                 return false;
 
-            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet))
+            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet)
+                && BlackMana < WhiteMana)
                 return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
 
             //Trying this instead to be more flexible
-            if (Casting.SpellCastHistory.Take(3).Any(s => s.Spell == Spells.Redoublement || s.Spell == Spells.Moulinet))
+            if (Casting.SpellCastHistory.Take(3).Any(s => s.Spell == Spells.Redoublement || s.Spell == Spells.Moulinet)
+                && BlackMana < WhiteMana)
                 return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
 
             /*if (Casting.LastSpell != Spells.Redoublement
@@ -342,10 +350,12 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Dualcast))
                 return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.Swiftcast))
+            if (Core.Me.HasAura(Auras.Swiftcast)
+                && !RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.Acceleration))
+            if (Core.Me.HasAura(Auras.Acceleration)
+                && !Core.Me.HasAura(Auras.VerstoneReady))
                 return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -403,15 +413,16 @@ namespace Magitek.Logic.RedMage
                 || Casting.LastSpell == Spells.Scorch)
                 return false;
 
-            if (WhiteMana + 11 - BlackMana > 15
-                && WhiteMana > BlackMana)
+            if (WhiteMana > BlackMana)
                 return false;
 
-            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet))
+            if (Casting.SpellCastHistory.Take(3).All(x => x.Spell == Spells.Moulinet)
+                && BlackMana > WhiteMana)
                 return await Spells.Verholy.Cast(Core.Me.CurrentTarget);
 
             //Trying this instead to be more flexible
-            if (Casting.SpellCastHistory.Take(3).Any(s => s.Spell == Spells.Redoublement || s.Spell == Spells.Moulinet))
+            if (Casting.SpellCastHistory.Take(3).Any(s => s.Spell == Spells.Redoublement || s.Spell == Spells.Moulinet)
+                && BlackMana > WhiteMana)
                 return await Spells.Verholy.Cast(Core.Me.CurrentTarget);
 
             /*if (Casting.LastSpell != Spells.Redoublement

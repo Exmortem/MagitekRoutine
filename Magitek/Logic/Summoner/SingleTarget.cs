@@ -135,6 +135,9 @@ namespace Magitek.Logic.Summoner
             if (!GlobalCooldown.CanWeave())
                 return false;
 
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= 2)
+                return false;
+
             return await Spells.Fester.Cast(Core.Me.CurrentTarget);
         }
 
@@ -153,6 +156,9 @@ namespace Magitek.Logic.Summoner
                 return false;
             
             if (!GlobalCooldown.CanWeave())
+                return false;
+
+            if (Core.Me.CurrentTarget.EnemiesNearby(5).Count() >= 3)
                 return false;
 
             return await Spells.EnergyDrain.Cast(Core.Me.CurrentTarget);

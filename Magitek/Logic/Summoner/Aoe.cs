@@ -91,8 +91,7 @@ namespace Magitek.Logic.Summoner
             
             var target = Combat.SmartAoeTarget(Spells.CrimsonCyclone, SummonerSettings.Instance.SmartAoe);
 
-            //Add another target check so it works if SmartAoe is not enabled
-            if (target == null || Core.Me.CurrentTarget == null)
+            if (target == null)
                 return false;
 
             return await Spells.CrimsonCyclone.Cast(target); 
@@ -124,8 +123,8 @@ namespace Magitek.Logic.Summoner
             if (!SummonerSettings.Instance.MountainBuster)
                 return false;
 
-            if (!Spells.MountainBuster.IsKnownAndReady())
-                return false;
+            //if (!Spells.MountainBuster.IsKnownAndReady())
+            //    return false;
 
             if (!Core.Me.HasAura(Auras.TitansFavor))
                 return false;
@@ -134,8 +133,11 @@ namespace Magitek.Logic.Summoner
 
             if (target == null || Core.Me.CurrentTarget == null)
                 return false;
-            
-            return await Spells.MountainBuster.Cast(target);
+
+            if (Spells.MountainBuster.IsKnownAndReady())
+                return await Spells.MountainBuster.Cast(target);
+
+            return false;
         }
         
         public static async Task<bool> Slipstream()
