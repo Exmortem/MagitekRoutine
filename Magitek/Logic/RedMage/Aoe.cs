@@ -22,7 +22,7 @@ namespace Magitek.Logic.RedMage
 
             //If embolden coming off cd soon, wait
             if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
-                && Spells.Embolden.Cooldown.Seconds >= 10)
+                && Spells.Embolden.Cooldown.Seconds <= 10)
                 return false;
 
             //Hopefully cast 3 moulinet in a row so we can combo

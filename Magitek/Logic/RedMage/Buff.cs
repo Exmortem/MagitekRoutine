@@ -133,7 +133,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.LucidDreaming.LevelAcquired)
                 return false;
 
-            if (Core.Me.CurrentMana > RedMageSettings.Instance.LucidDreamingManaPercent)
+            if (Core.Me.CurrentManaPercent > RedMageSettings.Instance.LucidDreamingManaPercent)
                 return false;
 
             if (Spells.LucidDreaming.Cooldown != TimeSpan.Zero)
