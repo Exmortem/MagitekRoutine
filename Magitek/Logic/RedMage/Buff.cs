@@ -167,8 +167,8 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
 
-            if (RedMageSettings.Instance.SwiftcastVerthunderVeraero
-                && RedMageSettings.Instance.SwiftcastScatter)
+            if (!RedMageSettings.Instance.SwiftcastVerthunderVeraero
+                && !RedMageSettings.Instance.SwiftcastScatter)
                 return false;
 
             if (WhiteMana >= 50
