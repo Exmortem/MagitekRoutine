@@ -66,10 +66,11 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.Scatter.LevelAcquired)
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Dualcast))
+            if (!Core.Me.HasAura(Auras.Dualcast)
+                || !Core.Me.HasAura(Auras.Swiftcast))
                 return false;
 
-            if (!Core.Me.HasAura(Auras.Swiftcast)
+            if (Core.Me.HasAura(Auras.Swiftcast)
                 && !RedMageSettings.Instance.SwiftcastScatter)
                 return false;
 
