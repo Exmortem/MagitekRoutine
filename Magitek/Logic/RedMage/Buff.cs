@@ -87,8 +87,12 @@ namespace Magitek.Logic.RedMage
             if (Combat.CombatTotalTimeLeft <= 30)
                 return false;
 
-            if (WhiteMana > 50
-                || BlackMana >  50)
+            if (WhiteMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+                || BlackMana <= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana)
+                return false;
+
+            if (BlackMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana
+                || WhiteMana > RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
                 return false;
 
             if (InAoeCombo())
@@ -98,7 +102,7 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
 
-            if (Spells.Embolden.Cooldown.TotalMilliseconds <= 5500)
+            if (Spells.Embolden.Cooldown.TotalMilliseconds <= 10000)
                 return false;
 
             return await Spells.Manafication.Cast(Core.Me.CurrentTarget);
@@ -167,8 +171,8 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
 
-            if (RedMageSettings.Instance.SwiftcastVerthunderVeraero
-                && RedMageSettings.Instance.SwiftcastScatter)
+            if (!RedMageSettings.Instance.SwiftcastVerthunderVeraero
+                && !RedMageSettings.Instance.SwiftcastScatter)
                 return false;
 
             if (WhiteMana >= 50

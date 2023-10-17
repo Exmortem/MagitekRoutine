@@ -252,7 +252,7 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Swiftcast)
-                && !RedMageSettings.Instance.SwiftcastVerthunderVeraero)
+                && RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Acceleration)
@@ -359,7 +359,7 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Swiftcast)
-                && !RedMageSettings.Instance.SwiftcastVerthunderVeraero)
+                && RedMageSettings.Instance.SwiftcastVerthunderVeraero)
                 return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
 
             if (Core.Me.HasAura(Auras.Acceleration)
@@ -391,7 +391,7 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (WhiteMana + 5 - BlackMana > 15
-                && WhiteMana > BlackMana)
+                && WhiteMana >= BlackMana)
                 return false;
 
             return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
