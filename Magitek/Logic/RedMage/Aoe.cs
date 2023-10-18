@@ -135,7 +135,7 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
 
-            if (BlackMana + 7 - WhiteMana > 15)
+            if (BlackMana > WhiteMana)
                 return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
 
             if (WhiteMana == 100
@@ -163,7 +163,7 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
 
-            if (WhiteMana + 7 - BlackMana > 15)
+            if (WhiteMana >= BlackMana)
                 return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
 
             if (WhiteMana == 100

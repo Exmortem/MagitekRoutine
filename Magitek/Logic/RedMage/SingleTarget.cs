@@ -42,7 +42,15 @@ namespace Magitek.Logic.RedMage
             }
 
             if (Casting.LastSpell == Spells.Riposte
-                || Casting.LastSpell == Spells.Zwerchhau)
+                || Casting.LastSpell == Spells.Zwerchhau
+                || Casting.LastSpell == Spells.Redoublement
+                || Casting.LastSpell == Spells.Verflare
+                || Casting.LastSpell == Spells.Verholy
+                || Casting.LastSpell == Spells.Scorch)
+                return false;
+
+            if (Core.Me.EnemiesNearby(10).Count() > RedMageSettings.Instance.AoeEnemies
+                && RedMageSettings.Instance.UseAoe)
                 return false;
 
             if (BlackMana < 50 || WhiteMana < 50)
@@ -135,13 +143,21 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.HasAura(Auras.Swiftcast))
                 return false;
 
-            if (Core.Me.HasAura(Auras.VerfireReady)
-                && !Core.Me.HasAura(Auras.Dualcast))
-                return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
+            if (Core.Me.HasAura(Auras.VerfireReady))
+            {
+                if (!Core.Me.HasAura(Auras.Dualcast))
+                    return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
 
-            if (Core.Me.HasAura(Auras.VerstoneReady)
-                && !Core.Me.HasAura(Auras.Dualcast))
-                return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+                return await Spells.Verthunder.Cast(Core.Me.CurrentTarget);
+            }                
+
+            if (Core.Me.HasAura(Auras.VerstoneReady))
+            {
+                if (!Core.Me.HasAura(Auras.Dualcast))
+                    return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
+
+                return await Spells.Veraero.Cast(Core.Me.CurrentTarget);
+            }                
 
             if (Core.Me.HasAura(Auras.Dualcast)
                 && Core.Me.ClassLevel >= 4)
@@ -244,8 +260,7 @@ namespace Magitek.Logic.RedMage
                 && BlackMana == 100)
                 return false;
 
-            if (BlackMana + 6 - WhiteMana > 15
-                || BlackMana > WhiteMana)
+            if (BlackMana > WhiteMana)
                 return false;
 
             if (Core.Me.HasAura(Auras.Dualcast))
@@ -351,8 +366,7 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
             
-            if (WhiteMana + 6 - BlackMana > 15
-                || WhiteMana >= BlackMana)
+            if (WhiteMana >= BlackMana)
                 return false;
 
             if (Core.Me.HasAura(Auras.Dualcast))
