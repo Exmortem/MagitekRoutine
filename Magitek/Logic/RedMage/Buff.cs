@@ -102,8 +102,14 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
 
-            if (Spells.Embolden.Cooldown.TotalMilliseconds <= 10000)
+            if (WhiteMana <= 30
+                && BlackMana <= 30)
+            {
+                if (Spells.Embolden.Cooldown.TotalMilliseconds <= 10000)
+                    return await Spells.Manafication.Cast(Core.Me.CurrentTarget);
+
                 return false;
+            }
 
             return await Spells.Manafication.Cast(Core.Me.CurrentTarget);
         }
