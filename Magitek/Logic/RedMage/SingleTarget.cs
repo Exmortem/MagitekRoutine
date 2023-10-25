@@ -21,6 +21,11 @@ namespace Magitek.Logic.RedMage
             if (InAoeCombo())
                 return false;
 
+            if (Core.Me.HasAura(Auras.Swiftcast)
+                || Core.Me.HasAura(Auras.Dualcast)
+                || Core.Me.HasAura(Auras.Acceleration))
+                return false;
+
             //If embolden coming off cd soon, wait
             if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
                 && Spells.Embolden.Cooldown.Seconds <= 10)
@@ -461,10 +466,16 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel < Spells.CorpsACorps.LevelAcquired)
                 return false;
 
+            if (Core.Me.HasAura(Auras.Swiftcast)
+                || Core.Me.HasAura(Auras.Dualcast)
+                || Core.Me.HasAura(Auras.Acceleration))
+                return false;
+
             if (InAoeCombo())
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance() <= 3)
+            if (Core.Me.CurrentTarget.Distance() <= 3
+                && !RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly)
                 return false;
 
             if (InCombo())

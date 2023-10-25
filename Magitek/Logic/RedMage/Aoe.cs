@@ -41,6 +41,9 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.UseAoe)
                 return false;
 
+            if (!RedMageSettings.Instance.UseContreSixte)
+                return false;
+
             if (Core.Me.ClassLevel < Spells.ContreSixte.LevelAcquired)
                 return false;
 
