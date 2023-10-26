@@ -21,6 +21,9 @@ namespace Magitek.Logic.BlackMage
             if (Core.Me.ClassLevel < 70)
                 return false;
 
+            if (Casting.LastSpell == Spells.Foul)
+                return false;
+            
             // If we need to refresh stack timer, stop
             if (ActionResourceManager.BlackMage.StackTimer.TotalMilliseconds <= 5000)
                 return false;
@@ -56,9 +59,20 @@ namespace Magitek.Logic.BlackMage
                 return false;            
 
             //If we have Umbral hearts, Freeze has gone off
-            if (ActionResourceManager.BlackMage.UmbralHearts >= 1)
+            //Trying logic from xeno instead to see if this allows T4 to go off
+            /*if (ActionResourceManager.BlackMage.UmbralHearts >= 1)
                 if (Casting.LastSpell != Spells.Foul)
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+            */
+            //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
+            if (ActionResourceManager.BlackMage.UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder4)
+            {
+                //We don't have max mana
+                if (Core.Me.CurrentMana < 10000 && Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 5000))
+                    return await Spells.Foul.Cast(Core.Me.CurrentTarget);
+
+                return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
+            }
 
             return false;
         }
