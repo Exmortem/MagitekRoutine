@@ -69,13 +69,13 @@ namespace Magitek.Logic.BlackMage
             */
             //If while in Umbral 3 and, we didn't use Thunder in the Umbral window
             if (UmbralStacks == 3 && Casting.LastSpell != Spells.Thunder4)
-            {
+			{
                 //We don't have max mana
                 if (Core.Me.CurrentMana < 10000 && Core.Me.CurrentTarget.HasAura(Auras.Thunder4, true, 5000))
                     return await Spells.Foul.Cast(Core.Me.CurrentTarget);
 
                 return await Spells.Thunder4.Cast(Core.Me.CurrentTarget);
-            }
+            }			
 
             return false;
         }
