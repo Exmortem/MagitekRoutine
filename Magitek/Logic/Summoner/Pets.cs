@@ -1,12 +1,9 @@
 ﻿using ff14bot;
-using ff14bot.Enums;
 using ff14bot.Managers;
-using Magitek.Enumerations;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
 using Magitek.Utilities.Routines;
-using System;
 using System.Threading.Tasks;
 using ArcResources = ff14bot.Managers.ActionResourceManager.Arcanist;
 using SmnResources = ff14bot.Managers.ActionResourceManager.Summoner;

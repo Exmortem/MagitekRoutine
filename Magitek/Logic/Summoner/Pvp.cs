@@ -6,7 +6,6 @@ using Magitek.Utilities;
 using Auras = Magitek.Utilities.Auras;
 using System.Linq;
 using System.Threading.Tasks;
-using SummonerRoutine = Magitek.Utilities.Routines.Summoner;
 
 namespace Magitek.Logic.Summoner
 {
