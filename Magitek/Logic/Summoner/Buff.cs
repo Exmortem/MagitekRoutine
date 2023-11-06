@@ -1,6 +1,5 @@
 ﻿using Buddy.Coroutines;
 using ff14bot;
-using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.Summoner;
 using Magitek.Utilities;
@@ -8,6 +7,8 @@ using System.Threading.Tasks;
 using ArcResources = ff14bot.Managers.ActionResourceManager.Arcanist;
 using SmnResources = ff14bot.Managers.ActionResourceManager.Summoner;
 using static Magitek.Utilities.Routines.Summoner;
+using System;
+using System.Linq;
 
 namespace Magitek.Logic.Summoner
 {
@@ -42,6 +43,9 @@ namespace Magitek.Logic.Summoner
         public static async Task<bool> LucidDreaming()
         {
             if (!Spells.LucidDreaming.IsKnownAndReady())
+                return false;
+
+            if (!SummonerSettings.Instance.LucidDreaming)
                 return false;
 
             if (Core.Me.CurrentManaPercent > SummonerSettings.Instance.LucidDreamingManaPercent)
@@ -88,6 +92,21 @@ namespace Magitek.Logic.Summoner
 
         public static async Task<bool> SearingLight()
         {
+            if (!SummonerSettings.Instance.SearingLight)
+                return false;
+
+            if (Core.Me.ClassLevel < Spells.SearingLight.LevelAcquired)
+                return false;
+
+            if (Spells.SearingLight.Cooldown != TimeSpan.Zero)
+                return false;
+
+            if (Core.Me.HasAura(Auras.SearingLight))
+                return false;
+
+            if (Core.Me.SummonedPet() != SmnPets.Carbuncle)
+                return false;
+
             return await Spells.SearingLight.Cast(Core.Me);
         }
     }
