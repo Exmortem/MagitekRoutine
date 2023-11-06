@@ -123,7 +123,8 @@ namespace MagitekLoader
             {
                 // One user reported an error during auto update that seems to indicate this is needed
                 // https://stackoverflow.com/questions/46950386/sharpziplib-1-is-not-a-supported-code-page
-                ICSharpCode.SharpZipLib.Zip.ZipConstants.DefaultCodePage = 437;
+                // obsolete: ICSharpCode.SharpZipLib.Zip.ZipConstants.DefaultCodePage = 437;
+                ICSharpCode.SharpZipLib.Zip.ZipStrings.CodePage = 437;
             }
             catch
             {
