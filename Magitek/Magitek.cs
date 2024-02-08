@@ -4,6 +4,7 @@ using ff14bot.AClasses;
 using ff14bot.Behavior;
 using ff14bot.Enums;
 using ff14bot.Managers;
+using ff14bot.NeoProfiles;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.Astrologian;
@@ -44,14 +45,14 @@ using Regexp = System.Text.RegularExpressions;
 
 namespace Magitek
 {
-    public class Magitek
+    public class Magitek : CombatRoutine
     {
         private static SettingsWindow _form;
         private DateTime _pulseLimiter, _saveFormTime;
         private ClassJobType CurrentJob { get; set; }
         private ushort CurrentZone { get; set; }
 
-        public void Initialize()
+        public override void Initialize()
         {
             Logger.WriteInfo("Initializing ...");
             ViewModels.BaseSettings.Instance.RoutineSelectedInUi = RotationManager.CurrentRotation.ToString();
@@ -62,13 +63,15 @@ namespace Magitek
             TreeRoot.OnStop += OnStop;
             CurrentZone = WorldManager.ZoneId;
             CurrentJob = Core.Me.CurrentJob;
+            GameEvents.OnClassChanged += GameEventsOnOnClassChanged;
+            GameEvents.OnLevelUp += GameEventsOnOnLevelUp;
 
             HookBehaviors();
 
             Application.Current.Dispatcher.Invoke(delegate
             {
                 _form = new SettingsWindow();
-                _form.Closed += (sender, args) =>
+                _form.Closed += (_, _) =>
                 {
                     _form = null;
                 };
@@ -77,6 +80,48 @@ namespace Magitek
             TogglesManager.LoadTogglesForCurrentJob();
             CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
             Logger.WriteInfo("Initialized");
+        }
+
+        private void GameEventsOnOnLevelUp(object sender, EventArgs e)
+        {
+            #region Zone switching because events aren't reliable apparently
+
+            if (WorldManager.ZoneId != CurrentZone)
+            {
+                // Set the current zone
+                CurrentZone = WorldManager.ZoneId;
+
+                // Run the shit we need to
+                GambitsViewModel.Instance.ApplyGambits();
+                OpenersViewModel.Instance.ApplyOpeners();
+            }
+
+            #endregion
+        }
+
+        private void GameEventsOnOnClassChanged(object sender, EventArgs e)
+        {
+            #region Job switching because events aren't reliable apparently
+            if (CurrentJob != Core.Me.CurrentJob)
+            {
+                // Set our current job
+                CurrentJob = Core.Me.CurrentJob;
+                Logger.WriteInfo("Job Changed");
+
+                // Run the shit we need to
+                Application.Current.Dispatcher.Invoke(delegate
+                {
+                    GambitsViewModel.Instance.ApplyGambits();
+                    OpenersViewModel.Instance.ApplyOpeners();
+                    TogglesManager.LoadTogglesForCurrentJob();
+                });
+
+                HookBehaviors();
+                DispelManager.Reset();
+                InterruptsAndStunsManager.Reset();
+                CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
+            }
+            #endregion
         }
 
         public void OnStart(BotBase bot)
@@ -107,66 +152,54 @@ namespace Magitek
             GamelogManagerCountdown.StopCooldown();
         }
 
-        public void SaveJobSettings()
+
+        public override string Name { get; }
+        public override float PullRange { get; } = 25;
+
+        public override ClassJobType[] Class
         {
-            ScholarSettings.Instance.Save();
-            WhiteMageSettings.Instance.Save();
-            AstrologianSettings.Instance.Save();
-            PaladinSettings.Instance.Save();
-            DarkKnightSettings.Instance.Save();
-            WarriorSettings.Instance.Save();
-            BardSettings.Instance.Save();
-            MachinistSettings.Instance.Save();
-            DragoonSettings.Instance.Save();
-            MonkSettings.Instance.Save();
-            NinjaSettings.Instance.Save();
-            SamuraiSettings.Instance.Save();
-            BlueMageSettings.Instance.Save();
-            BlackMageSettings.Instance.Save();
-            RedMageSettings.Instance.Save();
-            SummonerSettings.Instance.Save();
-            SageSettings.Instance.Save();
-            ReaperSettings.Instance.Save();
+            get
+            {
+                switch (Core.Me.CurrentJob)
+                {
+                    case ClassJobType.Arcanist:
+                    case ClassJobType.Scholar:
+                    case ClassJobType.Summoner:
+                    case ClassJobType.Archer:
+                    case ClassJobType.Bard:
+                    case ClassJobType.Thaumaturge:
+                    case ClassJobType.BlackMage:
+                    case ClassJobType.Conjurer:
+                    case ClassJobType.WhiteMage:
+                    case ClassJobType.Lancer:
+                    case ClassJobType.Dragoon:
+                    case ClassJobType.Gladiator:
+                    case ClassJobType.Paladin:
+                    case ClassJobType.Pugilist:
+                    case ClassJobType.Monk:
+                    case ClassJobType.Marauder:
+                    case ClassJobType.Warrior:
+                    case ClassJobType.Rogue:
+                    case ClassJobType.Ninja:
+                    case ClassJobType.Astrologian:
+                    case ClassJobType.Machinist:
+                    case ClassJobType.DarkKnight:
+                    case ClassJobType.RedMage:
+                    case ClassJobType.Samurai:
+                    case ClassJobType.Dancer:
+                    case ClassJobType.Gunbreaker:
+                    case ClassJobType.BlueMage:
+                    case ClassJobType.Reaper:
+                    case ClassJobType.Sage:
+                        return new[] { Core.Me.CurrentJob };
+                    default:
+                        return new[] { ClassJobType.Adventurer };
+                }
+            }
         }
 
-        public void Pulse()
+        public override void Pulse()
         {
-            #region Job switching because events aren't reliable apparently
-            if (CurrentJob != Core.Me.CurrentJob)
-            {
-                // Set our current job
-                CurrentJob = Core.Me.CurrentJob;
-                Logger.WriteInfo("Job Changed");
-
-                // Run the shit we need to
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    GambitsViewModel.Instance.ApplyGambits();
-                    OpenersViewModel.Instance.ApplyOpeners();
-                    TogglesManager.LoadTogglesForCurrentJob();
-                });
-
-                HookBehaviors();
-                DispelManager.Reset();
-                InterruptsAndStunsManager.Reset();
-                CombatMessageManager.RegisterMessageStrategiesForClass(Core.Me.CurrentJob);
-            }
-            #endregion
-
-            #region Zone switching because events aren't reliable apparently
-
-            if (WorldManager.ZoneId != CurrentZone)
-            {
-                // Set the current zone
-                CurrentZone = WorldManager.ZoneId;
-
-                // Run the shit we need to
-                GambitsViewModel.Instance.ApplyGambits();
-                OpenersViewModel.Instance.ApplyOpeners();
-            }
-
-            #endregion
-
             Tracking.Update();
             Combat.AdjustCombatTime();
             Combat.AdjustDutyTime();
@@ -201,38 +234,26 @@ namespace Magitek
                 }
             }
 
-            if (DateTime.Now < _pulseLimiter) return;
-            _pulseLimiter = DateTime.Now.AddSeconds(1);
+            var time = DateTime.Now;
+            if (time < _pulseLimiter) return;
+            _pulseLimiter = time.AddSeconds(1);
 
-            if (DateTime.Now > _saveFormTime)
+            if (time > _saveFormTime)
             {
                 Dispelling.Instance.Save();
                 InterruptsAndStuns.Instance.Save();
                 BaseSettings.Instance.Save();
                 TogglesViewModel.Instance.SaveToggles();
-                
-                #region Save Settings For All Routines
-
-                Task.Run(SaveJobSettings);
-
-                #endregion
-
-                _saveFormTime = DateTime.Now.AddSeconds(60);
+                _saveFormTime = time.AddSeconds(60);
             }
 
             CombatMessageManager.UpdateDisplayedMessage();
         }
 
-        public void Shutdown()
+        public override void ShutDown()
         {
             TreeRoot.OnStart -= OnStart;
             TreeRoot.OnStop -= OnStop;
-
-            #region Save Settings For All Routines
-
-            SaveJobSettings();
-
-            #endregion
 
             Dispelling.Instance.Save();
             BaseSettings.Instance.Save();
@@ -273,7 +294,7 @@ namespace Magitek
             }
         }
 
-        public static void OnButtonPress()
+        public override void OnButtonPress()
         {
             if (Form.IsVisible)
                 return;
@@ -289,7 +310,7 @@ namespace Magitek
             {
                 if (_form != null) return _form;
                 _form = new SettingsWindow();
-                _form.Closed += (sender, args) =>
+                _form.Closed += (_, _) =>
                 {
                     _form = null;
                 };
@@ -311,59 +332,29 @@ namespace Magitek
             TreeHooks.Instance.ReplaceHook("Combat", CombatBehavior);
         }
 
-        public Composite RestBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                    new ActionRunCoroutine(ctx => RotationManager.Rotation.Rest())));
-            }
-        }
+        public override Composite RestBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.Rest())));
 
-        public Composite PreCombatBuffBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                    new ActionRunCoroutine(ctx => RotationManager.Rotation.PreCombatBuff())));
-            }
-        }
+        public override Composite PreCombatBuffBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.PreCombatBuff())));
 
-        public Composite PullBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                    new ActionRunCoroutine(ctx => RotationManager.Rotation.Pull())));
-            }
-        }
+        public override Composite PullBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.Pull())));
 
-        public Composite HealBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                    new ActionRunCoroutine(ctx => RotationManager.Rotation.Heal())));
-            }
-        }
+        public override Composite HealBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.Heal())));
 
-        public Composite CombatBuffBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                    new ActionRunCoroutine(ctx => RotationManager.Rotation.CombatBuff())));
-            }
-        }
+        public override Composite CombatBuffBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.CombatBuff())));
 
-        public Composite CombatBehavior
-        {
-            get
-            {
-                return new Decorator(new PrioritySelector(new Decorator(r => WorldManager.InPvP, new ActionRunCoroutine(ctx => RotationManager.Rotation.PvP())),
-                        new ActionRunCoroutine(ctx => RotationManager.Rotation.Combat())));
-            }
-        }
+        public override Composite CombatBehavior =>
+            new Decorator(new PrioritySelector(new Decorator(_ => WorldManager.InPvP, new ActionRunCoroutine(_ => RotationManager.Rotation.PvP())),
+                new ActionRunCoroutine(_ => RotationManager.Rotation.Combat())));
 
         #endregion Behavior Composites
     }
