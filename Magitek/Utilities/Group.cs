@@ -15,24 +15,28 @@ namespace Magitek.Utilities
 {
     public static class Group
     {
+        private static readonly FrameCachedObject<IEnumerable<Character>> _allianceMembers = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.Type == GameObjectType.Pc && r.IsTargetable && r.InLineOfSight()));
+        private static readonly FrameCachedObject<IEnumerable<Character>> _pets = new(() => GameObjectManager.GetObjectsByNPCIds<GameObject>(PetIds).Where(r => r.IsTargetable && r.InLineOfSight() && r.Distance(Core.Me) <= 30).Select(r => r as Character));
+        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _allies = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack && r.InLineOfSight()));
+        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _battleCharacters = new(() => PartyManager.RawMembers.Select(r => r.BattleCharacter).Where(i=> i.InLineOfSight()));
         public static IEnumerable<Character> AllianceMembers
         {
             get
             {
-                return GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.Type == GameObjectType.Pc && r.IsTargetable && r.InLineOfSight());
+                return _allianceMembers.Value;
             }
         }
-
+        
         public static IEnumerable<Character> Pets
         {
             get
             {
-                return GameObjectManager.GetObjectsByNPCIds<GameObject>(PetIds).Where(r => r.IsTargetable && r.InLineOfSight() && r.Distance(Core.Me) <= 30).Select(r => r as Character);
+                return _pets.Value;
             }
         }
 
         private static readonly uint[] PetIds = { 1398, 1399, 1400, 1401, 1402, 1403, 1404, 5478 };
-
+        
         public static void UpdateAllies(Action extensions = null)
         {
             CastableParty.Clear();
@@ -44,11 +48,11 @@ namespace Magitek.Utilities
                 {
                     CastableParty.Add(Core.Me);
 
-                    foreach (var ally in GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack))
+                    foreach (var ally in _allies.Value)
                     {
                         //if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
                         //TODO: This is a temporary fix for wrong PlayerIcon Enum: 15 = Viewing_Cutscene
-                        if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == (PlayerIcon)15)
+                        if (!ally.IsTargetable || ally.Icon == (PlayerIcon)15)
                             continue;
 
                         if (BaseSettings.Instance.PartyMemberAuraHistory)
@@ -61,7 +65,7 @@ namespace Magitek.Utilities
                 }
             }
 
-            foreach (var ally in PartyManager.RawMembers.Select(r => r.BattleCharacter))
+            foreach (var ally in _battleCharacters.Value)
             {
                 if (ally == null)
                     continue;
@@ -73,7 +77,7 @@ namespace Magitek.Utilities
 
                 //if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == PlayerIcon.Viewing_Cutscene)
                 //TODO: This is a temporary fix for wrong PlayerIcon Enum: 15 = Viewing_Cutscene
-                if (!ally.IsTargetable || !ally.InLineOfSight() || ally.Icon == (PlayerIcon)15)
+                if (!ally.IsTargetable || ally.Icon == (PlayerIcon)15)
                     continue;
 
                 if (BaseSettings.Instance.PartyMemberAuraHistory)
