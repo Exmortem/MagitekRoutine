@@ -15,10 +15,10 @@ namespace Magitek.Utilities
 {
     public static class Group
     {
-        private static readonly FrameCachedObject<IEnumerable<Character>> _allianceMembers = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => r.Type == GameObjectType.Pc && r.IsTargetable && r.InLineOfSight()));
-        private static readonly FrameCachedObject<IEnumerable<Character>> _pets = new(() => GameObjectManager.GetObjectsByNPCIds<GameObject>(PetIds).Where(r => r.IsTargetable && r.InLineOfSight() && r.Distance(Core.Me) <= 30).Select(r => r as Character));
-        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _allies = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(r => !r.CanAttack && r.InLineOfSight()));
-        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _battleCharacters = new(() => PartyManager.RawMembers.Select(r => r.BattleCharacter).Where(i=> i.InLineOfSight()));
+        private static readonly FrameCachedObject<IEnumerable<Character>> _allianceMembers = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(i=> i!=null && i.IsValid).Where(r => r.Type == GameObjectType.Pc && r.IsTargetable && r.InLineOfSight()));
+        private static readonly FrameCachedObject<IEnumerable<Character>> _pets = new(() => GameObjectManager.GetObjectsByNPCIds<GameObject>(PetIds).Where(i=> i!=null && i.IsValid).Where(r => r.IsTargetable && r.InLineOfSight() && r.Distance(Core.Me) <= 30).OfType<Character>().Where(i=> i.IsValid));
+        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _allies = new(() => GameObjectManager.GetObjectsOfType<BattleCharacter>().Where(i=> i!=null && i.IsValid).Where(r => r.CanAttack && r.InLineOfSight()));
+        private static readonly FrameCachedObject<IEnumerable<BattleCharacter>> _battleCharacters = new(() => PartyManager.RawMembers.Select(r => r?.BattleCharacter).Where(i=> i!=null && i.IsValid).Where(i=> i.InLineOfSight()));
         public static IEnumerable<Character> AllianceMembers
         {
             get
@@ -67,7 +67,7 @@ namespace Magitek.Utilities
 
             foreach (var ally in _battleCharacters.Value)
             {
-                if (ally == null)
+                if (ally == null || !ally.IsValid)
                     continue;
 
                 if (BaseSettings.Instance.DebugHealingListsPrintToLog == true)
