@@ -19,7 +19,8 @@ namespace Magitek.Logic.RedMage
         {
             Func<bool> bossPresenceOk = () => !RedMageSettings.Instance.MeleeComboBossesOnly || Combat.Enemies.Any(e => e.IsBoss());
             Func<bool> InMeleeCombo = () => mComboStates.Contains(RdmStateMachine.StateMachine.CurrentState);
-
+            
+            /* Glitchy, needs review
             //Highest priority: Don't show anything if we're not in combat
             CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(100,
@@ -42,9 +43,9 @@ namespace Magitek.Logic.RedMage
                                                 && SmUtil.SyncedLevel >= Spells.Redoublement.LevelAcquired
                                                 && !InMeleeCombo()
                                                 && bossPresenceOk()));
-
+            */
             //Third priority (tie): Melee combo will be ready soon (full combo, manafication)
-            CombatMessageManager.RegisterMessageStrategy(
+            /* CombatMessageManager.RegisterMessageStrategy(
                 new CombatMessageStrategy(300,
                                           "Combo Soon",
                                           () => !WithinManaOf(0, RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
@@ -60,13 +61,13 @@ namespace Magitek.Logic.RedMage
 
             //Third priority (tie): Melee combo will be ready soon (no redoublement)
             CombatMessageManager.RegisterMessageStrategy(
-                new CombatMessageStrategy(300,
+           new CombatMessageStrategy(300,
                                           "Combo Soon",
                                           () => WithinManaOf(6, 35)
-                                                && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired
+                                               && SmUtil.SyncedLevel < Spells.Redoublement.LevelAcquired
                                                 && SmUtil.SyncedLevel >= Spells.Zwerchhau.LevelAcquired
                                                 && !InMeleeCombo()
-                                                && bossPresenceOk()));
+                                                && bossPresenceOk())); */
         }
     }
 }

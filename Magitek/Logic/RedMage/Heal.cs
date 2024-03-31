@@ -6,6 +6,9 @@ using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 using Auras = Magitek.Utilities.Auras;
+using static Magitek.Logic.RedMage.Utility;
+using System.Windows;
+using ff14bot.Managers;
 
 namespace Magitek.Logic.RedMage
 {
@@ -19,12 +22,21 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Vercure)
                 return false;
 
-            if (Core.Me.ClassLevel < 54)
+            if (Core.Me.ClassLevel < Spells.Vercure.LevelAcquired)
                 return false;
 
-            if (RedMageSettings.Instance.VercureOnlyDualCast)
+            if (!RedMageSettings.Instance.VercureDualcast)
             {
                 if (Core.Me.HasAura(Auras.Dualcast))
+                    return false;
+            }
+
+            if (!Core.Me.HasAura(Auras.Dualcast) && MovementManager.IsMoving)
+                return false;
+
+            if (!RedMageSettings.Instance.VercureLongCast)
+            {
+                if (!Core.Me.HasAura(Auras.Dualcast) && !(Core.Me.HasAura(Auras.Swiftcast)))
                     return false;
             }
 
@@ -33,11 +45,21 @@ namespace Magitek.Logic.RedMage
                 if (!Core.Me.InCombat)
                     return false;
 
+                if (!RedMageSettings.Instance.VercureInCombo)
+                {
+                    if (InCombo())
+                        return false;
+                    if (InAoeCombo())
+                        return false;
+                    if (InComboEnder())
+                        return false;
+                }
+
                 var vercureTarget = Group.CastableAlliesWithin30.FirstOrDefault(CanVercure);
 
                 if (vercureTarget == null)
                     return false;
-
+                                
                 return await Spells.Vercure.Cast(vercureTarget);
 
                 bool CanVercure(GameObject unit)
@@ -89,6 +111,15 @@ namespace Magitek.Logic.RedMage
 
             if (!Core.Me.InCombat)
                 return false;
+
+            if (!RedMageSettings.Instance.VerraiseInCombo)
+            {
+                if (InCombo())
+                    return false;
+                if (InAoeCombo())
+                    return false;
+
+            }
 
             var deadList = Group.DeadAllies.Where(CanVerraise).OrderByDescending(r => r.GetResurrectionWeight());
             var verraiseTarget = deadList.FirstOrDefault();

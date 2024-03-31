@@ -33,7 +33,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
                 Core.Me.Face(target);
 
             return await DoPvPCombo(spell, spellPvpCombo, target);
@@ -93,7 +93,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
                 Core.Me.Face(target);
 
             return await DoAction(spell, target);
@@ -114,7 +114,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
                 Core.Me.Face(target);
 
             return await DoAction(spell, target, aura, needAura, useRefreshTime, refreshTime);
@@ -196,9 +196,7 @@ namespace Magitek.Extensions
                 {
                     return false;
                 }
-
-                // See PR https://github.com/Exmortem/MagitekRoutine/pull/396
-                // we don't care if the bot is moving in Autonomous mode, so we should always return true
+                                
                 return true;
             }
 

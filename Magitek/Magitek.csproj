@@ -254,6 +254,7 @@
     <Compile Include="Logic\RedMage\Pvp.cs" />
     <Compile Include="Logic\RedMage\RdmStateMachine.cs" />
     <Compile Include="Logic\RedMage\SingleTarget.cs" />
+    <Compile Include="Logic\RedMage\Utility.cs" />
     <Compile Include="Logic\Roles\Healer.cs" />
     <Compile Include="Logic\Sage\AoE.cs" />
     <Compile Include="Logic\Sage\Buff.cs" />
@@ -1564,15 +1565,16 @@
   <ItemGroup>
     <PackageReference Include="ConfigureAwait.Fody">
       <Version>3.3.2</Version>
+	  <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.8.0</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NamedPipeWrapper">
@@ -1580,15 +1582,16 @@
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
       <Version>4.1.0</Version>
+	  <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="RebornBuddy.Assemblies">
-      <Version>1.0.591</Version>
+      <Version>1.0.600</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http.Json">
-      <Version>7.0.1</Version>
+      <Version>8.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
-      <Version>7.0.3</Version>
+      <Version>8.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

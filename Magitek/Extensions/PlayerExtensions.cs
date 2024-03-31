@@ -74,7 +74,7 @@ namespace Magitek.Extensions
 
         public static int EnemiesInCone(this LocalPlayer player, float maxdistance)
         {
-            return Combat.Enemies.Count(r => r.Distance(Core.Me) <= maxdistance + r.CombatReach && r.InView());
+            return Combat.Enemies.Count(r => r.Distance(Core.Me) <= maxdistance + r.CombatReach && r.RadiansFromPlayerHeading() < 0.9599f);
         }
     }
 }

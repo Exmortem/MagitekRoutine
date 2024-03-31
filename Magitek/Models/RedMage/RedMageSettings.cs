@@ -113,12 +113,16 @@ namespace Magitek.Models.RedMage
         public float LucidDreamingManaPercent { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool Vercure { get; set; }
 
         [Setting]
         [DefaultValue(true)]
-        public bool VercureOnlyDualCast { get; set; }
+        public bool VercureDualcast { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        public bool VercureLongCast { get; set; }
 
         [Setting]
         [DefaultValue(60.0f)]
@@ -141,6 +145,10 @@ namespace Magitek.Models.RedMage
         public bool VercureSelf { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool VercureInCombo { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool Verraise { get; set; }
 
@@ -157,6 +165,10 @@ namespace Magitek.Models.RedMage
         public bool VerraiseDps { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        public bool VerraiseInCombo { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool SwiftcastVerthunderVeraero { get; set; }
 
@@ -167,6 +179,14 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(false)]
         public bool MagickBarrier { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool ForceMagickBarrier { get; set; }
+
+        [Setting]
+        [DefaultValue(0)]
+        public int SaveCorpsACorpsCharges { get; set; }
 
         [Setting]
         [DefaultValue(RedMageOpenerStrategy.AlwaysUseOpener)]
