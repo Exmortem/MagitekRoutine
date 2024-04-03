@@ -16,7 +16,11 @@
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Acceleration" IsChecked="{Binding RedMageSettings.Acceleration, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <CheckBox Margin="0,0,0,0" Content="Acceleration" IsChecked="{Binding RedMageSettings.Acceleration, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Margin="25,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Save" />
+                <controls:NumericSmall Margin="0,0,0,0" MaxValue="2" MinValue="0" Value="{Binding RedMageSettings.SaveAccelChargesForMovement, Mode=TwoWay}" />
+                <TextBlock FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Charges for Movement" />
+
             </StackPanel>
         </controls:SettingsBlock>
 
@@ -27,26 +31,31 @@
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
-            <StackPanel Margin="5">
+            <StackPanel Margin="5" Orientation="Horizontal" >
+
                 <CheckBox Content="Manafication" IsChecked="{Binding RedMageSettings.Manafication, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-
-                <!--<StackPanel Margin="0,4" Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When Black And White Mana Is At Least " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.ManaficationMinimumBlackAndWhiteMana, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="When Black And White Mana Is At Most " />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.ManaficationMaximumBlackAndWhiteMana, Mode=TwoWay}" />
-                </StackPanel>-->
+                <TextBlock Margin="25,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Hold up to" />
+                <controls:NumericSmall MaxValue="120" MinValue="0" Value="{Binding RedMageSettings.HoldAccelForEmboldenSeconds, Mode=TwoWay}" Width="30"/>
+                <TextBlock Margin="0,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Seconds for Embolden" />
+            </StackPanel>
+        </controls:SettingsBlock>
+        
+        <controls:SettingsBlock Background="{DynamicResource ClassSelectorBackground}">
+            <StackPanel Margin="0,0" Orientation="Horizontal">
+                <TextBlock Margin="25,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Use When Wh or Bl Mana Is At Least" TextAlignment="Right"/>
+                <controls:NumericSmall MaxValue="50" MinValue="0" Value="{Binding RedMageSettings.ManaficationMinimumBlackAndWhiteMana, Mode=TwoWay}" />
+                <TextBlock Margin="0,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="and Wh or Bl Mana Is At Most" TextAlignment="Right" />
+                    <controls:NumericSmall MaxValue="50" MinValue="0" Value="{Binding RedMageSettings.ManaficationMaximumBlackAndWhiteMana, Mode=TwoWay}" />
+        
             </StackPanel> 
         </controls:SettingsBlock>
 
         <controls:SettingsBlock Margin="0,5" Background="{DynamicResource ClassSelectorBackground}">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <CheckBox Content="Lucid Dreaming When Below " IsChecked="{Binding RedMageSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.LucidDreamingManaPercent, Mode=TwoWay}" />
-                <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Mana Percent" />
+                <CheckBox Margin="0,0,0,0" Content="Lucid Dreaming" IsChecked="{Binding RedMageSettings.LucidDreaming, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <TextBlock Margin="15,0,0,0" FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="When Below" />
+                <controls:NumericSmall Margin="0,0,0,0" MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.LucidDreamingManaPercent, Mode=TwoWay}" Width="30" />
+                <TextBlock FontSize="12" Style="{DynamicResource TextBlockDefault}" Text="Percent Mana" />
             </StackPanel>
         </controls:SettingsBlock>
 
