@@ -3,10 +3,9 @@ using ff14bot.Managers;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using Auras = Magitek.Utilities.Auras;
 using System.Linq;
 using System.Threading.Tasks;
-using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.RedMage
 {
@@ -17,13 +16,13 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> VerstonePvp()
         {
 
-            if(!Spells.VerstonePvp.CanCast())
+            if (!Spells.VerstonePvp.CanCast())
                 return false;
 
             if (MovementManager.IsMoving)
                 return false;
 
-            if(Core.Me.HasAura(Auras.Guard))
+            if (Core.Me.HasAura(Auras.Guard))
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())
@@ -41,7 +40,7 @@ namespace Magitek.Logic.RedMage
             if (!RedMageSettings.Instance.Pvp_Corpsacorps)
                 return false;
 
-            if(OutsideComboRange)
+            if (OutsideComboRange)
                 return false;
 
             if (!Core.Me.CurrentTarget.ValidAttackUnit() || !Core.Me.CurrentTarget.InLineOfSight())

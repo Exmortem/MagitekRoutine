@@ -1,15 +1,11 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
-using Magitek.Enumerations;
-using Magitek.Extensions;
-using Magitek.Models.Account;
+using Grpc.Core;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using System;
 using System.Linq;
-using System.Threading.Tasks;
-using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
+using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
 
 namespace Magitek.Logic.RedMage
 {
@@ -36,13 +32,13 @@ namespace Magitek.Logic.RedMage
                 || Casting.LastSpell == Spells.Zwerchhau)
                     return true;
             }
-            if (Core.Me.ClassLevel >= 68)
+            /* if (Core.Me.ClassLevel >= 68)
             {
                 if (Casting.LastSpell == Spells.Riposte
                 || Casting.LastSpell == Spells.Zwerchhau
                 || Casting.LastSpell == Spells.Redoublement)
                     return true;
-            }
+            } */ 
 
             return false;
         }
@@ -55,21 +51,18 @@ namespace Magitek.Logic.RedMage
         public static bool InAoeCombo()
         {
 
-            if (Core.Me.ClassLevel < 52)
+            if (Core.Me.ClassLevel < Spells.Moulinet.LevelAcquired)
                 return false;
 
             if (!RedMageSettings.Instance.UseAoe)
                 return false;
 
-            if (WhiteMana < 20
-                || BlackMana < 20)
+            if (!RedMageRoutine.CanContinueComboAfter(Spells.Moulinet))            
                 return false;
 
-            var MoulinetCount = Casting.SpellCastHistory.Take(3).Count(x => x.Spell == Spells.Moulinet);
-
-            if (MoulinetCount == 0 || MoulinetCount >= 3)
+            if (ManaStacks() == 3)
                 return false;
-
+                        
             return true;
         }
 

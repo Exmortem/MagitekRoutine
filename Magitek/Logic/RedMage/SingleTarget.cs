@@ -1,16 +1,15 @@
 ﻿using ff14bot;
 using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using System;
 using System.Linq;
-using Magitek.Models.RedMage;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 using static Magitek.Logic.RedMage.Utility;
-using Magitek.Models.QueueSpell;
-using ff14bot.Objects;
+using Auras = Magitek.Utilities.Auras;
+using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
 
 namespace Magitek.Logic.RedMage
 {
@@ -21,24 +20,24 @@ namespace Magitek.Logic.RedMage
 
             if (Core.Me.ClassLevel == 1)
                 return await Spells.Riposte.Cast(Core.Me.CurrentTarget);
-            
+
             if (!RedMageSettings.Instance.UseMelee)
                 return false;
-
-            if (InAoeCombo())
-                return false;
-
+                        
             if (Core.Me.HasAura(Auras.Swiftcast)
                 || Core.Me.HasAura(Auras.Dualcast)
                 || Core.Me.HasAura(Auras.Acceleration))
-               return false;
+                return false;
 
             if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
                 && Spells.Embolden.Cooldown.Seconds <= 10)
                 return false;
-                        
+
+            if (InAoeCombo() || Core.Me.EnemiesInCone(8) >= RedMageSettings.Instance.AoeEnemies)
+                return false;
+
             if (Core.Me.ClassLevel >= 10)
-            
+
             {
 
                 if (BlackMana < 20
@@ -60,7 +59,7 @@ namespace Magitek.Logic.RedMage
             if (Core.Me.ClassLevel >= 50)
 
             {
-                                 
+
                 if (BlackMana < 50 || WhiteMana < 50)
                     return false;
 
@@ -82,7 +81,7 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana >= 15 && WhiteMana >= 15)
             {
-                if (Casting.LastSpell == Spells.Riposte)
+                if (RedMageRoutine.CanContinueComboAfter(Spells.Riposte))
                     return await Spells.Zwerchhau.Cast(Core.Me.CurrentTarget);
 
                 return false;
@@ -102,9 +101,9 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana >= 15 && WhiteMana >= 15)
             {
-                if (Casting.LastSpell == Spells.Zwerchhau)
+                if (RedMageRoutine.CanContinueComboAfter(Spells.Zwerchhau))
                     return await Spells.Redoublement.Cast(Core.Me.CurrentTarget);
-                
+
                 return false;
             }
             return false;
@@ -125,13 +124,16 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
 
+            if (InComboEnder())
+                return false;
+            
             if (InAoeCombo())
                 return false;
 
             if (InCombo())
                 return false;
 
-            if (BlackMana < 80 || WhiteMana < 80)
+            if (BlackMana < 65 || WhiteMana < 65)
                 return false;
 
             return await Spells.Reprise.Cast(Core.Me.CurrentTarget);
@@ -140,7 +142,7 @@ namespace Magitek.Logic.RedMage
         {
             if (Core.Me.ClassLevel < Spells.Jolt.LevelAcquired)
                 return false;
-                    
+
             if (Core.Me.HasAura(Auras.Swiftcast))
                 return false;
 
@@ -148,13 +150,11 @@ namespace Magitek.Logic.RedMage
                 if (MovementManager.IsMoving && !Core.Me.HasAura(Auras.Dualcast))
                     return false;
 
-            if (Core.Me.HasAura(Auras.Dualcast)
-                && Core.Me.ClassLevel >= 4)
+            if (Core.Me.ClassLevel >= 4 && (MovementManager.IsMoving || Core.Me.HasAura(Auras.Dualcast)))
                 return false;
-
             if (Core.Me.HasAura(Auras.Acceleration))
                 return false;
-            
+
             if (InAoeCombo())
                 return false;
 
@@ -176,12 +176,12 @@ namespace Magitek.Logic.RedMage
             {
                 if (Core.Me.ClassLevel >= 90)
                 {
-                   if (Casting.SpellCastHistory.Take(6).Count(s => s.Spell == Spells.Scorch || s.Spell == Spells.Jolt || s.Spell == Spells.Resolution) < 2)
+                    if (Casting.SpellCastHistory.Take(6).Count(s => s.Spell == Spells.Scorch || s.Spell == Spells.Jolt || s.Spell == Spells.Resolution) < 2)
                         return await Spells.Scorch.Cast(Core.Me.CurrentTarget);
                 }
                 if (!Casting.SpellCastHistory.Take(6).Any(s => s.Spell == Spells.Scorch || s.Spell == Spells.Jolt || s.Spell == Spells.Resolution))
                     return await Spells.Scorch.Cast(Core.Me.CurrentTarget);
-            }        
+            }
             return false;
         }
         public static async Task<bool> Fleche()
@@ -193,23 +193,17 @@ namespace Magitek.Logic.RedMage
                 return false;
 
             if (Spells.Fleche.Cooldown != TimeSpan.Zero)
-                return false;
-
-            if (InAoeCombo())
-                return false;
-
-            if (InCombo())
-                return false;
+                return false;        
 
             return await Spells.Fleche.Cast(Core.Me.CurrentTarget);
         }
-        
+
         public static async Task<bool> Verflare()
         {
             if (Core.Me.ClassLevel < Spells.Verflare.LevelAcquired)
                 return false;
-                        
-         
+
+
             if (!ActionManager.CanCast(Spells.Verflare, Core.Me.CurrentTarget))
                 return false;
 
@@ -219,19 +213,15 @@ namespace Magitek.Logic.RedMage
             if (BlackMana > WhiteMana
                 && Core.Me.ClassLevel >= Spells.Verholy.LevelAcquired)
                 return false;
-                        
-            return await Spells.Verflare.Cast(Core.Me.CurrentTarget);     
+
+            return await Spells.Verflare.Cast(Core.Me.CurrentTarget);
 
         }
         public static async Task<bool> Verholy()
         {
             if (Core.Me.ClassLevel < Spells.Verholy.LevelAcquired)
                 return false;
-
-            if (InAoeCombo()
-                && Casting.LastSpell != Spells.Moulinet)
-                return false;
-            
+                        
             if (!ActionManager.CanCast(Spells.Verholy, Core.Me.CurrentTarget))
                 return false;
 
@@ -241,7 +231,7 @@ namespace Magitek.Logic.RedMage
             if (WhiteMana > BlackMana)
                 return false;
 
-            return await Spells.Verholy.Cast(Core.Me.CurrentTarget); 
+            return await Spells.Verholy.Cast(Core.Me.CurrentTarget);
 
         }
         public static async Task<bool> Verthunder()
@@ -292,7 +282,7 @@ namespace Magitek.Logic.RedMage
                     return false;
                 else if (Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.VerfireReady).TimespanLeft.TotalMilliseconds < Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.VerstoneReady).TimespanLeft.TotalMilliseconds)
                     return false;
-
+             
             if (InAoeCombo())
                 return false;
 
@@ -330,12 +320,15 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Swiftcast))
                 return false;
 
+            if (InComboEnder())
+                return false;
+
             if (InAoeCombo())
                 return false;
 
             if (InCombo())
                 return false;
-            
+
             if ((WhiteMana <= BlackMana) || Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.VerstoneReady).TimespanLeft.TotalMilliseconds < 4000)
                 return await Spells.Verstone.Cast(Core.Me.CurrentTarget);
 
@@ -351,9 +344,12 @@ namespace Magitek.Logic.RedMage
 
             if (MovementManager.IsMoving)
                 return false;
-             
+
             if (Core.Me.HasAura(Auras.Dualcast)
                 || Core.Me.HasAura(Auras.Swiftcast))
+                return false;
+
+            if (InComboEnder())
                 return false;
 
             if (InAoeCombo())
@@ -361,7 +357,7 @@ namespace Magitek.Logic.RedMage
 
             if (InCombo())
                 return false;
-                        
+
             if (BlackMana <= WhiteMana || Core.Me.Auras.FirstOrDefault(x => x.Id == Auras.VerfireReady).TimespanLeft.TotalMilliseconds < 4000)
                 return await Spells.Verfire.Cast(Core.Me.CurrentTarget);
 
@@ -387,9 +383,9 @@ namespace Magitek.Logic.RedMage
             if (InCombo())
                 return false;
 
-            if (Core.Me.CurrentTarget.Distance() >= (3 + Core.Me.CombatReach)
+            if (Core.Me.CurrentTarget.Distance() >= (3 + Core.Me.CurrentTarget.CombatReach)
                 && RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly)
-                return false;          
+                return false;
 
             if (Spells.CorpsACorps.Charges <= 0 + RedMageSettings.Instance.SaveCorpsACorpsCharges)
                 return false;
@@ -418,7 +414,7 @@ namespace Magitek.Logic.RedMage
                 return await Spells.Displacement.Cast(Core.Me.CurrentTarget);
 
 
-            return false;            
+            return false;
         }
         public static async Task<bool> Engagement()
         {

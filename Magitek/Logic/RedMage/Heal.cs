@@ -1,14 +1,13 @@
 ﻿using ff14bot;
+using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
-using Auras = Magitek.Utilities.Auras;
 using static Magitek.Logic.RedMage.Utility;
-using System.Windows;
-using ff14bot.Managers;
+using Auras = Magitek.Utilities.Auras;
 
 namespace Magitek.Logic.RedMage
 {
@@ -42,7 +41,7 @@ namespace Magitek.Logic.RedMage
 
             if (Globals.InParty)
             {
-                if (!Core.Me.InCombat)
+                if (!Core.Me.InCombat && !RedMageSettings.Instance.VercureOutOfCombat)
                     return false;
 
                 if (!RedMageSettings.Instance.VercureInCombo)
@@ -59,7 +58,7 @@ namespace Magitek.Logic.RedMage
 
                 if (vercureTarget == null)
                     return false;
-                                
+
                 return await Spells.Vercure.Cast(vercureTarget);
 
                 bool CanVercure(GameObject unit)

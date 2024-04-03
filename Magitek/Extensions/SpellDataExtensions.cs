@@ -1,12 +1,10 @@
 ﻿using Buddy.Coroutines;
 using ff14bot;
-using ff14bot.Helpers;
 using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Models.Account;
 using Magitek.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -33,7 +31,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
                 Core.Me.Face(target);
 
             return await DoPvPCombo(spell, spellPvpCombo, target);
@@ -93,7 +91,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
                 Core.Me.Face(target);
 
             return await DoAction(spell, target);
@@ -114,7 +112,7 @@ namespace Magitek.Extensions
             if (!GameSettingsManager.FaceTargetOnAction && BaseSettings.Instance.AssumeFaceTargetOnAction)
                 GameSettingsManager.FaceTargetOnAction = true;
 
-            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement) && (!MovementManager.IsMoving || Convert.ToInt32(spell.AdjustedCastTime) == 0))
+            if (BotManager.Current.IsAutonomous && !GameSettingsManager.FaceTargetOnAction && !RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && !MovementManager.IsMoving)
                 Core.Me.Face(target);
 
             return await DoAction(spell, target, aura, needAura, useRefreshTime, refreshTime);
@@ -196,7 +194,7 @@ namespace Magitek.Extensions
                 {
                     return false;
                 }
-                                
+
                 return true;
             }
 

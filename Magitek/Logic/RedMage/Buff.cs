@@ -1,14 +1,14 @@
 ﻿using ff14bot;
-using Magitek.Models.RedMage;
-using Magitek.Utilities;
+using ff14bot.Managers;
 using Magitek.Extensions;
+using Magitek.Models.RedMage;
+using Magitek.Toggles;
+using Magitek.Utilities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 using static Magitek.Logic.RedMage.Utility;
-using ff14bot.Managers;
-using Magitek.Toggles;
 
 
 namespace Magitek.Logic.RedMage
@@ -32,8 +32,8 @@ namespace Magitek.Logic.RedMage
                 || Core.Me.HasAura(Auras.Acceleration))
                 return false;
 
-            if (!MovementManager.IsMoving)
-                return false;        
+            if (!MovementManager.IsMoving && Spells.Acceleration.Charges <= RedMageSettings.Instance.SaveAccelChargesForMovement)
+                return false;
 
             if (InComboEnder())
                 return false;
@@ -80,18 +80,23 @@ namespace Magitek.Logic.RedMage
 
             if (InAoeCombo())
                 return false;
-                       
+
             if (InCombo())
                 return false;
 
             if (InComboEnder())
                 return false;
-                        
+
             if (Spells.Embolden.Cooldown.TotalMilliseconds <= 13000) //trying a little more leeway
                 return false;
 
-            if (WhiteMana <= 50
-            && BlackMana <= 50)
+
+
+            if (WhiteMana >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+                && WhiteMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana
+                &&
+                BlackMana >= RedMageSettings.Instance.ManaficationMinimumBlackAndWhiteMana
+                && BlackMana <= RedMageSettings.Instance.ManaficationMaximumBlackAndWhiteMana)
                 return await Spells.Manafication.Cast(Core.Me.CurrentTarget);
 
             return false;
@@ -99,7 +104,7 @@ namespace Magitek.Logic.RedMage
         public static async Task<bool> MagickBarrier()
         {
             if (!RedMageSettings.Instance.MagickBarrier)
-               return false;
+                return false;
 
             if (Core.Me.ClassLevel < Spells.MagickBarrier.LevelAcquired)
                 return false;
@@ -161,10 +166,7 @@ namespace Magitek.Logic.RedMage
 
             if (InCombo())
                 return false;
-
-            if (!MovementManager.IsMoving)
-                return false;
-
+                        
             if (Core.Me.HasAura(Auras.Dualcast)
                  || Core.Me.HasAura(Auras.Acceleration))
                 return false;
@@ -175,6 +177,6 @@ namespace Magitek.Logic.RedMage
 
             return await Spells.Swiftcast.Cast(Core.Me.CurrentTarget);
         }
-        
+
     }
 }

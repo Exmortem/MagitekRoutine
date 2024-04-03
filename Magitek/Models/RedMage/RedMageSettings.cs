@@ -1,6 +1,4 @@
-using ff14bot.Helpers;
 using Magitek.Enumerations;
-using Magitek.Logic.Roles;
 using Magitek.Models.Roles;
 using PropertyChanged;
 using System;
@@ -33,7 +31,7 @@ namespace Magitek.Models.RedMage
         public bool Scatter { get; set; }
 
         [Setting]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool SwiftcastScatter { get; set; }
 
         [Setting]
@@ -73,6 +71,10 @@ namespace Magitek.Models.RedMage
         public int EmboldenFinisherPercent { get; set; }
 
         [Setting]
+        [DefaultValue(13)]
+        public int HoldAccelForEmboldenSeconds { get; set; }
+
+        [Setting]
         [DefaultValue(true)]
         public bool UseContreSixte { get; set; }
 
@@ -83,10 +85,6 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(true)]
         public bool Embolden { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        public bool EmboldenOnlyWithAnotherBuff { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -115,6 +113,10 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(false)]
         public bool Vercure { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        public bool VercureOutOfCombat { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -187,6 +189,10 @@ namespace Magitek.Models.RedMage
         [Setting]
         [DefaultValue(0)]
         public int SaveCorpsACorpsCharges { get; set; }
+
+        [Setting]
+        [DefaultValue(1)]
+        public int SaveAccelChargesForMovement { get; set; }
 
         [Setting]
         [DefaultValue(RedMageOpenerStrategy.AlwaysUseOpener)]

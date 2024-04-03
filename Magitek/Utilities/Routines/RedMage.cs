@@ -54,7 +54,7 @@ namespace Magitek.Utilities.Routines
         //If the user has selected to use Corps-A-Corps only in melee range, make sure we're close enough
         public static bool UseCorpsACorps => RedMageSettings.Instance.UseMelee
                                              && RedMageSettings.Instance.CorpsACorps
-                                             && !(BotManager.Current.IsAutonomous && RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))                                          
+                                             && !(BotManager.Current.IsAutonomous && RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
                                              && (!RedMageSettings.Instance.CorpsACorpsInMeleeRangeOnly
                                                  || (Core.Me.CurrentTarget != null
                                                      && Core.Me.CurrentTarget.Distance(Core.Me) <= 2 + Core.Me.CurrentTarget.CombatReach));
@@ -301,5 +301,16 @@ namespace Magitek.Utilities.Routines
         public static bool MeHasAnyAura(List<uint> auras) => Core.Me.HasAnyAura(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
         public static bool MeHasAllAuras(List<uint> auras) => auras.Any(a => SmUtil.SyncedLevel < AuraLevelsAcquiredDict[a]) ? false : Core.Me.HasAllAuras(auras.Where(a => SmUtil.SyncedLevel >= AuraLevelsAcquiredDict[a]).ToList());
         #endregion
+
+        public static bool CanContinueComboAfter(SpellData LastSpellExecuted)
+        {
+            if (ActionManager.ComboTimeLeft <= 0)
+                return false;
+
+            if (ActionManager.LastSpell.Id != LastSpellExecuted.Id)
+                return false;
+
+            return true;
+        }
     }
 }

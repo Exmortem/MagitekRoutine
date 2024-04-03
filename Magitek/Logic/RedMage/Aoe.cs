@@ -1,14 +1,14 @@
 ﻿using ff14bot;
+using ff14bot.Managers;
+using Magitek.Extensions;
+using Magitek.Logic.Roles;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
-using Magitek.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Magitek.Logic.Roles;
 using static ff14bot.Managers.ActionResourceManager.RedMage;
 using static Magitek.Logic.RedMage.Utility;
-using ff14bot.Managers;
 
 namespace Magitek.Logic.RedMage
 {
@@ -18,25 +18,30 @@ namespace Magitek.Logic.RedMage
         {
             if (!RedMageSettings.Instance.UseAoe)
                 return false;
-                        
+
             if (!RedMageSettings.Instance.Moulinet)
                 return false;
 
             if (Core.Me.ClassLevel < Spells.Moulinet.LevelAcquired)
                 return false;
 
-            //If embolden coming off cd soon, wait
-            if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
-                && Spells.Embolden.Cooldown.Seconds <= 10)
+            if (!InAoeCombo())
+            {
+                if (Core.Me.ClassLevel >= Spells.Embolden.LevelAcquired
+                    && Spells.Embolden.Cooldown.Seconds <= 10)
+                    return false;
+
+                if (Core.Me.EnemiesInCone(8) < RedMageSettings.Instance.AoeEnemies)
+                    return false;
+
+                if (WhiteMana < 60 || BlackMana < 60)
+                    return false;
+            }
+        
+            if (WhiteMana < 20 || BlackMana < 20)
                 return false;
-
-            bool Combo = InAoeCombo();
-
-            if (!Combo && Core.Me.EnemiesInCone(8 + Core.Me.CombatReach) < RedMageSettings.Instance.AoeEnemies)
-                return false;
-
-            //Hopefully cast 3 moulinet in a row so we can combo
-            if (!Combo && (WhiteMana < 60 || BlackMana < 60))
+            
+            if (ManaStacks() == 3)
                 return false;
 
             return await Spells.Moulinet.Cast(Core.Me.CurrentTarget);
@@ -54,20 +59,14 @@ namespace Magitek.Logic.RedMage
 
             if (Spells.ContreSixte.Cooldown != TimeSpan.Zero)
                 return false;
-
-            if (InAoeCombo())
-                return false;
-
-            if (InCombo())
-                return false;
-
+            
             return await Spells.ContreSixte.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Scatter()
         {
             if (!RedMageSettings.Instance.Scatter)
                 return false;
-                        
+
             if (Core.Me.ClassLevel < Spells.Scatter.LevelAcquired)
                 return false;
 
@@ -100,7 +99,7 @@ namespace Magitek.Logic.RedMage
 
             if (InCombo())
                 return false;
-
+             
             if (Core.Me.HasAura(Auras.Dualcast))
                 return await Spells.Impact.Cast(Core.Me.CurrentTarget);
 
@@ -137,7 +136,7 @@ namespace Magitek.Logic.RedMage
 
             if (BlackMana > WhiteMana)
                 return false;
-            
+
             return await Spells.Verthunder2.Cast(Core.Me.CurrentTarget);
         }
         public static async Task<bool> Veraero2()
@@ -167,11 +166,11 @@ namespace Magitek.Logic.RedMage
 
             return await Spells.Veraero2.Cast(Core.Me.CurrentTarget);
         }
-        
-            /**********************************************************************************************
-            *                              Limit Break
-            * ********************************************************************************************/
-            public static bool ForceLimitBreak()
+
+        /**********************************************************************************************
+        *                              Limit Break
+        * ********************************************************************************************/
+        public static bool ForceLimitBreak()
         {
             return MagicDps.ForceLimitBreak(Spells.Skyshard, Spells.Starstorm, Spells.Meteor, Spells.Blizzard);
         }
