@@ -12,12 +12,16 @@ namespace Magitek.Utilities
 {
     internal static class Movement
     {
+
         public static void NavigateToUnitLos(GameObject unit, float distance)
         {
             if (!BaseSettings.Instance.MagitekMovement)
                 return;
 
             if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Movement))
+                return;
+
+            if (RoutineManager.IsAnyDisallowed(CapabilityFlags.Facing) && MovementManager.IsMoving)
                 return;
 
             if (unit == null)
@@ -34,7 +38,7 @@ namespace Magitek.Utilities
                 Navigator.MoveTo(new MoveToParameters(unit.Location));
             }
 
-            if (Core.Me.Distance(Core.Me.CurrentTarget.Location) <= distance && unit.InView() && unit.InLineOfSight())
+            if (Core.Me.Distance(unit.Location) <= distance && unit.InView() && unit.InLineOfSight())
             {
                 if (MovementManager.IsMoving)
                 {

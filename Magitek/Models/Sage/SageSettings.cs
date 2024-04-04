@@ -567,6 +567,10 @@ namespace Magitek.Models.Sage
         [DefaultValue(60.0f)]
         public float PneumaHpPercent { get; set; }
 
+        [Setting]
+        [DefaultValue(3)]
+        public float PneumaNeedHealing { get; set; }
+
         #endregion
 
         #region Dispels

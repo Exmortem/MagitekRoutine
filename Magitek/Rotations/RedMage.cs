@@ -9,8 +9,10 @@ using Magitek.Models.BlackMage;
 using Magitek.Models.RedMage;
 using Magitek.Utilities;
 using RedMageRoutine = Magitek.Utilities.Routines.RedMage;
+using static Magitek.Logic.RedMage.Utility;
 using System.Linq;
 using System.Threading.Tasks;
+using Buddy.Coroutines;
 
 namespace Magitek.Rotations
 {
@@ -43,19 +45,23 @@ namespace Magitek.Rotations
 
         public static async Task<bool> Pull()
         {
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (Core.Me.HasTarget)
-                {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, (Core.Me.ClassLevel < 2 ? 3 : 20) + Core.Me.CurrentTarget.CombatReach);
-                }
-            }
-
             if (await Casting.TrackSpellCast())
                 return true;
 
             await Casting.CheckForSuccessfulCast();
 
+            if (BotManager.Current.IsAutonomous)
+            {
+                if (Core.Me.HasTarget)
+                {
+                    // attempt to move to melee if in combo and we got out of range somehow
+
+                    if (Core.Me.ClassLevel < 2 || ShouldApproachForCombo())
+                        Movement.NavigateToUnitLos(Core.Me.CurrentTarget, Core.Me.CombatReach + Core.Me.CurrentTarget.CombatReach);
+                    
+                    else Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
+                }
+            }
             return await Combat();
         }
 
@@ -79,19 +85,26 @@ namespace Magitek.Rotations
             if (BaseSettings.Instance.ActivePvpCombatRoutine)
                 return await PvP();
 
-            if (BotManager.Current.IsAutonomous)
-            {
-                if (Core.Me.HasTarget)
-                {
-                    Movement.NavigateToUnitLos(Core.Me.CurrentTarget, (Core.Me.ClassLevel < 2 ? 3 : 20) + Core.Me.CurrentTarget.CombatReach);
-                }
-            }
-
             if (!Core.Me.HasTarget || !Core.Me.CurrentTarget.ThoroughCanAttack())
                 return false;
-
+                       
             if (Core.Me.CurrentTarget.HasAnyAura(Auras.Invincibility))
                 return false;
+
+            if (BotManager.Current.IsAutonomous)
+            {
+
+                if (BaseSettings.Instance.MagitekMovement)
+                {
+                    // attempt to move to melee if in combo and we got out of range somehow
+
+                    if (Core.Me.ClassLevel < 2 || ShouldApproachForCombo())
+                        Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 3 + Core.Me.CurrentTarget.CombatReach);
+
+                    else Movement.NavigateToUnitLos(Core.Me.CurrentTarget, 20 + Core.Me.CurrentTarget.CombatReach);
+
+                }
+            }
 
             if (await CustomOpenerLogic.Opener())
                 return true;
@@ -102,6 +115,7 @@ namespace Magitek.Rotations
             if (RedMageRoutine.GlobalCooldown.CanWeave())
             {
                 //Buffs
+                if (await Buff.MagickBarrier()) return true;
                 if (await Buff.Acceleration()) return true;
                 if (await Buff.Embolden()) return true;
                 if (await Buff.Manafication()) return true;
@@ -117,33 +131,37 @@ namespace Magitek.Rotations
                 if (await SingleTarget.Displacement()) return true;
                 if (await SingleTarget.CorpsACorps()) return true;
 
-                //TODO: implement this at some point
-                //if (await Buff.MagickBarrier()) return true;
-            }                
-
-            //Melee
-            if (await SingleTarget.Riposte()) return true;
-            if (await SingleTarget.Zwerchhau()) return true;
-            if (await SingleTarget.Redoublement()) return true;
-            if (await SingleTarget.Reprise()) return true;
-            
-            if (RedMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(10).Count() >= RedMageSettings.Instance.AoeEnemies)
-            {
-                if (await Aoe.Veraero2()) return true;
-                if (await Aoe.Verthunder2()) return true;
-                if (await Aoe.Moulinet()) return true;
-                if (await Aoe.Impact()) return true;
-                if (await Aoe.Scatter()) return true;                
             }
-            if (await SingleTarget.Verstone()) return true;
-            if (await SingleTarget.Verthunder()) return true;
-            if (await SingleTarget.Verfire()) return true;            
-            if (await SingleTarget.Veraero()) return true;
+
+            //Combo
+            if (await SingleTarget.ScorchResolutionCombo()) return true;
+            if (await Aoe.Moulinet()) return true;      
+            if (await SingleTarget.Reprise()) return true;
+            if (await SingleTarget.Redoublement()) return true;
+            if (await SingleTarget.Zwerchhau()) return true;
+            if (await SingleTarget.Riposte()) return true;
+
+            //Combo procs
             if (await SingleTarget.Verflare()) return true;
             if (await SingleTarget.Verholy()) return true;
-            if (await SingleTarget.Scorch()) return true;
-            if (await SingleTarget.Resolution ()) return true;
+            
+            //AoE
+            if (RedMageSettings.Instance.UseAoe && Core.Me.CurrentTarget.EnemiesNearby(8).Count() >= RedMageSettings.Instance.AoeEnemies)
+            {
+                
+                if (await Aoe.Impact()) return true;
+                if (await Aoe.Scatter()) return true;
+                if (await Aoe.Veraero2()) return true;
+                if (await Aoe.Verthunder2()) return true;
+                                               
+            }
+            //Single Target
+            if (await SingleTarget.Verfire()) return true;
+            if (await SingleTarget.Verstone()) return true;
+            if (await SingleTarget.Verthunder()) return true;
+            if (await SingleTarget.Veraero()) return true;
             if (await SingleTarget.Jolt()) return true;
+
             return false;
             //return await RdmStateMachine.StateMachine.Pulse();
         }
@@ -188,6 +206,6 @@ namespace Magitek.Rotations
         {
             if (!BaseSettings.Instance.ActivePvpCombatRoutine)
                 CombatMessages.RegisterCombatMessages(RdmStateMachine.StateMachine);
-        }
+        } 
     }
 }

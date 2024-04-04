@@ -11,6 +11,7 @@ namespace Magitek.Models;
 [Serializable]
 public abstract class JsonSettings : INotifyPropertyChanged
 {
+#nullable enable
     private readonly object _lock = new();
     private bool _loaded;
     public static string CharacterSettingsDirectory { get; } = ff14bot.Helpers.JsonSettings.CharacterSettingsDirectory;
@@ -20,7 +21,7 @@ public abstract class JsonSettings : INotifyPropertyChanged
         FilePath = path;
         LoadFrom(FilePath);
     }
-
+    //
     public static string AssemblyPath => Utils.AssemblyDirectory ?? throw new InvalidOperationException();
 
     [JsonIgnore]

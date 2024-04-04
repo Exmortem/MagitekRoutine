@@ -3,7 +3,6 @@ using ff14bot.Managers;
 using ff14bot.Objects;
 using Magitek.Extensions;
 using Magitek.Models.WhiteMage;
-using Magitek.Models.WhiteMage;
 using Magitek.Toggles;
 using Magitek.Utilities;
 using System.Linq;

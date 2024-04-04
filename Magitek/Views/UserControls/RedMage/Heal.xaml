@@ -18,10 +18,11 @@
             <StackPanel Margin="5">
                 <CheckBox Content="Verraise " IsChecked="{Binding RedMageSettings.Verraise, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
 
-                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                <StackPanel Margin="0,3,0,3" Orientation="Horizontal">
                     <CheckBox Content="On Tanks   " IsChecked="{Binding RedMageSettings.VerraiseTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Healers   " IsChecked="{Binding RedMageSettings.VerraiseHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="DPS " IsChecked="{Binding RedMageSettings.VerraiseDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="DPS                     " IsChecked="{Binding RedMageSettings.VerraiseDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Break Combo" IsChecked="{Binding RedMageSettings.VerraiseInCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                 </StackPanel>
 
             </StackPanel>
@@ -31,19 +32,24 @@
             <StackPanel Margin="5">
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Vercure When A Group Member Is Below " IsChecked="{Binding RedMageSettings.Vercure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <controls:Numeric MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.VercureHealthPercent, Mode=TwoWay}" />
-                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text=" Health Percent" />
+                    <CheckBox Content="Vercure When A Group Member Is Below" IsChecked="{Binding RedMageSettings.Vercure, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <controls:NumericSmall MaxValue="100" MinValue="1" Value="{Binding RedMageSettings.VercureHealthPercent, Mode=TwoWay}" />
+                    <TextBlock Style="{DynamicResource TextBlockDefault}" Text="Health Percent" />
                 </StackPanel>
 
-                <StackPanel Margin="0,4" Orientation="Horizontal">
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
                     <CheckBox Content="On Tanks   " IsChecked="{Binding RedMageSettings.VercureTank, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="Healers   " IsChecked="{Binding RedMageSettings.VercureHealer, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
                     <CheckBox Content="DPS  " IsChecked="{Binding RedMageSettings.VercureDps, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
-                    <CheckBox Content="Self " IsChecked="{Binding RedMageSettings.VercureSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Self       " IsChecked="{Binding RedMageSettings.VercureSelf, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Break Combo " IsChecked="{Binding RedMageSettings.VercureInCombo, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    
                 </StackPanel>
-
-                <CheckBox Content="Only Use To Proc Dual Cast" IsChecked="{Binding RedMageSettings.VercureOnlyDualCast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                    <CheckBox Content="Use With Long Cast   " IsChecked="{Binding RedMageSettings.VercureLongCast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Use With Dualcast   " IsChecked="{Binding RedMageSettings.VercureDualcast, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                    <CheckBox Content="Out of Combat" IsChecked="{Binding RedMageSettings.VercureOutOfCombat, Mode=TwoWay}" Style="{DynamicResource CheckBoxFlat}" />
+                </StackPanel>
 
             </StackPanel>
         </controls:SettingsBlock>
