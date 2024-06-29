@@ -1,0 +1,56 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: release
+
+on:
+  push:
+    tags:
+     - "v*"
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+    - name: Restore NuGet packages
+      run: |
+        cd Magitek
+        nuget restore Magitek.sln
+    - name: Build solution
+      run: |
+        cd Magitek
+        msbuild Magitek.sln /p:Configuration=Release
+    - name: Generate Version.txt
+      run: echo "${{ github.ref_name }}" > ./Magitek/bin/release/Version.txt
+
+    - name: Create Magitek.zip
+      run: |
+        powershell Compress-Archive -Path ./Magitek/bin/release/Magitek.dll, ./Magitek/bin/release/Version.txt, ./MagitekLoader/MagitekLoader.cs -DestinationPath ./Magitek/bin/release/Magitek.zip
+
+    - name: Upload Artifacts for Release
+      uses: actions/upload-artifact@v2
+      with:
+        name: Magitek.zip
+        path: ./Magitek/bin/release/Magitek.zip
+
+    - name: Upload Version.txt for Release
+      uses: actions/upload-artifact@v2
+      with:
+        name: Version.txt
+        path: ./Magitek/bin/release/Version.txt
+
+    - name: Create GitHub Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          ./Magitek/bin/release/Magitek.zip
+          ./Magitek/bin/release/Version.txt
